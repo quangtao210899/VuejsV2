@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/target-group",
         name: "target-group",
-        component: () => import("@/views/apps/targets/TargetGroup.vue"),
+        component: () => import("@/views/apps/targets/TargetGroupList.vue"),
         meta: {
           pageTitle: "Target Group",
           breadcrumbs: ["Target", "TargetGroup"],
