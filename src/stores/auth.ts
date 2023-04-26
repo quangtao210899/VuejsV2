@@ -8,7 +8,7 @@ export interface User {
   surname: string;
   email: string;
   password: string;
-  api_token: string;
+  access: string;
 }
 
 export const useAuthStore = defineStore("auth", () => {
@@ -20,7 +20,7 @@ export const useAuthStore = defineStore("auth", () => {
     isAuthenticated.value = true;
     user.value = authUser;
     errors.value = {};
-    JwtService.saveToken(user.value.api_token);
+    JwtService.saveToken(user.value.access);
   }
 
   function setError(error: any) {
@@ -35,12 +35,15 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function login(credentials: User) {
-    return ApiService.post("login", credentials)
+    let newCredentials = {}
+    newCredentials["username"] = credentials.email
+    newCredentials["password"] = credentials.password
+    return ApiService.post("api/token/", newCredentials)
       .then(({ data }) => {
         setAuth(data);
       })
       .catch(({ response }) => {
-        setError(response.data.errors);
+        setError(response.data);
       });
   }
 
@@ -64,19 +67,19 @@ export const useAuthStore = defineStore("auth", () => {
         setError({});
       })
       .catch(({ response }) => {
-        setError(response.data.errors);
+        setError(response.data);
       });
   }
 
   function verifyAuth() {
     if (JwtService.getToken()) {
       ApiService.setHeader();
-      ApiService.post("verify_token", { api_token: JwtService.getToken() })
+      ApiService.post("api/token/verify-token/", { token: JwtService.getToken() })
         .then(({ data }) => {
-          setAuth(data);
+          // setAuth(data);
         })
         .catch(({ response }) => {
-          setError(response.data.errors);
+          setError(response.data);
           purgeAuth();
         });
     } else {
