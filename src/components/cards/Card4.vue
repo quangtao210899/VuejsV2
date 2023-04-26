@@ -62,7 +62,7 @@
           class="btn btn-sm btn-light-primary fw-bold"
           data-kt-drawer-toggle="true"
           data-kt-drawer-target="#kt_drawer_chat"
-          @click="openDrawer()"
+          @click.passive="openDrawer()"
         >
           Send Message
         </button>

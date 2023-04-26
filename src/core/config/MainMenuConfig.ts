@@ -26,6 +26,20 @@ const MainMenuConfig: Array<MenuItem> = [
     ],
   },
   {
+    heading: "target",
+    route: "/target",
+    pages: [
+      {
+        heading: "Target Group",
+        route: "/target-group",
+        keenthemesIcon: "bi bi-diagram-3",
+        bootstrapIcon: "bi-bi-android",
+      },
+      
+
+    ],
+  },
+  {
     heading: "craft",
     route: "/crafted",
     pages: [

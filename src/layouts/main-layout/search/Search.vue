@@ -67,7 +67,7 @@
             <!--begin::Reset-->
             <span
               v-show="search.length && !loading"
-              @click="reset()"
+              @click.passive="reset()"
               class="btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0"
             >
               <KTIcon icon-name="cross" icon-class="fs-2 fs-lg-1 me-0" />
@@ -79,7 +79,7 @@
               <!--begin::Preferences toggle-->
               <div
                 v-if="!search && !loading"
-                @click="state = 'preferences'"
+                @click.passive="state = 'preferences'"
                 class="btn btn-icon w-20px btn-sm btn-active-color-primary me-1"
                 data-bs-toggle="tooltip"
                 title="Show search preferences"
@@ -91,7 +91,7 @@
               <!--begin::Advanced search toggle-->
               <div
                 v-if="!search && !loading"
-                @click="state = 'advanced-options'"
+                @click.passive="state = 'advanced-options'"
                 class="btn btn-icon w-20px btn-sm btn-active-color-primary"
                 data-bs-toggle="tooltip"
                 title="Show more search options"
@@ -320,7 +320,7 @@
           <!--begin::Actions-->
           <div class="d-flex justify-content-end">
             <button
-              @click="state = 'main'"
+              @click.passive="state = 'main'"
               class="btn btn-sm btn-light fw-bold btn-active-light-primary me-2"
             >
               Cancel
@@ -430,7 +430,7 @@
           <!--begin::Actions-->
           <div class="d-flex justify-content-end pt-7">
             <div
-              @click="state = 'main'"
+              @click.passive="state = 'main'"
               class="btn btn-sm btn-light fw-bold btn-active-light-primary me-2"
             >
               Cancel

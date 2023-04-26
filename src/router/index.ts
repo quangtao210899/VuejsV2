@@ -7,6 +7,27 @@ import { useAuthStore } from "@/stores/auth";
 import { useConfigStore } from "@/stores/config";
 
 const routes: Array<RouteRecordRaw> = [
+  // target thangdv
+  {
+    path: "/target",
+    redirect: "/target",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },    
+    children: [
+      {
+        path: "/target-group",
+        name: "target-group",
+        component: () => import("@/views/apps/targets/TargetGroup.vue"),
+        meta: {
+          pageTitle: "Target Group",
+          breadcrumbs: ["Target", "TargetGroup"],
+        },
+      },
+      
+    ],
+  },
   {
     path: "/",
     redirect: "/dashboard",
@@ -474,6 +495,8 @@ const routes: Array<RouteRecordRaw> = [
     path: "/:pathMatch(.*)*",
     redirect: "/404",
   },
+
+  
 ];
 
 const router = createRouter({

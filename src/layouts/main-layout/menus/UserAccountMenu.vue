@@ -179,7 +179,7 @@
         <!--begin::Menu item-->
         <div class="menu-item px-3">
           <a
-            @click="setLang('en')"
+            @click.passive="setLang('en')"
             href="#"
             class="menu-link d-flex px-5"
             :class="{ active: currentLanguage === 'en' }"
@@ -199,7 +199,7 @@
         <!--begin::Menu item-->
         <div class="menu-item px-3">
           <a
-            @click="setLang('es')"
+            @click.passive="setLang('es')"
             href="#"
             class="menu-link d-flex px-5"
             :class="{ active: currentLanguage === 'es' }"
@@ -219,7 +219,7 @@
         <!--begin::Menu item-->
         <div class="menu-item px-3">
           <a
-            @click="setLang('de')"
+            @click.passive="setLang('de')"
             href="#"
             class="menu-link d-flex px-5"
             :class="{ active: currentLanguage === 'de' }"
@@ -239,7 +239,7 @@
         <!--begin::Menu item-->
         <div class="menu-item px-3">
           <a
-            @click="setLang('ja')"
+            @click.passive="setLang('ja')"
             href="#"
             class="menu-link d-flex px-5"
             :class="{ active: currentLanguage === 'ja' }"
@@ -259,7 +259,7 @@
         <!--begin::Menu item-->
         <div class="menu-item px-3">
           <a
-            @click="setLang('fr')"
+            @click.passive="setLang('fr')"
             href="#"
             class="menu-link d-flex px-5"
             :class="{ active: currentLanguage === 'fr' }"
@@ -290,7 +290,7 @@
 
     <!--begin::Menu item-->
     <div class="menu-item px-5">
-      <a @click="signOut()" class="menu-link px-5"> Sign Out </a>
+      <a @click.passive="signOut()" class="menu-link px-5"> Sign Out </a>
     </div>
     <!--end::Menu item-->
   </div>

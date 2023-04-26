@@ -11,7 +11,7 @@
         :to="path"
         :class="{ active: themeMode === 'light' }"
         class="menu-link px-3 py-2"
-        @click="setMode('light')"
+        @click.passive="setMode('light')"
       >
         <span class="menu-icon" data-kt-element="icon">
           <KTIcon icon-name="night-day" icon-class="fs-2" />
@@ -26,7 +26,7 @@
         :to="path"
         :class="{ active: themeMode === 'dark' }"
         class="menu-link px-3 py-2"
-        @click="setMode('dark')"
+        @click.passive="setMode('dark')"
       >
         <span class="menu-icon" data-kt-element="icon">
           <KTIcon icon-name="moon" icon-class="fs-2" />
@@ -41,7 +41,7 @@
         :to="path"
         :class="{ active: themeMode === 'system' }"
         class="menu-link px-3 py-2"
-        @click="setMode('system')"
+        @click.passive="setMode('system')"
       >
         <span class="menu-icon" data-kt-element="icon">
           <KTIcon icon-name="screen" icon-class="fs-2" />

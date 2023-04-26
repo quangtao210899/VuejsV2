@@ -275,7 +275,7 @@
 
             <!--begin::Send-->
             <button
-              @click="addNewMessage"
+              @click.passive="addNewMessage"
               class="btn btn-primary"
               type="button"
               data-kt-element="send"

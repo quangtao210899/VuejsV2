@@ -75,7 +75,7 @@
             <!--end::Menu item-->
             <!--begin::Menu item-->
             <div class="menu-item px-3">
-              <a @click="deleteRecord(payment.invoice)" class="menu-link px-3"
+              <a @click.passive="deleteRecord(payment.invoice)" class="menu-link px-3"
                 >Delete</a
               >
             </div>

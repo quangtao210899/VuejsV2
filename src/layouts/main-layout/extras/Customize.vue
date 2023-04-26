@@ -666,7 +666,7 @@
       >
         <button
           type="button"
-          @click="submit"
+          @click.passive="submit"
           id="kt_app_layout_builder_preview"
           class="btn btn-primary flex-grow-1 fw-semibold"
         >
@@ -675,7 +675,7 @@
           <!--end::Indicator label-->
         </button>
         <button
-          @click="reset"
+          @click.passive="reset"
           type="button"
           id="kt_app_layout_builder_reset"
           class="btn btn-light flex-grow-1 fw-semibold"

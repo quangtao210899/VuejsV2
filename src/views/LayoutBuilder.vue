@@ -53,7 +53,7 @@
             class="nav-link cursor-pointer"
             :class="{ active: tabIndex === 'main' }"
             data-bs-toggle="tab"
-            @click="setActiveTab($event)"
+            @click.passive="setActiveTab($event)"
             data-tab-index="main"
             role="tab"
           >
@@ -65,7 +65,7 @@
             class="nav-link cursor-pointer"
             :class="{ active: tabIndex === 'layout' }"
             data-bs-toggle="tab"
-            @click="setActiveTab($event)"
+            @click.passive="setActiveTab($event)"
             data-tab-index="layout"
             role="tab"
           >
@@ -77,7 +77,7 @@
             class="nav-link cursor-pointer"
             :class="{ active: tabIndex === 'sidebar' }"
             data-bs-toggle="tab"
-            @click="setActiveTab($event)"
+            @click.passive="setActiveTab($event)"
             data-tab-index="sidebar"
             role="tab"
           >
@@ -89,7 +89,7 @@
             class="nav-link cursor-pointer"
             :class="{ active: tabIndex === 'header' }"
             data-bs-toggle="tab"
-            @click="setActiveTab($event)"
+            @click.passive="setActiveTab($event)"
             data-tab-index="header"
             role="tab"
           >
@@ -932,7 +932,7 @@
             </button>
 
             <button
-              @click="reset($event)"
+              @click.passive="reset($event)"
               type="button"
               id="kt_layout_builder_reset"
               class="btn btn-active-light btn-color-muted fw-semobold"

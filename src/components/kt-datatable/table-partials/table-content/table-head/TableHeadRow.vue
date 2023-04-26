@@ -18,7 +18,7 @@
           :class="{
             'text-end': i === header.length - 1,
           }"
-          @click="onSort(column.columnLabel, column.sortEnabled)"
+          @click.passive="onSort(column.columnLabel, column.sortEnabled)"
           :style="{
             minWidth: column.columnWidth ? `${column.columnWidth}px` : '0',
             width: 'auto',
