@@ -6,7 +6,7 @@
       <h2 class="card-title fw-bold">Calendar</h2>
 
       <div class="card-toolbar">
-        <button class="btn btn-flex btn-primary" @click="newEvent()">
+        <button class="btn btn-flex btn-primary" @click.passive="newEvent()">
           <KTIcon icon-name="plus" icon-class="fs-2" />
           Add Event
         </button>

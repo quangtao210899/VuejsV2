@@ -44,14 +44,14 @@
               data-kt-buttons="true"
             >
               <button
-                @click="current = 'month'"
+                @click.passive="current = 'month'"
                 :class="[current === 'month' && 'active']"
                 class="btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 me-2"
               >
                 Monthly
               </button>
               <button
-                @click="current = 'annual'"
+                @click.passive="current = 'annual'"
                 :class="[current === 'annual' && 'active']"
                 class="btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3"
               >
@@ -69,7 +69,7 @@
                   <template v-for="(plan, index) in plans" :key="index">
                     <!--begin::Tab link-->
                     <div
-                      @click="selected = plan.title"
+                      @click.passive="selected = plan.title"
                       class="nav-link btn btn-outline btn-outline-dashed btn-color-dark d-flex flex-stack text-start p-6"
                       :class="[
                         index !== plans.length - 1 && 'mb-6',

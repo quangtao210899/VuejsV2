@@ -9,7 +9,7 @@
           :class="{ disabled: isInFirstPage }"
           :style="{ cursor: !isInFirstPage ? 'pointer' : 'auto' }"
         >
-          <a class="page-link" @click="onClickFirstPage">
+          <a class="page-link" @click.passive="onClickFirstPage">
             <KTIcon icon-name="double-left" icon-class="fs-2" />
           </a>
         </li>
@@ -19,7 +19,7 @@
           :class="{ disabled: isInFirstPage }"
           :style="{ cursor: !isInFirstPage ? 'pointer' : 'auto' }"
         >
-          <a class="page-link" @click="onClickPreviousPage">
+          <a class="page-link" @click.passive="onClickPreviousPage">
             <KTIcon icon-name="left" icon-class="fs-2" />
           </a>
         </li>
@@ -33,7 +33,7 @@
           :style="{ cursor: !page.isDisabled ? 'pointer' : 'auto' }"
           :key="i"
         >
-          <a class="page-link" @click="onClickPage(page.name)">
+          <a class="page-link" @click.passive="onClickPage(page.name)">
             {{ page.name }}
           </a>
         </li>
@@ -43,7 +43,7 @@
           :class="{ disabled: isInLastPage }"
           :style="{ cursor: !isInLastPage ? 'pointer' : 'auto' }"
         >
-          <a class="paginate_button page-link" @click="onClickNextPage">
+          <a class="paginate_button page-link" @click.passive="onClickNextPage">
             <KTIcon icon-name="right" icon-class="fs-2" />
           </a>
         </li>
@@ -53,7 +53,7 @@
           :class="{ disabled: isInLastPage }"
           :style="{ cursor: !isInLastPage ? 'pointer' : 'auto' }"
         >
-          <a class="paginate_button page-link" @click="onClickLastPage">
+          <a class="paginate_button page-link" @click.passive="onClickLastPage">
             <KTIcon icon-name="double-right" icon-class="fs-2" />
           </a>
         </li>

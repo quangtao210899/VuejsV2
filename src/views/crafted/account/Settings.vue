@@ -78,7 +78,7 @@
                   class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                   data-kt-image-input-action="remove"
                   data-bs-toggle="tooltip"
-                  @click="removeImage()"
+                  @click.passive="removeImage()"
                   title="Remove avatar"
                 >
                   <i class="bi bi-x fs-2"></i>
@@ -1318,7 +1318,7 @@
                   id="kt_signin_cancel"
                   type="button"
                   class="btn btn-color-gray-400 btn-active-light-primary px-6"
-                  @click="emailFormDisplay = !emailFormDisplay"
+                  @click.passive="emailFormDisplay = !emailFormDisplay"
                 >
                   Cancel
                 </button>
@@ -1333,7 +1333,7 @@
           >
             <button
               class="btn btn-light fw-bolder px-6"
-              @click="emailFormDisplay = !emailFormDisplay"
+              @click.passive="emailFormDisplay = !emailFormDisplay"
             >
               Change Email
             </button>
@@ -1364,7 +1364,7 @@
               id="kt_signin_change_password"
               class="form"
               novalidate
-              @submit="updatePassword()"
+              @submit.passive="updatePassword()"
               :validation-schema="changePassword"
             >
               <div class="row mb-6">
@@ -1447,7 +1447,7 @@
                 <button
                   id="kt_password_cancel"
                   type="button"
-                  @click="passwordFormDisplay = !passwordFormDisplay"
+                  @click.passive="passwordFormDisplay = !passwordFormDisplay"
                   class="btn btn-color-gray-400 btn-active-light-primary px-6"
                 >
                   Cancel
@@ -1462,7 +1462,7 @@
             :class="{ 'd-none': passwordFormDisplay }"
           >
             <button
-              @click="passwordFormDisplay = !passwordFormDisplay"
+              @click.passive="passwordFormDisplay = !passwordFormDisplay"
               class="btn btn-light fw-bolder"
             >
               Reset Password
@@ -1634,7 +1634,7 @@
         <button
           ref="submitButton2"
           class="btn btn-primary"
-          @click="saveChanges2()"
+          @click.passive="saveChanges2()"
         >
           <span class="indicator-label"> Save Changes </span>
           <span class="indicator-progress">

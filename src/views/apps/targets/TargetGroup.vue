@@ -40,19 +40,20 @@
             <KTIcon icon-name="exit-up" icon-class="fs-2" />
             Export
           </button>
-          <!--end::Export-->
 
-          <!--begin::Add subscription-->
-          <router-link
-            to="/apps/subscriptions/add-subscription"
-            class="btn btn-primary"
+          <button
+            type="button"
+            class="btn btn-sm fw-bold btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#kt_modal_new_target_group"
           >
             <KTIcon icon-name="plus" icon-class="fs-2" />
-            Add Subscription
-          </router-link>
-          <!--end::Add subscription-->
+            Add New
+          </button>
+
         </div>
-        <!--end::Toolbar-->
+
+
 
         <!--begin::Group actions-->
         <div v-else class="d-flex justify-content-end align-items-center">
@@ -77,15 +78,16 @@
     <!--begin::Card body-->
     <div class="card-body pt-0">
       <KTDatatable
-        @on-sort="sort"
-        @on-items-select="onItemSelect"
+        @on-sort.passive="sort"
+        @on-items-select.passive="onItemSelect"
         :data="data"
         :header="headerConfig"
         :checkbox-enabled="true"
       >
         <template v-slot:customer="{ row: customer }">
           <router-link
-            to="/apps/subscriptions/view-subscription" class="text-gray-800 text-hover-primary mb-1"
+            to="/apps/subscriptions/view-subscription"
+            class="text-gray-800 text-hover-primary mb-1"
           >
             {{ customer.customer }}
           </router-link>
@@ -100,8 +102,8 @@
         <template v-slot:billing="{ row: customer }">
           <div class="badge badge-light">{{ customer.billing }}</div>
         </template>
-        <template v-slot:product="{ row: customer }">
-          {{ customer.product }}
+        <template v-slot:name="{ row: customer }">
+          {{ customer.name }}
         </template>
         <template v-slot:createdDate="{ row: customer }">
           {{ customer.createdDate }}
@@ -149,223 +151,59 @@
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted, reactive} from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import arraySort from "array-sort";
+import axios from 'axios';
 
 export default defineComponent({
-  name: "kt-subscription-list",
+  name: "target-group-list",
   components: {
     KTDatatable,
   },
   setup() {
-    const data = ref([
-      {
-        id: 1,
-        customer: "Emma Smith",
-        status: "Active",
-        color: "success",
-        billing: "Auto-debit",
-        product: "Basic",
-        createdDate: "Oct 25, 2021",
-      },
-      {
-        id: 2,
-        customer: "Melody Macy",
-        status: "Active",
-        color: "success",
-        billing: "Manual - Credit Card",
-        product: "Basic",
-        createdDate: "Mar 10, 2021",
-      },
-      {
-        id: 3,
-        customer: "Max Smith",
-        status: "Active",
-        color: "primary",
-        billing: "Manual - Cash",
-        product: "Teams Bundle",
-        createdDate: "Jul 25, 2021",
-      },
-      {
-        id: 4,
-        customer: "Sean Bean",
-        status: "Expiring",
-        color: "warning",
-        billing: "Manual - Paypal",
-        product: "Enterprise",
-        createdDate: "Aug 19, 2021",
-      },
-      {
-        id: 5,
-        customer: "Brian Cox",
-        status: "Expiring",
-        color: "warning",
-        billing: "Auto-debit",
-        product: "Basic",
-        createdDate: "May 05, 2021",
-      },
-      {
-        id: 6,
-        customer: "Mikaela Collins",
-        status: "Active",
-        color: "success",
-        billing: "Auto-debit",
-        product: "Enterprise Bundle",
-        createdDate: "Aug 19, 2021",
-      },
-      {
-        id: 7,
-        customer: "Francis Mitcham",
-        status: "Active",
-        color: "success",
-        billing: "Auto-debit",
-        product: "Teams",
-        createdDate: "Jun 20, 2021",
-      },
-      {
-        id: 8,
-        customer: "Olivia Wild",
-        status: "Suspended",
-        color: "danger",
-        billing: "--",
-        product: "Enterprise",
-        createdDate: "Jun 24, 2021",
-      },
-      {
-        id: 9,
-        customer: "Neil Owen",
-        status: "Expiring",
-        color: "warning",
-        billing: "Auto-debit",
-        product: "Basic",
-        createdDate: "Aug 19, 2021",
-      },
-      {
-        id: 10,
-        customer: "Dan Wilson",
-        status: "Active",
-        color: "success",
-        billing: "Auto-debit",
-        product: "Enterprise Bundle",
-        createdDate: "Feb 21, 2021",
-      },
-      {
-        id: 11,
-        customer: "Emma Bold",
-        status: "Active",
-        color: "success",
-        billing: "Manual - Credit Card",
-        product: "Enterprise",
-        createdDate: "May 05, 2021",
-      },
-      {
-        id: 12,
-        customer: "Ana Crown",
-        status: "Active",
-        color: "success",
-        billing: "Manual - Credit Card",
-        product: "Basic",
-        createdDate: "Jun 24, 2021",
-      },
-      {
-        id: 13,
-        customer: "Robert Doe",
-        status: "Suspended",
-        color: "danger",
-        billing: "--",
-        product: "Teams Bundle",
-        createdDate: "Jul 25, 2021",
-      },
-      {
-        id: 14,
-        customer: "John Miller",
-        status: "Active",
-        color: "success",
-        billing: "Manual - Paypal",
-        product: "Enterprise",
-        createdDate: "Sep 22, 2021",
-      },
-      {
-        id: 15,
-        customer: "Lucy Kunic",
-        status: "Active",
-        color: "success",
-        billing: "Manual - Credit Card",
-        product: "Basic",
-        createdDate: "Nov 10, 2021",
-      },
-      {
-        id: 16,
-        customer: "Neil Owen",
-        status: "Suspended",
-        color: "danger",
-        billing: "--",
-        product: "Basic Bundle",
-        createdDate: "Jun 20, 2021",
-      },
-      {
-        id: 17,
-        customer: "Dan Wilson",
-        status: "Expiring",
-        color: "warning",
-        billing: "Manual - Paypal",
-        product: "Enterprise",
-        createdDate: "May 05, 2021",
-      },
-      {
-        id: 18,
-        customer: "Emma Smith",
-        status: "Active",
-        color: "success",
-        billing: "Auto-debit",
-        product: "Teams",
-        createdDate: "Apr 15, 2021",
-      },
-      {
-        id: 19,
-        customer: "Melody Macy",
-        status: "Active",
-        color: "success",
-        billing: "Manual - Credit Card",
-        product: "Basic",
-        createdDate: "Oct 25, 2021",
-      },
-      {
-        id: 20,
-        customer: "Max Smith",
-        status: "Suspended",
-        color: "danger",
-        billing: "--",
-        product: "Basic Bundle",
-        createdDate: "Feb 21, 2021",
-      },
-    ]);
+    const data = ref([])
+    // const headerConfig = ref([
+    //   {
+    //     columnName: "ID",
+    //     columnLabel: "id",
+    //     sortEnabled: true,
+    //   },
+    //   {
+    //     columnName: "Nhóm mục tiêu",
+    //     columnLabel: "title",
+    //     sortEnabled: true,
+    //   },
+    //   {
+    //     columnName: "Mục tiêu",
+    //     columnLabel: "target_count",
+    //     sortEnabled: true,
+    //   },
+    //   {
+    //     columnName: "Lỗ hổng",
+    //     columnLabel: "flaw_count",
+    //     sortEnabled: true,
+    //   },
+    //   {
+    //     columnName: "Dịch vụ",
+    //     columnLabel: "service_count",
+    //     sortEnabled: true,
+    //   },
+    //   {
+    //     columnName: "Actions",
+    //     columnLabel: "actions",
+    //   },
+    // ]);
     const headerConfig = ref([
       {
-        columnName: "Customer",
-        columnLabel: "customer",
+        columnName: "Nhóm mục tiêu",
+        columnLabel: "name",
         sortEnabled: true,
       },
       {
-        columnName: "Status",
-        columnLabel: "status",
-        sortEnabled: true,
-      },
-      {
-        columnName: "Billing",
-        columnLabel: "billing",
-        sortEnabled: true,
-      },
-      {
-        columnName: "Product",
-        columnLabel: "product",
-        sortEnabled: true,
-      },
-      {
-        columnName: "Created Date",
-        columnLabel: "createdDate",
+        columnName: "Mục tiêu",
+        columnLabel: "url",
         sortEnabled: true,
       },
       {
@@ -373,6 +211,21 @@ export default defineComponent({
         columnLabel: "actions",
       },
     ]);
+
+    const getData = () => {
+      axios
+        .get("http://127.0.0.1:8000/targetgroup/index")
+        .then((response) => {
+          data.value = response.data.results; // 👈 get just results
+          data.value.map((e, index) => { e.id = ++index });
+          console.log(data.value);
+
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    };
+    getData();
 
     const selectedIds = ref<Array<number>>([]);
     const deleteFewSubscriptions = () => {
@@ -391,12 +244,13 @@ export default defineComponent({
     const sort = (sort: Sort) => {
       const reverse: boolean = sort.order === "asc";
       if (sort.label) {
-        arraySort(data.value, sort.label, { reverse });
+        arraySort( data.value, sort.label, { reverse });
       }
     };
     const onItemSelect = (selectedItems: Array<number>) => {
       selectedIds.value = selectedItems;
     };
+
 
     return {
       data,

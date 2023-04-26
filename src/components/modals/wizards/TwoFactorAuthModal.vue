@@ -96,7 +96,7 @@
             <!--end::Options-->
 
             <!--begin::Action-->
-            <button @click="state = value" class="btn btn-primary w-100">
+            <button @click.passive="state = value" class="btn btn-primary w-100">
               Continue
             </button>
             <!--end::Action-->
@@ -193,7 +193,7 @@
               <div class="d-flex flex-center">
                 <button
                   type="reset"
-                  @click="state = ''"
+                  @click.passive="state = ''"
                   class="btn btn-light me-3"
                 >
                   Cancel
@@ -259,7 +259,7 @@
 
               <!--begin::Actions-->
               <div class="d-flex flex-center">
-                <button @click="state = ''" class="btn btn-light me-3">
+                <button @click.passive="state = ''" class="btn btn-light me-3">
                   Cancel
                 </button>
 

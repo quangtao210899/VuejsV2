@@ -15,7 +15,7 @@
           type="button"
           class="btn btn-lg btn-light-primary me-3"
           data-kt-stepper-action="previous"
-          @click="previousStep()"
+          @click.passive="previousStep()"
         >
           <KTIcon icon-name="arrow-left" icon-class="fs-3 me-1" />
           Back
@@ -29,7 +29,7 @@
           type="submit"
           class="btn btn-lg btn-primary"
           v-if="currentStepIndex === totalSteps - 1"
-          @click="formSubmit()"
+          @click.passive="formSubmit()"
         >
           <span class="indicator-label">
             Submit

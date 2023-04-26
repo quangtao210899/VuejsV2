@@ -150,7 +150,7 @@
             <!--end::Menu item-->
             <!--begin::Menu item-->
             <div class="menu-item px-3">
-              <a @click="deleteCustomer(customer.id)" class="menu-link px-3"
+              <a @click.passive="deleteCustomer(customer.id)" class="menu-link px-3"
                 >Delete</a
               >
             </div>
