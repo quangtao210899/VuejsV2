@@ -3,6 +3,7 @@
     <TableContent
       @on-items-select="onItemSelect"
       @on-sort="onSort"
+      @customRow="customRowTable"
       :header="header"
       :data="dataToDisplay"
       :checkboxEnabled="checkboxEnabled"
@@ -61,6 +62,7 @@ export default defineComponent({
     "on-sort",
     "on-items-select",
     "on-items-per-page-change",
+    "custom-row"
   ],
   components: {
     TableContent,
@@ -114,6 +116,13 @@ export default defineComponent({
     const onItemSelect = (selectedItems: any) => {
       emit("on-items-select", selectedItems);
     };
+    const selectRow = ref<object>();
+
+    const customRowTable = (data) => {
+      selectRow.value = data
+      emit("custom-row", selectRow.value);
+      // console.log(data, 'data')
+    };
 
     return {
       pageChange,
@@ -122,6 +131,8 @@ export default defineComponent({
       onItemSelect,
       itemsInTable,
       totalItems,
+      selectRow,
+      customRowTable,    
     };
   },
 });

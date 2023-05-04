@@ -1,10 +1,10 @@
 <template>
   <tbody class="fw-semibold text-gray-600">
     <template v-for="(row, i) in data" :key="i">
-      <tr>
+      <tr >
         <td v-if="checkboxEnabled">
           <div
-            class="form-check form-check-sm form-check-custom form-check-solid"
+            class="form-check form-check-sm form-check-custom form-check-solid "
           >
             <input
               class="form-check-input"
@@ -15,8 +15,20 @@
             />
           </div>
         </td>
-        <template v-for="(properties, j) in header" :key="j">
-          <td :class="{ 'text-end': j === header.length - 1 }">
+        <!-- <template v-for="(properties, j) in header" :key="j" >
+          <td :class="{ 'text-end': j === header.length - 1 }" class="cursor-pointer" @click="customRow(row)">
+            <slot :name="`customRow`" :row="row">
+              
+            </slot>
+          </td>
+        </template> -->
+        <template v-for="(properties, j) in header" :key="j" >
+          <td v-if="j === header.length - 1"  class="text-end">
+            <slot :name="`${properties.columnLabel}`" :row="row">
+              {{ row }}
+            </slot>
+          </td>
+          <td v-else class="cursor-pointer" @click.passive="customRow(row)" data-bs-target="#kt_modal_detail">
             <slot :name="`${properties.columnLabel}`" :row="row">
               {{ row }}
             </slot>
@@ -44,9 +56,10 @@ export default defineComponent({
       default: "id",
     },
   },
-  emits: ["on-select"],
+  emits: ["on-select", "custom-row"],
   setup(props, { emit }) {
     const selectedItems = ref<Array<any>>([]);
+    const selectRow = ref<object>();
 
     watch(
       () => [...props.currentlySelectedItems],
@@ -65,10 +78,23 @@ export default defineComponent({
       emit("on-select", selectedItems.value);
     };
 
+    const customRow = (data: object) => {
+      selectRow.value = data
+      emit("custom-row", selectRow.value);
+      // console.log(onClickRow.value)
+    };
+
     return {
       selectedItems,
       onChange,
+      customRow,
+      selectRow,
     };
   },
 });
 </script>
+<style>
+.cursor-pointer {
+    cursor: pointer;
+}
+</style>
