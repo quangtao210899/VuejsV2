@@ -16,6 +16,7 @@
       <TableBodyRow
         v-if="data.length !== 0"
         @onSelect="itemsSelect"
+        @customRow="customRowTable"
         :currentlySelectedItems="selectedItems"
         :data="data"
         :header="header"
@@ -61,7 +62,7 @@ export default defineComponent({
     checkboxLabel: { type: String, required: false, default: "id" },
     loading: { type: Boolean, required: false, default: false },
   },
-  emits: ["on-sort", "on-items-select"],
+  emits: ["on-sort", "on-items-select", "custom-row"],
   components: {
     TableHeadRow,
     TableBodyRow,
@@ -71,6 +72,7 @@ export default defineComponent({
     const selectedItems = ref<Array<unknown>>([]);
     const allSelectedItems = ref<Array<unknown>>([]);
     const check = ref<boolean>(false);
+    const selectRow = ref<object>();
 
     watch(
       () => props.data,
@@ -121,6 +123,12 @@ export default defineComponent({
       }
     );
 
+    const customRowTable = (data) => {
+      selectRow.value = data
+      emit("custom-row", selectRow.value);
+      // console.log(data, 'data')
+    };
+
     onMounted(() => {
       selectedItems.value = [];
       allSelectedItems.value = [];
@@ -139,6 +147,8 @@ export default defineComponent({
       selectAll,
       itemsSelect,
       check,
+      selectRow,
+      customRowTable,
     };
   },
 });

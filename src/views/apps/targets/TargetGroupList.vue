@@ -56,7 +56,13 @@
     <div class="card-body pt-0">
       <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
         :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
-        @page-change="handlePage"  @on-items-per-page-change="handlePerPage" >
+        @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+
+        <!-- <template v-slot:customRow="{ row: customer }">
+          <span v-if="customer.id">{{ customer.id }}</span>
+          <span v-if="customer.title">{{ customer.title }}</span>
+        </template> -->
+
         <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
         <template v-slot:title="{ row: customer }">{{ customer.title }}</template>
         <template v-slot:target_count="{ row: customer }">
@@ -69,15 +75,12 @@
           <div class="badge badge-light">{{ customer.service_count ?? 0 }}</div>
         </template>
         <template v-slot:actions="{ row: customer }">
-          <!-- <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-            <KTIcon icon-name="switch" icon-class="fs-3" />
-          </a> -->
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
             <KTIcon icon-name="pencil" icon-class="fs-3" />
           </button>
-
         </template>
+       
       </KTDatatable>
     </div>
     <!--end::Card body-->
@@ -129,28 +132,6 @@
               data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll"
               data-kt-scroll-offset="300px"
             >
-              <div
-                class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-10 p-6"
-              >
-                <KTIcon
-                  icon-name="information-5"
-                  icon-class="fs-2tx text-warning me-4"
-                />
-                <!--begin::Wrapper-->
-                <div class="d-flex flex-stack flex-grow-1">
-                  <!--begin::Content-->
-                  <div class="fw-semobold">
-                    <h4 class="text-gray-800 fw-bold">Please Note!</h4>
-                    <div class="fs-6 text-gray-600">
-                      Adding new API key may afftect to your
-                      <a href="#">Affiliate Income</a>
-                    </div>
-                  </div>
-                  <!--end::Content-->
-                </div>
-                <!--end::Wrapper-->
-              </div>
-
               <!--begin::Input group-->
               <div class="mb-5 fv-row">
                 <!--begin::Label-->
@@ -159,11 +140,10 @@
                 <i
                   class="fas fa-exclamation-circle ms-2 fs-7"
                   data-bs-toggle="tooltip"
-                  title="Specify a target name for future usage and reference"
+                  title="Bắt buộc phải nhập"
                 ></i>
               </label>
                 <!--end::Label-->
-
                 <!--begin::Input-->
                 <Field
                   type="text" 
@@ -214,6 +194,7 @@
           <div class="modal-footer flex-center">
             <!--begin::Button-->
             <button
+              ref="discardButtonRef"
               type="reset"
               id="kt_modal_new_target_group_cancel"
               class="btn btn-light me-3"
@@ -249,7 +230,7 @@
   </div>
 
 <!-- modal delete  -->
-<div class="modal fade" tabindex="-1" id="kt_modal_delete"    
+  <div class="modal fade" tabindex="-1" id="kt_modal_delete"    
     ref="ModalDelete" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered">
@@ -292,6 +273,114 @@
     <!--end::Modal dialog-->
   </div>
 
+  <!-- modal detail  -->
+  <div class="modal fade" tabindex="-1" 
+      ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+      <!--begin::Modal dialog-->
+      <div class="modal-dialog modal-dialog-centered">
+        <!--begin::Modal content-->
+        <div class="modal-content">
+          <!--begin::Form-->
+          <div class="modal-body">
+            <!--begin::Card-->
+            <div class="card card-flush pt-3 mb-5 mb-xl-10">
+                <!--begin::Card header-->
+                <div class="card-header">
+                  <!--begin::Card title-->
+                  <div class="card-title">
+                    <h1 class="fw-bold">{{ detailData.title }}</h1>
+                  </div>
+                  <!--begin::Card toolbar-->
+                  <div class="card-toolbar">
+                    <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
+                      data-bs-target="#kt_modal_new_target_group"  @click="handleClick(detailData, 'edit')">
+                      <KTIcon icon-name="pencil" icon-class="fs-3" /> Update
+                    </button>
+                  </div>
+                  <!--end::Card toolbar-->
+                </div>
+                <!--end::Card header-->
+
+                <!--begin::Card body-->
+                <div class="card-body py-0">
+                  <!--begin::Section-->
+                  <div class="mb-10">
+                    <!--begin::Title-->
+                    <h5>Thông tin chi tiết:</h5>
+                    <!--end::Title-->
+
+                    <!--begin::Details-->
+                    <div class="d-flex flex-wrap py-5">
+                      <!--begin::Row-->
+                      <div class="flex-equal me-5">
+                        <!--begin::Details-->
+                        <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
+
+                          <!--begin::Row-->
+                          <tr>
+                            <td class="text-gray-400">Mô tả:</td>
+                            <td class="text-gray-800">{{ detailData.description ?? 'null' }}</td>
+                          </tr>
+                          <!--end::Row-->
+
+                          <!--begin::Row-->
+                          <tr>
+                            <td class="text-gray-400">Mục tiêu:</td>
+                            <td class="text-gray-800 badge badge-light pe-2">{{ detailData.target_count ?? 0 }} </td>
+                          </tr>
+                          <!--end::Row-->
+
+                          <!--begin::Row-->
+                          <tr>
+                            <td class="text-gray-400">Lỗ hổng :</td>
+                            <td class="text-gray-800  badge badge-light pe-2" >{{ detailData.flaw_count ?? 0 }}</td>
+                          </tr>
+                          <!--end::Row-->
+                          <!--begin::Row-->
+                          <tr>
+                            <td class="text-gray-400">Dịch vụ :</td>
+                            <td class="text-gray-800 badge badge-light pe-2">{{ detailData.service_count ?? 0 }}</td>
+                          </tr>
+                          <!--end::Row-->
+                          <!--begin::Row-->
+                            <tr>
+                            <td class="text-gray-400">Ngày tạo :</td>
+                            <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
+                          </tr>
+                          <!--end::Row-->
+                          <!--begin::Row-->
+                            <tr>
+                            <td class="text-gray-400">Ngày sửa :</td>
+                            <td class="text-gray-800">{{ formatDate(detailData.modified_at) }}</td>
+                          </tr>
+                          <!--end::Row-->
+                          
+                        </table>
+                        <!--end::Details-->
+                      </div>
+                      <!--end::Row-->
+
+                    </div>
+                    <!--end::Row-->
+                  </div>
+                  <!--end::Section-->
+                </div>
+                <!--end::Card body-->
+              </div>
+              <!--end::Card-->
+          </div>
+          <!--end::Form-->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary me-9" data-bs-dismiss="modal">
+              Hủy bỏ
+            </button>
+          </div>
+        </div>
+        <!--end::Modal content-->
+      </div>
+      <!--end::Modal dialog-->
+    </div>
+
 </template>
 
 <script lang="ts">
@@ -301,14 +390,16 @@ import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import ApiService from "@/core/services/ApiService";
 
-
 // validate
 import { hideModal } from "@/core/helpers/dom";
-import { useField,useForm, ErrorMessage, Field, Form  as VForm } from "vee-validate";
-import { vue3Debounce } from 'vue-debounce'
+import { ErrorMessage, Field, Form  as VForm } from "vee-validate";
+import { vue3Debounce } from 'vue-debounce';
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+
+import {Modal} from "bootstrap";
+import dayjs from 'dayjs';
 
 interface APIData {
   title: string;
@@ -323,29 +414,43 @@ export default defineComponent({
     ErrorMessage,
     Field,
     VForm,
+    
   },
   directives: {
       debounce: vue3Debounce({ lock: true })
   },
   setup() {
     const list = ref([])
-    const totalPage = ref<number>(0)
-    // const testPage = ref<number>(0)
-    const currentPage = ref<number>(1)
-    const itemsPerPage = ref<number>(20)
-    const query = ref<String>('')
-    const orderingID = ref<String>('')
-    const orderingTarget = ref<String>('')
-    const orderingflaw = ref<String>('')
-    const orderingServer = ref<String>('')
-    const typeModal = ref<String>('')
-    const id = ref<number>(0)
-    const nameType = ref<string>('')
+    const totalPage = ref<number>(0);
+    // const testPage = ref<number>(0);
+    const currentPage = ref<number>(1);
+    const itemsPerPage = ref<number>(20);
+    const query = ref<String>('');
+    const orderingID = ref<String>('');
+    const orderingTarget = ref<String>('');
+    const orderingflaw = ref<String>('');
+    const orderingServer = ref<String>('');
+    const typeModal = ref<String>('');
+    const id = ref<number>(0);
+    const nameType = ref<string>('');
     const apiData = ref<APIData>({
-      title: "",
-      description: "",
+      title: '',
+      description: '',
+
     });
     const errors = reactive({title: ''});
+    const detailData = reactive({
+      id: '', 
+      title: '', 
+      description:'',
+      modified_at: '',
+      service_count: '',
+      target_count: '',
+      created_at: '',
+      flaw_count: '',
+    });
+    const discardButtonRef = ref<HTMLElement | null>(null);
+    const ModalDetail = ref<null | HTMLElement>(null);
 
     const headerConfig = ref([
       {
@@ -362,20 +467,24 @@ export default defineComponent({
         columnName: "Mục tiêu",
         columnLabel: "target_count",
         sortEnabled: true,
+        columnWidth: 100,
       },
       {
         columnName: "Lỗ hổng",
         columnLabel: "flaw_count",
         sortEnabled: true,
+        columnWidth: 100,
       },
       {
         columnName: "Dịch vụ",
         columnLabel: "service_count",
         sortEnabled: true,
+        columnWidth: 100,
       },
       {
         columnName: "Actions",
         columnLabel: "actions",
+        columnWidth: 50,
       },
     ]);
 
@@ -391,7 +500,10 @@ export default defineComponent({
         id.value = objForm.id;
       }else{
         nameType.value = "Thêm Mới nhóm mục tiêu"
-        resetData();
+        if (discardButtonRef.value !== null) {
+          discardButtonRef.value.click();
+        }
+        // resetData();
       }
     };
 
@@ -448,6 +560,24 @@ export default defineComponent({
       }
       getData();
     };
+    const customRowTable = (detail: any) => {
+      if(detail){
+        detailData.id = detail.id
+        detailData.title = detail.title
+        detailData.description = detail.description
+        detailData.modified_at = detail.modified_at
+        detailData.service_count = detail.service_count
+        detailData.target_count = detail.target_count
+        detailData.created_at = detail.created_at
+        detailData.flaw_count = detail.flaw_count
+        const modal = new Modal(
+          document.getElementById("kt_modal_detail") as Element
+        );
+        modal.show();
+      }else{
+        notification('', 'error', 'Có lỗi xảy ra')
+      }
+    };
 
     const onItemSelect = (selectedItems: Array<number>) => {
       selectedIds.value = selectedItems;
@@ -483,7 +613,7 @@ export default defineComponent({
       });
     }
 
-    const submit = () => {
+    const submit = async () => {
       if (!submitButtonRef.value) {
         return;
       }
@@ -505,7 +635,7 @@ export default defineComponent({
           return ApiService.post("/targetgroup", formData)
             .then(({ data }) => {
               notification(data.detail,'success','Thêm mới thành công')
-              getData();
+              // getData();
             })
             .catch(({ response }) => {
               if(response.data){
@@ -530,6 +660,14 @@ export default defineComponent({
         }
       }, 1000);
     };
+
+    const formatDate = (date: string) => {
+      if (date === "false" || date === "null") {
+          return '--:--';
+      }
+      const dateFormat = 'DD/MM/YYYY HH:mm:ss';
+      return dayjs(date).format(dateFormat)
+    }
 
     // end validate
 
@@ -565,6 +703,12 @@ export default defineComponent({
       handleClick,
       errors,
       ModalDelete,
+      discardButtonRef,
+
+      // detials
+      ModalDetail,
+      customRowTable,
+      detailData,
 
       // page 
       itemsPerPage,
@@ -579,6 +723,7 @@ export default defineComponent({
 
       // edit 
       nameType,
+      formatDate,
     };
   },
 });
