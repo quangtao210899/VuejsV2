@@ -238,7 +238,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title">Xác nhận xóa recon</h5>
+          <h5 class="modal-title">Xác nhận xóa nhóm mục tiêu</h5>
 
           <!--begin::Close-->
           <div
@@ -372,7 +372,7 @@
           <!--end::Form-->
           <div class="modal-footer">
             <button type="button" class="btn btn-primary me-9" data-bs-dismiss="modal">
-              Hủy bỏ
+              Quay lại
             </button>
           </div>
         </div>
@@ -593,7 +593,7 @@ export default defineComponent({
     const validationSchema = Yup.object().shape({
       title: Yup.string()
       .matches(PatternTargetGroup, 'Tên nhóm không được chứa chữ số và ký tự đặc biệt')
-      .min(3, 'tối thiểu 3 kí tự')
+      .min(3, 'Tối thiểu 3 kí tự')
       .required('Vui lòng nhập tên')
     });
 
