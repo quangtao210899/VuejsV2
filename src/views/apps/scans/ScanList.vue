@@ -27,9 +27,19 @@
           </button> -->
           <!--end::Export-->
 
+          <button
+            type="button"
+            class="btn btn-icon btn-color-primary btn-active-light-primary me-2"
+            data-kt-menu-trigger="click"
+            data-kt-menu-placement="bottom-end"
+            data-kt-menu-flip="top-end"
+          >
+            <KTIcon icon-name="category" icon-class="fs-2" />
+          </button>
+          <Fillter></Fillter>
           <!--begin::Add subscription-->
           <button type="button" class="btn fw-bold btn-primary" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'add')">
+            data-bs-target="#kt_modal_new_scan"  @click.passive="handleClick({},'add')">
             <KTIcon icon-name="plus" icon-class="fs-2" />
             Thêm mới
           </button>
@@ -57,28 +67,20 @@
       <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
         :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
         @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
-
-        <!-- <template v-slot:customRow="{ row: customer }">
-          <span v-if="customer.id">{{ customer.id }}</span>
-          <span v-if="customer.title">{{ customer.title }}</span>
-        </template> -->
-
-        <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-        <template v-slot:title="{ row: customer }">{{ customer.title }}</template>
-        <template v-slot:target_count="{ row: customer }">
-          <div class="badge badge-light">{{ customer.target_count ?? 0 }}</div>
+        <template v-slot:severity="{ row: customer }">{{ customer.severity }}</template>
+        <template v-slot:vt_name="{ row: customer }">{{ customer.vt_name }}</template>
+        <template v-slot:hostname="{ row: customer }">
+          <div class="badge badge-light">{{ customer.hostname ?? 0 }}</div>
         </template>
-        <template v-slot:flaw_count="{ row: customer }">
-          <div class="badge badge-light">{{ customer.flaw_count ?? 0 }}</div>
+        <template v-slot:ip="{ row: customer }">
+          <div class="badge badge-light">{{ customer.ip ?? 0 }}</div>
         </template>
-        <template v-slot:service_count="{ row: customer }">
-          <div class="badge badge-light">{{ customer.service_count ?? 0 }}</div>
+        <template v-slot:schema="{ row: customer }">
+          <div class="badge badge-light">{{ customer.schema ?? 0 }}</div>
         </template>
-        <template v-slot:actions="{ row: customer }">
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
-            <KTIcon icon-name="pencil" icon-class="fs-3" />
-          </button>
+        <template v-slot:created_at="{ row: customer }">{{ formatDate(customer.created_at) }}</template>
+        <template v-slot:status="{ row: customer }">
+          <div class="badge badge-light">{{ customer.status ?? 0 }}</div>
         </template>
        
       </KTDatatable>
@@ -89,14 +91,14 @@
 
 
   <!-- modal  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group"    
+  <div class="modal fade" tabindex="-1" id="kt_modal_new_scan"    
     ref="newTargetGroupModalRef" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <!--begin::Modal content-->
       <div class="modal-content">
         <!--begin::Modal header-->
-        <div class="modal-header" id="kt_modal_new_target_group_header">
+        <div class="modal-header" id="kt_modal_new_scan_header">
           <!--begin::Modal title-->
           <h2>{{ nameType }}</h2>
           <!--end::Modal title-->
@@ -114,7 +116,7 @@
 
         <!--begin::Form-->
         <VForm
-          id="kt_modal_new_target_group_form"
+          id="kt_modal_new_scan_form"
           class="form"
           @submit="submit"
           :validation-schema="validationSchema"
@@ -124,12 +126,12 @@
             <!--begin::Scroll-->
             <div
               class="scroll-y me-n7 pe-7"
-              id="kt_modal_new_target_group_scroll"
+              id="kt_modal_new_scan_scroll"
               data-kt-scroll="true"
               data-kt-scroll-activate="{default: false, lg: true}"
               data-kt-scroll-max-height="auto"
-              data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
-              data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll"
+              data-kt-scroll-dependencies="#kt_modal_new_scan_header"
+              data-kt-scroll-wrappers="#kt_modal_new_scan_scroll"
               data-kt-scroll-offset="300px"
             >
               <!--begin::Input group-->
@@ -196,7 +198,7 @@
             <button
               ref="discardButtonRef"
               type="reset"
-              id="kt_modal_new_target_group_cancel"
+              id="kt_modal_new_scan_cancel"
               class="btn btn-light me-3"
             >
               Discard
@@ -207,7 +209,7 @@
             <button
               ref="submitButtonRef"
               type="submit"
-              id="kt_modal_new_target_group_submit"
+              id="kt_modal_new_scan_submit"
               class="btn btn-primary"
             >
               <span class="indicator-label"> Submit </span>
@@ -293,7 +295,7 @@
                   <!--begin::Card toolbar-->
                   <div class="card-toolbar">
                     <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
-                      data-bs-target="#kt_modal_new_target_group"  @click="handleClick(detailData, 'edit')">
+                      data-bs-target="#kt_modal_new_scan"  @click="handleClick(detailData, 'edit')">
                       <KTIcon icon-name="pencil" icon-class="fs-3" /> Update
                     </button>
                   </div>
@@ -401,20 +403,22 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import {Modal} from "bootstrap";
 import dayjs from 'dayjs';
 
+import Fillter from "@/views/apps/scans/filters.vue";
+
 interface APIData {
   title: string;
   description: string;
 }
 
 export default defineComponent({
-  name: "kt-target-group-list",
+  name: "kt-scans-list",
 
   components: {
     KTDatatable,
     ErrorMessage,
     Field,
     VForm,
-    
+    Fillter,
   },
   directives: {
       debounce: vue3Debounce({ lock: true })
@@ -454,36 +458,32 @@ export default defineComponent({
 
     const headerConfig = ref([
       {
-        columnName: "ID",
-        columnLabel: "id",
-        sortEnabled: true,
-        // columnWidth: 50,
+        columnName: "Sev",
+        columnLabel: "severity",
       },
       {
-        columnName: "Nhóm mục tiêu",
-        columnLabel: "title",
+        columnName: "Tên",
+        columnLabel: "vt_name",
       },
       {
-        columnName: "Mục tiêu",
-        columnLabel: "target_count",
-        sortEnabled: true,
-        columnWidth: 100,
+        columnName: "Host name",
+        columnLabel: "hostname",
       },
       {
-        columnName: "Lỗ hổng",
-        columnLabel: "flaw_count",
-        sortEnabled: true,
-        columnWidth: 100,
+        columnName: "IP",
+        columnLabel: "ip",
       },
       {
-        columnName: "Dịch vụ",
-        columnLabel: "service_count",
-        sortEnabled: true,
-        columnWidth: 100,
+        columnName: "Service",
+        columnLabel: "schema",
       },
       {
-        columnName: "Actions",
-        columnLabel: "actions",
+        columnName: "Ngày Tạo",
+        columnLabel: "created_at",
+      },
+      {
+        columnName: "Trạng thái",
+        columnLabel: "status",
         columnWidth: 50,
       },
     ]);
@@ -524,7 +524,7 @@ export default defineComponent({
     };
 
     const getData = () => {
-      return ApiService.get(`targetgroup/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&orderingTarget=${orderingTarget.value}&orderingID=${orderingID.value}&orderingServer=${orderingServer.value}&orderingflaw=${orderingflaw.value}`)
+      return ApiService.get(`vuls/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&orderingTarget=${orderingTarget.value}&orderingID=${orderingID.value}&orderingServer=${orderingServer.value}&orderingflaw=${orderingflaw.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -635,7 +635,7 @@ export default defineComponent({
           return ApiService.post("/targetgroup", formData)
             .then(({ data }) => {
               notification(data.detail,'success','Thêm mới thành công')
-              getData();
+              // getData();
             })
             .catch(({ response }) => {
               if(response.data){

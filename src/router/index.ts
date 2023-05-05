@@ -29,6 +29,26 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: "/scans",
+    redirect: "/scans",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },    
+    children: [
+      {
+        path: "/scans",
+        name: "scans",
+        component: () => import("@/views/apps/scans/ScanList.vue"),
+        meta: {
+          pageTitle: "Scans",
+          breadcrumbs: ["Scans"],
+        },
+      },
+      
+    ],
+  },
+  {
     path: "/",
     redirect: "/dashboard",
     component: () => import("@/layouts/main-layout/MainLayout.vue"),
