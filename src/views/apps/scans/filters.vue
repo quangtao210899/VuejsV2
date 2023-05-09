@@ -1,7 +1,7 @@
 <template>
     <!--begin::Menu 1-->
     <div
-      class="menu menu-sub menu-sub-dropdown w-250px w-md-300px"
+      class="menu menu-sub menu-sub-dropdown w-250px w-md-350px"
       data-kt-menu="true"
     >
       <!--begin::Header-->
@@ -17,102 +17,122 @@
       <!--begin::Form-->
       <div class="px-7 py-5">
         <!--begin::Input group-->
-        <div class="mb-10">
+        <div class="mb-7">
           <!--begin::Label-->
-          <label class="form-label fw-semobold">Status:</label>
+          <label class="form-label fw-semobold">Trạng thái:</label>
           <!--end::Label-->
   
           <!--begin::Input-->
           <div>
             <select
-              class="form-select form-select-solid select2-hidden-accessible"
+              class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
               v-model="data.status"
             >
-              <option label="Approved" value="1">Approved</option>
-              <option label="Pending" value="2">Pending</option>
-              <option label="In Process" value="3">In Process</option>
-              <option label="Rejected" value="4">Rejected</option>
+              <option label="Chọn trạng thái" value="">Chọn trạng thái</option>
+              <option label="open" value="open">Open</option>
+              <option label="re-open" value="re-open">Reopen</option>
+              <option label="closed" value="closed">Close</option>
+              <option label="rick-accepted" value="rick-accepted">Accepted</option>
             </select>
           </div>
           <!--end::Input-->
         </div>
         <!--end::Input group-->
-  
+
+
         <!--begin::Input group-->
-        <div class="mb-10">
+          <div class="mb-7">
           <!--begin::Label-->
-          <label class="form-label fw-semobold">Member Type:</label>
+          <label class="form-label fw-semobold">Mức độ lỗ hổng:</label>
           <!--end::Label-->
   
-          <!--begin::Options-->
-          <div class="d-flex">
-            <!--begin::Options-->
-            <label
-              class="form-check form-check-sm form-check-custom form-check-solid me-5"
+          <!--begin::Input-->
+          <div>
+            <select
+              class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
+              v-model="data.severity"
             >
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value="1"
-                v-model="data.author"
-              />
-              <span class="form-check-label user-select-none"> Author </span>
-            </label>
-            <!--end::Options-->
-  
-            <!--begin::Options-->
-            <label
-              class="form-check form-check-sm form-check-custom form-check-solid"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value="2"
-                v-model="data.customer"
-              />
-              <span class="form-check-label user-select-none"> Customer </span>
-            </label>
-            <!--end::Options-->
+              <option label="Chọn lỗ hổng" value="">Chọn lỗ hổng</option>
+              <option label="Info" value="0">Info</option>
+              <option label="Low" value="1">Low</option>
+              <option label="Medium" value="2">Medium</option>
+              <option label="High" value="3">High</option>
+            </select>
           </div>
-          <!--end::Options-->
+          <!--end::Input-->
+        </div>
+        <!--end::Input group-->
+
+
+        <!--begin::Input group-->
+        <div class="mb-7">
+          <!--begin::Label-->
+          <label class="form-label fw-semobold">IP:</label>
+          <!--end::Label-->
+  
+          <!--begin::Input-->
+          
+          <div class="row">
+            <div class="col-8 pe-0">
+              <input type="text" class="form-control form-check-input h-40px w-100 form-control-solid " placeholder="Nhập IP" v-model="data.ip" />
+            </div>
+            <div class="col-4 ">
+              <select
+              class="form-select form-select-solid form-check-select h-40px w-100 select2-hidden-accessible py-2"
+              v-model="data.typeIp"
+            >
+              <option label="Equal" value="equal">Equal</option>
+              <option label="NContains" value="not_contains">NContains</option>
+              <option label="Contains" value="contains">Contains</option>
+            </select>
+            </div>
+          </div>
+          <!--end::Input-->
+        </div>
+        <!--end::Input group-->
+
+
+         <!--begin::Input group-->
+         <div class="mb-7">
+          <!--begin::Label-->
+          <label class="form-label fw-semobold">Domain:</label>
+          <!--end::Label-->
+  
+          <!--begin::Input-->
+          
+          <div class="row">
+            <div class="col-8 pe-0">
+              <input type="text" class="form-control form-check-input h-40px w-100 form-control-solid" placeholder="Nhập IP" v-model="data.domain"/>
+            </div>
+            <div class="col-4 ">
+              <select
+              class="form-select form-select-solid form-check-select h-40px w-100 select2-hidden-accessible py-2"
+              v-model="data.typeDomain"
+            >
+              <option label="Equal" value="equal">Equal</option>
+              <option label="NContains" value="not_contains">NContains</option>
+              <option label="Contains" value="contains">Contains</option>
+            </select>
+            </div>
+          </div>
+          <!--end::Input-->
         </div>
         <!--end::Input group-->
   
-        <!--begin::Input group-->
-        <div class="mb-10">
-          <!--begin::Label-->
-          <label class="form-label fw-semobold">Notifications:</label>
-          <!--end::Label-->
-  
-          <!--begin::Switch-->
-          <div
-            class="form-check form-switch form-switch-sm form-check-custom form-check-solid"
-          >
-            <label class="form-check-label">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                name="notifications"
-                v-model="data.notifications"
-              />
-              <span class="form-check-label user-select-none">Enabled</span>
-            </label>
-          </div>
-          <!--end::Switch-->
-        </div>
-        <!--end::Input group-->
-  
+        <div class="separator my-2"></div>
+
         <!--begin::Actions-->
         <div class="d-flex justify-content-end">
           <button
+          @click="reset"
             type="reset"
-            class="btn btn-sm btn-light btn-active-light-primary me-2"
-            data-kt-menu-dismiss="true"
+            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-info  me-2"
           >
             Reset
           </button>
   
           <button
+            @click="submit"
             type="submit"
             class="btn btn-sm btn-primary"
             data-kt-menu-dismiss="true"
@@ -128,28 +148,69 @@
   </template>
   
   <script lang="ts">
-  import { defineComponent, ref } from "vue";
-  
+import { defineComponent, ref  } from "vue";
+
   interface Filter {
-    status: string;
-    author: boolean;
-    customer: boolean;
-    notifications: boolean;
+    status: string | null;
+    severity: string | null;
+    ip: string | null;
+    typeIp: string | null;
+    domain: string | null;
+    typeDomain: string | null;
   }
   
   export default defineComponent({
-    name: "dropdown-1",
+    name: "filter-scan",
+    // props: {
+    //   status: { type: String , required: false },
+    //   severity: { type: Number, required: false },
+    //   ip: { type: String, required: false },
+    //   typeIp: { type: String, default: 'equal' },
+    //   domain: { type: String, required: false },
+    //   typeDomain: { type: String, default: 'equal' }
+    // },
     components: {},
-    setup() {
+    emits: [
+      "filter-data"
+    ],
+    setup(props, { emit }) {
       const data = ref<Filter>({
-        status: "1",
-        author: true,
-        customer: true,
-        notifications: true,
+        status: '',
+        severity: '',
+        ip: '',
+        typeIp: 'equal',
+        domain: '',
+        typeDomain: 'equal',
       });
+
+      // watch(
+      //   data.value,
+      //   (data) => {
+      //     emit("on-items-per-page-change", data);
+      //     console.log(data, '123')
+      //   }
+      // );
+
+      // const emit = defineEmits(['filter-data'])
+
+      const submit = async () => {
+        emit("filter-data", data.value);
+      };
+
+      const reset = () => {
+        data.value.status = '';
+        data.value.severity = '';
+        data.value.ip = '';
+        data.value.typeIp = 'equal';
+        data.value.domain = '';
+        data.value.typeDomain = 'equal';
+      };
+
   
       return {
         data,
+        submit,
+        reset,
       };
     },
   });

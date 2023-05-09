@@ -1,18 +1,18 @@
 <template>
   <!--begin::Card-->
-  <div class="card">
+  <div class="card h-100 d-block">
     <!--begin::Card header-->
-    <div class="card-header border-0 pt-6">
+    <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
       <!--begin::Card title-->
-      <div class="card-title">
+      <!-- <div class="card-title"> -->
         <!--begin::Search-->
-        <div class="d-flex align-items-center position-relative my-1">
+        <!-- <div class="d-flex align-items-center position-relative my-1">
           <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
           <input type="text" data-kt-subscription-table-filter="search" :value="query" @input="setQuery"
             class="form-control form-control-solid w-250px ps-14" placeholder="Search Subscriptions" v-debounce:1000ms="getData" />
-        </div>
+        </div> -->
         <!--end::Search-->
-      </div>
+      <!-- </div> -->
       <!--begin::Card title-->
 
       <!--begin::Card toolbar-->
@@ -20,20 +20,27 @@
         <!--begin::Toolbar-->
         <div v-if="selectedIds.length === 0" class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
           <!--begin::Export-->
-          <!-- <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
-            data-bs-target="#kt_subscriptions_export_modal">
-            <KTIcon icon-name="exit-up" icon-class="fs-2" />
-            Export
-          </button> -->
+          <button
+              type="button"
+              class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+              data-kt-menu-trigger="click"
+              data-kt-menu-placement="bottom-end"
+              data-kt-menu-flip="top-end"
+            >
+            <KTIcon icon-name="filter" icon-class="fs-2" />
+            Filter
+          </button>
+          <Fillter @filterData="handleFilter"></Fillter>
+
           <!--end::Export-->
 
           <!--begin::Add subscription-->
-          <button type="button" class="btn fw-bold btn-primary" data-bs-toggle="modal"
+          <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'add')">
             <KTIcon icon-name="plus" icon-class="fs-2" />
-            Thêm mới
+            Thêm
           </button>
-          <!--end::Add subscription-->
+          <!--end::Add subscription--> 
         </div>
         <!--end::Toolbar-->
 
@@ -53,8 +60,8 @@
     <!--end::Card header-->
 
     <!--begin::Card body-->
-    <div class="card-body pt-0">
-      <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
+    <div class="card-body pt-0 hand-height-2 overflow-scroll h-100">
+      <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
         :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
         @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
 
@@ -64,7 +71,7 @@
         </template> -->
 
         <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-        <template v-slot:title="{ row: customer }">{{ customer.title }}</template>
+        <template v-slot:title="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{ customer.title }}</span></template>
         <template v-slot:target_count="{ row: customer }">
           <div class="badge badge-light">{{ customer.target_count ?? 0 }}</div>
         </template>
@@ -197,7 +204,7 @@
               ref="discardButtonRef"
               type="reset"
               id="kt_modal_new_target_group_cancel"
-              class="btn btn-light me-3"
+              class="btn btn-sm  btn-light me-3"
             >
               Discard
             </button>
@@ -208,7 +215,7 @@
               ref="submitButtonRef"
               type="submit"
               id="kt_modal_new_target_group_submit"
-              class="btn btn-primary"
+              class="btn btn-sm  btn-primary"
             >
               <span class="indicator-label"> Submit </span>
               <span class="indicator-progress">
@@ -258,12 +265,12 @@
         <div class="modal-footer">
           <button
             type="button"
-            class="btn btn-light"
+            class="btn btn-sm  btn-light"
             data-bs-dismiss="modal"
           >
             Hủy bỏ
           </button>
-          <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
+          <button type="button" class="btn btn-sm  btn-primary" @click.passive="deleteFewSubscriptions()">
             Đồng ý
           </button>
         </div>
@@ -371,7 +378,7 @@
           </div>
           <!--end::Form-->
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary me-9" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
               Quay lại
             </button>
           </div>
@@ -394,6 +401,7 @@ import ApiService from "@/core/services/ApiService";
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form  as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
+import Fillter from "@/views/apps/targets/filters.vue";
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -414,7 +422,7 @@ export default defineComponent({
     ErrorMessage,
     Field,
     VForm,
-    
+    Fillter,
   },
   directives: {
       debounce: vue3Debounce({ lock: true })
@@ -451,6 +459,7 @@ export default defineComponent({
     });
     const discardButtonRef = ref<HTMLElement | null>(null);
     const ModalDetail = ref<null | HTMLElement>(null);
+    const loading = ref<boolean>(false)
 
     const headerConfig = ref([
       {
@@ -488,16 +497,14 @@ export default defineComponent({
       },
     ]);
 
-    const handleClick = (data: Object, type: String) => {
+    const handleClick = (data: object | any, type: String) => {
       typeModal.value = type
       errors.title = ''
       if(Object.keys(data).length != 0 && type === 'edit'){
         nameType.value = "Sửa nhóm mục tiêu"
-        const obj: object = data; 
-        const objForm = obj as {id: number, title: string , description: string  }; 
-        apiData.value.title = objForm.title;
-        apiData.value.description = objForm.description;
-        id.value = objForm.id;
+        apiData.value.title = data.title;
+        apiData.value.description = data.description;
+        id.value = data.id;
       }else{
         nameType.value = "Thêm Mới nhóm mục tiêu"
         if (discardButtonRef.value !== null) {
@@ -524,6 +531,8 @@ export default defineComponent({
     };
 
     const getData = () => {
+      loading.value = true;
+      setTimeout(() => loading.value = false ,500)
       return ApiService.get(`targetgroup/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&orderingTarget=${orderingTarget.value}&orderingID=${orderingID.value}&orderingServer=${orderingServer.value}&orderingflaw=${orderingflaw.value}`)
         .then(({ data }) => {
           list.value = data.results
@@ -610,6 +619,7 @@ export default defineComponent({
       }).then(() => {
         hideModal(newTargetGroupModalRef.value);
         hideModal( ModalDelete.value);
+        hideModal( ModalDetail.value);
       });
     }
 
@@ -677,6 +687,17 @@ export default defineComponent({
       currentPage.value = 1
     }
 
+    const handleFilter = (data: any) => {
+      if(data){
+        query.value = data.query;
+        currentPage.value = 1;
+        getData();
+      }else{
+        notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
+      }
+
+    };
+
     onMounted(() => {
       getData();
     });
@@ -720,10 +741,12 @@ export default defineComponent({
       // search query 
       query,
       setQuery,
+      handleFilter,
 
       // edit 
       nameType,
       formatDate,
+      loading,
     };
   },
 });

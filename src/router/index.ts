@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "target-group",
         component: () => import("@/views/apps/targets/TargetGroupList.vue"),
         meta: {
-          pageTitle: "Target Group",
+          pageTitle: "Quản lý nhóm mục tiêu",
           breadcrumbs: ["Target", "TargetGroup"],
         },
       },
@@ -41,8 +41,28 @@ const routes: Array<RouteRecordRaw> = [
         name: "scans",
         component: () => import("@/views/apps/scans/ScanList.vue"),
         meta: {
-          pageTitle: "Scans",
+          pageTitle: "Quản lý lỗ hổng",
           breadcrumbs: ["Scans"],
+        },
+      },
+      
+    ],
+  },
+  {
+    path: "/telegram",
+    redirect: "/telegram",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },    
+    children: [
+      {
+        path: "/telegram",
+        name: "telegram",
+        component: () => import("@/views/apps/telegrams/TelegramList.vue"),
+        meta: {
+          pageTitle: "Quản lý Telegarm",
+          breadcrumbs: ["Telegram"],
         },
       },
       

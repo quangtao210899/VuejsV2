@@ -1,9 +1,9 @@
 <template>
-  <div id="kt_app_content" class="app-content flex-column-fluid">
+  <div id="kt_app_content" class="app-content flex-column-fluid hand-content-children">
     <!--begin::Content container-->
     <div
       id="kt_app_content_container"
-      class="app-container"
+      class="app-container h-100"
       :class="{
         'container-fluid': contentWidthFluid,
         'container-xxl': !contentWidthFluid,
@@ -32,3 +32,11 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+.hand-content-children {
+  display: block;
+  height: 100% !important;
+  margin-bottom: unset !important;
+  padding-bottom: unset !important;
+}
+</style>
