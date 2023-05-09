@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay-layer card-rounded bg-dark bg-opacity-5">
+  <div class="overlay-layer card-rounded bg-dark bg-opacity-02">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
@@ -14,3 +14,8 @@ export default defineComponent({
   components: {},
 });
 </script>
+<style>
+.bg-opacity-02 {
+    background-color: rgba(var(--bs-bg-rgb-color), 0.02) !important;
+}
+</style>

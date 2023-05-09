@@ -30,10 +30,22 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/target",
     pages: [
       {
-        heading: "Target Group",
+        heading: "Quản lý nhóm mục tiêu",
         route: "/target-group",
         keenthemesIcon: "bi bi-diagram-3",
-        bootstrapIcon: "i bi-diagram-3",
+        bootstrapIcon: "bi bi-diagram-3",
+      },
+    ],
+  },
+  {
+    heading: "telegram",
+    route: "/telegram",
+    pages: [
+      {
+        heading: "Quản lý nhóm telegram",
+        route: "/telegram",
+        keenthemesIcon: "bi bi-telegram",
+        bootstrapIcon: "bi bi-telegram",
       },
     ],
   },
@@ -42,7 +54,7 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/scans",
     pages: [
       {
-        heading: "Scans",
+        heading: "Quản lý lỗ hổng",
         route: "/scans",
         keenthemesIcon: "bi bi-bug-fill",
         bootstrapIcon: "bi bi-bug-fill",

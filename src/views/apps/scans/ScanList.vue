@@ -1,24 +1,20 @@
 <template>
   <!--begin::Card-->
-  <div class="card">
+  <div class="card h-100 d-block">
     <!--begin::Card header-->
-    <div class="card-header border-0 pt-6">
+    <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
       <!--begin::Card title-->
-      <div class="card-title">
-        <!--begin::Search-->
-        <div class="d-flex align-items-center position-relative my-1">
-          <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
-          <input type="text" data-kt-subscription-table-filter="search" :value="query" @input="setQuery"
-            class="form-control form-control-solid w-250px ps-14" placeholder="Search Subscriptions" v-debounce:1000ms="getData" />
-        </div>
-        <!--end::Search-->
-      </div>
+      <!-- <h3 class="card-title align-items-start flex-column">
+        <span class="card-label fw-bold fs-3 mb-1">Danh sách quản lý lỗ hổng</span>
+
+        <span class="text-muted fw-semobold fs-7">Tổng có {{ totalPage }} lỗ hổng</span>
+      </h3> -->
       <!--begin::Card title-->
 
       <!--begin::Card toolbar-->
       <div class="card-toolbar">
         <!--begin::Toolbar-->
-        <div v-if="selectedIds.length === 0" class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
+        <div v-if="selectedIds.length === 0" class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
           <!--begin::Export-->
           <!-- <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
             data-bs-target="#kt_subscriptions_export_modal">
@@ -26,23 +22,21 @@
             Export
           </button> -->
           <!--end::Export-->
+          <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
+            <button
+              type="button"
+              class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary"
+              data-kt-menu-trigger="click"
+              data-kt-menu-placement="bottom-end"
+              data-kt-menu-flip="top-end"
+            >
+              <KTIcon icon-name="filter" icon-class="fs-2" />
+              Filter
+            </button>
+          <!-- </div> -->
 
-          <button
-            type="button"
-            class="btn btn-icon btn-color-primary btn-active-light-primary me-2"
-            data-kt-menu-trigger="click"
-            data-kt-menu-placement="bottom-end"
-            data-kt-menu-flip="top-end"
-          >
-            <KTIcon icon-name="category" icon-class="fs-2" />
-          </button>
-          <Fillter></Fillter>
+          <Fillter @filterData="handleFilter"></Fillter>
           <!--begin::Add subscription-->
-          <button type="button" class="btn fw-bold btn-primary" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_scan"  @click.passive="handleClick({},'add')">
-            <KTIcon icon-name="plus" icon-class="fs-2" />
-            Thêm mới
-          </button>
           <!--end::Add subscription-->
         </div>
         <!--end::Toolbar-->
@@ -52,9 +46,13 @@
           <div class="fw-bold me-5">
             <span class="me-2">{{ selectedIds.length }}</span>Selected
           </div>
-          <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger">
+          <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
+            <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
             Delete Selected
           </button>
+          <!-- <button type="button" class="btn btn-light-danger ms-2">
+            Hủy
+          </button> -->
         </div>
         <!--end::Group actions-->
       </div>
@@ -62,174 +60,255 @@
     </div>
     <!--end::Card header-->
 
-    <!--begin::Card body-->
-    <div class="card-body pt-0">
-      <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
-        :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
-        @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
-        <template v-slot:severity="{ row: customer }">{{ customer.severity }}</template>
-        <template v-slot:vt_name="{ row: customer }">{{ customer.vt_name }}</template>
-        <template v-slot:hostname="{ row: customer }">
-          <div class="badge badge-light">{{ customer.hostname ?? 0 }}</div>
-        </template>
-        <template v-slot:ip="{ row: customer }">
-          <div class="badge badge-light">{{ customer.ip ?? 0 }}</div>
-        </template>
-        <template v-slot:schema="{ row: customer }">
-          <div class="badge badge-light">{{ customer.schema ?? 0 }}</div>
-        </template>
-        <template v-slot:created_at="{ row: customer }">{{ formatDate(customer.created_at) }}</template>
-        <template v-slot:status="{ row: customer }">
-          <div class="badge badge-light">{{ customer.status ?? 0 }}</div>
-        </template>
-       
-      </KTDatatable>
+    <div class="d-flex hand-height-2 shadow-hvover">
+      <!--begin::Card body-->
+      <div class="card-body pt-0 overflow-scroll h-100 " :class="classDetail ? 'col-6 d-block border-end' : 'col-12 d-block'">
+        <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
+          :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
+          @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+          <template v-slot:severity="{ row: customer }">
+            <div class="text-center" >
+              <KTIcon icon-name="severity" icon-class="bi bi-bug-fill" :style="{fontSize: '19px', color: getSeverity(customer.severity).color }" /><br>
+              <p class="fst-normal" :style="{fontSize: '11px', color: getSeverity(customer.severity).color }" >{{ getSeverity(customer.severity).title  }}</p>
+            </div>
+          </template>
+          <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{ customer.vt_name ?? '--'}}</span></template>
+          <template v-slot:hostname="{ row: customer }">
+            <div class="badge badge-light">{{ customer.hostname ?? '--' }}</div>
+          </template>
+          <template v-slot:ip="{ row: customer }">
+            <div class="badge badge-light">{{ (customer.ip == '') ? '--' : customer.ip }}</div>
+          </template>
+          <template v-slot:schema="{ row: customer }">
+            <div><span class="badge badge-light-primary">{{ customer.schema ?? '--' }}</span></div>
+          </template>
+          <template v-slot:created_at="{ row: customer }">{{ formatDate(customer.created_at) }}</template>
+          <template v-slot:status="{ row: customer }">
+            <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ?? '--' }}</span></div>
+          </template>
+        </KTDatatable>
+      </div>
+      <!--end::Card body-->
+
+      <!--begin::Card2 body-->
+      <div class="col-6 overflow-scroll h-100 " :class="classDetail ? 'col-6 d-block' : 'col-12 d-none'">
+        <div class="ms-3 pb-10">
+
+          <div class="card-title py-5 position-relative">
+            <h2 class="fw-bold pe-15 mt-5">{{ detailData.vt_name }}</h2>
+            <div class="position-absolute top-50 end-0 translate-middle-y">
+              <button @click="handleCloseDetail" type="button"  class="btn btn-icon btn-bg-body ">
+                <KTIcon icon-name="x" icon-class="bi bi-x" :style="{fontSize: '25px' }" />
+              </button>
+            </div>
+          </div>
+          <div class="d-flex">
+            <select
+              class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-150px py-2 text-white"
+              v-model="detailData.severity" :style="{ backgroundColor: getSeverity(detailData.severity).color }"
+              @change="handleChangeUpdate('Mức độ')"
+             >
+              <option label="Info" value="0">Info</option>
+              <option label="Low" value="1">Low</option>
+              <option label="Medium" value="2">Medium</option>
+              <option label="High" value="3">High</option>
+            </select>
+
+            <select class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px py-2 w-150px ms-3"
+             v-model="detailData.status" 
+             @change="handleChangeUpdate('Trạng Thái')"
+            >
+              <option label="open" value="open">Open</option>
+              <option label="re-open" value="re-open">Reopen</option>
+              <option label="closed" value="closed">Close</option>
+              <option label="rick-accepted" value="rick-accepted">Accepted</option>
+            </select>
+          </div>
+          <div class="bg-light my-3 py-2 px-4 lh-lg rounded-2 me-2">
+              <div class="row">
+                  <div class="col-12 col-xl-6 col-xxl-4">
+                      <label class="text-black-50" for="IP">IP : </label>
+                      <span class="ps-1"> {{ detailData.ip }}</span>
+                  </div>
+                  <div class="col-12 col-xl-6 col-xxl-4">
+                      <label class="text-black-50" for="Host name">Host name : </label>
+                      <span class="ps-1"> {{ detailData.hostname }}</span>
+                  </div>
+                  <div class="col-12 col-xl-6 col-xxl-4">
+                      <label class="text-black-50" for="Date">Date : </label>
+                      <span class="ps-1"> {{ formatDate(detailData.last_seen) }}</span>
+                  </div>
+              </div>
+          </div>
+          <div class="lh-lg">
+
+            <div class="mb-5" v-if="(detailData.url != null && detailData.url != '') || (detailData.parameter != null && detailData.parameter != '')">
+              <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
+              <div v-if="detailData.url != null && detailData.url != ''">
+                <label style="width: 100px;"  for="Host name">URL : </label>
+                <span class="ps-1">
+                  <a target="_blank" :href="`${detailData.url}`" class="text-primary">
+                    <KTIcon icon-name="link" icon-class="bi bi-link-45deg" :style="{fontSize: '16px' }"/>
+                    {{ detailData.url }}
+                  </a>
+                </span>
+              </div>
+              <div v-if="detailData.parameter != null && detailData.parameter != ''">
+                <label style="width: 100px;"  for="Host name">Parameter : </label>
+                <span class="ps-1"> {{ detailData.parameter  }}</span>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.tags != null && detailData.tags != ''">
+              <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">CVE/CWE</h4>
+              <div class="lh-base">
+                <template v-for="(tag, index) in detailData.tags" :key="index">
+                  <li class="d-flex align-items-center py-2">
+                    <span class="bullet bullet-vertical bg-primary me-5"></span> {{ tag }}
+                  </li>
+              </template>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.cvss_score != null && detailData.cvss_score != ''" >
+              <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">CVSS Score</h4>
+              <div>
+                <li class="d-flex align-items-center py-2">
+                  <span class="bullet bg-warning me-5"></span>  
+                  <label for="Host name">Base Score: </label>  
+                  <strong> {{ detailData.cvss_score  }}</strong>
+                </li>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.details != null && detailData.details != ''">
+              <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Attack Details</h4>
+              <div>
+                <div class="ps-1"  v-html="detailData.details"></div>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.description != null && detailData.description != ''">
+              <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Description</h4>
+              <div>
+                <div class="ps-1"  v-html="detailData.description"></div>
+              </div>
+            </div>
+
+            
+          </div>
+          
+          <div class="">
+            <div id="kt_detail_collapsible_scan">
+              <div class="py-1"  v-if="detailData.request != null && detailData.request != ''">
+                <div class="py-3 d-flex flex-stack flex-wrap">
+                  <div
+                    class="d-flex align-items-center collapsible toggle collapsed"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#kt_detail_collapsible_scan_1"
+                    aria-expanded="false"
+                  >
+                    <div
+                      class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2"
+                    >
+                      <KTIcon
+                        icon-name="minus-square"
+                        icon-class="toggle-on text-primary fs-2"
+                      />
+                      <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                    </div>
+
+                    <div class="me-3">
+                      <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Request</h4>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  id="kt_detail_collapsible_scan_1"
+                  class="fs-6 px-2 collapse"
+                  style=""
+                >
+                  <div>
+                    <CodeHighlighter lang="json">{{ detailData.request }}</CodeHighlighter>
+                  </div>
+                </div>
+              </div>
+
+              <div class="separator separator-dashed" v-if="detailData.request != null && detailData.request != ''"></div>
+
+              <div class="py-1" v-if="detailData.http_response != null && detailData.http_response != ''">
+                <div class="py-3 d-flex flex-stack flex-wrap">
+                  <div
+                    class="d-flex align-items-center collapsible toggle collapsed"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#kt_detail_collapsible_scan_2"
+                  >
+                    <div
+                      class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2"
+                    >
+                      <KTIcon
+                        icon-name="minus-square"
+                        icon-class="toggle-on text-primary fs-2"
+                      />
+
+                      <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                    </div>
+
+                    <div class="me-3">
+                      <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Response</h4>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="kt_detail_collapsible_scan_2" class="collapse fs-6 px-2">
+                  <div>
+                    <CodeHighlighter lang="html">{{ detailData.http_response }}</CodeHighlighter>
+                  </div>
+                </div>
+              </div>
+
+              <div class="separator separator-dashed" v-if="detailData.http_response != null && detailData.http_response != ''"></div>
+
+              <div class="py-1" v-if="detailData.recommendation != null && detailData.recommendation != ''">
+                <div class="py-3 d-flex flex-stack flex-wrap">
+                  <div
+                    class="d-flex align-items-center collapsible toggle collapsed"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#kt_detail_collapsible_scan_3"
+                  >
+                    <div
+                      class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2"
+                    >
+                      <KTIcon
+                        icon-name="minus-square"
+                        icon-class="toggle-on text-primary fs-2"
+                      />
+                      <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                    </div>
+
+                    <div class="me-3">
+                      <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Resolution</h4>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="kt_detail_collapsible_scan_3" class="collapse fs-6 px-2">
+                  <div>
+                    {{ detailData.recommendation }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <!--end::Card2 body-->
     </div>
-    <!--end::Card body-->
+
   </div>
   <!--end::Card-->
-
-
-  <!-- modal  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_new_scan"    
-    ref="newTargetGroupModalRef" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered mw-650px">
-      <!--begin::Modal content-->
-      <div class="modal-content">
-        <!--begin::Modal header-->
-        <div class="modal-header" id="kt_modal_new_scan_header">
-          <!--begin::Modal title-->
-          <h2>{{ nameType }}</h2>
-          <!--end::Modal title-->
-
-          <!--begin::Close-->
-          <div
-            class="btn btn-sm btn-icon btn-active-color-primary"
-            data-bs-dismiss="modal"
-          >
-            <KTIcon icon-name="cross" icon-class="fs-1" />
-          </div>
-          <!--end::Close-->
-        </div>
-        <!--end::Modal header-->
-
-        <!--begin::Form-->
-        <VForm
-          id="kt_modal_new_scan_form"
-          class="form"
-          @submit="submit"
-          :validation-schema="validationSchema"
-        >
-          <!--begin::Modal body-->
-          <div class="modal-body py-10 px-lg-17">
-            <!--begin::Scroll-->
-            <div
-              class="scroll-y me-n7 pe-7"
-              id="kt_modal_new_scan_scroll"
-              data-kt-scroll="true"
-              data-kt-scroll-activate="{default: false, lg: true}"
-              data-kt-scroll-max-height="auto"
-              data-kt-scroll-dependencies="#kt_modal_new_scan_header"
-              data-kt-scroll-wrappers="#kt_modal_new_scan_scroll"
-              data-kt-scroll-offset="300px"
-            >
-              <!--begin::Input group-->
-              <div class="mb-5 fv-row">
-                <!--begin::Label-->
-                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                <span class="required">Tên nhóm mục tiêu</span>
-                <i
-                  class="fas fa-exclamation-circle ms-2 fs-7"
-                  data-bs-toggle="tooltip"
-                  title="Bắt buộc phải nhập"
-                ></i>
-              </label>
-                <!--end::Label-->
-                <!--begin::Input-->
-                <Field
-                  type="text" 
-                  class="form-control form-control-solid"
-                  placeholder="Nhập nhóm mục tiêu"
-                  name="title"
-                  v-model="apiData.title"
-                />
-                <div class="fv-plugins-message-container">
-                  <div class="fv-help-block">
-                    <ErrorMessage name="title" />
-                    <span class="" v-if="errors.title">{{ errors.title[0] }}</span>
-                  </div>
-                </div>
-                <!--end::Input-->
-              </div>
-              <!--end::Input group-->
-
-              <!--begin::Input group-->
-              <div class="d-flex flex-column mb-5 fv-row">
-                <!--begin::Label-->
-                <label class="fs-6 fw-semobold mb-2">Mô tả nhóm mục tiêu</label>
-                <!--end::Label-->
-
-                <!--begin::Input-->
-                <Field
-                  as="textarea"
-                  class="form-control form-control-solid"
-                  rows="5" 
-                  name="description"
-                  placeholder="Nhập mô tả nhóm mục tiêu"
-                  v-model="apiData.description"
-                />
-                <div class="fv-plugins-message-container">
-                  <div class="fv-help-block">
-                    <ErrorMessage name="description" />
-                  </div>
-                </div>
-                <!--end::Input-->
-              </div>
-              <!--end::Input group-->
-            </div>
-            <!--end::Scroll-->
-          </div>
-          <!--end::Modal body-->
-
-          <!--begin::Modal footer-->
-          <div class="modal-footer flex-center">
-            <!--begin::Button-->
-            <button
-              ref="discardButtonRef"
-              type="reset"
-              id="kt_modal_new_scan_cancel"
-              class="btn btn-light me-3"
-            >
-              Discard
-            </button>
-            <!--end::Button-->
-
-            <!--begin::Button-->
-            <button
-              ref="submitButtonRef"
-              type="submit"
-              id="kt_modal_new_scan_submit"
-              class="btn btn-primary"
-            >
-              <span class="indicator-label"> Submit </span>
-              <span class="indicator-progress">
-                Please wait...
-                <span
-                  class="spinner-border spinner-border-sm align-middle ms-2"
-                ></span>
-              </span>
-            </button>
-            <!--end::Button-->
-          </div>
-          <!--end::Modal footer-->
-        </VForm>
-        <!--end::Form-->
-      </div>
-      <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-  </div>
 
 <!-- modal delete  -->
   <div class="modal fade" tabindex="-1" id="kt_modal_delete"    
@@ -273,123 +352,47 @@
       <!--end::Modal content-->
     </div>
     <!--end::Modal dialog-->
-  </div>
-
-  <!-- modal detail  -->
-  <div class="modal fade" tabindex="-1" 
-      ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-      <!--begin::Modal dialog-->
-      <div class="modal-dialog modal-dialog-centered">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-          <!--begin::Form-->
-          <div class="modal-body">
-            <!--begin::Card-->
-            <div class="card card-flush pt-3 mb-5 mb-xl-10">
-                <!--begin::Card header-->
-                <div class="card-header">
-                  <!--begin::Card title-->
-                  <div class="card-title">
-                    <h1 class="fw-bold">{{ detailData.title }}</h1>
-                  </div>
-                  <!--begin::Card toolbar-->
-                  <div class="card-toolbar">
-                    <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
-                      data-bs-target="#kt_modal_new_scan"  @click="handleClick(detailData, 'edit')">
-                      <KTIcon icon-name="pencil" icon-class="fs-3" /> Update
-                    </button>
-                  </div>
-                  <!--end::Card toolbar-->
-                </div>
-                <!--end::Card header-->
-
-                <!--begin::Card body-->
-                <div class="card-body py-0">
-                  <!--begin::Section-->
-                  <div class="mb-10">
-                    <!--begin::Title-->
-                    <h5>Thông tin chi tiết:</h5>
-                    <!--end::Title-->
-
-                    <!--begin::Details-->
-                    <div class="d-flex flex-wrap py-5">
-                      <!--begin::Row-->
-                      <div class="flex-equal me-5">
-                        <!--begin::Details-->
-                        <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-
-                          <!--begin::Row-->
-                          <tr>
-                            <td class="text-gray-400">Mô tả:</td>
-                            <td class="text-gray-800">{{ detailData.description ?? 'null' }}</td>
-                          </tr>
-                          <!--end::Row-->
-
-                          <!--begin::Row-->
-                          <tr>
-                            <td class="text-gray-400">Mục tiêu:</td>
-                            <td class="text-gray-800 badge badge-light pe-2">{{ detailData.target_count ?? 0 }} </td>
-                          </tr>
-                          <!--end::Row-->
-
-                          <!--begin::Row-->
-                          <tr>
-                            <td class="text-gray-400">Lỗ hổng :</td>
-                            <td class="text-gray-800  badge badge-light pe-2" >{{ detailData.flaw_count ?? 0 }}</td>
-                          </tr>
-                          <!--end::Row-->
-                          <!--begin::Row-->
-                          <tr>
-                            <td class="text-gray-400">Dịch vụ :</td>
-                            <td class="text-gray-800 badge badge-light pe-2">{{ detailData.service_count ?? 0 }}</td>
-                          </tr>
-                          <!--end::Row-->
-                          <!--begin::Row-->
-                            <tr>
-                            <td class="text-gray-400">Ngày tạo :</td>
-                            <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
-                          </tr>
-                          <!--end::Row-->
-                          <!--begin::Row-->
-                            <tr>
-                            <td class="text-gray-400">Ngày sửa :</td>
-                            <td class="text-gray-800">{{ formatDate(detailData.modified_at) }}</td>
-                          </tr>
-                          <!--end::Row-->
-                          
-                        </table>
-                        <!--end::Details-->
-                      </div>
-                      <!--end::Row-->
-
-                    </div>
-                    <!--end::Row-->
-                  </div>
-                  <!--end::Section-->
-                </div>
-                <!--end::Card body-->
-              </div>
-              <!--end::Card-->
-          </div>
-          <!--end::Form-->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary me-9" data-bs-dismiss="modal">
-              Hủy bỏ
-            </button>
-          </div>
-        </div>
-        <!--end::Modal content-->
       </div>
-      <!--end::Modal dialog-->
+
+  <!-- modal confirm  -->
+  <div class="modal fade" tabindex="-1"  @v-on="testModal"
+    ref="Modalconfirm" aria-hidden="true" id="kt_modal_confirm">
+  <!--begin::Modal dialog-->
+  <div class="modal-dialog modal-dialog-centered">
+    <!--begin::Modal content-->
+    <div class="modal-content">
+
+
+      <!--begin::Form-->
+      <div class="modal-body">
+        <p>Bạn có chắc chắn muốn thay đổi <span class="fw-bold text-danger">{{ typeConfirm }} </span> lỗ hổng của bản gi <span class="fw-bold text-danger">{{ detailData.vt_name }} </span> không?.</p>
+      </div>
+      <!--end::Form-->
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-light"
+          data-bs-dismiss="modal"
+          @click.passive="quitUpdateData()"
+        >
+          Hủy bỏ
+        </button>
+        <button type="button" class="btn btn-primary" @click.passive="updateData()">
+          Đồng ý
+        </button>
+      </div>
     </div>
+    <!--end::Modal content-->
+  </div>
+  <!--end::Modal dialog-->
+  </div>
 
 </template>
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive } from "vue";
+import { defineComponent, ref, onMounted, reactive, watchEffect } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
-import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import ApiService from "@/core/services/ApiService";
 
 // validate
@@ -397,13 +400,11 @@ import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form  as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 
-import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-
-import {Modal} from "bootstrap";
 import dayjs from 'dayjs';
-
 import Fillter from "@/views/apps/scans/filters.vue";
+import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
+import {Modal} from "bootstrap";
 
 interface APIData {
   title: string;
@@ -419,43 +420,57 @@ export default defineComponent({
     Field,
     VForm,
     Fillter,
+    CodeHighlighter,
   },
   directives: {
       debounce: vue3Debounce({ lock: true })
   },
   setup() {
     const list = ref<object | any>([])
+    const loading = ref<boolean>(false)
     const totalPage = ref<number>(0);
-    // const testPage = ref<number>(0);
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
-    const orderingID = ref<String>('');
-    const orderingTarget = ref<String>('');
-    const orderingflaw = ref<String>('');
-    const orderingServer = ref<String>('');
+    const status = ref<String | null>('');
+    const severity = ref<String | null>('');
+    const ip = ref<String | null>('');
+    const domain = ref<String | null>('');
+    const typeIp = ref<String | null>('');
+    const typeDomain = ref<String | null>('');
     const typeModal = ref<String>('');
     const id = ref<number>(0);
     const nameType = ref<string>('');
+    const classDetail = ref<boolean>(false);
     const apiData = ref<APIData>({
       title: '',
       description: '',
 
     });
-    const errors = reactive({title: ''});
-    const detailData = reactive({
-      id: '', 
-      title: '', 
-      description:'',
-      modified_at: '',
-      service_count: '',
-      target_count: '',
-      created_at: '',
-      flaw_count: '',
+    const dataConfirm = reactive({
+      severity: '',
+      status: ''
     });
-    const discardButtonRef = ref<HTMLElement | null>(null);
-    const ModalDetail = ref<null | HTMLElement>(null);
-
+    const detailData = reactive({
+      id: '',
+      vt_name: '',
+      severity: '',
+      ip: '',
+      hostname: '',
+      schema: '',
+      created_at: '',
+      status: '',
+      last_seen: '',
+      url: '',
+      parameter: '',
+      tags: '',
+      cvss_score: '',
+      details: '',
+      description: '',
+      request: '',
+      http_response: '',
+      recommendation: '',
+    });
     const headerConfig = ref([
       {
         columnName: "Sev",
@@ -464,6 +479,7 @@ export default defineComponent({
       {
         columnName: "Tên",
         columnLabel: "vt_name",
+        columnWidth: 200,
       },
       {
         columnName: "Host name",
@@ -488,30 +504,10 @@ export default defineComponent({
       },
     ]);
 
-    const handleClick = (data: Object, type: String) => {
+    const handleClick = (data: object | any, type: String) => {
       typeModal.value = type
-      errors.title = ''
-      if(Object.keys(data).length != 0 && type === 'edit'){
-        nameType.value = "Sửa nhóm mục tiêu"
-        const obj: object = data; 
-        const objForm = obj as {id: number, title: string , description: string  }; 
-        apiData.value.title = objForm.title;
-        apiData.value.description = objForm.description;
-        id.value = objForm.id;
-      }else{
-        nameType.value = "Thêm Mới nhóm mục tiêu"
-        if (discardButtonRef.value !== null) {
-          discardButtonRef.value.click();
-        }
-        // resetData();
-      }
+      apiData.value.description = data.description;
     };
-
-    // const resetData = () => {
-    //   apiData.value.title = '';
-    //   apiData.value.description = '';
-    //   id.value = 0;
-    // }
 
     const handlePage = (page: number) => {
       currentPage.value = page ?? 1;
@@ -524,7 +520,9 @@ export default defineComponent({
     };
 
     const getData = () => {
-      return ApiService.get(`vuls/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&orderingTarget=${orderingTarget.value}&orderingID=${orderingID.value}&orderingServer=${orderingServer.value}&orderingflaw=${orderingflaw.value}`)
+      loading.value = true;
+      setTimeout(() => loading.value = false ,500)
+      return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -542,7 +540,8 @@ export default defineComponent({
     const ModalDelete = ref<null | HTMLElement>(null);
     const deleteSubscription = (ids: Array<number>) => {
       if(ids){
-        return ApiService.delete(`targetgroup/${ids}`)
+        let formData = {id: ids}
+        return ApiService.post('vuls/multi_delete',formData)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
             selectedIds.value.length = 0;
@@ -554,48 +553,94 @@ export default defineComponent({
       }
     };
 
-    const sort = (sort: Sort) => {
-      if(sort.label){
-        orderingID.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
-      }
-      getData();
-    };
     const customRowTable = (detail: any) => {
-      if(detail){
-        detailData.id = detail.id
-        detailData.title = detail.title
-        detailData.description = detail.description
-        detailData.modified_at = detail.modified_at
-        detailData.service_count = detail.service_count
-        detailData.target_count = detail.target_count
-        detailData.created_at = detail.created_at
-        detailData.flaw_count = detail.flaw_count
-        const modal = new Modal(
-          document.getElementById("kt_modal_detail") as Element
-        );
+      classDetail.value = true;
+      detailData.id = detail.id
+      detailData.vt_name = detail.vt_name ?? detail.port_scan.name
+      detailData.status = detail.status
+      detailData.severity = detail.severity
+      detailData.created_at = detail.created_at
+      detailData.hostname = detail.hostname
+      detailData.ip = detail.ip ?? detail.port_scan.in_cpe
+      detailData.schema = detail.schema
+      detailData.last_seen = detail.last_seen
+      detailData.url = detail.host ?? detail.port_scan.host
+      detailData.parameter = detail.affects_detail
+      detailData.tags = detail.tags ?? detail.port_scan.tags
+      detailData.cvss_score = detail.cvss_score
+      detailData.details = detail.details
+      detailData.description = detail.description ?? detail.port_scan.description
+      detailData.request = detail.request
+      detailData.http_response = detail.http_response
+      detailData.recommendation = detail.recommendation
+      dataConfirm.severity = detailData.severity
+      dataConfirm.status = detailData.status
+      // console.log(detail)
+    };
+
+    const handleCloseDetail = () => {
+      classDetail.value = false;
+    };
+    const dataModal = ref<any>(null);
+    const ModalConfirm = ref<string | HTMLElement>('#kt_modal_confirm');
+    const typeConfirm = ref<null | string>(null);
+    const handleChangeUpdate = (type: string) => {
+      // console.log(dataConfirm.value)
+      if(detailData.status && detailData.severity && type){
+        typeConfirm.value = type
+        const modal = new Modal(ModalConfirm.value);
         modal.show();
+        dataModal.value = modal
+        // console.log( dataModal.value)
+
       }else{
         notification('', 'error', 'Có lỗi xảy ra')
       }
     };
 
+    const quitUpdateData = () =>{      
+      detailData.status = dataConfirm.status
+      detailData.severity = dataConfirm.severity
+    };
+    // watchEffect(() => {
+    //   if(dataModal.value){
+    //     // dataModal.value.handleUpdate()
+    //     dataModal.value.toggle()
+    //     console.log('123')
+    //   }
+    //   if(!dataModal.value){
+    //     console.log('1234')
+    //   }
+    // });
+
+
+    const updateData = async () => {
+      dataModal.value.hide();
+      // console.log( dataModal.value)
+      let form_data = {
+          severity: detailData.severity,
+          status: detailData.status
+      }
+      return ApiService.put(`/vuls/${detailData.id}/update`, form_data)
+      .then(({ data }) => {
+        notification(data.detail,'success','Update thành công')
+       
+        getData();
+      })
+      .catch(({ response }) => {
+        notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+      });
+    };
+
+    const testModal = (data) => {
+      console.log( data)
+    };
+    
+
     const onItemSelect = (selectedItems: Array<number>) => {
       selectedIds.value = selectedItems;
 
     };
-
-    // validate start
-    const submitButtonRef = ref<null | HTMLButtonElement>(null);
-    const modalRef = ref<null | HTMLElement>(null);
-    const newTargetGroupModalRef = ref<null | HTMLElement>(null);
-    const PatternTargetGroup = /^[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/
-
-    const validationSchema = Yup.object().shape({
-      title: Yup.string()
-      .matches(PatternTargetGroup, 'Tên nhóm không được chứa chữ số và ký tự đặc biệt')
-      .min(3, 'tối thiểu 3 kí tự')
-      .required('Vui lòng nhập tên')
-    });
 
     const notification = (values: string, icon: string, more: string) => {
       Swal.fire({
@@ -608,57 +653,9 @@ export default defineComponent({
           confirmButton: "btn btn-primary",
         },
       }).then(() => {
-        hideModal(newTargetGroupModalRef.value);
         hideModal( ModalDelete.value);
+        // hideModal( ModalConfirm.value);
       });
-    }
-
-    const submit = async () => {
-      if (!submitButtonRef.value) {
-        return;
-      }
-      //Disable button
-      submitButtonRef.value.disabled = true;
-      // Activate indicator
-      submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-
-      setTimeout(() => {
-        if (submitButtonRef.value) {
-          submitButtonRef.value.disabled = false;
-          submitButtonRef.value?.removeAttribute("data-kt-indicator");
-        }
-        let formData = {
-          'title': apiData.value.title,
-          'description': apiData.value.description
-        }
-        if(typeModal.value == 'add'){
-          return ApiService.post("/targetgroup", formData)
-            .then(({ data }) => {
-              notification(data.detail,'success','Thêm mới thành công')
-              // getData();
-            })
-            .catch(({ response }) => {
-              if(response.data){
-                errors.title = response.data.title;
-              }else{
-                notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-              }
-            });
-        }else{
-          return ApiService.put(`/targetgroup/${id.value}`, formData)
-            .then(({ data }) => {
-              notification(data.detail, 'success', 'Sửa mới thành công')
-              getData();
-            })
-            .catch(({ response }) => {
-              if(response.data){
-                errors.title = response.data.title;
-              }else{
-                notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-              }
-            });
-        }
-      }, 1000);
     };
 
     const formatDate = (date: string) => {
@@ -667,15 +664,49 @@ export default defineComponent({
       }
       const dateFormat = 'DD/MM/YYYY HH:mm:ss';
       return dayjs(date).format(dateFormat)
-    }
+    };
 
-    // end validate
+    const getSeverity = (severity: number | string) => {
+        if (severity == 0) {
+            return { id: 0, title: 'Info', color: '#28a745' };
+        } else if (severity == 1) {
+            return { id: 1, title: 'Low', color: '#23b7e5' };
+        } else if (severity == 2) {
+            return { id: 2, title: 'Medium', color: '#fcba32' };
+        } else if (severity == 3) {
+            return { id: 3, title: 'High', color: '#e11f26' };
+        }
+        return { id: 4, title: 'undefined', color: '#7b809a' };
+    };
 
-    // tìm kiếm
-    const setQuery = (event) => {
-      query.value = event.target.value
-      currentPage.value = 1
-    }
+    const getStatus = (status: string) => {
+        if (status === 'open') {
+            return { id: 3, title: 'Open', color: 'success' };
+        } else if (status === 're-open') {
+            return { id: 5, title: 'Reopen', color: 'primary' };
+        } else if (status === 'closed') {
+            return { id: 6, title: 'Close', color: 'danger' };
+        } else if (status === 'rick-accepted') {
+            return { id: 7, title: 'Accepted', color: '#23b7e5' };
+        }
+        return { id: 8, title: 'undefined', color: '#7b809a' };
+    };
+
+    const handleFilter = (data: any) => {
+      if(data){
+        status.value = data.status;
+        severity.value = data.severity;
+        ip.value = data.ip;
+        domain.value = data.domain;
+        typeIp.value = data.typeIp;
+        typeDomain.value = data.typeDomain;
+        currentPage.value = 1;
+        getData();
+      }else{
+        notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
+      }
+
+    };
 
     onMounted(() => {
       getData();
@@ -685,7 +716,6 @@ export default defineComponent({
       getData,
       list,
       headerConfig,
-      sort,
       onItemSelect,
       selectedIds,
       deleteFewSubscriptions,
@@ -695,20 +725,11 @@ export default defineComponent({
       // validate
       // crud
       apiData,
-      validationSchema,
-      submit,
-      submitButtonRef,
-      modalRef,
-      newTargetGroupModalRef,
       handleClick,
-      errors,
       ModalDelete,
-      discardButtonRef,
 
       // detials
-      ModalDetail,
       customRowTable,
-      detailData,
 
       // page 
       itemsPerPage,
@@ -719,12 +740,37 @@ export default defineComponent({
 
       // search query 
       query,
-      setQuery,
 
       // edit 
       nameType,
+
+      // sử lý dữ liệu
+      getSeverity,
       formatDate,
+      getStatus,
+
+      // filter
+      handleFilter,
+      loading,
+
+      // detail
+      classDetail,
+      detailData,
+      handleCloseDetail,
+      handleChangeUpdate,
+      updateData,
+      ModalConfirm,
+      typeConfirm,
+      testModal,
+      quitUpdateData,
     };
   },
 });
 </script>
+
+<style>
+.shadow-hvover{
+  /* box-shadow: 0 2px 5px 0 rgba(0,0,0,.3); */
+  box-shadow: 5px 6px 10px -9px rgba(0,0,0,.3);
+  }
+</style>

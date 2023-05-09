@@ -23,8 +23,19 @@
           </td>
         </template> -->
         <template v-for="(properties, j) in header" :key="j" >
-          <td v-if="j === header.length - 1"  class="text-end">
+          <!-- <td v-if="j === header.length - 1"  class="text-end">
+            <slot :name="`${properties.columnLabel}`" :row="row"> 
+              {{ row }}
+            </slot>
+          </td>
+          <td v-else class="cursor-pointer" @click.passive="customRow(row)" data-bs-target="#kt_modal_detail">
             <slot :name="`${properties.columnLabel}`" :row="row">
+              {{ row }}
+            </slot>
+          </td> -->
+
+          <td v-if="properties.columnLabel == 'actions'"  class="text-end">
+            <slot :name="`${properties.columnLabel}`" :row="row"> 
               {{ row }}
             </slot>
           </td>

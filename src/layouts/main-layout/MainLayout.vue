@@ -8,16 +8,16 @@
       <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
         <KTSidebar />
         <!--begin::Main-->
-        <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+        <div class="app-main flex-column flex-row-fluid overflow-hidden hand-height" id="kt_app_main">
           <!--begin::Content wrapper-->
-          <div class="d-flex flex-column flex-column-fluid">
+          <div class="d-flex flex-column flex-column-fluid h-100">
             <KTToolbar />
-            <div id="kt_app_content" class="app-content flex-column-fluid">
+            <div id="kt_app_content" class="app-content flex-column-fluid hand-content">
               <KTContent></KTContent>
             </div>
           </div>
           <!--end::Content wrapper-->
-          <KTFooter />
+          <!-- <KTFooter /> -->
         </div>
         <!--end:::Main-->
       </div>
@@ -91,3 +91,22 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.hand-height{
+  height: calc(100vh - 90px) !important;
+  width: -webkit-fill-available;
+  position: absolute;
+}
+
+.hand-content {
+  display: block;
+  height: calc(100% - 81px) !important;
+  margin-bottom: unset !important;
+  padding-bottom: unset !important;
+}
+.hand-height-2{
+  /* height: calc(100% - 76px) !important; */
+  height: 100%;
+}
+</style>
