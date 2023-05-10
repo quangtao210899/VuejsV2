@@ -24,10 +24,11 @@
   
           <!--begin::Input-->
           <div class="d-flex align-items-center position-relative my-1">
-            <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
-            <input type="text" data-kt-subscription-table-filter="search" v-model="data.query"
-              class="form-control form-control-solid w-100 ps-14" placeholder="Search Subscriptions" />
+          <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
+          <input type="text" data-kt-subscription-table-filter="search" v-model="data.query"
+            class="form-control form-control-solid w-100 ps-14" placeholder="Search Subscriptions" />
           </div>
+
         </div>
 
         <!--begin::Input group-->
@@ -48,6 +49,30 @@
             </select>
           </div>
           <!--end::Input-->
+          
+        </div>
+        <!--end::Input group-->
+
+        
+        <!--begin::Input group-->
+        <div class="mb-7">
+          <!--begin::Label-->
+          <label class="form-label fw-semobold">Trạng thái:</label>
+          <!--end::Label-->
+  
+          <!--begin::Input-->
+          <div>
+            <select
+              class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
+              v-model="data.status"
+            >
+              <option label="Chọn trạng thái" value="">Chọn trạng thái</option>
+              <option label="Có thể đồng bộ" value="0">Có thể đồng bộ</option>
+              <option label="không đồng bộ" value="1">không đồng bộ</option>
+            </select>
+          </div>
+          <!--end::Input-->
+          
         </div>
         <!--end::Input group-->
 
@@ -86,7 +111,7 @@ import { defineComponent, ref  } from "vue";
   interface Filter {
     type: string | null;
     query: string | null;
-
+    status: string | null;
   }
   
   export default defineComponent({
@@ -107,6 +132,7 @@ import { defineComponent, ref  } from "vue";
       const data = ref<Filter>({
         type: '',
         query: '',
+        status: '',
       });
 
       // watch(
@@ -126,6 +152,7 @@ import { defineComponent, ref  } from "vue";
       const reset = () => {
         data.value.type = '';
         data.value.query = '';
+        data.value.status = '';
       };
 
   
