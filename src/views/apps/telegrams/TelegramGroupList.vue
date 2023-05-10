@@ -51,7 +51,7 @@
           </button>
 
           <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'add')">
+            data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
             <KTIcon icon-name="plus" icon-class="fs-2" />
             Thêm
           </button>
@@ -86,7 +86,7 @@
           @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
           <template v-slot:id="{ row: customer }">{{ customer.id ?? '--' }}</template>
           <template v-slot:name="{ row: customer }">
-            <span class="text-dark text-hover-primary fw-bold">{{customer.name ?? '--' }}</span>
+            <span class="text-dark text-hover-primary ">{{customer.name ?? '--' }}</span>
           </template>
           <template v-slot:date_update="{ row: customer }">{{ formatDate(customer.date_update) }}</template>
           <template v-slot:total_message="{ row: customer }">
@@ -117,6 +117,208 @@
 
   </div>
   <!--end::Card-->
+
+    <!-- modal  -->
+    <div class="modal fade" tabindex="-1" id="kt_modal_new_telegram_group"    
+    ref="newTargetTelegramModalRef" aria-hidden="true">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <!--begin::Modal content-->
+      <div class="modal-content">
+        <!--begin::Modal header-->
+        <div class="modal-header" id="kt_modal_new_telegram_group_header">
+          <!--begin::Modal title-->
+          <h2>{{ nameType }}</h2>
+          <!--end::Modal title-->
+
+          <!--begin::Close-->
+          <div
+            class="btn btn-sm btn-icon btn-active-color-primary"
+            data-bs-dismiss="modal"
+          >
+            <KTIcon icon-name="cross" icon-class="fs-1" />
+          </div>
+          <!--end::Close-->
+        </div>
+        <!--end::Modal header-->
+
+        <!--begin::Form-->
+        <VForm
+          id="kt_modal_new_telegram_group_form"
+          class="form"
+          @submit="submit"
+          :validation-schema="validationSchema"
+        >
+          <!--begin::Modal body-->
+          <div class="modal-body py-10 px-lg-17">
+            <!--begin::Scroll-->
+            <div
+              class="scroll-y me-n7 pe-7"
+              id="kt_modal_new_telegram_group_scroll"
+              data-kt-scroll="true"
+              data-kt-scroll-activate="{default: false, lg: true}"
+              data-kt-scroll-max-height="auto"
+              data-kt-scroll-dependencies="#kt_modal_new_telegram_group_header"
+              data-kt-scroll-wrappers="#kt_modal_new_telegram_group_scroll"
+              data-kt-scroll-offset="300px"
+            >
+              <!--begin::Input group-->
+              <div class="mb-5 fv-row">
+                <!--begin::Label-->
+                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                <span class="required">Tên nhóm Telegram</span>
+                <i
+                  class="fas fa-exclamation-circle ms-2 fs-7"
+                  data-bs-toggle="tooltip"
+                  title="Bắt buộc phải nhập"
+                ></i>
+              </label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <Field
+                  type="text" 
+                  class="form-control form-control-solid"
+                  placeholder="Nhập nhóm mục tiêu"
+                  name="title"
+                  v-model="apiData.name"
+                />
+                <div class="fv-plugins-message-container">
+                  <div class="fv-help-block">
+                    <ErrorMessage name="title" />
+                    <span class="" v-if="errors.title">{{ errors.title[0] }}</span>
+                  </div>
+                </div>
+                <!--end::Input-->
+              </div>
+              <!--end::Input group-->
+
+               <!--begin::Input group-->
+              <div class="d-flex flex-stack mb-8">
+                <!--begin::Label-->
+                <div class="me-5">
+                  <label class="fs-6 fw-semobold"
+                    >Trạng thái</label
+                  >
+
+                  <div class="fs-7 fw-semobold text-gray-400">
+                    Bật trạng thái để có thể đồng bộ hóa Telegram
+                  </div>
+                </div>
+                <!--end::Label-->
+
+                <!--begin::Switch-->
+                <label
+                  class="form-check form-switch form-check-custom form-check-solid"
+                >
+                
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    checked
+                    v-model="apiData.status"
+                  />
+                  <span class="form-check-label fw-semobold text-gray-400">
+                    Allowed
+                  </span>
+                </label>
+                <!--end::Switch-->
+              </div>
+              <!--end::Input group-->
+              <!--begin::Input group-->
+              <div class="mb-15 fv-row">
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-stack">
+                  <!--begin::Label-->
+                  <div class="fw-semobold me-5">
+                    <label class="fs-6">Kiểu nhóm</label>
+
+                    <div class="fs-7 text-gray-400">
+                      Allow Notifications by Phone or Email
+                    </div>
+                  </div>
+                  <!--end::Label-->
+
+                  <!--begin::radio-->
+                  <div class="d-flex align-items-center">
+                    <!--begin::radio-->
+                    <label
+                      class="form-check form-check-custom form-check-solid me-10"
+                    >
+                      <input
+                        class="form-check-input h-20px w-20px"
+                        type="radio"
+                        name="type"
+                        value="1"
+                        v-model="apiData.type"
+                        checked
+                      />
+
+                      <span class="form-check-label fw-semobold"> DB Leak </span>
+                    </label>
+                    <!--end::radio-->
+
+                    <!--begin::radio-->
+                    <label class="form-check form-check-custom form-check-solid">
+                      <input
+                        v-model="apiData.type"
+                        class="form-check-input h-20px w-20px"
+                        type="radio"
+                        name="type"
+                        value="2"
+                      />
+
+                      <span class="form-check-label fw-semobold"> Hacker News </span>
+                    </label>
+                    <!--end::radio-->
+                  </div>
+                  <!--end::radio-->
+                </div>
+                <!--end::Wrapper-->
+              </div>
+              <!--end::Input group-->
+            </div>
+            <!--end::Scroll-->
+          </div>
+          <!--end::Modal body-->
+
+          <!--begin::Modal footer-->
+          <div class="modal-footer flex-center">
+            <!--begin::Button-->
+            <button
+              ref="discardButtonRef"
+              type="reset"
+              id="kt_modal_new_telegram_cancel"
+              class="btn btn-sm  btn-light me-3"
+            >
+              Discard
+            </button>
+            <!--end::Button-->
+
+            <!--begin::Button-->
+            <button
+              ref="submitButtonRef"
+              type="submit"
+              id="kt_modal_new_target_group_submit"
+              class="btn btn-sm  btn-primary"
+            >
+              <span class="indicator-label"> Submit </span>
+              <span class="indicator-progress">
+                Please wait...
+                <span
+                  class="spinner-border spinner-border-sm align-middle ms-2"
+                ></span>
+              </span>
+            </button>
+            <!--end::Button-->
+          </div>
+          <!--end::Modal footer-->
+        </VForm>
+        <!--end::Form-->
+      </div>
+      <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
+  </div>
 
   <!-- modal delete  -->
   <div class="modal fade" tabindex="-1" id="kt_modal_delete"    
@@ -280,10 +482,12 @@ import Fillter from "@/views/apps/telegrams/filterGroup.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import {Modal} from "bootstrap";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
+import * as Yup from "yup";
 
 interface APIData {
-  title: string;
-  description: string;
+  name: string;
+  type: string;
+  status: boolean;
 }
 
 export default defineComponent({
@@ -386,10 +590,16 @@ export default defineComponent({
       console.log(sort)
       if(sort.label == 'id'){
         sortId.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
+        sortTotal.value = '';
+        sortDate.value = '';
       }else if(sort.label == 'date_update'){
         sortDate.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
+        sortId.value = '';
+        sortTotal.value = '';
       }else if(sort.label == 'total_message'){
         sortTotal.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
+        sortId.value = '';
+        sortDate.value = '';
       }else{
         notification('Có lỗi xayt ra với sắp sếp', 'error', 'Có lỗi xảy ra')
       }
@@ -476,13 +686,25 @@ export default defineComponent({
 
     };
 
+    // validation
+    const submitButtonRef = ref<null | HTMLButtonElement>(null);
+    const modalRef = ref<null | HTMLElement>(null);
+    const newTargetTelegramModalRef = ref<null | HTMLElement>(null);
+
+    const validationSchema = Yup.object().shape({
+      name: Yup.string()
+      // .min(3, 'Tối thiểu 3 kí tự')
+      // .required('Vui lòng nhập tên')
+    });
+
     // add - edit 
     const typeModal = ref<String>('');
     const errors = reactive({title: ''});
     const nameType = ref<string>('');
-      const apiData = ref<APIData>({
-      title: '',
-      description: '',
+    const apiData = ref<APIData>({
+      name: '',
+      type: '1',
+      status: true,
     });
     const id = ref<number>(0);
     const discardButtonRef = ref<HTMLElement | null>(null);
@@ -490,17 +712,70 @@ export default defineComponent({
       typeModal.value = type
       errors.title = ''
       if(Object.keys(data).length != 0 && type === 'edit'){
-        nameType.value = "Sửa nhóm mục tiêu"
-        apiData.value.title = data.title;
-        apiData.value.description = data.description;
+        nameType.value = "Sửa nhóm nhóm Telegram"
+        apiData.value.name = data.name;
+        apiData.value.type = data.type;
+        apiData.value.status = data.status;
         id.value = data.id;
       }else{
-        nameType.value = "Thêm Mới nhóm mục tiêu"
+        nameType.value = "Thêm Mới nhóm Telegram"
         if (discardButtonRef.value !== null) {
           discardButtonRef.value.click();
         }
         // resetData();
       }
+    };
+
+    // submit data
+    const submit = async () => {
+      if (!submitButtonRef.value) {
+        return;
+      }
+      //Disable button
+      submitButtonRef.value.disabled = true;
+      // Activate indicator
+      submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+
+      setTimeout(() => {
+        if (submitButtonRef.value) {
+          submitButtonRef.value.disabled = false;
+          submitButtonRef.value?.removeAttribute("data-kt-indicator");
+        }
+        let formData = {
+          name: apiData.value.name,
+          type: apiData.value.type,
+          status: (apiData.value.status ==  true) ? 0 : 1 
+        }
+        if(typeModal.value == 'add'){
+          console.log(formData)
+
+          return ApiService.post("/telegram/group/create", formData)
+            .then(({ data }) => {
+              notification(data.detail,'success','Thêm mới thành công')
+              getData();
+            })
+            .catch(({ response }) => {
+              if(response.data){
+                errors.title = response.data.title;
+              }else{
+                notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+              }
+            });
+        }else{
+          return ApiService.put(`/telegram/group/${id.value}/update`, formData)
+            .then(({ data }) => {
+              notification(data.detail, 'success', 'Sửa mới thành công')
+              getData();
+            })
+            .catch(({ response }) => {
+              if(response.data){
+                errors.title = response.data.title;
+              }else{
+                notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+              }
+            });
+        }
+      }, 1000);
     };
 
     onMounted(() => {
@@ -521,6 +796,13 @@ export default defineComponent({
       // crud
       ModalDelete,
       handleClick,
+      nameType,
+      apiData,
+      submit,
+      validationSchema,
+      modalRef,
+      newTargetTelegramModalRef,
+      errors,
 
       // detials
       customRowTable,
