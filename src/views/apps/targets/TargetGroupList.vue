@@ -44,7 +44,7 @@
           <div class="fw-bold me-5">
             <span class="me-2">{{ selectedIds.length }}</span>Selected
           </div>
-          <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger">
+          <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-sm  btn-danger">
             Delete Selected
           </button>
         </div>
@@ -579,48 +579,65 @@ export default defineComponent({
       if (!submitButtonRef.value) {
         return;
       }
-      //Disable button
-      submitButtonRef.value.disabled = true;
-      // Activate indicator
-      submitButtonRef.value.setAttribute("data-kt-indicator", "on");
 
-      setTimeout(() => {
-        if (submitButtonRef.value) {
-          submitButtonRef.value.disabled = false;
-          submitButtonRef.value?.removeAttribute("data-kt-indicator");
-        }
-        let formData = {
-          'title': apiData.value.title,
-          'description': apiData.value.description
-        }
-        if (typeModal.value == 'add') {
-          return ApiService.post("/targetgroup", formData)
-            .then(({ data }) => {
-              notification(data.detail, 'success', 'Thêm mới thành công')
-              getData();
-            })
-            .catch(({ response }) => {
-              if (response.data) {
-                errors.title = response.data.title;
-              } else {
-                notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-              }
-            });
-        } else {
-          return ApiService.put(`/targetgroup/${id.value}`, formData)
-            .then(({ data }) => {
-              notification(data.detail, 'success', 'Sửa mới thành công')
-              getData();
-            })
-            .catch(({ response }) => {
-              if (response.data) {
-                errors.title = response.data.title;
-              } else {
-                notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-              }
-            });
-        }
-      }, 1000);
+      let formData = {
+        'title': apiData.value.title,
+        'description': apiData.value.description
+      }
+      if (typeModal.value == 'add') {
+        return ApiService.post("/targetgroup", formData)
+          .then(({ data }) => {
+            if(submitButtonRef.value){
+              //Disable button
+              submitButtonRef.value.disabled = true;
+              // Activate indicator
+              submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+
+              setTimeout(() => {
+                if (submitButtonRef.value) {
+                  submitButtonRef.value.disabled = false;
+                  submitButtonRef.value?.removeAttribute("data-kt-indicator");
+                }
+                notification(data.detail, 'success', 'Thêm mới thành công')
+                getData();
+              }, 1000);
+            }
+          })
+          .catch(({ response }) => {
+            if (response.data) {
+              errors.title = response.data.title;
+            } else {
+              notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+            }
+          });
+      } else {
+        return ApiService.put(`/targetgroup/${id.value}`, formData)
+          .then(({ data }) => {
+            if(submitButtonRef.value){
+              //Disable button
+              submitButtonRef.value.disabled = true;
+              // Activate indicator
+              submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+
+              setTimeout(() => {
+                if (submitButtonRef.value) {
+                  submitButtonRef.value.disabled = false;
+                  submitButtonRef.value?.removeAttribute("data-kt-indicator");
+                }
+                notification(data.detail, 'success', 'Sửa mới thành công')
+                getData();
+              }, 1000);
+            }
+          })
+          .catch(({ response }) => {
+            if (response.data) {
+              errors.title = response.data.title;
+            } else {
+              notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+            }
+          });
+      }
+
     };
 
     const formatDate = (date: string) => {
