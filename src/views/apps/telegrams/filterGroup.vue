@@ -39,14 +39,12 @@
   
           <!--begin::Input-->
           <div>
-            <select
-              class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
+            <Multiselect class="bg-light multiselect-blue text-gray-600"
               v-model="data.type"
-            >
-              <option label="Chọn kiểu" value="">Chọn kiểu</option>
-              <option label="DB Leak" value="1">DB Leak</option>
-              <option label="Hacker News" value="2">Hacker News</option>
-            </select>
+              :options="{'':'Chọn kiểu','1':'DB Leak','2':'Hacker News' }"
+              locale="de"
+              fallback-locale="en"
+            />
           </div>
           <!--end::Input-->
           
@@ -62,14 +60,13 @@
   
           <!--begin::Input-->
           <div>
-            <select
-              class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
+            <Multiselect class="bg-light multiselect-blue text-gray-600"
               v-model="data.status"
-            >
-              <option label="Chọn trạng thái" value="">Chọn trạng thái</option>
-              <option label="Có thể đồng bộ" value="0">Có thể đồng bộ</option>
-              <option label="không đồng bộ" value="1">không đồng bộ</option>
-            </select>
+              :options="options"
+              locale="de"
+              fallback-locale="en"
+            />
+
           </div>
           <!--end::Input-->
           
@@ -106,7 +103,8 @@
   </template>
   
   <script lang="ts">
-import { defineComponent, ref  } from "vue";
+import { defineComponent, watch ,ref  } from "vue";
+import Multiselect from '@vueform/multiselect'
 
   interface Filter {
     type: string | null;
@@ -116,34 +114,31 @@ import { defineComponent, ref  } from "vue";
   
   export default defineComponent({
     name: "filter-scan",
-    // props: {
-    //   status: { type: String , required: false },
-    //   severity: { type: Number, required: false },
-    //   ip: { type: String, required: false },
-    //   typeIp: { type: String, default: 'equal' },
-    //   domain: { type: String, required: false },
-    //   typeDomain: { type: String, default: 'equal' }
-    // },
-    components: {},
+    components: {
+      Multiselect,
+    },
     emits: [
       "filter-data"
     ],
     setup(props, { emit }) {
+      const options = ref<object>({
+        '':'Chọn trạng thái',
+        '0':'Có thể đồng bộ',
+        '1':'không đồng bộ'
+      });
+
       const data = ref<Filter>({
         type: '',
         query: '',
         status: '',
       });
 
-      // watch(
-      //   data.value,
-      //   (data) => {
-      //     emit("on-items-per-page-change", data);
-      //     console.log(data, '123')
-      //   }
-      // );
-
-      // const emit = defineEmits(['filter-data'])
+      watch(
+        data.value,
+        (data) => {
+          console.log(data, '123')
+        }
+      );
 
       const submit = async () => {
         emit("filter-data", data.value);
@@ -158,10 +153,29 @@ import { defineComponent, ref  } from "vue";
   
       return {
         data,
+        options,
         submit,
         reset,
       };
     },
   });
   </script>
+
+  <style>
+
+.multiselect-blue .multiselect-option.is-selected {
+  background: #e6f7ff !important;
+  font-weight: 500;
+}
+
+.multiselect-blue .multiselect-option{
+  color: #5e6278;
+  font-size: 14px;
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+}
+
+.multiselect>* {
+    font-size: 14px !important;
+}
+</style>
   
