@@ -32,8 +32,8 @@ const MainMenuConfig: Array<MenuItem> = [
       {
         heading: "Quản lý mục tiêu",
         route: "/target-list",
-        keenthemesIcon: "bi bi-diagram-3",
-        bootstrapIcon: "bi bi-diagram-3",
+        keenthemesIcon: "bi bi-life-preserver",
+        bootstrapIcon: "bi bi-life-preserver",
       },
       {
         heading: "Quản lý nhóm mục tiêu",
