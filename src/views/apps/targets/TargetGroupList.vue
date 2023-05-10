@@ -5,13 +5,13 @@
     <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
       <!--begin::Card title-->
       <!-- <div class="card-title"> -->
-        <!--begin::Search-->
-        <!-- <div class="d-flex align-items-center position-relative my-1">
+      <!--begin::Search-->
+      <!-- <div class="d-flex align-items-center position-relative my-1">
           <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
           <input type="text" data-kt-subscription-table-filter="search" :value="query" @input="setQuery"
             class="form-control form-control-solid w-250px ps-14" placeholder="Search Subscriptions" v-debounce:1000ms="getData" />
         </div> -->
-        <!--end::Search-->
+      <!--end::Search-->
       <!-- </div> -->
       <!--begin::Card title-->
 
@@ -20,13 +20,8 @@
         <!--begin::Toolbar-->
         <div v-if="selectedIds.length === 0" class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
           <!--begin::Export-->
-          <button
-              type="button"
-              class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-              data-kt-menu-trigger="click"
-              data-kt-menu-placement="bottom-end"
-              data-kt-menu-flip="top-end"
-            >
+          <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
             <KTIcon icon-name="filter" icon-class="fs-2" />
             Filter
           </button>
@@ -36,11 +31,11 @@
 
           <!--begin::Add subscription-->
           <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'add')">
+            data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
             <KTIcon icon-name="plus" icon-class="fs-2" />
             Thêm
           </button>
-          <!--end::Add subscription--> 
+          <!--end::Add subscription-->
         </div>
         <!--end::Toolbar-->
 
@@ -49,7 +44,7 @@
           <div class="fw-bold me-5">
             <span class="me-2">{{ selectedIds.length }}</span>Selected
           </div>
-          <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger">
+          <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger">
             Delete Selected
           </button>
         </div>
@@ -62,8 +57,8 @@
     <!--begin::Card body-->
     <div class="card-body pt-0 hand-height-2 overflow-scroll h-100">
       <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
-        :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
-        @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+        :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
+        @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
 
         <!-- <template v-slot:customRow="{ row: customer }">
           <span v-if="customer.id">{{ customer.id }}</span>
@@ -71,7 +66,8 @@
         </template> -->
 
         <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-        <template v-slot:title="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{ customer.title }}</span></template>
+        <template v-slot:title="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{
+          customer.title }}</span></template>
         <template v-slot:target_count="{ row: customer }">
           <div class="badge badge-light">{{ customer.target_count ?? 0 }}</div>
         </template>
@@ -82,12 +78,12 @@
           <div class="badge badge-light">{{ customer.service_count ?? 0 }}</div>
         </template>
         <template v-slot:actions="{ row: customer }">
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
+            data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group" @click="handleClick(customer, 'edit')">
             <KTIcon icon-name="pencil" icon-class="fs-3" />
           </button>
         </template>
-       
+
       </KTDatatable>
     </div>
     <!--end::Card body-->
@@ -96,8 +92,7 @@
 
 
   <!-- modal  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group"    
-    ref="newTargetGroupModalRef" aria-hidden="true">
+  <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <!--begin::Modal content-->
@@ -109,10 +104,7 @@
           <!--end::Modal title-->
 
           <!--begin::Close-->
-          <div
-            class="btn btn-sm btn-icon btn-active-color-primary"
-            data-bs-dismiss="modal"
-          >
+          <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
             <KTIcon icon-name="cross" icon-class="fs-1" />
           </div>
           <!--end::Close-->
@@ -120,45 +112,25 @@
         <!--end::Modal header-->
 
         <!--begin::Form-->
-        <VForm
-          id="kt_modal_new_target_group_form"
-          class="form"
-          @submit="submit"
-          :validation-schema="validationSchema"
-        >
+        <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit" :validation-schema="validationSchema">
           <!--begin::Modal body-->
           <div class="modal-body py-10 px-lg-17">
             <!--begin::Scroll-->
-            <div
-              class="scroll-y me-n7 pe-7"
-              id="kt_modal_new_target_group_scroll"
-              data-kt-scroll="true"
-              data-kt-scroll-activate="{default: false, lg: true}"
-              data-kt-scroll-max-height="auto"
+            <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
+              data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
               data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
-              data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll"
-              data-kt-scroll-offset="300px"
-            >
+              data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
               <!--begin::Input group-->
               <div class="mb-5 fv-row">
                 <!--begin::Label-->
                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                <span class="required">Tên nhóm mục tiêu</span>
-                <i
-                  class="fas fa-exclamation-circle ms-2 fs-7"
-                  data-bs-toggle="tooltip"
-                  title="Bắt buộc phải nhập"
-                ></i>
-              </label>
+                  <span class="required">Tên nhóm mục tiêu</span>
+                  <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Bắt buộc phải nhập"></i>
+                </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <Field
-                  type="text" 
-                  class="form-control form-control-solid"
-                  placeholder="Nhập nhóm mục tiêu"
-                  name="title"
-                  v-model="apiData.title"
-                />
+                <Field type="text" class="form-control form-control-solid" placeholder="Nhập nhóm mục tiêu" name="title"
+                  v-model="apiData.title" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="title" />
@@ -176,14 +148,8 @@
                 <!--end::Label-->
 
                 <!--begin::Input-->
-                <Field
-                  as="textarea"
-                  class="form-control form-control-solid"
-                  rows="5" 
-                  name="description"
-                  placeholder="Nhập mô tả nhóm mục tiêu"
-                  v-model="apiData.description"
-                />
+                <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
+                  placeholder="Nhập mô tả nhóm mục tiêu" v-model="apiData.description" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="description" />
@@ -200,29 +166,19 @@
           <!--begin::Modal footer-->
           <div class="modal-footer flex-center">
             <!--begin::Button-->
-            <button
-              ref="discardButtonRef"
-              type="reset"
-              id="kt_modal_new_target_group_cancel"
-              class="btn btn-sm  btn-light me-3"
-            >
+            <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
+              class="btn btn-sm  btn-light me-3">
               Discard
             </button>
             <!--end::Button-->
 
             <!--begin::Button-->
-            <button
-              ref="submitButtonRef"
-              type="submit"
-              id="kt_modal_new_target_group_submit"
-              class="btn btn-sm  btn-primary"
-            >
+            <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
+              class="btn btn-sm  btn-primary">
               <span class="indicator-label"> Submit </span>
               <span class="indicator-progress">
                 Please wait...
-                <span
-                  class="spinner-border spinner-border-sm align-middle ms-2"
-                ></span>
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             </button>
             <!--end::Button-->
@@ -236,9 +192,8 @@
     <!--end::Modal dialog-->
   </div>
 
-<!-- modal delete  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_delete"    
-    ref="ModalDelete" aria-hidden="true">
+  <!-- modal delete  -->
+  <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered">
       <!--begin::Modal content-->
@@ -248,26 +203,19 @@
           <h5 class="modal-title">Xác nhận xóa nhóm mục tiêu</h5>
 
           <!--begin::Close-->
-          <div
-            class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
+          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
             <span class="svg-icon svg-icon-2x"></span>
           </div>
           <!--end::Close-->
         </div>
         <!--begin::Form-->
         <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }} </span> bản ghi này không?.</p>
+          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }}
+            </span> bản ghi này không?.</p>
         </div>
         <!--end::Form-->
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-sm  btn-light"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-sm  btn-light" data-bs-dismiss="modal">
             Hủy bỏ
           </button>
           <button type="button" class="btn btn-sm  btn-primary" @click.passive="deleteFewSubscriptions()">
@@ -281,113 +229,113 @@
   </div>
 
   <!-- modal detail  -->
-  <div class="modal fade" tabindex="-1" 
-      ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-      <!--begin::Modal dialog-->
-      <div class="modal-dialog modal-dialog-centered">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-          <!--begin::Form-->
-          <div class="modal-body">
-            <!--begin::Card-->
-            <div class="card card-flush pt-3 mb-5 mb-xl-10">
-                <!--begin::Card header-->
-                <div class="card-header">
-                  <!--begin::Card title-->
-                  <div class="card-title">
-                    <h1 class="fw-bold">{{ detailData.title }}</h1>
-                  </div>
-                  <!--begin::Card toolbar-->
-                  <div class="card-toolbar">
-                    <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
-                      data-bs-target="#kt_modal_new_target_group"  @click="handleClick(detailData, 'edit')">
-                      <KTIcon icon-name="pencil" icon-class="fs-3" /> Update
-                    </button>
-                  </div>
-                  <!--end::Card toolbar-->
-                </div>
-                <!--end::Card header-->
+  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <!--begin::Modal content-->
+      <div class="modal-content">
+        <!--begin::Form-->
+        <div class="modal-body">
+          <!--begin::Card-->
+          <div class="card card-flush pt-3 mb-5 mb-xl-10">
+            <!--begin::Card header-->
+            <div class="card-header">
+              <!--begin::Card title-->
+              <div class="card-title">
+                <h1 class="fw-bold">{{ detailData.title }}</h1>
+              </div>
+              <!--begin::Card toolbar-->
+              <div class="card-toolbar">
+                <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
+                  data-bs-target="#kt_modal_new_target_group" @click="handleClick(detailData, 'edit')">
+                  <KTIcon icon-name="pencil" icon-class="fs-3" /> Update
+                </button>
+              </div>
+              <!--end::Card toolbar-->
+            </div>
+            <!--end::Card header-->
 
-                <!--begin::Card body-->
-                <div class="card-body py-0">
-                  <!--begin::Section-->
-                  <div class="mb-10">
-                    <!--begin::Title-->
-                    <h5>Thông tin chi tiết:</h5>
-                    <!--end::Title-->
-
+            <!--begin::Card body-->
+            <div class="card-body py-0">
+              <!--begin::Section-->
+              <div class="mb-10">
+                <!--begin::Title-->
+                <h5>Thông tin chi tiết:</h5>
+                <!--end::Title-->
+                <!--begin::Details-->
+                <div class="d-flex flex-wrap py-5">
+                  <!--begin::Row-->
+                  <div class="flex-equal me-5">
                     <!--begin::Details-->
-                    <div class="d-flex flex-wrap py-5">
+                    <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
                       <!--begin::Row-->
-                      <div class="flex-equal me-5">
-                        <!--begin::Details-->
-                        <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-
-                          <!--begin::Row-->
-                          <tr>
-                            <td class="text-gray-400">Mô tả:</td>
-                            <td class="text-gray-800">{{ detailData.description ?? 'null' }}</td>
-                          </tr>
-                          <!--end::Row-->
-
-                          <!--begin::Row-->
-                          <tr>
-                            <td class="text-gray-400">Mục tiêu:</td>
-                            <td class="text-gray-800 badge badge-light pe-2">{{ detailData.target_count ?? 0 }} </td>
-                          </tr>
-                          <!--end::Row-->
-
-                          <!--begin::Row-->
-                          <tr>
-                            <td class="text-gray-400">Lỗ hổng :</td>
-                            <td class="text-gray-800  badge badge-light pe-2" >{{ detailData.flaw_count ?? 0 }}</td>
-                          </tr>
-                          <!--end::Row-->
-                          <!--begin::Row-->
-                          <tr>
-                            <td class="text-gray-400">Dịch vụ :</td>
-                            <td class="text-gray-800 badge badge-light pe-2">{{ detailData.service_count ?? 0 }}</td>
-                          </tr>
-                          <!--end::Row-->
-                          <!--begin::Row-->
-                            <tr>
-                            <td class="text-gray-400">Ngày tạo :</td>
-                            <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
-                          </tr>
-                          <!--end::Row-->
-                          <!--begin::Row-->
-                            <tr>
-                            <td class="text-gray-400">Ngày sửa :</td>
-                            <td class="text-gray-800">{{ formatDate(detailData.modified_at) }}</td>
-                          </tr>
-                          <!--end::Row-->
-                          
-                        </table>
-                        <!--end::Details-->
-                      </div>
+                      <tr>
+                        <td class="text-gray-400">Số mục tiêu:</td>
+                        <td class="text-gray-800 badge badge-light pe-2">{{ detailData.target_count ?? 0 }} </td>
+                      </tr>
                       <!--end::Row-->
 
+                      <!--begin::Row-->
+                      <tr>
+                        <td class="text-gray-400">Số lỗ hổng:</td>
+                        <td class="text-gray-800  badge badge-light pe-2">{{ detailData.flaw_count ?? 0 }}</td>
+                      </tr>
+                      <!--end::Row-->
+                      <!--begin::Row-->
+                      <tr>
+                        <td class="text-gray-400">Số dịch vụ:</td>
+                        <td class="text-gray-800 badge badge-light pe-2">{{ detailData.service_count ?? 0 }}</td>
+                      </tr>
+                      <!--end::Row-->
+                      <!--begin::Row-->
+                      <tr>
+                        <td class="text-gray-400">Ngày tạo:</td>
+                        <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
+                      </tr>
+                      <!--end::Row-->
+                      <!--begin::Row-->
+                      <tr>
+                        <td class="text-gray-400">Ngày cập nhật cuối:</td>
+                        <td class="text-gray-800">{{ formatDate(detailData.modified_at) }}</td>
+                      </tr>
+                      <!--end::Row-->
+                    </table>
+                    <!--end::Details-->
+                    <!--begin::Label-->
+                    <label class="fs-6 fw-semobold mb-2 text-gray-400">Mô tả:</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
+                      placeholder="Mô tả nhóm mục tiêu" v-model="detailData.description" disabled/>
+                    <div class="fv-plugins-message-container">
+                      <div class="fv-help-block">
+                        <ErrorMessage name="description" />
+                      </div>
                     </div>
-                    <!--end::Row-->
+                    <!--end::Input-->
                   </div>
-                  <!--end::Section-->
-                </div>
-                <!--end::Card body-->
-              </div>
-              <!--end::Card-->
-          </div>
-          <!--end::Form-->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
-              Quay lại
-            </button>
-          </div>
-        </div>
-        <!--end::Modal content-->
-      </div>
-      <!--end::Modal dialog-->
-    </div>
+                  <!--end::Row-->
 
+                </div>
+                <!--end::Row-->
+              </div>
+              <!--end::Section-->
+            </div>
+            <!--end::Card body-->
+          </div>
+          <!--end::Card-->
+        </div>
+        <!--end::Form-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
+            Quay lại
+          </button>
+        </div>
+      </div>
+      <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
+  </div>
 </template>
 
 <script lang="ts">
@@ -399,14 +347,14 @@ import ApiService from "@/core/services/ApiService";
 
 // validate
 import { hideModal } from "@/core/helpers/dom";
-import { ErrorMessage, Field, Form  as VForm } from "vee-validate";
+import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 import Fillter from "@/views/apps/targets/filters.vue";
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
-import {Modal} from "bootstrap";
+import { Modal } from "bootstrap";
 import dayjs from 'dayjs';
 
 interface APIData {
@@ -425,7 +373,7 @@ export default defineComponent({
     Fillter,
   },
   directives: {
-      debounce: vue3Debounce({ lock: true })
+    debounce: vue3Debounce({ lock: true })
   },
   setup() {
     const list = ref<object | any>([])
@@ -446,11 +394,11 @@ export default defineComponent({
       description: '',
 
     });
-    const errors = reactive({title: ''});
+    const errors = reactive({ title: '' });
     const detailData = reactive({
-      id: '', 
-      title: '', 
-      description:'',
+      id: '',
+      title: '',
+      description: '',
       modified_at: '',
       service_count: '',
       target_count: '',
@@ -500,12 +448,12 @@ export default defineComponent({
     const handleClick = (data: object | any, type: String) => {
       typeModal.value = type
       errors.title = ''
-      if(Object.keys(data).length != 0 && type === 'edit'){
+      if (Object.keys(data).length != 0 && type === 'edit') {
         nameType.value = "Sửa nhóm mục tiêu"
         apiData.value.title = data.title;
         apiData.value.description = data.description;
         id.value = data.id;
-      }else{
+      } else {
         nameType.value = "Thêm Mới nhóm mục tiêu"
         if (discardButtonRef.value !== null) {
           discardButtonRef.value.click();
@@ -532,7 +480,7 @@ export default defineComponent({
 
     const getData = () => {
       loading.value = true;
-      setTimeout(() => loading.value = false ,500)
+      setTimeout(() => loading.value = false, 500)
       return ApiService.get(`targetgroup/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&orderingTarget=${orderingTarget.value}&orderingID=${orderingID.value}&orderingServer=${orderingServer.value}&orderingflaw=${orderingflaw.value}`)
         .then(({ data }) => {
           list.value = data.results
@@ -550,7 +498,7 @@ export default defineComponent({
 
     const ModalDelete = ref<null | HTMLElement>(null);
     const deleteSubscription = (ids: Array<number>) => {
-      if(ids){
+      if (ids) {
         return ApiService.delete(`targetgroup/${ids}`)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
@@ -564,13 +512,13 @@ export default defineComponent({
     };
 
     const sort = (sort: Sort) => {
-      if(sort.label){
-        orderingID.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
+      if (sort.label) {
+        orderingID.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}`;
       }
       getData();
     };
     const customRowTable = (detail: any) => {
-      if(detail){
+      if (detail) {
         detailData.id = detail.id
         detailData.title = detail.title
         detailData.description = detail.description
@@ -583,7 +531,7 @@ export default defineComponent({
           document.getElementById("kt_modal_detail") as Element
         );
         modal.show();
-      }else{
+      } else {
         notification('', 'error', 'Có lỗi xảy ra')
       }
     };
@@ -601,9 +549,9 @@ export default defineComponent({
 
     const validationSchema = Yup.object().shape({
       title: Yup.string()
-      .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
-      .min(3, 'Tối thiểu 3 kí tự')
-      .required('Vui lòng nhập tên')
+        .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
+        .min(3, 'Tối thiểu 3 kí tự')
+        .required('Vui lòng nhập tên')
     });
 
     const notification = (values: string, icon: string, more: string) => {
@@ -618,8 +566,8 @@ export default defineComponent({
         },
       }).then(() => {
         hideModal(newTargetGroupModalRef.value);
-        hideModal( ModalDelete.value);
-        hideModal( ModalDetail.value);
+        hideModal(ModalDelete.value);
+        hideModal(ModalDetail.value);
       });
     }
 
@@ -641,29 +589,29 @@ export default defineComponent({
           'title': apiData.value.title,
           'description': apiData.value.description
         }
-        if(typeModal.value == 'add'){
+        if (typeModal.value == 'add') {
           return ApiService.post("/targetgroup", formData)
             .then(({ data }) => {
-              notification(data.detail,'success','Thêm mới thành công')
+              notification(data.detail, 'success', 'Thêm mới thành công')
               getData();
             })
             .catch(({ response }) => {
-              if(response.data){
+              if (response.data) {
                 errors.title = response.data.title;
-              }else{
+              } else {
                 notification(response.data.detail, 'error', 'Có lỗi xảy ra')
               }
             });
-        }else{
+        } else {
           return ApiService.put(`/targetgroup/${id.value}`, formData)
             .then(({ data }) => {
               notification(data.detail, 'success', 'Sửa mới thành công')
               getData();
             })
             .catch(({ response }) => {
-              if(response.data){
+              if (response.data) {
                 errors.title = response.data.title;
-              }else{
+              } else {
                 notification(response.data.detail, 'error', 'Có lỗi xảy ra')
               }
             });
@@ -673,7 +621,7 @@ export default defineComponent({
 
     const formatDate = (date: string) => {
       if (date === "false" || date === "null") {
-          return '--:--';
+        return '--:--';
       }
       const dateFormat = 'DD/MM/YYYY HH:mm:ss';
       return dayjs(date).format(dateFormat)
@@ -688,11 +636,11 @@ export default defineComponent({
     }
 
     const handleFilter = (data: any) => {
-      if(data){
+      if (data) {
         query.value = data.query;
         currentPage.value = 1;
         getData();
-      }else{
+      } else {
         notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
       }
 
