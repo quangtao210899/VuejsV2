@@ -601,7 +601,7 @@ export default defineComponent({
 
     const validationSchema = Yup.object().shape({
       title: Yup.string()
-      .matches(PatternTargetGroup, 'Tên nhóm không được chứa chữ số và ký tự đặc biệt')
+      .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
       .min(3, 'Tối thiểu 3 kí tự')
       .required('Vui lòng nhập tên')
     });
