@@ -315,7 +315,6 @@ export default defineComponent({
     const { t, te } = useI18n();
     const route = useRoute();
     const hasActiveChildren = (match: string) => {
-      console.log(route.path, match)
       return route.path.indexOf(match) !== -1;
     };
     const translate = (text: string) => {

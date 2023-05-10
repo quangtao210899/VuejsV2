@@ -17,6 +17,15 @@ const routes: Array<RouteRecordRaw> = [
     },    
     children: [
       {
+        path: "/target-list",
+        name: "target-list",
+        component: () => import("@/views/apps/targets/TargetList.vue"),
+        meta: {
+          pageTitle: "Quản lý mục tiêu",
+          breadcrumbs: ["Target"],
+        },
+      },
+      {
         path: "/target-group",
         name: "target-group",
         component: () => import("@/views/apps/targets/TargetGroupList.vue"),
@@ -25,7 +34,6 @@ const routes: Array<RouteRecordRaw> = [
           breadcrumbs: ["Target", "TargetGroup"],
         },
       },
-      
     ],
   },
   {

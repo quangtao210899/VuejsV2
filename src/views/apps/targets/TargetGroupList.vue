@@ -306,7 +306,7 @@
                     <!--end::Label-->
                     <!--begin::Input-->
                     <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
-                      placeholder="Mô tả nhóm mục tiêu" v-model="detailData.description" disabled/>
+                      v-model="detailData.description" disabled />
                     <div class="fv-plugins-message-container">
                       <div class="fv-help-block">
                         <ErrorMessage name="description" />
@@ -449,12 +449,12 @@ export default defineComponent({
       typeModal.value = type
       errors.title = ''
       if (Object.keys(data).length != 0 && type === 'edit') {
-        nameType.value = "Sửa nhóm mục tiêu"
+        nameType.value = "Chỉnh sửa nhóm mục tiêu"
         apiData.value.title = data.title;
         apiData.value.description = data.description;
         id.value = data.id;
       } else {
-        nameType.value = "Thêm Mới nhóm mục tiêu"
+        nameType.value = "Thêm mới nhóm mục tiêu"
         if (discardButtonRef.value !== null) {
           discardButtonRef.value.click();
         }
@@ -474,6 +474,7 @@ export default defineComponent({
     };
 
     const handlePerPage = (itemsPage: number) => {
+      currentPage.value = 1
       itemsPerPage.value = itemsPage ?? 20;
       getData();
     };
@@ -502,6 +503,7 @@ export default defineComponent({
         return ApiService.delete(`targetgroup/${ids}`)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
+            currentPage.value = 1;
             selectedIds.value.length = 0;
             getData();
           })
