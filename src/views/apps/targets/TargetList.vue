@@ -46,7 +46,7 @@
                     <div class="fw-bold me-5">
                         <span class="me-2">{{ selectedIds.length }}</span>Selected
                     </div>
-                    <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger">
+                    <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
                         Delete Selected
                     </button>
                 </div>
