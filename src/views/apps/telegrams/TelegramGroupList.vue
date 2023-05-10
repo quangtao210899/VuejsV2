@@ -615,7 +615,7 @@ export default defineComponent({
     const deleteSubscription = (ids: Array<number>) => {
       console.log(ids)
       if(ids){
-        return ApiService.delete(`telegram/group/${ids}/delete`)
+        return ApiService.delete(`telegram/group/multi-delete?id=${ids.join()}`)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
             selectedIds.value.length = 0;
