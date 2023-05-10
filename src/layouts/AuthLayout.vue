@@ -18,13 +18,13 @@
       <!--begin::Footer-->
       <div class="d-flex flex-center flex-wrap px-5">
         <!--begin::Links-->
-        <div class="d-flex fw-semibold text-primary fs-base">
+        <!-- <div class="d-flex fw-semibold text-primary fs-base">
           <a href="#" class="px-5" target="_blank">Terms</a>
 
           <a href="#" class="px-5" target="_blank">Plans</a>
 
           <a href="#" class="px-5" target="_blank">Contact Us</a>
-        </div>
+        </div> -->
         <!--end::Links-->
       </div>
       <!--end::Footer-->
@@ -34,9 +34,7 @@
     <!--begin::Aside-->
     <div
       class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2"
-      :style="`background-image: url('${getAssetPath(
-        '/media/misc/auth-bg.png'
-      )}')`"
+      :style="`background-image: url('/media/misc/auth-bg.png')`"
     >
       <!--begin::Content-->
       <div
