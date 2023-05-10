@@ -38,6 +38,17 @@
           <Fillter @filterData="handleFilter"></Fillter>
           <!--begin::Add subscription-->
           <!--end::Add subscription-->
+          <button type="button" class="btn btn-sm fw-bold btn-primary me-2" data-bs-toggle="modal"
+            data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'setting')">
+            <KTIcon icon-name="setting-2" icon-class="fs-2" />
+            Cấu hình
+          </button>
+
+          <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary me-2" data-bs-toggle="modal"
+            data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'sync')">
+            <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
+            Đồng bộ All
+          </button>
 
           <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'add')">
@@ -70,7 +81,7 @@
     <div class="hand-height-2 shadow-hvover">
       <!--begin::Card body-->
       <div class="card-body pt-0 overflow-scroll h-100 ">
-        <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
+        <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
           :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
           @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
           <template v-slot:id="{ row: customer }">{{ customer.id ?? '--' }}</template>
@@ -82,15 +93,17 @@
             <div class="badge badge-light">{{ customer.total_message ?? 0 }}</div>
           </template>
           <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--' }}</template>
-          <template v-slot:status="{ row: customer }">{{ customer.status ?? '--' }}</template>
+          <template v-slot:status="{ row: customer }">
+            <KTIcon :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
+          </template>
           <template v-slot:actions="{ row: customer }">
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
-            <KTIcon icon-name="pencil" icon-class="fs-3" />
+            <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
           </button>
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
-            <KTIcon icon-name="pencil" icon-class="fs-3" />
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" data-bs-toggle="modal"
+            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'view')">
+            <KTIcon icon-name="eye" icon-class="fs-3" />
           </button>
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
@@ -263,9 +276,10 @@ import { vue3Debounce } from 'vue-debounce';
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import dayjs from 'dayjs';
-import Fillter from "@/views/apps/telegrams/filters.vue";
+import Fillter from "@/views/apps/telegrams/filterGroup.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import {Modal} from "bootstrap";
+import type { Sort } from "@/components/kt-datatable/table-partials/models";
 
 interface APIData {
   title: string;
@@ -293,7 +307,8 @@ export default defineComponent({
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
-    const group_type = ref<String | null>('');
+    const filterType = ref<String | null>('');
+    const filterStatus = ref<String | null>('');
     const detailData = reactive({
       id: '',
       group_name: '',
@@ -306,6 +321,7 @@ export default defineComponent({
       {
         columnName: "ID",
         columnLabel: "id",
+        sortEnabled: true,
       },
       {
         columnName: "Group",
@@ -313,12 +329,14 @@ export default defineComponent({
         columnWidth: 200,
       },
       {
-        columnName: "Thời gian đồng bộ",
+        columnName: "Thời gian",
         columnLabel: "date_update",
+        sortEnabled: true,
       },
       {
         columnName: "Tổng",
         columnLabel: "total_message",
+        sortEnabled: true,
       },
       {
         columnName: "Kiểu",
@@ -328,11 +346,12 @@ export default defineComponent({
       {
         columnName: "Trạng thái",
         columnLabel: "status",
+        columnWidth: 90,
       },
       {
         columnName: "Actions",
         columnLabel: "actions",
-        columnWidth: 180,
+        columnWidth: 150,
       },
     ]);
 
@@ -350,7 +369,7 @@ export default defineComponent({
     const getData = () => {
       loading.value = true;
       setTimeout(() => loading.value = false ,500)
-      return ApiService.get(`/telegram/group/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
+      return ApiService.get(`/telegram/group/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&status=${filterStatus.value}&type=${filterType.value}&search=${query.value}&orderingID=${sortId.value}&orderingDate=${sortDate.value}&orderingTotal=${sortTotal.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -359,6 +378,23 @@ export default defineComponent({
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         });
     }
+
+    const sortId = ref<string>('');
+    const sortDate = ref<string>('');
+    const sortTotal = ref<string>('');
+    const sort = (sort: Sort) => {
+      console.log(sort)
+      if(sort.label == 'id'){
+        sortId.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
+      }else if(sort.label == 'date_update'){
+        sortDate.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
+      }else if(sort.label == 'total_message'){
+        sortTotal.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
+      }else{
+        notification('Có lỗi xayt ra với sắp sếp', 'error', 'Có lỗi xảy ra')
+      }
+      getData();
+    };
 
     const selectedIds = ref<Array<number>>([]);
     const deleteFewSubscriptions = () => {
@@ -430,7 +466,8 @@ export default defineComponent({
     const handleFilter = (data: any) => {
       if(data){
         query.value = data.query;
-        group_type.value = data.type;
+        filterType.value = data.type;
+        filterStatus.value = data.status;
         currentPage.value = 1;
         getData();
       }else{
@@ -479,6 +516,7 @@ export default defineComponent({
       deleteFewSubscriptions,
       deleteSubscription,
       getAssetPath,
+      sort,
 
       // crud
       ModalDelete,
