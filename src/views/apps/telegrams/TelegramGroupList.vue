@@ -40,8 +40,9 @@
           <!--end::Add subscription-->
 
           <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group" >
-            Nhóm Telegram
+            data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'add')">
+            <KTIcon icon-name="plus" icon-class="fs-2" />
+            Thêm
           </button>
 
         </div>
@@ -73,32 +74,30 @@
           :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
           @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
           <template v-slot:id="{ row: customer }">{{ customer.id ?? '--' }}</template>
-          <template v-slot:group_name="{ row: customer }">
-            <span class="text-dark text-hover-primary fs-6 fw-bold">{{customer.group_name ?? '--' }}</span>
+          <template v-slot:name="{ row: customer }">
+            <span class="text-dark text-hover-primary fw-bold">{{customer.name ?? '--' }}</span>
           </template>
-
-          <template v-slot:username="{ row: customer }">
-            <div class="d-flex align-items-center">
-              <!--begin::Symbol-->
-              <div class="symbol symbol-45px me-5">
-                <span class="symbol-label">
-                  <KTIcon icon-name="user" icon-class="text-success  fs-2x"/>
-                </span>
-              </div>
-              <!--end::Symbol-->
-              <!--begin::Text-->
-              <div class="d-flex flex-column">
-                <span class="text-dark text-hover-primary fs-6 fw-bold">{{customer.username ?? '--' }}</span>
-                <span class="text-muted fw-semobold">{{ customer.phone ?? '--' }}</span>
-              </div>
-              <!--end::Text-->
-            </div>
+          <template v-slot:date_update="{ row: customer }">{{ formatDate(customer.date_update) }}</template>
+          <template v-slot:total_message="{ row: customer }">
+            <div class="badge badge-light">{{ customer.total_message ?? 0 }}</div>
           </template>
-          <template v-slot:text="{ row: customer }">
-            <div><span >{{ customer.text ?? '--' }}</span></div>
-          </template>
-          <template v-slot:date="{ row: customer }">{{ formatDate(customer.date) }}</template>
-        </KTDatatable>
+          <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--' }}</template>
+          <template v-slot:status="{ row: customer }">{{ customer.status ?? '--' }}</template>
+          <template v-slot:actions="{ row: customer }">
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
+            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
+            <KTIcon icon-name="pencil" icon-class="fs-3" />
+          </button>
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
+            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
+            <KTIcon icon-name="pencil" icon-class="fs-3" />
+          </button>
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
+            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
+            <KTIcon icon-name="pencil" icon-class="fs-3" />
+          </button>
+        </template>        
+      </KTDatatable>
       </div>
       <!--end::Card body-->
     </div>
@@ -268,6 +267,11 @@ import Fillter from "@/views/apps/telegrams/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import {Modal} from "bootstrap";
 
+interface APIData {
+  title: string;
+  description: string;
+}
+
 export default defineComponent({
   name: "kt-scans-list",
 
@@ -305,23 +309,31 @@ export default defineComponent({
       },
       {
         columnName: "Group",
-        columnLabel: "group_name",
-        columnWidth: 150,
-      },
-      {
-        columnName: "Tên",
-        columnLabel: "username",
+        columnLabel: "name",
         columnWidth: 200,
       },
       {
-        columnName: "Nội dung",
-        columnLabel: "text",
-        columnWidth: 200,
+        columnName: "Thời gian đồng bộ",
+        columnLabel: "date_update",
       },
       {
-        columnName: "Thời gian",
-        columnLabel: "date",
-      }
+        columnName: "Tổng",
+        columnLabel: "total_message",
+      },
+      {
+        columnName: "Kiểu",
+        columnLabel: "type",
+        columnWidth: 100,
+      },
+      {
+        columnName: "Trạng thái",
+        columnLabel: "status",
+      },
+      {
+        columnName: "Actions",
+        columnLabel: "actions",
+        columnWidth: 180,
+      },
     ]);
 
 
@@ -338,7 +350,7 @@ export default defineComponent({
     const getData = () => {
       loading.value = true;
       setTimeout(() => loading.value = false ,500)
-      return ApiService.get(`/telegram/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
+      return ApiService.get(`/telegram/group/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -415,7 +427,6 @@ export default defineComponent({
       return dayjs(date).format(dateFormat)
     };
 
-
     const handleFilter = (data: any) => {
       if(data){
         query.value = data.query;
@@ -426,6 +437,33 @@ export default defineComponent({
         notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
       }
 
+    };
+
+    // add - edit 
+    const typeModal = ref<String>('');
+    const errors = reactive({title: ''});
+    const nameType = ref<string>('');
+      const apiData = ref<APIData>({
+      title: '',
+      description: '',
+    });
+    const id = ref<number>(0);
+    const discardButtonRef = ref<HTMLElement | null>(null);
+    const handleClick = (data: object | any, type: String) => {
+      typeModal.value = type
+      errors.title = ''
+      if(Object.keys(data).length != 0 && type === 'edit'){
+        nameType.value = "Sửa nhóm mục tiêu"
+        apiData.value.title = data.title;
+        apiData.value.description = data.description;
+        id.value = data.id;
+      }else{
+        nameType.value = "Thêm Mới nhóm mục tiêu"
+        if (discardButtonRef.value !== null) {
+          discardButtonRef.value.click();
+        }
+        // resetData();
+      }
     };
 
     onMounted(() => {
@@ -444,6 +482,7 @@ export default defineComponent({
 
       // crud
       ModalDelete,
+      handleClick,
 
       // detials
       customRowTable,
