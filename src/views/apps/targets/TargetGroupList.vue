@@ -306,7 +306,9 @@
                     <!--end::Label-->
                     <!--begin::Input-->
                     <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
-                      v-model="detailData.description" disabled />
+                      v-model="detailData.description" disabled v-if="detailData.description"/>
+                    <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
+                        v-model="detailData.description" disabled v-else placeholder="Chưa có mô tả"/>
                     <div class="fv-plugins-message-container">
                       <div class="fv-help-block">
                         <ErrorMessage name="description" />
