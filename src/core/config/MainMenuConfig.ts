@@ -42,10 +42,16 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/telegram",
     pages: [
       {
-        heading: "Quản lý nhóm telegram",
+        heading: "Quản lý telegram",
         route: "/telegram",
         keenthemesIcon: "bi bi-telegram",
         bootstrapIcon: "bi bi-telegram",
+      },
+      {
+        heading: "Nhóm telegram",
+        route: "/telegram-group",
+        keenthemesIcon: "profile-user",
+        bootstrapIcon: "profile-user",
       },
     ],
   },
