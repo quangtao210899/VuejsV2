@@ -179,13 +179,13 @@
                   type="text" 
                   class="form-control form-control-solid"
                   placeholder="Nhập nhóm mục tiêu"
-                  name="title"
+                  name="name"
                   v-model="apiData.name"
                 />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
-                    <ErrorMessage name="title" />
-                    <span class="" v-if="errors.title">{{ errors.title[0] }}</span>
+                    <ErrorMessage name="name" />
+                    <span class="" v-if="errors.name">{{ errors.name[0] }}</span>
                   </div>
                 </div>
                 <!--end::Input-->
@@ -553,7 +553,7 @@ export default defineComponent({
         columnWidth: 90,
       },
       {
-        columnName: "Actions",
+        columnName: "Hành động",
         columnLabel: "actions",
         columnWidth: 150,
       },
@@ -613,8 +613,9 @@ export default defineComponent({
 
     const ModalDelete = ref<null | HTMLElement>(null);
     const deleteSubscription = (ids: Array<number>) => {
+      console.log(ids)
       if(ids){
-        return ApiService.delete(`telegram/message/multi-delete?id=${ids}`)
+        return ApiService.delete(`telegram/group/${ids}/delete`)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
             selectedIds.value.length = 0;
@@ -661,7 +662,7 @@ export default defineComponent({
         },
       }).then(() => {
         hideModal( ModalDelete.value);
-        // hideModal( ModalConfirm.value);
+        hideModal( newTargetTelegramModalRef.value);
       });
     };
 
@@ -693,13 +694,13 @@ export default defineComponent({
 
     const validationSchema = Yup.object().shape({
       name: Yup.string()
-      // .min(3, 'Tối thiểu 3 kí tự')
-      // .required('Vui lòng nhập tên')
+      .min(3, 'Tối thiểu 3 kí tự')
+      .required('Vui lòng nhập tên')
     });
 
     // add - edit 
     const typeModal = ref<String>('');
-    const errors = reactive({title: ''});
+    const errors = reactive({name: ''});
     const nameType = ref<string>('');
     const apiData = ref<APIData>({
       name: '',
@@ -708,9 +709,10 @@ export default defineComponent({
     });
     const id = ref<number>(0);
     const discardButtonRef = ref<HTMLElement | null>(null);
+
     const handleClick = (data: object | any, type: String) => {
       typeModal.value = type
-      errors.title = ''
+      errors.name = ''
       if(Object.keys(data).length != 0 && type === 'edit'){
         nameType.value = "Sửa nhóm nhóm Telegram"
         apiData.value.name = data.name;
@@ -731,51 +733,69 @@ export default defineComponent({
       if (!submitButtonRef.value) {
         return;
       }
-      //Disable button
-      submitButtonRef.value.disabled = true;
-      // Activate indicator
-      submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+      let formData = {
+        name: apiData.value.name,
+        type: apiData.value.type,
+        status: (apiData.value.status ==  true) ? 0 : 1 
+      }
+      console.log(formData)
 
-      setTimeout(() => {
-        if (submitButtonRef.value) {
-          submitButtonRef.value.disabled = false;
-          submitButtonRef.value?.removeAttribute("data-kt-indicator");
-        }
-        let formData = {
-          name: apiData.value.name,
-          type: apiData.value.type,
-          status: (apiData.value.status ==  true) ? 0 : 1 
-        }
-        if(typeModal.value == 'add'){
-          console.log(formData)
+      if(typeModal.value == 'add'){
+        console.log(formData)
 
-          return ApiService.post("/telegram/group/create", formData)
-            .then(({ data }) => {
-              notification(data.detail,'success','Thêm mới thành công')
-              getData();
-            })
-            .catch(({ response }) => {
-              if(response.data){
-                errors.title = response.data.title;
-              }else{
-                notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+        return ApiService.post("/telegram/group/create", formData)
+          .then(({ data }) => {
+            if(submitButtonRef.value){
+            //Disable button
+            submitButtonRef.value.disabled = true;
+            // Activate indicator
+            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+            setTimeout(() => {
+              if (submitButtonRef.value) {
+                submitButtonRef.value.disabled = false;
+                submitButtonRef.value?.removeAttribute("data-kt-indicator");
+                notification(data.detail,'success','Thêm mới thành công')
+                getData();
               }
-            });
-        }else{
-          return ApiService.put(`/telegram/group/${id.value}/update`, formData)
-            .then(({ data }) => {
-              notification(data.detail, 'success', 'Sửa mới thành công')
-              getData();
-            })
-            .catch(({ response }) => {
-              if(response.data){
-                errors.title = response.data.title;
-              }else{
-                notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+            }, 1000);
+            }
+          })
+          .catch(({ response }) => {
+            if(response.data){
+              errors.name = response.data.name;
+            }else{
+              notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+            }
+          });
+      }else{
+        return ApiService.put(`/telegram/group/${id.value}/update`, formData)
+          .then(({ data }) => {
+            if(submitButtonRef.value){
+            //Disable button
+            submitButtonRef.value.disabled = true;
+            // Activate indicator
+            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+            setTimeout(() => {
+              if (submitButtonRef.value) {
+                submitButtonRef.value.disabled = false;
+                submitButtonRef.value?.removeAttribute("data-kt-indicator");
+                notification(data.detail, 'success', 'Sửa mới thành công')
+                getData();
               }
-            });
-        }
-      }, 1000);
+            }, 1000);
+            }
+
+          })
+          .catch(({ response }) => {
+            if(response.data){
+              errors.name = response.data.name;
+            }else{
+              notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+            }
+          });
+      }
+
+
     };
 
     onMounted(() => {
@@ -803,6 +823,8 @@ export default defineComponent({
       modalRef,
       newTargetTelegramModalRef,
       errors,
+      submitButtonRef,
+      discardButtonRef,
 
       // detials
       customRowTable,
