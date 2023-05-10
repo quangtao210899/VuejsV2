@@ -26,7 +26,7 @@ const MainMenuConfig: Array<MenuItem> = [
     ],
   },
   {
-    heading: "target",
+    heading: "Target",
     route: "/target",
     pages: [
       {
@@ -38,12 +38,12 @@ const MainMenuConfig: Array<MenuItem> = [
     ],
   },
   {
-    heading: "telegram",
+    heading: "Telgram",
     route: "/telegram",
     pages: [
       {
         heading: "Quản lý telegram",
-        route: "/telegram",
+        route: "/telegram-list",
         keenthemesIcon: "bi bi-telegram",
         bootstrapIcon: "bi bi-telegram",
       },

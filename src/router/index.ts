@@ -57,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
     },    
     children: [
       {
-        path: "/telegram",
+        path: "/telegram-list",
         name: "telegram",
         component: () => import("@/views/apps/telegrams/TelegramList.vue"),
         meta: {

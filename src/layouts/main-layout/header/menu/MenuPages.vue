@@ -25,7 +25,7 @@
         class="menu-link py-3"
         :class="{ active: hasActiveChildren(item.route) }"
       >
-        <span class="menu-title">{{ translate(item.heading) }}</span>
+        <span class="menu-title">{{ translate(item.heading)}}</span>
         <span class="menu-arrow d-lg-none"></span>
       </span>
       <div
@@ -125,7 +125,7 @@
           </div>
           <div v-if="menuItem.heading" class="menu-item">
             <router-link
-              v-if="menuItem.route && menuItem.route"
+              v-if="menuItem.route"
               class="menu-link"
               active-class="active"
               :to="menuItem.route"
@@ -133,7 +133,7 @@
               <span class="menu-icon">
                 <KTIcon icon-name="element-8" icon-class="fs-2" />
               </span>
-              <span class="menu-title">{{ translate(menuItem.heading) }}</span>
+              <span class="menu-title">{{ translate(menuItem.heading)}}</span>
             </router-link>
           </div>
         </template>
@@ -314,11 +314,10 @@ export default defineComponent({
   setup() {
     const { t, te } = useI18n();
     const route = useRoute();
-
     const hasActiveChildren = (match: string) => {
+      console.log(route.path, match)
       return route.path.indexOf(match) !== -1;
     };
-
     const translate = (text: string) => {
       if (te(text)) {
         return t(text);
