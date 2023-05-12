@@ -53,7 +53,7 @@
               <!--end::Label-->
 
               <Field
-                type="text"
+                type="number"
                 class="form-control form-control-solid"
                 placeholder=""
                 name="nameOnCard"
@@ -204,12 +204,14 @@
                 <!--begin::Input wrapper-->
                 <div class="position-relative">
                   <!--begin::Input-->
+                  123
                   <Field
                     v-model="cardData.cvv"
-                    type="text"
-                    class="form-control form-control-solid"
-                    minlength="3"
-                    maxlength="4"
+                    type="number"
+                    class="form-control"
+                    :maxlength="24"
+                    :max="24"
+                    :min="1"
                     placeholder="CVV"
                     name="cvv"
                   />

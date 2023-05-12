@@ -415,7 +415,6 @@ export default defineComponent({
       return dayjs(date).format(dateFormat)
     };
 
-
     const handleFilter = (data: any) => {
       if(data){
         query.value = data.query;
