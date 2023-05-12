@@ -23,10 +23,10 @@
           <!--end::Label-->
   
           <!--begin::Input-->
-          <div class="d-flex align-items-center position-relative my-1">
+          <div class="d-flex align-items-center position-relative my-1 ">
           <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
           <input type="text" data-kt-subscription-table-filter="search" v-model="data.query"
-            class="form-control form-control-solid w-100 ps-14" placeholder="Search Subscriptions" />
+            class="form-control form-control-solid w-100 ps-14" placeholder="Search Subscriptions" v-debounce:100000ms="submit()" />
           </div>
 
         </div>
@@ -36,17 +36,22 @@
           <!--begin::Label-->
           <label class="form-label fw-semobold">Chọn kiểu:</label>
           <!--end::Label-->
-  
-          <!--begin::Input-->
-          <div>
-            <Multiselect class="bg-light multiselect-blue text-gray-600"
+
+          <el-form-item prop="assign">
+            
+            <el-select
               v-model="data.type"
-              :options="{'':'Chọn kiểu','1':'DB Leak','2':'Hacker News' }"
-              locale="de"
-              fallback-locale="en"
-            />
-          </div>
-          <!--end::Input-->
+              placeholder="Chọn kiểu"
+              name="type"
+              as="select"
+              height="40px"
+              class="input-group-lg"
+            >
+              <el-option value="">Chọn kiểu</el-option>
+              <el-option label="DB Leak" value="1">DB Leak</el-option>
+              <el-option label="Hacker News" value="2">Hacker News</el-option>
+            </el-select>
+          </el-form-item>
           
         </div>
         <!--end::Input group-->
@@ -59,15 +64,20 @@
           <!--end::Label-->
   
           <!--begin::Input-->
-          <div>
-            <Multiselect class="bg-light multiselect-blue text-gray-600"
-              v-model="data.status"
-              :options="options"
-              locale="de"
-              fallback-locale="en"
-            />
 
-          </div>
+          <el-form-item prop="assign">
+            <el-select
+              v-model="data.status"
+              placeholder="Chọn trạng thái"
+              name="status"
+              as="select"
+            >
+              <el-option value="">Chọn trạng thái</el-option>
+              <el-option label="Có thể đồng bộ" value="1">Có thể đồng bộ</el-option>
+              <el-option label="không đồng bộ" value="2">không đồng bộ</el-option>
+
+            </el-select>
+          </el-form-item>
           <!--end::Input-->
           
         </div>
@@ -104,7 +114,7 @@
   
   <script lang="ts">
 import { defineComponent, watch ,ref  } from "vue";
-import Multiselect from '@vueform/multiselect'
+import { vue3Debounce } from 'vue-debounce'
 
   interface Filter {
     type: string | null;
@@ -114,18 +124,11 @@ import Multiselect from '@vueform/multiselect'
   
   export default defineComponent({
     name: "filter-scan",
-    components: {
-      Multiselect,
-    },
     emits: [
       "filter-data"
     ],
+
     setup(props, { emit }) {
-      const options = ref<object>({
-        '':'Chọn trạng thái',
-        '0':'Có thể đồng bộ',
-        '1':'không đồng bộ'
-      });
 
       const data = ref<Filter>({
         type: '',
@@ -135,8 +138,8 @@ import Multiselect from '@vueform/multiselect'
 
       watch(
         data.value,
-        (data) => {
-          console.log(data, '123')
+        () => {
+          submit()
         }
       );
 
@@ -150,32 +153,22 @@ import Multiselect from '@vueform/multiselect'
         data.value.status = '';
       };
 
-  
       return {
         data,
-        options,
         submit,
         reset,
       };
+    },
+    directives: {
+      debounce: vue3Debounce({ lock: true })
     },
   });
   </script>
 
   <style>
-
-.multiselect-blue .multiselect-option.is-selected {
-  background: #e6f7ff !important;
-  font-weight: 500;
-}
-
-.multiselect-blue .multiselect-option{
-  color: #5e6278;
-  font-size: 14px;
-  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
-}
-
-.multiselect>* {
-    font-size: 14px !important;
-}
+  .el-input.el-input--suffix {
+      height: 40px;
+  }
 </style>
+
   

@@ -20,7 +20,6 @@
         "@fullcalendar/vue3": "^5.9.0",
         "@popperjs/core": "2.11.6",
         "@tinymce/tinymce-vue": "^4.0.4",
-        "@vueform/multiselect": "^1.5.0",
         "animate.css": "^4.1.1",
         "apexcharts": "^3.35.5",
         "axios": "^1.1.3",

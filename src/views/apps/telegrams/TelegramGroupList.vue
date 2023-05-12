@@ -38,17 +38,23 @@
           <Fillter @filterData="handleFilter"></Fillter>
           <!--begin::Add subscription-->
           <!--end::Add subscription-->
-          <button type="button" class="btn btn-sm fw-bold btn-primary me-2" data-bs-toggle="modal"
+          <button type="button" class="btn btn-sm fw-bold btn-info me-2" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_setting">
             <KTIcon icon-name="setting-2" icon-class="fs-2" />
             Cấu hình
           </button>
 
-          <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary me-2"
+          <button type="button"  class="btn btn-sm fw-bold btn-success me-2"
           data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
             <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
             Đồng bộ All
           </button>
+
+          <!-- <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-success btn-active-light-success me-2"
+          data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
+            <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
+            Đồng bộ All
+          </button> -->
 
           <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
@@ -78,7 +84,7 @@
     </div>
     <!--end::Card header-->
 
-    <div class="hand-height-2 shadow-hvover">
+    <div class="hand-height-2 shadow-hvover"> 
       <!--begin::Card body-->
       <div class="card-body pt-0 overflow-scroll h-100 ">
         <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
@@ -100,10 +106,10 @@
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click="handleSyncItem(customer)">
             <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
           </button>
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'view')" >
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" @click="handleClick(customer, 'detail')" >
             <KTIcon icon-name="eye" icon-class="fs-3" />
           </button>
+
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_telegram_group"  @click="handleClick(customer, 'edit')">
             <KTIcon icon-name="pencil" icon-class="fs-3" />
@@ -233,7 +239,7 @@
                     <label class="fs-6">Kiểu nhóm</label>
 
                     <div class="fs-7 text-gray-400">
-                      Allow Notifications by Phone or Email
+                      Chọn kiểu cho nhóm Telegram
                     </div>
                   </div>
                   <!--end::Label-->
@@ -411,16 +417,13 @@
             ></i>
           </label>
           <!--end::Label-->
-          <Field
+          <el-input
             v-model="setingData.hour"
-            type="number"
-            class="form-control h-35px"
-            :maxlength="24"
-            :max="24"
-            :min="1"
+            type="number"              
             placeholder="Enter Time"
             name="hour"
-          />
+            class="h-40px"
+          ></el-input>
         </div>
         <!--end::Input group-->
         </div>
@@ -477,7 +480,7 @@
   <div class="modal-content">
     <!--begin::Form-->
     <div class="modal-body">
-      <p class="fs-5">Bạn có chắc chắn muốn đồng bộ hóa tất cẩ nhóm Telegram</p>
+      <p class="fs-5">Bạn có chắc chắn muốn đồng bộ hóa tất cả nhóm Telegram</p>
     </div>
     <!--end::Form-->
     <div class="modal-footer">
@@ -557,20 +560,8 @@
               <div class="card-header mb-5">
                 <!--begin::Card title-->
                 <div class="card-title">
-                  <div class="d-flex align-items-center">
-                    <!--begin::Symbol-->
-                    <div class="symbol symbol-50px me-5">
-                      <span class="symbol-label bg-light-success">
-                        <KTIcon icon-name="user" icon-class="text-success fs-2x"/>
-                      </span>
-                    </div>
-                    <!--end::Symbol-->
-                    <!--begin::Text-->
-                    <div class="d-flex flex-column">
-                      <span class="text-dark text-hover-primary fs-4 fw-bold">{{detailData.username ?? '--' }}</span>
-                      <span class="text-muted fw-semobold">{{ detailData.phone ?? '--' }}</span>
-                    </div>
-                    <!--end::Text-->
+                  <div class="card-title">
+                    <h1 class="fw-bold">{{ detailData.name }}</h1>
                   </div>
                 </div>
                 <!--begin::Card toolbar-->
@@ -595,26 +586,38 @@
                       <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
 
                         <!--begin::Row-->
-                        <tr>
-                          <td class="text-gray-400 w-80px d-inline-block">Tên nhóm:</td>
-                          <td class="text-gray-800 text-dark fs-5 fw-bold">{{ detailData.group_name ?? '--' }}</td>
+                        <tr class="d-flex align-items-center">
+                          <td class="text-gray-400 w-200px d-inline-block">Trạng thái:</td>
+                          <td class="text-gray-800 text-dark fs-5 fw-bold">
+                           <div class="d-flex align-items-center p-0 m-0">
+                            <KTIcon :icon-name="(detailData.status == '0') ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(detailData.status == '0') ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
+                            <span class="ms-2">{{ (detailData.status == '0') ? ' Hoạt động' : ' Không hoạt động' }}</span>
+                           </div>
+                          </td>
                         </tr>
                         <!--end::Row-->
 
                         <!--begin::Row-->
-                        <tr>
-                          <td class="text-gray-400 w-80px d-inline-block">Nội dung:</td>
-                          <td class="text-gray-800 " >{{ detailData.text ?? '--' }}</td>
+                        <tr class="d-flex align-items-center">
+                          <td class="text-gray-400 w-200px d-inline-block">kiểu:</td>
+                          <td class="text-gray-800 " >{{ (detailData.type  == '1' ? 'DB Leak' : 'Hacker News') }}</td>
                         </tr>
                         <!--end::Row-->
 
                         <!--begin::Row-->
-                          <tr>
-                          <td class="text-gray-400 w-80px d-inline-block">Thời gian:</td>
-                          <td class="text-gray-800">{{ formatDate(detailData.date) }}</td>
+                        <tr class="d-flex align-items-center">
+                          <td class="text-gray-400 w-200px d-inline-block">Thời gian thêm mới:</td>
+                          <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
                         </tr>
                         <!--end::Row-->
                         
+                        <!--begin::Row-->
+                        <tr class="d-flex align-items-center">
+                          <td class="text-gray-400 w-200px d-inline-block">Thời gian cập nhật cuối:</td>
+                          <td class="text-gray-800">{{ formatDate(detailData.date_update) }}</td>
+                        </tr>
+                        <!--end::Row-->
+
                       </table>
                       <!--end::Details-->
                     </div>
@@ -661,6 +664,7 @@ import {Modal} from "bootstrap";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import * as Yup from "yup";
 import {useToast} from 'vue-toast-notification';
+import { useRouter } from 'vue-router';
 
 interface APIData {
   name: string;
@@ -693,11 +697,13 @@ export default defineComponent({
     const filterStatus = ref<String | null>('');
     const detailData = reactive({
       id: '',
-      group_name: '',
-      username: '',
-      phone: '',
-      text: '',
-      date: '',
+      status: '',
+      name: '',
+      type: '',
+      date_update: '',
+      total_message: '',
+      created_at: '',
+      modified_at: '',
     });
     const headerConfig = ref([
       {
@@ -810,11 +816,13 @@ export default defineComponent({
     const customRowTable = (detail: any) => {
       if(detail){
         detailData.id = detail.id
-        detailData.username = detail.username
-        detailData.date = detail.date
-        detailData.text = detail.text
-        detailData.phone = detail.phone
-        detailData.group_name = detail.group_name
+        detailData.modified_at = detail.modified_at
+        detailData.created_at = detail.created_at
+        detailData.total_message = detail.total_message
+        detailData.date_update = detail.date_update
+        detailData.type = detail.type
+        detailData.name = detail.name
+        detailData.status = detail.status
         const modal = new Modal(
           document.getElementById("kt_modal_detail") as Element
         );
@@ -889,6 +897,7 @@ export default defineComponent({
     });
     const id = ref<number>(0);
     const discardButtonRef = ref<HTMLElement | null>(null);
+    const router = useRouter();
 
     const handleClick = (data: object | any, type: String) => {
       typeModal.value = type
@@ -899,6 +908,9 @@ export default defineComponent({
         apiData.value.type = data.type;
         apiData.value.status = (data.status == 0) ? true : false;
         id.value = data.id;
+      }else if(data.id && type === 'detail'){
+        console.log(data.id)
+        router.push({ name: 'telegram-detail', params: { id: data.id } });
       }else{
         nameType.value = "Thêm Mới nhóm Telegram"
         if (discardButtonRef.value !== null) {
@@ -1080,8 +1092,6 @@ export default defineComponent({
             }
           });
       }
-
-
     };
 
     // upadte status 
@@ -1100,7 +1110,6 @@ export default defineComponent({
           toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
         });
     };
-
 
     onMounted(() => {
       getData();
