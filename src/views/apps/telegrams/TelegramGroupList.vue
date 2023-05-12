@@ -38,17 +38,23 @@
           <Fillter @filterData="handleFilter"></Fillter>
           <!--begin::Add subscription-->
           <!--end::Add subscription-->
-          <button type="button" class="btn btn-sm fw-bold btn-primary me-2" data-bs-toggle="modal"
+          <button type="button" class="btn btn-sm fw-bold btn-info me-2" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_setting">
             <KTIcon icon-name="setting-2" icon-class="fs-2" />
             Cấu hình
           </button>
 
-          <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary me-2"
+          <button type="button"  class="btn btn-sm fw-bold btn-success me-2"
           data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
             <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
             Đồng bộ All
           </button>
+
+          <!-- <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-success btn-active-light-success me-2"
+          data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
+            <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
+            Đồng bộ All
+          </button> -->
 
           <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
@@ -233,7 +239,7 @@
                     <label class="fs-6">Kiểu nhóm</label>
 
                     <div class="fs-7 text-gray-400">
-                      Allow Notifications by Phone or Email
+                      Chọn kiểu cho nhóm Telegram
                     </div>
                   </div>
                   <!--end::Label-->
@@ -411,16 +417,13 @@
             ></i>
           </label>
           <!--end::Label-->
-          <Field
+          <el-input
             v-model="setingData.hour"
-            type="number"
-            class="form-control h-35px"
-            :maxlength="24"
-            :max="24"
-            :min="1"
+            type="number"              
             placeholder="Enter Time"
             name="hour"
-          />
+            class="h-40px"
+          ></el-input>
         </div>
         <!--end::Input group-->
         </div>
@@ -477,7 +480,7 @@
   <div class="modal-content">
     <!--begin::Form-->
     <div class="modal-body">
-      <p class="fs-5">Bạn có chắc chắn muốn đồng bộ hóa tất cẩ nhóm Telegram</p>
+      <p class="fs-5">Bạn có chắc chắn muốn đồng bộ hóa tất cả nhóm Telegram</p>
     </div>
     <!--end::Form-->
     <div class="modal-footer">
@@ -1080,8 +1083,6 @@ export default defineComponent({
             }
           });
       }
-
-
     };
 
     // upadte status 
@@ -1100,7 +1101,6 @@ export default defineComponent({
           toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
         });
     };
-
 
     onMounted(() => {
       getData();

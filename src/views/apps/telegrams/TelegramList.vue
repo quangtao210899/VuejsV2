@@ -38,11 +38,11 @@
           <Fillter @filterData="handleFilter"></Fillter>
           <!--begin::Add subscription-->
           <!--end::Add subscription-->
-
+<!-- 
           <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_target_group" >
             Nhóm Telegram
-          </button>
+          </button> -->
 
         </div>
         <!--end::Toolbar-->
@@ -68,7 +68,7 @@
 
     <div class="hand-height-2 shadow-hvover">
       <!--begin::Card body-->
-      <div class="card-body pt-0 overflow-scroll h-100 ">
+      <div class="card-body pt-0 h-100 ">
         <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
           :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
           @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
