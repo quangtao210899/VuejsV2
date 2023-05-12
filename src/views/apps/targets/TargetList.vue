@@ -470,7 +470,7 @@ export default defineComponent({
                 apiData.value.name = data.name;
                 apiData.value.ip = data.ip;
                 apiData.value.domain = data.domain;
-                apiData.value.group = data.group.id;
+                apiData.value.group= data.group_id??data.group.id;
                 console.log(data)
                 id.value = data.id;
             } else {
