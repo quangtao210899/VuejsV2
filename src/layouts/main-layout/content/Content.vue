@@ -2,7 +2,7 @@
   <div id="kt_app_content" class="app-content flex-column-fluid hand-content-children">
     <!--begin::Content container-->
     <div
-      id="kt_app_content_container"
+      id="kt_app_content_container "
       class="app-container h-100"
       :class="{
         'container-fluid': contentWidthFluid,
