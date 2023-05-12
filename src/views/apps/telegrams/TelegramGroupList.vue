@@ -39,13 +39,13 @@
           <!--begin::Add subscription-->
           <!--end::Add subscription-->
           <button type="button" class="btn btn-sm fw-bold btn-primary me-2" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'setting')">
+            data-bs-target="#kt_modal_new_setting">
             <KTIcon icon-name="setting-2" icon-class="fs-2" />
             Cấu hình
           </button>
 
-          <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary me-2" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'sync')">
+          <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary me-2"
+          data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
             <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
             Đồng bộ All
           </button>
@@ -94,19 +94,18 @@
           </template>
           <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--' }}</template>
           <template v-slot:status="{ row: customer }">
-            <KTIcon :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
+            <KTIcon v-on:click.stop @click="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
           </template>
           <template v-slot:actions="{ row: customer }">
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click="handleSyncItem(customer)">
             <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
           </button>
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'view')">
+            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'view')" >
             <KTIcon icon-name="eye" icon-class="fs-3" />
           </button>
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
+            data-bs-target="#kt_modal_new_telegram_group"  @click="handleClick(customer, 'edit')">
             <KTIcon icon-name="pencil" icon-class="fs-3" />
           </button>
         </template>        
@@ -214,7 +213,8 @@
                   <input
                     class="form-check-input"
                     type="checkbox"
-                    checked
+                    
+                    :checked="apiData.status"
                     v-model="apiData.status"
                   />
                   <span class="form-check-label fw-semobold text-gray-400">
@@ -320,49 +320,227 @@
     <!--end::Modal dialog-->
   </div>
 
+    <!-- modal seting  -->
+  <div class="modal fade" tabindex="-1" id="kt_modal_new_setting"    
+  ref="newTSetingModalRef" aria-hidden="true">
+  <!--begin::Modal dialog-->
+  <div class="modal-dialog modal-dialog-centered mw-500px">
+  <!--begin::Modal content-->
+  <div class="modal-content">
+    <!--begin::Modal header-->
+    <div class="modal-header" >
+      <!--begin::Modal title-->
+      <h2>Lập lịch lấy thông tin</h2>
+      <!--end::Modal title-->
+
+      <!--begin::Close-->
+      <div
+        class="btn btn-sm btn-icon btn-active-color-primary"
+        data-bs-dismiss="modal"
+      >
+        <KTIcon icon-name="cross" icon-class="fs-1" />
+      </div>
+      <!--end::Close-->
+    </div>
+    <!--end::Modal header-->
+
+    <!--begin::Form-->
+    <VForm
+      id="kt_modal_new_setting_form"
+      class="form"
+      @submit="handleSubmitSetting"
+    >
+      <!--begin::Modal body-->
+      <div class="modal-body py-10 px-lg-17">
+        <!--begin::Scroll-->
+        <div
+          class="me-n7 pe-7"
+          data-kt-scroll-activate="{default: false, lg: true}"
+          data-kt-scroll-max-height="auto"
+        >
+        <!--begin::Input group-->
+        <div class="row g-9 mb-3">
+          <label class="required fs-6 fw-semobold">Lần chạy kế tiếp</label>
+          <!--begin::Col-->
+          <div class="col-md-6 fv-row mt-2">
+
+            <el-form-item prop="next_run">
+                <el-date-picker
+                  v-model="setingData.next_run"
+                  type="date"
+                  placeholder="Select a date"
+                  :teleported="false"
+                  popper-class="override-styles"
+                  name="next_run"
+                />
+              </el-form-item>
+          </div>
+          <!--end::Col-->
+
+          <!--begin::Col-->
+          <div class="col-md-6 fv-row mt-2">
+            <!--begin::Input-->
+            <div class="position-relative align-items-center">
+              <!--begin::Datepicker-->
+              <el-form-item prop="time_next_run">
+                <el-time-picker
+                  v-model="setingData.time_next_run"
+                  type="time"
+                  placeholder="Select a date"
+                  :teleported="false"
+                  popper-class="override-styles"
+                  name="time_next_run"
+                />
+              </el-form-item>
+              <!--end::Datepicker-->
+            </div>
+            <!--end::Input-->
+          </div>
+          <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+          <!--begin::Input group-->
+        <div class="d-flex flex-column fv-row">
+          <!--begin::Label-->
+          <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+            <span class="required">Thời gian giữa các lần chạy (giờ)</span>
+            <i
+              class="fas fa-exclamation-circle ms-2 fs-7"
+              data-bs-toggle="tooltip"
+              title="Specify a target name for future usage and reference"
+            ></i>
+          </label>
+          <!--end::Label-->
+          <Field
+            v-model="setingData.hour"
+            type="number"
+            class="form-control h-35px"
+            :maxlength="24"
+            :max="24"
+            :min="1"
+            placeholder="Enter Time"
+            name="hour"
+          />
+        </div>
+        <!--end::Input group-->
+        </div>
+        <!--end::Scroll-->
+      </div>
+      <!--end::Modal body-->
+
+      <!--begin::Modal footer-->
+      <div class="modal-footer flex-center">
+        <!--begin::Button-->
+        <button
+          ref="discardButtonRef"
+          type="reset"
+          id="kt_modal_new_telegram_cancel"
+          class="btn btn-sm  btn-light me-3"
+        >
+          Discard
+        </button>
+        <!--end::Button-->
+
+        <!--begin::Button-->
+        <button
+          ref="submitButtonRef"
+          type="submit"
+          id="kt_modal_new_target_group_submit"
+          class="btn btn-sm  btn-primary"
+            :disabled="disabledButton"
+        >
+          <span class="indicator-label"> Submit </span>
+          <span class="indicator-progress">
+            Please wait...
+            <span
+              class="spinner-border spinner-border-sm align-middle ms-2"
+            ></span>
+          </span>
+        </button>
+        <!--end::Button-->
+      </div>
+      <!--end::Modal footer-->
+    </VForm>
+    <!--end::Form-->
+  </div>
+  <!--end::Modal content-->
+  </div>
+  <!--end::Modal dialog-->
+  </div>
+
+  <!-- modal handleSyncAll  -->
+  <div class="modal fade" tabindex="-1" id="kt_modal_sync_telegram"    
+  ref="NewModalSyncTelegram" aria-hidden="true">
+  <!--begin::Modal dialog-->
+  <div class="modal-dialog modal-dialog-centered">
+  <!--begin::Modal content-->
+  <div class="modal-content">
+    <!--begin::Form-->
+    <div class="modal-body">
+      <p class="fs-5">Bạn có chắc chắn muốn đồng bộ hóa tất cẩ nhóm Telegram</p>
+    </div>
+    <!--end::Form-->
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-light"
+        data-bs-dismiss="modal"
+      >
+        Hủy bỏ
+      </button>
+      <button type="button" class="btn btn-primary" @click.passive="handleSyncAll()">
+        Đồng ý
+      </button>
+    </div>
+  </div>
+  <!--end::Modal content-->
+  </div>
+  <!--end::Modal dialog-->
+  </div>
+
   <!-- modal delete  -->
   <div class="modal fade" tabindex="-1" id="kt_modal_delete"    
-    ref="ModalDelete" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered">
-      <!--begin::Modal content-->
-      <div class="modal-content">
+  ref="ModalDelete" aria-hidden="true">
+  <!--begin::Modal dialog-->
+  <div class="modal-dialog modal-dialog-centered">
+  <!--begin::Modal content-->
+  <div class="modal-content">
 
-        <div class="modal-header">
-          <h5 class="modal-title">Xác nhận xóa recon</h5>
+    <div class="modal-header">
+      <h5 class="modal-title">Xác nhận xóa nhóm</h5>
 
-          <!--begin::Close-->
-          <div
-            class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
-            <span class="svg-icon svg-icon-2x"></span>
-          </div>
-          <!--end::Close-->
-        </div>
-        <!--begin::Form-->
-        <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }} </span> bản ghi này không?.</p>
-        </div>
-        <!--end::Form-->
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-light"
-            data-bs-dismiss="modal"
-          >
-            Hủy bỏ
-          </button>
-          <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
-            Đồng ý
-          </button>
-        </div>
+      <!--begin::Close-->
+      <div
+        class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      >
+        <span class="svg-icon svg-icon-2x"></span>
       </div>
-      <!--end::Modal content-->
+      <!--end::Close-->
     </div>
-    <!--end::Modal dialog-->
-      </div>
+    <!--begin::Form-->
+    <div class="modal-body">
+      <p>Bạn có chắc chắn muốn xóa <span class="fw-bold">{{ selectedIds.length }} </span> bản ghi này không?.</p>
+    </div>
+    <!--end::Form-->
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-light"
+        data-bs-dismiss="modal"
+      >
+        Hủy bỏ
+      </button>
+      <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
+        Đồng ý
+      </button>
+    </div>
+  </div>
+  <!--end::Modal content-->
+  </div>
+  <!--end::Modal dialog-->
+  </div>
 
   <!-- modal detail  -->
   <div class="modal fade" tabindex="-1" 
@@ -462,7 +640,6 @@
     </div>
     <!--end::Modal dialog-->
   </div>
-
 </template>
 
 <script lang="ts">
@@ -483,6 +660,7 @@ import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import {Modal} from "bootstrap";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import * as Yup from "yup";
+import {useToast} from 'vue-toast-notification';
 
 interface APIData {
   name: string;
@@ -559,7 +737,7 @@ export default defineComponent({
       },
     ]);
 
-
+    // page
     const handlePage = (page: number) => {
       currentPage.value = page ?? 1;
       getData();
@@ -570,6 +748,7 @@ export default defineComponent({
       getData();
     };
 
+    // getdata
     const getData = () => {
       loading.value = true;
       setTimeout(() => loading.value = false ,500)
@@ -583,6 +762,7 @@ export default defineComponent({
         });
     }
 
+    // sắp sếp
     const sortId = ref<string>('');
     const sortDate = ref<string>('');
     const sortTotal = ref<string>('');
@@ -611,9 +791,9 @@ export default defineComponent({
       deleteSubscription(selectedIds.value);
     };
 
+    // xóa
     const ModalDelete = ref<null | HTMLElement>(null);
     const deleteSubscription = (ids: Array<number>) => {
-      console.log(ids)
       if(ids){
         return ApiService.delete(`telegram/group/multi-delete?id=${ids.join()}`)
           .then(({ data }) => {
@@ -628,7 +808,6 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
-      console.log(detail)
       if(detail){
         detailData.id = detail.id
         detailData.username = detail.username
@@ -663,6 +842,7 @@ export default defineComponent({
       }).then(() => {
         hideModal( ModalDelete.value);
         hideModal( newTargetTelegramModalRef.value);
+        hideModal( newTSetingModalRef.value);
       });
     };
 
@@ -695,7 +875,7 @@ export default defineComponent({
     const validationSchema = Yup.object().shape({
       name: Yup.string()
       .min(3, 'Tối thiểu 3 kí tự')
-      .required('Vui lòng nhập tên')
+      .required('Vui lòng nhập tên nhóm')
     });
 
     // add - edit 
@@ -717,7 +897,7 @@ export default defineComponent({
         nameType.value = "Sửa nhóm nhóm Telegram"
         apiData.value.name = data.name;
         apiData.value.type = data.type;
-        apiData.value.status = data.status;
+        apiData.value.status = (data.status == 0) ? true : false;
         id.value = data.id;
       }else{
         nameType.value = "Thêm Mới nhóm Telegram"
@@ -726,6 +906,115 @@ export default defineComponent({
         }
         // resetData();
       }
+    };
+
+    // sync
+    const idSync = ref<number>(0);
+    const disabledButton = ref<boolean>(false);
+    const toastr = useToast();
+    const NewModalSyncTelegram = ref<null | HTMLElement>(null);
+
+    const handleSyncItem = (data: object | any) => {
+      if(data){
+        idSync.value = data.id
+        getSyncItem();
+        if(submitButtonRef.value){
+          disabledButton.value = true
+          submitButtonRef.value.disabled = true;
+          submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+          setTimeout(() => {
+            if(submitButtonRef.value){
+              disabledButton.value = false
+              submitButtonRef.value.disabled = false;
+              submitButtonRef.value?.removeAttribute("data-kt-indicator");
+            }
+          }, 1000)
+        }
+      }
+    };
+
+    const handleSyncAll = () => {
+      getSyncAll();
+      if(submitButtonRef.value){
+        disabledButton.value = true
+        submitButtonRef.value.disabled = true;
+        submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+        setTimeout(() => {
+          if(submitButtonRef.value){
+            disabledButton.value = false
+            submitButtonRef.value.disabled = false;
+            submitButtonRef.value?.removeAttribute("data-kt-indicator");
+          }
+        }, 1000)
+      }
+      hideModal( NewModalSyncTelegram.value);
+    };
+
+    const getSyncItem = async () => {
+      return ApiService.post(`telegram/sync-data/${idSync.value}/group`,0)
+        .then(({ data }) => {
+          toastr.success(data.detail ?? 'Đang đồng bộ hóa tin nhắn' , {position: 'top'});
+          getData();
+        })
+        .catch(({ response }) => {
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
+        });
+    };
+
+    const getSyncAll = async () => {
+      return ApiService.post('telegram/sync-data', '')
+        .then(({ data }) => {
+          toastr.success(data.detail ?? 'Đang đồng bộ hóa tin nhắn' , {position: 'top'});
+          getData();
+        })
+        .catch(({ response }) => {
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
+        });
+    };
+
+    // setting
+    const newTSetingModalRef = ref<null | HTMLElement>(null);
+    const setingData = ref<object | string | any>({
+      next_run: '',
+      time_next_run: '',
+      hour: '',
+    });
+    const handleSubmitSetting = () => {
+      updateSchedule()
+    };
+
+    const updateSchedule = async () => {
+      let formData = {
+        hour: setingData.value.hour,
+        next_run: dayjs(setingData.value.next_run).format('DD-MM-YYYY') + " " + dayjs(setingData.value.time_next_run).format('HH:mm:ss')
+      }
+      return ApiService.post(`/telegram/schedule`,formData)
+        .then(({ data }) => {
+          hideModal( newTSetingModalRef.value);
+          if(disabledButton.value){
+            disabledButton.value = true
+            setTimeout(() => {
+                disabledButton.value = false
+              }, 1000)
+          }
+          notification(data.detail, 'success', 'Đang đồng bộ hóa tin nhắn')
+          getData();
+        })
+        .catch(({ response }) => {
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top-right'});
+        });
+    };
+
+    const getSetting = async () => {
+      return ApiService.get(`/telegram/schedule/show`)
+        .then(({ data }) => {
+          setingData.value.next_run = dayjs(dayjs(data.next_run).format('YYYY-MM-DDDD'), 'YYYY-MM-DDDD')
+          setingData.value.time_next_run = dayjs(dayjs(data.next_run).format('HH:mm:ss'), 'HH:mm:ss')
+          setingData.value.hour = data.hour
+        })
+        .catch(({ response }) => {
+          notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+        });
     };
 
     // submit data
@@ -738,8 +1027,6 @@ export default defineComponent({
         type: apiData.value.type,
         status: (apiData.value.status ==  true) ? 0 : 1 
       }
-      console.log(formData)
-
       if(typeModal.value == 'add'){
         console.log(formData)
 
@@ -750,12 +1037,12 @@ export default defineComponent({
             submitButtonRef.value.disabled = true;
             // Activate indicator
             submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+            notification(data.detail,'success','Thêm mới thành công')
+            getData();
             setTimeout(() => {
               if (submitButtonRef.value) {
                 submitButtonRef.value.disabled = false;
                 submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                notification(data.detail,'success','Thêm mới thành công')
-                getData();
               }
             }, 1000);
             }
@@ -775,16 +1062,15 @@ export default defineComponent({
             submitButtonRef.value.disabled = true;
             // Activate indicator
             submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+            notification(data.detail, 'success', 'Sửa mới thành công')
+            getData();
             setTimeout(() => {
               if (submitButtonRef.value) {
                 submitButtonRef.value.disabled = false;
                 submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                notification(data.detail, 'success', 'Sửa mới thành công')
-                getData();
               }
             }, 1000);
             }
-
           })
           .catch(({ response }) => {
             if(response.data){
@@ -798,8 +1084,27 @@ export default defineComponent({
 
     };
 
+    // upadte status 
+    const updateStatus = async (data : object | any) => {
+      let formData = {
+        name: data.name,
+        type: data.type,
+        status: (data.status ==  1) ? 0 : 1 
+      }
+      return ApiService.put(`/telegram/group/${data.id}/update`, formData)
+        .then(({ data }) => {
+          toastr.success(data.detail ?? 'Thay đổi trạng thái thành công' , {position: 'top'});
+          getData();
+        })
+        .catch(({ response }) => {
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
+        });
+    };
+
+
     onMounted(() => {
       getData();
+      getSetting();
     });
 
     return {
@@ -848,6 +1153,23 @@ export default defineComponent({
 
       // detail
       detailData,
+
+      // sync
+      handleSyncItem,
+      handleSyncAll,
+      getSyncAll,
+      getSyncItem,
+      disabledButton,
+      NewModalSyncTelegram,
+
+      // setting
+      handleSubmitSetting,
+      setingData,
+      getSetting,
+      newTSetingModalRef,
+
+      // update stataus
+      updateStatus,
     };
   },
 });
