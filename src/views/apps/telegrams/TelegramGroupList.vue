@@ -86,7 +86,7 @@
 
     <div class="hand-height-2 shadow-hvover"> 
       <!--begin::Card body-->
-      <div class="card-body pt-0 overflow-scroll h-100 ">
+      <div class="card-body pt-0 overflow-scroll h-100 p-0 m-0 ">
         <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
           :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
           @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
@@ -479,19 +479,19 @@
   <!--begin::Modal content-->
   <div class="modal-content">
     <!--begin::Form-->
-    <div class="modal-body">
+    <div class="modal-body ">
       <p class="fs-5">Bạn có chắc chắn muốn đồng bộ hóa tất cả nhóm Telegram</p>
     </div>
     <!--end::Form-->
-    <div class="modal-footer">
+    <div class="modal-footer p-3">
       <button
         type="button"
-        class="btn btn-light"
+        class="btn btn-sm btn-light"
         data-bs-dismiss="modal"
       >
         Hủy bỏ
       </button>
-      <button type="button" class="btn btn-primary" @click.passive="handleSyncAll()">
+      <button type="button" class="btn btn-sm  btn-primary" @click.passive="handleSyncAll()">
         Đồng ý
       </button>
     </div>
@@ -773,7 +773,6 @@ export default defineComponent({
     const sortDate = ref<string>('');
     const sortTotal = ref<string>('');
     const sort = (sort: Sort) => {
-      console.log(sort)
       if(sort.label == 'id'){
         sortId.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
         sortTotal.value = '';
