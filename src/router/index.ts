@@ -82,7 +82,25 @@ const routes: Array<RouteRecordRaw> = [
           breadcrumbs: ["TelegramGroup"],
         },
       },
-      
+    ],
+  },
+  {
+    path: "/cve",
+    redirect: "/cve",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },    
+    children: [
+      {
+        path: "/cve",
+        name: "scanCVE",
+        component: () => import("@/views/apps/cves/CVEList.vue"),
+        meta: {
+          pageTitle: "Quản lý CVE",
+          breadcrumbs: ["CVE"],
+        },
+      },
     ],
   },
   {

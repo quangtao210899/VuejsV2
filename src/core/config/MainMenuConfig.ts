@@ -71,8 +71,18 @@ const MainMenuConfig: Array<MenuItem> = [
         keenthemesIcon: "bi bi-bug-fill",
         bootstrapIcon: "bi bi-bug-fill",
       },
-      
-
+    ],
+  },
+  {
+    heading: "cves",
+    route: "/scans",
+    pages: [
+      {
+        heading: "Quản lý CVE",
+        route: "/cve",
+        keenthemesIcon: "bi bi-bug-fill",
+        bootstrapIcon: "bi bi-bug-fill",
+      },
     ],
   },
   {
