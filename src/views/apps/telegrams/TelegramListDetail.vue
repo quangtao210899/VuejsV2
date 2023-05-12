@@ -285,6 +285,7 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
+    const ID = route.params.id ?? '';
     const list = ref<object | any>([])
     const loading = ref<boolean>(false)
     const totalPage = ref<number>(0);
@@ -338,9 +339,10 @@ export default defineComponent({
     };
 
     const getData = () => {
+      console.log(ID)
       loading.value = true;
       setTimeout(() => loading.value = false ,500)
-      return ApiService.get(`/telegram/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
+      return ApiService.get(`/telegram/index?group=${ID}&page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
