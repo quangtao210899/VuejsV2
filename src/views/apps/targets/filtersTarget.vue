@@ -28,9 +28,21 @@
                 <!--end::Input-->
             </div>
             <!--end::Input group-->
+            <div class="mb-7">
+                <!--begin::Label-->
+                <label class="form-label fw-semobold">Chọn kiểu:</label>
+                <!--end::Label-->
 
-            <div class="separator my-2"></div>
+                <el-form-item prop="assign">
 
+                    <el-select v-model="data.type" placeholder="Chọn kiểu" name="type" as="select" height="40px"
+                        class="input-group-lg">
+                        <el-option value="">Chọn kiểu</el-option>
+                        <el-option :label="item.title" :value="item.id" v-for="item in dataGroup">{{ item.title }}</el-option>
+                    </el-select>
+                </el-form-item>
+
+            </div>
             <!--begin::Actions-->
             <div class="d-flex justify-content-end">
                 <button @click="reset" type="reset"
@@ -50,23 +62,18 @@
 </template>
   
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watch } from "vue";
 
 interface Filter {
     query: string | null;
-
+    type: string | null;
 }
 
 export default defineComponent({
     name: "filter-target",
-    // props: {
-    //   status: { type: String , required: false },
-    //   severity: { type: Number, required: false },
-    //   ip: { type: String, required: false },
-    //   typeIp: { type: String, default: 'equal' },
-    //   domain: { type: String, required: false },
-    //   typeDomain: { type: String, default: 'equal' }
-    // },
+    props: {
+      dataGroup: { type: Object , required: false },
+    },
     components: {},
     emits: [
         "filter-data"
@@ -74,15 +81,15 @@ export default defineComponent({
     setup(props, { emit }) {
         const data = ref<Filter>({
             query: '',
+            type: '',
         });
 
-        // watch(
-        //   data.value,
-        //   (data) => {
-        //     emit("on-items-per-page-change", data);
-        //     console.log(data, '123')
-        //   }
-        // );
+        watch(
+            data.value,
+            () => {
+                submit()
+            }
+        );
 
         // const emit = defineEmits(['filter-data'])
 
@@ -92,6 +99,7 @@ export default defineComponent({
 
         const reset = () => {
             data.value.query = '';
+            data.value.type = '';
         };
 
 
@@ -103,4 +111,8 @@ export default defineComponent({
     },
 });
 </script>
-  
+<style>
+.el-input.el-input--suffix {
+    height: 40px;
+}
+</style>

@@ -27,7 +27,7 @@
                             <KTIcon icon-name="filter" icon-class="fs-2" />
                             Filter
                         </button>
-                        <Fillter @filterData="handleFilter"></Fillter>
+                        <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
     
                         <!--end::Export-->
     
@@ -396,11 +396,13 @@ export default defineComponent({
     },
     setup() {
         const list = ref<object | any>([])
+        const data_group = ref<object | any>([])
         const totalPage = ref<number>(0);
         // const testPage = ref<number>(0);
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
         const query = ref<String>('');
+        const search_group = ref<String>('');
         const orderingID = ref<String>('');
         const typeModal = ref<String>('');
         const id = ref<number>(0);
@@ -505,10 +507,20 @@ export default defineComponent({
         const getData = () => {
             loading.value = true;
             setTimeout(() => loading.value = false, 500)
-            return ApiService.get(`targets?search_target=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
+            return ApiService.get(`targets?search_target=${query.value}&search_target_group=${search_group.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
                     totalPage.value = data.count
+                })
+                .catch(({ response }) => {
+                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+                });
+        }
+
+        const getDataGroup = () => {
+            return ApiService.get(`targetgroup/list/`)
+                .then(({ data }) => {
+                    data_group.value = data
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -682,15 +694,11 @@ export default defineComponent({
 
         // end validate
 
-        // tìm kiếm
-        const setQuery = (event) => {
-            query.value = event.target.value
-            currentPage.value = 1
-        }
 
         const handleFilter = (data: any) => {
             if (data) {
                 query.value = data.query;
+                search_group.value = data.type;
                 currentPage.value = 1;
                 getData();
             } else {
@@ -701,10 +709,12 @@ export default defineComponent({
 
         onMounted(() => {
             getData();
+            getDataGroup();
         });
 
         return {
             getData,
+            getDataGroup,
             list,
             headerConfig,
             sort,
@@ -717,6 +727,7 @@ export default defineComponent({
             // validate
             // crud
             apiData,
+            data_group,
             validationSchema,
             submit,
             submitButtonRef,
@@ -741,7 +752,7 @@ export default defineComponent({
 
             // search query 
             query,
-            setQuery,
+            search_group,
             handleFilter,
 
             // edit 

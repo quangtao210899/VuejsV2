@@ -1008,7 +1008,7 @@ export default defineComponent({
                 disabledButton.value = false
               }, 1000)
           }
-          notification(data.detail, 'success', 'Đang đồng bộ hóa tin nhắn')
+          notification(data, 'success', 'Đang đồng bộ hóa tin nhắn')
           getData();
         })
         .catch(({ response }) => {
