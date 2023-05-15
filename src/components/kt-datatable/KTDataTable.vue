@@ -1,5 +1,5 @@
 <template>
-  <div class="dataTables_wrapper dt-bootstrap4 no-footer">
+  <div class="dataTables_wrapper dt-bootstrap4 no-footer px-5">
     <TableContent
       @on-items-select="onItemSelect"
       @on-sort="onSort"

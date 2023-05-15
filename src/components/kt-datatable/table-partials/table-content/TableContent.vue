@@ -1,5 +1,5 @@
 <template>
-  <div class="table-responsive px-5" 
+  <div class="table-responsive" 
   :class="[loading && 'overlay overlay-block']"
       >
     <table
