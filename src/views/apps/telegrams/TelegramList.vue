@@ -196,34 +196,24 @@
                   <!--end::Title-->
 
                   <!--begin::Details-->
-                  <div class="d-flex flex-wrap py-5">
+                  <div class="py-5">
                     <!--begin::Row-->
                     <div class="me-5">
                       <!--begin::Details-->
-                      <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-
-                        <!--begin::Row-->
-                        <tr>
-                          <td class="text-gray-400 w-80px d-inline-block">Tên nhóm:</td>
-                          <td class="text-gray-800 text-dark fs-5 fw-bold">{{ detailData.group_name ?? '--' }}</td>
-                        </tr>
-                        <!--end::Row-->
-
-                        <!--begin::Row-->
-                        <tr>
-                          <td class="text-gray-400 w-80px d-inline-block">Nội dung:</td>
-                          <td class="text-gray-800 " >{{ detailData.text ?? '--' }}</td>
-                        </tr>
-                        <!--end::Row-->
-
-                        <!--begin::Row-->
-                          <tr>
-                          <td class="text-gray-400 w-80px d-inline-block">Thời gian:</td>
-                          <td class="text-gray-800">{{ formatDate(detailData.date) }}</td>
-                        </tr>
-                        <!--end::Row-->
-                        
-                      </table>
+                      <div>
+                        <div class="row fs-6 mb-3">
+                          <div class="col-3 text-gray-400">Tên nhóm:</div>
+                          <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.group_name ?? '--' }}</span></div>
+                        </div>
+                        <div class="row fs-6 mb-3">
+                          <div class="col-3 text-gray-400">Nội dung:</div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.text ?? '--' }}</span></div>
+                        </div>
+                        <div class="row fs-6">
+                          <div class="col-3 text-gray-400">Thời gian:</div>
+                          <div class="col-9 text-gray-800"><span>{{ formatDate(detailData.date) }}</span></div>
+                        </div>
+                      </div>
                       <!--end::Details-->
                     </div>
                     <!--end::Row-->

@@ -100,7 +100,7 @@
           </template>
           <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--' }}</template>
           <template v-slot:status="{ row: customer }">
-            <KTIcon v-on:click.stop @click="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
+            <KTIcon v-on:click.stop @click="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on' : 'toggle-off'" :icon-class="(customer.status == 0) ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
           </template>
           <template v-slot:actions="{ row: customer }">
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click="handleSyncItem(customer)">
