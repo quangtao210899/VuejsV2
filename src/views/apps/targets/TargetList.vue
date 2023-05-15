@@ -57,7 +57,7 @@
         <!--end::Card header-->
 
         <!--begin::Card body-->
-        <div class="card-body pt-0 hand-height-2 overflow-scroll h-100">
+        <div class="card-body pt-0 overflow-scroll h-100 p-0 m-0">
             <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
                 :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"

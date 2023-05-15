@@ -76,6 +76,24 @@ const MainMenuConfig: Array<MenuItem> = [
     ],
   },
   {
+    heading: "Users",
+    route: "/users",
+    pages: [
+      {
+        heading: "Quản lý Users",
+        route: "/user-list",
+        keenthemesIcon: "bi bi-life-preserver",
+        bootstrapIcon: "bi bi-life-preserver",
+      },
+      {
+        heading: "Profile",
+        route: "/user-profile",
+        keenthemesIcon: "bi bi-diagram-3",
+        bootstrapIcon: "bi bi-diagram-3",
+      },
+    ],
+  },
+  {
     heading: "craft",
     route: "/crafted",
     pages: [

@@ -79,7 +79,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/telegrams/TelegramListDetail.vue"),
         meta: {
           pageTitle: "Quản lý Telegarm",
-          breadcrumbs: ["Telegram"],
+          breadcrumbs: ["TelegramGroup","Telegram",],
         },
       },
       {
@@ -95,16 +95,16 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: "/user",
-    redirect: "/telegram",
+    path: "/users",
+    redirect: "/users",
     component: () => import("@/layouts/main-layout/MainLayout.vue"),
     meta: {
       middleware: "auth",
     },    
     children: [
       {
-        path: "/telegram-list",
-        name: "telegram",
+        path: "/user-list",
+        name: "user-list",
         component: () => import("@/views/apps/telegrams/TelegramList.vue"),
         meta: {
           pageTitle: "Quản lý Telegarm",
@@ -112,15 +112,14 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/profile",
-        name: "profile",
-        component: () => import("@/views/apps/telegrams/TelegramGroupList.vue"),
+        path: "/user-profile",
+        name: "user-profile",
+        component: () => import("@/views/apps/users/ProfileList.vue"),
         meta: {
-          pageTitle: "Quản lý nhóm Telegarm",
-          breadcrumbs: ["TelegramGroup"],
+          pageTitle: "Profile",
+          breadcrumbs: ["Profile"],
         },
-      },
-      
+      }
     ],
   },
   {
