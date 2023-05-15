@@ -169,14 +169,21 @@
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
                                         title="Bắt buộc phải nhập"></i>
                                 </label>
-                                <Field type="text" class="form-control form-control-solid" placeholder="Chọn nhóm mục tiêu"
-                                    name="group" v-model="apiData.group" />
-                                <div class="fv-plugins-message-container">
+                                <el-form-item prop="assign">
+                                    <el-select v-model.lazy="apiData.group" placeholder="Chọn kiểu" name="group" as="select" height="40px"
+                                        class="input-group-lg">
+                                        <el-option value="" disabled>Chọn kiểu</el-option>
+                                        <el-option :label="item.title" :value="item.id" v-for="item in data_group">{{ item.title }}</el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <!-- <Field type="text" class="form-control form-control-solid" placeholder="Chọn nhóm mục tiêu"
+                                    name="group" v-model="apiData.group" /> -->
+                                <!-- <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="group" />
                                         <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="fv-plugins-message-container">
                                 <div class="fv-help-block">
@@ -476,7 +483,6 @@ export default defineComponent({
                 apiData.value.ip = data.ip;
                 apiData.value.domain = data.domain;
                 apiData.value.group= data.group_id??data.group.id;
-                console.log(data)
                 id.value = data.id;
             } else {
                 nameType.value = "Thêm mới mục tiêu"
@@ -588,9 +594,9 @@ export default defineComponent({
             name: Yup.string()
                 .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
                 .required('Vui lòng nhập tên'),
-            group: Yup.string()
-                // .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
-                .required('Vui lòng chọn nhóm mục tiêu')
+            // group: Yup.string()
+            //     // .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
+            //     .required('Vui lòng chọn nhóm mục tiêu')
         });
 
         const notification = (values: string, icon: string, more: string) => {
