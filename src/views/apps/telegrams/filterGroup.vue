@@ -26,7 +26,7 @@
           <div class="d-flex align-items-center position-relative my-1 ">
           <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
           <input type="text" data-kt-subscription-table-filter="search" v-model="data.query"
-            class="form-control form-control-solid w-100 ps-14" placeholder="Search Subscriptions" v-debounce:100000ms="submit()" />
+            class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm theo tên group" v-debounce:100000ms="submit()" />
           </div>
 
         </div>
