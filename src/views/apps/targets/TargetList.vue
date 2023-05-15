@@ -64,7 +64,7 @@
                 @customRow="customRowTable">
 
                 <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-                <template v-slot:name="{ row: customer }">{{ customer.name }}</template>
+                <template v-slot:name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{ customer.name }}</span></template>
                 <template v-slot:ip="{ row: customer }">
                     {{ customer.ip }}
                 </template>
