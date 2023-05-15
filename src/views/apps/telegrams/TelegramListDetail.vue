@@ -68,7 +68,7 @@
 
     <div class="hand-height-2 shadow-hvover">
       <!--begin::Card body-->
-      <div class="card-body overflow-auto pt-0 h-100 ">
+      <div class="card-body pt-0 overflow-scroll h-100 p-0 m-0">
         <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
           :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
           @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
@@ -95,7 +95,7 @@
             </div>
           </template>
           <template v-slot:text="{ row: customer }">
-            <div><span >{{ customer.text ?? '--' }}</span></div>
+            <div><span >{{ truncateText(customer.text, 25) }}</span></div>
           </template>
           <template v-slot:date="{ row: customer }">{{ formatDate(customer.date) }}</template>
         </KTDatatable>
@@ -264,7 +264,7 @@ import { vue3Debounce } from 'vue-debounce';
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import dayjs from 'dayjs';
-import Fillter from "@/views/apps/telegrams/filters.vue";
+import Fillter from "@/views/apps/telegrams/filterDetail.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import {Modal} from "bootstrap";
 import { useRoute } from 'vue-router';
@@ -292,7 +292,6 @@ export default defineComponent({
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
-    const group_type = ref<String | null>('');
     const detailData = reactive({
       id: '',
       group_name: '',
@@ -342,7 +341,7 @@ export default defineComponent({
       console.log(ID)
       loading.value = true;
       setTimeout(() => loading.value = false ,500)
-      return ApiService.get(`/telegram/index?group=${ID}&page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
+      return ApiService.get(`/telegram/index?group=${ID}&page=${currentPage.value}&page_size=${itemsPerPage.value}&search=${query.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -422,7 +421,6 @@ export default defineComponent({
     const handleFilter = (data: any) => {
       if(data){
         query.value = data.query;
-        group_type.value = data.type;
         currentPage.value = 1;
         getData();
       }else{
@@ -430,6 +428,15 @@ export default defineComponent({
       }
 
     };
+
+    // upadte status 
+    const truncateText = (text: string, maxLength: number) => {
+      if (text.length > maxLength) {
+        return text.substring(0, maxLength) + '...';
+      }
+      return text;
+    };
+
 
     onMounted(() => {
       getData();
@@ -444,6 +451,7 @@ export default defineComponent({
       deleteFewSubscriptions,
       deleteSubscription,
       getAssetPath,
+      truncateText,
 
       // crud
       ModalDelete,
