@@ -18,37 +18,40 @@
             <!--begin::Card toolbar-->
             <div class="card-toolbar">
                 <!--begin::Toolbar-->
-                <div v-if="selectedIds.length === 0" class="d-flex justify-content-end"
-                    data-kt-subscription-table-toolbar="base">
-                    <!--begin::Export-->
-                    <button type="button"
-                        class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                        <KTIcon icon-name="filter" icon-class="fs-2" />
-                        Filter
-                    </button>
-                    <Fillter @filterData="handleFilter"></Fillter>
-
-                    <!--end::Export-->
-
-                    <!--begin::Add subscription-->
-                    <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
-                        <KTIcon icon-name="plus" icon-class="fs-2" />
-                        Thêm
-                    </button>
-                    <!--end::Add subscription-->
+                <div v-show="selectedIds.length === 0">
+                    <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
+                        <!--begin::Export-->
+                        <button type="button"
+                            class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                            <KTIcon icon-name="filter" icon-class="fs-2" />
+                            Filter
+                        </button>
+                        <Fillter @filterData="handleFilter"></Fillter>
+    
+                        <!--end::Export-->
+    
+                        <!--begin::Add subscription-->
+                        <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
+                            <KTIcon icon-name="plus" icon-class="fs-2" />
+                            Thêm
+                        </button>
+                        <!--end::Add subscription-->
+                    </div>
                 </div>
                 <!--end::Toolbar-->
 
                 <!--begin::Group actions-->
-                <div v-else class="d-flex justify-content-end align-items-center">
-                    <div class="fw-bold me-5">
-                        <span class="me-2">{{ selectedIds.length }}</span>Selected
+                <div v-show="selectedIds.length !== 0">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <div class="fw-bold me-5">
+                            <span class="me-2">{{ selectedIds.length }}</span>Selected
+                        </div>
+                        <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
+                            Delete Selected
+                        </button>
                     </div>
-                    <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
-                        Delete Selected
-                    </button>
                 </div>
                 <!--end::Group actions-->
             </div>
@@ -64,7 +67,7 @@
                 @customRow="customRowTable">
 
                 <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-                <template v-slot:name="{ row: customer }">{{ customer.name }}</template>
+                <template v-slot:name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{ customer.name }}</span></template>
                 <template v-slot:ip="{ row: customer }">
                     {{ customer.ip }}
                 </template>
@@ -470,7 +473,7 @@ export default defineComponent({
                 apiData.value.name = data.name;
                 apiData.value.ip = data.ip;
                 apiData.value.domain = data.domain;
-                apiData.value.group = data.group.id;
+                apiData.value.group= data.group_id??data.group.id;
                 console.log(data)
                 id.value = data.id;
             } else {

@@ -74,6 +74,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/telegram-detail/:id",
+        name: "telegram-detail",
+        component: () => import("@/views/apps/telegrams/TelegramListDetail.vue"),
+        meta: {
+          pageTitle: "Quản lý Telegarm",
+          breadcrumbs: ["Telegram"],
+        },
+      },
+      {
         path: "/telegram-group",
         name: "telegram-group",
         component: () => import("@/views/apps/telegrams/TelegramGroupList.vue"),
@@ -101,6 +110,35 @@ const routes: Array<RouteRecordRaw> = [
           breadcrumbs: ["CVE"],
         },
       },
+    ],
+  },
+  {
+    path: "/user",
+    redirect: "/telegram",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },    
+    children: [
+      {
+        path: "/telegram-list",
+        name: "telegram",
+        component: () => import("@/views/apps/telegrams/TelegramList.vue"),
+        meta: {
+          pageTitle: "Quản lý Telegarm",
+          breadcrumbs: ["Telegram"],
+        },
+      },
+      {
+        path: "/profile",
+        name: "profile",
+        component: () => import("@/views/apps/telegrams/TelegramGroupList.vue"),
+        meta: {
+          pageTitle: "Quản lý nhóm Telegarm",
+          breadcrumbs: ["TelegramGroup"],
+        },
+      },
+      
     ],
   },
   {

@@ -449,7 +449,7 @@ interface APIData {
     description: string;
     version: string;
     shodan_dock: string;
-    vul_type: string;
+    poc: string;
 }
 
 export default defineComponent({
@@ -478,9 +478,9 @@ export default defineComponent({
         const nameType = ref<string>('');
         const apiData = ref<APIData>({
             code: "",
-            product_type: "",
+            product_type: 0,
             product_text: "",
-            vul_type: '',
+            vul_type: 0,
             vul_text: '',
             description: '',
             version: '',
@@ -671,13 +671,7 @@ export default defineComponent({
         const modalRef = ref<null | HTMLElement>(null);
         const newTargetGroupModalRef = ref<null | HTMLElement>(null);
         const PatternCVECode = /^[Cc][Vv][Ee]-\d{4}-\d+$/
-
-        const arrayProductType = [];
-        const arrayVulnType = [0, 1];
-        for (let i = 0; i <= 49; i++) {
-            arrayProductType.push(i);
-        }
-
+        
 
         const validationSchema = Yup.object().shape({
             code: Yup.string()

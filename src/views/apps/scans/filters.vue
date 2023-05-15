@@ -24,16 +24,21 @@
   
           <!--begin::Input-->
           <div>
-            <select
-              class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
-              v-model="data.status"
-            >
-              <option label="Chọn trạng thái" value="">Chọn trạng thái</option>
-              <option label="open" value="open">Open</option>
-              <option label="re-open" value="re-open">Reopen</option>
-              <option label="closed" value="closed">Close</option>
-              <option label="rick-accepted" value="rick-accepted">Accepted</option>
-            </select>
+            <el-form-item prop="assign">
+              <el-select
+                v-model="data.status"
+                name="status"
+                as="select"
+                placeholder="Chọn trạng thái"
+              >
+                <el-option value="" >Chọn trạng thái</el-option>
+                <el-option label="open" value="open">open</el-option>
+                <el-option label="re-open" value="v">re-open</el-option>
+                <el-option label="Close" value="closed">Close</el-option>
+                <el-option label="Accepted" value="rick-accepted">Accepted</el-option>
+
+              </el-select>
+            </el-form-item>
           </div>
           <!--end::Input-->
         </div>
@@ -48,16 +53,21 @@
   
           <!--begin::Input-->
           <div>
-            <select
-              class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
-              v-model="data.severity"
-            >
-              <option label="Chọn lỗ hổng" value="">Chọn lỗ hổng</option>
-              <option label="Info" value="0">Info</option>
-              <option label="Low" value="1">Low</option>
-              <option label="Medium" value="2">Medium</option>
-              <option label="High" value="3">High</option>
-            </select>
+            <el-form-item prop="assign">
+              <el-select
+                v-model="data.severity"
+                name="severity"
+                as="select"
+                placeholder="Chọn mức độ lỗ hổng"
+              >
+                <el-option value="" >Chọn lỗ hổng</el-option>
+                <el-option label="Info" value="0">Info</el-option>
+                <el-option label="Low" value="1">Low</el-option>
+                <el-option label="Medium" value="2">Medium</el-option>
+                <el-option label="High" value="3">High</el-option>
+
+              </el-select>
+            </el-form-item>
           </div>
           <!--end::Input-->
         </div>
@@ -74,17 +84,27 @@
           
           <div class="row">
             <div class="col-8 pe-0">
-              <input type="text" class="form-control form-check-input h-40px w-100 form-control-solid " placeholder="Nhập IP" v-model="data.ip" />
+              <el-input
+                v-model="data.ip"  
+                type="text"              
+                placeholder="Nhập IP"
+                name="targetTitle"
+                class="h-40px"
+              ></el-input>
             </div>
             <div class="col-4 ">
-              <select
-              class="form-select form-select-solid form-check-select h-40px w-100 select2-hidden-accessible py-2"
-              v-model="data.typeIp"
-            >
-              <option label="Equal" value="equal">Equal</option>
-              <option label="NContains" value="not_contains">NContains</option>
-              <option label="Contains" value="contains">Contains</option>
-            </select>
+              <el-form-item prop="assign">
+                <el-select
+                v-model="data.typeIp"
+                  name="typeIp"
+                  as="select"
+                >
+                  <el-option value="equal" label="Equal">Equal</el-option>
+                  <el-option label="NContains" value="not_contains">NContains</el-option>
+                  <el-option label="contains" value="contains">contains</el-option>
+
+                </el-select>
+              </el-form-item>
             </div>
           </div>
           <!--end::Input-->
@@ -102,17 +122,27 @@
           
           <div class="row">
             <div class="col-8 pe-0">
-              <input type="text" class="form-control form-check-input h-40px w-100 form-control-solid" placeholder="Nhập IP" v-model="data.domain"/>
+              <el-input
+                v-model="data.domain"  
+                type="text"              
+                placeholder="Nhập Domain"
+                name="targetTitle"
+                class="h-40px"
+              ></el-input>
             </div>
             <div class="col-4 ">
-              <select
-              class="form-select form-select-solid form-check-select h-40px w-100 select2-hidden-accessible py-2"
-              v-model="data.typeDomain"
-            >
-              <option label="Equal" value="equal">Equal</option>
-              <option label="NContains" value="not_contains">NContains</option>
-              <option label="Contains" value="contains">Contains</option>
-            </select>
+              <el-form-item prop="assign">
+                <el-select
+                v-model="data.typeDomain"
+                  name="typeDomain"
+                  as="select"
+                >
+                  <el-option value="equal" label="Equal">Equal</el-option>
+                  <el-option label="NContains" value="not_contains">NContains</el-option>
+                  <el-option label="contains" value="contains">contains</el-option>
+
+                </el-select>
+              </el-form-item>
             </div>
           </div>
           <!--end::Input-->
@@ -148,7 +178,7 @@
   </template>
   
   <script lang="ts">
-import { defineComponent, ref  } from "vue";
+import { defineComponent, ref, watch } from "vue";
 
   interface Filter {
     status: string | null;
@@ -183,13 +213,12 @@ import { defineComponent, ref  } from "vue";
         typeDomain: 'equal',
       });
 
-      // watch(
-      //   data.value,
-      //   (data) => {
-      //     emit("on-items-per-page-change", data);
-      //     console.log(data, '123')
-      //   }
-      // );
+      watch(
+        data.value,
+        () => {
+          submit()
+        }
+      );
 
       // const emit = defineEmits(['filter-data'])
 
@@ -215,4 +244,10 @@ import { defineComponent, ref  } from "vue";
     },
   });
   </script>
+
+<style>
+.el-input.el-input--suffix {
+    height: 40px;
+}
+</style>
   

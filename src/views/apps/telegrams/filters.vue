@@ -37,16 +37,21 @@
           <!--end::Label-->
   
           <!--begin::Input-->
-          <div>
-            <select
-              class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
+          <el-form-item prop="assign">
+            <el-select
               v-model="data.type"
+              placeholder="Chọn kiểu"
+              name="type"
+              as="select"
+              height="40px"
+              class="input-group-lg"
             >
-              <option label="Chọn kiểu" value="">Chọn kiểu</option>
-              <option label="DB Leak" value="1">DB Leak</option>
-              <option label="Hacker News" value="2">Hacker News</option>
-            </select>
-          </div>
+              <el-option value="">Chọn kiểu</el-option>
+              <el-option label="DB Leak" value="1">DB Leak</el-option>
+              <el-option label="Hacker News" value="2">Hacker News</el-option>
+            </el-select>
+          </el-form-item>
+
           <!--end::Input-->
         </div>
         <!--end::Input group-->
@@ -81,7 +86,7 @@
   </template>
   
   <script lang="ts">
-import { defineComponent, ref  } from "vue";
+import { defineComponent, ref, watch  } from "vue";
 
   interface Filter {
     type: string | null;
@@ -109,13 +114,12 @@ import { defineComponent, ref  } from "vue";
         query: '',
       });
 
-      // watch(
-      //   data.value,
-      //   (data) => {
-      //     emit("on-items-per-page-change", data);
-      //     console.log(data, '123')
-      //   }
-      // );
+      watch(
+        data.value,
+        () => {
+          submit()
+        }
+      );
 
       // const emit = defineEmits(['filter-data'])
 
@@ -137,4 +141,8 @@ import { defineComponent, ref  } from "vue";
     },
   });
   </script>
-  
+    <style>
+    .el-input.el-input--suffix {
+        height: 40px;
+    }
+  </style>

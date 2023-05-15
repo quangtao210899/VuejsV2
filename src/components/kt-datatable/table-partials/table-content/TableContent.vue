@@ -1,8 +1,9 @@
 <template>
-  <div class="table-responsive">
+  <div class="table-responsive px-5" 
+  :class="[loading && 'overlay overlay-block']"
+      >
     <table
-      :class="[loading && 'overlay overlay-block']"
-      class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+    class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
     >
       <TableHeadRow
         @onSort="onSort"

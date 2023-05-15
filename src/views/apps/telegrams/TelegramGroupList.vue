@@ -38,17 +38,23 @@
           <Fillter @filterData="handleFilter"></Fillter>
           <!--begin::Add subscription-->
           <!--end::Add subscription-->
-          <button type="button" class="btn btn-sm fw-bold btn-primary me-2" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'setting')">
+          <button type="button" class="btn btn-sm fw-bold btn-info me-2" data-bs-toggle="modal"
+            data-bs-target="#kt_modal_new_setting">
             <KTIcon icon-name="setting-2" icon-class="fs-2" />
             Cấu hình
           </button>
 
-          <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary me-2" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click.passive="handleClick({},'sync')">
+          <button type="button"  class="btn btn-sm fw-bold btn-success me-2"
+          data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
             <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
             Đồng bộ All
           </button>
+
+          <!-- <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-success btn-active-light-success me-2"
+          data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
+            <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
+            Đồng bộ All
+          </button> -->
 
           <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
@@ -78,9 +84,9 @@
     </div>
     <!--end::Card header-->
 
-    <div class="hand-height-2 shadow-hvover">
+    <div class="hand-height-2 shadow-hvover"> 
       <!--begin::Card body-->
-      <div class="card-body pt-0 overflow-scroll h-100 ">
+      <div class="card-body pt-0 overflow-scroll h-100 p-0 m-0 ">
         <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
           :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
           @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
@@ -94,19 +100,18 @@
           </template>
           <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--' }}</template>
           <template v-slot:status="{ row: customer }">
-            <KTIcon :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
+            <KTIcon v-on:click.stop @click="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on' : 'toggle-off'" :icon-class="(customer.status == 0) ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
           </template>
           <template v-slot:actions="{ row: customer }">
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click="handleSyncItem(customer)">
             <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
           </button>
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'view')">
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" @click="handleClick(customer, 'detail')" >
             <KTIcon icon-name="eye" icon-class="fs-3" />
           </button>
+
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"  @click="handleClick(customer, 'edit')">
+            data-bs-target="#kt_modal_new_telegram_group"  @click="handleClick(customer, 'edit')">
             <KTIcon icon-name="pencil" icon-class="fs-3" />
           </button>
         </template>        
@@ -214,7 +219,8 @@
                   <input
                     class="form-check-input"
                     type="checkbox"
-                    checked
+                    
+                    :checked="apiData.status"
                     v-model="apiData.status"
                   />
                   <span class="form-check-label fw-semobold text-gray-400">
@@ -233,7 +239,7 @@
                     <label class="fs-6">Kiểu nhóm</label>
 
                     <div class="fs-7 text-gray-400">
-                      Allow Notifications by Phone or Email
+                      Chọn kiểu cho nhóm Telegram
                     </div>
                   </div>
                   <!--end::Label-->
@@ -320,49 +326,224 @@
     <!--end::Modal dialog-->
   </div>
 
+    <!-- modal seting  -->
+  <div class="modal fade" tabindex="-1" id="kt_modal_new_setting"    
+  ref="newTSetingModalRef" aria-hidden="true">
+  <!--begin::Modal dialog-->
+  <div class="modal-dialog modal-dialog-centered mw-500px">
+  <!--begin::Modal content-->
+  <div class="modal-content">
+    <!--begin::Modal header-->
+    <div class="modal-header" >
+      <!--begin::Modal title-->
+      <h2>Lập lịch lấy thông tin</h2>
+      <!--end::Modal title-->
+
+      <!--begin::Close-->
+      <div
+        class="btn btn-sm btn-icon btn-active-color-primary"
+        data-bs-dismiss="modal"
+      >
+        <KTIcon icon-name="cross" icon-class="fs-1" />
+      </div>
+      <!--end::Close-->
+    </div>
+    <!--end::Modal header-->
+
+    <!--begin::Form-->
+    <VForm
+      id="kt_modal_new_setting_form"
+      class="form"
+      @submit="handleSubmitSetting"
+    >
+      <!--begin::Modal body-->
+      <div class="modal-body py-10 px-lg-17">
+        <!--begin::Scroll-->
+        <div
+          class="me-n7 pe-7"
+          data-kt-scroll-activate="{default: false, lg: true}"
+          data-kt-scroll-max-height="auto"
+        >
+        <!--begin::Input group-->
+        <div class="row g-9 mb-3">
+          <label class="required fs-6 fw-semobold">Lần chạy kế tiếp</label>
+          <!--begin::Col-->
+          <div class="col-md-6 fv-row mt-2">
+
+            <el-form-item prop="next_run">
+                <el-date-picker
+                  v-model="setingData.next_run"
+                  type="date"
+                  placeholder="Select a date"
+                  :teleported="false"
+                  popper-class="override-styles"
+                  name="next_run"
+                />
+              </el-form-item>
+          </div>
+          <!--end::Col-->
+
+          <!--begin::Col-->
+          <div class="col-md-6 fv-row mt-2">
+            <!--begin::Input-->
+            <div class="position-relative align-items-center">
+              <!--begin::Datepicker-->
+              <el-form-item prop="time_next_run">
+                <el-time-picker
+                  v-model="setingData.time_next_run"
+                  type="time"
+                  placeholder="Select a date"
+                  :teleported="false"
+                  popper-class="override-styles"
+                  name="time_next_run"
+                />
+              </el-form-item>
+              <!--end::Datepicker-->
+            </div>
+            <!--end::Input-->
+          </div>
+          <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+          <!--begin::Input group-->
+        <div class="d-flex flex-column fv-row">
+          <!--begin::Label-->
+          <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+            <span class="required">Thời gian giữa các lần chạy (giờ)</span>
+            <i
+              class="fas fa-exclamation-circle ms-2 fs-7"
+              data-bs-toggle="tooltip"
+              title="Specify a target name for future usage and reference"
+            ></i>
+          </label>
+          <!--end::Label-->
+          <el-input
+            v-model="setingData.hour"
+            type="number"              
+            placeholder="Enter Time"
+            name="hour"
+            class="h-40px"
+          ></el-input>
+        </div>
+        <!--end::Input group-->
+        </div>
+        <!--end::Scroll-->
+      </div>
+      <!--end::Modal body-->
+
+      <!--begin::Modal footer-->
+      <div class="modal-footer flex-center">
+        <!--begin::Button-->
+        <button
+          ref="discardButtonRef"
+          type="reset"
+          id="kt_modal_new_telegram_cancel"
+          class="btn btn-sm  btn-light me-3"
+        >
+          Discard
+        </button>
+        <!--end::Button-->
+
+        <!--begin::Button-->
+        <button
+          ref="submitButtonRef"
+          type="submit"
+          id="kt_modal_new_target_group_submit"
+          class="btn btn-sm  btn-primary"
+            :disabled="disabledButton"
+        >
+          <span class="indicator-label"> Submit </span>
+          <span class="indicator-progress">
+            Please wait...
+            <span
+              class="spinner-border spinner-border-sm align-middle ms-2"
+            ></span>
+          </span>
+        </button>
+        <!--end::Button-->
+      </div>
+      <!--end::Modal footer-->
+    </VForm>
+    <!--end::Form-->
+  </div>
+  <!--end::Modal content-->
+  </div>
+  <!--end::Modal dialog-->
+  </div>
+
+  <!-- modal handleSyncAll  -->
+  <div class="modal fade" tabindex="-1" id="kt_modal_sync_telegram"    
+  ref="NewModalSyncTelegram" aria-hidden="true">
+  <!--begin::Modal dialog-->
+  <div class="modal-dialog modal-dialog-centered">
+  <!--begin::Modal content-->
+  <div class="modal-content">
+    <!--begin::Form-->
+    <div class="modal-body ">
+      <p class="fs-5">Bạn có chắc chắn muốn đồng bộ hóa tất cả nhóm Telegram</p>
+    </div>
+    <!--end::Form-->
+    <div class="modal-footer p-3">
+      <button
+        type="button"
+        class="btn btn-sm btn-light"
+        data-bs-dismiss="modal"
+      >
+        Hủy bỏ
+      </button>
+      <button type="button" class="btn btn-sm  btn-primary" @click.passive="handleSyncAll()">
+        Đồng ý
+      </button>
+    </div>
+  </div>
+  <!--end::Modal content-->
+  </div>
+  <!--end::Modal dialog-->
+  </div>
+
   <!-- modal delete  -->
   <div class="modal fade" tabindex="-1" id="kt_modal_delete"    
-    ref="ModalDelete" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered">
-      <!--begin::Modal content-->
-      <div class="modal-content">
+  ref="ModalDelete" aria-hidden="true">
+  <!--begin::Modal dialog-->
+  <div class="modal-dialog modal-dialog-centered">
+  <!--begin::Modal content-->
+  <div class="modal-content">
 
-        <div class="modal-header">
-          <h5 class="modal-title">Xác nhận xóa recon</h5>
+    <div class="modal-header">
+      <h5 class="modal-title">Xác nhận xóa nhóm</h5>
 
-          <!--begin::Close-->
-          <div
-            class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
-            <span class="svg-icon svg-icon-2x"></span>
-          </div>
-          <!--end::Close-->
-        </div>
-        <!--begin::Form-->
-        <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }} </span> bản ghi này không?.</p>
-        </div>
-        <!--end::Form-->
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-light"
-            data-bs-dismiss="modal"
-          >
-            Hủy bỏ
-          </button>
-          <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
-            Đồng ý
-          </button>
-        </div>
+      <!--begin::Close-->
+      <div
+        class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      >
+        <span class="svg-icon svg-icon-2x"></span>
       </div>
-      <!--end::Modal content-->
+      <!--end::Close-->
     </div>
-    <!--end::Modal dialog-->
-      </div>
+    <!--begin::Form-->
+    <div class="modal-body">
+      <p>Bạn có chắc chắn muốn xóa <span class="fw-bold">{{ selectedIds.length }} </span> bản ghi này không?.</p>
+    </div>
+    <!--end::Form-->
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-light"
+        data-bs-dismiss="modal"
+      >
+        Hủy bỏ
+      </button>
+      <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
+        Đồng ý
+      </button>
+    </div>
+  </div>
+  <!--end::Modal content-->
+  </div>
+  <!--end::Modal dialog-->
+  </div>
 
   <!-- modal detail  -->
   <div class="modal fade" tabindex="-1" 
@@ -379,20 +560,8 @@
               <div class="card-header mb-5">
                 <!--begin::Card title-->
                 <div class="card-title">
-                  <div class="d-flex align-items-center">
-                    <!--begin::Symbol-->
-                    <div class="symbol symbol-50px me-5">
-                      <span class="symbol-label bg-light-success">
-                        <KTIcon icon-name="user" icon-class="text-success fs-2x"/>
-                      </span>
-                    </div>
-                    <!--end::Symbol-->
-                    <!--begin::Text-->
-                    <div class="d-flex flex-column">
-                      <span class="text-dark text-hover-primary fs-4 fw-bold">{{detailData.username ?? '--' }}</span>
-                      <span class="text-muted fw-semobold">{{ detailData.phone ?? '--' }}</span>
-                    </div>
-                    <!--end::Text-->
+                  <div class="card-title">
+                    <h1 class="fw-bold">{{ detailData.name }}</h1>
                   </div>
                 </div>
                 <!--begin::Card toolbar-->
@@ -417,26 +586,38 @@
                       <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
 
                         <!--begin::Row-->
-                        <tr>
-                          <td class="text-gray-400 w-80px d-inline-block">Tên nhóm:</td>
-                          <td class="text-gray-800 text-dark fs-5 fw-bold">{{ detailData.group_name ?? '--' }}</td>
+                        <tr class="d-flex align-items-center">
+                          <td class="text-gray-400 w-200px d-inline-block">Trạng thái:</td>
+                          <td class="text-gray-800 text-dark fs-5 fw-bold">
+                           <div class="d-flex align-items-center p-0 m-0">
+                            <KTIcon :icon-name="(detailData.status == '0') ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(detailData.status == '0') ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
+                            <span class="ms-2">{{ (detailData.status == '0') ? ' Hoạt động' : ' Không hoạt động' }}</span>
+                           </div>
+                          </td>
                         </tr>
                         <!--end::Row-->
 
                         <!--begin::Row-->
-                        <tr>
-                          <td class="text-gray-400 w-80px d-inline-block">Nội dung:</td>
-                          <td class="text-gray-800 " >{{ detailData.text ?? '--' }}</td>
+                        <tr class="d-flex align-items-center">
+                          <td class="text-gray-400 w-200px d-inline-block">kiểu:</td>
+                          <td class="text-gray-800 " >{{ (detailData.type  == '1' ? 'DB Leak' : 'Hacker News') }}</td>
                         </tr>
                         <!--end::Row-->
 
                         <!--begin::Row-->
-                          <tr>
-                          <td class="text-gray-400 w-80px d-inline-block">Thời gian:</td>
-                          <td class="text-gray-800">{{ formatDate(detailData.date) }}</td>
+                        <tr class="d-flex align-items-center">
+                          <td class="text-gray-400 w-200px d-inline-block">Thời gian thêm mới:</td>
+                          <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
                         </tr>
                         <!--end::Row-->
                         
+                        <!--begin::Row-->
+                        <tr class="d-flex align-items-center">
+                          <td class="text-gray-400 w-200px d-inline-block">Thời gian cập nhật cuối:</td>
+                          <td class="text-gray-800">{{ formatDate(detailData.date_update) }}</td>
+                        </tr>
+                        <!--end::Row-->
+
                       </table>
                       <!--end::Details-->
                     </div>
@@ -462,7 +643,6 @@
     </div>
     <!--end::Modal dialog-->
   </div>
-
 </template>
 
 <script lang="ts">
@@ -483,6 +663,8 @@ import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import {Modal} from "bootstrap";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import * as Yup from "yup";
+import {useToast} from 'vue-toast-notification';
+import { useRouter } from 'vue-router';
 
 interface APIData {
   name: string;
@@ -515,11 +697,13 @@ export default defineComponent({
     const filterStatus = ref<String | null>('');
     const detailData = reactive({
       id: '',
-      group_name: '',
-      username: '',
-      phone: '',
-      text: '',
-      date: '',
+      status: '',
+      name: '',
+      type: '',
+      date_update: '',
+      total_message: '',
+      created_at: '',
+      modified_at: '',
     });
     const headerConfig = ref([
       {
@@ -559,7 +743,7 @@ export default defineComponent({
       },
     ]);
 
-
+    // page
     const handlePage = (page: number) => {
       currentPage.value = page ?? 1;
       getData();
@@ -570,6 +754,7 @@ export default defineComponent({
       getData();
     };
 
+    // getdata
     const getData = () => {
       loading.value = true;
       setTimeout(() => loading.value = false ,500)
@@ -583,11 +768,11 @@ export default defineComponent({
         });
     }
 
+    // sắp sếp
     const sortId = ref<string>('');
     const sortDate = ref<string>('');
     const sortTotal = ref<string>('');
     const sort = (sort: Sort) => {
-      console.log(sort)
       if(sort.label == 'id'){
         sortId.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
         sortTotal.value = '';
@@ -611,9 +796,9 @@ export default defineComponent({
       deleteSubscription(selectedIds.value);
     };
 
+    // xóa
     const ModalDelete = ref<null | HTMLElement>(null);
     const deleteSubscription = (ids: Array<number>) => {
-      console.log(ids)
       if(ids){
         return ApiService.delete(`telegram/group/multi-delete?id=${ids.join()}`)
           .then(({ data }) => {
@@ -628,14 +813,15 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
-      console.log(detail)
       if(detail){
         detailData.id = detail.id
-        detailData.username = detail.username
-        detailData.date = detail.date
-        detailData.text = detail.text
-        detailData.phone = detail.phone
-        detailData.group_name = detail.group_name
+        detailData.modified_at = detail.modified_at
+        detailData.created_at = detail.created_at
+        detailData.total_message = detail.total_message
+        detailData.date_update = detail.date_update
+        detailData.type = detail.type
+        detailData.name = detail.name
+        detailData.status = detail.status
         const modal = new Modal(
           document.getElementById("kt_modal_detail") as Element
         );
@@ -663,6 +849,7 @@ export default defineComponent({
       }).then(() => {
         hideModal( ModalDelete.value);
         hideModal( newTargetTelegramModalRef.value);
+        hideModal( newTSetingModalRef.value);
       });
     };
 
@@ -695,7 +882,7 @@ export default defineComponent({
     const validationSchema = Yup.object().shape({
       name: Yup.string()
       .min(3, 'Tối thiểu 3 kí tự')
-      .required('Vui lòng nhập tên')
+      .required('Vui lòng nhập tên nhóm')
     });
 
     // add - edit 
@@ -709,6 +896,7 @@ export default defineComponent({
     });
     const id = ref<number>(0);
     const discardButtonRef = ref<HTMLElement | null>(null);
+    const router = useRouter();
 
     const handleClick = (data: object | any, type: String) => {
       typeModal.value = type
@@ -717,8 +905,11 @@ export default defineComponent({
         nameType.value = "Sửa nhóm nhóm Telegram"
         apiData.value.name = data.name;
         apiData.value.type = data.type;
-        apiData.value.status = data.status;
+        apiData.value.status = (data.status == 0) ? true : false;
         id.value = data.id;
+      }else if(data.id && type === 'detail'){
+        console.log(data.id)
+        router.push({ name: 'telegram-detail', params: { id: data.id } });
       }else{
         nameType.value = "Thêm Mới nhóm Telegram"
         if (discardButtonRef.value !== null) {
@@ -726,6 +917,115 @@ export default defineComponent({
         }
         // resetData();
       }
+    };
+
+    // sync
+    const idSync = ref<number>(0);
+    const disabledButton = ref<boolean>(false);
+    const toastr = useToast();
+    const NewModalSyncTelegram = ref<null | HTMLElement>(null);
+
+    const handleSyncItem = (data: object | any) => {
+      if(data){
+        idSync.value = data.id
+        getSyncItem();
+        if(submitButtonRef.value){
+          disabledButton.value = true
+          submitButtonRef.value.disabled = true;
+          submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+          setTimeout(() => {
+            if(submitButtonRef.value){
+              disabledButton.value = false
+              submitButtonRef.value.disabled = false;
+              submitButtonRef.value?.removeAttribute("data-kt-indicator");
+            }
+          }, 1000)
+        }
+      }
+    };
+
+    const handleSyncAll = () => {
+      getSyncAll();
+      if(submitButtonRef.value){
+        disabledButton.value = true
+        submitButtonRef.value.disabled = true;
+        submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+        setTimeout(() => {
+          if(submitButtonRef.value){
+            disabledButton.value = false
+            submitButtonRef.value.disabled = false;
+            submitButtonRef.value?.removeAttribute("data-kt-indicator");
+          }
+        }, 1000)
+      }
+      hideModal( NewModalSyncTelegram.value);
+    };
+
+    const getSyncItem = async () => {
+      return ApiService.post(`telegram/sync-data/${idSync.value}/group`,0)
+        .then(({ data }) => {
+          toastr.success(data.detail ?? 'Đang đồng bộ hóa tin nhắn' , {position: 'top'});
+          getData();
+        })
+        .catch(({ response }) => {
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
+        });
+    };
+
+    const getSyncAll = async () => {
+      return ApiService.post('telegram/sync-data', '')
+        .then(({ data }) => {
+          toastr.success(data.detail ?? 'Đang đồng bộ hóa tin nhắn' , {position: 'top'});
+          getData();
+        })
+        .catch(({ response }) => {
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
+        });
+    };
+
+    // setting
+    const newTSetingModalRef = ref<null | HTMLElement>(null);
+    const setingData = ref<object | string | any>({
+      next_run: '',
+      time_next_run: '',
+      hour: '',
+    });
+    const handleSubmitSetting = () => {
+      updateSchedule()
+    };
+
+    const updateSchedule = async () => {
+      let formData = {
+        hour: setingData.value.hour,
+        next_run: dayjs(setingData.value.next_run).format('DD-MM-YYYY') + " " + dayjs(setingData.value.time_next_run).format('HH:mm:ss')
+      }
+      return ApiService.post(`/telegram/schedule`,formData)
+        .then(({ data }) => {
+          hideModal( newTSetingModalRef.value);
+          if(disabledButton.value){
+            disabledButton.value = true
+            setTimeout(() => {
+                disabledButton.value = false
+              }, 1000)
+          }
+          notification(data.detail, 'success', 'Đang đồng bộ hóa tin nhắn')
+          getData();
+        })
+        .catch(({ response }) => {
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top-right'});
+        });
+    };
+
+    const getSetting = async () => {
+      return ApiService.get(`/telegram/schedule/show`)
+        .then(({ data }) => {
+          setingData.value.next_run = dayjs(dayjs(data.next_run).format('YYYY-MM-DDDD'), 'YYYY-MM-DDDD')
+          setingData.value.time_next_run = dayjs(dayjs(data.next_run).format('HH:mm:ss'), 'HH:mm:ss')
+          setingData.value.hour = data.hour
+        })
+        .catch(({ response }) => {
+          notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+        });
     };
 
     // submit data
@@ -738,8 +1038,6 @@ export default defineComponent({
         type: apiData.value.type,
         status: (apiData.value.status ==  true) ? 0 : 1 
       }
-      console.log(formData)
-
       if(typeModal.value == 'add'){
         console.log(formData)
 
@@ -750,12 +1048,12 @@ export default defineComponent({
             submitButtonRef.value.disabled = true;
             // Activate indicator
             submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+            notification(data.detail,'success','Thêm mới thành công')
+            getData();
             setTimeout(() => {
               if (submitButtonRef.value) {
                 submitButtonRef.value.disabled = false;
                 submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                notification(data.detail,'success','Thêm mới thành công')
-                getData();
               }
             }, 1000);
             }
@@ -775,16 +1073,15 @@ export default defineComponent({
             submitButtonRef.value.disabled = true;
             // Activate indicator
             submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+            notification(data.detail, 'success', 'Sửa mới thành công')
+            getData();
             setTimeout(() => {
               if (submitButtonRef.value) {
                 submitButtonRef.value.disabled = false;
                 submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                notification(data.detail, 'success', 'Sửa mới thành công')
-                getData();
               }
             }, 1000);
             }
-
           })
           .catch(({ response }) => {
             if(response.data){
@@ -794,12 +1091,28 @@ export default defineComponent({
             }
           });
       }
+    };
 
-
+    // upadte status 
+    const updateStatus = async (data : object | any) => {
+      let formData = {
+        name: data.name,
+        type: data.type,
+        status: (data.status ==  1) ? 0 : 1 
+      }
+      return ApiService.put(`/telegram/group/${data.id}/update`, formData)
+        .then(({ data }) => {
+          toastr.success(data.detail ?? 'Thay đổi trạng thái thành công' , {position: 'top'});
+          getData();
+        })
+        .catch(({ response }) => {
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
+        });
     };
 
     onMounted(() => {
       getData();
+      getSetting();
     });
 
     return {
@@ -848,6 +1161,23 @@ export default defineComponent({
 
       // detail
       detailData,
+
+      // sync
+      handleSyncItem,
+      handleSyncAll,
+      getSyncAll,
+      getSyncItem,
+      disabledButton,
+      NewModalSyncTelegram,
+
+      // setting
+      handleSubmitSetting,
+      setingData,
+      getSetting,
+      newTSetingModalRef,
+
+      // update stataus
+      updateStatus,
     };
   },
 });
