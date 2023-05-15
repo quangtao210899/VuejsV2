@@ -23,7 +23,8 @@
                     <div class="fw-bold me-5">
                         <span class="me-2">{{ selectedIds.length }}</span>Selected
                     </div>
-                    <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
+                    <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                        class="btn btn-danger btn-sm ">
                         Delete Selected
                     </button>
                 </div>
@@ -72,8 +73,7 @@
                 </div>
 
                 <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
-                    :validation-schema="validationSchema"
-                >
+                    :validation-schema="validationSchema">
                     <div class="modal-body py-10 px-lg-17">
                         <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
                             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
@@ -95,78 +95,78 @@
                                 </div>
                                 <div class="col-4">
                                     <label class="form-label fw-semobold required">Loại sản phẩm</label>
-                                <div>
-                                    <select
-                                    class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
-                                    v-model="apiData.product_type"
-                                    >
-                                        <option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</option>
-                                        <option label="Microsoft" value="0">Microsoft</option>
-                                        <option label="Oracle" value="1">Oracle</option>
-                                        <option label="Google" value="2">Google</option>
-                                        <option label="Debian" value="3">Debian</option>
-                                        <option label="Apple" value="4">Apple</option>
-                                        <option label="IBM" value="5">IBM</option>
-                                        <option label="Redhat" value="6">Redhat</option>
-                                        <option label="Fedoraproject" value="7">Fedoraproject</option>
-                                        <option label="Cisco" value="8">Cisco</option>
-                                        <option label="Linux" value="9">Linux</option>
-                                        <option label="Opensuse" value="10">Opensuse</option>
-                                        <option label="Mozilla" value="11">Mozilla</option>
-                                        <option label="Netapp" value="12">Netapp</option>
-                                        <option label="Apache" value="13">Apache</option>
-                                        <option label="HP" value="14">HP</option>
-                                        <option label="Adobe" value="15">Adobe</option>
-                                        <option label="SUN" value="16">SUN</option>
-                                        <option label="Jenkins" value="17">Jenkins</option>
-                                        <option label="SAP" value="18">SAP</option>
-                                        <option label="Suse" value="19">Suse</option>
-                                        <option label="Siemens" value="20">Siemens</option>
-                                        <option label="GNU" value="21">GNU</option>
-                                        <option label="Gitlab" value="22">Gitlab</option>
-                                        <option label="Huawei" value="23">Huawei</option>
-                                        <option label="F5" value="24">F5</option>
-                                        <option label="PHP" value="25">PHP</option>
-                                        <option label="Intel" value="26">Intel</option>
-                                        <option label="Vmware" value="27">Vmware</option>
-                                        <option label="Imagemagick" value="28">Imagemagick</option>
-                                        <option label="Wireshark" value="29">Wireshark</option>
-                                        <option label="Novell" value="30">Novell</option>
-                                        <option label="Dell" value="31">Dell</option>
-                                        <option label="Mcafee" value="32">Mcafee</option>
-                                        <option label="Symantec" value="33">Symantec</option>
-                                        <option label="Fortinet" value="34">Fortinet</option>
-                                        <option label="Moodle" value="35">Moodle</option>
-                                        <option label="Juniper" value="36">Juniper</option>
-                                        <option label="Freebsd" value="37">Freebsd</option>
-                                        <option label="Joomla" value="38">Joomla</option>
-                                        <option label="XEN" value="39">XEN</option>
-                                        <option label="Broadcom" value="40">Broadcom</option>
-                                        <option label="Cpanel" value="41">Cpanel</option>
-                                        <option label="Zohocorp" value="42">Zohocorp</option>
-                                        <option label="Ffmpeg" value="43">Ffmpeg</option>
-                                        <option label="Atlassian" value="44">Atlassian</option>
-                                        <option label="Mariadb" value="45">Mariadb</option>
-                                        <option label="EMC" value="46">EMC</option>
-                                        <option label="Wordpress" value="47">Wordpress</option>
-                                        <option label="Qemu" value="48">Qemu</option>
-                                        <option label="Khác" value="49">Khác</option>
-                                    </select>
-                                    <div class="fv-plugins-message-container">
-                                        <div class="fv-help-block">
-                                            <ErrorMessage name="product_type" />
-                                            <span class="" v-if="errors.product_type">{{ errors.product_type[0] }}</span>
+                                    <div>
+                                        <select
+                                            class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
+                                            v-model="apiData.product_type">
+                                            <option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</option>
+                                            <option label="Microsoft" value="0">Microsoft</option>
+                                            <option label="Oracle" value="1">Oracle</option>
+                                            <option label="Google" value="2">Google</option>
+                                            <option label="Debian" value="3">Debian</option>
+                                            <option label="Apple" value="4">Apple</option>
+                                            <option label="IBM" value="5">IBM</option>
+                                            <option label="Redhat" value="6">Redhat</option>
+                                            <option label="Fedoraproject" value="7">Fedoraproject</option>
+                                            <option label="Fedoraproject" value="8">Canonical</option>
+                                            <option label="Cisco" value="9">Cisco</option>
+                                            <option label="Linux" value="10">Linux</option>
+                                            <option label="Opensuse" value="11">Opensuse</option>
+                                            <option label="Mozilla" value="12">Mozilla</option>
+                                            <option label="Netapp" value="13">Netapp</option>
+                                            <option label="Apache" value="14">Apache</option>
+                                            <option label="HP" value="15">HP</option>
+                                            <option label="Adobe" value="16">Adobe</option>
+                                            <option label="SUN" value="17">SUN</option>
+                                            <option label="Jenkins" value="18">Jenkins</option>
+                                            <option label="SAP" value="19">SAP</option>
+                                            <option label="Suse" value="20">Suse</option>
+                                            <option label="Siemens" value="21">Siemens</option>
+                                            <option label="GNU" value="22">GNU</option>
+                                            <option label="Gitlab" value="23">Gitlab</option>
+                                            <option label="Huawei" value="24">Huawei</option>
+                                            <option label="F5" value="25">F5</option>
+                                            <option label="PHP" value="26">PHP</option>
+                                            <option label="Intel" value="27">Intel</option>
+                                            <option label="Vmware" value="28">Vmware</option>
+                                            <option label="Imagemagick" value="29">Imagemagick</option>
+                                            <option label="Wireshark" value="30">Wireshark</option>
+                                            <option label="Novell" value="31">Novell</option>
+                                            <option label="Dell" value="32">Dell</option>
+                                            <option label="Mcafee" value="33">Mcafee</option>
+                                            <option label="Symantec" value="34">Symantec</option>
+                                            <option label="Fortinet" value="35">Fortinet</option>
+                                            <option label="Moodle" value="36">Moodle</option>
+                                            <option label="Juniper" value="37">Juniper</option>
+                                            <option label="Freebsd" value="38">Freebsd</option>
+                                            <option label="Joomla" value="39">Joomla</option>
+                                            <option label="XEN" value="40">XEN</option>
+                                            <option label="Broadcom" value="41">Broadcom</option>
+                                            <option label="Cpanel" value="42">Cpanel</option>
+                                            <option label="Zohocorp" value="43">Zohocorp</option>
+                                            <option label="Ffmpeg" value="44">Ffmpeg</option>
+                                            <option label="Atlassian" value="45">Atlassian</option>
+                                            <option label="Mariadb" value="46">Mariadb</option>
+                                            <option label="EMC" value="47">EMC</option>
+                                            <option label="Wordpress" value="48">Wordpress</option>
+                                            <option label="Qemu" value="49">Qemu</option>
+                                            <option label="Khác" value="50">Khác</option>
+                                        </select>
+                                        <div class="fv-plugins-message-container">
+                                            <div class="fv-help-block">
+                                                <ErrorMessage name="product_type" />
+                                                <span class="" v-if="errors.product_type">{{ errors.product_type[0]
+                                                }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 </div>
                                 <div class="col-4">
                                     <label class="form-label fw-semobold">Loại lỗ hổng:</label>
                                     <div>
                                         <select
-                                        class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
-                                        v-model="apiData.vul_type"
-                                        >
+                                            class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
+                                            v-model="apiData.vul_type">
                                             <option label="Chọn loại lỗ hổng" value="">Chọn loại lỗ hổng</option>
                                             <option label="DoS" value="0">DoS</option>
                                             <option label="Code Execution" value="1">Code Execution</option>
@@ -175,7 +175,8 @@
                                             <option label="Sql Injection" value="4">Sql Injection</option>
                                             <option label="XSS" value="5">XSS</option>
                                             <option label="Directory Traversal" value="6">Directory Traversal</option>
-                                            <option label="Http Response Splitting" value="7">Http Response Splitting</option>
+                                            <option label="Http Response Splitting" value="7">Http Response Splitting
+                                            </option>
                                             <option label="Bypass something" value="8">Bypass something</option>
                                             <option label="Gain Information" value="9">Gain Information</option>
                                             <option label="Gain Privileges" value="10">Gain Privileges</option>
@@ -195,7 +196,7 @@
                             <div class="d-flex flex-column mb-5 fv-row">
                                 <label class="fs-6 fw-semobold mb-2">Mô tả</label>
                                 <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
-                                placeholder="Mô tả về CVE" v-model="apiData.description" />
+                                    placeholder="Mô tả về CVE" v-model="apiData.description" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="description" />
@@ -205,7 +206,7 @@
                             <div class="d-flex flex-column mb-5 fv-row">
                                 <label class="fs-6 fw-semobold mb-2 required">Phiên bản ảnh hưởng</label>
                                 <Field as="textarea" class="form-control form-control-solid" rows="5" name="version"
-                                placeholder="Phiên bản sản phẩm bị ảnh hưởng bởi CVE" v-model="apiData.version" />
+                                    placeholder="Phiên bản sản phẩm bị ảnh hưởng bởi CVE" v-model="apiData.version" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="version" />
@@ -220,7 +221,8 @@
 
                                 <!--begin::Input-->
                                 <Field as="textarea" class="form-control form-control-solid" rows="5" name="shodan_dock"
-                                placeholder="Câu query shodan để tìm kiếm mục tiêu trên diện rộng. Cú pháp theo cú pháp tìm kiếm của shodan. Query phân cách bởi dấu ;" v-model="apiData.shodan_dock" />
+                                    placeholder="Câu query shodan để tìm kiếm mục tiêu trên diện rộng. Cú pháp theo cú pháp tìm kiếm của shodan. Query phân cách bởi dấu ;"
+                                    v-model="apiData.shodan_dock" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="shodan_dock" />
@@ -236,7 +238,7 @@
 
                                 <!--begin::Input-->
                                 <Field as="textarea" class="form-control form-control-solid" rows="5" name="poc"
-                                placeholder="Thông tin POC, cách khai thác" v-model="apiData.poc" />
+                                    placeholder="Thông tin POC, cách khai thác" v-model="apiData.poc" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="poc" />
@@ -350,43 +352,56 @@
                         </div>
                         <div class="card-body py-0">
                             <div class="mb-10">
-                                <h5>Thông tin chi tiết:</h5>
+                                <h6>Thông tin chi tiết:</h6>
                                 <div class="d-flex flex-wrap py-5">
-                                    <div class="flex-equal me-5">
+                                    <div class="me-5">
+                                        <!--begin::Details-->
                                         <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
+
+                                            <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-400">Loại sản phẩm:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.product_text}} </td>
+                                                <td class="text-gray-400 w-80px d-inline-block">Loại sản phẩm:</td>
+                                                <td class="text-gray-800 text-dark fs-5 fw-bold">{{ detailData.product_text ??
+                                                    '--' }}</td>
+                                            </tr>
+                                            <!--end::Row-->
+
+                                            <!--begin::Row-->
+                                            <tr>
+                                                <td class="text-gray-400 w-80px d-inline-block">Loại lỗ hổng:</td>
+                                                <td class="text-gray-800 ">{{ detailData.vul_text ?? '--' }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-gray-400">Loại lỗ hổng:</td>
-                                                <td class="text-gray-800  badge badge-light pe-2">{{ detailData.vul_text}}</td>
+                                                <td class="text-gray-400 w-80px d-inline-block">Mô tả:</td>
+                                                <td class="text-gray-800 ">{{ detailData.description ?? '--' }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-gray-400">Mô tả:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.description }}</td>
+                                                <td class="text-gray-400 w-80px d-inline-block">Phiên bản:</td>
+                                                <td class="text-gray-800 ">{{ detailData.version ?? '--' }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-gray-400">Phiên bản:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.version }}</td>
+                                                <td class="text-gray-400 w-80px d-inline-block">Shodan Dock:</td>
+                                                <td class="text-gray-800 ">{{ detailData.shodan_dock ?? '--' }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-gray-400">Shodan Dock:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.shodan_dock }}</td>
+                                                <td class="text-gray-400 w-80px d-inline-block">POC:</td>
+                                                <td class="text-gray-800 ">{{ detailData.poc ?? '--' }}</td>
                                             </tr>
+                                            <!--end::Row-->
+
+                                            <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-400">POC:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.poc }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-gray-400">Ngày tạo:</td>
+                                                <td class="text-gray-400 w-80px d-inline-block">Ngày tạo:</td>
                                                 <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-gray-400">Ngày cập nhật cuối:</td>
+                                                <td class="text-gray-400 w-80px d-inline-block">Ngày cập nhập cuối:</td>
                                                 <td class="text-gray-800">{{ formatDate(detailData.modified_at) }}</td>
                                             </tr>
+                                            <!--end::Row-->
+
                                         </table>
+                                        <!--end::Details-->
                                     </div>
                                 </div>
                             </div>
@@ -486,7 +501,9 @@ export default defineComponent({
             id: '',
             code: '',
             product_text: '',
+            product_type: '',
             vul_text: '',
+            vul_type: '',
             description: '',
             version: '',
             shodan_dock: '',
@@ -534,13 +551,13 @@ export default defineComponent({
             errors.vul_type = ''
             errors.description = ''
             errors.version = '',
-            errors.shodan_dock = '',
-            errors.poc = '',
-            errors.detail = ''
+                errors.shodan_dock = '',
+                errors.poc = '',
+                errors.detail = ''
             if (Object.keys(data).length != 0 && type === 'edit') {
                 nameType.value = "Chỉnh sửa CVE"
                 apiData.value.code = data.code;
-                apiData.value.product_type= data.product_type;
+                apiData.value.product_type = data.product_type;
                 apiData.value.vul_type = data.vul_type;
                 apiData.value.description = data.description;
                 apiData.value.version = data.version;
@@ -549,7 +566,7 @@ export default defineComponent({
                 console.log(data)
                 id.value = data.id;
                 console.log(id.value);
-                
+
             } else {
                 nameType.value = "Thêm mới CVE"
                 if (discardButtonRef.value !== null) {
@@ -597,7 +614,7 @@ export default defineComponent({
         const ModalDelete = ref<null | HTMLElement>(null);
         const deleteSubscription = (ids: Array<number>) => {
             let formData = {
-                'id': ids 
+                'id': ids
             }
             if (ids) {
                 return ApiService.post(`cve/delete`, formData)
@@ -621,10 +638,14 @@ export default defineComponent({
         };
         const customRowTable = (detail: any) => {
             if (detail) {
+                console.log(detail, 1111);
+                
                 detailData.id = detail.id
                 detailData.code = detail.code
                 detailData.product_text = detail.product_text
+                detailData.product_type = detail.product_type
                 detailData.vul_text = detail.vul_text
+                detailData.vul_type = detail.vul_type
                 detailData.description = detail.description
                 detailData.version = detail.version
                 detailData.shodan_dock = detail.shodan_dock
@@ -650,7 +671,7 @@ export default defineComponent({
         const modalRef = ref<null | HTMLElement>(null);
         const newTargetGroupModalRef = ref<null | HTMLElement>(null);
         const PatternCVECode = /^[Cc][Vv][Ee]-\d{4}-\d+$/
-        
+
         const arrayProductType = [];
         const arrayVulnType = [0, 1];
         for (let i = 0; i <= 49; i++) {
@@ -663,9 +684,9 @@ export default defineComponent({
                 .matches(PatternCVECode, 'Mã CVE không đúng định dạng')
                 .required('Vui lòng nhập mã CVE'),
             product_type: Yup.number(),
-                // .required('Vui lòng nhập loại sản phẩm'),
+            // .required('Vui lòng nhập loại sản phẩm'),
             vul_type: Yup.number(),
-                // .required('Vui lòng nhập loại lỗ hổng'),
+            // .required('Vui lòng nhập loại lỗ hổng'),
             version: Yup.string()
                 .required('Mục phiên bản ảnh hưởng không được để trống'),
             shodan_dock: Yup.string()
@@ -702,11 +723,11 @@ export default defineComponent({
                 'shodan_dock': apiData.value.shodan_dock,
                 'poc': apiData.value.poc,
             }
-            
+
             if (typeModal.value == 'add') {
                 return ApiService.post("cve/create/", formData)
                     .then(({ data }) => {
-                        if(submitButtonRef.value){
+                        if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;
                             // Activate indicator
@@ -724,7 +745,7 @@ export default defineComponent({
                     })
                     .catch(({ response }) => {
                         console.log(response, response.data);
-                        
+
                         if (response?.data) {
                             errors.code = response.data.code;
                             errors.product_type = response.data.product_type;
@@ -741,7 +762,7 @@ export default defineComponent({
             } else {
                 return ApiService.put(`/cve/${id.value}/update/`, formData)
                     .then(({ data }) => {
-                        if(submitButtonRef.value){
+                        if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;
                             // Activate indicator
@@ -789,7 +810,7 @@ export default defineComponent({
         const setQuery = (event) => {
             query.value = event.target.value
             console.log(query.value, 'searrrrrrrrrr');
-            
+
             currentPage.value = 1
         }
 

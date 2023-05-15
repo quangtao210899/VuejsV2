@@ -62,7 +62,7 @@ const MainMenuConfig: Array<MenuItem> = [
     ],
   },
   {
-    heading: "scans",
+    heading: "Scans",
     route: "/scans",
     pages: [
       {
@@ -74,8 +74,8 @@ const MainMenuConfig: Array<MenuItem> = [
     ],
   },
   {
-    heading: "cves",
-    route: "/scans",
+    heading: "Cves",
+    route: "/cves",
     pages: [
       {
         heading: "Quản lý CVE",
