@@ -46,7 +46,7 @@
                     {{ customer.vul_text }}
                 </template>
                 <template v-slot:description="{ row: customer }">
-                    {{ customer.description }}
+                    {{ truncateText(customer.description ?? '', 25) }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
@@ -55,7 +55,6 @@
                         <KTIcon icon-name="pencil" icon-class="fs-3" />
                     </button>
                 </template>
-
             </KTDatatable>
         </div>
     </div>
@@ -353,57 +352,50 @@
                         <div class="card-body py-0">
                             <div class="mb-10">
                                 <h6>Thông tin chi tiết:</h6>
-                                <div class="d-flex flex-wrap py-5">
-                                    <div class="me-5">
-                                        <!--begin::Details-->
-                                        <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
+                                <div class="py-5">
+                    <!--begin::Row-->
+                    <div class="me-5">
+                      <!--begin::Details-->
+                      <div>
+                        <div class="row fs-6 mb-3">
+                          <div class="col-3 text-gray-400">Loại sản phẩm:</div>
+                          <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.product_text ?? '--' }}</span></div>
+                        </div>
+                        <div class="row fs-6 mb-3">
+                          <div class="col-3 text-gray-400">Loại lỗ hổng:</div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.vul_text ?? '--' }}</span></div>
+                        </div>
+                        <div class="row fs-6 mb-3">
+                          <div class="col-3 text-gray-400">Mô tả:</div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.description ?? '--' }}</span></div>
+                        </div>
+                        <div class="row fs-6 mb-3">
+                          <div class="col-3 text-gray-400">Phiên bản:</div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.version ?? '--' }}</span></div>
+                        </div>
+                        <div class="row fs-6 mb-3">
+                          <div class="col-3 text-gray-400">Shodan dock:</div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.shodan_dock ?? '--' }}</span></div>
+                        </div>
+                        <div class="row fs-6 mb-3">
+                          <div class="col-3 text-gray-400">POC:</div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.poc ?? '--' }}</span></div>
+                        </div>
+                        <div class="row fs-6 mb-3">
+                          <div class="col-3 text-gray-400">Ngày tạo:</div>
+                          <div class="col-9 text-gray-800"><span>{{ formatDate(detailData.created_at) }}</span></div>
+                        </div>
+                        <div class="row fs-6">
+                          <div class="col-3 text-gray-400">Ngày cập nhập:</div>
+                          <div class="col-9 text-gray-800"><span>{{ formatDate(detailData.modified_at) }}</span></div>
+                        </div>
+                      </div>
+                      <!--end::Details-->
+                    </div>
+                    <!--end::Row-->
 
-                                            <!--begin::Row-->
-                                            <tr>
-                                                <td class="text-gray-400 w-80px d-inline-block">Loại sản phẩm:</td>
-                                                <td class="text-gray-800 text-dark fs-5 fw-bold">{{ detailData.product_text ??
-                                                    '--' }}</td>
-                                            </tr>
-                                            <!--end::Row-->
-
-                                            <!--begin::Row-->
-                                            <tr>
-                                                <td class="text-gray-400 w-80px d-inline-block">Loại lỗ hổng:</td>
-                                                <td class="text-gray-800 ">{{ detailData.vul_text ?? '--' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-gray-400 w-80px d-inline-block">Mô tả:</td>
-                                                <td class="text-gray-800 ">{{ detailData.description ?? '--' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-gray-400 w-80px d-inline-block">Phiên bản:</td>
-                                                <td class="text-gray-800 ">{{ detailData.version ?? '--' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-gray-400 w-80px d-inline-block">Shodan Dock:</td>
-                                                <td class="text-gray-800 ">{{ detailData.shodan_dock ?? '--' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-gray-400 w-80px d-inline-block">POC:</td>
-                                                <td class="text-gray-800 ">{{ detailData.poc ?? '--' }}</td>
-                                            </tr>
-                                            <!--end::Row-->
-
-                                            <!--begin::Row-->
-                                            <tr>
-                                                <td class="text-gray-400 w-80px d-inline-block">Ngày tạo:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-gray-400 w-80px d-inline-block">Ngày cập nhập cuối:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.modified_at) }}</td>
-                                            </tr>
-                                            <!--end::Row-->
-
-                                        </table>
-                                        <!--end::Details-->
-                                    </div>
-                                </div>
+                  </div>
+            
                             </div>
                         </div>
                     </div>
@@ -524,18 +516,22 @@ export default defineComponent({
             {
                 columnName: "Mã CVE",
                 columnLabel: "code",
+                columnWidth: 150,
             },
             {
                 columnName: "Loại sản phẩm",
                 columnLabel: "product_text",
+                columnWidth: 150,
             },
             {
                 columnName: "Loại lỗ hổng",
                 columnLabel: "vul_text",
+                columnWidth: 150,
             },
             {
                 columnName: "Mô tả",
                 columnLabel: "description",
+                columnWidth: 220,
             },
             {
                 columnName: "Hành động",
@@ -585,6 +581,13 @@ export default defineComponent({
         const handlePage = (page: number) => {
             currentPage.value = page ?? 1;
             getData();
+        };
+
+        const truncateText = (text: string, maxLength: number) => {
+            if (text.length > maxLength) {
+                return text.substring(0, maxLength) + '...';
+            }
+            return text;
         };
 
         const handlePerPage = (itemsPage: number) => {
@@ -833,7 +836,7 @@ export default defineComponent({
             deleteFewSubscriptions,
             deleteSubscription,
             getAssetPath,
-
+            truncateText,
             // validate
             // crud
             apiData,
