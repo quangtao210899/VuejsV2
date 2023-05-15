@@ -20,7 +20,7 @@ import { initApexCharts } from "@/core/plugins/apexcharts";
 import { initInlineSvg } from "@/core/plugins/inline-svg";
 import { initVeeValidate } from "@/core/plugins/vee-validate";
 import { initKtIcon } from "@/core/plugins/keenthemes";
-import 'vue-toast-notification/dist/theme-sugar.css';
+// import 'vue-toast-notification/dist/theme-sugar.css';
 
 import "@/core/plugins/prismjs";
 
