@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row px-5">
     <TableItemsPerPageSelect
       v-model:itemsPerPage="itemsCountInTable"
       :items-per-page-dropdown-enabled="itemsPerPageDropdownEnabled"
