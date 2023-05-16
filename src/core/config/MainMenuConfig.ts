@@ -75,7 +75,7 @@ const MainMenuConfig: Array<MenuItem> = [
   },
   {
     heading: "Cves",
-    route: "/cves",
+    route: "/cve",
     pages: [
       {
         heading: "Quản lý CVE",

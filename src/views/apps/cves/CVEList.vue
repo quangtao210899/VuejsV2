@@ -92,104 +92,56 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-4">
-                                    <label class="form-label fw-semobold required">Loại sản phẩm</label>
-                                    <div>
-                                        <select
-                                            class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
-                                            v-model="apiData.product_type">
-                                            <option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</option>
-                                            <option label="Microsoft" value="0">Microsoft</option>
-                                            <option label="Oracle" value="1">Oracle</option>
-                                            <option label="Google" value="2">Google</option>
-                                            <option label="Debian" value="3">Debian</option>
-                                            <option label="Apple" value="4">Apple</option>
-                                            <option label="IBM" value="5">IBM</option>
-                                            <option label="Redhat" value="6">Redhat</option>
-                                            <option label="Fedoraproject" value="7">Fedoraproject</option>
-                                            <option label="Fedoraproject" value="8">Canonical</option>
-                                            <option label="Cisco" value="9">Cisco</option>
-                                            <option label="Linux" value="10">Linux</option>
-                                            <option label="Opensuse" value="11">Opensuse</option>
-                                            <option label="Mozilla" value="12">Mozilla</option>
-                                            <option label="Netapp" value="13">Netapp</option>
-                                            <option label="Apache" value="14">Apache</option>
-                                            <option label="HP" value="15">HP</option>
-                                            <option label="Adobe" value="16">Adobe</option>
-                                            <option label="SUN" value="17">SUN</option>
-                                            <option label="Jenkins" value="18">Jenkins</option>
-                                            <option label="SAP" value="19">SAP</option>
-                                            <option label="Suse" value="20">Suse</option>
-                                            <option label="Siemens" value="21">Siemens</option>
-                                            <option label="GNU" value="22">GNU</option>
-                                            <option label="Gitlab" value="23">Gitlab</option>
-                                            <option label="Huawei" value="24">Huawei</option>
-                                            <option label="F5" value="25">F5</option>
-                                            <option label="PHP" value="26">PHP</option>
-                                            <option label="Intel" value="27">Intel</option>
-                                            <option label="Vmware" value="28">Vmware</option>
-                                            <option label="Imagemagick" value="29">Imagemagick</option>
-                                            <option label="Wireshark" value="30">Wireshark</option>
-                                            <option label="Novell" value="31">Novell</option>
-                                            <option label="Dell" value="32">Dell</option>
-                                            <option label="Mcafee" value="33">Mcafee</option>
-                                            <option label="Symantec" value="34">Symantec</option>
-                                            <option label="Fortinet" value="35">Fortinet</option>
-                                            <option label="Moodle" value="36">Moodle</option>
-                                            <option label="Juniper" value="37">Juniper</option>
-                                            <option label="Freebsd" value="38">Freebsd</option>
-                                            <option label="Joomla" value="39">Joomla</option>
-                                            <option label="XEN" value="40">XEN</option>
-                                            <option label="Broadcom" value="41">Broadcom</option>
-                                            <option label="Cpanel" value="42">Cpanel</option>
-                                            <option label="Zohocorp" value="43">Zohocorp</option>
-                                            <option label="Ffmpeg" value="44">Ffmpeg</option>
-                                            <option label="Atlassian" value="45">Atlassian</option>
-                                            <option label="Mariadb" value="46">Mariadb</option>
-                                            <option label="EMC" value="47">EMC</option>
-                                            <option label="Wordpress" value="48">Wordpress</option>
-                                            <option label="Qemu" value="49">Qemu</option>
-                                            <option label="Khác" value="50">Khác</option>
-                                        </select>
-                                        <div class="fv-plugins-message-container">
-                                            <div class="fv-help-block">
-                                                <ErrorMessage name="product_type" />
-                                                <span class="" v-if="errors.product_type">{{ errors.product_type[0]
-                                                }}</span>
-                                            </div>
+                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                        <span class="required">Loại sản phẩm</span>
+                                    </label>
+                                    <el-form-item prop="assign">
+                                        <el-select placeholder="Chọn kiểu" as="select" height="40px" name="product_text"
+                                            class="input-group-lg" v-model.lazy="apiData.product_type">
+                                            <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option>
+                                            <el-option
+                                                v-for="item in dataProduct"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value"
+                                            />
+                                        </el-select>
+                                    </el-form-item>
+                                    <!-- <Field type="text" class="form-control form-control-solid" placeholder="Chọn nhóm mục tiêu"
+                                        name="group" v-model="apiData.group" /> -->
+                                    <!-- <div class="fv-plugins-message-container">
+                                        <div class="fv-help-block">
+                                            <ErrorMessage name="group" />
+                                            <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="col-4">
-                                    <label class="form-label fw-semobold">Loại lỗ hổng:</label>
-                                    <div>
-                                        <select
-                                            class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-100 py-2"
-                                            v-model="apiData.vul_type">
-                                            <option label="Chọn loại lỗ hổng" value="">Chọn loại lỗ hổng</option>
-                                            <option label="DoS" value="0">DoS</option>
-                                            <option label="Code Execution" value="1">Code Execution</option>
-                                            <option label="Overflow" value="2">Overflow</option>
-                                            <option label="Memory Corruption" value="3">Memory Corruption</option>
-                                            <option label="Sql Injection" value="4">Sql Injection</option>
-                                            <option label="XSS" value="5">XSS</option>
-                                            <option label="Directory Traversal" value="6">Directory Traversal</option>
-                                            <option label="Http Response Splitting" value="7">Http Response Splitting
-                                            </option>
-                                            <option label="Bypass something" value="8">Bypass something</option>
-                                            <option label="Gain Information" value="9">Gain Information</option>
-                                            <option label="Gain Privileges" value="10">Gain Privileges</option>
-                                            <option label="CSRF" value="11">CSRF</option>
-                                            <option label="File Inclusion" value="12">File Inclusion</option>
-                                            <option label="Khác" value="13">Khác</option>
-                                        </select>
-                                        <div class="fv-plugins-message-container">
-                                            <div class="fv-help-block">
-                                                <ErrorMessage name="vul_type" />
-                                                <span class="" v-if="errors.vul_type">{{ errors.vul_type[0] }}</span>
-                                            </div>
+                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                        <span class="required">Loại sản phẩm</span>
+                                    </label>
+                                    <el-form-item prop="assign">
+                                        <el-select placeholder="Chọn kiểu" as="select" height="40px"
+                                            class="input-group-lg" v-model="apiData.vul_type">
+                                            <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option>
+                                            <el-option
+                                                v-for="item in dataVul"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value"
+                                            />
+                                        </el-select>
+                                    </el-form-item>
+                                    <!-- <Field type="text" class="form-control form-control-solid" placeholder="Chọn nhóm mục tiêu"
+                                        name="group" v-model="apiData.group" /> -->
+                                    <!-- <div class="fv-plugins-message-container">
+                                        <div class="fv-help-block">
+                                            <ErrorMessage name="group" />
+                                            <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="d-flex flex-column mb-5 fv-row">
@@ -423,8 +375,8 @@ import ApiService from "@/core/services/ApiService";
 // validate
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
-import { vue3Debounce } from 'vue-debounce';
-import Fillter from "@/views/apps/targets/filtersTarget.vue";
+import { vue3Debounce } from "vue-debounce";
+import Fillter from "@/views/apps/cves/filterCVEList.vue";
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -464,6 +416,8 @@ export default defineComponent({
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
         const query = ref<String>('');
+        const filterProductType = ref<String | null>('');
+        const filterVulType = ref<String | null>('');
         const orderingID = ref<String>('');
         const typeModal = ref<String>('');
         const id = ref<number>(0);
@@ -506,7 +460,270 @@ export default defineComponent({
         const discardButtonRef = ref<HTMLElement | null>(null);
         const ModalDetail = ref<null | HTMLElement>(null);
         const loading = ref<boolean>(false)
-
+        const dataVul = [
+            {
+                value: 0,
+                label: 'DoS',
+            },
+            {
+                value: 1,
+                label: 'Code Execution',
+            },
+            {
+                value: 2,
+                label: 'Overflow',
+            },
+            {
+                value: 3,
+                label: 'Memory Corruption',
+            },
+            {
+                value: 4,
+                label: 'Code Execution',
+            },
+            {
+                value: 5,
+                label: 'XSS',
+            },
+            {
+                value: 6,
+                label: 'Directory Traversal',
+            },
+            {
+                value: 7,
+                label: 'Http Response Splitting',
+            },
+            {
+                value: 8,
+                label: 'Bypass something',
+            },
+            {
+                value: 9,
+                label: 'Gain Information',
+            },
+            {
+                value: 10,
+                label: 'Gain Privileges',
+            },
+            {
+                value: 11,
+                label: 'CSRF',
+            },
+            {
+                value: 12,
+                label: 'File Inclusion',
+            },
+            {
+                value: 13,
+                label: 'Khác',
+            },
+        ]
+        const dataProduct = [
+            {
+                value: 0,
+                label: 'Microsoft',
+            },
+            {
+                value: 1,
+                label: 'Oracle',
+            },
+            {
+                value: 2,
+                label: 'Google',
+            },
+            {
+                value: 3,
+                label: 'Debian',
+            },
+            {
+                value: 4,
+                label: 'Apple',
+            },
+            {
+                value: 5,
+                label: 'IBM',
+            },
+            {
+                value: 6,
+                label: 'Redhat',
+            },
+            {
+                value: 7,
+                label: 'Fedoraproject',
+            },
+            {
+                value: 8,
+                label: 'Canonical',
+            },
+            {
+                value: 9,
+                label: 'Cisco',
+            },
+            {
+                value: 10,
+                label: 'Linux',
+            },
+            {
+                value: 11,
+                label: 'Opensuse',
+            },
+            {
+                value: 12,
+                label: 'Mozilla',
+            },
+            {
+                value: 13,
+                label: 'Netapp',
+            },
+            {
+                value: 14,
+                label: 'Apache',
+            },
+            {
+                value: 15,
+                label: 'HP',
+            },
+            {
+                value: 16,
+                label: 'Adobe',
+            },
+            {
+                value: 17,
+                label: 'SUN',
+            },
+            {
+                value: 18,
+                label: 'Jenkins',
+            },
+            {
+                value: 19,
+                label: 'SAP',
+            },
+            {
+                value: 20,
+                label: 'Suse',
+            },
+            {
+                value: 21,
+                label: 'Siemens',
+            },
+            {
+                value: 22,
+                label: 'GNU',
+            },
+            {
+                value: 23,
+                label: 'Gitlab',
+            },
+            {
+                value: 24,
+                label: 'Huawei',
+            },
+            {
+                value: 25,
+                label: 'F5',
+            },
+            {
+                value: 26,
+                label: 'PHP',
+            },
+            {
+                value: 27,
+                label: 'Intel',
+            },
+            {
+                value: 28,
+                label: 'Vmware',
+            },
+            {
+                value: 29,
+                label: 'Imagemagick',
+            },
+            {
+                value: 30,
+                label: 'Wireshark',
+            },
+            {
+                value: 31,
+                label: 'Novell',
+            },
+            {
+                value: 32,
+                label: 'Dell',
+            },
+            {
+                value: 33,
+                label: 'Mcafee',
+            },
+            {
+                value: 34,
+                label: 'Symantec',
+            },
+            {
+                value: 35,
+                label: 'Fortinet',
+            },
+            {
+                value: 36,
+                label: 'Moodle',
+            },
+            {
+                value: 37,
+                label: 'Juniper',
+            },
+            {
+                value: 38,
+                label: 'Freebsd',
+            },
+            {
+                value: 39,
+                label: 'Joomla',
+            },
+            {
+                value: 40,
+                label: 'XEN',
+            },
+            {
+                value: 41,
+                label: 'Broadcom',
+            },
+            {
+                value: 42,
+                label: 'Cpanel',
+            },
+            {
+                value: 43,
+                label: 'Zohocorp',
+            },
+            {
+                value: 44,
+                label: 'Ffmpeg',
+            },
+            {
+                value: 45,
+                label: 'Atlassian',
+            },
+            {
+                value: 46,
+                label: 'Mariadb',
+            },
+            {
+                value: 47,
+                label: 'EMC',
+            },
+            {
+                value: 48,
+                label: 'Wordpress',
+            },
+            {
+                value: 49,
+                label: 'Qemu',
+            },
+            {
+                value: 50,
+                label: 'Khác',
+            },
+        ]
         const headerConfig = ref([
             {
                 columnName: "ID",
@@ -547,9 +764,9 @@ export default defineComponent({
             errors.vul_type = ''
             errors.description = ''
             errors.version = '',
-                errors.shodan_dock = '',
-                errors.poc = '',
-                errors.detail = ''
+            errors.shodan_dock = '',
+            errors.poc = '',
+            errors.detail = ''
             if (Object.keys(data).length != 0 && type === 'edit') {
                 nameType.value = "Chỉnh sửa CVE"
                 apiData.value.code = data.code;
@@ -561,10 +778,12 @@ export default defineComponent({
                 apiData.value.poc = data.poc;
                 console.log(data)
                 id.value = data.id;
-                console.log(id.value);
+                console.log(id.value, 2344);
 
             } else {
                 nameType.value = "Thêm mới CVE"
+                apiData.value.vul_type = '';
+                apiData.value.product_type = '';
                 if (discardButtonRef.value !== null) {
                     discardButtonRef.value.click();
                 }
@@ -599,7 +818,7 @@ export default defineComponent({
         const getData = () => {
             loading.value = true;
             setTimeout(() => loading.value = false, 500)
-            return ApiService.get(`cve/index?code=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
+            return ApiService.get(`cve/index?code=${query.value}&product_type=${filterProductType.value}&vul_type=${filterVulType.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
                     totalPage.value = data.count
@@ -641,8 +860,6 @@ export default defineComponent({
         };
         const customRowTable = (detail: any) => {
             if (detail) {
-                console.log(detail, 1111);
-                
                 detailData.id = detail.id
                 detailData.code = detail.code
                 detailData.product_text = detail.product_text
@@ -720,6 +937,8 @@ export default defineComponent({
                 'shodan_dock': apiData.value.shodan_dock,
                 'poc': apiData.value.poc,
             }
+            console.log(apiData, 12312323333);
+            
 
             if (typeModal.value == 'add') {
                 return ApiService.post("cve/create/", formData)
@@ -741,8 +960,6 @@ export default defineComponent({
                         }
                     })
                     .catch(({ response }) => {
-                        console.log(response, response.data);
-
                         if (response?.data) {
                             errors.code = response.data.code;
                             errors.product_type = response.data.product_type;
@@ -814,6 +1031,8 @@ export default defineComponent({
         const handleFilter = (data: any) => {
             if (data) {
                 query.value = data.query;
+                filterProductType.value = data.product_type;
+                filterVulType.value = data.vul_type;
                 currentPage.value = 1;
                 getData();
             } else {
@@ -871,6 +1090,8 @@ export default defineComponent({
             nameType,
             formatDate,
             loading,
+            dataVul,
+            dataProduct,
         };
     },
 });
