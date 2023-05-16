@@ -56,7 +56,7 @@
 
           <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
             data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
-            <KTIcon icon-name="plus" icon-class="fs-2" />
+            <KTIcon icon-name="plus-circle" icon-class="fs-2" />
             Thêm
           </button>
 
@@ -416,12 +416,12 @@
           </label>
           <!--end::Label-->
           <el-input
+            maxlength="2"
             v-model="setingData.hour"
             type="number"              
             placeholder="Enter Time"
             name="hour"
             class="h-40px"
-            :options="{currency: 'number',valueRange: { min: 1, max: 24,}}"
           ></el-input>
         </div>
         <!--end::Input group-->
@@ -634,7 +634,7 @@ import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import * as Yup from "yup";
 import {useToast} from 'vue-toast-notification';
 import { useRouter } from 'vue-router';
-import useCurrencyInput from "vue-currency-input";
+// import useCurrencyInput from "vue-currency-input";
 
 interface APIData {
   name: string;
