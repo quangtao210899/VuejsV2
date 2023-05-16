@@ -38,14 +38,12 @@
           <Fillter @filterData="handleFilter"></Fillter>
           <!--begin::Add subscription-->
           <!--end::Add subscription-->
-          <button type="button" class="btn btn-sm fw-bold btn-info me-2" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_setting">
+          <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click="handleSubmitSetting">
             <KTIcon icon-name="setting-2" icon-class="fs-2" />
             Cấu hình
           </button>
 
-          <button type="button"  class="btn btn-sm fw-bold btn-success me-2"
-          data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
+          <button type="button"  class="btn btn-sm fw-bold btn-success me-2" @click="handleSyncAll">
             <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
             Đồng bộ All
           </button>
@@ -100,7 +98,7 @@
           </template>
           <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--' }}</template>
           <template v-slot:status="{ row: customer }">
-            <KTIcon v-on:click.stop @click="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on' : 'toggle-off'" :icon-class="(customer.status == 0) ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
+            <KTIcon v-on:click.stop @click="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-3x text-success' :'fs-3x text-danger'"/>
           </template>
           <template v-slot:actions="{ row: customer }">
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click="handleSyncItem(customer)">
@@ -353,7 +351,7 @@
     <VForm
       id="kt_modal_new_setting_form"
       class="form"
-      @submit="handleSubmitSetting"
+      @submit="updateSchedule"
     >
       <!--begin::Modal body-->
       <div class="modal-body py-10 px-lg-17">
@@ -372,6 +370,7 @@
             <el-form-item prop="next_run">
                 <el-date-picker
                   v-model="setingData.next_run"
+                  disabled
                   type="date"
                   placeholder="Select a date"
                   :teleported="false"
@@ -422,6 +421,7 @@
             placeholder="Enter Time"
             name="hour"
             class="h-40px"
+            :options="{currency: 'number',valueRange: { min: 1, max: 24,}}"
           ></el-input>
         </div>
         <!--end::Input group-->
@@ -464,36 +464,6 @@
       <!--end::Modal footer-->
     </VForm>
     <!--end::Form-->
-  </div>
-  <!--end::Modal content-->
-  </div>
-  <!--end::Modal dialog-->
-  </div>
-
-  <!-- modal handleSyncAll  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_sync_telegram"    
-  ref="NewModalSyncTelegram" aria-hidden="true">
-  <!--begin::Modal dialog-->
-  <div class="modal-dialog modal-dialog-centered">
-  <!--begin::Modal content-->
-  <div class="modal-content">
-    <!--begin::Form-->
-    <div class="modal-body ">
-      <p class="fs-5">Bạn có chắc chắn muốn đồng bộ hóa tất cả nhóm Telegram</p>
-    </div>
-    <!--end::Form-->
-    <div class="modal-footer p-3">
-      <button
-        type="button"
-        class="btn btn-sm btn-light"
-        data-bs-dismiss="modal"
-      >
-        Hủy bỏ
-      </button>
-      <button type="button" class="btn btn-sm  btn-primary" @click.passive="handleSyncAll()">
-        Đồng ý
-      </button>
-    </div>
   </div>
   <!--end::Modal content-->
   </div>
@@ -646,7 +616,7 @@
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch , shallowRef} from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
@@ -943,7 +913,6 @@ export default defineComponent({
     const idSync = ref<number>(0);
     const disabledButton = ref<boolean>(false);
     const toastr = useToast();
-    const NewModalSyncTelegram = ref<null | HTMLElement>(null);
 
     const handleSyncItem = (data: object | any) => {
       if(data){
@@ -966,42 +935,21 @@ export default defineComponent({
 
     const handleSyncAll = () => {
       Swal.fire({
-        text: 'bạn ok',
+        text: 'Bạn có chắc muốn đồng bộ hóa tất cả nhóm Telegram không?',
         icon: 'info',
         buttonsStyling: false,
         confirmButtonText: "Xác nhận",
         cancelButtonText: "Hủy bỏ",
-        heightAuto: false,
         showCancelButton: true,
         customClass: {
-          confirmButton: "btn btn-primary",
+          confirmButton: "btn btn-sm btn-primary",
+          cancelButton: "btn btn-sm btn-danger ",
         },
-        onOpen: () => {
-          console.log('Alert opened');
-        },
-        onClose: () => {
-          console.log('Alert closed');
-        },
-      }).then(() => {
-        console.log('open')
-        hideModal( ModalDelete.value);
-        hideModal( newTargetTelegramModalRef.value);
-        hideModal( newTSetingModalRef.value);
+      }).then((result: any) => {
+        if (result.isConfirmed) {
+          getSyncAll();
+        }
       });
-      // getSyncAll();
-      if(submitButtonRef.value){
-        disabledButton.value = true
-        submitButtonRef.value.disabled = true;
-        submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-        setTimeout(() => {
-          if(submitButtonRef.value){
-            disabledButton.value = false
-            submitButtonRef.value.disabled = false;
-            submitButtonRef.value?.removeAttribute("data-kt-indicator");
-          }
-        }, 1000)
-      }
-      hideModal( NewModalSyncTelegram.value);
     };
 
     const getSyncItem = async () => {
@@ -1028,13 +976,23 @@ export default defineComponent({
 
     // setting
     const newTSetingModalRef = ref<null | HTMLElement>(null);
-    const setingData = ref<object | string | any>({
+    const dataModal = ref<any>(null);
+    const ModalSetting = ref<string | HTMLElement>('#kt_modal_new_setting');
+    const initialData  = {
       next_run: '',
       time_next_run: '',
       hour: '',
-    });
+    };
+    const setingData = ref<object | string | any>({ ...initialData });
+    const prevData = shallowRef<object | string | any>({ ...initialData });
+
     const handleSubmitSetting = () => {
-      updateSchedule()
+      const modal = new Modal(ModalSetting.value);
+      modal.show(); 
+      dataModal.value = modal
+      if (setingData.next_run !== prevData.value.next_run || setingData.time_next_run !== prevData.value.time_next_run || setingData.hour !== prevData.value.hour) {
+        setingData.value = { ...prevData.value}
+      }
     };
 
     const updateSchedule = async () => {
@@ -1051,6 +1009,8 @@ export default defineComponent({
                 disabledButton.value = false
               }, 1000)
           }
+          // Cập nhật prevData với giá trị mới của setingData
+          prevData.value = { ...setingData.value };
           notification(data, 'success', 'Đang đồng bộ hóa tin nhắn')
           getData();
         })
@@ -1062,9 +1022,16 @@ export default defineComponent({
     const getSetting = async () => {
       return ApiService.get(`/telegram/schedule/show`)
         .then(({ data }) => {
-          setingData.value.next_run = dayjs(dayjs(data.next_run).format('YYYY-MM-DDDD'), 'YYYY-MM-DDDD')
-          setingData.value.time_next_run = dayjs(dayjs(data.next_run).format('HH:mm:ss'), 'HH:mm:ss')
-          setingData.value.hour = data.hour
+          setingData.value = {
+            next_run: dayjs(dayjs(data.next_run).format('YYYY-MM-DDDD'), 'YYYY-MM-DDDD'),
+            time_next_run: dayjs(dayjs(data.next_run).format('HH:mm:ss'), 'HH:mm:ss'),
+            hour: data.hour
+          };
+          prevData.value = {
+            next_run: dayjs(dayjs(data.next_run).format('YYYY-MM-DDDD'), 'YYYY-MM-DDDD'),
+            time_next_run: dayjs(dayjs(data.next_run).format('HH:mm:ss'), 'HH:mm:ss'),
+            hour: data.hour
+          };
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -1211,13 +1178,15 @@ export default defineComponent({
       getSyncAll,
       getSyncItem,
       disabledButton,
-      NewModalSyncTelegram,
 
       // setting
       handleSubmitSetting,
       setingData,
       getSetting,
+      prevData,
       newTSetingModalRef,
+      ModalSetting,
+      updateSchedule,
 
       // update stataus
       updateStatus,

@@ -62,7 +62,7 @@
 
     <div class="d-flex hand-height-2 shadow-hvover">
       <!--begin::Card body-->
-      <div class="card-body pt-0 overflow-scroll h-100 " :class="classDetail ? 'col-6 d-block border-end' : 'col-12 d-block'">
+      <div class="card-body pt-0 overflow-scroll h-100 p-0 m-0 " :class="classDetail ? 'col-6 d-block border-end' : 'col-12 d-block'">
         <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
           :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
           @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
@@ -589,7 +589,7 @@ export default defineComponent({
       if(detailData.status && detailData.severity && type){
         typeConfirm.value = type
         const modal = new Modal(ModalConfirm.value);
-        modal.show();
+        modal.show(); 
         dataModal.value = modal
         // console.log( dataModal.value)
 

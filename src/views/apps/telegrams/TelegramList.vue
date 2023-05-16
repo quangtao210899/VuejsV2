@@ -198,7 +198,7 @@
                   <!--begin::Details-->
                   <div class="py-5">
                     <!--begin::Row-->
-                    <div class="me-5">
+                    <div class="me-5"> 
                       <!--begin::Details-->
                       <div>
                         <div class="row fs-6 mb-3">
