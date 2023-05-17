@@ -78,8 +78,9 @@ const routes: Array<RouteRecordRaw> = [
         name: "telegram-detail",
         component: () => import("@/views/apps/telegrams/TelegramListDetail.vue"),
         meta: {
-          pageTitle: "Quản lý Telegarm",
-          breadcrumbs: ["TelegramGroup","Telegram",],
+          pageTitle: "Chi tiết nhóm Telegarm",
+          breadcrumbs: ["TelegramGroup", "Telegram",],
+          links: ["/telegram-group"],
         },
       },
       {

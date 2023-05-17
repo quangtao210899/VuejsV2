@@ -33,6 +33,7 @@
                 <router-link
                   v-if="menuItem.route"
                   class="menu-link"
+                  :class="{ active: menuItem.route == '/telegram-group' && route.name == 'telegram-detail' }"
                   active-class="active"
                   :to="menuItem.route"
                 >
@@ -274,6 +275,7 @@ export default defineComponent({
       sidebarMenuIcons,
       translate,
       getAssetPath,
+      route
     };
   },
 });

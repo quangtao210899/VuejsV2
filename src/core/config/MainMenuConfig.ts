@@ -75,13 +75,13 @@ const MainMenuConfig: Array<MenuItem> = [
   },
   {
     heading: "Cves",
-    route: "/cves",
+    route: "/cve",
     pages: [
       {
         heading: "Quản lý CVE",
         route: "/cve",
-        keenthemesIcon: "bi bi-bug-fill",
-        bootstrapIcon: "bi bi-bug-fill",
+        keenthemesIcon: "bi bi-wallet-fill",
+        bootstrapIcon: "bi bi-wallet-fill",
       },
     ],
   },

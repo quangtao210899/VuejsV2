@@ -82,7 +82,7 @@
         </template>
         <template v-slot:actions="{ row: customer }">
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
-            data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group" @click="handleClick(customer, 'edit')">
+            data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group" @click="handleClick(customer, 'edit')" title="Sửa">
             <KTIcon icon-name="pencil" icon-class="fs-3" />
           </button>
         </template>

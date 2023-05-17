@@ -80,7 +80,7 @@
                 <template v-slot:actions="{ row: customer }">
                     <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
                         data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
-                        @click="handleClick(customer, 'edit')">
+                        @click="handleClick(customer, 'edit')" title="Sửa">
                         <KTIcon icon-name="pencil" icon-class="fs-3" />
                     </button>
                 </template>
@@ -626,6 +626,8 @@ export default defineComponent({
                 'domain': apiData.value.domain ?? "",
                 'group': apiData.value.group
             }
+            console.log(formData);
+            
             if (typeModal.value == 'add') {
                 return ApiService.post("/targets/", formData)
                     .then(({ data }) => {
