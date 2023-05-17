@@ -86,8 +86,8 @@ const MainMenuConfig: Array<MenuItem> = [
     ],
   },
   {
-    heading: "Users",
-    route: "/users",
+    heading: "User",
+    route: "/user",
     pages: [
       {
         heading: "Quản lý Users",
