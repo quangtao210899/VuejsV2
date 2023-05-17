@@ -136,9 +136,7 @@ import { vue3Debounce } from 'vue-debounce'
         status: '',
       });
 
-      watch(
-        data.value,
-        () => {
+      watch( data.value,() => {
           submit()
         }
       );
