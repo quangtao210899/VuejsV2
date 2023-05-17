@@ -13,9 +13,10 @@ export interface User {
 
 export const useAuthStore = defineStore("auth", () => {
   const errors = ref({});
+  var connection = ref("");
+  const host = import.meta.env.VITE_APP_API_HOST
   const user = ref<User>({} as User);
   const isAuthenticated = ref(!!JwtService.getToken());
-
   function setAuth(authUser: User) {
     isAuthenticated.value = true;
     user.value = authUser;
@@ -41,12 +42,50 @@ export const useAuthStore = defineStore("auth", () => {
     return ApiService.post("api/token/", newCredentials)
       .then(({ data }) => {
         setAuth(data);
+        connectSocket(host)
       })
       .catch(({ response }) => {
         setError(response.data);
       });
   }
 
+  function connectSocket(host: string) {
+    // console.log('vào', connection.value)
+    // if (connection) {
+    //   console.log('vào 123', connection.value)
+    //   return
+    // }
+    // console.log('vào 123')
+    // console.log("Starting Connection to Websocket", host)
+    // connection.value = new WebSocket("ws://" + host + '/ws/notification/')
+
+    // connection.onopen = function () {
+    //   console.log("Successly connected to the echo WebSocket Server")
+    // }
+
+    // connection.onclose = function (e) {
+    //   console.log('WebSocket closed unexpectedly', e);
+    // };
+
+    // connection.onmessage = function (event) {
+    //   var data = JSON.parse(event.data);
+    //   var message = data['message'];
+    //   var status = data['status'];
+    //   if (status) {
+    //     console.log('success',message)
+    //     // notification['success']({
+    //     //   message: message,
+    //     //   duration: 3,
+    //     // });
+    //   } else {
+    //     console.log('error', message)
+    //     // notification['error']({
+    //     //   message: message,
+    //     //   duration: 3,
+    //     // });
+    //   }
+    // }
+  }
   function logout() {
     purgeAuth();
   }
@@ -90,6 +129,7 @@ export const useAuthStore = defineStore("auth", () => {
   return {
     errors,
     user,
+    connection,
     isAuthenticated,
     login,
     logout,
