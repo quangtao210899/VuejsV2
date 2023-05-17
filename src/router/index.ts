@@ -113,8 +113,8 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: "/users",
-    redirect: "/users",
+    path: "/user",
+    redirect: "/user",
     component: () => import("@/layouts/main-layout/MainLayout.vue"),
     meta: {
       middleware: "auth",
@@ -122,11 +122,11 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "/user-list",
-        name: "user-list",
-        component: () => import("@/views/apps/telegrams/TelegramList.vue"),
+        name: "user",
+        component: () => import("@/views/apps/users/UserList.vue"),
         meta: {
-          pageTitle: "Quản lý Telegarm",
-          breadcrumbs: ["Telegram"],
+          pageTitle: "Quản lý Người Dùng",
+          breadcrumbs: ["User List"],
         },
       },
       {
