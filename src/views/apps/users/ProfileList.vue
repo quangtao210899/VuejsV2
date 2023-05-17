@@ -204,7 +204,7 @@
                   <!--begin::Input wrapper-->
                   <div class="position-relative mb-3">
                     <Field :type="!eyeButtonRef ? 'password' : 'text'" class="form-control form-control-solid h-35px" name="newpassword"
-                      id="newpassword" v-model="dataPasswordChange.newpassword" />
+                      id="newpassword" v-model="dataPasswordChange.newpassword"/>
 
                     <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
                       <KTIcon :icon-name="!eyeButtonRef ? 'eye-slash' : 'eye'" icon-class="fs-2" @click="eyePassword"/>
@@ -214,10 +214,10 @@
 
                   <!--begin::Meter-->
                   <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2 active"></div>
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2 active"></div>
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="(percentagePassword >= 25) ? 'active' : ''"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="(percentagePassword >= 50) ? 'active' : ''"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="(percentagePassword >= 75) ? 'active' : ''"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px" :class="(percentagePassword == 100) ? 'active' : ''"></div>
                   </div>
                   <!--end::Meter-->
                 </div>
@@ -292,7 +292,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, reactive , watch } from "vue";
 import ApiService from "@/core/services/ApiService";
 
 // validate
@@ -341,7 +341,7 @@ export default defineComponent({
       newpassword: '',
     });
 
-    const dataPasswordChange = ref<NewPassword>({
+    const dataPasswordChange = reactive({
       confirmpassword: '',
       currentpassword: '',
       newpassword: '',
@@ -442,9 +442,9 @@ export default defineComponent({
     const updatePasswordButton = ref<HTMLElement | null>(null);
     const changePassword = Yup.object().shape({
       currentpassword: Yup.string().required('Vui lòng nhập mật khẩu cũ').label("Mật khẩu cũ"),
-      newpassword: Yup.string().min(4).required('Vui lòng nhập mật khẩu mới').label("Mật khẩu nới"),
+      newpassword: Yup.string().min(8, 'Mật khẩu tối thiểu 8 kí tự').required('Vui lòng nhập mật khẩu mới').label("Mật khẩu nới"),
       confirmpassword: Yup.string()
-        .min(8)
+        .min(8, 'Mật khẩu tối thiểu 8 kí tự')
         .required('Vui lòng nhập lại mật khẩu mới')
         .oneOf([Yup.ref("newpassword"), null], "Mật khẩu không khớp với mật khẩu mới")
         .label("Nhập lại mật khẩu"),
@@ -490,9 +490,11 @@ export default defineComponent({
       erroPasswordChange.value.newpassword =  '';
       erroPasswordChange.value.confirmpassword = '';
 
-      dataPasswordChange.value.currentpassword =  '';
-      dataPasswordChange.value.newpassword =  '';
-      dataPasswordChange.value.confirmpassword = '';
+      dataPasswordChange.currentpassword =  '';
+      dataPasswordChange.newpassword =  '';
+      dataPasswordChange.confirmpassword = '';
+
+      percentagePassword.value = 0
 
       if (discardButtonRef.value != null) {
         console.log(discardButtonRef.value)
@@ -509,6 +511,38 @@ export default defineComponent({
     const eyeButtonRef2 = ref<boolean>(false);
     const eyePassword2 = () => {
       eyeButtonRef2.value = (eyeButtonRef2.value) ? false : true;
+    };
+
+    // checkStringValidity
+    const percentagePassword = ref<number>(0);
+    watch(() => dataPasswordChange.newpassword, (newValue) => {
+      checkStringValidity(newValue);
+    });
+    
+    const checkStringValidity = (password : string) => {
+      // Kiểm tra chứa chữ thường
+      const containsLowercase = /[a-z]/.test(password);
+      
+      // Kiểm tra chứa chữ in hoa
+      const containsUppercase = /[A-Z]/.test(password);
+      
+      // Kiểm tra chứa số
+      const containsNumber = /\d/.test(password);
+      
+      // Kiểm tra chứa ký tự đặc biệt
+      const containsSpecialChar = /[!@#$%^&*()]/.test(password);
+
+      // Tính toán tỷ lệ phần trăm
+      const percentage = Math.round(
+        ((containsLowercase ? 1 : 0) +
+          (containsUppercase ? 1 : 0) +
+          (containsNumber ? 1 : 0) +
+          (containsSpecialChar ? 1 : 0)) /
+        4 *
+        100
+      );
+
+      return percentagePassword.value = percentage;
     };
 
 
@@ -541,7 +575,10 @@ export default defineComponent({
       eyeButtonRef,
       dataPasswordChange,
       eyeButtonRef2,
-      eyePassword2
+      eyePassword2,
+
+      checkStringValidity,
+      percentagePassword,
     };
   },
 });
