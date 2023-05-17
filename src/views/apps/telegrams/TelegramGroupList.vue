@@ -14,67 +14,71 @@
       <!--begin::Card toolbar-->
       <div class="card-toolbar">
         <!--begin::Toolbar-->
-        <div v-if="selectedIds.length === 0" class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
-          <!--begin::Export-->
-          <!-- <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
-            data-bs-target="#kt_subscriptions_export_modal">
-            <KTIcon icon-name="exit-up" icon-class="fs-2" />
-            Export
-          </button> -->
-          <!--end::Export-->
-          <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
-            <button
-              type="button"
-              class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-              data-kt-menu-trigger="click"
-              data-kt-menu-placement="bottom-end"
-              data-kt-menu-flip="top-end"
-            >
-              <KTIcon icon-name="filter" icon-class="fs-2" />
-              Filter
+        <div v-show="selectedIds.length === 0">
+          <div  class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
+            <!--begin::Export-->
+            <!-- <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
+              data-bs-target="#kt_subscriptions_export_modal">
+              <KTIcon icon-name="exit-up" icon-class="fs-2" />
+              Export
+            </button> -->
+            <!--end::Export-->
+            <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
+              <button
+                type="button"
+                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                data-kt-menu-trigger="click"
+                data-kt-menu-placement="bottom-end"
+                data-kt-menu-flip="top-end"
+              >
+                <KTIcon icon-name="filter" icon-class="fs-2" />
+                Filter
+              </button>
+            <!-- </div> -->
+
+            <Fillter @filterData="handleFilter"></Fillter>
+            <!--begin::Add subscription-->
+            <!--end::Add subscription-->
+            <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click="handleSubmitSetting">
+              <KTIcon icon-name="setting-2" icon-class="fs-2" />
+              Cấu hình
             </button>
-          <!-- </div> -->
 
-          <Fillter @filterData="handleFilter"></Fillter>
-          <!--begin::Add subscription-->
-          <!--end::Add subscription-->
-          <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click="handleSubmitSetting">
-            <KTIcon icon-name="setting-2" icon-class="fs-2" />
-            Cấu hình
-          </button>
+            <button type="button"  class="btn btn-sm fw-bold btn-success me-2" @click="handleSyncAll">
+              <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
+              Đồng bộ All
+            </button>
 
-          <button type="button"  class="btn btn-sm fw-bold btn-success me-2" @click="handleSyncAll">
-            <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
-            Đồng bộ All
-          </button>
+            <!-- <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-success btn-active-light-success me-2"
+            data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
+              <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
+              Đồng bộ All
+            </button> -->
 
-          <!-- <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-success btn-active-light-success me-2"
-          data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
-            <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
-            Đồng bộ All
-          </button> -->
+            <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
+              data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
+              <KTIcon icon-name="plus-circle" icon-class="fs-2" />
+              Thêm
+            </button>
 
-          <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
-            <KTIcon icon-name="plus-circle" icon-class="fs-2" />
-            Thêm
-          </button>
-
-        </div>
+          </div>
         <!--end::Toolbar-->
+        </div>
 
         <!--begin::Group actions-->
-        <div v-else class="d-flex justify-content-end align-items-center">
-          <div class="fw-bold me-5">
-            <span class="me-2">{{ selectedIds.length }}</span>Selected
+        <div v-show="selectedIds.length !== 0">
+          <div class="d-flex justify-content-end align-items-center">
+            <div class="fw-bold me-5">
+              <span class="me-2">{{ selectedIds.length }}</span>Selected
+            </div>
+            <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
+              <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
+              Delete Selected
+            </button>
+            <!-- <button type="button" class="btn btn-light-danger ms-2">
+              Hủy
+            </button> -->
           </div>
-          <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
-            <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
-            Delete Selected
-          </button>
-          <!-- <button type="button" class="btn btn-light-danger ms-2">
-            Hủy
-          </button> -->
         </div>
         <!--end::Group actions-->
       </div>
