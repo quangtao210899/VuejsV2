@@ -127,13 +127,14 @@
             <router-link
               v-if="menuItem.route"
               class="menu-link"
+              :class="{active: menuItem.route=='/telegram-group'&&current_route=='telegram-detail' }"
               active-class="active"
               :to="menuItem.route"
             >
               <span class="menu-icon">
                 <KTIcon icon-name="element-8" icon-class="fs-2" />
               </span>
-              <span class="menu-title">{{ translate(menuItem.heading)}}</span>
+              <span class="menu-title">{{ translate(menuItem.heading) }}</span>
             </router-link>
           </div>
         </template>
@@ -317,6 +318,7 @@ export default defineComponent({
     const hasActiveChildren = (match: string) => {
       return route.path.indexOf(match) !== -1;
     };
+    const current_route = route.name
     const translate = (text: string) => {
       if (te(text)) {
         return t(text);
@@ -327,6 +329,7 @@ export default defineComponent({
 
     return {
       hasActiveChildren,
+      current_route,
       headerMenuIcons,
       MainMenuConfig,
       translate,
