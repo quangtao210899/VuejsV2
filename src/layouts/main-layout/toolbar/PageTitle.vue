@@ -31,14 +31,16 @@
         </li>
         <!--end::Item-->
         <template v-for="(item, i) in breadcrumbs" :key="i">
-          <!--begin::Item-->
           <li class="breadcrumb-item">
             <span class="bullet bg-gray-400 w-5px h-2px"></span>
           </li>
-          <!--end::Item-->
-          <!--begin::Item-->
-          <li class="breadcrumb-item text-muted">{{ item }}</li>
-          <!--end::Item-->
+          
+          <li class="breadcrumb-item text-muted" v-if="links&&(i>=0 && i < (<any>breadcrumbs).length - 1  )">
+          <router-link :to="links[i]" class="text-muted text-hover-primary">
+            {{ item }}
+          </router-link>
+          </li>
+          <li class="breadcrumb-item text-muted" v-else>{{ item }}</li>
         </template>
       </ul>
       <!--end::Breadcrumb-->
@@ -71,9 +73,14 @@ export default defineComponent({
       return route.meta.breadcrumbs;
     });
 
+    const links= computed(() => {
+      return route.meta.links??[];
+    });
+
     return {
       pageTitle,
       breadcrumbs,
+      links,
       pageTitleDisplay,
       pageTitleBreadcrumbDisplay,
       pageTitleDirection,
