@@ -2,36 +2,39 @@
     <div class="card h-100 d-block">
         <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
             <div class="card-toolbar">
-                <div v-if="selectedIds.length === 0" class="d-flex justify-content-end"
-                    data-kt-subscription-table-toolbar="base">
-                    <button type="button"
-                        class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                        <KTIcon icon-name="filter" icon-class="fs-2" />
-                        Filter
-                    </button>
-                    <Fillter @filterData="handleFilter"></Fillter>
+                <div v-show="selectedIds.length === 0">
+                    <div class="d-flex justify-content-end"
+                        data-kt-subscription-table-toolbar="base">
+                        <button type="button"
+                            class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                            <KTIcon icon-name="filter" icon-class="fs-2" />
+                            Filter
+                        </button>
+                        <Fillter @filterData="handleFilter"></Fillter>
 
-                    <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
-                        <KTIcon icon-name="plus" icon-class="fs-2" />
-                        Thêm
-                    </button>
-                </div>
-
-                <div v-else class="d-flex justify-content-end align-items-center">
-                    <div class="fw-bold me-5">
-                        <span class="me-2">{{ selectedIds.length }}</span>Selected
+                        <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
+                            <KTIcon icon-name="plus" icon-class="fs-2" />
+                            Thêm
+                        </button>
                     </div>
-                    <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
-                        class="btn btn-danger btn-sm ">
-                        Delete Selected
-                    </button>
+                </div>
+                <div v-show="selectedIds.length !== 0">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <div class="fw-bold me-5">
+                            <span class="me-2">{{ selectedIds.length }}</span>Selected
+                        </div>
+                        <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                            class="btn btn-danger btn-sm ">
+                            Delete Selected
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="card-body pt-0 hand-height-2 overflow-scroll h-100">
+        <div class="card-body pt-0 overflow-scroll h-100 p-0 m-0">
             <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
                 :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
@@ -776,9 +779,7 @@ export default defineComponent({
                 apiData.value.version = data.version;
                 apiData.value.shodan_dock = data.shodan_dock;
                 apiData.value.poc = data.poc;
-                console.log(data)
                 id.value = data.id;
-                console.log(id.value, 2344);
 
             } else {
                 nameType.value = "Thêm mới CVE"
@@ -937,8 +938,6 @@ export default defineComponent({
                 'shodan_dock': apiData.value.shodan_dock,
                 'poc': apiData.value.poc,
             }
-            console.log(apiData, 12312323333);
-            
 
             if (typeModal.value == 'add') {
                 return ApiService.post("cve/create/", formData)
@@ -1023,8 +1022,6 @@ export default defineComponent({
         // tìm kiếm
         const setQuery = (event) => {
             query.value = event.target.value
-            console.log(query.value, 'searrrrrrrrrr');
-
             currentPage.value = 1
         }
 

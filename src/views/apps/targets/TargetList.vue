@@ -169,6 +169,7 @@
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
                                         title="Bắt buộc phải nhập"></i>
                                 </label>
+                                <h1>{{ apiData.group }}</h1>
                                 <el-form-item prop="assign">
                                     <el-select v-model.lazy="apiData.group" placeholder="Chọn kiểu" name="group" as="select" height="40px"
                                         class="input-group-lg">
