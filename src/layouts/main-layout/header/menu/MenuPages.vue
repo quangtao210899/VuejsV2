@@ -303,7 +303,7 @@
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import MainMenuConfig from "@/core/config/MainMenuConfig";
@@ -318,7 +318,9 @@ export default defineComponent({
     const hasActiveChildren = (match: string) => {
       return route.path.indexOf(match) !== -1;
     };
-    const current_route = route.name
+    const current_route = computed(() => {
+      return route.name;
+    });
     const translate = (text: string) => {
       if (te(text)) {
         return t(text);
