@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import ApiService from "@/core/services/ApiService";
 import JwtService from "@/core/services/JwtService";
-
+import { useToast } from 'vue-toast-notification';
 export interface User {
   name: string;
   surname: string;
@@ -13,7 +13,8 @@ export interface User {
 
 export const useAuthStore = defineStore("auth", () => {
   const errors = ref({});
-  var connection = ref("");
+  var connection;
+  const toastr = useToast();
   const host = import.meta.env.VITE_APP_API_HOST
   const user = ref<User>({} as User);
   const isAuthenticated = ref(!!JwtService.getToken());
@@ -29,6 +30,10 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function purgeAuth() {
+    if(connection){
+      connection.close()
+      connection = null
+    }
     isAuthenticated.value = false;
     user.value = {} as User;
     errors.value = [];
@@ -40,9 +45,9 @@ export const useAuthStore = defineStore("auth", () => {
     newCredentials["username"] = credentials.email
     newCredentials["password"] = credentials.password
     return ApiService.post("api/token/", newCredentials)
-      .then(({ data }) => {
+    .then(({ data }) => {
+      connectSocket(host)
         setAuth(data);
-        connectSocket(host)
       })
       .catch(({ response }) => {
         setError(response.data);
@@ -51,40 +56,31 @@ export const useAuthStore = defineStore("auth", () => {
 
   function connectSocket(host: string) {
     // console.log('vào', connection.value)
-    // if (connection) {
-    //   console.log('vào 123', connection.value)
-    //   return
-    // }
+    if (connection) {
+      return
+    }
     // console.log('vào 123')
-    // console.log("Starting Connection to Websocket", host)
-    // connection.value = new WebSocket("ws://" + host + '/ws/notification/')
+    console.log("Starting Connection to Websocket", host)
+    connection = new WebSocket("ws://" + host + '/ws/notification/')
 
-    // connection.onopen = function () {
-    //   console.log("Successly connected to the echo WebSocket Server")
-    // }
+    connection.onopen = function () {
+      console.log("Successly connected to the echo WebSocket Server")
+    }
 
-    // connection.onclose = function (e) {
-    //   console.log('WebSocket closed unexpectedly', e);
-    // };
+    connection.onclose = function (e) {
+      console.log('WebSocket closed unexpectedly', e);
+    };
 
-    // connection.onmessage = function (event) {
-    //   var data = JSON.parse(event.data);
-    //   var message = data['message'];
-    //   var status = data['status'];
-    //   if (status) {
-    //     console.log('success',message)
-    //     // notification['success']({
-    //     //   message: message,
-    //     //   duration: 3,
-    //     // });
-    //   } else {
-    //     console.log('error', message)
-    //     // notification['error']({
-    //     //   message: message,
-    //     //   duration: 3,
-    //     // });
-    //   }
-    // }
+    connection.onmessage = function (event) {
+      var data = JSON.parse(event.data);
+      var message = data['message'];
+      var status = data['status'];
+      if (status) {
+        toastr.info(message, { position: 'top', queue: true });
+      } else {
+        toastr.error(message, { position: 'top', queue: true });
+      }
+    }
   }
   function logout() {
     purgeAuth();
@@ -115,6 +111,7 @@ export const useAuthStore = defineStore("auth", () => {
       ApiService.setHeader();
       ApiService.post("api/token/verify-token/", { token: JwtService.getToken() })
         .then(({ data }) => {
+          connectSocket(host)
           // setAuth(data);
         })
         .catch(({ response }) => {
