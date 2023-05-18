@@ -18,7 +18,7 @@
               ></span>
               <!--end::Separator-->
             </span><br />
-            Chào mừng bạn đến với dịch của chúng tôi
+            Chào mừng bạn đến với dịch vụ của chúng tôi
             <br />
             </span
           >

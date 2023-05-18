@@ -14,10 +14,12 @@
 
       <!--begin::Col-->
       <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-md-5 mb-xl-10">
-        <Widget3 className="h-md-50 mb-5 mb-xl-10" :open="serviceOpen" :closed="serviceClone" description="Services" :services="service" />
+        <Widget3 className="h-md-50 mb-5 mb-xl-10" :open="serviceOpen" :closed="serviceClone" description="Services"
+          :services="service" />
 
         <Widget4 bgColor="#0e367b" :bgImage="getAssetPath('media/patterns/pattern-2.jpg')" className="h-lg-50"
-          :scanHigh="serviceHigh" :scanMedium="serviceMedium" :scanLow="serviceLow" :scanInfo="serviceInfo" description="Lỗ Hổng Bảo Mật" :scan="scan" />
+          :scanHigh="serviceHigh" :scanMedium="serviceMedium" :scanLow="serviceLow" :scanInfo="serviceInfo"
+          description="Lỗ Hổng Bảo Mật" :scan="scan" />
       </div>
       <!--end::Col-->
 
@@ -39,7 +41,7 @@
 
       <!--begin::Col-->
       <div class="col-xl-6 mb-5 mb-xl-10">
-        <Widget7 className="h-xl-100" />
+        <Widget7 className="h-xl-100" :vulnerableColor="vulnerableColor" :vulnerableData="vulnerableData" :vulnerableLabels="vulnerableLabels" />
       </div>
       <!--end::Col-->
     </div>
@@ -134,6 +136,15 @@ export default defineComponent({
     const serviceLow = ref<number>(0);
     const serviceInfo = ref<number>(0);
 
+    // Vulmerabilities by serverity
+    const vulnerableLabels = ref<object>({});
+    const vulnerableData = ref<object>({});
+    const vulnerableColor = ref<object>({});
+
+    // Nhóm mục tiêu
+    const targetGroupLabels = ref<object>({});
+    const targetGroupData = ref<object>({});
+    const targetGroupColor = ref<object>({});
     const getData = () => {
       loading.value = true;
       setTimeout(() => loading.value = false, 500)
@@ -141,7 +152,7 @@ export default defineComponent({
         .then(({ data }) => {
           // target
           target.value = data.count_target;
-          console.log(data)
+          // console.log(data)
 
           // subdomains
           subdomain.value = data.subdomains;
@@ -158,6 +169,16 @@ export default defineComponent({
           serviceMedium.value = data.total_scan_medium;
           serviceLow.value = data.total_scan_low;
           serviceInfo.value = data.total_scan_info;
+
+          // Vulmerabilities by serverity
+          vulnerableLabels.value = ['Info', 'Low', 'Medium', 'High'];
+          vulnerableData.value = [data.total_scan_info, data.total_scan_low, data.total_scan_medium, data.total_scan_high];
+          vulnerableColor.value = ['#28a745', '#23b7e5', '#fcba32', '#e11f26'];
+
+          // Nhóm mục tiêu
+          targetGroupLabels.value = Object.keys(data.target_group);
+          targetGroupData.value = Object.values(data.target_group);
+          targetGroupColor.value = [];
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -181,7 +202,7 @@ export default defineComponent({
 
     onMounted(() => {
       getData();
-      
+
     });
 
     return {
@@ -198,6 +219,12 @@ export default defineComponent({
       subdomainLive,
       target,
       service,
+      vulnerableLabels,
+      vulnerableData,
+      vulnerableColor,
+      targetGroupColor,
+      targetGroupData,
+      targetGroupLabels,
     };
   },
 });

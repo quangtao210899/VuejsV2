@@ -21,7 +21,14 @@
     <!--begin::Card body-->
     <div class="card-body d-flex align-items-end pt-0">
       <!--begin::Title-->
-      <span class="fs-6 fw-bolder text-gray-800 col-9">{{liveSubdomain}} Subdomain live</span>
+
+      <li class="d-flex align-items-center py-2 fw-bolder col-9 ">
+        <span class="bullet bullet-dot bg-success h-10px w-10px me-2"></span> 
+        <span class="fs-6 text-gray-800 badge badge-light-success">
+          <span class="fs-3 text-success">{{liveSubdomain }}  </span>
+           - Subdomain live
+        </span>
+      </li>
       <div class="d-flex align-items-end flex-column w-100">
         <KTIcon icon-name="bi bi-life-preserver" icon-class="fs-3x" />
       </div>
