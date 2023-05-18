@@ -224,7 +224,7 @@
                 <!--end::Wrapper-->
 
                 <!--begin::Hint-->
-                <div class="text-muted"> Use 8 or more characters with a mix of letters, numbers &amp; symbols.</div>
+                <div class="text-muted"> Sử dụng 8 ký tự trở lên với sự kết hợp của các chữ cái, số &amp; ký hiệu.</div>
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="newpassword" />

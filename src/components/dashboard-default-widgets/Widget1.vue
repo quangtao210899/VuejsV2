@@ -9,7 +9,7 @@
       <!--begin::Title-->
       <div class="card-title d-flex flex-column">
         <!--begin::Amount-->
-        <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">69</span>
+        <span class="fs-3x fw-bold text-white me-2 lh-1 ls-n2">{{ target }}</span>
         <!--end::Amount-->
 
         <!--begin::Subtitle-->
@@ -25,24 +25,8 @@
     <!--begin::Card body-->
     <div class="card-body d-flex align-items-end pt-0">
       <!--begin::Progress-->
-      <div class="d-flex align-items-center flex-column mt-3 w-100">
-        <div
-          class="d-flex justify-content-between fw-bold fs-6 text-white opacity-50 w-100 mt-auto mb-2"
-        >
-          <span>43 Pending</span>
-          <span>72%</span>
-        </div>
-
-        <div class="h-8px mx-3 w-100 bg-white bg-opacity-50 rounded">
-          <div
-            class="bg-white rounded h-8px"
-            role="progressbar"
-            style="width: 72%"
-            aria-valuenow="50"
-            aria-valuemin="0"
-            aria-valuemax="100"
-          ></div>
-        </div>
+      <div class="d-flex align-items-end flex-column mt-3 w-100">
+        <KTIcon icon-name="bi bi-life-preserver" icon-class="text-white  fs-3x" />
       </div>
       <!--end::Progress-->
     </div>
@@ -61,6 +45,7 @@ export default defineComponent({
     bgColor: { type: String, required: false, default: "#080655" },
     bgImage: { type: String, required: false },
     description: { type: String, required: true },
+    target: { type: Number, required: true },
   },
 });
 </script>

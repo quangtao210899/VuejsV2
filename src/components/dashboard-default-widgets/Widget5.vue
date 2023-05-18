@@ -7,32 +7,28 @@
         background-image: url('/media/stock/900x600/42.png');`"
     >
       <!--begin::Wrapper-->
-      <div class="mb-10">
+      <div class="mb-5">
         <!--begin::Title-->
-        <div class="fs-2hx fw-bold text-gray-800 text-center mb-13">
+        <div class="fs-2hx fw-bold text-gray-800 text-center">
           <span class="me-2">
-            Try our all new Enviroment with
-            <br />
-            <span class="position-relative d-inline-block text-danger">
-              <router-link
-                to="/crafted/account/overview"
-                class="text-danger opacity-75-hover"
-                >Pro Plan</router-link
-              >
-              <!--begin::Separator-->
+            <span class="position-relative d-inline-block text-danger fs-4x">
+              HI
               <span
                 class="position-absolute opacity-15 bottom-0 start-0 border-4 border-danger border-bottom w-100"
               ></span>
               <!--end::Separator-->
-            </span> </span
-          >for Free
+            </span><br />
+            Chào mừng bạn đến với dịch của chúng tôi
+            <br />
+            </span
+          >
         </div>
         <!--end::Title-->
 
         <!--begin::Action-->
-        <div class="text-center">
+        <!-- <div class="text-center">
           <a href="#" class="btn btn-sm btn-dark fw-bold"> Upgrade Now </a>
-        </div>
+        </div> -->
         <!--begin::Action-->
       </div>
       <!--begin::Wrapper-->

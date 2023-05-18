@@ -2,7 +2,7 @@
   <!--begin::Tables widget 16-->
   <div class="card card-flush" :class="className">
     <!--begin::Header-->
-    <div class="card-header pt-5">
+    <div class="card-header pt-5"> 
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
         <span class="card-label fw-bold text-gray-800"

@@ -6,7 +6,7 @@
       <h3 class="card-title align-items-start flex-column">
         <span class="card-label fw-bold text-dark">Performance Overview</span>
         <span class="text-gray-400 mt-1 fw-semibold fs-6"
-          >Users from all channels</span
+          >Users from all channels</span 
         >
       </h3>
       <!--end::Title-->
