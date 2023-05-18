@@ -39,12 +39,12 @@
             <Fillter @filterData="handleFilter"></Fillter>
             <!--begin::Add subscription-->
             <!--end::Add subscription-->
-            <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click="handleSubmitSetting">
+            <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click.passive="handleSubmitSetting">
               <KTIcon icon-name="setting-2" icon-class="fs-2" />
               Cấu hình
             </button>
 
-            <button type="button"  class="btn btn-sm fw-bold btn-success me-2" @click="handleSyncAll">
+            <button type="button"  class="btn btn-sm fw-bold btn-success me-2" @click.passive="handleSyncAll">
               <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
               Đồng bộ All
             </button>
@@ -102,18 +102,18 @@
           </template>
           <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--' }}</template>
           <template v-slot:status="{ row: customer }">
-            <KTIcon v-on:click.stop @click="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-3x text-success' :'fs-3x text-danger'"/>
+            <KTIcon v-on:click.stop @click.passive="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-3x text-success' :'fs-3x text-danger'"/>
           </template>
           <template v-slot:actions="{ row: customer }">
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click="handleSyncItem(customer)">
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click.passive="handleSyncItem(customer)">
             <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
           </button>
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" @click="handleClick(customer, 'detail')" >
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" @click.passive="handleClick(customer, 'detail')" >
             <KTIcon icon-name="eye" icon-class="fs-3" />
           </button>
 
           <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_telegram_group"  @click="handleClick(customer, 'edit')">
+            data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick(customer, 'edit')">
             <KTIcon icon-name="pencil" icon-class="fs-3" />
           </button>
         </template>        
