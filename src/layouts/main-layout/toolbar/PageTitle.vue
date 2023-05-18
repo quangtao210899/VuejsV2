@@ -74,7 +74,7 @@ export default defineComponent({
     });
 
     const links= computed(() => {
-      return route.meta.links??[];
+      return route.meta.links;
     });
 
     return {
