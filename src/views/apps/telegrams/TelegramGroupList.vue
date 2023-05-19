@@ -902,7 +902,6 @@ export default defineComponent({
         apiData.value.status = (data.status == 0) ? true : false;
         id.value = data.id;
       }else if(data.id && type === 'detail'){
-        console.log(data.id)
         router.push({ name: 'telegram-detail', params: { id: data.id } });
       }else{
         nameType.value = "Thêm Mới nhóm Telegram"
@@ -1053,7 +1052,6 @@ export default defineComponent({
         status: (apiData.value.status ==  true) ? 0 : 1 
       }
       if(typeModal.value == 'add'){
-        console.log(formData)
 
         return ApiService.post("/telegram/group/create", formData)
           .then(({ data }) => {

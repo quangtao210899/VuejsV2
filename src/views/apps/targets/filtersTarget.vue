@@ -22,7 +22,7 @@
                 <!--begin::Input-->
                 <div class="d-flex align-items-center position-relative my-1">
                     <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
-                    <input type="text" data-kt-subscription-table-filter="search" v-model="data.query"
+                    <input type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
                         class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm mục tiêu" />
                 </div>
                 <!--end::Input-->
@@ -30,15 +30,16 @@
             <!--end::Input group-->
             <div class="mb-7">
                 <!--begin::Label-->
-                <label class="form-label fw-semobold">Chọn kiểu:</label>
+                <label class="form-label fw-semobold">Tìm kiếm theo nhóm mục tiêu:</label>
                 <!--end::Label-->
 
                 <el-form-item prop="assign">
 
-                    <el-select v-model="data.type" placeholder="Chọn kiểu" name="type" as="select" height="40px"
+                    <el-select v-model="data.type" placeholder="Chọn nhóm mục tiêu" name="type" as="select" height="40px"
                         class="input-group-lg">
-                        <el-option value="">Chọn kiểu</el-option>
-                        <el-option :label="item.title" :value="item.id" v-for="item in dataGroup">{{ item.title }}</el-option>
+                        <el-option value="">Chọn nhóm mục tiêu</el-option>
+                        <el-option :label="item.title" :value="item.id" v-for="item in dataGroup">{{ item.title
+                        }}</el-option>
                     </el-select>
                 </el-form-item>
 
@@ -63,7 +64,7 @@
   
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
-
+import { debounce } from 'vue-debounce'
 interface Filter {
     query: string | null;
     type: string | null;
@@ -72,18 +73,24 @@ interface Filter {
 export default defineComponent({
     name: "filter-target",
     props: {
-      dataGroup: { type: Object , required: false },
+        dataGroup: { type: Object, required: false },
     },
     components: {},
     emits: [
         "filter-data"
     ],
     setup(props, { emit }) {
+        const submit = async () => {
+            data.value.query = debouncedSearchTerm.value
+            emit("filter-data", data.value);
+        };
+        const debouncedSearchTerm = ref('');
+        const debounceSearch = debounce(submit, 1000);
         const data = ref<Filter>({
             query: '',
             type: '',
         });
-
+        watch(debouncedSearchTerm, debounceSearch);
         watch(
             data.value,
             () => {
@@ -93,18 +100,15 @@ export default defineComponent({
 
         // const emit = defineEmits(['filter-data'])
 
-        const submit = async () => {
-            emit("filter-data", data.value);
-        };
-
         const reset = () => {
+            debouncedSearchTerm.value = '';
             data.value.query = '';
             data.value.type = '';
         };
 
-
         return {
             data,
+            debouncedSearchTerm,
             submit,
             reset,
         };
