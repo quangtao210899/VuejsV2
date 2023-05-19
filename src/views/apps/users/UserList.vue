@@ -93,7 +93,7 @@
 
                 <!--begin::Form-->
                 <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
-                    :validation-schema="nameType == 'Chỉnh sửa mục tiêu' ? validationSchemaUpdate : validationSchema">
+                    :validation-schema="nameType == 'Chỉnh sửa thông tin người dùng' ? validationSchemaUpdate : validationSchema">
                     <!--begin::Modal body-->
                     <div class="modal-body py-10 px-lg-17">
                         <!--begin::Scroll-->
@@ -101,6 +101,20 @@
                             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
                             data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
+                            <div class="mb-5 fv-row">
+                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                    <span v-bind:class="{ 'required': nameType!='Chỉnh sửa thông tin người dùng' }">Email</span>
+                                </label>
+                                <Field type="text" class="form-control form-control-solid" :disabled="nameType=='Chỉnh sửa thông tin người dùng'"
+                                    :style="{ cursor: nameType=='Chỉnh sửa thông tin người dùng' ? 'not-allowed' : '', 'background-color': nameType=='Chỉnh sửa thông tin người dùng' ? '#eee' : ''}"
+                                    placeholder="Nhập email" name="username" v-model="apiData.username" />
+                                <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="fv-plugins-message-container">
+                                    <div class="fv-help-block">
+                                        <ErrorMessage name="username" />
+                                        <span class="" v-if="errors.username">{{ errors.username[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                     <span class="required">Họ Tên</span>
@@ -114,20 +128,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                    <span class="required">Email</span>
-                                </label>
-                                <Field type="text" class="form-control form-control-solid" :disabled="nameType=='Chỉnh sửa mục tiêu'"
-                                    placeholder="Nhập email" name="username" v-model="apiData.username" />
-                                <div v-if="nameType != 'Chỉnh sửa mục tiêu'" class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="username" />
-                                        <span class="" v-if="errors.username">{{ errors.username[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-if="nameType != 'Chỉnh sửa mục tiêu'" class="mb-5 fv-row">
+                            <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
                                 <label class="form-label fw-semibold fs-6 mb-2 required">
                                     Mật khẩu mới
                                 </label>
@@ -152,7 +153,7 @@
                                 </div>
                             </div>
 
-                            <div v-if="nameType != 'Chỉnh sửa mục tiêu'" class="mb-5 fv-row">
+                            <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
                                 <label class="form-label fw-semibold fs-6 mb-2 required">Nhập lại mật khẩu</label>
 
                                 <div class="position-relative mb-3">
@@ -360,7 +361,7 @@ import ApiService from "@/core/services/ApiService";
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
-import Fillter from "@/views/apps/targets/filtersTarget.vue";
+import Fillter from "@/views/apps/users/filterUser.vue";
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -467,7 +468,7 @@ export default defineComponent({
             errors.is_staff = ''
             errors.detail = ''
             if (Object.keys(data).length != 0 && type === 'edit') {
-                nameType.value = "Chỉnh sửa mục tiêu"
+                nameType.value = "Chỉnh sửa thông tin người dùng"
                 apiData.value.first_name = data.first_name;
                 apiData.value.username = data.username;
                 apiData.value.is_staff = data.is_staff;
@@ -588,7 +589,7 @@ export default defineComponent({
 
         const validationSchemaUpdate = Yup.object().shape({
             first_name: Yup.string()
-                .matches(/^[a-zA-Z]+$/, 'Chỉ ký tự chữ được cho phép')
+                .matches(/^[a-zA-Z\sÀ-ỹ]+$/, 'Chỉ ký tự chữ được cho phép')
                 .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự')
                 .required('Vui lòng nhập tên'),
         });
