@@ -415,7 +415,8 @@ export default defineComponent({
             username: '',
             password: '',
             password_confirm: '',
-            detail: ''
+            detail: '',
+            is_staff: false,
         });
         const detailData = reactive({
             id: '',
@@ -465,7 +466,7 @@ export default defineComponent({
             typeModal.value = type
             errors.first_name = ''
             errors.username = ''
-            errors.is_staff = ''
+            errors.is_staff = false
             errors.detail = ''
             if (Object.keys(data).length != 0 && type === 'edit') {
                 nameType.value = "Chỉnh sửa thông tin người dùng"
@@ -643,11 +644,10 @@ export default defineComponent({
                     })
                     .catch(({ response }) => {
                         if (response?.data) {
-                            errors.name = response.data.name;
-                            errors.ip = response.data.ip;
-                            errors.domain = response.data.domain;
-                            errors.group = response.data.group;
-                            errors.detail = response.data.detail;
+                            errors.username = response.data.Errors.username ??'';
+                            errors.first_name = response.data.Errors.first_name??'';
+                            errors.password = response.data.Errors.password??'';
+                            errors.detail = response.data.detail??'';
                         } else {
                             notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                         }
@@ -678,11 +678,10 @@ export default defineComponent({
                     })
                     .catch(({ response }) => {
                         if (response.data) {
-                            errors.name = response.data.name;
-                            errors.ip = response.data.ip;
-                            errors.domain = response.data.domain;
-                            errors.group = response.data.group;
-                            errors.detail = response.data.detail;
+                            errors.username = response.data.Errors.username ?? '';
+                            errors.first_name = response.data.Errors.first_name ?? '';
+                            errors.password = response.data.Errors.password ?? '';
+                            errors.detail = response.data.detail ?? '';
                         } else {
                             notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                         }

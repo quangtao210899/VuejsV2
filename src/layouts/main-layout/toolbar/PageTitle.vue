@@ -57,7 +57,7 @@ import {
   pageTitleDirection,
   pageTitleDisplay,
 } from "@/core/helpers/config";
-import { useRoute } from "vue-router";
+import { useRoute  } from "vue-router";
 
 export default defineComponent({
   name: "layout-page-title",
@@ -73,8 +73,8 @@ export default defineComponent({
       return route.meta.breadcrumbs;
     });
 
-    const links= computed(() => {
-      return route.meta.links;
+    const links = computed<string[]>(() => {
+      return route.meta.links as string[];
     });
 
     return {

@@ -23,7 +23,7 @@
                 <div class="d-flex align-items-center position-relative my-1">
                     <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
                     <input type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
-                        class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm mục tiêu" />
+                        class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm người dùng" />
                 </div>
                 <!--end::Input-->
             </div>
@@ -36,7 +36,7 @@
                     Reset
                 </button>
 
-                <button @click="submit" type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">
+                <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">
                     Apply
                 </button>
             </div>
@@ -52,7 +52,6 @@ import { defineComponent, ref, watch } from "vue";
 import { debounce } from 'vue-debounce'
 interface Filter {
     query: string | null;
-    type: string | null;
 }
 
 export default defineComponent({
@@ -65,15 +64,24 @@ export default defineComponent({
         "filter-data"
     ],
     setup(props, { emit }) {
+        var check_return = 0
         const submit = async () => {
-            data.value.query = debouncedSearchTerm.value
+            if (data.value.query != debouncedSearchTerm.value) {
+                data.value.query = debouncedSearchTerm.value
+                return
+            }
+            if (check_return == 2 || check_return == 1) {
+                check_return--
+                if (check_return == 0) { // trạng thái ban đầu bằng 1 => return
+                    return
+                }
+            }
             emit("filter-data", data.value);
         };
         const debouncedSearchTerm = ref('');
         const debounceSearch = debounce(submit, 1000);
         const data = ref<Filter>({
             query: '',
-            type: '',
         });
         watch(debouncedSearchTerm, debounceSearch);
         watch(
@@ -86,9 +94,9 @@ export default defineComponent({
         // const emit = defineEmits(['filter-data'])
 
         const reset = () => {
+            check_return = 2
             debouncedSearchTerm.value = '';
             data.value.query = '';
-            data.value.type = '';
         };
 
         return {
