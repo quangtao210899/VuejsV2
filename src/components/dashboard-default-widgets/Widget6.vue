@@ -27,7 +27,7 @@
     <!--begin::Body-->
     <div class="card-body">
       <!--begin::Chart-->
-      <apexchart ref="chartRef" type="area" :options="chart" :series="series"></apexchart>
+      <apexchart ref="chartRef" type="donut" :options="chart" :series="targetGroupData" :height="height"></apexchart>
       <!--end::Chart-->
     </div>
     <!--end::Body-->
@@ -39,35 +39,31 @@
 import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
 import { useThemeStore } from "@/stores/theme";
 import type { ApexOptions } from "apexcharts";
-import { getCSSVariableValue } from "@/assets/ts/_utils";
 import type VueApexCharts from "vue3-apexcharts";
 
 export default defineComponent({
-  name: "widget-1",
+  name: "chart-pie",
   props: {
     widgetClasses: String,
     className: { type: String, required: false },
-
+    targetGroupColor: { type: Array, required: false },
+    targetGroupData: { type: Array, required: true },
+    targetGroupLabels: { type: Array, required: true },
+    height: { type: Number, required: true },
   },
   components: {},
-  setup() {
+  setup(props) {
     const chartRef = ref<typeof VueApexCharts | null>(null);
     let chart: ApexOptions = {};
     const store = useThemeStore();
-
-    const series = [
-      {
-        name: "Net Profit",
-        data: [30, 40, 40, 90, 90, 70, 70],
-      },
-    ];
 
     const themeMode = computed(() => {
       return store.mode;
     });
 
     onBeforeMount(() => {
-      Object.assign(chart, chartOptions());
+      Object.assign(chart, chartOptions(props));
+      // console.log(chart)
     });
 
     const refreshChart = () => {
@@ -75,7 +71,7 @@ export default defineComponent({
         return;
       }
 
-      Object.assign(chart, chartOptions());
+      Object.assign(chart, chartOptions(props));
 
       chartRef.value.refresh();
     };
@@ -86,89 +82,82 @@ export default defineComponent({
 
     return {
       chart,
-      series,
       chartRef,
     };
   },
 });
 
-const chartOptions = (): ApexOptions => {
-  const labelColor = getCSSVariableValue("--bs-gray-500");
-  const borderColor = getCSSVariableValue("--bs-gray-200");
-  const baseColor = getCSSVariableValue("--bs-info");
-  const lightColor = getCSSVariableValue("--bs-info-light");
-
+const chartOptions = (props: any): ApexOptions => {
   return {
     chart: {
       fontFamily: "inherit",
-      type: "area",
-      height: 350,
+      type: "donut",
+      height: props.height,
       toolbar: {
         show: false,
       },
     },
-    plotOptions: {},
-    legend: {
-      show: false,
+    plotOptions: {
+      pie: {
+      },
+      bar: {
+        horizontal: false,
+        columnWidth: "30%",
+        borderRadius: 5,
+      },
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     fill: {
-      type: "solid",
-      opacity: 1,
+      type: 'gradient',
     },
-    stroke: {
-      curve: "smooth",
+    legend: {
       show: true,
-      width: 3,
-      colors: [baseColor],
-    },
-    states: {
-      normal: {
-        filter: {
-          type: "none",
-          value: 0,
-        },
+      // formatter: function (val, opts) {
+      //   return val + " - " + opts.w.globals.series[opts.seriesIndex] + " recon "
+      // }
+      // position: 'bottom',
+      fontSize: '13px',
+      fontWeight: 400,
+      markers: {
+          width: 20,
+          height: 12,
+          radius: 1,
       },
-      hover: {
-        filter: {
-          type: "none",
-          value: 0,
-        },
-      },
-      active: {
-        allowMultipleDataPointsSelection: false,
-        filter: {
-          type: "none",
-          value: 0,
-        },
+      itemMargin: {
+          horizontal: 5,
+          vertical: 5
       },
     },
+    colors: props.targetGroupColor,
+    labels: props.targetGroupLabels,
     tooltip: {
       style: {
         fontSize: "12px",
       },
       y: {
         formatter: function (val) {
-          return "$" + val + " thousands";
+          return "Tổng có: " + val;
         },
       },
     },
-    colors: [lightColor],
-    grid: {
-      borderColor: borderColor,
-      strokeDashArray: 4,
-      yaxis: {
-        lines: {
-          show: true,
+    responsive: [{
+      options: {
+        chart: {
+          width: 300
         },
-      },
+        legend: {
+          position: 'top'
+        }
+      }
+    }],
+    stroke: {
+      show: true,
+      width: 5,
     },
-    markers: {
-      strokeColors: baseColor,
-      strokeWidth: 3,
-    },
+    
   };
 };
 </script>
+
