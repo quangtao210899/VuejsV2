@@ -99,8 +99,6 @@ const chartOptions = (props: any): ApexOptions => {
         show: false,
       },
     },
-    annotations: {
-    },
     plotOptions: {
     },
     legend: {
@@ -108,9 +106,6 @@ const chartOptions = (props: any): ApexOptions => {
     },
     dataLabels: {
       enabled: true,
-      background: { //
-        borderRadius: 5,
-      }
     },
     labels: props.vulnerableLabels,
     tooltip: {
