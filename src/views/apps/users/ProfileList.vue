@@ -182,7 +182,7 @@
                   name="currentpassword" autocomplete="off" id="currentpassword" v-model="dataPasswordChange.currentpassword" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
-                    <ErrorMessage name="currentpassword" />
+                    <ErrorMessage name="currentpassword" /><br>
                     <span v-if="Object.keys(erroPasswordChange.currentpassword).length !== 0">
                       <template v-for="(el, key) in erroPasswordChange.currentpassword" :key="key">{{ el }}<br></template>
                     </span>                  
@@ -228,7 +228,7 @@
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="newpassword" />
-                    <span v-if="Object.keys(erroPasswordChange.newpassword).length !== 0">
+                    <span v-if="Object.keys(erroPasswordChange.newpassword).length !== 0"><br>
                       <template v-for="(el, key) in erroPasswordChange.newpassword" :key="key">{{ el }}<br></template>
                     </span>
                   </div>
@@ -253,7 +253,7 @@
 
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
-                    <ErrorMessage name="confirmpassword" />
+                    <ErrorMessage name="confirmpassword" /><br>
                     <span v-if="Object.keys(erroPasswordChange.confirmpassword).length !== 0">
                       <template v-for="(el, key) in erroPasswordChange.confirmpassword" :key="key">{{ el }}<br></template>
                     </span> 
@@ -272,13 +272,9 @@
                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                   </span>
                 </button>
-                <button :disabled="loading" id="kt_password_cancel" type="reset" ref="discardButtonRef"
-                  class="btn btn-color-gray-400 btn-active-light-primary px-6 btn-sm">
-                  Cancel
-                </button>
               </div>
               <!--end::Actions-->
-            </VForm>
+            </VForm> 
             <!--end::Form-->
           </div>
           <!--end::Card body-->
