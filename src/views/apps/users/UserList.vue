@@ -175,9 +175,8 @@
                             </div>
 
                             <div class="mt-5 fv-row">
-                                <h1>{{ apiData.is_staff }}</h1>
                                 <div class="form-check form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="1" id="is_staff" name="is_staff" v-model.lazy="apiData.is_staff" :checked="apiData.is_staff">
+                                    <input class="form-check-input" type="checkbox" value="1" id="is_staff" name="is_staff" v-model="apiData.is_staff" :checked="apiData.is_staff">
                                     <label class="form-check-label" for="is_staff">Quản trị viên</label>
                                 </div>
                             </div>
@@ -471,10 +470,12 @@ export default defineComponent({
                 nameType.value = "Chỉnh sửa mục tiêu"
                 apiData.value.first_name = data.first_name;
                 apiData.value.username = data.username;
+                apiData.value.is_staff = data.is_staff;
                 id.value = data.id;
             } else {
                 nameType.value = "Thêm mới người dùng"
                 if (discardButtonRef.value !== null) {
+                    apiData.value.is_staff = false;
                     discardButtonRef.value.click();
                 }
                 // resetData();
@@ -503,8 +504,6 @@ export default defineComponent({
             setTimeout(() => loading.value = false, 500)
             return ApiService.get(`user?query=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&orderingID=${orderingID.value}`)
                 .then(({ data }) => {
-                    console.log(data);
-                    
                     list.value = data.results
                     totalPage.value = data.count
                 })
@@ -541,8 +540,6 @@ export default defineComponent({
             getData();
         };
         const customRowTable = (detail: any) => {
-            console.log('123123', detail);
-            
             if (detail) {
                 detailData.id = detail.id
                 detailData.first_name = detail.first_name
@@ -570,7 +567,7 @@ export default defineComponent({
 
         const validationSchema = Yup.object().shape({
             first_name: Yup.string()
-                .matches(/^[a-zA-Z]+$/, 'Chỉ ký tự chữ được cho phép')
+                .matches(/^[a-zA-Z\sÀ-ỹ]+$/, 'Chỉ ký tự chữ được cho phép')
                 .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự')
                 .required('Vui lòng nhập tên'),
             username: Yup.string()
@@ -623,7 +620,6 @@ export default defineComponent({
                 'password': apiData.value.password ?? "",
                 'is_staff': apiData.value.is_staff,
             }
-            console.log(formData);
             
             if (typeModal.value == 'add') {
                 return ApiService.post("/auth/register/", formData)
@@ -660,7 +656,6 @@ export default defineComponent({
                     'first_name': apiData.value.first_name,
                     'is_staff': apiData.value.is_staff,
                 }
-                console.log(formDataUpdate);
                 
                 return ApiService.put(`/user/${id.value}/update`, formData)
                     .then(({ data }) => {
