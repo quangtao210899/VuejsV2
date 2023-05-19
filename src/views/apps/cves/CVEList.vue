@@ -390,9 +390,9 @@ import dayjs from 'dayjs';
 interface APIData {
     code: string;
     product_text: string;
-    product_type: number;
+    product_type: string;
     vul_text: string;
-    vul_type: number;
+    vul_type: string;
     description: string;
     version: string;
     shodan_dock: string;
@@ -427,9 +427,9 @@ export default defineComponent({
         const nameType = ref<string>('');
         const apiData = ref<APIData>({
             code: "",
-            product_type: 0,
+            product_type: '',
             product_text: "",
-            vul_type: 0,
+            vul_type: '',
             vul_text: '',
             description: '',
             version: '',
