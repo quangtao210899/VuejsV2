@@ -116,9 +116,10 @@
                             </div>
                             <div class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                    <span class="required">Email</span>
+                                    <span v-bind:class="{ 'required': nameType!='Chỉnh sửa mục tiêu' }">Email</span>
                                 </label>
                                 <Field type="text" class="form-control form-control-solid" :disabled="nameType=='Chỉnh sửa mục tiêu'"
+                                    :style="{ cursor: nameType=='Chỉnh sửa mục tiêu' ? 'not-allowed' : '', 'background-color': nameType=='Chỉnh sửa mục tiêu' ? '#eee' : ''}"
                                     placeholder="Nhập email" name="username" v-model="apiData.username" />
                                 <div v-if="nameType != 'Chỉnh sửa mục tiêu'" class="fv-plugins-message-container">
                                     <div class="fv-help-block">
@@ -360,7 +361,7 @@ import ApiService from "@/core/services/ApiService";
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
-import Fillter from "@/views/apps/targets/filtersTarget.vue";
+import Fillter from "@/views/apps/users/filterUser.vue";
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
