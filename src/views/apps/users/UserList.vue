@@ -103,19 +103,6 @@
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
                             <div class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                    <span class="required">Họ Tên</span>
-                                </label>
-                                <Field type="text" class="form-control form-control-solid" placeholder="Nhập họ tên"
-                                    name="first_name" v-model="apiData.first_name" />
-                                <div class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="first_name" />
-                                        <span class="" v-if="errors.first_name">{{ errors.first_name[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                     <span v-bind:class="{ 'required': nameType!='Chỉnh sửa thông tin người dùng' }">Email</span>
                                 </label>
                                 <Field type="text" class="form-control form-control-solid" :disabled="nameType=='Chỉnh sửa thông tin người dùng'"
@@ -125,6 +112,19 @@
                                     <div class="fv-help-block">
                                         <ErrorMessage name="username" />
                                         <span class="" v-if="errors.username">{{ errors.username[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-5 fv-row">
+                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                    <span class="required">Họ Tên</span>
+                                </label>
+                                <Field type="text" class="form-control form-control-solid" placeholder="Nhập họ tên"
+                                    name="first_name" v-model="apiData.first_name" />
+                                <div class="fv-plugins-message-container">
+                                    <div class="fv-help-block">
+                                        <ErrorMessage name="first_name" />
+                                        <span class="" v-if="errors.first_name">{{ errors.first_name[0] }}</span>
                                     </div>
                                 </div>
                             </div>
