@@ -51,7 +51,7 @@
                     Reset
                 </button>
 
-                <button @click="submit" type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">
+                <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">
                     Apply
                 </button>
             </div>
@@ -80,8 +80,18 @@ export default defineComponent({
         "filter-data"
     ],
     setup(props, { emit }) {
+        var check_return = 0
         const submit = async () => {
-            data.value.query = debouncedSearchTerm.value
+            if (data.value.query != debouncedSearchTerm.value) {
+                data.value.query = debouncedSearchTerm.value
+                return
+            }
+            if(check_return== 2 || check_return == 1){
+                check_return--
+                if(check_return==0){ // trạng thái ban đầu bằng 1 => return
+                    return
+                }
+            }
             emit("filter-data", data.value);
         };
         const debouncedSearchTerm = ref('');
@@ -101,6 +111,7 @@ export default defineComponent({
         // const emit = defineEmits(['filter-data'])
 
         const reset = () => {
+            check_return = 2
             debouncedSearchTerm.value = '';
             data.value.query = '';
             data.value.type = '';
