@@ -332,7 +332,6 @@ export default defineComponent({
     };
 
     const getData = () => {
-      console.log(ID)
       loading.value = true;
       setTimeout(() => loading.value = false ,500)
       return ApiService.get(`/telegram/index?group=${ID}&page=${currentPage.value}&page_size=${itemsPerPage.value}&search=${query.value}`)
@@ -366,7 +365,6 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
-      console.log(detail)
       if(detail){
         detailData.id = detail.id
         detailData.username = detail.username

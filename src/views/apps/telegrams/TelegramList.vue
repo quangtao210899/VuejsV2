@@ -346,7 +346,6 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
-      console.log(detail)
       if(detail){
         detailData.id = detail.id
         detailData.username = detail.username
