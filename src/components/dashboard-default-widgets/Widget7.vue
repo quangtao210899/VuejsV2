@@ -27,7 +27,7 @@
     <!--begin::Body-->
     <div class="card-body">
       <!--begin::Chart-->
-      <apexchart ref="chartRef" type="pie" :options="chart" :series="series"></apexchart>
+      <apexchart ref="chartRef" type="pie" :options="chart" :series="vulnerableData" :height="height"></apexchart>
       <!--end::Chart-->
     </div>
     <!--end::Body-->
@@ -39,7 +39,6 @@
 import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
 import { useThemeStore } from "@/stores/theme";
 import type { ApexOptions } from "apexcharts";
-import { getCSSVariableValue } from "@/assets/ts/_utils";
 import type VueApexCharts from "vue3-apexcharts";
 
 export default defineComponent({
@@ -47,9 +46,10 @@ export default defineComponent({
   props: {
     widgetClasses: String,
     className: { type: String, required: false },
-    vulnerableColor: { type: Object, required: false },
-    vulnerableData: { type: Object, required: false },
-    vulnerableLabels: { type: Object, required: false },
+    vulnerableColor: { type: Array, required: false },
+    vulnerableData: { type: Array, required: true },
+    vulnerableLabels: { type: Array, required: true },
+    height: { type: Number, required: true },
   },
   components: {},
   setup(props) {
@@ -57,14 +57,13 @@ export default defineComponent({
     let chart: ApexOptions = {};
     const store = useThemeStore();
 
-    const series = props.vulnerableData;
-
     const themeMode = computed(() => {
       return store.mode;
     });
 
     onBeforeMount(() => {
       Object.assign(chart, chartOptions(props));
+      // console.log(chart)
     });
 
     const refreshChart = () => {
@@ -83,7 +82,6 @@ export default defineComponent({
 
     return {
       chart,
-      series,
       chartRef,
     };
   },
@@ -94,7 +92,7 @@ const chartOptions = (props: any): ApexOptions => {
     chart: {
       fontFamily: "inherit",
       type: "pie",
-      height: 350,
+      height: props.height,
       toolbar: {
         show: false,
       },
@@ -107,6 +105,7 @@ const chartOptions = (props: any): ApexOptions => {
     dataLabels: {
       enabled: true,
     },
+    colors: props.vulnerableColor,
     labels: props.vulnerableLabels,
     tooltip: {
       style: {
@@ -114,7 +113,7 @@ const chartOptions = (props: any): ApexOptions => {
       },
       y: {
         formatter: function (val) {
-          return + val + " thousands";
+          return   "Tổng có: " + val;
         },
       },
     },
@@ -122,23 +121,3 @@ const chartOptions = (props: any): ApexOptions => {
 };
 </script>
 
-<style>
-.apexcharts-pie-series path {
-  stroke-width: 2px;
-  stroke-linejoin: round;
-  transition: all 0.3s ease;
-}
-
-.apexcharts-pie-series path:hover {
-  stroke-width: 4px;
-}
-
-.apexcharts-pie-series .apexcharts-pie-slice {
-  transition: all 0.3s ease;
-}
-
-.apexcharts-pie-series .apexcharts-pie-slice:hover {
-  transform: scale(1.1);
-  filter: brightness(85%);
-}
-</style>

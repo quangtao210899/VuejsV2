@@ -107,7 +107,7 @@
                                 </label>
                                 <Field type="text" class="form-control form-control-solid" :disabled="nameType=='Chỉnh sửa thông tin người dùng'"
                                     :style="{ cursor: nameType=='Chỉnh sửa thông tin người dùng' ? 'not-allowed' : '', 'background-color': nameType=='Chỉnh sửa thông tin người dùng' ? '#eee' : ''}"
-                                    placeholder="Nhập email" name="username" v-model="apiData.username" />
+                                    :placeholder="editEmail" name="username" v-model="apiData.username" />
                                 <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="username" />
@@ -196,7 +196,7 @@
                     <!--begin::Modal footer-->
                     <div class="modal-footer flex-center">
                         <!--begin::Button-->
-                        <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
+                        <button ref="discardButtonRef" @click="removeTextModal" type="reset" id="kt_modal_new_target_group_cancel"
                             class="btn btn-sm  btn-light me-3">
                             Discard
                         </button>
@@ -415,7 +415,8 @@ export default defineComponent({
             username: '',
             password: '',
             password_confirm: '',
-            detail: ''
+            detail: '',
+            is_staff: false,
         });
         const detailData = reactive({
             id: '',
@@ -428,7 +429,7 @@ export default defineComponent({
         const discardButtonRef = ref<HTMLElement | null>(null);
         const ModalDetail = ref<null | HTMLElement>(null);
         const loading = ref<boolean>(false)
-
+        const editEmail = ref<string>('');
         const headerConfig = ref([
             {
                 columnName: "ID",
@@ -465,13 +466,14 @@ export default defineComponent({
             typeModal.value = type
             errors.first_name = ''
             errors.username = ''
-            errors.is_staff = ''
+            errors.is_staff = false
             errors.detail = ''
             if (Object.keys(data).length != 0 && type === 'edit') {
                 nameType.value = "Chỉnh sửa thông tin người dùng"
                 apiData.value.first_name = data.first_name;
                 apiData.value.username = data.username;
                 apiData.value.is_staff = data.is_staff;
+                editEmail.value = data.username ? data.username : 'Nhập email';
                 id.value = data.id;
             } else {
                 nameType.value = "Thêm mới người dùng"
@@ -643,11 +645,10 @@ export default defineComponent({
                     })
                     .catch(({ response }) => {
                         if (response?.data) {
-                            errors.name = response.data.name;
-                            errors.ip = response.data.ip;
-                            errors.domain = response.data.domain;
-                            errors.group = response.data.group;
-                            errors.detail = response.data.detail;
+                            errors.username = response.data.Errors.username ??'';
+                            errors.first_name = response.data.Errors.first_name??'';
+                            errors.password = response.data.Errors.password??'';
+                            errors.detail = response.data.detail??'';
                         } else {
                             notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                         }
@@ -678,11 +679,10 @@ export default defineComponent({
                     })
                     .catch(({ response }) => {
                         if (response.data) {
-                            errors.name = response.data.name;
-                            errors.ip = response.data.ip;
-                            errors.domain = response.data.domain;
-                            errors.group = response.data.group;
-                            errors.detail = response.data.detail;
+                            errors.username = response.data.Errors.username ?? '';
+                            errors.first_name = response.data.Errors.first_name ?? '';
+                            errors.password = response.data.Errors.password ?? '';
+                            errors.detail = response.data.detail ?? '';
                         } else {
                             notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                         }
@@ -697,6 +697,14 @@ export default defineComponent({
             }
             const dateFormat = 'DD/MM/YYYY HH:mm:ss';
             return dayjs(date).format(dateFormat)
+        }
+
+        const removeTextModal = () => {
+            console.log(apiData.value, typeModal.value, nameType.value, detailData.username);
+            // typeModal.value == 'edit' && 
+            
+            
+            apiData.value.is_staff = false
         }
 
         // end validate
@@ -771,7 +779,10 @@ export default defineComponent({
             eyeButtonRef,
             // dataPasswordChange,
             eyeButtonRef2,
-            eyePassword2
+            eyePassword2,
+
+            removeTextModal,
+            editEmail
         };
     },
 });

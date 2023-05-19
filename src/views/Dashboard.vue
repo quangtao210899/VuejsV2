@@ -35,13 +35,13 @@
     <div class="row gx-5 gx-xl-10">
       <!--begin::Col-->
       <div class="col-xxl-6 mb-5 mb-xl-10">
-        <Widget6 className="h-xl-100" height="275px" />
+        <Widget6 className="h-xl-100" v-bind:height="300" :targetGroupLabels="targetGroupLabels" :targetGroupData="targetGroupData" :targetGroupColor="targetGroupColor"  />
       </div>
       <!--end::Col-->
 
       <!--begin::Col-->
       <div class="col-xl-6 mb-5 mb-xl-10">
-        <Widget7 className="h-xl-100" :vulnerableColor="vulnerableColor" :vulnerableData="vulnerableData" :vulnerableLabels="vulnerableLabels" />
+        <Widget7 className="h-xl-100" v-bind:height="300" :vulnerableColor="vulnerableColor" :vulnerableData="vulnerableData" :vulnerableLabels="vulnerableLabels" />
       </div>
       <!--end::Col-->
     </div>
@@ -137,15 +137,16 @@ export default defineComponent({
     const serviceInfo = ref<number>(0);
 
     // Vulmerabilities by serverity
-    const vulnerableLabels = ref<object>({});
-    const vulnerableData = ref<object>({});
-    const vulnerableColor = ref<object>({});
+    const vulnerableLabels = ref(['Info', 'Low', 'Medium', 'High']);
+    const vulnerableData = ref<number[]>([]);
+    const vulnerableColor = ref(['#28a745', '#23b7e5', '#fcba32', '#e11f26']);
 
     // Nhóm mục tiêu
-    const targetGroupLabels = ref<object>({});
-    const targetGroupData = ref<object>({});
-    const targetGroupColor = ref<object>({});
-    const getData = () => {
+    const targetGroupLabels = ref<string[]>([]);
+    const targetGroupData = ref<any>([]);
+    const targetGroupColor = ref(['rgb(255, 99, 132)', 'rgb(75, 192, 192)', 'rgb(255, 205, 86)', 'rgb(201, 203, 207)', 'rgb(54, 162, 235)']);
+
+    const getData = async () => {
       loading.value = true;
       setTimeout(() => loading.value = false, 500)
       return ApiService.get('/dashboard')
@@ -171,14 +172,14 @@ export default defineComponent({
           serviceInfo.value = data.total_scan_info;
 
           // Vulmerabilities by serverity
-          vulnerableLabels.value = ['Info', 'Low', 'Medium', 'High'];
           vulnerableData.value = [data.total_scan_info, data.total_scan_low, data.total_scan_medium, data.total_scan_high];
-          vulnerableColor.value = ['#28a745', '#23b7e5', '#fcba32', '#e11f26'];
 
           // Nhóm mục tiêu
           targetGroupLabels.value = Object.keys(data.target_group);
           targetGroupData.value = Object.values(data.target_group);
-          targetGroupColor.value = [];
+
+          console.log(targetGroupLabels.value)
+
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -202,7 +203,6 @@ export default defineComponent({
 
     onMounted(() => {
       getData();
-
     });
 
     return {

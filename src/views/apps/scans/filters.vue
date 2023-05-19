@@ -71,7 +71,8 @@
 
         <div class="row">
           <div class="col-8 pe-0">
-            <el-input v-model="debouncedSearchIp" type="text" placeholder="Nhập IP" name="targetTitle" class="h-40px"></el-input>
+            <el-input v-model="debouncedSearchIp" type="text" placeholder="Nhập IP" name="targetTitle"
+              class="h-40px"></el-input>
           </div>
           <div class="col-4 ">
             <el-form-item prop="assign">
@@ -125,7 +126,7 @@
           Reset
         </button>
 
-        <button @click="submit" type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">
+        <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">
           Apply
         </button>
       </div>
@@ -155,9 +156,22 @@ export default defineComponent({
     "filter-data"
   ],
   setup(props, { emit }) {
+    var check_return = 0
     const submit = async () => {
-      data.value.ip = debouncedSearchIp.value
-      data.value.domain = debouncedSearchDomain.value
+      if (data.value.ip != debouncedSearchIp.value) {
+        data.value.ip = debouncedSearchIp.value
+        return
+      }
+      if (data.value.domain != debouncedSearchDomain.value) {
+        data.value.domain = debouncedSearchDomain.value
+        return
+      }
+      if (check_return) {
+        check_return--
+        if (check_return == 0 || check_return == 1) { // trạng thái ban đầu bằng 1,2 => return
+          return
+        }
+      }
       emit("filter-data", data.value);
     };
     const debouncedSearchIp = ref('');
@@ -185,6 +199,7 @@ export default defineComponent({
 
 
     const reset = () => {
+      check_return = 3
       debouncedSearchIp.value = ''
       debouncedSearchDomain.value = ''
       data.value.status = '';
