@@ -83,6 +83,9 @@
                         @click="handleClick(customer, 'edit')" title="Sửa">
                         <KTIcon icon-name="pencil" icon-class="fs-3" />
                     </button>
+                    <router-link :to="`/target-scans/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
+                        <KTIcon icon-name="scan-barcode" icon-class="fs-3" />
+                    </router-link>
                 </template>
 
             </KTDatatable>
