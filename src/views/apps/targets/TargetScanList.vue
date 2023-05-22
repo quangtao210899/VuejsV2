@@ -111,9 +111,7 @@
                 <!--begin::Form-->
                 <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
                     :validation-schema="validationSchema">
-                    <!--begin::Modal body-->
-                    <div class="modal-body py-10 px-lg-17">
-                        <!--begin::Scroll-->
+                    <!-- <div class="modal-body py-10 px-lg-17">
                         <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
                             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
                             data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
@@ -287,13 +285,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!--end::Scroll-->
-                    </div>
-                    <!--end::Modal body-->
+                    </div> -->
 
-                    <!--begin::Modal footer-->
                     <div class="modal-footer flex-center">
-                        <!--begin::Button-->
                         <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
                             class="btn btn-sm  btn-light me-3">
                             Discard
@@ -360,101 +354,63 @@
     </div>
 
     <!-- modal detail  -->
-    <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-        <!--begin::Modal dialog-->
+    <!-- <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
         <div class="modal-dialog modal-dialog-centered mw-650px">
-            <!--begin::Modal content-->
             <div class="modal-content">
-                <!--begin::Form-->
                 <div class="modal-body">
-                    <!--begin::Card-->
                     <div class="card card-flush pt-3 mb-5 mb-xl-10">
-                        <!--begin::Card header-->
                         <div class="card-header">
-                            <!--begin::Card title-->
                             <div class="card-title">
                                 <h1 class="fw-bold">{{ detailData.name }}</h1>
                             </div>
-                            <!--begin::Card toolbar-->
                             <div class="card-toolbar">
                                 <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
                                     data-bs-target="#kt_modal_new_target_group" @click="handleClick(detailData, 'edit')">
                                     <KTIcon icon-name="pencil" icon-class="fs-3" /> Update
                                 </button>
                             </div>
-                            <!--end::Card toolbar-->
                         </div>
-                        <!--end::Card header-->
-
-                        <!--begin::Card body-->
                         <div class="card-body py-0">
-                            <!--begin::Section-->
                             <div class="mb-10">
-                                <!--begin::Title-->
                                 <h5>Thông tin chi tiết:</h5>
-                                <!--end::Title-->
-                                <!--begin::Details-->
                                 <div class="d-flex flex-wrap py-5">
-                                    <!--begin::Row-->
                                     <div class="flex-equal me-5">
-                                        <!--begin::Details-->
                                         <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-                                            <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">IP:</td>
                                                 <td class="text-gray-800 badge badge-light pe-2">{{ detailData.ip}} </td>
                                             </tr>
-                                            <!--end::Row-->
-
-                                            <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Domain:</td>
                                                 <td class="text-gray-800  badge badge-light pe-2">{{ detailData.domain}}</td>
                                             </tr>
-                                            <!--end::Row-->
-                                            <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Nhóm group:</td>
                                                 <td class="text-gray-800 badge badge-light pe-2">{{ detailData.group_title }}</td>
                                             </tr>
-                                            <!--end::Row-->
-                                            <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Ngày tạo:</td>
                                                 <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
                                             </tr>
-                                            <!--end::Row-->
-                                            <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Ngày cập nhật cuối:</td>
                                                 <td class="text-gray-800">{{ formatDate(detailData.modified_at) }}</td>
                                             </tr>
-                                            <!--end::Row-->
                                         </table>
-                                        <!--end::Details-->
                                     </div>
-                                    <!--end::Row-->
-
                                 </div>
-                                <!--end::Row-->
                             </div>
-                            <!--end::Section-->
                         </div>
-                        <!--end::Card body-->
                     </div>
-                    <!--end::Card-->
                 </div>
-                <!--end::Form-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
                         Quay lại
                     </button>
                 </div>
             </div>
-            <!--end::Modal content-->
         </div>
-        <!--end::Modal dialog-->
-    </div>
+    </div> -->
 </template>
 
 <script lang="ts">
@@ -477,10 +433,10 @@ import { Modal } from "bootstrap";
 import dayjs from 'dayjs';
 
 interface APIData {
-    name: string;
-    ip: string;
-    domain: string;
-    group: string;
+    status: string;
+    created_at: string;
+    finished_at: string;
+    user: string;
 }
 
 export default defineComponent({
@@ -511,7 +467,7 @@ export default defineComponent({
         const id = ref<number>(0);
         const nameType = ref<string>('');
         const apiData = ref<APIData>({
-            status: "",
+            status: '',
             created_at: "",
             finished_at: '',
             user: '',
@@ -589,11 +545,11 @@ export default defineComponent({
 
         const handleClick = (data: object | any, type: String) => {
             typeModal.value = type
-            errors.name = ''
-            errors.domain = ''
-            errors.ip = ''
-            errors.group = ''
-            errors.detail = ''
+            // errors.name = ''
+            // errors.domain = ''
+            // errors.ip = ''
+            // errors.group = ''
+            // errors.detail = ''
             
             nameType.value = "Quét lỗ hổng bảo mật"
             if (discardButtonRef.value !== null) {
@@ -663,14 +619,14 @@ export default defineComponent({
         };
         const customRowTable = (detail: any) => {
             if (detail) {
-                detailData.id = detail.id
-                detailData.name = detail.name
-                detailData.ip = detail.ip
-                detailData.domain = detail.domain
-                detailData.group_id = detail.group.id
-                detailData.group_title = detail.group.title
-                detailData.modified_at = detail.modified_at
-                detailData.created_at = detail.created_at
+                // detailData.id = detail.id
+                // detailData.name = detail.name
+                // detailData.ip = detail.ip
+                // detailData.domain = detail.domain
+                // detailData.group_id = detail.group.id
+                // detailData.group_title = detail.group.title
+                // detailData.modified_at = detail.modified_at
+                // detailData.created_at = detail.created_at
                 const modal = new Modal(
                     document.getElementById("kt_modal_detail") as Element
                 );
@@ -776,18 +732,18 @@ export default defineComponent({
             nuclei_check: false,
         })
         const headerInputValue = ref("")
-        function addHeader() {
-            if (!scanFormState.headerOptionValue.includes(headerInputValue.value) && headerInputValue.value != "") {
-                scanFormState.headerOptionValue.push(headerInputValue.value)
-            }
-        }
-        function removeHeader(item) {
-            let index = scanFormState.headerOptionValue.indexOf(item);
-            if (index !== -1) {
-                scanFormState.headerOptionValue.splice(index, 1);
-            }
+        // function addHeader() {
+        //     if (!scanFormState.headerOptionValue.includes(headerInputValue.value) && headerInputValue.value != "") {
+        //         scanFormState.headerOptionValue.push(headerInputValue.value)
+        //     }
+        // }
+        // function removeHeader(item) {
+        //     let index = scanFormState.headerOptionValue.indexOf(item);
+        //     if (index !== -1) {
+        //         scanFormState.headerOptionValue.splice(index, 1);
+        //     }
 
-        }
+        // }
         const rules = {
             proxyScheme: [{
                 validator: proxySchemeValidator,
@@ -820,48 +776,48 @@ export default defineComponent({
 
         };
         const submit = async () => {
-            if (!submitButtonRef.value) {
-                return;
-            }
-            let formData = {
-                'name': apiData.value.name,
-                'ip': apiData.value.ip ?? "",
-                'domain': apiData.value.domain ?? "",
-                'group': apiData.value.group
-            }
-            console.log(formData);
+            // if (!submitButtonRef.value) {
+            //     return;
+            // }
+            // let formData = {
+            //     'name': apiData.value.name,
+            //     'ip': apiData.value.ip ?? "",
+            //     'domain': apiData.value.domain ?? "",
+            //     'group': apiData.value.group
+            // }
+            // console.log(formData);
             
-            if (typeModal.value == 'add') {
-                return ApiService.post("/targets/", formData)
-                    .then(({ data }) => {
-                        if(submitButtonRef.value){
-                            //Disable button
-                            submitButtonRef.value.disabled = true;
-                            // Activate indicator
-                            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-                            setTimeout(() => {
-                                if (submitButtonRef.value) {
-                                    submitButtonRef.value.disabled = false;
-                                    submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                                }
-                                notification(data.detail, 'success', 'Thêm mới thành công')
-                                getData();
+            // if (typeModal.value == 'add') {
+            //     return ApiService.post("/targets/", formData)
+            //         .then(({ data }) => {
+            //             if(submitButtonRef.value){
+            //                 //Disable button
+            //                 submitButtonRef.value.disabled = true;
+            //                 // Activate indicator
+            //                 submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+            //                 setTimeout(() => {
+            //                     if (submitButtonRef.value) {
+            //                         submitButtonRef.value.disabled = false;
+            //                         submitButtonRef.value?.removeAttribute("data-kt-indicator");
+            //                     }
+            //                     notification(data.detail, 'success', 'Thêm mới thành công')
+            //                     getData();
 
-                            }, 1000);
-                        }
-                    })
-                    .catch(({ response }) => {
-                        if (response?.data) {
-                            errors.name = response.data.name;
-                            errors.ip = response.data.ip;
-                            errors.domain = response.data.domain;
-                            errors.group = response.data.group;
-                            errors.detail = response.data.detail;
-                        } else {
-                            notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
-                        }
-                    });
-            }
+            //                 }, 1000);
+            //             }
+            //         })
+            //         .catch(({ response }) => {
+            //             if (response?.data) {
+            //                 errors.name = response.data.name;
+            //                 errors.ip = response.data.ip;
+            //                 errors.domain = response.data.domain;
+            //                 errors.group = response.data.group;
+            //                 errors.detail = response.data.detail;
+            //             } else {
+            //                 notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
+            //             }
+            //         });
+            // }
         };
 
         const formatDate = (date: string) => {            
@@ -952,9 +908,9 @@ export default defineComponent({
             // detail,
             // check_error,
             // confirmLoading,
-            addHeader,
+            // addHeader,
             headerInputValue,
-            removeHeader,
+            // removeHeader,
         };
     },
 });
