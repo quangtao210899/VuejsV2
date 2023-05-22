@@ -152,7 +152,7 @@ export default defineComponent({
         name: "Esther Howard",
         price: "256,910",
         statistics: "0.4",
-        icon: false,
+        icon: false, 
         chartColor: "danger",
         status: {
           label: "On Hold",

@@ -88,14 +88,20 @@ import viLocale from './vi.js';
 
 dayjs.extend(relativeTime);
 dayjs.locale(viLocale);
-
+interface ElementType {
+  date: string;
+  text: string;
+  username: string;
+  phone: number;
+  message_id: number;
+  id: number;
+}
 export default defineComponent({
   name: "kt-widget-8",
   props: {
     widgetClasses: String,
     className: { type: String, required: false },
-    DBLeakData: { type: Array, required: true },
-
+    DBLeakData: { type: Array as () => Array<ElementType>, required: true },
   },
   components: {
     Dropdown1,

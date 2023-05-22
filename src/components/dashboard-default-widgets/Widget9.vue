@@ -38,7 +38,7 @@
               <tr>
                 <td class="text-start">
                   <span class="text-muted fw-semobold">
-                    {{ ++index }}
+                    {{ 1+ index }}
                   </span>
                 </td>
                 <td class="text-center">
@@ -74,12 +74,20 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+interface ElementType {
+  medium: number;
+  info: number;
+  high: number;
+  low: number;
+  total: number;
+  name: string;
+}
 
 export default defineComponent({
   name: "kt-widget-9",
   props: {
     className: { type: String, required: false },
-    dataMostVulnerable: { type: Array || String, required: true }
+    dataMostVulnerable: { type: Array as () => Array<ElementType>, required: true },
   },
   components: {},
   setup() {
