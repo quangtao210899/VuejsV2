@@ -1,208 +1,106 @@
 <template>
+  <!--begin::List Widget 5-->
   <div class="card card-flush" :class="className">
     <!--begin::Header-->
-    <div class="card-header pt-7">
-      <!--begin::Title-->
+    <div class="card-header align-items-center border-0 mt-4">
       <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold text-gray-800">Projects Stats</span>
-
-        <span class="text-gray-400 mt-1 fw-semibold fs-6"
-          >Updated 37 minutes ago</span
-        >
+        <span class="fw-bold mb-2 text-dark">Hacker News</span>
+        <span class="text-muted fw-semobold fs-7">Thông tin CVE, các kĩ thuật tấn công mới</span>
       </h3>
-      <!--end::Title-->
 
-      <!--begin::Toolbar-->
-      <div class="card-toolbar">
-        <a href="#" class="btn btn-sm btn-light">History</a>
-      </div>
-      <!--end::Toolbar-->
+
     </div>
     <!--end::Header-->
 
     <!--begin::Body-->
-    <div class="card-body pt-6">
-      <!--begin::Table container-->
-      <div class="table-responsive">
-        <!--begin::Table-->
-        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
-          <!--begin::Table head-->
-          <thead>
-            <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
-              <th class="p-0 pb-3 min-w-175px text-start">ITEM</th>
-              <th class="p-0 pb-3 min-w-100px text-end">BUDGET</th>
-              <th class="p-0 pb-3 min-w-100px text-end">PROGRESS</th>
-              <th class="p-0 pb-3 min-w-175px text-end pe-12">STATUS</th>
-              <th class="p-0 pb-3 w-50px text-end">VIEW</th>
-            </tr>
-          </thead>
-          <!--end::Table head-->
+    <div class="card-body pt-5">
+      <!--begin::Timeline-->
+      <div class="timeline-label">
+        <!--begin::Item-->
+        <div v-for="item in HackerNews" :key="item.id" class="timeline-item">
+          <!--begin::Label-->
+          <div class="timeline-label fw-bold text-gray-800 fs-7">{{ formatDate(item.date) }}</div>
+          <!--end::Label-->
 
-          <!--begin::Table body-->
-          <tbody>
-            <template v-for="(row, i) in table" :key="i">
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="symbol symbol-50px me-3">
-                      <img :src="row.img" class="" alt="" />
-                    </div>
+          <!--begin::Badge-->
+          <div class="timeline-badge">
+            <i class="fa fa-genderless text-primary fs-1"></i>
+          </div>
+          <!--end::Badge-->
 
-                    <div class="d-flex justify-content-start flex-column">
-                      <a
-                        href="#"
-                        class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6"
-                        >{{ row.title }}</a
-                      >
-                      <span class="text-gray-400 fw-semibold d-block fs-7">{{
-                        row.name
-                      }}</span>
-                    </div>
-                  </div>
-                </td>
+          <!--begin::Text-->
+          <div class="timeline-content fw-semobold text-gray-800 ps-3">
+            
+            <div class="border border-gray-300 border-dashed rounded p-3">
+              <span v-if="item.username != '' || item.username != null" class="fw-bold text-gray-800 fs-6">{{ item.username }}</span><br>
+              {{ item.text }}
+            </div>
+          </div>
+          <!--end::Text-->
+        </div>
+        <!--end::Item-->
 
-                <td class="text-end pe-0">
-                  <span class="text-gray-600 fw-bold fs-6"
-                    >$ {{ row.price }}</span
-                  >
-                </td>
+        <!--begin::Item-->
+        <div class="timeline-item">
+          <!--begin::Label-->
+          <div class="timeline-label fw-bold text-gray-800 fs-6"></div>
+          <!--end::Label-->
 
-                <td class="text-end pe-0">
-                  <!--begin::Label-->
-                  <span
-                    v-if="row.icon"
-                    class="badge badge-light-success fs-base"
-                  >
-                    <KTIcon
-                      icon-name="arrow-up"
-                      icon-class="fs-5 text-success ms-n1"
-                    />
-                    {{ row.statistics }} %
-                  </span>
-                  <!--end::Label-->
-                  <!--begin::Label-->
-                  <span v-else class="badge badge-light-danger fs-base">
-                    <KTIcon
-                      icon-name="arrow-down"
-                      icon-class="fs-5 text-danger ms-n1"
-                    />
-                    {{ row.statistics }} %
-                  </span>
-                  <!--end::Label-->
-                </td>
+          <!--begin::Badge-->
+          <div class="timeline-badge">
+            <i class="fa fa-genderless text-success fs-1"></i>
+          </div>
+          <!--end::Badge-->
 
-                <td class="text-end pe-12">
-                  <span
-                    :class="`badge py-3 px-4 fs-7 badge-light-${row.status.state}`"
-                    >{{ row.status.label }}</span
-                  >
-                </td>
-
-                <td class="text-end">
-                  <a
-                    href="#"
-                    class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px"
-                  >
-                    <KTIcon
-                      icon-name="black-right"
-                      icon-class="fs-5 text-gray-700"
-                    />
-                  </a>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-          <!--end::Table body-->
-        </table>
+          <!--begin::Content-->
+          <div class="timeline-content d-flex">
+            <span class="fw-bold text-gray-800 ps-3">
+              <router-link :to="'/telegram-group/2'" active-class="active"><a-typography-link underline>View all</a-typography-link></router-link>
+            </span>
+          </div>
+          <!--end::Content-->
+        </div>
+        <!--end::Item-->
       </div>
-      <!--end::Table-->
+      <!--end::Timeline-->
     </div>
     <!--end: Card Body-->
   </div>
+  <!--end: List Widget 5-->
 </template>
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent } from "vue";
+import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
+import relativeTime from 'dayjs/plugin/relativeTime';
+import dayjs from 'dayjs';
+import viLocale from './vi.js';
+
+dayjs.extend(relativeTime);
+dayjs.locale(viLocale);
 
 export default defineComponent({
-  name: "default-dashboard-widget-10",
-  components: {},
+  name: "kt-widget-8",
   props: {
+    widgetClasses: String,
     className: { type: String, required: false },
+    HackerNews: { type: Array, required: true },
+  },
+  components: {
+    Dropdown1,
   },
   setup() {
-    const table = [
-      {
-        img: getAssetPath("media/stock/600x600/img-49.jpg"),
-        title: "Mivy App",
-        name: "Jane Cooper",
-        price: "32,400",
-        statistics: "9.2",
-        icon: true,
-        chartColor: "success",
-        status: {
-          label: "In Process",
-          state: "primary",
-        },
-      },
-      {
-        img: getAssetPath("media/stock/600x600/img-40.jpg"),
-        title: "Avionica",
-        name: "Esther Howard",
-        price: "256,910",
-        statistics: "0.4",
-        icon: false,
-        chartColor: "danger",
-        status: {
-          label: "On Hold",
-          state: "warning",
-        },
-      },
-      {
-        img: getAssetPath("media/stock/600x600/img-39.jpg"),
-        title: "Charto CRM",
-        name: "Jenny Wilson",
-        price: "8,220",
-        statistics: "9.2",
-        icon: true,
-        chartColor: "success",
-        status: {
-          label: "In Process",
-          state: "primary",
-        },
-      },
-      {
-        img: getAssetPath("media/stock/600x600/img-47.jpg"),
-        title: "Tower Hill",
-        name: "Cody Fisher",
-        price: "74,000",
-        statistics: "9.2",
-        icon: true,
-        chartColor: "success",
-        status: {
-          label: "Completed",
-          state: "success",
-        },
-      },
-      {
-        img: getAssetPath("media/stock/600x600/img-48.jpg"),
-        title: "9 Degree",
-        name: "Savannah Nguyen",
-        price: "183,300",
-        statistics: "0.4",
-        icon: false,
-        chartColor: "danger",
-        status: {
-          label: "In Process",
-          state: "primary",
-        },
-      },
-    ];
+    const formatDate = (date : string) => {
+      if (date == "false" || date == null || date == "") {
+        return '--:--';
+      }
+      return dayjs(date).fromNow()
+    };
 
     return {
-      table,
       getAssetPath,
+      formatDate,
     };
   },
 });

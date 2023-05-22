@@ -36,7 +36,7 @@
               </button>
             <!-- </div> -->
 
-            <Fillter @filterData="handleFilter"></Fillter>
+            <Fillter @filterData="handleFilter" :type="filterType"></Fillter>
             <!--begin::Add subscription-->
             <!--end::Add subscription-->
             <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click.passive="handleSubmitSetting">
@@ -637,7 +637,8 @@ import {Modal} from "bootstrap";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import * as Yup from "yup";
 import {useToast} from 'vue-toast-notification';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+
 // import useCurrencyInput from "vue-currency-input";
 
 interface APIData {
@@ -667,7 +668,8 @@ export default defineComponent({
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
-    const filterType = ref<String | null>('');
+    const route = useRoute();
+    const filterType = ref<null | string | any>(route.params.id ?? '');
     const filterStatus = ref<String | null>('');
     const detailData = reactive({
       id: '',
@@ -756,6 +758,7 @@ export default defineComponent({
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
+          console.log(data.results)
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -1037,6 +1040,7 @@ export default defineComponent({
           };
         })
         .catch(({ response }) => {
+          // console.log(response)
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         });
     };
@@ -1194,6 +1198,7 @@ export default defineComponent({
       updateStatus,
       // formattedValue,
       // inputRef,
+      filterType,
     };
   },
 });
