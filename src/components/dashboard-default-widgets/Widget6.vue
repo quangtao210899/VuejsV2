@@ -11,16 +11,6 @@
       </h3>
       <!--end::Title-->
 
-      <!--begin::Toolbar-->
-      <div class="card-toolbar">
-        <!--begin::Menu-->
-        <button class="btn btn-icon btn-color-gray-400 btn-active-color-primary justify-content-end"
-          data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
-          <KTIcon icon-name="dots-square" icon-class="fs-1 text-gray-300 me-n1" />
-        </button>
-        <!--end::Menu-->
-      </div>
-      <!--end::Toolbar-->
     </div>
     <!--end::Header-->
 
@@ -112,7 +102,7 @@ const chartOptions = (props: any): ApexOptions => {
       fontWeight: 400,
       markers: {
           width: 20,
-          height: 12,
+          height: 10,
           radius: 1,
       },
       itemMargin: {
@@ -143,8 +133,8 @@ const chartOptions = (props: any): ApexOptions => {
       }
     }],
     stroke: {
-      show: true,
-      width: 3,
+      show: false,
+      width: 6,
     },
     
   };

@@ -34,7 +34,7 @@
     <!--begin::Row-->
     <div class="row gx-5 gx-xl-10">
       <!--begin::Col-->
-      <div class="col-xxl-6 mb-5 mb-xl-10">
+      <div class="col-xl-6 mb-5 mb-xl-10">
         <Widget6 className="h-xl-100" v-bind:height="300" :targetGroupLabels="targetGroupLabels"
           :targetGroupData="targetGroupData" :targetGroupColor="targetGroupColor" />
       </div>
@@ -52,7 +52,7 @@
     <!--begin::Row-->
     <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
       <!--begin::Col-->
-      <div class="col-xxl-6">
+      <div class="col-xl-6">
         <Widget8 className="h-xl-100" :DBLeakData="DBLeak" />
       </div>
       <!--end::Col-->
@@ -75,8 +75,14 @@
 
       <!--begin::Col-->
       <div class="col-xl-6">
-        <Widget11 className="h-md-100" />
+        <Widget11 v-bind:height="600" className="h-md-100" :MostcommonPortData="MostcommonPorts" :MostcommonPortLabels="MostcommonPortLabels"
+           :MostcommonPortColor="MostcommonPortColor" />
       </div>
+      <!--end::Col-->
+
+      <!-- <div class="col-xl-6">
+        <Widget13 className="h-md-100" />
+      </div> -->
       <!--end::Col-->
     </div>
     <!--end::Row-->
@@ -111,7 +117,12 @@ import Widget9 from "@/components/dashboard-default-widgets/Widget9.vue";
 import Widget10 from "@/components/dashboard-default-widgets/Widget10.vue";
 import Widget11 from "@/components/dashboard-default-widgets/Widget11.vue";
 import Widget12 from "@/components/dashboard-default-widgets/Widget12.vue";
-
+import Widget13 from "@/components/dashboard-default-widgets/Widget13.vue";
+interface typeMostcommonPorts {
+  total_service: number;
+  port: string;
+  service: string;
+}
 export default defineComponent({
   name: "main-dashboard",
   components: {
@@ -127,6 +138,7 @@ export default defineComponent({
     Widget10,
     Widget11,
     Widget12,
+    Widget13
   },
   setup() {
     const loading = ref<boolean>(false)
@@ -170,6 +182,8 @@ export default defineComponent({
 
     // Most common Ports 
     const MostcommonPorts = ref<Array<string | any>>([]);
+    const MostcommonPortLabels = ref<Array<string | any>>([]);
+    const MostcommonPortColor = ref<Array<string | any>>([]);
 
     // Latest Most common Ports
     const LatestVulnerabilities = ref<Array<string | any>>([]);
@@ -203,25 +217,30 @@ export default defineComponent({
           vulnerableData.value = [data.total_scan_info, data.total_scan_low, data.total_scan_medium, data.total_scan_high];
 
           // Nhóm mục tiêu
-          targetGroupLabels.value = Object.keys(data.target_group);
-          targetGroupData.value = Object.values(data.target_group);
+          targetGroupLabels.value.push(...Object.keys(data.target_group))
+          targetGroupData.value.push(...Object.values(data.target_group))
 
           // DB Leak
-          DBLeak.value = data.db_leak
+          DBLeak.value.push(...data.db_leak)
 
           // Most Vulnerable
           dataMostVulnerable.value.push(...data.most_vuls)
 
           // Hacker News
-          HackerNews.value = data.hacker_new
+          HackerNews.value.push(...data.hacker_new)
 
           // Most common Ports 
-          MostcommonPorts.value = data.top_service
+          MostcommonPorts.value.push({ name: "Tổng ", data: data.top_service.map((el: typeMostcommonPorts) => el.total_service) })
+
+          MostcommonPortColor.value.push('#67b7dc', '#6771dc', '#8067dc', '#a367dc', '#c767dc', '#dc67ce', '#dc67ab', '#dc6788', '#dc6967', '#dcaf67')
+          MostcommonPortLabels.value.push(...data.top_service.map((el: typeMostcommonPorts) => ((el.port + "/" + el.service).length > 14) ? ([el.port, el.service]) : (el.port + "/" + el.service)))
 
           // Latest Most common Ports
-          LatestVulnerabilities.value = data.last_vuls
+          LatestVulnerabilities.value.push(...data.last_vuls)
 
-          console.log(LatestVulnerabilities.value)
+          console.log(MostcommonPorts.value)
+          console.log(MostcommonPortColor.value)
+          console.log(MostcommonPortLabels.value)
 
         })
         .catch(({ response }) => {
@@ -273,6 +292,8 @@ export default defineComponent({
       HackerNews,
       MostcommonPorts,
       LatestVulnerabilities,
+      MostcommonPortLabels,
+      MostcommonPortColor,
     };
   },
 });

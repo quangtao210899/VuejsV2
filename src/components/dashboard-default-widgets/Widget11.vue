@@ -1,209 +1,202 @@
 <template>
+  <!--begin::Tables widget 16-->
   <div class="card card-flush" :class="className">
     <!--begin::Header-->
-    <div class="card-header pt-7">
+    <div class="card-header pt-5">
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold text-gray-800">Projects Stats</span>
+        <span class="card-label fw-bold text-gray-800">Most common Ports</span>
 
-        <span class="text-gray-400 mt-1 fw-semibold fs-6"
-          >Updated 37 minutes ago</span
-        >
+        <span class="text-gray-400 mt-1 fw-semibold fs-6">Top 10 cổng dịch vụ phổ biến nhất</span>
       </h3>
       <!--end::Title-->
 
       <!--begin::Toolbar-->
       <div class="card-toolbar">
-        <a href="#" class="btn btn-sm btn-light">History</a>
+        <!--begin::Menu-->
+        <button class="btn btn-icon btn-color-gray-400 btn-active-color-primary justify-content-end"
+          data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
+          <KTIcon icon-name="dots-square" icon-class="fs-1 text-gray-300 me-n1" />
+        </button>
+        <!--end::Menu-->
       </div>
       <!--end::Toolbar-->
     </div>
     <!--end::Header-->
 
     <!--begin::Body-->
-    <div class="card-body pt-6">
-      <!--begin::Table container-->
-      <div class="table-responsive">
-        <!--begin::Table-->
-        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
-          <!--begin::Table head-->
-          <thead>
-            <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
-              <th class="p-0 pb-3 min-w-175px text-start">ITEM</th>
-              <th class="p-0 pb-3 min-w-100px text-end">BUDGET</th>
-              <th class="p-0 pb-3 min-w-100px text-end">PROGRESS</th>
-              <th class="p-0 pb-3 min-w-175px text-end pe-12">STATUS</th>
-              <th class="p-0 pb-3 w-50px text-end">VIEW</th>
-            </tr>
-          </thead>
-          <!--end::Table head-->
-
-          <!--begin::Table body-->
-          <tbody>
-            <template v-for="(row, i) in table" :key="i">
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="symbol symbol-50px me-3">
-                      <img :src="row.img" class="" alt="" />
-                    </div>
-
-                    <div class="d-flex justify-content-start flex-column">
-                      <a
-                        href="#"
-                        class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6"
-                        >{{ row.title }}</a
-                      >
-                      <span class="text-gray-400 fw-semibold d-block fs-7">{{
-                        row.name
-                      }}</span>
-                    </div>
-                  </div>
-                </td>
-
-                <td class="text-end pe-0">
-                  <span class="text-gray-600 fw-bold fs-6"
-                    >$ {{ row.price }}</span
-                  >
-                </td>
-
-                <td class="text-end pe-0">
-                  <!--begin::Label-->
-                  <span
-                    v-if="row.icon"
-                    class="badge badge-light-success fs-base"
-                  >
-                    <KTIcon
-                      icon-name="arrow-up"
-                      icon-class="fs-5 text-success ms-n1"
-                    />
-                    {{ row.statistics }} %
-                  </span>
-                  <!--end::Label-->
-                  <!--begin::Label-->
-                  <span v-else class="badge badge-light-danger fs-base">
-                    <KTIcon
-                      icon-name="arrow-down"
-                      icon-class="fs-5 text-danger ms-n1"
-                    />
-                    {{ row.statistics }} %
-                  </span>
-                  <!--end::Label-->
-                </td>
-
-                <td class="text-end pe-12">
-                  <span
-                    :class="`badge py-3 px-4 fs-7 badge-light-${row.status.state}`"
-                    >{{ row.status.label }}</span
-                  >
-                </td>
-
-                <td class="text-end">
-                  <a
-                    href="#"
-                    class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px"
-                  >
-                    <KTIcon
-                      icon-name="black-right"
-                      icon-class="fs-5 text-gray-700"
-                    />
-                  </a>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-          <!--end::Table body-->
-        </table>
-      </div>
-      <!--end::Table-->
+    <div class="card-body">
+      <!--begin::Chart-->
+      <apexchart ref="chartRef" class="mh-600px" height="600" type="bar" :options="chart" :series="MostcommonPortData">
+      </apexchart>
+      <!--end::Chart-->
     </div>
-    <!--end: Card Body-->
+    <!--end::Body-->
   </div>
+  <!--end::Tables widget 16-->
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent } from "vue";
+import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
+import { useThemeStore } from "@/stores/theme";
+import type { ApexOptions } from "apexcharts";
+import type VueApexCharts from "vue3-apexcharts";
+import { getCSSVariableValue } from "@/assets/ts/_utils";
 
 export default defineComponent({
-  name: "default-dashboard-widget-10",
-  components: {},
+  name: "kt-widget-11",
   props: {
+    widgetClasses: String,
     className: { type: String, required: false },
+    MostcommonPortColor: { type: Array, required: true },
+    MostcommonPortData: { type: Array, required: true },
+    MostcommonPortLabels: { type: Array, required: true },
+    height: { type: Number || String, required: true },
   },
-  setup() {
-    const table = [
-      {
-        img: getAssetPath("media/stock/600x600/img-49.jpg"),
-        title: "Mivy App",
-        name: "Jane Cooper",
-        price: "32,400",
-        statistics: "9.2",
-        icon: true,
-        chartColor: "success",
-        status: {
-          label: "In Process",
-          state: "primary",
-        },
-      },
-      {
-        img: getAssetPath("media/stock/600x600/img-40.jpg"),
-        title: "Avionica",
-        name: "Esther Howard",
-        price: "256,910",
-        statistics: "0.4",
-        icon: false, 
-        chartColor: "danger",
-        status: {
-          label: "On Hold",
-          state: "warning",
-        },
-      },
-      {
-        img: getAssetPath("media/stock/600x600/img-39.jpg"),
-        title: "Charto CRM",
-        name: "Jenny Wilson",
-        price: "8,220",
-        statistics: "9.2",
-        icon: true,
-        chartColor: "success",
-        status: {
-          label: "In Process",
-          state: "primary",
-        },
-      },
-      {
-        img: getAssetPath("media/stock/600x600/img-47.jpg"),
-        title: "Tower Hill",
-        name: "Cody Fisher",
-        price: "74,000",
-        statistics: "9.2",
-        icon: true,
-        chartColor: "success",
-        status: {
-          label: "Completed",
-          state: "success",
-        },
-      },
-      {
-        img: getAssetPath("media/stock/600x600/img-48.jpg"),
-        title: "9 Degree",
-        name: "Savannah Nguyen",
-        price: "183,300",
-        statistics: "0.4",
-        icon: false,
-        chartColor: "danger",
-        status: {
-          label: "In Process",
-          state: "primary",
-        },
-      },
-    ];
+  components: {},
+  setup(props) {
+    const chartRef = ref<typeof VueApexCharts | null>(null);
+    let chart: ApexOptions = {};
+    const store = useThemeStore();
+
+    const themeMode = computed(() => {
+      return store.mode;
+    });
+
+    onBeforeMount(() => {
+      Object.assign(chart, chartOptions(props));
+    });
+
+    const refreshChart = () => {
+      if (!chartRef.value) {
+        return;
+      }
+
+      Object.assign(chart, chartOptions(props));
+
+      chartRef.value.refresh();
+    };
+
+    watch(themeMode, () => {
+      refreshChart();
+    });
 
     return {
-      table,
-      getAssetPath,
+      chart,
+      chartRef,
     };
   },
 });
+
+const chartOptions = (props: any): ApexOptions => {
+  const labelColor = getCSSVariableValue("--bs-gray-500");
+  const borderColor = getCSSVariableValue("--bs-gray-200");
+
+  return {
+    chart: {
+      fontFamily: "inherit",
+      stacked: true,
+      height: props.height,
+      toolbar: {
+        show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        barHeight: '25px',
+        distributed: true,
+        horizontal: true,
+        borderRadius: 6,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+      show: true,
+      width: 2,
+      colors: ["transparent"],
+    },
+    xaxis: {
+      categories: props.MostcommonPortLabels,
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+      labels: {
+        style: {
+          colors: labelColor,
+          fontSize: "12px",
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: labelColor,
+          fontSize: "12px",
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    states: {
+      normal: {
+        filter: {
+          type: "none",
+          value: 0,
+        },
+      },
+      hover: {
+        filter: {
+          type: "none",
+          value: 0,
+        },
+      },
+      active: {
+        allowMultipleDataPointsSelection: false,
+        filter: {
+          type: "none",
+          value: 0,
+        },
+      },
+    },
+
+    colors: props.MostcommonPortColor,
+    grid: {
+      borderColor: borderColor,
+      strokeDashArray: 4,
+      yaxis: {
+        lines: {
+          show: true,
+        },
+      },
+      padding: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+      },
+    },
+    responsive: [
+      {
+        breakpoint: 0,
+        options: {
+          chart: {
+            width: '100%',
+            height: '100%',
+          },
+        },
+      },
+    ],
+  };
+};
 </script>
+
