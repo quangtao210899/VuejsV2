@@ -35,7 +35,7 @@
                         <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                             data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                             <KTIcon icon-name="plus" icon-class="fs-2" />
-                            Thêm2
+                            Thêm
                         </button>
                         <!--end::Add subscription-->
                     </div>
@@ -110,8 +110,12 @@
 
                 <!--begin::Form-->
                 <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
-                    :validation-schema="validationSchema">
-                    <!-- <div class="modal-body py-10 px-lg-17">
+                    :validation-schema="scanFormState.proxyAuthenticationCheck && scanFormState.proxyCheck ? validationSchema 
+                                        : (scanFormState.proxyCheck && !scanFormState.proxyAuthenticationCheck) ? validationSchemaProxyCheck
+                                        : (!scanFormState.proxyCheck && scanFormState.proxyAuthenticationCheck) ||  (!scanFormState.proxyCheck && !scanFormState.proxyAuthenticationCheck) ? validationSchemaFalse
+                                        : validationSchemaFalse"
+                >
+                    <div class="modal-body py-10 px-lg-17">
                         <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
                             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
                             data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
@@ -120,24 +124,24 @@
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                     <span class="required"><b>Tốc độ scan</b></span>
                                 </label>
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center" style="padding-left: 20px;">
                                     <label class="form-check form-check-custom form-check-solid me-10">
                                         <input
                                             class="form-check-input h-20px w-20px"
                                             type="radio"
                                             name="type"
-                                            value="1"
-                                            v-model="apiData.type"
+                                            :value="1"
+                                            v-model="scanFormState.scanSpeedOption"
                                         />
                                         <span class="form-check-label fw-semobold"> Tuần tự </span>
                                     </label>
                                     <label class="form-check form-check-custom form-check-solid me-10">
                                         <input
-                                            v-model="apiData.type"
                                             class="form-check-input h-20px w-20px"
                                             type="radio"
                                             name="type"
-                                            value="2"
+                                            :value="2"
+                                            v-model="scanFormState.scanSpeedOption"
                                         />
                                         <span class="form-check-label fw-semobold"> Chậm </span>
                                     </label>
@@ -146,19 +150,19 @@
                                             class="form-check-input h-20px w-20px"
                                             type="radio"
                                             name="type"
-                                            value="3"
-                                            v-model="apiData.type"
+                                            :value="3"
+                                            v-model="scanFormState.scanSpeedOption"
                                             checked
                                         />
                                         <span class="form-check-label fw-semobold"> Trung bình </span>
                                     </label>
                                     <label class="form-check form-check-custom form-check-solid">
                                         <input
-                                            v-model="apiData.type"
                                             class="form-check-input h-20px w-20px"
                                             type="radio"
                                             name="type"
-                                            value="4"
+                                            :value="4"
+                                            v-model="scanFormState.scanSpeedOption"
                                         />
                                         <span class="form-check-label fw-semobold"> Nhanh </span>
                                     </label>
@@ -173,23 +177,25 @@
                                         class="form-check-input"
                                         type="checkbox"
                                         name="proxyCheck"
-                                        :checked="scanFormState.proxyCheck"
-                                        @input="scanFormState.proxyCheck = $event.target.checked"
+                                        v-model="scanFormState.proxyCheck"
                                     />
                                     <span class="form-check-label fw-semobold text-gray-400">Allowed</span>
                                 </label>
                             </div>
-                            <div v-if="scanFormState.proxyCheck">
+                            <div style="padding-left: 20px;" v-if="scanFormState.proxyCheck">
                                 <div class="mb-5 fv-row">
                                     <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                         <span>Giao thức</span>
                                     </label>
-                                    <Field type="text" class="form-control form-control-solid"
-                                        name="ip" v-model="apiData.ip" />
+                                    <el-select v-model="scanFormState.proxyScheme" name="proxyScheme" as="select" placeholder="Chọn giao thức">
+                                        <el-option value="">Chọn trạng thái</el-option>
+                                        <el-option label="HTTP" value="HTTP">HTTP</el-option>
+                                        <el-option label="SOCKS5" value="SOCKS5">SOCKS5</el-option>
+                                    </el-select>
                                     <div class="fv-plugins-message-container">
                                         <div class="fv-help-block">
-                                            <ErrorMessage name="ip" />
-                                            <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
+                                            <ErrorMessage name="proxyScheme" />
+                                            <span class="" v-if="errors.proxyScheme">{{ errors.proxyScheme[0] }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -198,11 +204,11 @@
                                         <span>Địa chỉ</span>
                                     </label>
                                     <Field type="text" class="form-control form-control-solid"
-                                        placeholder="example.com" name="ip" v-model="apiData.ip" />
+                                        placeholder="example.com" name="proxyAdress" v-model="scanFormState.proxyAdress" />
                                     <div class="fv-plugins-message-container">
                                         <div class="fv-help-block">
-                                            <ErrorMessage name="ip" />
-                                            <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
+                                            <ErrorMessage name="proxyAdress" />
+                                            <span class="" v-if="errors.proxyAdress">{{ errors.proxyAdress[0] }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -211,11 +217,49 @@
                                         <span>Cổng dịch vụ</span>
                                     </label>
                                     <Field type="text" class="form-control form-control-solid"
-                                        placeholder="80" name="ip" v-model="apiData.ip" />
+                                        placeholder="80" name="proxyPort" v-model="scanFormState.proxyPort" />
                                     <div class="fv-plugins-message-container">
                                         <div class="fv-help-block">
-                                            <ErrorMessage name="ip" />
-                                            <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
+                                            <ErrorMessage name="proxyPort" />
+                                            <span class="" v-if="errors.proxyPort">{{ errors.proxyPort[0] }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-5 fv-row">
+                                    <div class="form-check form-check-custom form-check-solid" name="proxyAuthenticationCheck">
+                                        <label class="d-flex align-items-center fs-6 fw-semobold" for="is_staff">Proxy yêu cầu xác thực</label>
+                                        <input 
+                                            class="form-check-input" style="margin-left: 20px;" 
+                                            type="checkbox" value="1" 
+                                            v-model="scanFormState.proxyAuthenticationCheck"
+                                        >
+                                    </div>
+                                </div>
+                                <div v-if="scanFormState.proxyAuthenticationCheck">
+                                    <div class="mb-5 fv-row">
+                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                            <span>Tên đăng nhập</span>
+                                        </label>
+                                        <Field type="text" class="form-control form-control-solid"
+                                            name="proxyUsername" v-model="scanFormState.proxyUsername" />
+                                        <div class="fv-plugins-message-container">
+                                            <div class="fv-help-block">
+                                                <ErrorMessage name="proxyUsername" />
+                                                <span class="" v-if="errors.proxyUsername">{{ errors.proxyUsername[0] }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-5 fv-row">
+                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                            <span>Mật khẩu</span>
+                                        </label>
+                                        <Field type="text" class="form-control form-control-solid"
+                                            name="proxyUserPassword" v-model="scanFormState.proxyUserPassword" />
+                                        <div class="fv-plugins-message-container">
+                                            <div class="fv-help-block">
+                                                <ErrorMessage name="proxyUserPassword" />
+                                                <span class="" v-if="errors.proxyUserPassword">{{ errors.proxyUserPassword[0] }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -228,21 +272,20 @@
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
-                                        name="proxyCheck"
-                                        :checked="scanFormState.headerOptionCheck"
-                                        @input="scanFormState.headerOptionCheck = $event.target.checked"
+                                        name="headerOption"
+                                        v-model="scanFormState.headerOptionCheck"
                                     />
                                     <span class="form-check-label fw-semobold text-gray-400">Allowed</span>
                                 </label>
                             </div>
-                            <div v-if="scanFormState.headerOptionCheck">
+                            <div style="padding-left: 20px;" v-if="scanFormState.headerOptionCheck">
                                 <div class="mb-5 fv-row">
-                                    <Field type="text" class="form-control form-control-solid"
-                                        name="ip" v-model="apiData.ip" />
+                                    <Field type="text" class="form-control form-control-solid" placeholder="Ví dụ: Cookie: e8452aaa"
+                                        name="headerOptionValue" v-model="scanFormState.headerOptionValue" />
                                     <div class="fv-plugins-message-container">
                                         <div class="fv-help-block">
-                                            <ErrorMessage name="ip" />
-                                            <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
+                                            <ErrorMessage name="headerOptionValue" />
+                                            <span class="" v-if="errors.headerOptionValue">{{ errors.headerOptionValue[0] }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -255,9 +298,8 @@
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
-                                        name="proxyCheck"
-                                        :checked="scanFormState.nmap_check"
-                                        @input="scanFormState.nmap_check = $event.target.checked"
+                                        name="nmap_check"
+                                        v-model="scanFormState.nmap_check"
                                     />
                                     <span class="form-check-label fw-semobold text-gray-400">Allowed</span>
                                 </label>
@@ -270,22 +312,14 @@
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
-                                        name="proxyCheck"
-                                        :checked="scanFormState.nuclei_check"
-                                        @input="scanFormState.nuclei_check = $event.target.checked"
+                                        name="nuclei_check"
+                                        v-model="scanFormState.nuclei_check"
                                     />
                                     <span class="form-check-label fw-semobold text-gray-400">Allowed</span>
                                 </label>
                             </div>
-                            
-                            <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                    <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] :
-                                        errors.detail }}</span>
-                                </div>
-                            </div>
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="modal-footer flex-center">
                         <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
@@ -354,20 +388,14 @@
     </div>
 
     <!-- modal detail  -->
-    <!-- <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+    <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
         <div class="modal-dialog modal-dialog-centered mw-650px">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="card card-flush pt-3 mb-5 mb-xl-10">
                         <div class="card-header">
                             <div class="card-title">
-                                <h1 class="fw-bold">{{ detailData.name }}</h1>
-                            </div>
-                            <div class="card-toolbar">
-                                <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
-                                    data-bs-target="#kt_modal_new_target_group" @click="handleClick(detailData, 'edit')">
-                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Update
-                                </button>
+                                <h1 class="fw-bold">{{ detailData.username }}</h1>
                             </div>
                         </div>
                         <div class="card-body py-0">
@@ -375,28 +403,44 @@
                                 <h5>Thông tin chi tiết:</h5>
                                 <div class="d-flex flex-wrap py-5">
                                     <div class="flex-equal me-5">
-                                        <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
+                                        <div class="text-gray-400">Tốc độ Scan: {{ getScanSpeedName(detailData.dataScanner.scanSpeedOption) }}</div>
+                                        <div class="text-gray-400 ">Proxy: {{ detailData.dataScanner.proxyCheck ? 'Bật' : 'Tắt' }}</div>
+                                        <ul v-if="detailData.dataScanner.proxyCheck">
+                                            <li>Giao thức: {{ detailData.dataScanner.proxyScheme }}</li>
+                                            <li>Địa chỉ: {{ detailData.dataScanner.proxyAdress }}</li>
+                                            <li>Proxy yêu cẫu xác thực: {{ detailData.dataScanner.proxyAuthenticationCheck ? 'Bật' : 'Tắt' }}</li>
+                                            <li v-if="detailData.dataScanner.proxyAuthenticationCheck">Tên đăng nhập: {{ detailData.dataScanner.proxyUsername }}</li>
+                                            <li v-if="detailData.dataScanner.proxyAuthenticationCheck">Mật khẩu: {{ detailData.dataScanner.proxyUserPassword }}</li>
+                                        </ul>
+                                        <div class="text-gray-400 ">Sử dụng Header tùy chọn: {{ detailData.dataScanner.headerOptionCheck ? 'Bật' : 'Tắt' }}</div>
+                                        <div class="text-gray-400 ">Quét bằng Nmap: {{ detailData.dataScanner.nmap_check ? 'Bật' : 'Tắt' }}</div>
+                                        <div class="text-gray-400 ">Quét bằng Nuclei: {{ detailData.dataScanner.nuclei_check ? 'Bật' : 'Tắt' }}</div>
+                                        <div class="text-gray-400 ">Trạng thái: <span :class="`badge badge-${getStatus(detailData.status).color}`">{{ detailData.statusName }}</span></div>
+                                        <div class="text-gray-400 ">Thời gian bắt đầu : {{ formatDate(detailData.created_at) }}</div>
+                                        <div class="text-gray-400 ">Thời gian kết thúc : {{ formatDate(detailData.finished_at) }}</div>
+
+                                        <!-- <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
                                             <tr>
-                                                <td class="text-gray-400">IP:</td>
+                                                <td class="text-gray-400">Tốc độ Scan:</td>
                                                 <td class="text-gray-800 badge badge-light pe-2">{{ detailData.ip}} </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-gray-400">Domain:</td>
+                                                <td class="text-gray-400">Proxy:</td>
                                                 <td class="text-gray-800  badge badge-light pe-2">{{ detailData.domain}}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-gray-400">Nhóm group:</td>
+                                                <td class="text-gray-400">Sử dụng Header tùy chọn:</td>
                                                 <td class="text-gray-800 badge badge-light pe-2">{{ detailData.group_title }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="text-gray-400">Ngày tạo:</td>
+                                                <td class="text-gray-400">Quét bằng Header tùy chọn:</td>
                                                 <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="text-gray-400">Ngày cập nhật cuối:</td>
                                                 <td class="text-gray-800">{{ formatDate(detailData.modified_at) }}</td>
                                             </tr>
-                                        </table>
+                                        </table> -->
                                     </div>
                                 </div>
                             </div>
@@ -410,7 +454,7 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 </template>
 
 <script lang="ts">
@@ -477,7 +521,13 @@ export default defineComponent({
             created_at: "",
             finished_at: '',
             user: '',
-            detail: ''
+            detail: '',
+            proxyScheme: '',
+            proxyAdress: '',
+            proxyPort: '',
+            proxyUsername: '',
+            proxyUserPassword: '',
+            headerOptionValue: '',
         });
         const detailData = reactive({
             id: '',
@@ -485,8 +535,19 @@ export default defineComponent({
             created_at: "",
             finished_at: '',
             status: '',
-            status_name: '',
-            user: '',
+            statusName: '',
+            dataScanner: {
+                scanSpeedOption: '',
+                proxyCheck: false,
+                proxyScheme: '',
+                proxyAdress: '',
+                proxyAuthenticationCheck: false,
+                proxyUsername: '',
+                proxyUserPassword: '',
+                headerOptionCheck: false,
+                nmap_check: false,
+                nuclei_check: false,
+            },
         });
         // const target_id = ref(null);
         const getIdFromUrl = () => {
@@ -495,6 +556,17 @@ export default defineComponent({
             if (idMatch) {
                 return parseInt(idMatch[1]);
             }
+        };
+        const getScanSpeedName = (speed: number | string) => {
+            if (speed == 1) {
+                return 'Tuần tự'
+            } else if (speed == 2) {
+                return 'Chậm'
+            }  else if (speed == 3) {
+                return 'Trung bình'
+            }
+
+            return 'Nhanh'
         };
         
         const discardButtonRef = ref<HTMLElement | null>(null);
@@ -619,14 +691,14 @@ export default defineComponent({
         };
         const customRowTable = (detail: any) => {
             if (detail) {
-                // detailData.id = detail.id
-                // detailData.name = detail.name
-                // detailData.ip = detail.ip
-                // detailData.domain = detail.domain
-                // detailData.group_id = detail.group.id
-                // detailData.group_title = detail.group.title
-                // detailData.modified_at = detail.modified_at
-                // detailData.created_at = detail.created_at
+                console.log(detail, 1111111111111111);
+                
+                detailData.username = detail.user.username
+                detailData.finished_at = detail.finishedAt
+                detailData.status = detail.status
+                detailData.statusName = detail.status_name
+                detailData.dataScanner = detail.data_scanner
+                detailData.created_at = detail.created_at
                 const modal = new Modal(
                     document.getElementById("kt_modal_detail") as Element
                 );
@@ -647,13 +719,44 @@ export default defineComponent({
         const newTargetGroupModalRef = ref<null | HTMLElement>(null);
         const PatternTargetGroup = /^[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/
 
+        const scanFormState = reactive({
+            targetID: getIdFromUrl(),
+            scanSpeedOption: 3,
+            proxyCheck: false,
+            proxyScheme: "",
+            proxyAdress: '',
+            proxyPort: '',
+            proxyAuthenticationCheck: false,
+            proxyUsername: '',
+            proxyUserPassword: '',
+            headerOptionCheck: false,
+            headerOptionValue: '',
+            rescanOptionCheck: false,
+            rescanRecurTime: '',
+            nmap_check: false,
+            nuclei_check: false,
+        })
+
         const validationSchema = Yup.object().shape({
-            name: Yup.string()
-                .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
-                .required('Vui lòng nhập tên'),
-            // group: Yup.string()
-            //     // .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
-            //     .required('Vui lòng chọn nhóm mục tiêu')
+            proxyAdress: Yup.string()
+                .required('Vui lòng nhập địa chỉ'),
+            proxyPort: Yup.string()
+                .required('Vui lòng nhập cổng'),
+            proxyUsername: Yup.string()
+                .required('Vui lòng nhập username'),
+            proxyUserPassword: Yup.string()
+                .required('Vui lòng nhập mật khẩu'),
+        });
+
+        const validationSchemaProxyCheck = Yup.object().shape({
+            proxyAdress: Yup.string()
+                .required('Vui lòng nhập địa chỉ'),
+            proxyPort: Yup.string()
+                .required('Vui lòng nhập cổng'),
+        });
+        const validationSchemaFalse = Yup.object().shape({
+            proxyAdress: Yup.string(),
+            proxyPort: Yup.string()
         });
 
         const notification = (values: string, icon: string, more: string) => {
@@ -672,65 +775,8 @@ export default defineComponent({
                 hideModal(ModalDetail.value);
             });
         }
-        let textValidator = async (_rule, value) => {
-            // sanitize(_rule, value)
-            if (value) {
-                return Promise.resolve();
-            }
-            return Promise.reject(new Error('Vui lòng nhập thông tin'));
-        };
-        let proxySchemeValidator = async (_rule, value) => {
-
-            if (value) {
-                return Promise.resolve();
-            }
-
-            return Promise.reject(new Error('Hãy lựa chọn phương thức proxy'));
-        };
-        let proxyPortValidator = async (_rule, value) => {
-
-            if (value) {
-                return Promise.resolve();
-            }
-            return Promise.reject(new Error('Vui lòng nhập trong khoảng từ 1 đến 100000'));
-        };
-        let headerOptionValueValidator = async (_rule, value) => {
-
-            if (value) {
-                return Promise.resolve();
-            }
-            if (value == "") {
-                return Promise.reject(new Error('Header đang để trống'));
-            }
-            return Promise.reject(new Error('Dữ liệu nhập vào không hợp lệ, vui lòng thử lại'));
-        };
-        let rescanRecurTimeValidator = async (_rule, value) => {
-
-            if (value) {
-                return Promise.resolve();
-            }
-            if (value == "") {
-                return Promise.reject(new Error('Vui lòng lựa chọn trong khoảng từ 1 đến 72'));
-            }
-            return Promise.reject(new Error('Vui lòng lựa chọn trong khoảng từ 1 đến 72'));
-        };
-        const scanFormState = reactive({
-            targetID: getIdFromUrl(),
-            scanSpeedOption: 3,
-            proxyCheck: false,
-            proxyScheme: "",
-            proxyAdress: '',
-            proxyPort: '',
-            proxyAuthenticationCheck: false,
-            proxyUsername: '',
-            proxyUserPassword: '',
-            headerOptionCheck: false,
-            headerOptionValue: [],
-            rescanOptionCheck: false,
-            rescanRecurTime: '',
-            nmap_check: false,
-            nuclei_check: false,
-        })
+        const abc = 1
+        
         const headerInputValue = ref("")
         // function addHeader() {
         //     if (!scanFormState.headerOptionValue.includes(headerInputValue.value) && headerInputValue.value != "") {
@@ -744,80 +790,49 @@ export default defineComponent({
         //     }
 
         // }
-        const rules = {
-            proxyScheme: [{
-                validator: proxySchemeValidator,
-                trigger: 'change',
-            }],
-            proxyAdress: [{
-                validator: textValidator,
-                trigger: 'change',
-            }],
-            proxyPort: [{
-                validator: proxyPortValidator,
-                trigger: 'change',
-            }],
-            proxyUsername: [{
-                validator: textValidator,
-                trigger: 'change',
-            }],
-            proxyUserPassword: [{
-                validator: textValidator,
-                trigger: 'change',
-            }],
-            headerOptionValue: [{
-                validator: headerOptionValueValidator,
-                trigger: 'change',
-            }],
-            rescanRecurTime: [{
-                validator: rescanRecurTimeValidator,
-                trigger: 'change',
-            }],
-
-        };
         const submit = async () => {
-            // if (!submitButtonRef.value) {
-            //     return;
-            // }
-            // let formData = {
-            //     'name': apiData.value.name,
-            //     'ip': apiData.value.ip ?? "",
-            //     'domain': apiData.value.domain ?? "",
-            //     'group': apiData.value.group
-            // }
-            // console.log(formData);
+            if (!submitButtonRef.value) {
+                return;
+            }
+            console.log(123123, scanFormState);
             
-            // if (typeModal.value == 'add') {
-            //     return ApiService.post("/targets/", formData)
-            //         .then(({ data }) => {
-            //             if(submitButtonRef.value){
-            //                 //Disable button
-            //                 submitButtonRef.value.disabled = true;
-            //                 // Activate indicator
-            //                 submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-            //                 setTimeout(() => {
-            //                     if (submitButtonRef.value) {
-            //                         submitButtonRef.value.disabled = false;
-            //                         submitButtonRef.value?.removeAttribute("data-kt-indicator");
-            //                     }
-            //                     notification(data.detail, 'success', 'Thêm mới thành công')
-            //                     getData();
+            if (typeModal.value == 'add') {
+                
+                return ApiService.post("scan/create/", scanFormState)
+                    .then(({ data }) => {
+                        console.log(scanFormState);
+                        
+                        if(submitButtonRef.value){
+                            //Disable button
+                            submitButtonRef.value.disabled = true;
+                            // Activate indicator
+                            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+                            setTimeout(() => {
+                                if (submitButtonRef.value) {
+                                    submitButtonRef.value.disabled = false;
+                                    submitButtonRef.value?.removeAttribute("data-kt-indicator");
+                                }
+                                notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
+                                getData();
 
-            //                 }, 1000);
-            //             }
-            //         })
-            //         .catch(({ response }) => {
-            //             if (response?.data) {
-            //                 errors.name = response.data.name;
-            //                 errors.ip = response.data.ip;
-            //                 errors.domain = response.data.domain;
-            //                 errors.group = response.data.group;
-            //                 errors.detail = response.data.detail;
-            //             } else {
-            //                 notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
-            //             }
-            //         });
-            // }
+                            }, 1000);
+                        }
+                    })
+                    .catch(({ response }) => {
+                        if (response?.data) {
+                            // errors.name = response.data.name;
+                            // errors.ip = response.data.ip;
+                            // errors.domain = response.data.domain;
+                            // errors.group = response.data.group;
+                            errors.detail = response.data.detail;
+                            console.log(response.data);
+                            
+                            notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
+                        } else {
+                            notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
+                        }
+                    });
+            }
         };
 
         const formatDate = (date: string) => {            
@@ -863,6 +878,8 @@ export default defineComponent({
             apiData,
             data_group,
             validationSchema,
+            validationSchemaProxyCheck,
+            validationSchemaFalse,
             submit,
             submitButtonRef,
             modalRef,
@@ -899,9 +916,9 @@ export default defineComponent({
             getStatus,
 
             //SCAN
-            rules,
             // headerOption,
             scanFormState,
+            getScanSpeedName,
             // formRef,
             // visible,
             // onOk,
