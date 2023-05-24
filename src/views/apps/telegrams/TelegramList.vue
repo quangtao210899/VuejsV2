@@ -237,8 +237,10 @@ import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form  as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 
-import Swal from "sweetalert2/dist/sweetalert2.js";
 import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
+dayjs.locale('vi');
+import Swal from "sweetalert2/dist/sweetalert2.js";
 import Fillter from "@/views/apps/telegrams/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import {Modal} from "bootstrap";
@@ -312,10 +314,10 @@ export default defineComponent({
       getData();
     };
 
-    const getData = () => {
+    const getData = async () => {
       loading.value = true;
       setTimeout(() => loading.value = false ,500)
-      return ApiService.get(`/telegram/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
+      await ApiService.get(`/telegram/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -384,11 +386,13 @@ export default defineComponent({
     };
 
     const formatDate = (date: string) => {
-      if (date === "false" || date === "null") {
-          return '--:--';
+      if (!date) {
+        return '--:--';
       }
-      const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-      return dayjs(date).format(dateFormat)
+      if (!dayjs(date).isValid()) {
+        return date
+      }
+      return dayjs(date).format('DD/MM/YYYY HH:mm:ss')
     };
 
     const handleFilter = (data: any) => {

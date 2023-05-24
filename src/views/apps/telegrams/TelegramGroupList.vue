@@ -631,6 +631,8 @@ import { vue3Debounce } from 'vue-debounce';
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
+dayjs.locale('vi');
 import Fillter from "@/views/apps/telegrams/filterGroup.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import {Modal} from "bootstrap";
@@ -851,11 +853,13 @@ export default defineComponent({
     };
 
     const formatDate = (date: string) => {
-      if (date === "false" || date === "null") {
+      if (!date) {
           return '--:--';
       }
-      const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-      return dayjs(date).format(dateFormat)
+      if(!dayjs(date).isValid()){
+        return date
+      }
+      return dayjs(date).format('DD/MM/YYYY HH:mm:ss')
     };
 
     const handleFilter = (data: any) => {
