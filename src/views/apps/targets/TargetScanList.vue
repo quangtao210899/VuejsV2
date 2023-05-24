@@ -257,7 +257,7 @@
                                                 <span>Mật khẩu</span>
                                             </label>
                                             <div class="position-relative mb-3">
-                                                <Field :type="!eyeButtonRef ? 'password' : 'text'" class="form-control form-control-solid h-35px" name="proxyUserPassword"
+                                                <Field :type="!eyeButtonRef ? 'password' : 'text'" class="form-control form-control-solid" name="proxyUserPassword"
                                                 id="proxyUserPassword" v-model="scanFormState.proxyUserPassword" />
 
                                                 <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
@@ -466,6 +466,16 @@
     </div>
 </template>
 
+<style lang="scss">
+.el-select {
+  width: 100%;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 100%;
+}
+</style>
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, ref, onMounted, reactive } from "vue";
@@ -941,3 +951,10 @@ export default defineComponent({
     },
 });
 </script>
+
+<style lang="scss">
+.override-styles {
+  z-index: 99999 !important;
+  pointer-events: initial;
+}
+</style>
