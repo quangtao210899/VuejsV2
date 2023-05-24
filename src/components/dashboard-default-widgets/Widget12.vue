@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="d-flex justify-content-start flex-column">
-                      <span class="fw-bold mb-1 fs-6" :class="`text-${checkSeverity(row.severity).color}`">{{ row.vt_name
+                      <span class="fw-bold mb-1 fs-6" :class="`text-${checkSeverity(row.severity).color}`">{{ row.vt_name 
                       }}</span>
                       <span class="text-gray-400 fw-semibold d-block fs-7">{{
                         row.severity
@@ -58,28 +58,22 @@
                 </td>
 
                 <td class="text-end pe-12">
-                  <span class="badge py-3 px-4 fs-7 badge-light-info">{{ row.schema }}</span>
+                  <span class="badge py-3 px-4 fs-7" :class="`badge-light-${checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan['service']: row.port_scan['type'])).color}`">{{ checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan["service"]: row.port_scan["type"])).title }}</span>
                 </td>
 
                 <td class="text-end pe-0">
-                  <div class="d-flex flex-stack">
-                    <!--begin::Section-->
-                    <a :href="`${row.target__domain}`" class="text-primary fw-semibold fs-6 me-2">{{
-                      row.target__domain
-                    }}</a>
-                    <!--end::Section-->
-                    <!--begin::Action-->
-                    <button type="button"
-                      class="btn btn-icon btn-sm h-auto btn-color-gray-400 btn-active-color-primary justify-content-end">
-                      <KTIcon icon-name="exit-right-corner" icon-class="fs-2" />
-                    </button>
-                    <!--end::Action-->
-                  </div>
-                  <!--end::Item-->
+                  <span
+                        href="#"
+                        class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6"
+                        >{{ row.target__domain }}</span
+                      >
                 </td>
 
                 <td class="text-end pe-0">
-                  <span class="text-gray-600 fs-6">{{ formatDate(row.last_seen) }}</span>
+                  <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-6">
+                    <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+                    {{ formatDate(row.last_seen) }}
+                  </span>
                 </td>
 
               </tr>
@@ -140,9 +134,21 @@ export default defineComponent({
       }
       return { id: 5, title: 'Unknown', color: 'dark' }
     }
+
+    const checkDomain= (severity: string) => {
+      if (severity == 'http') {
+        return { id: 0, title: severity, color: 'info' };
+      } else if (severity == 'ssh') {
+        return { id: 1, title: severity, color: 'success' };
+      } else if (severity == 'https') {
+        return { id: 2, title: severity, color: 'warning' };
+      } 
+      return { id: 5, title: severity, color: 'dark' }
+    }
     return {
       formatDate,
       checkSeverity,
+      checkDomain,
     };
   },
 });
