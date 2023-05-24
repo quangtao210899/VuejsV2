@@ -26,6 +26,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-scans/:id",
+        name: "target-scan",
+        component: () => import("@/views/apps/targets/TargetScanList.vue"),
+        meta: {
+          pageTitle: "Quản lý danh sách quét",
+          breadcrumbs: ["Target"],
+        },
+      },
+      {
         path: "/target-group",
         name: "target-group",
         component: () => import("@/views/apps/targets/TargetGroupList.vue"),
@@ -86,6 +95,15 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/telegram-group",
         name: "telegram-group",
+        component: () => import("@/views/apps/telegrams/TelegramGroupList.vue"),
+        meta: {
+          pageTitle: "Quản lý nhóm Telegarm",
+          breadcrumbs: ["TelegramGroup"],
+        },
+      },
+      {
+        path: "/telegram-group/:id",
+        name: "telegram-group-type",
         component: () => import("@/views/apps/telegrams/TelegramGroupList.vue"),
         meta: {
           pageTitle: "Quản lý nhóm Telegarm",

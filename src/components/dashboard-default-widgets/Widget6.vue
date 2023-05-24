@@ -98,26 +98,16 @@ const chartOptions = (props: any): ApexOptions => {
       },
     },
     plotOptions: {
-      pie: {
-      },
-      bar: {
-        horizontal: false,
-        columnWidth: "30%",
-        borderRadius: 5,
-      },
+
     },
     dataLabels: {
       enabled: true,
     },
-    fill: {
-      type: 'gradient',
-    },
+    // fill: {
+    //   type: 'gradient',
+    // },
     legend: {
       show: true,
-      // formatter: function (val, opts) {
-      //   return val + " - " + opts.w.globals.series[opts.seriesIndex] + " recon "
-      // }
-      // position: 'bottom',
       fontSize: '13px',
       fontWeight: 400,
       markers: {
@@ -154,7 +144,7 @@ const chartOptions = (props: any): ApexOptions => {
     }],
     stroke: {
       show: true,
-      width: 5,
+      width: 3,
     },
     
   };

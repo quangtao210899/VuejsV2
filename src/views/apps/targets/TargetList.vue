@@ -83,6 +83,9 @@
                         @click="handleClick(customer, 'edit')" title="Sửa">
                         <KTIcon icon-name="pencil" icon-class="fs-3" />
                     </button>
+                    <router-link :to="`/target-scans/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
+                        <KTIcon icon-name="scan-barcode" icon-class="fs-3" />
+                    </router-link>
                 </template>
 
             </KTDatatable>
@@ -200,7 +203,7 @@
                     <div class="modal-footer flex-center">
                         <!--begin::Button-->
                         <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
-                            class="btn btn-sm  btn-light me-3">
+                            class="btn btn-sm  btn-light me-3" @click="resetForm">
                             Discard
                         </button>
                         <!--end::Button-->
@@ -472,11 +475,7 @@ export default defineComponent({
 
         const handleClick = (data: object | any, type: String) => {
             typeModal.value = type
-            errors.name = ''
-            errors.domain = ''
-            errors.ip = ''
-            errors.group = ''
-            errors.detail = ''
+            resetForm()
             if (Object.keys(data).length != 0 && type === 'edit') {
                 nameType.value = "Chỉnh sửa mục tiêu"
                 apiData.value.name = data.name;
@@ -486,13 +485,21 @@ export default defineComponent({
                 id.value = data.id;
             } else {
                 nameType.value = "Thêm mới mục tiêu"
+                apiData.value.group = ''
                 if (discardButtonRef.value !== null) {
                     discardButtonRef.value.click();
                 }
                 // resetData();
             }
         };
-
+        const resetForm = () => {
+            apiData.value.group = ''
+            errors.name = ''
+            errors.domain = ''
+            errors.ip = ''
+            errors.group = ''
+            errors.detail = ''
+        }
         // const resetData = () => {
         //   apiData.value.title = '';
         //   apiData.value.description = '';
@@ -767,6 +774,7 @@ export default defineComponent({
             nameType,
             formatDate,
             loading,
+            resetForm
         };
     },
 });

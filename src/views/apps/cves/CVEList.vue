@@ -86,7 +86,7 @@
                                     <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                         <span class="required">Mã CVE</span>
                                     </label>
-                                    <Field type="text" class="form-control form-control-solid" placeholder="CVE-YYYY-xxxxxx"
+                                    <Field type="text" class="form-control form-control-solid" placeholder="CVE-YYYY-xxxxxx" @keydown="removeErrorMsgText"
                                         name="code" v-model="apiData.code" />
                                     <div class="fv-plugins-message-container">
                                         <div class="fv-help-block">
@@ -102,6 +102,7 @@
                                     </label>
                                     <el-form-item prop="assign">
                                         <el-select placeholder="Chọn kiểu" as="select" height="40px" name="product_text"
+                                            @change="removeErrorMsgOption"
                                             class="input-group-lg" v-model.lazy="apiData.product_type">
                                             <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option>
                                             <el-option
@@ -111,15 +112,13 @@
                                                 :value="item.value"
                                             />
                                         </el-select>
-                                    </el-form-item>
-                                    <!-- <Field type="text" class="form-control form-control-solid" placeholder="Chọn nhóm mục tiêu"
-                                        name="group" v-model="apiData.group" /> -->
-                                    <!-- <div class="fv-plugins-message-container">
-                                        <div class="fv-help-block">
-                                            <ErrorMessage name="group" />
-                                            <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
+                                        <div class="fv-plugins-message-container">
+                                            <div class="fv-help-block">
+                                                <ErrorMessage name="product_type" />
+                                                <span class="" v-if="errors.product_type">{{ errors.product_type[0] }}</span>
+                                            </div>
                                         </div>
-                                    </div> -->
+                                    </el-form-item>
                                 </div>
                                 <div class="col-4">
                                     <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
@@ -127,6 +126,7 @@
                                     </label>
                                     <el-form-item prop="assign">
                                         <el-select placeholder="Chọn kiểu" as="select" height="40px"
+                                            @change="removeErrorMsgOption"
                                             class="input-group-lg" v-model="apiData.vul_type">
                                             <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option>
                                             <el-option
@@ -136,6 +136,12 @@
                                                 :value="item.value"
                                             />
                                         </el-select>
+                                        <div class="fv-plugins-message-container">
+                                            <div class="fv-help-block">
+                                                <ErrorMessage name="vul_type" />
+                                                <span class="" v-if="errors.vul_type">{{ errors.vul_type[0] }}</span>
+                                            </div>
+                                        </div>
                                     </el-form-item>
                                     <!-- <Field type="text" class="form-control form-control-solid" placeholder="Chọn nhóm mục tiêu"
                                         name="group" v-model="apiData.group" /> -->
@@ -833,6 +839,16 @@ export default defineComponent({
         const deleteFewSubscriptions = () => {
             deleteSubscription(selectedIds.value);
         };
+        const removeErrorMsgOption = () => {
+            console.log(apiData.value.product_type != '', apiData.value.product_type, 123123);
+            
+            apiData.value.product_type !== '' ? errors.product_type = '' : ''
+            apiData.value.vul_type !== '' ? errors.vul_type = '' : ''
+        };
+
+        const removeErrorMsgText = () => {
+            errors.code = ''
+        };
 
         const ModalDelete = ref<null | HTMLElement>(null);
         const deleteSubscription = (ids: Array<number>) => {
@@ -994,13 +1010,15 @@ export default defineComponent({
                     .catch(({ response }) => {
                         if (response.data) {
                             errors.code = response.data.code;
-                            errors.product_type = response.data.product_text;
-                            errors.vul_type = response.data.vul_text;
+                            errors.product_type = response.data.product_type;
+                            errors.vul_type = response.data.vul_type;
                             errors.description = response.data.description;
                             errors.version = response.data.version;
                             errors.shodan_dock = response.data.shodan_dock;
                             errors.poc = response.data.poc;
                             errors.detail = response.data.detail;
+                            console.log(errors);
+                            
                         } else {
                             notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                         }
@@ -1089,6 +1107,9 @@ export default defineComponent({
             loading,
             dataVul,
             dataProduct,
+
+            removeErrorMsgOption,
+            removeErrorMsgText,
         };
     },
 });

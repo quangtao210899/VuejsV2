@@ -1,7 +1,7 @@
 <template>
   <div class="card card-flush" :class="className">
     <!--begin::Header-->
-    <div class="card-header pt-5">
+    <div class="card-header pt-5"> 
       <!--begin::Title-->
       <div class="card-title d-flex flex-column">
         <!--begin::Info-->
@@ -10,12 +10,6 @@
           <span class="fs-3x fw-bold text-dark me-2 lh-1 ls-n2">{{ services }}</span>
           <!--end::Amount-->
 
-          <!--begin::Badge-->
-          <span class="badge badge-light-success fs-base">
-            <KTIcon icon-name="arrow-up" icon-class="fs-5 text-success ms-n1" />
-            2.2%
-          </span>
-          <!--end::Badge-->
         </div>
         <!--end::Info-->
 

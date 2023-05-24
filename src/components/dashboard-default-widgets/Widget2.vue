@@ -4,10 +4,20 @@
     <div class="card-header pt-5">
       <!--begin::Title-->
       <div class="card-title d-flex flex-column">
-        <!--begin::Amount-->
-        <span class="fs-3x fw-bold text-dark me-2 lh-1 ls-n2">{{ subdomain }}</span>
-        <!--end::Amount-->
+        <!--begin::Info-->
+        <div class="d-flex align-items-center">
+          <!--begin::Amount-->
+          <span class="fs-3x fw-bold text-dark me-2 lh-1 ls-n2">{{ subdomain }}</span>
+          <!--end::Amount-->
 
+          <!--begin::Badge-->
+          <span class="badge badge-light-success fs-base">
+            <KTIcon icon-name="notification-bing" icon-class="fs-5 text-success ms-n1" />
+            <span class="fs-5 text-success">{{ liveSubdomain }} Live</span> 
+          </span>
+          <!--end::Badge-->
+        </div>
+        <!--end::Badge-->
         <!--begin::Subtitle-->
         <span class="text-gray-400 pt-1 fw-semibold fs-6">{{
           description
@@ -22,16 +32,16 @@
     <div class="card-body d-flex align-items-end pt-0">
       <!--begin::Title-->
 
-      <li class="d-flex align-items-center py-2 fw-bolder col-9 ">
-        <span class="bullet bullet-dot bg-success h-10px w-10px me-2"></span> 
+      <!-- <li class="d-flex align-items-center py-2 fw-bolder col-9 ">
+        <span class="bullet bullet-dot bg-success h-10px w-10px me-2"></span>
         <span class="fs-6 text-gray-800 badge badge-light-success">
-          <span class="fs-3 text-success">{{liveSubdomain }}  </span>
-           - Subdomain live
+          <span class="fs-3 text-success">{{ liveSubdomain }} </span>
+          - Subdomain live
         </span>
-      </li>
-      <div class="d-flex align-items-end flex-column w-100">
+      </li> -->
+      <!-- <div class="d-flex align-items-end flex-column w-100">
         <KTIcon icon-name="bi bi-life-preserver" icon-class="fs-3x" />
-      </div>
+      </div> -->
       <!--end::Title-->
     </div>
     <!--end::Card body-->

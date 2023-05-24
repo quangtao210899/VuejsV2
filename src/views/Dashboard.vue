@@ -35,13 +35,15 @@
     <div class="row gx-5 gx-xl-10">
       <!--begin::Col-->
       <div class="col-xxl-6 mb-5 mb-xl-10">
-        <Widget6 className="h-xl-100" v-bind:height="300" :targetGroupLabels="targetGroupLabels" :targetGroupData="targetGroupData" :targetGroupColor="targetGroupColor"  />
+        <Widget6 className="h-xl-100" v-bind:height="300" :targetGroupLabels="targetGroupLabels"
+          :targetGroupData="targetGroupData" :targetGroupColor="targetGroupColor" />
       </div>
       <!--end::Col-->
 
       <!--begin::Col-->
       <div class="col-xl-6 mb-5 mb-xl-10">
-        <Widget7 className="h-xl-100" v-bind:height="300" :vulnerableColor="vulnerableColor" :vulnerableData="vulnerableData" :vulnerableLabels="vulnerableLabels" />
+        <Widget7 className="h-xl-100" v-bind:height="300" :vulnerableColor="vulnerableColor"
+          :vulnerableData="vulnerableData" :vulnerableLabels="vulnerableLabels" />
       </div>
       <!--end::Col-->
     </div>
@@ -51,13 +53,13 @@
     <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
       <!--begin::Col-->
       <div class="col-xxl-6">
-        <Widget8 className="h-xl-100" :image="getAssetPath('media/stock/600x600/img-65.jpg')" />
+        <Widget8 className="h-xl-100" :DBLeakData="DBLeak" />
       </div>
       <!--end::Col-->
 
       <!--begin::Col-->
       <div class="col-xl-6">
-        <Widget9 className="h-lg-100" :height="300" />
+        <Widget9 className="h-lg-100" :dataMostVulnerable="dataMostVulnerable" />
       </div>
       <!--end::Col-->
     </div>
@@ -66,15 +68,24 @@
     <!--begin::Row-->
     <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
       <!--begin::Col-->
-      <div class="col-xl-4">
-        <MixedWidget5 widget-classes="card-xl-stretch mb-xl-8 h-md-100" chart-color="primary" chart-height="150">
-        </MixedWidget5>
+      <div class="col-xl-6">
+        <Widget10 className="h-md-100" :HackerNews="HackerNews" />
       </div>
       <!--end::Col-->
 
       <!--begin::Col-->
-      <div class="col-xl-8">
-        <Widget10 className="h-md-100" />
+      <div class="col-xl-6">
+        <Widget11 className="h-md-100" />
+      </div>
+      <!--end::Col-->
+    </div>
+    <!--end::Row-->
+
+    <!--begin::Row-->
+    <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+      <!--begin::Col-->
+      <div class="col-xl-12">
+        <Widget12 className="h-md-100" :latestVulnerabilitiesData="LatestVulnerabilities" />
       </div>
       <!--end::Col-->
     </div>
@@ -98,7 +109,8 @@ import Widget7 from "@/components/dashboard-default-widgets/Widget7.vue";
 import Widget8 from "@/components/dashboard-default-widgets/Widget8.vue";
 import Widget9 from "@/components/dashboard-default-widgets/Widget9.vue";
 import Widget10 from "@/components/dashboard-default-widgets/Widget10.vue";
-import MixedWidget5 from "@/components/widgets/mixed/Widget5.vue";
+import Widget11 from "@/components/dashboard-default-widgets/Widget11.vue";
+import Widget12 from "@/components/dashboard-default-widgets/Widget12.vue";
 
 export default defineComponent({
   name: "main-dashboard",
@@ -113,7 +125,8 @@ export default defineComponent({
     Widget8,
     Widget9,
     Widget10,
-    MixedWidget5,
+    Widget11,
+    Widget12,
   },
   setup() {
     const loading = ref<boolean>(false)
@@ -145,6 +158,21 @@ export default defineComponent({
     const targetGroupLabels = ref<string[]>([]);
     const targetGroupData = ref<any>([]);
     const targetGroupColor = ref(['rgb(255, 99, 132)', 'rgb(75, 192, 192)', 'rgb(255, 205, 86)', 'rgb(201, 203, 207)', 'rgb(54, 162, 235)']);
+
+    // DB Leak
+    const DBLeak = ref<Array<string | any>>([]);
+
+    //most_vuls
+    const dataMostVulnerable = ref<Array<string | any>>([]);
+
+    // Hacker News 
+    const HackerNews = ref<Array<string | any>>([]);
+
+    // Most common Ports 
+    const MostcommonPorts = ref<Array<string | any>>([]);
+
+    // Latest Most common Ports
+    const LatestVulnerabilities = ref<Array<string | any>>([]);
 
     const getData = async () => {
       loading.value = true;
@@ -178,7 +206,22 @@ export default defineComponent({
           targetGroupLabels.value = Object.keys(data.target_group);
           targetGroupData.value = Object.values(data.target_group);
 
-          console.log(targetGroupLabels.value)
+          // DB Leak
+          DBLeak.value = data.db_leak
+
+          // Most Vulnerable
+          dataMostVulnerable.value.push(...data.most_vuls)
+
+          // Hacker News
+          HackerNews.value = data.hacker_new
+
+          // Most common Ports 
+          MostcommonPorts.value = data.top_service
+
+          // Latest Most common Ports
+          LatestVulnerabilities.value = data.last_vuls
+
+          console.log(LatestVulnerabilities.value)
 
         })
         .catch(({ response }) => {
@@ -225,6 +268,11 @@ export default defineComponent({
       targetGroupColor,
       targetGroupData,
       targetGroupLabels,
+      DBLeak,
+      dataMostVulnerable,
+      HackerNews,
+      MostcommonPorts,
+      LatestVulnerabilities,
     };
   },
 });

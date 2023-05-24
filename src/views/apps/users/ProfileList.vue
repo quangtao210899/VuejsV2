@@ -470,7 +470,7 @@ export default defineComponent({
               erroPasswordChange.value.currentpassword = response.data.password ?? '';
               erroPasswordChange.value.newpassword = response.data.new_password ?? '';
               erroPasswordChange.value.confirmpassword = response.data.re_new_password ?? '';
-              toastr.error('có lỗi xảy ra', { position: 'top-right' });
+              toastr.error(response.data.detail, { position: 'top-right' });
               console.log(erroPasswordChange.value)
             } else {
               notification(response.data.detail, 'error', 'Có lỗi xảy ra')
