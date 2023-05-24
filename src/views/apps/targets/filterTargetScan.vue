@@ -23,7 +23,7 @@
                 <div class="d-flex align-items-center position-relative my-1">
                     <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
                     <input type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
-                        class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm theo tên" />
+                        class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm theo người scan" />
                 </div>
                 <!--end::Input-->
             </div>
