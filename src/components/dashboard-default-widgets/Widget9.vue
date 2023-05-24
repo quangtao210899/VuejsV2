@@ -37,12 +37,12 @@
             <template v-for="(item, index) in dataMostVulnerable" :key="index">
               <tr>
                 <td class="text-start">
-                  <span class="text-muted fw-semobold">
+                  <span class="fw-bold text-gray-800 fs-6">
                     {{ 1+ index }}
                   </span>
                 </td>
                 <td class="text-center">
-                  <span class="text-muted fw-semobold">
+                  <span class="text-muted fw-semobold ">
                     {{ item.name }}
                   </span>
                 </td>

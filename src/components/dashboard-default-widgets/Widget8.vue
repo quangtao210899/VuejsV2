@@ -10,7 +10,7 @@
 
       <div class="card-toolbar">
         <!--begin::Menu-->
-        <button
+        <!-- <button
           type="button"
           class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
           data-kt-menu-trigger="click"
@@ -18,8 +18,7 @@
           data-kt-menu-flip="top-end"
         >
           <KTIcon icon-name="category" icon-class="fs-2" />
-        </button>
-        <Dropdown1></Dropdown1>
+        </button> -->
         <!--end::Menu-->
       </div>
     </div>
@@ -37,12 +36,14 @@
 
           <!--begin::Badge-->
           <div class="timeline-badge">
-            <i class="fa fa-genderless text-primary fs-1"></i>
+            <!-- <i class="fa fa-genderless text-primary fs-1"></i> -->
+            <KTIcon icon-name="time" icon-class="fs-1 text-primary" />
+
           </div>
           <!--end::Badge-->
 
           <!--begin::Text-->
-          <div class="timeline-content fw-semobold text-gray-800 ps-3">
+          <div class="col-8 timeline-content fw-semobold text-gray-800 ps-3">
             {{ item.text }}
           </div>
           <!--end::Text-->
@@ -63,9 +64,11 @@
 
           <!--begin::Content-->
           <div class="timeline-content d-flex">
-            <span class="fw-bold text-gray-800 ps-3">
-              <router-link :to="'/telegram-group'" active-class="active"><a-typography-link underline>View all</a-typography-link></router-link>
+            <span class="fw-bold text-gray-800 ps-3 d-flex justify-content-end align-items-center text-hover-primary">
+              <router-link class="me-3" :to="'/telegram-group'" active-class="active">View all</router-link>
+              <KTIcon icon-name="exit-right-corner" icon-class="fs-3" />
             </span>
+            
           </div>
           <!--end::Content-->
         </div>
@@ -81,7 +84,6 @@
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent } from "vue";
-import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import viLocale from './vi.js';
@@ -104,7 +106,6 @@ export default defineComponent({
     DBLeakData: { type: Array as () => Array<ElementType>, required: true },
   },
   components: {
-    Dropdown1,
   },
   setup() {
     const formatDate = (date : string) => {

@@ -199,29 +199,31 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-5 fv-row">
-                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                        <span>Địa chỉ</span>
-                                    </label>
-                                    <Field type="text" class="form-control form-control-solid"
-                                        placeholder="example.com" name="proxyAdress" v-model="scanFormState.proxyAdress" />
-                                    <div class="fv-plugins-message-container">
-                                        <div class="fv-help-block">
-                                            <ErrorMessage name="proxyAdress" />
-                                            <span class="" v-if="errors.proxyAdress">{{ errors.proxyAdress[0] }}</span>
+                                <div class="mb-5 fv-row row">
+                                    <div class="col-6">
+                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                            <span>Địa chỉ</span>
+                                        </label>
+                                        <Field type="text" class="form-control form-control-solid"
+                                            placeholder="example.com" name="proxyAdress" v-model="scanFormState.proxyAdress" />
+                                        <div class="fv-plugins-message-container">
+                                            <div class="fv-help-block">
+                                                <ErrorMessage name="proxyAdress" />
+                                                <span class="" v-if="errors.proxyAdress">{{ errors.proxyAdress[0] }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mb-5 fv-row">
-                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                        <span>Cổng dịch vụ</span>
-                                    </label>
-                                    <Field type="text" class="form-control form-control-solid"
-                                        placeholder="80" name="proxyPort" v-model="scanFormState.proxyPort" />
-                                    <div class="fv-plugins-message-container">
-                                        <div class="fv-help-block">
-                                            <ErrorMessage name="proxyPort" />
-                                            <span class="" v-if="errors.proxyPort">{{ errors.proxyPort[0] }}</span>
+                                    <div class="col-6">
+                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                            <span>Cổng dịch vụ</span>
+                                        </label>
+                                        <Field type="text" class="form-control form-control-solid"
+                                            placeholder="80" name="proxyPort" v-model="scanFormState.proxyPort" />
+                                        <div class="fv-plugins-message-container">
+                                            <div class="fv-help-block">
+                                                <ErrorMessage name="proxyPort" />
+                                                <span class="" v-if="errors.proxyPort">{{ errors.proxyPort[0] }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -236,31 +238,42 @@
                                     </div>
                                 </div>
                                 <div v-if="scanFormState.proxyAuthenticationCheck">
-                                    <div class="mb-5 fv-row">
-                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                            <span>Tên đăng nhập</span>
-                                        </label>
-                                        <Field type="text" class="form-control form-control-solid"
-                                            name="proxyUsername" v-model="scanFormState.proxyUsername" />
-                                        <div class="fv-plugins-message-container">
-                                            <div class="fv-help-block">
-                                                <ErrorMessage name="proxyUsername" />
-                                                <span class="" v-if="errors.proxyUsername">{{ errors.proxyUsername[0] }}</span>
+                                    <div class="mb-5 fv-row row">
+                                        <div class="col-6">
+                                            <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                                <span>Tên đăng nhập</span>
+                                            </label>
+                                            <Field type="text" class="form-control form-control-solid"
+                                                name="proxyUsername" v-model="scanFormState.proxyUsername" />
+                                            <div class="fv-plugins-message-container">
+                                                <div class="fv-help-block">
+                                                    <ErrorMessage name="proxyUsername" />
+                                                    <span class="" v-if="errors.proxyUsername">{{ errors.proxyUsername[0] }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                                <span>Mật khẩu</span>
+                                            </label>
+                                            <div class="position-relative mb-3">
+                                                <Field :type="!eyeButtonRef ? 'password' : 'text'" class="form-control form-control-solid h-35px" name="proxyUserPassword"
+                                                id="proxyUserPassword" v-model="scanFormState.proxyUserPassword" />
+
+                                                <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
+                                                    <KTIcon :icon-name="!eyeButtonRef ? 'eye-slash' : 'eye'" icon-class="fs-2" @click="eyePassword"/>
+                                                </span>
+                                            </div>
+                                            <div class="fv-plugins-message-container">
+                                                <div class="fv-help-block">
+                                                    <ErrorMessage name="proxyUserPassword" />
+                                                    <span class="" v-if="errors.proxyUserPassword">{{ errors.proxyUserPassword[0] }}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row">
-                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                            <span>Mật khẩu</span>
-                                        </label>
-                                        <Field type="text" class="form-control form-control-solid"
-                                            name="proxyUserPassword" v-model="scanFormState.proxyUserPassword" />
-                                        <div class="fv-plugins-message-container">
-                                            <div class="fv-help-block">
-                                                <ErrorMessage name="proxyUserPassword" />
-                                                <span class="" v-if="errors.proxyUserPassword">{{ errors.proxyUserPassword[0] }}</span>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -270,6 +283,7 @@
                                 </div>
                                 <label class="form-check form-switch form-check-custom form-check-solid">
                                     <input
+                                        @click="clearHeaderOptions"
                                         class="form-check-input"
                                         type="checkbox"
                                         name="headerOption"
@@ -280,14 +294,23 @@
                             </div>
                             <div style="padding-left: 20px;" v-if="scanFormState.headerOptionCheck">
                                 <div class="mb-5 fv-row">
-                                    <Field type="text" class="form-control form-control-solid" placeholder="Ví dụ: Cookie: e8452aaa"
-                                        name="headerOptionValue" v-model="scanFormState.headerOptionValue" />
-                                    <div class="fv-plugins-message-container">
-                                        <div class="fv-help-block">
-                                            <ErrorMessage name="headerOptionValue" />
-                                            <span class="" v-if="errors.headerOptionValue">{{ errors.headerOptionValue[0] }}</span>
+                                    <el-form-item prop="tags">
+                                        <el-select
+                                            v-model="scanFormState.headerOptionValue"
+                                            multiple
+                                            filterable
+                                            allow-create
+                                            default-first-option
+                                            placeholder="Ví dụ: Cookie: e8452aaa"
+                                        >
+                                        </el-select>
+                                        <div class="fv-plugins-message-container">
+                                            <div class="fv-help-block">
+                                                <ErrorMessage name="headerOptionValue" />
+                                                <span class="" v-if="errors.headerOptionValue">{{ errors.headerOptionValue[0] }}</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </el-form-item>
                                 </div>
                             </div>
                             <div class="d-flex flex-stack mb-8">
@@ -326,9 +349,6 @@
                             class="btn btn-sm  btn-light me-3">
                             Discard
                         </button>
-                        <!--end::Button-->
-
-                        <!--begin::Button-->
                         <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
                             class="btn btn-sm  btn-primary">
                             <span class="indicator-label"> Submit </span>
@@ -337,42 +357,30 @@
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
-                        <!--end::Button-->
                     </div>
-                    <!--end::Modal footer-->
                 </VForm>
-                <!--end::Form-->
             </div>
-            <!--end::Modal content-->
         </div>
-        <!--end::Modal dialog-->
     </div>
 
-    <!-- modal delete  -->
     <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
-        <!--begin::Modal dialog-->
         <div class="modal-dialog modal-dialog-centered">
-            <!--begin::Modal content-->
             <div class="modal-content">
 
                 <div class="modal-header">
                     <h3 class="modal-title">Xác nhận xóa scan</h3>
 
-                    <!--begin::Close-->
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
                         aria-label="Close">
                         <span class="svg-icon svg-icon-2x"></span>
                     </div>
-                    <!--end::Close-->
                 </div>
-                <!--begin::Form-->
                 <div class="modal-body">
                     <p style="font-size: 16px;">Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0"
                             class="fw-bold" style="color:red;">{{ selectedIds.length
                             }}</span> bản ghi này không?
                     </p>
                 </div>
-                <!--end::Form-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm  btn-light" data-bs-dismiss="modal">
                         Hủy bỏ
@@ -382,12 +390,9 @@
                     </button>
                 </div>
             </div>
-            <!--end::Modal content-->
         </div>
-        <!--end::Modal dialog-->
     </div>
 
-    <!-- modal detail  -->
     <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
         <div class="modal-dialog modal-dialog-centered mw-650px">
             <div class="modal-content">
@@ -403,44 +408,48 @@
                                 <h5>Thông tin chi tiết:</h5>
                                 <div class="d-flex flex-wrap py-5">
                                     <div class="flex-equal me-5">
-                                        <div class="text-gray-400">Tốc độ Scan: {{ getScanSpeedName(detailData.dataScanner.scanSpeedOption) }}</div>
-                                        <div class="text-gray-400 ">Proxy: {{ detailData.dataScanner.proxyCheck ? 'Bật' : 'Tắt' }}</div>
-                                        <ul v-if="detailData.dataScanner.proxyCheck">
-                                            <li>Giao thức: {{ detailData.dataScanner.proxyScheme }}</li>
-                                            <li>Địa chỉ: {{ detailData.dataScanner.proxyAdress }}</li>
-                                            <li>Proxy yêu cẫu xác thực: {{ detailData.dataScanner.proxyAuthenticationCheck ? 'Bật' : 'Tắt' }}</li>
-                                            <li v-if="detailData.dataScanner.proxyAuthenticationCheck">Tên đăng nhập: {{ detailData.dataScanner.proxyUsername }}</li>
-                                            <li v-if="detailData.dataScanner.proxyAuthenticationCheck">Mật khẩu: {{ detailData.dataScanner.proxyUserPassword }}</li>
-                                        </ul>
-                                        <div class="text-gray-400 ">Sử dụng Header tùy chọn: {{ detailData.dataScanner.headerOptionCheck ? 'Bật' : 'Tắt' }}</div>
-                                        <div class="text-gray-400 ">Quét bằng Nmap: {{ detailData.dataScanner.nmap_check ? 'Bật' : 'Tắt' }}</div>
-                                        <div class="text-gray-400 ">Quét bằng Nuclei: {{ detailData.dataScanner.nuclei_check ? 'Bật' : 'Tắt' }}</div>
-                                        <div class="text-gray-400 ">Trạng thái: <span :class="`badge badge-${getStatus(detailData.status).color}`">{{ detailData.statusName }}</span></div>
-                                        <div class="text-gray-400 ">Thời gian bắt đầu : {{ formatDate(detailData.created_at) }}</div>
-                                        <div class="text-gray-400 ">Thời gian kết thúc : {{ formatDate(detailData.finished_at) }}</div>
-
-                                        <!-- <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-                                            <tr>
-                                                <td class="text-gray-400">Tốc độ Scan:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.ip}} </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-gray-400">Proxy:</td>
-                                                <td class="text-gray-800  badge badge-light pe-2">{{ detailData.domain}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-gray-400">Sử dụng Header tùy chọn:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.group_title }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-gray-400">Quét bằng Header tùy chọn:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-gray-400">Ngày cập nhật cuối:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.modified_at) }}</td>
-                                            </tr>
-                                        </table> -->
+                                        <div class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
+                                            <div class="row mb-4">
+                                                <div class="text-gray-400 col-6">Tốc độ Scan:</div>
+                                                <div class="text-gray-800 pe-2 col-6">{{ getScanSpeedName(detailData.dataScanner.scanSpeedOption) }} </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="text-gray-400 col-6">Proxy:</div>
+                                                <div class="text-gray-800 col-6 pe-2">{{ detailData.dataScanner.proxyCheck ? 'Bật' : 'Tắt' }}
+                                                </div>
+                                            </div>
+                                            <ul v-if="detailData.dataScanner.proxyCheck">
+                                                <li>Giao thức: {{ detailData.dataScanner.proxyScheme }}</li>
+                                                <li>Địa chỉ: {{ detailData.dataScanner.proxyAdress }}</li>
+                                                <li>Proxy yêu cẫu xác thực: {{ detailData.dataScanner.proxyAuthenticationCheck ? 'Bật' : 'Tắt' }}</li>
+                                                <li v-if="detailData.dataScanner.proxyAuthenticationCheck">Tên đăng nhập: {{ detailData.dataScanner.proxyUsername }}</li>
+                                                <li v-if="detailData.dataScanner.proxyAuthenticationCheck">Mật khẩu: {{ detailData.dataScanner.proxyUserPassword }}</li>
+                                            </ul>
+                                            <div class="row mb-4">
+                                                <div class="text-gray-400 col-6">Sử dụng Header tùy chọn:</div>
+                                                <div class="text-gray-800 col-6 pe-2" style="display: inline;">{{ detailData.dataScanner.headerOptionCheck ? 'Bật' : 'Tắt' }}</div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="text-gray-400 col-6">Quét bằng Nmap:</div>
+                                                <div class="text-gray-800 col-6">{{ detailData.dataScanner.nmap_check ? 'Bật' : 'Tắt' }}</div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="text-gray-400 col-6">Quét bằng Nuclei:</div>
+                                                <div class="text-gray-800 col-6">{{ detailData.dataScanner.nuclei_check ? 'Bật' : 'Tắt' }}</div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="text-gray-400 col-6">Trạng thái:</div>
+                                                <span :class="`badge badge-${getStatus(detailData.status).color} col-2`">{{ detailData.statusName }}</span>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="text-gray-400 col-6">Thời gian bắt đầu:</div>
+                                                <div class="text-gray-800 col-6">{{ formatDate(detailData.created_at) }}</div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="text-gray-400 col-6">Quét bằng Nuclei:</div>
+                                                <div class="text-gray-800 col-6">{{ formatDate(detailData.finished_at) }}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -730,7 +739,7 @@ export default defineComponent({
             proxyUsername: '',
             proxyUserPassword: '',
             headerOptionCheck: false,
-            headerOptionValue: '',
+            headerOptionValue: [],
             rescanOptionCheck: false,
             rescanRecurTime: '',
             nmap_check: false,
@@ -756,7 +765,8 @@ export default defineComponent({
         });
         const validationSchemaFalse = Yup.object().shape({
             proxyAdress: Yup.string(),
-            proxyPort: Yup.string()
+            proxyPort: Yup.string(),
+            headerOptionValue: Yup.array().min(1, 'Vui lòng nhập giá trị').of(Yup.string()),
         });
 
         const notification = (values: string, icon: string, more: string) => {
@@ -778,23 +788,31 @@ export default defineComponent({
         const abc = 1
         
         const headerInputValue = ref("")
-        // function addHeader() {
-        //     if (!scanFormState.headerOptionValue.includes(headerInputValue.value) && headerInputValue.value != "") {
-        //         scanFormState.headerOptionValue.push(headerInputValue.value)
-        //     }
-        // }
-        // function removeHeader(item) {
-        //     let index = scanFormState.headerOptionValue.indexOf(item);
-        //     if (index !== -1) {
-        //         scanFormState.headerOptionValue.splice(index, 1);
-        //     }
-
-        // }
+        const eyeButtonRef = ref<boolean>(false);
+        const eyePassword = () => {
+            eyeButtonRef.value = (eyeButtonRef.value) ? false : true;
+        };
         const submit = async () => {
             if (!submitButtonRef.value) {
                 return;
             }
-            console.log(123123, scanFormState);
+            if (!scanFormState.proxyCheck) {
+                scanFormState.proxyScheme = ""
+                scanFormState.proxyAdress = ""
+                scanFormState.proxyPort = ""
+                scanFormState.proxyUsername = ""
+                scanFormState.proxyUserPassword = ""
+            }
+            
+            if (!scanFormState.proxyAuthenticationCheck) {
+                scanFormState.proxyUsername = ""
+                scanFormState.proxyUserPassword = ""
+            }
+
+            if (!scanFormState.headerOptionCheck) {
+                scanFormState.headerOptionValue = []
+            }
+            console.log(99999999999999, scanFormState);
             
             if (typeModal.value == 'add') {
                 
@@ -820,10 +838,6 @@ export default defineComponent({
                     })
                     .catch(({ response }) => {
                         if (response?.data) {
-                            // errors.name = response.data.name;
-                            // errors.ip = response.data.ip;
-                            // errors.domain = response.data.domain;
-                            // errors.group = response.data.group;
                             errors.detail = response.data.detail;
                             console.log(response.data);
                             
@@ -844,8 +858,10 @@ export default defineComponent({
         }
 
         // end validate
-
-
+        const clearHeaderOptions = () => {            
+            scanFormState.headerOptionValue = []
+        }
+        
         const handleFilter = (data: any) => {
             if (data) {
                 query.value = data.query;
@@ -890,7 +906,7 @@ export default defineComponent({
             errors,
             ModalDelete,
             discardButtonRef,
-
+            clearHeaderOptions,
             // detials
             ModalDetail,
             customRowTable,
@@ -916,18 +932,11 @@ export default defineComponent({
             getStatus,
 
             //SCAN
-            // headerOption,
             scanFormState,
             getScanSpeedName,
-            // formRef,
-            // visible,
-            // onOk,
-            // detail,
-            // check_error,
-            // confirmLoading,
-            // addHeader,
             headerInputValue,
-            // removeHeader,
+            eyePassword,
+            eyeButtonRef,
         };
     },
 });

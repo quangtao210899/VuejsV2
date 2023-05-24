@@ -29,7 +29,7 @@
           <!--end::Badge-->
 
           <!--begin::Text-->
-          <div class="timeline-content fw-semobold text-gray-800 ps-3">
+          <div class="col-8 timeline-content fw-semobold text-gray-800 ps-3">
             
             <div class="border border-gray-300 border-dashed rounded p-3">
               <span v-if="item.username != '' || item.username != null" class="fw-bold text-gray-800 fs-6">{{ item.username }}</span><br>
