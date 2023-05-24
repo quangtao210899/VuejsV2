@@ -556,9 +556,9 @@ export default defineComponent({
 
     const validationSchema = Yup.object().shape({
       title: Yup.string()
-        .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
-        .min(3, 'Tối thiểu 3 kí tự')
-        .required('Vui lòng nhập tên')
+      .min(3, 'Tối thiểu 3 kí tự')
+      .required('Vui lòng nhập tên')
+      .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
     });
 
     const notification = (values: string, icon: string, more: string) => {
