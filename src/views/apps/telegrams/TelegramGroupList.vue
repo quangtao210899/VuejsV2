@@ -36,7 +36,7 @@
               </button>
             <!-- </div> -->
 
-            <Fillter @filterData="handleFilter" :type="filterType"></Fillter>
+            <Fillter @filterData="handleFilter"></Fillter>
             <!--begin::Add subscription-->
             <!--end::Add subscription-->
             <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click.passive="handleSubmitSetting">
@@ -671,8 +671,8 @@ export default defineComponent({
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
     const route = useRoute();
-    const filterType = ref<null | string | any>(route.params.id ?? '');
-    const filterStatus = ref<String | null>('');
+    const filterType = ref<null | string | any>('');
+    const filterStatus = ref<String | null>(''); 
     const detailData = reactive({
       id: '',
       status: '',
@@ -1206,7 +1206,6 @@ export default defineComponent({
       updateStatus,
       // formattedValue,
       // inputRef,
-      filterType,
     };
   },
 });

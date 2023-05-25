@@ -103,12 +103,12 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/telegram-group/:id",
-        name: "telegram-group-type",
-        component: () => import("@/views/apps/telegrams/TelegramGroupList.vue"),
+        path: "/telegram-list/:id",
+        name: "telegram-type",
+        component: () => import("@/views/apps/telegrams/TelegramList.vue"),
         meta: {
-          pageTitle: "Quản lý nhóm Telegarm",
-          breadcrumbs: ["TelegramGroup"],
+          pageTitle: "Quản lý Telegarm",
+          breadcrumbs: ["Telegram"],
         },
       },
     ],

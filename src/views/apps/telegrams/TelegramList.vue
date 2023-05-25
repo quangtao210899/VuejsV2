@@ -26,7 +26,7 @@
                 <KTIcon icon-name="filter" icon-class="fs-2" />
                 Filter
               </button>
-            <Fillter @filterData="handleFilter"></Fillter>
+            <Fillter @filterData="handleFilter" :type="group_type"></Fillter>
           </div>
         </div>
 
@@ -268,7 +268,7 @@ export default defineComponent({
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
-    const group_type = ref<String | null>('');
+    const group_type = ref<null | string | any>(route.params.id ?? '');
     const detailData = reactive({
       id: '',
       group_name: '',
@@ -455,6 +455,7 @@ export default defineComponent({
       // filter
       handleFilter,
       loading,
+      group_type,
 
       // detail
       detailData,
