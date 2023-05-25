@@ -35,7 +35,7 @@
                         <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                             data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                             <KTIcon icon-name="plus" icon-class="fs-2" />
-                            Thêm
+                            Quét
                         </button>
                         <!--end::Add subscription-->
                     </div>

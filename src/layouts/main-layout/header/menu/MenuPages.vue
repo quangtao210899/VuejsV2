@@ -127,7 +127,7 @@
             <router-link
               v-if="menuItem.route"
               class="menu-link"
-              :class="{active: menuItem.route=='/telegram-group'&&current_route=='telegram-detail' }"
+              :class="{active: checkActive(menuItem.route, current_route )}"
               active-class="active"
               :to="menuItem.route"
             >
@@ -328,7 +328,15 @@ export default defineComponent({
         return text;
       }
     };
-
+    const checkActive = (menuItem: String, routeName: any) => {
+      if (menuItem == '/telegram-group' && routeName == 'telegram-detail') {
+        return true;
+      }
+      if (menuItem == '/target-list' && routeName == 'target-scan') {
+        return true;
+      }
+      return false
+    }
     return {
       hasActiveChildren,
       current_route,
@@ -336,6 +344,7 @@ export default defineComponent({
       MainMenuConfig,
       translate,
       getAssetPath,
+      checkActive
     };
   },
 });
