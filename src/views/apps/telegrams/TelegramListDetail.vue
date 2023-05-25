@@ -101,7 +101,7 @@
           <template v-slot:text="{ row: customer }">
             <div><span >{{ truncateText(customer.text, 25) }}</span></div>
           </template>
-          <template v-slot:date="{ row: customer }">{{ formatDate(customer.date) }}</template>
+          <template v-slot:date="{ row: customer }">{{ customer.date }}</template>
         </KTDatatable>
       </div>
       <!--end::Card body-->
@@ -215,7 +215,7 @@
                         </div>
                         <div class="row fs-6">
                           <div class="col-3 text-gray-400">Thời gian:</div>
-                          <div class="col-9 text-gray-800"><span>{{ formatDate(detailData.date) }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.date }}</span></div>
                         </div>
                       </div>
                       <!--end::Details-->
@@ -257,9 +257,6 @@ import { ErrorMessage, Field, Form  as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import dayjs from 'dayjs';
-import 'dayjs/locale/vi';
-dayjs.locale('vi');
 import Fillter from "@/views/apps/telegrams/filterDetail.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import {Modal} from "bootstrap";
@@ -404,19 +401,6 @@ export default defineComponent({
       });
     };
 
-    const formatDate = (date: string) => {
-      if (!date) {
-        return '--:--';
-      }
-      if (!dayjs(date).isValid()) {
-        return date
-      }
-      try {
-        return dayjs(date).format('DD/MM/YYYY HH:mm:ss')
-      } catch (error) {
-        return date
-      }
-    };
 
     const handleFilter = (data: any) => {
       if(data){
@@ -470,7 +454,6 @@ export default defineComponent({
       query,
 
       // sử lý dữ liệu
-      formatDate,
 
       // filter
       handleFilter,

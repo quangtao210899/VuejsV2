@@ -853,17 +853,7 @@ export default defineComponent({
     };
 
     const formatDate = (date: string) => {
-      if (!date) {
-        return '--:--';
-      }
-      if (!dayjs(date).isValid()) {
-        return date
-      }
-      try {
-        return dayjs(date).format('DD/MM/YYYY HH:mm:ss')
-      } catch (error) {
-        return date
-      }
+      return date?date:"--:--"
     };
 
     const handleFilter = (data: any) => {
