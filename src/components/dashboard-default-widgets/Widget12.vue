@@ -12,7 +12,8 @@
 
       <!--begin::Toolbar-->
       <div class="card-toolbar">
-        <a href="#" class="btn btn-sm btn-light">View all</a>
+        <router-link class="btn btn-sm btn-light text-hover-primary" to="/scans" active-class="active">View all</router-link>
+
       </div>
       <!--end::Toolbar-->
     </div>
@@ -123,6 +124,8 @@ export default defineComponent({
   },
   setup() {
     const formatDate = (date: string) => {
+      return date;
+
       if (date == "false" || date == null || date == "") {
         return '--:--';
       }

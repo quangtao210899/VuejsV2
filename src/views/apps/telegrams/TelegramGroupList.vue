@@ -853,6 +853,7 @@ export default defineComponent({
     };
 
     const formatDate = (date: string) => {
+      return date;
       if (!date) {
         return '--:--';
       }
