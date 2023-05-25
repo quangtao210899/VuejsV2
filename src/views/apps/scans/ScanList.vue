@@ -879,13 +879,12 @@ export default defineComponent({
       testModal,
       quitUpdateData,
 
-      //
+      // Dragging kéo lề
       startDragging,
       leftWidth,
       rightWidth,
 
-      // 
-
+      // mouse down di chuột xuống
       handleMouseDown,
       contentWidth,
       container,
