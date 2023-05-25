@@ -173,9 +173,9 @@
                                         title="Bắt buộc phải nhập"></i>
                                 </label>
                                 <el-form-item prop="assign">
-                                    <el-select v-model.lazy="apiData.group" placeholder="Chọn kiểu" name="group" as="select" height="40px"
+                                    <el-select v-model.lazy="apiData.group" placeholder="Chọn nhóm mục tiêu" name="group" as="select" height="40px"
                                         class="input-group-lg">
-                                        <el-option value="" disabled>Chọn kiểu</el-option>
+                                        <el-option value="" disabled>Chọn nhóm mục tiêu</el-option>
                                         <el-option :label="item.title" :value="item.id" v-for="item in data_group">{{ item.title }}</el-option>
                                     </el-select>
                                 </el-form-item>

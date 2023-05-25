@@ -854,12 +854,16 @@ export default defineComponent({
 
     const formatDate = (date: string) => {
       if (!date) {
-          return '--:--';
+        return '--:--';
       }
-      if(!dayjs(date).isValid()){
+      if (!dayjs(date).isValid()) {
         return date
       }
-      return dayjs(date).format('DD/MM/YYYY HH:mm:ss')
+      try {
+        return dayjs(date).format('DD/MM/YYYY HH:mm:ss')
+      } catch (error) {
+        return date
+      }
     };
 
     const handleFilter = (data: any) => {

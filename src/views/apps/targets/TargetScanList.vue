@@ -494,6 +494,8 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
 import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
+dayjs.locale('vi');
 
 interface APIData {
     status: string;
@@ -710,7 +712,6 @@ export default defineComponent({
         };
         const customRowTable = (detail: any) => {
             if (detail) {
-                console.log(detail, 1111111111111111);
                 
                 detailData.username = detail.user.username
                 detailData.finished_at = detail.finishedAt
@@ -822,13 +823,11 @@ export default defineComponent({
             if (!scanFormState.headerOptionCheck) {
                 scanFormState.headerOptionValue = []
             }
-            console.log(99999999999999, scanFormState);
             
             if (typeModal.value == 'add') {
                 
                 return ApiService.post("scan/create/", scanFormState)
                     .then(({ data }) => {
-                        console.log(scanFormState);
                         
                         if(submitButtonRef.value){
                             //Disable button
@@ -846,10 +845,9 @@ export default defineComponent({
                             }, 1000);
                         }
                     })
-                    .catch(({ response }) => {
+                    .catch((response) => {
                         if (response?.data) {
                             errors.detail = response.data.detail;
-                            console.log(response.data);
                             
                             notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                         } else {
@@ -859,13 +857,19 @@ export default defineComponent({
             }
         };
 
-        const formatDate = (date: string) => {            
-            if (date === "false" || date === "null") {
+        const formatDate = (date: string) => {
+            if (!date) {
                 return '--:--';
             }
-            const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-            return dayjs(date).format(dateFormat)
-        }
+            if (!dayjs(date).isValid()) {
+                return date
+            }
+            try {                
+                return dayjs(date).format('DD/MM/YYYY HH:mm:ss')
+            } catch (error) {
+                return date
+            }
+        };
 
         // end validate
         const clearHeaderOptions = () => {            

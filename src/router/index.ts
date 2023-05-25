@@ -31,7 +31,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetScanList.vue"),
         meta: {
           pageTitle: "Quản lý danh sách quét",
-          breadcrumbs: ["Target"],
+          breadcrumbs: ["Target","TargetDetail"],
+          links: ["/target-list"],
         },
       },
       {
