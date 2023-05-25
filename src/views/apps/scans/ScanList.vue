@@ -56,7 +56,7 @@
     </div>
     <!--end::Card header-->
 
-    <div class="d-flex hand-height-2 shadow-hvover">
+    <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'py-2 ps-2 pe-1' : ''">
       <!--begin::Card body-->
       <div class="card-body overflow-auto h-100 m-0" ref="container" @mousedown="handleMouseDown"
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
