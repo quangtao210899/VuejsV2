@@ -332,6 +332,9 @@ export default defineComponent({
       if (menuItem == '/telegram-group' && routeName == 'telegram-detail') {
         return true;
       }
+      if (menuItem == '/telegram-list' && routeName == 'telegram-type') {
+        return true;
+      }
       if (menuItem == '/target-list' && routeName == 'target-scan') {
         return true;
       }
