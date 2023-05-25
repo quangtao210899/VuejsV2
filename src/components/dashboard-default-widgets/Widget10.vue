@@ -55,7 +55,7 @@
           <!--begin::Content-->
           <div class="timeline-content d-flex">
             <span class="fw-bold text-gray-800 ps-3">
-              <router-link :to="'/telegram-group/2'" active-class="active"><a-typography-link underline>View all</a-typography-link></router-link>
+              <router-link :to="'/telegram-list/2'" active-class="active"><a-typography-link underline>View all</a-typography-link></router-link>
             </span>
           </div>
           <!--end::Content-->

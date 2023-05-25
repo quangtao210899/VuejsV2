@@ -58,7 +58,7 @@
 
     <div class="d-flex hand-height-2 shadow-hvover">
       <!--begin::Card body-->
-      <div class="card-body overflow-auto h-100 m-0 "  :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }" :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
+      <div class="card-body overflow-auto h-100 m-0 " ref="container" @mousedown="handleMouseDown"  :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }" :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
         <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
           :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
           @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
@@ -753,6 +753,10 @@ export default defineComponent({
       startDragging,
       leftWidth,
       rightWidth,
+
+      // 
+
+      handleMouseDown,
     };
   },
 });

@@ -101,9 +101,6 @@ interface Filter {
 
 export default defineComponent({
   name: "filter-scan",
-  props: {
-    type: { type: String || Number, required: false },
-  },
   emits: [
     "filter-data"
   ],
@@ -127,7 +124,7 @@ export default defineComponent({
     const debouncedSearchTerm = ref('');
     const debounceSearch = debounce(submit, 1000);
     const data = ref<Filter>({
-      type: (props.type) ? props.type : '',
+      type: '',
       query: '',
       status: '',
     });
