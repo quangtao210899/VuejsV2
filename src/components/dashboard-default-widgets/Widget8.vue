@@ -109,6 +109,8 @@ export default defineComponent({
   },
   setup() {
     const formatDate = (date : string) => {
+      return date;
+
       if (date == "false" || date == null || date == "") {
         return '--:--';
       }
