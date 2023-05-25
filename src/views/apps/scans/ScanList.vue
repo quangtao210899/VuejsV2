@@ -58,45 +58,50 @@
 
     <div class="d-flex hand-height-2 shadow-hvover">
       <!--begin::Card body-->
-      <div class="card-body overflow-auto h-100 m-0 " ref="container" @mousedown="handleMouseDown"  :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }" :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
-        <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
-          :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
-          @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
-          <template v-slot:severity="{ row: customer }">
-            <div class="text-center">
-              <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
-                :style="{ fontSize: '19px', color: getSeverity(customer.severity).color }" /><br>
-              <p class="fst-normal" :style="{ fontSize: '11px', color: getSeverity(customer.severity).color }">{{
-                getSeverity(customer.severity).title }}</p>
-            </div>
-          </template>
-          <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{
-            customer.vt_name ?? '--' }}</span></template>
-          <template v-slot:hostname="{ row: customer }">
-            <div class="badge badge-light">{{ customer.hostname ?? '--' }}</div>
-          </template>
-          <template v-slot:ip="{ row: customer }">
-            <div class="badge badge-light">{{ (customer.ip == '') ? '--' : customer.ip }}</div>
-          </template>
-          <template v-slot:schema="{ row: customer }">
-            <div><span class="badge badge-light-primary">{{ customer.schema ?? '--' }}</span></div>
-          </template>
-          <template v-slot:created_at="{ row: customer }">
-            <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
-                    <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
-                    {{ formatDate(customer.created_at) }}
-                  </span>
-          </template>
-          <template v-slot:status="{ row: customer }">
-            <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ?? '--' }}</span>
-            </div>
-          </template> 
-        </KTDatatable>
+      <div class="card-body overflow-auto h-100 m-0" ref="container" @mousedown="handleMouseDown"
+        :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
+        :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
+        <div :style="{ width: contentWidth + 'px' }">
+          <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
+            :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
+            @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+            <template v-slot:severity="{ row: customer }">
+              <div class="text-center">
+                <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
+                  :style="{ fontSize: '19px', color: getSeverity(customer.severity).color }" /><br>
+                <p class="fst-normal" :style="{ fontSize: '11px', color: getSeverity(customer.severity).color }">{{
+                  getSeverity(customer.severity).title }}</p>
+              </div>
+            </template>
+            <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{
+              customer.vt_name ?? '--' }}</span></template>
+            <template v-slot:hostname="{ row: customer }">
+              <div class="badge badge-light">{{ customer.hostname ?? '--' }}</div>
+            </template>
+            <template v-slot:ip="{ row: customer }">
+              <div class="badge badge-light">{{ (customer.ip == '') ? '--' : customer.ip }}</div>
+            </template>
+            <template v-slot:schema="{ row: customer }">
+              <div><span class="badge badge-light-primary">{{ customer.schema ?? '--' }}</span></div>
+            </template>
+            <template v-slot:created_at="{ row: customer }">
+              <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
+                <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+                {{ formatDate(customer.created_at) }}
+              </span>
+            </template>
+            <template v-slot:status="{ row: customer }">
+              <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ?? '--' }}</span>
+              </div>
+            </template>
+          </KTDatatable>
+        </div>
       </div>
       <!--end::Card body-->
       <div v-if="classDetail" @mousedown="startDragging" class="drag-handle"></div>
       <!--begin::Card2 body-->
-      <div class="overflow-scroll h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }" :class="classDetail ? ' d-block' : 'd-none'">
+      <div class="overflow-scroll h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
+        :class="classDetail ? ' d-block' : 'd-none'">
         <div class="ms-3 pb-10">
 
           <div class="card-title py-5 position-relative">
@@ -110,7 +115,7 @@
           <div class="row">
             <div class="col-4">
               <el-select name="severity" as="select" v-model="detailData.severity"
-               :class="getSeverity(detailData.severity).class" @change="handleChangeUpdate('Mức độ')">
+                :class="getSeverity(detailData.severity).class" @change="handleChangeUpdate('Mức độ')">
                 <el-option label="Info" value="0" key="0">Info</el-option>
                 <el-option label="Low" value="1" key="1">Low</el-option>
                 <el-option label="Medium" value="2" key="2">Medium</el-option>
@@ -118,8 +123,7 @@
               </el-select>
             </div>
             <div class="col-4">
-              <el-select name="status" as="select" v-model="detailData.status"
-                @change="handleChangeUpdate('Trạng Thái')">
+              <el-select name="status" as="select" v-model="detailData.status" @change="handleChangeUpdate('Trạng Thái')">
                 <el-option label="open" value="open" key="open">open</el-option>
                 <el-option label="re-open" value="re-open" key="re-open">re-open</el-option>
                 <el-option label="Close" value="closed" key="closed">Close</el-option>
@@ -693,6 +697,43 @@ export default defineComponent({
       window.addEventListener("mouseup", stopDragging);
     };
 
+    // keos thar
+    const container = ref<null | any>(null);
+    const state = reactive({
+      isDragging: false,
+      startX: 0,
+      startScrollLeft: 0,
+    });
+
+    const handleMouseDown = (event: any) => {
+      state.isDragging = true;
+      state.startX = event.clientX;
+      state.startScrollLeft = container.value.scrollLeft;
+
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    };
+
+    const handleMouseMove = (event: any) => {
+      if (!state.isDragging) return;
+
+      const deltaX = event.clientX - state.startX;
+      container.value.scrollLeft = state.startScrollLeft - deltaX;
+    };
+
+    const handleMouseUp = () => {
+      state.isDragging = false;
+
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    // Tính toán chiều rộng nội dung
+    const contentWidth = ref(0);
+    onMounted(() => {
+      contentWidth.value = container.value.scrollWidth;
+    });
+
     onMounted(() => {
       getData();
     });
@@ -757,6 +798,8 @@ export default defineComponent({
       // 
 
       handleMouseDown,
+      contentWidth,
+      container,
     };
   },
 });
@@ -800,8 +843,9 @@ export default defineComponent({
 .severityLow .el-input__inner {
   color: #fff !important;
 }
+
 .el-select .el-input__wrapper {
-    height: 35px !important;
+  height: 35px !important;
 }
 
 /* cursor: col-resize; */
@@ -812,7 +856,8 @@ export default defineComponent({
   position: relative;
 }
 
-.drag-handle:hover, .drag-handle:active {
+.drag-handle:hover,
+.drag-handle:active {
   background-color: rgba(211, 211, 211, 0.822);
 }
 
@@ -825,4 +870,5 @@ export default defineComponent({
   height: 1px;
   background-color: black;
 }
+
 </style>
