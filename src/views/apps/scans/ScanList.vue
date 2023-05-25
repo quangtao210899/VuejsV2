@@ -62,7 +62,7 @@
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
         :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
         <div :style="{ width: contentWidth + 'px' }">
-          <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
+          <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :data="list" :header="headerConfig" :loading="loading"
             :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
             @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
             <template v-slot:severity="{ row: customer }">
@@ -73,8 +73,8 @@
                   getSeverity(customer.severity).title }}</p>
               </div>
             </template>
-            <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{
-              customer.vt_name ?? '--' }}</span></template>
+            <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">
+               {{ customer.vt_name ?? customer.port_scan["vt_name"]}}</span></template>
             <template v-slot:hostname="{ row: customer }">
               <div class="badge badge-light">{{ customer.hostname ?? '--' }}</div>
             </template>
@@ -82,7 +82,7 @@
               <div class="badge badge-light">{{ (customer.ip == '') ? '--' : customer.ip }}</div>
             </template>
             <template v-slot:schema="{ row: customer }">
-              <div><span class="badge badge-light-primary">{{ customer.schema ?? '--' }}</span></div>
+              <div><span class="badge badge-light-primary"> {{ customer.schema ?? (customer.nmap_scan ? customer.port_scan["service"] : customer.port_scan["type"]) }}</span></div>
             </template>
             <template v-slot:created_at="{ row: customer }">
               <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
@@ -105,7 +105,7 @@
         <div class="ms-3 pb-10">
 
           <div class="card-title py-5 position-relative">
-            <h2 class="fw-bold pe-15 mt-5">{{ detailData.vt_name }}</h2>
+            <h2 class="fw-bold pe-15 mt-5 fs-1">{{ detailData.vt_name }}</h2>
             <div class="position-absolute top-50 end-0 translate-middle-y">
               <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
                 <KTIcon icon-name="x" icon-class="bi bi-x" :style="{ fontSize: '25px' }" />
