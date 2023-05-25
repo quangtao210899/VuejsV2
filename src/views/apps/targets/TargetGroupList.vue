@@ -293,13 +293,13 @@
                       <!--begin::Row-->
                       <tr>
                         <td class="text-gray-400">Ngày tạo:</td>
-                        <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
+                        <td class="text-gray-800">{{ detailData.created_at }}</td>
                       </tr>
                       <!--end::Row-->
                       <!--begin::Row-->
                       <tr>
                         <td class="text-gray-400">Ngày cập nhật cuối:</td>
-                        <td class="text-gray-800">{{ formatDate(detailData.modified_at) }}</td>
+                        <td class="text-gray-800">{{ detailData.modified_at }}</td>
                       </tr>
                       <!--end::Row-->
                     </table>
@@ -360,7 +360,6 @@ import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
-import dayjs from 'dayjs';
 
 interface APIData {
   title: string;
@@ -643,13 +642,6 @@ export default defineComponent({
 
     };
 
-    const formatDate = (date: string) => {
-      if (date === "false" || date === "null") {
-        return '--:--';
-      }
-      const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-      return dayjs(date).format(dateFormat)
-    }
 
     // end validate
 
@@ -717,7 +709,6 @@ export default defineComponent({
 
       // edit 
       nameType,
-      formatDate,
       loading,
     };
   },
