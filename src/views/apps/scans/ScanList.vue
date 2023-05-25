@@ -14,7 +14,8 @@
       <!--begin::Card toolbar-->
       <div class="card-toolbar">
         <!--begin::Toolbar-->
-        <div v-if="selectedIds.length === 0" class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
+        <div v-if="selectedIds.length === 0" class="d-flex justify-content-end "
+          data-kt-subscription-table-toolbar="base">
           <!--begin::Export-->
           <!-- <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
             data-bs-target="#kt_subscriptions_export_modal">
@@ -23,16 +24,11 @@
           </button> -->
           <!--end::Export-->
           <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
-            <button
-              type="button"
-              class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary"
-              data-kt-menu-trigger="click"
-              data-kt-menu-placement="bottom-end"
-              data-kt-menu-flip="top-end"
-            >
-              <KTIcon icon-name="filter" icon-class="fs-2" />
-              Filter
-            </button>
+          <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary"
+            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+            <KTIcon icon-name="filter" icon-class="fs-2" />
+            Filter
+          </button>
           <!-- </div> -->
 
           <Fillter @filterData="handleFilter"></Fillter>
@@ -46,8 +42,8 @@
           <div class="fw-bold me-5">
             <span class="me-2">{{ selectedIds.length }}</span>Selected
           </div>
-          <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
-            <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
+          <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
+            <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
             Delete Selected
           </button>
           <!-- <button type="button" class="btn btn-light-danger ms-2">
@@ -62,17 +58,20 @@
 
     <div class="d-flex hand-height-2 shadow-hvover">
       <!--begin::Card body-->
-      <div class="card-body pt-0 overflow-scroll h-100 p-0 m-0 " :class="classDetail ? 'col-6 d-block border-end' : 'col-12 d-block'">
+      <div class="card-body overflow-auto h-100 m-0 "  :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }" :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
         <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
-          :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
-          @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+          :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
+          @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
           <template v-slot:severity="{ row: customer }">
-            <div class="text-center" >
-              <KTIcon icon-name="severity" icon-class="bi bi-bug-fill" :style="{fontSize: '19px', color: getSeverity(customer.severity).color }" /><br>
-              <p class="fst-normal" :style="{fontSize: '11px', color: getSeverity(customer.severity).color }" >{{ getSeverity(customer.severity).title  }}</p>
+            <div class="text-center">
+              <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
+                :style="{ fontSize: '19px', color: getSeverity(customer.severity).color }" /><br>
+              <p class="fst-normal" :style="{ fontSize: '11px', color: getSeverity(customer.severity).color }">{{
+                getSeverity(customer.severity).title }}</p>
             </div>
           </template>
-          <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{ customer.vt_name ?? '--'}}</span></template>
+          <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{
+            customer.vt_name ?? '--' }}</span></template>
           <template v-slot:hostname="{ row: customer }">
             <div class="badge badge-light">{{ customer.hostname ?? '--' }}</div>
           </template>
@@ -82,80 +81,85 @@
           <template v-slot:schema="{ row: customer }">
             <div><span class="badge badge-light-primary">{{ customer.schema ?? '--' }}</span></div>
           </template>
-          <template v-slot:created_at="{ row: customer }">{{ formatDate(customer.created_at) }}</template>
-          <template v-slot:status="{ row: customer }">
-            <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ?? '--' }}</span></div>
+          <template v-slot:created_at="{ row: customer }">
+            <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
+                    <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+                    {{ formatDate(customer.created_at) }}
+                  </span>
           </template>
+          <template v-slot:status="{ row: customer }">
+            <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ?? '--' }}</span>
+            </div>
+          </template> 
         </KTDatatable>
       </div>
       <!--end::Card body-->
-
+      <div v-if="classDetail" @mousedown="startDragging" class="drag-handle"></div>
       <!--begin::Card2 body-->
-      <div class="col-6 overflow-scroll h-100 " :class="classDetail ? 'col-6 d-block' : 'col-12 d-none'">
+      <div class="overflow-scroll h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }" :class="classDetail ? ' d-block' : 'd-none'">
         <div class="ms-3 pb-10">
 
           <div class="card-title py-5 position-relative">
             <h2 class="fw-bold pe-15 mt-5">{{ detailData.vt_name }}</h2>
             <div class="position-absolute top-50 end-0 translate-middle-y">
-              <button @click="handleCloseDetail" type="button"  class="btn btn-icon btn-bg-body ">
-                <KTIcon icon-name="x" icon-class="bi bi-x" :style="{fontSize: '25px' }" />
+              <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
+                <KTIcon icon-name="x" icon-class="bi bi-x" :style="{ fontSize: '25px' }" />
               </button>
             </div>
           </div>
-          <div class="d-flex">
-            <select
-              class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px w-150px py-2 text-white"
-              v-model="detailData.severity" :style="{ backgroundColor: getSeverity(detailData.severity).color }"
-              @change="handleChangeUpdate('Mức độ')"
-             >
-              <option label="Info" value="0">Info</option>
-              <option label="Low" value="1">Low</option>
-              <option label="Medium" value="2">Medium</option>
-              <option label="High" value="3">High</option>
-            </select>
-
-            <select class="form-select form-select-solid select2-hidden-accessible form-check-select h-40px py-2 w-150px ms-3"
-             v-model="detailData.status" 
-             @change="handleChangeUpdate('Trạng Thái')"
-            >
-              <option label="open" value="open">Open</option>
-              <option label="re-open" value="re-open">Reopen</option>
-              <option label="closed" value="closed">Close</option>
-              <option label="rick-accepted" value="rick-accepted">Accepted</option>
-            </select>
+          <div class="row">
+            <div class="col-4">
+              <el-select name="severity" as="select" v-model="detailData.severity"
+               :class="getSeverity(detailData.severity).class" @change="handleChangeUpdate('Mức độ')">
+                <el-option label="Info" value="0" key="0">Info</el-option>
+                <el-option label="Low" value="1" key="1">Low</el-option>
+                <el-option label="Medium" value="2" key="2">Medium</el-option>
+                <el-option label="High" value="3" key="3">High</el-option>
+              </el-select>
+            </div>
+            <div class="col-4">
+              <el-select name="status" as="select" v-model="detailData.status"
+                @change="handleChangeUpdate('Trạng Thái')">
+                <el-option label="open" value="open" key="open">open</el-option>
+                <el-option label="re-open" value="re-open" key="re-open">re-open</el-option>
+                <el-option label="Close" value="closed" key="closed">Close</el-option>
+                <el-option label="Accepted" value="rick-accepted" key="rick-accepted">Accepted</el-option>
+              </el-select>
+            </div>
           </div>
           <div class="bg-light my-3 py-2 px-4 lh-lg rounded-2 me-2">
-              <div class="row">
-                  <div class="col-12 col-xl-6 col-xxl-4">
-                      <label class="text-black-50" for="IP">IP : </label>
-                      <span class="ps-1"> {{ detailData.ip }}</span>
-                  </div>
-                  <div class="col-12 col-xl-6 col-xxl-4">
-                      <label class="text-black-50" for="Host name">Host name : </label>
-                      <span class="ps-1"> {{ detailData.hostname }}</span>
-                  </div>
-                  <div class="col-12 col-xl-6 col-xxl-4">
-                      <label class="text-black-50" for="Date">Date : </label>
-                      <span class="ps-1"> {{ formatDate(detailData.last_seen) }}</span>
-                  </div>
+            <div class="row">
+              <div class="col-12 col-xl-6 col-xxl-4">
+                <label class="text-black-50" for="IP">IP : </label>
+                <span class="ps-1"> {{ detailData.ip }}</span>
               </div>
+              <div class="col-12 col-xl-6 col-xxl-4">
+                <label class="text-black-50" for="Host name">Host name : </label>
+                <span class="ps-1"> {{ detailData.hostname }}</span>
+              </div>
+              <div class="col-12 col-xl-6 col-xxl-4">
+                <label class="text-black-50" for="Date">Date : </label>
+                <span class="ps-1"> {{ formatDate(detailData.last_seen) }}</span>
+              </div>
+            </div>
           </div>
           <div class="lh-lg">
 
-            <div class="mb-5" v-if="(detailData.url != null && detailData.url != '') || (detailData.parameter != null && detailData.parameter != '')">
+            <div class="mb-5"
+              v-if="(detailData.url != null && detailData.url != '') || (detailData.parameter != null && detailData.parameter != '')">
               <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
               <div v-if="detailData.url != null && detailData.url != ''">
-                <label style="width: 100px;"  for="Host name">URL : </label>
+                <label style="width: 100px;" for="Host name">URL : </label>
                 <span class="ps-1">
                   <a target="_blank" :href="`${detailData.url}`" class="text-primary">
-                    <KTIcon icon-name="link" icon-class="bi bi-link-45deg" :style="{fontSize: '16px' }"/>
+                    <KTIcon icon-name="link" icon-class="bi bi-link-45deg" :style="{ fontSize: '16px' }" />
                     {{ detailData.url }}
                   </a>
                 </span>
               </div>
               <div v-if="detailData.parameter != null && detailData.parameter != ''">
-                <label style="width: 100px;"  for="Host name">Parameter : </label>
-                <span class="ps-1"> {{ detailData.parameter  }}</span>
+                <label style="width: 100px;" for="Host name">Parameter : </label>
+                <span class="ps-1"> {{ detailData.parameter }}</span>
               </div>
             </div>
 
@@ -166,17 +170,17 @@
                   <li class="d-flex align-items-center py-2">
                     <span class="bullet bullet-vertical bg-primary me-5"></span> {{ tag }}
                   </li>
-              </template>
+                </template>
               </div>
             </div>
 
-            <div class="mb-5" v-if="detailData.cvss_score != null && detailData.cvss_score != ''" >
+            <div class="mb-5" v-if="detailData.cvss_score != null && detailData.cvss_score != ''">
               <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">CVSS Score</h4>
               <div>
                 <li class="d-flex align-items-center py-2">
-                  <span class="bullet bg-warning me-5"></span>  
-                  <label for="Host name">Base Score: </label>  
-                  <strong> {{ detailData.cvss_score  }}</strong>
+                  <span class="bullet bg-warning me-5"></span>
+                  <label for="Host name">Base Score: </label>
+                  <strong> {{ detailData.cvss_score }}</strong>
                 </li>
               </div>
             </div>
@@ -184,37 +188,28 @@
             <div class="mb-5" v-if="detailData.details != null && detailData.details != ''">
               <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Attack Details</h4>
               <div>
-                <div class="ps-1"  v-html="detailData.details"></div>
+                <div class="ps-1" v-html="detailData.details"></div>
               </div>
             </div>
 
             <div class="mb-5" v-if="detailData.description != null && detailData.description != ''">
               <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Description</h4>
               <div>
-                <div class="ps-1"  v-html="detailData.description"></div>
+                <div class="ps-1" v-html="detailData.description"></div>
               </div>
             </div>
 
-            
+
           </div>
-          
+
           <div class="">
             <div id="kt_detail_collapsible_scan">
-              <div class="py-1"  v-if="detailData.request != null && detailData.request != ''">
+              <div class="py-1" v-if="detailData.request != null && detailData.request != ''">
                 <div class="py-3 d-flex flex-stack flex-wrap">
-                  <div
-                    class="d-flex align-items-center collapsible toggle collapsed"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#kt_detail_collapsible_scan_1"
-                    aria-expanded="false"
-                  >
-                    <div
-                      class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2"
-                    >
-                      <KTIcon
-                        icon-name="minus-square"
-                        icon-class="toggle-on text-primary fs-2"
-                      />
+                  <div class="d-flex align-items-center collapsible toggle collapsed" data-bs-toggle="collapse"
+                    data-bs-target="#kt_detail_collapsible_scan_1" aria-expanded="false">
+                    <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                      <KTIcon icon-name="minus-square" icon-class="toggle-on text-primary fs-2" />
                       <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
                     </div>
 
@@ -224,11 +219,7 @@
                   </div>
                 </div>
 
-                <div
-                  id="kt_detail_collapsible_scan_1"
-                  class="fs-6 px-2 collapse"
-                  style=""
-                >
+                <div id="kt_detail_collapsible_scan_1" class="fs-6 px-2 collapse" style="">
                   <div>
                     <CodeHighlighter lang="json">{{ detailData.request }}</CodeHighlighter>
                   </div>
@@ -239,18 +230,10 @@
 
               <div class="py-1" v-if="detailData.http_response != null && detailData.http_response != ''">
                 <div class="py-3 d-flex flex-stack flex-wrap">
-                  <div
-                    class="d-flex align-items-center collapsible toggle collapsed"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#kt_detail_collapsible_scan_2"
-                  >
-                    <div
-                      class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2"
-                    >
-                      <KTIcon
-                        icon-name="minus-square"
-                        icon-class="toggle-on text-primary fs-2"
-                      />
+                  <div class="d-flex align-items-center collapsible toggle collapsed" data-bs-toggle="collapse"
+                    data-bs-target="#kt_detail_collapsible_scan_2">
+                    <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                      <KTIcon icon-name="minus-square" icon-class="toggle-on text-primary fs-2" />
 
                       <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
                     </div>
@@ -268,22 +251,15 @@
                 </div>
               </div>
 
-              <div class="separator separator-dashed" v-if="detailData.http_response != null && detailData.http_response != ''"></div>
+              <div class="separator separator-dashed"
+                v-if="detailData.http_response != null && detailData.http_response != ''"></div>
 
               <div class="py-1" v-if="detailData.recommendation != null && detailData.recommendation != ''">
                 <div class="py-3 d-flex flex-stack flex-wrap">
-                  <div
-                    class="d-flex align-items-center collapsible toggle collapsed"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#kt_detail_collapsible_scan_3"
-                  >
-                    <div
-                      class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2"
-                    >
-                      <KTIcon
-                        icon-name="minus-square"
-                        icon-class="toggle-on text-primary fs-2"
-                      />
+                  <div class="d-flex align-items-center collapsible toggle collapsed" data-bs-toggle="collapse"
+                    data-bs-target="#kt_detail_collapsible_scan_3">
+                    <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                      <KTIcon icon-name="minus-square" icon-class="toggle-on text-primary fs-2" />
                       <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
                     </div>
 
@@ -301,18 +277,17 @@
               </div>
             </div>
           </div>
-          
+
         </div>
       </div>
-    <!--end::Card2 body-->
+      <!--end::Card2 body-->
     </div>
 
   </div>
   <!--end::Card-->
 
-<!-- modal delete  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_delete"    
-    ref="ModalDelete" aria-hidden="true">
+  <!-- modal delete  -->
+  <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered">
       <!--begin::Modal content-->
@@ -322,26 +297,19 @@
           <h5 class="modal-title">Xác nhận xóa recon</h5>
 
           <!--begin::Close-->
-          <div
-            class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
+          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
             <span class="svg-icon svg-icon-2x"></span>
           </div>
           <!--end::Close-->
         </div>
         <!--begin::Form-->
         <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }} </span> bản ghi này không?.</p>
+          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }}
+            </span> bản ghi này không?.</p>
         </div>
         <!--end::Form-->
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-light"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
             Hủy bỏ
           </button>
           <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
@@ -352,41 +320,36 @@
       <!--end::Modal content-->
     </div>
     <!--end::Modal dialog-->
-      </div>
+  </div>
 
   <!-- modal confirm  -->
-  <div class="modal fade" tabindex="-1"  @v-on="testModal"
-    ref="Modalconfirm" aria-hidden="true" id="kt_modal_confirm">
-  <!--begin::Modal dialog-->
-  <div class="modal-dialog modal-dialog-centered">
-    <!--begin::Modal content-->
-    <div class="modal-content">
+  <div class="modal fade" tabindex="-1" @v-on="testModal" ref="Modalconfirm" aria-hidden="true" id="kt_modal_confirm">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered">
+      <!--begin::Modal content-->
+      <div class="modal-content">
 
 
-      <!--begin::Form-->
-      <div class="modal-body">
-        <p>Bạn có chắc chắn muốn thay đổi <span class="fw-bold text-danger">{{ typeConfirm }} </span> lỗ hổng của bản gi <span class="fw-bold text-danger">{{ detailData.vt_name }} </span> không?.</p>
+        <!--begin::Form-->
+        <div class="modal-body">
+          <p>Bạn có chắc chắn muốn thay đổi <span class="fw-bold text-danger">{{ typeConfirm }} </span> lỗ hổng của bản gi
+            <span class="fw-bold text-danger">{{ detailData.vt_name }} </span> không?.
+          </p>
+        </div>
+        <!--end::Form-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal" @click.passive="quitUpdateData()">
+            Hủy bỏ
+          </button>
+          <button type="button" class="btn btn-primary" @click.passive="updateData()">
+            Đồng ý
+          </button>
+        </div>
       </div>
-      <!--end::Form-->
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-light"
-          data-bs-dismiss="modal"
-          @click.passive="quitUpdateData()"
-        >
-          Hủy bỏ
-        </button>
-        <button type="button" class="btn btn-primary" @click.passive="updateData()">
-          Đồng ý
-        </button>
-      </div>
+      <!--end::Modal content-->
     </div>
-    <!--end::Modal content-->
+    <!--end::Modal dialog-->
   </div>
-  <!--end::Modal dialog-->
-  </div>
-
 </template>
 
 <script lang="ts">
@@ -397,14 +360,14 @@ import ApiService from "@/core/services/ApiService";
 
 // validate
 import { hideModal } from "@/core/helpers/dom";
-import { ErrorMessage, Field, Form  as VForm } from "vee-validate";
+import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import dayjs from 'dayjs';
 import Fillter from "@/views/apps/scans/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
-import {Modal} from "bootstrap";
+import { Modal } from "bootstrap";
 
 interface APIData {
   title: string;
@@ -423,7 +386,7 @@ export default defineComponent({
     CodeHighlighter,
   },
   directives: {
-      debounce: vue3Debounce({ lock: true })
+    debounce: vue3Debounce({ lock: true })
   },
   setup() {
     const list = ref<object | any>([])
@@ -445,7 +408,6 @@ export default defineComponent({
     const apiData = ref<APIData>({
       title: '',
       description: '',
-
     });
     const dataConfirm = reactive({
       severity: '',
@@ -479,7 +441,6 @@ export default defineComponent({
       {
         columnName: "Tên",
         columnLabel: "vt_name",
-        columnWidth: 200,
       },
       {
         columnName: "Host name",
@@ -500,7 +461,6 @@ export default defineComponent({
       {
         columnName: "Trạng thái",
         columnLabel: "status",
-        columnWidth: 50,
       },
     ]);
 
@@ -521,7 +481,7 @@ export default defineComponent({
 
     const getData = () => {
       loading.value = true;
-      setTimeout(() => loading.value = false ,500)
+      setTimeout(() => loading.value = false, 500)
       return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}`)
         .then(({ data }) => {
           list.value = data.results
@@ -539,9 +499,9 @@ export default defineComponent({
 
     const ModalDelete = ref<null | HTMLElement>(null);
     const deleteSubscription = (ids: Array<number>) => {
-      if(ids){
-        let formData = {id: ids}
-        return ApiService.post('vuls/multi_delete',formData)
+      if (ids) {
+        let formData = { id: ids }
+        return ApiService.post('vuls/multi_delete', formData)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
             selectedIds.value.length = 0;
@@ -558,7 +518,7 @@ export default defineComponent({
       detailData.id = detail.id
       detailData.vt_name = detail.vt_name ?? detail.port_scan.name
       detailData.status = detail.status
-      detailData.severity = detail.severity
+      detailData.severity = String(detail.severity)
       detailData.created_at = detail.created_at
       detailData.hostname = detail.hostname
       detailData.ip = detail.ip ?? detail.port_scan.in_cpe
@@ -575,7 +535,7 @@ export default defineComponent({
       detailData.recommendation = detail.recommendation
       dataConfirm.severity = detailData.severity
       dataConfirm.status = detailData.status
-      // console.log(detail)
+      console.log(detailData.severity)
     };
 
     const handleCloseDetail = () => {
@@ -586,19 +546,18 @@ export default defineComponent({
     const typeConfirm = ref<null | string>(null);
     const handleChangeUpdate = (type: string) => {
       // console.log(dataConfirm.value)
-      if(detailData.status && detailData.severity && type){
+      if (detailData.status && detailData.severity && type) {
         typeConfirm.value = type
         const modal = new Modal(ModalConfirm.value);
-        modal.show(); 
+        modal.show();
         dataModal.value = modal
         // console.log( dataModal.value)
-
-      }else{
+      } else {
         notification('', 'error', 'Có lỗi xảy ra')
       }
     };
 
-    const quitUpdateData = () =>{      
+    const quitUpdateData = () => {
       detailData.status = dataConfirm.status
       detailData.severity = dataConfirm.severity
     };
@@ -618,24 +577,24 @@ export default defineComponent({
       dataModal.value.hide();
       // console.log( dataModal.value)
       let form_data = {
-          severity: detailData.severity,
-          status: detailData.status
+        severity: detailData.severity,
+        status: detailData.status
       }
       return ApiService.put(`/vuls/${detailData.id}/update`, form_data)
-      .then(({ data }) => {
-        notification(data.detail,'success','Update thành công')
-       
-        getData();
-      })
-      .catch(({ response }) => {
-        notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-      });
+        .then(({ data }) => {
+          notification(data.detail, 'success', 'Update thành công')
+
+          getData();
+        })
+        .catch(({ response }) => {
+          notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+        });
     };
 
     const testModal = (data) => {
-      console.log( data)
+      console.log(data)
     };
-    
+
 
     const onItemSelect = (selectedItems: Array<number>) => {
       selectedIds.value = selectedItems;
@@ -653,47 +612,47 @@ export default defineComponent({
           confirmButton: "btn btn-primary",
         },
       }).then(() => {
-        hideModal( ModalDelete.value);
+        hideModal(ModalDelete.value);
         // hideModal( ModalConfirm.value);
       });
     };
 
     const formatDate = (date: string) => {
       if (date === "false" || date === "null") {
-          return '--:--';
+        return '--:--';
       }
       const dateFormat = 'DD/MM/YYYY HH:mm:ss';
       return dayjs(date).format(dateFormat)
     };
 
     const getSeverity = (severity: number | string) => {
-        if (severity == 0) {
-            return { id: 0, title: 'Info', color: '#28a745' };
-        } else if (severity == 1) {
-            return { id: 1, title: 'Low', color: '#23b7e5' };
-        } else if (severity == 2) {
-            return { id: 2, title: 'Medium', color: '#fcba32' };
-        } else if (severity == 3) {
-            return { id: 3, title: 'High', color: '#e11f26' };
-        }
-        return { id: 4, title: 'undefined', color: '#7b809a' };
+      if (severity == 0) {
+        return { id: 0, title: 'Info', color: '#28a745', class: 'severityInfo' };
+      } else if (severity == 1) {
+        return { id: 1, title: 'Low', color: '#23b7e5', class: 'severityLow' };
+      } else if (severity == 2) {
+        return { id: 2, title: 'Medium', color: '#fcba32', class: 'severityMedium' };
+      } else if (severity == 3) {
+        return { id: 3, title: 'High', color: '#e11f26', class: 'severityHigh' };
+      }
+      return { id: 4, title: 'undefined', color: 'light', class: 'severityundefined' };
     };
 
     const getStatus = (status: string) => {
-        if (status === 'open') {
-            return { id: 3, title: 'Open', color: 'success' };
-        } else if (status === 're-open') {
-            return { id: 5, title: 'Reopen', color: 'primary' };
-        } else if (status === 'closed') {
-            return { id: 6, title: 'Close', color: 'danger' };
-        } else if (status === 'rick-accepted') {
-            return { id: 7, title: 'Accepted', color: '#23b7e5' };
-        }
-        return { id: 8, title: 'undefined', color: '#7b809a' };
+      if (status === 'open') {
+        return { id: 3, title: 'Open', color: 'success' };
+      } else if (status === 're-open') {
+        return { id: 5, title: 'Reopen', color: 'primary' };
+      } else if (status === 'closed') {
+        return { id: 6, title: 'Close', color: 'danger' };
+      } else if (status === 'rick-accepted') {
+        return { id: 7, title: 'Accepted', color: 'info' };
+      }
+      return { id: 8, title: 'undefined', color: 'light' };
     };
 
     const handleFilter = (data: any) => {
-      if(data){
+      if (data) {
         status.value = data.status;
         severity.value = data.severity;
         ip.value = data.ip;
@@ -702,10 +661,36 @@ export default defineComponent({
         typeDomain.value = data.typeDomain;
         currentPage.value = 1;
         getData();
-      }else{
+      } else {
         notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
       }
 
+    };
+
+    // chia màn hình
+    const leftWidth = ref(window.innerWidth / 2);
+    const rightWidth = ref(window.innerWidth / 2);
+    let startX = ref<null | any>(null);
+
+    const startDragging = (event) => {
+      startX = event.clientX;
+
+      const handleDragging = (e) => {
+        const deltaX = e.clientX - startX;
+
+        leftWidth.value += deltaX;
+        rightWidth.value -= deltaX;
+
+        startX = e.clientX;
+      };
+
+      const stopDragging = () => {
+        window.removeEventListener("mousemove", handleDragging);
+        window.removeEventListener("mouseup", stopDragging);
+      };
+
+      window.addEventListener("mousemove", handleDragging);
+      window.addEventListener("mouseup", stopDragging);
     };
 
     onMounted(() => {
@@ -763,14 +748,77 @@ export default defineComponent({
       typeConfirm,
       testModal,
       quitUpdateData,
+
+      //
+      startDragging,
+      leftWidth,
+      rightWidth,
     };
   },
 });
 </script>
 
 <style>
-.shadow-hvover{
-  /* box-shadow: 0 2px 5px 0 rgba(0,0,0,.3); */
-  box-shadow: 5px 6px 10px -9px rgba(0,0,0,.3);
-  }
+.shadow-hvover {
+  box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
+}
+
+.severityInfo .el-input__wrapper {
+  background-color: #28a745;
+}
+
+.severityLow .el-input__wrapper {
+  background-color: #23b7e5;
+}
+
+.severityMedium .el-input__wrapper {
+  background-color: #fcba32;
+  color: #fff;
+}
+
+.severityHigh .el-input__wrapper {
+  background-color: #e11f26;
+}
+
+.severityundefined .el-input__wrapper {
+  background-color: #7e8299;
+}
+
+.severityInfo .el-input__inner,
+.severityInfo .el-input .el-select__caret,
+.severityMedium .el-input__inner,
+.severityMedium .el-input .el-select__caret,
+.severityHigh .el-input__inner,
+.severityHigh .el-input .el-select__caret,
+.severityundefined .el-input__inner,
+.severityundefined .el-input .el-select__caret,
+.severityLow .el-input .el-select__caret,
+.severityLow .el-input__inner {
+  color: #fff !important;
+}
+.el-select .el-input__wrapper {
+    height: 35px !important;
+}
+
+/* cursor: col-resize; */
+.drag-handle {
+  flex-basis: 5px;
+  background-color: unset;
+  cursor: col-resize;
+  position: relative;
+}
+
+.drag-handle:hover, .drag-handle:active {
+  background-color: rgba(211, 211, 211, 0.822);
+}
+
+.drag-handle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: black;
+}
 </style>
