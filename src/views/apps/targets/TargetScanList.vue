@@ -69,10 +69,10 @@
                 <template v-slot:user="{ row: customer }">{{ customer.user.username }}</template>
                 <template v-slot:status_name="{ row: customer }"><span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--' }}</span></template>
                 <template v-slot:created_at="{ row: customer }">
-                    {{ customer.created_at ? formatDate(customer.created_at) : '--:--' }}
+                    {{ customer.created_at ? customer.created_at: '--:--' }}
                 </template>
                 <template v-slot:finished_at="{ row: customer }">
-                    {{ customer.finished_at ? formatDate(customer.finished_at) : '--:--' }}
+                    {{ customer.finished_at ?customer.finished_at : '--:--' }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
@@ -443,11 +443,11 @@
                                             </div>
                                             <div class="row mb-4">
                                                 <div class="text-gray-400 col-6">Thời gian bắt đầu:</div>
-                                                <div class="text-gray-800 col-6">{{ formatDate(detailData.created_at) }}</div>
+                                                <div class="text-gray-800 col-6">{{ detailData.created_at? detailData.created_at :"--:--"}}</div>
                                             </div>
                                             <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Quét bằng Nuclei:</div>
-                                                <div class="text-gray-800 col-6">{{ formatDate(detailData.finished_at) }}</div>
+                                                <div class="text-gray-400 col-6">Thời gian kết thúc:</div>
+                                                <div class="text-gray-800 col-6">{{ detailData.finished_at ? detailData.finished_at : "--:--" }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -719,6 +719,7 @@ export default defineComponent({
                 detailData.statusName = detail.status_name
                 detailData.dataScanner = detail.data_scanner
                 detailData.created_at = detail.created_at
+                detailData.finished_at = detail.finished_at
                 const modal = new Modal(
                     document.getElementById("kt_modal_detail") as Element
                 );
@@ -857,19 +858,6 @@ export default defineComponent({
             }
         };
 
-        const formatDate = (date: string) => {
-            if (!date) {
-                return '--:--';
-            }
-            if (!dayjs(date).isValid()) {
-                return date
-            }
-            try {                
-                return dayjs(date).format('DD/MM/YYYY HH:mm:ss')
-            } catch (error) {
-                return date
-            }
-        };
 
         // end validate
         const clearHeaderOptions = () => {            
@@ -940,7 +928,6 @@ export default defineComponent({
 
             // edit 
             nameType,
-            formatDate,
             loading,
 
             getStatus,
