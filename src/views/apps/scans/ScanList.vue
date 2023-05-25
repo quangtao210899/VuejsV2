@@ -87,7 +87,7 @@
             <template v-slot:created_at="{ row: customer }">
               <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
                 <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
-                {{ formatDate(customer.created_at) }}
+                {{ customer.created_at }}
               </span>
             </template>
             <template v-slot:status="{ row: customer }">
@@ -143,7 +143,7 @@
               </div>
               <div class="col-12 col-xl-6 col-xxl-4">
                 <label class="text-black-50" for="Date">Date : </label>
-                <span class="ps-1"> {{ formatDate(detailData.last_seen) }}</span>
+                <span class="ps-1"> {{ detailData.last_seen }}</span>
               </div>
             </div>
           </div>
@@ -440,7 +440,6 @@ import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import dayjs from 'dayjs';
 import Fillter from "@/views/apps/scans/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { Modal } from "bootstrap";
@@ -709,15 +708,6 @@ export default defineComponent({
       });
     };
 
-    const formatDate = (date: string) => {
-      return date
-      if (date === "false" || date === "null") {
-        return '--:--';
-      }
-      const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-      return dayjs(date).format(dateFormat)
-    };
-
     const getSeverity = (severity: number | string) => {
       if (severity == 0) {
         return { id: 0, title: 'Info', color: '#28a745', class: 'severityInfo' };
@@ -861,7 +851,6 @@ export default defineComponent({
 
       // sử lý dữ liệu
       getSeverity,
-      formatDate,
       getStatus,
 
       // filter

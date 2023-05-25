@@ -314,13 +314,13 @@
                                             <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Ngày tạo:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.date_joined) == 'Invalid Date' ? '--' : formatDate(detailData.date_joined) }}</td>
+                                                <td class="text-gray-800">{{ formatDate(detailData.date_joined)}}</td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Ngày cập nhật cuối:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.last_login) == 'Invalid Date' ? '--' : formatDate(detailData.last_login) }}</td>
+                                                <td class="text-gray-800">{{ formatDate(detailData.last_login)}}</td>
                                             </tr>
                                             <!--end::Row-->
                                         </table>
@@ -367,7 +367,6 @@ import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
-import dayjs from 'dayjs';
 
 interface APIData {
     first_name: string;
@@ -692,13 +691,7 @@ export default defineComponent({
         };
 
         const formatDate = (date: string) => {
-            return date;
-
-            if (date === "false" || date === "null") {
-                return '--:--';
-            }
-            const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-            return dayjs(date).format(dateFormat)
+            return date?date:"--:--";
         }
 
         const removeTextModal = () => {
