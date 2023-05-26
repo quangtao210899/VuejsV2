@@ -438,17 +438,6 @@
       <div class="modal-footer flex-center">
         <!--begin::Button-->
         <button
-          ref="discardButtonRef"
-          type="reset"
-          id="kt_modal_new_telegram_cancel"
-          class="btn btn-sm  btn-light me-3"
-        >
-          Discard
-        </button>
-        <!--end::Button-->
-
-        <!--begin::Button-->
-        <button
           ref="submitButtonRef"
           type="submit"
           id="kt_modal_new_target_group_submit"
@@ -760,7 +749,6 @@ export default defineComponent({
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
-          console.log(data.results)
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -1000,9 +988,28 @@ export default defineComponent({
     };
 
     const updateSchedule = async () => {
+      const next_run = new Date(setingData.value.next_run)
+      const time_next_run = new Date(setingData.value.time_next_run)
+
+      const year = next_run.getFullYear(); // Get the year (e.g., 2023)
+      const month = next_run.getMonth() + 1; // Get the month (0-11, so we add 1 to get 1-12)
+      const day = next_run.getDate(); // Get the day of the month (1-31)
+      // Format the values as strings with leading zeros if necessary
+      const formattedYear = year.toString().padStart(4, '0');
+      const formattedMonth = month.toString().padStart(2, '0');
+      const formattedDay = day.toString().padStart(2, '0');
+
+      const hours = time_next_run.getHours(); // Get the hours (0-23)
+      const minutes = time_next_run.getMinutes(); // Get the minutes (0-59)
+      const seconds = time_next_run.getSeconds(); // Get the seconds (0-59)
+      // Format the values as strings with leading zeros if necessary
+      const formattedHours = hours.toString().padStart(2, '0');
+      const formattedMinutes = minutes.toString().padStart(2, '0');
+      const formattedSeconds = seconds.toString().padStart(2, '0');
+
       let formData = {
         hour: setingData.value.hour,
-        next_run: dayjs(setingData.value.next_run).format('DD-MM-YYYY') + " " + dayjs(setingData.value.time_next_run).format('HH:mm:ss')
+        next_run: `${formattedDay}-${formattedMonth}-${formattedYear} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`
       }
       return ApiService.post(`/telegram/schedule`,formData)
         .then(({ data }) => {
@@ -1027,18 +1034,17 @@ export default defineComponent({
       return ApiService.get(`/telegram/schedule/show`)
         .then(({ data }) => {
           setingData.value = {
-            next_run: dayjs(dayjs(data.next_run).format('YYYY-MM-DDDD'), 'YYYY-MM-DDDD'),
-            time_next_run: dayjs(dayjs(data.next_run).format('HH:mm:ss'), 'HH:mm:ss'),
+            next_run: data.next_run,
+            time_next_run: data.next_run,
             hour: data.hour
           };
           prevData.value = {
-            next_run: dayjs(dayjs(data.next_run).format('YYYY-MM-DDDD'), 'YYYY-MM-DDDD'),
-            time_next_run: dayjs(dayjs(data.next_run).format('HH:mm:ss'), 'HH:mm:ss'),
+            next_run:data.next_run,
+            time_next_run: data.next_run,
             hour: data.hour
           };
         })
         .catch(({ response }) => {
-          // console.log(response)
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         });
     };
