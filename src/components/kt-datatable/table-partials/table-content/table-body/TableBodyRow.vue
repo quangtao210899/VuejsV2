@@ -1,9 +1,9 @@
 <template>
   <tbody class="fw-semibold text-gray-600 ">
     <template v-for="(row, i) in data" :key="i">
-      <tr class="bg-hover-light" :class="(clickOnRow && selectRowID == row.id) ? 'bg-light' : ''">
+      <tr class="bg-hover-light" :class="(clickOnRow && selectRowID == row.id) ? 'bg-secondary' : ''">
         <td v-if="checkboxEnabled">
-          <div class="form-check form-check-sm form-check-custom form-check-solid ">
+          <div class="form-check form-check-sm form-check-custom form-check-solid ms-2">
             <input class="form-check-input" type="checkbox" :value="row[checkboxLabel]" v-model="selectedItems"
               @change="onChange" />
           </div>
