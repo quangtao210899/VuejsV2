@@ -26,6 +26,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-recons/:id",
+        name: "target-recon",
+        component: () => import("@/views/apps/targets/TargetReconList.vue"),
+        meta: {
+          pageTitle: "Quản lý danh sách recon",
+          breadcrumbs: ["Target"],
+        },
+      },
+      {
         path: "/target-scans/:id",
         name: "target-scan",
         component: () => import("@/views/apps/targets/TargetScanList.vue"),
