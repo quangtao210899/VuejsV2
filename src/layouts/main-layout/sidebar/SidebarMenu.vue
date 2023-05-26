@@ -278,6 +278,9 @@ export default defineComponent({
       if (menuItem == '/target-list' && routeName == 'target-scan') {
         return true;
       }
+      if (menuItem == '/target-list' && routeName == 'target-recon') {
+        return true;
+      }
       return false
     }
     return {

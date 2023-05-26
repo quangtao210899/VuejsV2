@@ -31,7 +31,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetReconList.vue"),
         meta: {
           pageTitle: "Quản lý danh sách recon",
-          breadcrumbs: ["Target"],
+          breadcrumbs: ["Target","Recon"],
+          links: ["/target-list"],
         },
       },
       {
