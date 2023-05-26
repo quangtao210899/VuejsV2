@@ -6,7 +6,7 @@
           class="form-check form-check-sm form-check-custom form-check-solid me-3"
         >
           <input
-            class="form-check-input"
+            class="form-check-input ms-2"
             type="checkbox"
             v-model="checked"
             @change="selectAll()"

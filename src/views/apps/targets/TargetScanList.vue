@@ -75,11 +75,9 @@
                     {{ customer.finished_at ?customer.finished_at : '--:--' }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
-                    <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
-                        data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
-                        @click="handleClick(customer, 'edit')" title="Sửa">
-                        <KTIcon icon-name="pencil" icon-class="fs-3" />
-                    </button>
+                    <router-link :to="`/target-scanstab/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                        <KTIcon icon-name="eye" icon-class="fs-3" />
+                    </router-link>
                 </template>
             </KTDatatable>
         </div>

@@ -46,6 +46,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-scanstab/:id",
+        name: "target-scanstab",
+        component: () => import("@/views/apps/targets/TargetScanTabList.vue"),
+        meta: {
+          pageTitle: "Chi tiết danh sách quét",
+          breadcrumbs: ["Target","Scan","Tabs"],
+        },
+      },
+      {
         path: "/target-group",
         name: "target-group",
         component: () => import("@/views/apps/targets/TargetGroupList.vue"),
