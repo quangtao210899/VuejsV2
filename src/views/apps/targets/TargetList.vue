@@ -34,7 +34,7 @@
                         <!--end::Export-->
     
                         <!--begin::Add subscription-->
-                        <VueCustomTooltip label="Thêm mục tiêu" position="is-top">
+                        <VueCustomTooltip label="Thêm mới" position="is-top">
                             <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                                 <KTIcon icon-name="plus" icon-class="fs-2" />
@@ -52,7 +52,7 @@
                         <div class="fw-bold me-5">
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
-                        <VueCustomTooltip label="Xóa mục tiêu" position="is-top">
+                        <VueCustomTooltip label="Xóa" position="is-top">
                             <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
                                 Delete Selected
                             </button>
@@ -90,7 +90,7 @@
                     <router-link :to="`/target-scans/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
                         <KTIcon icon-name="scan-barcode" icon-class="fs-3" />
                     </router-link>
-                    <VueCustomTooltip label="Chỉnh sửa" position="is-top">
+                    <VueCustomTooltip label="Sửa" position="is-top">
                         <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
                             data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
                             @click="handleClick(customer, 'edit')" title="Sửa">
