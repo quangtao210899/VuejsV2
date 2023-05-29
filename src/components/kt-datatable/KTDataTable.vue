@@ -12,6 +12,7 @@
       :sort-label="sortLabel"
       :sort-order="sortOrder"
       :loading="loading"
+      :clickOnRow="clickOnRow"
     >
       <template v-for="(_, name) in $slots" v-slot:[name]="{ row: item }">
         <slot :name="name" :row="item" />
@@ -48,6 +49,7 @@ export default defineComponent({
     checkboxLabel: { type: String, required: false, default: "id" },
     total: { type: Number, required: false },
     loading: { type: Boolean, required: false, default: false },
+    clickOnRow: { type: Boolean, required: false, default: false },
     sortLabel: { type: String, required: false, default: null },
     sortOrder: {
       type: String as () => "asc" | "desc",

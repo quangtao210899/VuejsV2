@@ -23,6 +23,7 @@
         :header="header"
         :checkbox-enabled="checkboxEnabled"
         :checkbox-label="checkboxLabel"
+        :clickOnRow="clickOnRow"
       >
         <template v-for="(_, name) in $slots" v-slot:[name]="{ row: item }">
           <slot :name="name" :row="item" />
@@ -62,6 +63,7 @@ export default defineComponent({
     checkboxEnabled: { type: Boolean, required: false, default: false },
     checkboxLabel: { type: String, required: false, default: "id" },
     loading: { type: Boolean, required: false, default: false },
+    clickOnRow: { type: Boolean, required: false, default: false },
   },
   emits: ["on-sort", "on-items-select", "custom-row"],
   components: {

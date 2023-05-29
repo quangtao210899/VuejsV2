@@ -1,18 +1,11 @@
 <template>
   <tbody class="fw-semibold text-gray-600 ">
     <template v-for="(row, i) in data" :key="i">
-      <tr >
+      <tr class="bg-hover-light" :class="(clickOnRow && selectRowID == row.id) ? 'bg-secondary' : ''">
         <td v-if="checkboxEnabled">
-          <div
-            class="form-check form-check-sm form-check-custom form-check-solid "
-          >
-            <input
-              class="form-check-input"
-              type="checkbox"
-              :value="row[checkboxLabel]"
-              v-model="selectedItems"
-              @change="onChange"
-            />
+          <div class="form-check form-check-sm form-check-custom form-check-solid ms-2">
+            <input class="form-check-input" type="checkbox" :value="row[checkboxLabel]" v-model="selectedItems"
+              @change="onChange" />
           </div>
         </td>
         <!-- <template v-for="(properties, j) in header" :key="j" >
@@ -22,20 +15,9 @@
             </slot>
           </td>
         </template> -->
-        <template v-for="(properties, j) in header" :key="j" >
-          <!-- <td v-if="j === header.length - 1"  class="text-end">
-            <slot :name="`${properties.columnLabel}`" :row="row"> 
-              {{ row }}
-            </slot>
-          </td>
-          <td v-else class="cursor-pointer" @click.passive="customRow(row)" data-bs-target="#kt_modal_detail">
+        <template v-for="(properties, j) in header" :key="j">
+          <td v-if="properties.columnLabel == 'actions'" class="text-end">
             <slot :name="`${properties.columnLabel}`" :row="row">
-              {{ row }}
-            </slot>
-          </td> -->
-
-          <td v-if="properties.columnLabel == 'actions'"  class="text-end">
-            <slot :name="`${properties.columnLabel}`" :row="row"> 
               {{ row }}
             </slot>
           </td>
@@ -57,6 +39,7 @@ export default defineComponent({
   name: "table-body-row",
   components: {},
   props: {
+    clickOnRow: { type: Boolean, required: false, default: false },
     header: { type: Array as () => Array<any>, required: true },
     data: { type: Array as () => Array<any>, required: true },
     currentlySelectedItems: { type: Array, required: false, default: () => [] },
@@ -70,7 +53,8 @@ export default defineComponent({
   emits: ["on-select", "custom-row"],
   setup(props, { emit }) {
     const selectedItems = ref<Array<any>>([]);
-    const selectRow = ref<object>();
+      const selectRow = ref<object>();
+        const selectRowID = ref<number>(0);
 
     watch(
       () => [...props.currentlySelectedItems],
@@ -89,10 +73,10 @@ export default defineComponent({
       emit("on-select", selectedItems.value);
     };
 
-    const customRow = (data: object) => {
+    const customRow = (data: object | any) => {
       selectRow.value = data
+      selectRowID.value = data.id
       emit("custom-row", selectRow.value);
-      // console.log(onClickRow.value)
     };
 
     return {
@@ -100,12 +84,13 @@ export default defineComponent({
       onChange,
       customRow,
       selectRow,
+      selectRowID,
     };
   },
 });
 </script>
 <style>
 .cursor-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 </style>

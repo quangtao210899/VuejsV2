@@ -26,6 +26,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-recons/:id",
+        name: "target-recon",
+        component: () => import("@/views/apps/targets/TargetReconList.vue"),
+        meta: {
+          pageTitle: "Quản lý danh sách recon",
+          breadcrumbs: ["Target","Recon"],
+          links: ["/target-list"],
+        },
+      },
+      {
         path: "/target-scans/:id",
         name: "target-scan",
         component: () => import("@/views/apps/targets/TargetScanList.vue"),
@@ -33,6 +43,15 @@ const routes: Array<RouteRecordRaw> = [
           pageTitle: "Quản lý danh sách quét",
           breadcrumbs: ["Target","Scan"],
           links: ["/target-list"],
+        },
+      },
+      {
+        path: "/target-scanstab/:id",
+        name: "target-scanstab",
+        component: () => import("@/views/apps/targets/TargetScanTabList.vue"),
+        meta: {
+          pageTitle: "Chi tiết danh sách quét",
+          breadcrumbs: ["Target","Scan","Tabs"],
         },
       },
       {

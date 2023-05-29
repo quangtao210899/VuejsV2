@@ -24,14 +24,16 @@
           </button> -->
           <!--end::Export-->
           <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
-          <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary"
-            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-            <KTIcon icon-name="filter" icon-class="fs-2" />
-            Filter
-          </button>
-          <!-- </div> -->
+          <VueCustomTooltip label="Tìm kiếm" position="is-top">  
+            <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary"
+              data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+              <KTIcon icon-name="filter" icon-class="fs-2" />
+              Filter
+            </button>
+            <!-- </div> -->
 
-          <Fillter @filterData="handleFilter"></Fillter>
+            <Fillter @filterData="handleFilter"></Fillter>
+          </VueCustomTooltip>
           <!--begin::Add subscription-->
           <!--end::Add subscription-->
         </div>
@@ -42,10 +44,12 @@
           <div class="fw-bold me-5">
             <span class="me-2">{{ selectedIds.length }}</span>Selected
           </div>
-          <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
-            <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
-            Delete Selected
-          </button>
+          <VueCustomTooltip label="Xóa" position="is-top">  
+            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
+              <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
+              Delete Selected
+            </button>
+          </VueCustomTooltip>
           <!-- <button type="button" class="btn btn-light-danger ms-2">
             Hủy
           </button> -->
@@ -62,7 +66,7 @@
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
         :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
         <div :style="{ width: contentWidth + 'px' }">
-          <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
+          <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :data="list" :header="headerConfig" :loading="loading"
             :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
             @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
             <template v-slot:severity="{ row: customer }">
@@ -73,8 +77,8 @@
                   getSeverity(customer.severity).title }}</p>
               </div>
             </template>
-            <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{
-              customer.vt_name ?? '--' }}</span></template>
+            <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">
+               {{ customer.vt_name ?? customer.port_scan["vt_name"]}}</span></template>
             <template v-slot:hostname="{ row: customer }">
               <div class="badge badge-light">{{ customer.hostname ?? '--' }}</div>
             </template>
@@ -82,12 +86,12 @@
               <div class="badge badge-light">{{ (customer.ip == '') ? '--' : customer.ip }}</div>
             </template>
             <template v-slot:schema="{ row: customer }">
-              <div><span class="badge badge-light-primary">{{ customer.schema ?? '--' }}</span></div>
+              <div><span class="badge badge-light-primary"> {{ customer.schema ?? (customer.nmap_scan ? customer.port_scan["service"] : customer.port_scan["type"]) }}</span></div>
             </template>
             <template v-slot:created_at="{ row: customer }">
               <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
                 <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
-                {{ formatDate(customer.created_at) }}
+                {{ customer.created_at }}
               </span>
             </template>
             <template v-slot:status="{ row: customer }">
@@ -105,7 +109,7 @@
         <div class="ms-3 pb-10">
 
           <div class="card-title py-5 position-relative">
-            <h2 class="fw-bold pe-15 mt-5">{{ detailData.vt_name }}</h2>
+            <h2 class="fw-bold pe-15 mt-5 fs-1">{{ detailData.vt_name }}</h2>
             <div class="position-absolute top-50 end-0 translate-middle-y">
               <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
                 <KTIcon icon-name="x" icon-class="bi bi-x" :style="{ fontSize: '25px' }" />
@@ -113,7 +117,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-4">
+            <div class="w-200px">
               <el-select name="severity" as="select" v-model="detailData.severity"
                 :class="getSeverity(detailData.severity).class" @change="handleChangeUpdate('Mức độ')">
                 <el-option label="Info" value="0" key="0">Info</el-option>
@@ -122,7 +126,7 @@
                 <el-option label="High" value="3" key="3">High</el-option>
               </el-select>
             </div>
-            <div class="col-4">
+            <div class="w-200px">
               <el-select name="status" as="select" v-model="detailData.status" @change="handleChangeUpdate('Trạng Thái')">
                 <el-option label="open" value="open" key="open">open</el-option>
                 <el-option label="re-open" value="re-open" key="re-open">re-open</el-option>
@@ -143,7 +147,7 @@
               </div>
               <div class="col-12 col-xl-6 col-xxl-4">
                 <label class="text-black-50" for="Date">Date : </label>
-                <span class="ps-1"> {{ formatDate(detailData.last_seen) }}</span>
+                <span class="ps-1"> {{ detailData.last_seen }}</span>
               </div>
             </div>
           </div>
@@ -151,7 +155,7 @@
 
             <div class="mb-5"
               v-if="(detailData.url != null && detailData.url != '') || (detailData.parameter != null && detailData.parameter != '')">
-              <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
+              <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
               <div v-if="detailData.url != null && detailData.url != ''">
                 <label style="width: 100px;" for="Host name">URL : </label>
                 <span class="ps-1">
@@ -168,41 +172,113 @@
             </div>
 
             <div class="mb-5" v-if="detailData.tags != null && detailData.tags != ''">
-              <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">CVE/CWE</h4>
+              <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">CVE/CWE</h4>
               <div class="lh-base">
                 <template v-for="(tag, index) in detailData.tags" :key="index">
                   <li class="d-flex align-items-center py-2">
-                    <span class="bullet bullet-vertical bg-primary me-5"></span> {{ tag }}
+                    <span class="bullet bullet-vertical bg-success me-5"></span> {{ tag }}
                   </li>
                 </template>
               </div>
             </div>
 
             <div class="mb-5" v-if="detailData.cvss_score != null && detailData.cvss_score != ''">
-              <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">CVSS Score</h4>
+              <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">CVSS Score</h4>
               <div>
                 <li class="d-flex align-items-center py-2">
                   <span class="bullet bg-warning me-5"></span>
-                  <label for="Host name">Base Score: </label>
-                  <strong> {{ detailData.cvss_score }}</strong>
+                  <label for="Host name">Base Score: </label> 
+                  <strong class="ps-2"> {{ detailData.cvss_score }}</strong>
                 </li>
               </div>
             </div>
 
             <div class="mb-5" v-if="detailData.details != null && detailData.details != ''">
-              <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Attack Details</h4>
+              <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Attack Details</h4>
               <div>
                 <div class="ps-1" v-html="detailData.details"></div>
               </div>
             </div>
 
+            <div class="mb-5" v-if="detailData.in_cpe != null && detailData.in_cpe != ''">
+              <div class="d-flex align-items-end ">
+                <h4 class="text-gray-800 fs-6 lh-lg fs-6 fw-bold m-0 pe-2">In CPE : </h4>
+                <span> {{ detailData.in_cpe }}</span>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.protocol != null && detailData.protocol != ''">
+              <div class="d-flex align-items-end ">
+                <h4 class="text-gray-800 fs-6 lh-lg fs-6 fw-bold m-0 pe-2">Protocol : </h4>
+                <span> {{ detailData.protocol }}</span>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.service != null && detailData.service != ''">
+              <div class="d-flex align-items-end ">
+                <h4 class="text-gray-800 fs-6 lh-lg fs-6 fw-bold m-0 pe-2">Service : </h4>
+                <span> {{ detailData.service }}</span>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.port != null && detailData.port != ''">
+              <div class="d-flex align-items-end">
+                <h4 class="text-gray-800 fs-6 lh-lg fs-6 fw-bold m-0 pe-2">Port : </h4>
+                <span> {{ detailData.port }}</span>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.type != null && detailData.type != ''">
+              <div class="d-flex align-items-end ">
+                <h4 class="text-gray-800 fs-6 lh-lg fs-6 fw-bold m-0 pe-2">Service : </h4>
+                <span> {{ detailData.type }}</span>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.url != null && detailData.url != ''">
+              <div class="d-flex align-items-end ">
+                <h4 class="text-gray-800 fs-6 lh-lg fs-6 fw-bold m-0 pe-2">URL : </h4>
+                <span> {{ detailData.url }}</span>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.references != null && detailData.references != ''">
+              <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">References</h4>
+              <div class="lh-base">
+                <template v-for="(tag, index) in detailData.references" :key="index">
+                  <li class="d-flex align-items-center py-2 text-primary">
+                    <span class="bullet bullet-vertical bg-primary me-5"></span> {{ tag }}
+                  </li>
+                </template>
+              </div>
+            </div>
+
+            <div class="mb-5" v-if="detailData.classification != null && detailData.classification != ''">
+              <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Classification</h4>
+              <div class="lh-base">
+                <template v-for="(items, index) in detailData.classification" :key="index">
+                  <li class="d-flex align-items-center py-2">
+                    <template v-if="items != null">
+                        <template v-if="Array.isArray(items)">
+                            <template v-for="(item, key) in items" :key="key">
+                              <span class="bullet bullet-vertical bg-primary me-5"></span> {{index}} : {{ item }}<br>
+                            </template>
+                        </template>
+                        <template v-else>
+                          <span class="bullet bullet-vertical bg-primary me-5"></span> {{index}} : {{ items }}<br>
+                        </template>
+                    </template>
+                  </li>
+                </template>
+              </div>
+            </div>
+
             <div class="mb-5" v-if="detailData.description != null && detailData.description != ''">
-              <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Description</h4>
+              <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Description</h4>
               <div>
                 <div class="ps-1" v-html="detailData.description"></div>
               </div>
             </div>
-
 
           </div>
 
@@ -218,7 +294,7 @@
                     </div>
 
                     <div class="me-3">
-                      <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Request</h4>
+                      <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">Request</h4>
                     </div>
                   </div>
                 </div>
@@ -243,7 +319,7 @@
                     </div>
 
                     <div class="me-3">
-                      <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Response</h4>
+                      <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">Response</h4>
                     </div>
                   </div>
                 </div>
@@ -268,7 +344,7 @@
                     </div>
 
                     <div class="me-3">
-                      <h4 class="text-gray-700 fw-bold cursor-pointer mb-0">Resolution</h4>
+                      <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">Resolution</h4>
                     </div>
                   </div>
                 </div>
@@ -368,7 +444,6 @@ import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import dayjs from 'dayjs';
 import Fillter from "@/views/apps/scans/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { Modal } from "bootstrap";
@@ -436,6 +511,13 @@ export default defineComponent({
       request: '',
       http_response: '',
       recommendation: '',
+      in_cpe: '',
+      protocol: '',
+      references: '',
+      type: '',
+      classification: '',
+      port: '',
+      service: '',
     });
     const headerConfig = ref([
       {
@@ -519,27 +601,36 @@ export default defineComponent({
 
     const customRowTable = (detail: any) => {
       classDetail.value = true;
-      detailData.id = detail.id
+      detailData.id = detail.id ?? detail.port_scan.id
       detailData.vt_name = detail.vt_name ?? detail.port_scan.name
       detailData.status = detail.status
       detailData.severity = String(detail.severity)
       detailData.created_at = detail.created_at
-      detailData.hostname = detail.hostname
+      detailData.hostname = detail.hostname ?? detail.port_scan.hostname
       detailData.ip = detail.ip ?? detail.port_scan.in_cpe
-      detailData.schema = detail.schema
-      detailData.last_seen = detail.last_seen
-      detailData.url = detail.host ?? detail.port_scan.host
-      detailData.parameter = detail.affects_detail
+      detailData.schema = detail.schema ?? detail.port_scan.schema
+      detailData.last_seen = detail.last_seen ?? detail.port_scan.last_seen
+      detailData.url = detail.affects_url //
+      detailData.parameter = detail.affects_detail ?? detail.port_scan.affects_detail
       detailData.tags = detail.tags ?? detail.port_scan.tags
-      detailData.cvss_score = detail.cvss_score
-      detailData.details = detail.details
+      detailData.cvss_score = detail.cvss_score ?? detail.port_scan.cvss_score
+      detailData.details = detail.details ?? detail.port_scan.details
       detailData.description = detail.description ?? detail.port_scan.description
-      detailData.request = detail.request
-      detailData.http_response = detail.http_response
-      detailData.recommendation = detail.recommendation
+      detailData.request = detail.request ?? detail.port_scan.request
+      detailData.http_response = detail.http_response ?? detail.port_scan.http_response
+      detailData.recommendation = detail.recommendation ?? detail.port_scan.recommendation
+      // post scan
+      detailData.in_cpe = detail.port_scan.in_cpe
+      detailData.protocol = detail.port_scan.protocol
+      detailData.service = detail.port_scan.service
+      detailData.port = detail.port_scan.port
+      detailData.classification = detail.port_scan.classification
+      detailData.type = detail.port_scan.type
+      detailData.references = detail.port_scan.references
+      
       dataConfirm.severity = detailData.severity
       dataConfirm.status = detailData.status
-      console.log(detailData.severity)
+      console.log(detail)
     };
 
     const handleCloseDetail = () => {
@@ -619,14 +710,6 @@ export default defineComponent({
         hideModal(ModalDelete.value);
         // hideModal( ModalConfirm.value);
       });
-    };
-
-    const formatDate = (date: string) => {
-      if (date === "false" || date === "null") {
-        return '--:--';
-      }
-      const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-      return dayjs(date).format(dateFormat)
     };
 
     const getSeverity = (severity: number | string) => {
@@ -772,7 +855,6 @@ export default defineComponent({
 
       // sử lý dữ liệu
       getSeverity,
-      formatDate,
       getStatus,
 
       // filter
@@ -790,13 +872,12 @@ export default defineComponent({
       testModal,
       quitUpdateData,
 
-      //
+      // Dragging kéo lề
       startDragging,
       leftWidth,
       rightWidth,
 
-      // 
-
+      // mouse down di chuột xuống
       handleMouseDown,
       contentWidth,
       container,
@@ -867,7 +948,7 @@ export default defineComponent({
   top: 50%;
   left: 0;
   right: 0;
-  height: 1px;
+  height: 0px;
   background-color: black;
 }
 
