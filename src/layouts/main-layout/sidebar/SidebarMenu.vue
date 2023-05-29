@@ -33,7 +33,7 @@
                 <router-link
                   v-if="menuItem.route"
                   class="menu-link"
-                  :class="{ active: menuItem.route == '/telegram-group' && route.name == 'telegram-detail' }"
+                  :class="{ active: checkActive(menuItem.route,route.name) }"
                   active-class="active"
                   :to="menuItem.route"
                 >
@@ -268,14 +268,29 @@ export default defineComponent({
     const hasActiveChildren = (match: string) => {
       return route.path.indexOf(match) !== -1;
     };
-
+    const checkActive = (menuItem: String, routeName: any) => {
+      if(menuItem == '/telegram-group' && routeName == 'telegram-detail'){
+        return true;
+      }
+      if (menuItem == '/telegram-list' && routeName == 'telegram-type') {
+        return true;
+      }
+      if (menuItem == '/target-list' && routeName == 'target-scan') {
+        return true;
+      }
+      if (menuItem == '/target-list' && routeName == 'target-recon') {
+        return true;
+      }
+      return false
+    }
     return {
       hasActiveChildren,
       MainMenuConfig,
       sidebarMenuIcons,
       translate,
       getAssetPath,
-      route
+      route,
+      checkActive
     };
   },
 });

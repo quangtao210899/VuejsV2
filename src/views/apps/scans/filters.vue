@@ -25,7 +25,7 @@
             <el-select v-model="data.status" name="status" as="select" placeholder="Chọn trạng thái">
               <el-option value="">Chọn trạng thái</el-option>
               <el-option label="open" value="open">open</el-option>
-              <el-option label="re-open" value="v">re-open</el-option>
+              <el-option label="re-open" value="re-open">re-open</el-option>
               <el-option label="Close" value="closed">Close</el-option>
               <el-option label="Accepted" value="rick-accepted">Accepted</el-option>
 

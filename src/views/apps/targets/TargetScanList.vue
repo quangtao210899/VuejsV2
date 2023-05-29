@@ -35,7 +35,7 @@
                         <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                             data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                             <KTIcon icon-name="plus" icon-class="fs-2" />
-                            Thêm
+                            Quét
                         </button>
                         <!--end::Add subscription-->
                     </div>
@@ -69,17 +69,15 @@
                 <template v-slot:user="{ row: customer }">{{ customer.user.username }}</template>
                 <template v-slot:status_name="{ row: customer }"><span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--' }}</span></template>
                 <template v-slot:created_at="{ row: customer }">
-                    {{ customer.created_at ? formatDate(customer.created_at) : '--:--' }}
+                    {{ customer.created_at ? customer.created_at: '--:--' }}
                 </template>
                 <template v-slot:finished_at="{ row: customer }">
-                    {{ customer.finished_at ? formatDate(customer.finished_at) : '--:--' }}
+                    {{ customer.finished_at ?customer.finished_at : '--:--' }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
-                    <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
-                        data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
-                        @click="handleClick(customer, 'edit')" title="Sửa">
-                        <KTIcon icon-name="pencil" icon-class="fs-3" />
-                    </button>
+                    <router-link :to="`/target-scanstab/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                        <KTIcon icon-name="eye" icon-class="fs-3" />
+                    </router-link>
                 </template>
             </KTDatatable>
         </div>
@@ -443,11 +441,11 @@
                                             </div>
                                             <div class="row mb-4">
                                                 <div class="text-gray-400 col-6">Thời gian bắt đầu:</div>
-                                                <div class="text-gray-800 col-6">{{ formatDate(detailData.created_at) }}</div>
+                                                <div class="text-gray-800 col-6">{{ detailData.created_at? detailData.created_at :"--:--"}}</div>
                                             </div>
                                             <div class="row mb-4">
                                                 <div class="text-gray-400 col-6">Thời gian kết thúc:</div>
-                                                <div class="text-gray-800 col-6">{{ formatDate(detailData.finished_at) }}</div>
+                                                <div class="text-gray-800 col-6">{{ detailData.finished_at ? detailData.finished_at : "--:--" }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -494,6 +492,8 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
 import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
+dayjs.locale('vi');
 
 interface APIData {
     status: string;
@@ -710,7 +710,6 @@ export default defineComponent({
         };
         const customRowTable = (detail: any) => {
             if (detail) {
-                console.log(detail, 1111111111111111);
                 
                 detailData.username = detail.user.username
                 detailData.finished_at = detail.finishedAt
@@ -718,6 +717,7 @@ export default defineComponent({
                 detailData.statusName = detail.status_name
                 detailData.dataScanner = detail.data_scanner
                 detailData.created_at = detail.created_at
+                detailData.finished_at = detail.finished_at
                 const modal = new Modal(
                     document.getElementById("kt_modal_detail") as Element
                 );
@@ -822,13 +822,11 @@ export default defineComponent({
             if (!scanFormState.headerOptionCheck) {
                 scanFormState.headerOptionValue = []
             }
-            console.log(99999999999999, scanFormState);
             
             if (typeModal.value == 'add') {
                 
                 return ApiService.post("scan/create/", scanFormState)
                     .then(({ data }) => {
-                        console.log(scanFormState);
                         
                         if(submitButtonRef.value){
                             //Disable button
@@ -846,10 +844,9 @@ export default defineComponent({
                             }, 1000);
                         }
                     })
-                    .catch(({ response }) => {
+                    .catch((response) => {
                         if (response?.data) {
                             errors.detail = response.data.detail;
-                            console.log(response.data);
                             
                             notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                         } else {
@@ -859,13 +856,6 @@ export default defineComponent({
             }
         };
 
-        const formatDate = (date: string) => {            
-            if (date === "false" || date === "null") {
-                return '--:--';
-            }
-            const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-            return dayjs(date).format(dateFormat)
-        }
 
         // end validate
         const clearHeaderOptions = () => {            
@@ -936,7 +926,6 @@ export default defineComponent({
 
             // edit 
             nameType,
-            formatDate,
             loading,
 
             getStatus,

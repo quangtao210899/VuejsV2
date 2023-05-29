@@ -38,7 +38,7 @@
         <Widget6 className="h-xl-100" v-bind:height="300" :targetGroupLabels="targetGroupLabels"
           :targetGroupData="targetGroupData" :targetGroupColor="targetGroupColor" />
       </div>
-      <!--end::Col-->
+      <!--end::Col--> 
 
       <!--begin::Col-->
       <div class="col-xl-6 mb-5 mb-xl-10">

@@ -41,7 +41,7 @@
                     {{ 1+ index }}
                   </span>
                 </td>
-                <td class="text-center">
+                <td class="text-start">
                   <span class="text-muted fw-semobold ">
                     {{ item.name }}
                   </span>
@@ -54,7 +54,7 @@
                 </td>
 
                 <td class="text-end">
-                  <span class="badge badge-light-info"> {{ item.total }}</span>
+                  <span class="badge badge-light-info">Tổng: {{ item.total }}</span>
                 </td>
               </tr>
             </template>

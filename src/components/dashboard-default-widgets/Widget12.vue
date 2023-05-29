@@ -12,7 +12,8 @@
 
       <!--begin::Toolbar-->
       <div class="card-toolbar">
-        <a href="#" class="btn btn-sm btn-light">View all</a> 
+        <router-link class="btn btn-sm btn-light text-hover-primary" to="/scans" active-class="active">View all</router-link>
+
       </div>
       <!--end::Toolbar-->
     </div>
@@ -48,25 +49,31 @@
                     </div>
 
                     <div class="d-flex justify-content-start flex-column">
-                      <span class="fw-bold mb-1 fs-6" :class="`text-${checkSeverity(row.severity).color}`">{{ row.vt_name 
+                      <span class="fw-bold mb-1 fs-6" :class="`text-${checkSeverity(row.severity).color}`">{{ row.vt_name
                       }}</span>
-                      <span class="text-gray-400 fw-semibold d-block fs-7">{{
-                        row.severity
-                      }}</span>
+                      <span class="fw-semibold d-block fs-7" :class="`text-${checkSeverity(row.severity).color}`">
+                        <span class="bullet bullet-vertical me-2"
+                          :class="`bg-${checkSeverity(row.severity).color}`"></span>
+                        {{ row.severity }}
+                      </span>
                     </div>
                   </div>
                 </td>
 
                 <td class="text-end pe-12">
-                  <span class="badge py-3 px-4 fs-7" :class="`badge-light-${checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan['service']: row.port_scan['type'])).color}`">{{ checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan["service"]: row.port_scan["type"])).title }}</span>
+                  <span class="badge py-3 px-4 fs-7"
+                    :class="`badge-light-${checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan['service'] : row.port_scan['type'])).color}`">
+                    <KTIcon
+                      :class="`me-1 text-${checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan['service'] : row.port_scan['type'])).color}`"
+                      icon-name="lock" icon-class="fs-5" />
+                    {{ checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan["service"] :
+                      row.port_scan["type"])).title }}
+                  </span>
                 </td>
 
                 <td class="text-end pe-0">
-                  <span
-                        href="#"
-                        class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6"
-                        >{{ row.target__domain }}</span
-                      >
+                  <span href="#" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">{{ row.target__domain
+                  }}</span>
                 </td>
 
                 <td class="text-end pe-0">
@@ -135,14 +142,14 @@ export default defineComponent({
       return { id: 5, title: 'Unknown', color: 'dark' }
     }
 
-    const checkDomain= (severity: string) => {
+    const checkDomain = (severity: string) => {
       if (severity == 'http') {
         return { id: 0, title: severity, color: 'info' };
       } else if (severity == 'ssh') {
         return { id: 1, title: severity, color: 'success' };
       } else if (severity == 'https') {
         return { id: 2, title: severity, color: 'warning' };
-      } 
+      }
       return { id: 5, title: severity, color: 'dark' }
     }
     return {

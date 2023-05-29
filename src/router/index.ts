@@ -31,7 +31,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetReconList.vue"),
         meta: {
           pageTitle: "Quản lý danh sách recon",
-          breadcrumbs: ["Target"],
+          breadcrumbs: ["Target","Recon"],
+          links: ["/target-list"],
         },
       },
       {
@@ -40,7 +41,17 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetScanList.vue"),
         meta: {
           pageTitle: "Quản lý danh sách quét",
-          breadcrumbs: ["Target"],
+          breadcrumbs: ["Target","Scan"],
+          links: ["/target-list"],
+        },
+      },
+      {
+        path: "/target-scanstab/:id",
+        name: "target-scanstab",
+        component: () => import("@/views/apps/targets/TargetScanTabList.vue"),
+        meta: {
+          pageTitle: "Chi tiết danh sách quét",
+          breadcrumbs: ["Target","Scan","Tabs"],
         },
       },
       {
@@ -111,12 +122,12 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/telegram-group/:id",
-        name: "telegram-group-type",
-        component: () => import("@/views/apps/telegrams/TelegramGroupList.vue"),
+        path: "/telegram-list/:id",
+        name: "telegram-type",
+        component: () => import("@/views/apps/telegrams/TelegramList.vue"),
         meta: {
-          pageTitle: "Quản lý nhóm Telegarm",
-          breadcrumbs: ["TelegramGroup"],
+          pageTitle: "Quản lý Telegarm",
+          breadcrumbs: ["Telegram"],
         },
       },
     ],

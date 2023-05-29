@@ -16,6 +16,7 @@
         <!--begin::Toolbar-->
         <div v-show="selectedIds.length === 0">
           <div class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
+            <VueCustomTooltip label="Tìm kiếm" position="is-top">  
               <button
                 type="button"
                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
@@ -26,7 +27,8 @@
                 <KTIcon icon-name="filter" icon-class="fs-2" />
                 Filter
               </button>
-            <Fillter @filterData="handleFilter"></Fillter>
+              <Fillter @filterData="handleFilter" :type="group_type"></Fillter>
+            </VueCustomTooltip>
           </div>
         </div>
 
@@ -36,10 +38,12 @@
             <div class="fw-bold me-5">
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
-            <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
-              <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
-              Delete Selected
-            </button>
+            <VueCustomTooltip label="Xóa" position="is-top">  
+              <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
+                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
+                Delete Selected
+              </button>
+            </VueCustomTooltip>
             <!-- <button type="button" class="btn btn-light-danger ms-2">
               Hủy
             </button> -->
@@ -82,7 +86,7 @@
           <template v-slot:text="{ row: customer }">
             <div><span >{{ truncateText(customer.text, 25) }}</span></div>
           </template>
-          <template v-slot:date="{ row: customer }">{{ formatDate(customer.date) }}</template>
+          <template v-slot:date="{ row: customer }">{{ customer.date }}</template>
         </KTDatatable>
       </div>
       <!--end::Card body-->
@@ -196,7 +200,7 @@
                         </div>
                         <div class="row fs-6">
                           <div class="col-3 text-gray-400">Thời gian:</div>
-                          <div class="col-9 text-gray-800"><span>{{ formatDate(detailData.date) }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.date }}</span></div>
                         </div>
                       </div>
                       <!--end::Details-->
@@ -236,9 +240,7 @@ import ApiService from "@/core/services/ApiService";
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form  as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
-
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import dayjs from 'dayjs';
 import Fillter from "@/views/apps/telegrams/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import {Modal} from "bootstrap";
@@ -266,7 +268,7 @@ export default defineComponent({
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
-    const group_type = ref<String | null>('');
+    const group_type = ref<null | string | any>(route.params.id ?? '');
     const detailData = reactive({
       id: '',
       group_name: '',
@@ -312,10 +314,10 @@ export default defineComponent({
       getData();
     };
 
-    const getData = () => {
+    const getData = async () => {
       loading.value = true;
       setTimeout(() => loading.value = false ,500)
-      return ApiService.get(`/telegram/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
+      await ApiService.get(`/telegram/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -383,14 +385,6 @@ export default defineComponent({
       });
     };
 
-    const formatDate = (date: string) => {
-      if (date === "false" || date === "null") {
-          return '--:--';
-      }
-      const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-      return dayjs(date).format(dateFormat)
-    };
-
     const handleFilter = (data: any) => {
       if(data){
         query.value = data.query;
@@ -442,11 +436,11 @@ export default defineComponent({
       query,
 
       // sử lý dữ liệu
-      formatDate,
 
       // filter
       handleFilter,
       loading,
+      group_type,
 
       // detail
       detailData,
