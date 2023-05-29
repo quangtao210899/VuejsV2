@@ -143,6 +143,31 @@
               data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll"
               data-kt-scroll-offset="300px"
             >
+              <!--begin::Input group-->
+              <div class="mb-10" v-if="typeModal == 'edit'">
+                <!--begin::Label-->
+                <label class="form-label fw-semobold">Tình trạng:</label>
+                <!--end::Label-->
+
+                <!--begin::Switch-->
+                <div
+                  class="form-check form-switch form-switch-sm form-check-custom form-check-solid"
+                >
+                  <label class="form-check-label">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="is_ok"
+                      v-model="apiData.is_ok"
+                    />
+                    <span class="form-check-label user-select-none"
+                      >Đã kiểm tra</span
+                    >
+                  </label>
+                </div>
+                <!--end::Switch-->
+              </div>
+              <!--end::Input group-->
               <div class="mb-5 fv-row row">
                 <div class="col-4">
                   <label
@@ -196,7 +221,7 @@
                 <Field
                   as="textarea"
                   class="form-control form-control-solid"
-                  rows="5"
+                  rows="3"
                   name="password_hash"
                   placeholder="$5b$12$d6vIh2U0gviSKNdyT3LRAuTcJ5W6G2Ln1SvlnC7bbKoQFN3cXssdC"
                   v-model="apiData.password_hash"
@@ -446,7 +471,15 @@
                     <!--begin::Details-->
                     <div>
                       <div class="row fs-6 mb-3">
-                        <div class="col-3 text-gray-400">Username:</div>
+                        <div class="col-3 text-gray-400">Tình trạng:</div>
+                        <div class="col-9 text-gray-800 fs-5 fw-bold">
+                          <span>{{
+                            detailData.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra"
+                          }}</span>
+                        </div>
+                      </div>
+                      <div class="row fs-6 mb-3">
+                        <div class="col-3 text-gray-400">Tên người dùng:</div>
                         <div class="col-9 text-gray-800 fs-5 fw-bold">
                           <span>{{ detailData.username ?? "--" }}</span>
                         </div>
@@ -855,7 +888,9 @@ export default defineComponent({
         source_data: apiData.value.source_data,
         country_id: apiData.value.country_id,
       };
-
+      if (typeModal.value == "edit") {
+        formData["is_ok"] = apiData.value.is_ok;
+      }
       if (typeModal.value == "add") {
         return ApiService.post("account-leak/create", formData)
           .then(({ data }) => {
@@ -1002,7 +1037,7 @@ export default defineComponent({
       formatDate,
       loading,
       countryList,
-
+      typeModal,
       removeErrorMsgOption,
       removeErrorMsgText,
     };

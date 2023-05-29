@@ -94,7 +94,7 @@ onMounted(() => {
     });
     dropzone = myDropzone;
   });
-  myDropzone.on("complete", file => {
+  myDropzone.on("success", file => {
     myDropzone.removeAllFiles();
     console.log(file.xhr.response);
     let res = JSON.parse(file.xhr.response);
