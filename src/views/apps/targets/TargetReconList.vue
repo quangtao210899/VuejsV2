@@ -74,7 +74,7 @@
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
                             <div class="fv-plugins-message-container">
                                 <div class="fv-help-block">
-                                    <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] : errors.detail }}</span>
+                                    <span class="" v-if="errors.tree">{{ Array.isArray(errors.tree) ? errors.tree[0] : errors.tree }}</span>
                                 </div>
                             </div>
                             <el-tree
@@ -213,12 +213,29 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
 import dayjs from 'dayjs';
+import { useToast } from 'vue-toast-notification';
 
 interface APIData {
     status: string;
     created_at: string;
     finished_at: string;
     user: string;
+}
+
+interface Errors {
+    status: string;
+    created_at: string;
+    finished_at: string;
+    user: string;
+    detail: string;
+    tree: string;
+    notifi_error_select: string[];
+    proxyScheme: string;
+    proxyAdress: string;
+    proxyPort: string;
+    proxyUsername: string;
+    proxyUserPassword: string;
+    headerOptionValue: string;
 }
 
 export default defineComponent({
@@ -249,18 +266,21 @@ export default defineComponent({
         const typeModal = ref<String>('');
         const id = ref<number>(0);
         const nameType = ref<string>('');
+        const toastr = useToast();
         const apiData = ref<APIData>({
             status: '',
             created_at: "",
             finished_at: '',
             user: '',
         });
-        const errors = reactive({
+        const errors: Errors = reactive({
             status: "",
             created_at: "",
             finished_at: '',
             user: '',
             detail: '',
+            tree: '',
+            notifi_error_select: [],
             proxyScheme: '',
             proxyAdress: '',
             proxyPort: '',
@@ -465,6 +485,199 @@ export default defineComponent({
                 ],
             },
         ]);
+
+        const dataValidateTree = ref([
+            {
+                key: "0-0-0-2",
+                title: "Password leaks",
+                children: [
+                    {
+                        key: "0-0-0-1",
+                        title: "Emails addresses and users",
+                    },
+                ],
+            },
+            {
+                key: "0-0-1-5",
+                title: "DNS Records",
+                children: [
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
+                ],
+            },
+            {
+                key: "0-0-1-6",
+                title: "JS files & Source Code Scraping",
+                children: [
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
+                ],
+            },
+            {
+                key: "0-0-1-8",
+                title: "Cloud checkers",
+                children: [
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
+                ],
+            },
+            {
+                key: "0-0-1-9",
+                title: "Subdomains takeover",
+                children: [
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
+                ],
+            },
+            {
+                key: "0-0-3-0",
+                title: "Web Prober",
+                children: [
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
+                ],
+            },
+            {
+                key: "0-0-2-1",
+                title: "CDN checker",
+                children: [
+                    {
+                        key: "0-0-1-5",
+                        title: "DNS Records",
+                    },
+                ],
+            },
+            {
+                key: "0-0-2-2",
+                title: "WAF checker",
+                children: [
+                    {
+                        key: "0-0-3-0",
+                        title: "Web Prober",
+                    },
+                ],
+            },
+            {
+                key: "0-0-3-2",
+                title: "Url extraction",
+                children: [
+                    {
+                        key: "0-0-3-0",
+                        title: "Web Prober",
+                    },
+                ],
+            },
+            {
+                key: "0-0-3-1",
+                title: "CMS Scanner",
+                children: [
+                    {
+                        key: "0-0-3-0",
+                        title: "Web Prober",
+                    },
+                ],
+            },
+            {
+                key: "0-0-3-5",
+                title: "Fuzzing",
+                children: [
+                    {
+                        key: "0-0-3-0",
+                        title: "Web Prober",
+                    },
+                ],
+            },
+            {
+                key: "0-0-3-4",
+                title: "Javascript analysis",
+                children: [
+                    {
+                        key: "0-0-1-6",
+                        title: "JS files & Source Code Scraping",
+                    },
+                ],
+            },
+            {
+                key: "0-0-3-3",
+                title: "URL patterns Search and filtering",
+                children: [
+                    {
+                        key: "0-0-3-2",
+                        title: "Url extraction",
+                    },
+                ],
+            },
+        ]);
         
         const discardButtonRef = ref<HTMLElement | null>(null);
         const ModalDetail = ref<null | HTMLElement>(null);
@@ -636,13 +849,32 @@ export default defineComponent({
         })
 
         const validationSchema = () => {
+            const checkedKeys = getCheckedKeys()
             
-            console.log(1231231313213213);
-            
-            console.log(getCheckedKeys.length, 132132123, getCheckedKeys());
-            
-            if (getCheckedKeys.length) {
-                errors.detail = "Bạn phải chọn ít nhất một recon";
+            if (getCheckedKeys().length == 0) {
+                toastr.error('Bạn phải chọn ít nhất một recon', { position: 'top-right' });
+
+                return true
+            } else {
+                dataValidateTree.value.map(el => {
+                    el.children.map(e => {
+                        if (checkedKeys.includes(el.key) && !checkedKeys.includes(e.key)) {
+                            errors.notifi_error_select.push("Để recon " + el.title + " bạn cần chạy thêm " + e.title);
+                        }
+                    })
+                })
+
+                if (errors.notifi_error_select.length) {
+                    for (let i = 0; i < errors.notifi_error_select.length; i++) {
+                        const error = errors.notifi_error_select[i];
+                        toastr.error(error, { position: 'top-right' });
+                    }    
+                    errors.notifi_error_select = []
+
+                    return true
+                }
+
+                return false
             }
         };
 
@@ -673,11 +905,15 @@ export default defineComponent({
                 return;
             }
             
+            if (validationSchema()) {
+                return
+            }
+
             if (typeModal.value == 'add') {
                 let dataTree = dataFormCreate.value[0]['children']
                 let checkedKey = getCheckedKeys();
 
-                let arr = [];
+                let arr: string[]  = [];
                 
                 checkedKey.forEach((element) => {
                     if (typeof element === 'string' && element.length > 5) {
@@ -699,12 +935,8 @@ export default defineComponent({
                     target_id: getIdFromUrl(),
                 }
                 
-                console.log(form_data);
-                
-
                 return ApiService.post("recon/create/", form_data)
                     .then(({ data }) => {
-                        
                         if(submitButtonRef.value){
                             //Disable button
                             submitButtonRef.value.disabled = true;
@@ -715,6 +947,7 @@ export default defineComponent({
                                     submitButtonRef.value.disabled = false;
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
+                                
                                 notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
                                 getData();
 
@@ -824,6 +1057,7 @@ export default defineComponent({
             dataFormCreate,
             treeRef,
             getCheckedKeys,
+            dataValidateTree,
         };
     },
 });

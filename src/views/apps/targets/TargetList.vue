@@ -84,12 +84,16 @@
                     {{ customer.group.title }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
-                    <router-link :to="`/target-recons/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
-                        <KTIcon icon-name="search-list" icon-class="fs-3" />
-                    </router-link>
-                    <router-link :to="`/target-scans/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
-                        <KTIcon icon-name="scan-barcode" icon-class="fs-3" />
-                    </router-link>
+                    <VueCustomTooltip label="Recon" position="is-top">
+                        <router-link :to="`/target-recons/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
+                            <KTIcon icon-name="scan-barcode" icon-class="fs-3" />
+                        </router-link>
+                    </VueCustomTooltip>
+                    <VueCustomTooltip label="Scan" position="is-top">
+                        <router-link :to="`/target-scans/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
+                            <KTIcon icon-name="search-list" icon-class="fs-3" />
+                        </router-link>
+                    </VueCustomTooltip>
                     <VueCustomTooltip label="Sửa" position="is-top">
                         <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
                             data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
