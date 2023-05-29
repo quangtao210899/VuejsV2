@@ -85,7 +85,7 @@
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <router-link :to="`/target-recons/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
-                        <KTIcon icon-name="scan-barcode" icon-class="fs-3" />
+                        <KTIcon icon-name="search-list" icon-class="fs-3" />
                     </router-link>
                     <router-link :to="`/target-scans/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
                         <KTIcon icon-name="scan-barcode" icon-class="fs-3" />

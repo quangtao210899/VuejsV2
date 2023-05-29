@@ -66,26 +66,25 @@
                 </div>
 
                 <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
-                 
                 >
                     <div class="modal-body py-10 px-lg-17">
                         <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
                             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
                             data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
-                            <el-tree
-                                :data="dataFormCreate"
-                                show-checkbox
-                                node-key="id"
-                                :default-expanded-keys="[1]"
-                                @check-change="handleCheckChange"
-                                :props="defaultProps"
-                            />
                             <div class="fv-plugins-message-container">
                                 <div class="fv-help-block">
                                     <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] : errors.detail }}</span>
                                 </div>
                             </div>
+                            <el-tree
+                                ref="treeRef"
+                                :data="dataFormCreate"
+                                show-checkbox
+                                node-key="id"
+                                :default-expanded-keys="['0-0']"
+                                :props="defaultProps"
+                            />
                         </div>
                     </div>
 
@@ -94,7 +93,7 @@
                             class="btn btn-sm  btn-light me-3">
                             Discard
                         </button>
-                        <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
+                        <button ref="submitButtonRef" type="submit" @click="getCheckedKeys" id="kt_modal_new_target_group_submit"
                             class="btn btn-sm  btn-primary">
                             <span class="indicator-label"> Submit </span>
                             <span class="indicator-progress">
@@ -142,10 +141,10 @@
         <div class="modal-dialog modal-dialog-centered mw-650px">
             <div class="modal-content">
                 <div class="modal-body">
-                    <!-- <div class="card card-flush pt-3 mb-5 mb-xl-10">
+                    <div class="card card-flush pt-3 mb-5 mb-xl-10">
                         <div class="card-header">
                             <div class="card-title">
-                                <h1 class="fw-bold">{{ detailData.username }}</h1>
+                                <h1 class="fw-bold"><span class="text-gray-400">Người recon:</span> {{ detailData.username }}</h1>
                             </div>
                         </div>
                         <div class="card-body py-0">
@@ -154,35 +153,19 @@
                                 <div class="d-flex flex-wrap py-5">
                                     <div class="flex-equal me-5">
                                         <div class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Tốc độ Scan:</div>
-                                                <div class="text-gray-800 pe-2 col-6">{{ getScanSpeedName(detailData.dataScanner.scanSpeedOption) }} </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Proxy:</div>
-                                                <div class="text-gray-800 col-6 pe-2">{{ detailData.dataScanner.proxyCheck ? 'Bật' : 'Tắt' }}
+                                            <template v-for="(recon, index) in detailData.dataRecon" :key="index">
+                                                <div v-if="recon.active">
+                                                    <strong class="fw-bolder">{{ recon.title }}: </strong>
                                                 </div>
-                                            </div>
-                                            <ul v-if="detailData.dataScanner.proxyCheck">
-                                                <li>Giao thức: {{ detailData.dataScanner.proxyScheme }}</li>
-                                                <li>Địa chỉ: {{ detailData.dataScanner.proxyAdress }}</li>
-                                                <li>Proxy yêu cẫu xác thực: {{ detailData.dataScanner.proxyAuthenticationCheck ? 'Bật' : 'Tắt' }}</li>
-                                                <li v-if="detailData.dataScanner.proxyAuthenticationCheck">Tên đăng nhập: {{ detailData.dataScanner.proxyUsername }}</li>
-                                                <li v-if="detailData.dataScanner.proxyAuthenticationCheck">Mật khẩu: {{ detailData.dataScanner.proxyUserPassword }}</li>
-                                            </ul>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Sử dụng Header tùy chọn:</div>
-                                                <div class="text-gray-800 col-6 pe-2" style="display: inline;">{{ detailData.dataScanner.headerOptionCheck ? 'Bật' : 'Tắt' }}</div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Quét bằng Nmap:</div>
-                                                <div class="text-gray-800 col-6">{{ detailData.dataScanner.nmap_check ? 'Bật' : 'Tắt' }}</div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Quét bằng Nuclei:</div>
-                                                <div class="text-gray-800 col-6">{{ detailData.dataScanner.nuclei_check ? 'Bật' : 'Tắt' }}</div>
-                                            </div>
-                                            <div class="row mb-4">
+                                                <div class="row">
+                                                    <template v-for="(pair, pairIndex) in recon.children" :key="pairIndex">
+                                                        <div v-if="pair.active" class="col-6 d-inline-block mb-2" style="float: left;">
+                                                            <span>{{ pair.title }}</span>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                            <div class="row mb-4 ">
                                                 <div class="text-gray-400 col-6">Trạng thái:</div>
                                                 <span :class="`badge badge-${getStatus(detailData.status).color} col-2`">{{ detailData.statusName }}</span>
                                             </div>
@@ -191,7 +174,7 @@
                                                 <div class="text-gray-800 col-6">{{ formatDate(detailData.created_at) }}</div>
                                             </div>
                                             <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Quét bằng Nuclei:</div>
+                                                <div class="text-gray-400 col-6">Thời gian kết thúc:</div>
                                                 <div class="text-gray-800 col-6">{{ formatDate(detailData.finished_at) }}</div>
                                             </div>
                                         </div>
@@ -199,7 +182,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
@@ -222,6 +205,7 @@ import ApiService from "@/core/services/ApiService";
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
+import { ElTree } from 'element-plus'
 import Fillter from "@/views/apps/targets/filterTargetScan.vue";
 
 import * as Yup from "yup";
@@ -255,6 +239,7 @@ export default defineComponent({
         const data_group = ref<object | any>([])
         const totalPage = ref<number>(0);
         const filterStatus = ref<String | null>('');
+        const treeRef = ref<InstanceType<typeof ElTree>>()
         // const testPage = ref<number>(0);
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
@@ -290,20 +275,17 @@ export default defineComponent({
             finished_at: '',
             status: '',
             statusName: '',
-            dataScanner: {
-                scanSpeedOption: '',
-                proxyCheck: false,
-                proxyScheme: '',
-                proxyAdress: '',
-                proxyAuthenticationCheck: false,
-                proxyUsername: '',
-                proxyUserPassword: '',
-                headerOptionCheck: false,
-                nmap_check: false,
-                nuclei_check: false,
-            },
+            dataRecon: [{
+                active: false,
+                title: '',
+                children: [{
+                    name: '',
+                    title: '',
+                    active: false,
+                }],
+            }],
         });
-        // const target_id = ref(null);
+
         const getIdFromUrl = () => {
             const url = window.location.href;
             const idMatch = url.match(/target-recons\/(\d+)/);
@@ -330,87 +312,87 @@ export default defineComponent({
         const dataFormCreate = ref([
             {
                 label: 'Full recon',
-                id: 1,
+                id: '0-0',
                 children: [
                     {
                         label: 'OSINT',
                         name: "OSINT",
-                        id: 2,
+                        id: '0-0-0',
                         children: [
                             {
                                 label: 'Domain information',
                                 name: "domain",
-                                id: 6,
+                                id: '0-0-0-0',
                             },
                             {
                                 label: 'Emails addresses and users',
                                 name: "email",
-                                id: 7,
+                                id: '0-0-0-1',
                             },
                             {
                                 label: 'Password leaks',
                                 name: "password",
-                                id: 8,
+                                id: '0-0-0-2',
                             },
                             {
                                 label: 'Metadata finder',
                                 name: "metadata",
-                                id: 9,
+                                id: '0-0-0-3',
                             },
                         ],
                     },
                     {
                         label: 'Subdomains',
                         name: "Subdomains",
-                        id: 3,
+                        id: '0-0-1',
                         children: [
                             {
-                                id: 10,
+                                id: '0-0-1-0',
                                 label: 'Passive',
                                 name: "sub_passive",
                             },
                             {
-                                id: 11,
+                                id: '0-0-1-1',
                                 label: 'Certificate transparency',
                                 name: "sub_crt",
                             },
                             {
-                                id: 12,
+                                id: '0-0-1-2',
                                 label: 'TLS handshake',
                                 name: "sub_active",
                             },
                             {
-                                id: 13,
+                                id: '0-0-1-3',
                                 label: 'NOERROR subdomain discovery',
                                 name: "sub_noerror",
                             },
                             {
-                                id: 14,
+                                id: '0-0-1-4',
                                 label: 'Bruteforce',
                                 name: "sub_brute",
                             },
                             {
-                                id: 15,
+                                id: '0-0-1-5',
                                 label: 'DNS Records',
                                 name: "sub_dns",
                             },
                             {
-                                id: 16,
+                                id: '0-0-1-6',
                                 label: 'JS files & Source Code Scraping',
                                 name: "sub_scraping",
                             },
                             {
-                                id: 17,
+                                id: '0-0-1-7',
                                 label: 'Google Analytics ID',
                                 name: "sub_analytics",
                             },
                             {
-                                id: 18,
+                                id: '0-0-1-8',
                                 label: 'Cloud checkers',
                                 name: "s3buckets",
                             },
                             {
-                                id: 19,
+                                id: '0-0-1-9',
                                 label: 'Subdomains takeover',
                                 name: "subdomains_takeover",
                             },
@@ -419,25 +401,25 @@ export default defineComponent({
                     {
                         label: 'Hosts',
                         name: 'Hosts',
-                        id: 4,
+                        id: '0-0-2',
                         children: [
                             {
-                                id: 20,
+                                id: '0-0-2-0',
                                 label: 'IP info',
                                 name: "whoisxml",
                             },
                             {
-                                id: 21,
+                                id: '0-0-2-1',
                                 label: 'CDN checker',
                                 name: "ipcdn",
                             },
                             {
-                                id: 22,
+                                id: '0-0-2-2',
                                 label: 'WAF checker',
                                 name: "wafw00f",
                             },
                             {
-                                id: 23,
+                                id: '0-0-2-3',
                                 label: 'Port Scanner',
                                 name: "port_scanner",
                             },
@@ -446,35 +428,35 @@ export default defineComponent({
                     {
                         label: 'Webs',
                         name: 'Webs',
-                        id: 5,
+                        id: '0-0-3',
                         children: [
                             {
-                                id: 24,
+                                id: '0-0-3-0',
                                 label: 'Web Prober',
                                 name: "web_probe_full",
                             },
                             {
-                                id: 25,
+                                id: '0-0-3-1',
                                 label: 'CMS Scanner',
                                 name: "cms_scanner",
                             },
                             {
-                                id: 26,
+                                id: '0-0-3-2',
                                 label: 'Url extraction',
                                 name: "urlchecks",
                             },
                             {
-                                id: 27,
+                                id: '0-0-3-3',
                                 label: 'URL patterns Search and filtering',
                                 name: "url_gf",
                             },
                             {
-                                id: 28,
+                                id: '0-0-3-4',
                                 label: 'Javascript analysis',
                                 name: "jschecks",
                             },
                             {
-                                id: 29,
+                                id: '0-0-3-5',
                                 label: 'Fuzzing',
                                 name: "fuzz",
                             },
@@ -545,6 +527,10 @@ export default defineComponent({
                 // resetData();
         };
 
+        const getCheckedKeys = () => {
+            return treeRef.value!.getCheckedKeys(false)
+        }
+
         // const resetData = () => {
         //   apiData.value.title = '';
         //   apiData.value.description = '';
@@ -610,7 +596,7 @@ export default defineComponent({
                 detailData.finished_at = detail.finishedAt
                 detailData.status = detail.status
                 detailData.statusName = detail.status_name
-                detailData.dataScanner = detail.data_scanner
+                detailData.dataRecon = detail.data_recon
                 detailData.created_at = detail.created_at
                 const modal = new Modal(
                     document.getElementById("kt_modal_detail") as Element
@@ -649,28 +635,16 @@ export default defineComponent({
             nuclei_check: false,
         })
 
-        const validationSchema = Yup.object().shape({
-            proxyAdress: Yup.string()
-                .required('Vui lòng nhập địa chỉ'),
-            proxyPort: Yup.string()
-                .required('Vui lòng nhập cổng'),
-            proxyUsername: Yup.string()
-                .required('Vui lòng nhập username'),
-            proxyUserPassword: Yup.string()
-                .required('Vui lòng nhập mật khẩu'),
-        });
-
-        const validationSchemaProxyCheck = Yup.object().shape({
-            proxyAdress: Yup.string()
-                .required('Vui lòng nhập địa chỉ'),
-            proxyPort: Yup.string()
-                .required('Vui lòng nhập cổng'),
-        });
-        const validationSchemaFalse = Yup.object().shape({
-            proxyAdress: Yup.string(),
-            proxyPort: Yup.string(),
-            headerOptionValue: Yup.array().min(1, 'Vui lòng nhập giá trị').of(Yup.string()),
-        });
+        const validationSchema = () => {
+            
+            console.log(1231231313213213);
+            
+            console.log(getCheckedKeys.length, 132132123, getCheckedKeys());
+            
+            if (getCheckedKeys.length) {
+                errors.detail = "Bạn phải chọn ít nhất một recon";
+            }
+        };
 
         const notification = (values: string, icon: string, more: string) => {
             Swal.fire({
@@ -694,24 +668,41 @@ export default defineComponent({
             eyeButtonRef.value = (eyeButtonRef.value) ? false : true;
         };
 
-        const handleCheckChange = (data, checked: boolean, indeterminate: boolean) => {
-            const arraList = []    
-            console.log(data.label, checked, indeterminate)
-        }
-
         const submit = async () => {
             if (!submitButtonRef.value) {
                 return;
             }
             
             if (typeModal.value == 'add') {
-                const formData = dataFormCreate.value[0]['children']
-                console.log(formData);
-                console.log(handleCheckChange);
+                let dataTree = dataFormCreate.value[0]['children']
+                let checkedKey = getCheckedKeys();
+
+                let arr = [];
                 
+                checkedKey.forEach((element) => {
+                    if (typeof element === 'string' && element.length > 5) {
+                        arr.push(element.slice(0, 5));
+                    }
+                });
+                const checkedKeyNew = [...new Set(checkedKey.concat(arr))];
+
+                const form_data = {
+                    recon: dataTree.map(({ id, label, children }) => ({
+                        title: label,
+                        active: checkedKeyNew.find(name => name == id) == id ? true : false,
+                        children: children.map(({ name, id, label }) => ({
+                            title: label,
+                            name: name,
+                            active: checkedKeyNew.find(name => name == id) == id ? true : false,
+                        }))
+                    })),
+                    target_id: getIdFromUrl(),
+                }
+                
+                console.log(form_data);
                 
 
-                return ApiService.post("recon/create/", formData)
+                return ApiService.post("recon/create/", form_data)
                     .then(({ data }) => {
                         
                         if(submitButtonRef.value){
@@ -733,7 +724,6 @@ export default defineComponent({
                     .catch(({ response }) => {
                         if (response?.data) {
                             errors.detail = response.data.detail;
-                            // console.log(response.data);
                             
                             notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                         } else {
@@ -788,8 +778,6 @@ export default defineComponent({
             apiData,
             data_group,
             validationSchema,
-            validationSchemaProxyCheck,
-            validationSchemaFalse,
             submit,
             submitButtonRef,
             modalRef,
@@ -834,7 +822,8 @@ export default defineComponent({
             //Recon
             defaultProps,
             dataFormCreate,
-            handleCheckChange,
+            treeRef,
+            getCheckedKeys,
         };
     },
 });
