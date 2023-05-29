@@ -446,7 +446,7 @@
                                                 <div class="text-gray-800 col-6">{{ formatDate(detailData.created_at) }}</div>
                                             </div>
                                             <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Quét bằng Nuclei:</div>
+                                                <div class="text-gray-400 col-6">Thời gian kết thúc:</div>
                                                 <div class="text-gray-800 col-6">{{ formatDate(detailData.finished_at) }}</div>
                                             </div>
                                         </div>
