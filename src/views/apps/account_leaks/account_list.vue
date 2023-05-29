@@ -497,9 +497,16 @@
                         </div>
                       </div>
                       <div class="row fs-6 mb-3">
-                        <div class="col-3 text-gray-400">Hash Type:</div>
+                        <div class="col-3 text-gray-400">
+                          Possible Hash Type:
+                        </div>
                         <div class="col-9 text-gray-800">
-                          <span>{{ detailData.hash_type ?? "--" }}</span>
+                          <li
+                            v-for="(value, key) in detailData.hash_type"
+                            :key="key"
+                          >
+                            {{ value }}
+                          </li>
                         </div>
                       </div>
                       <div class="row fs-6 mb-3">
