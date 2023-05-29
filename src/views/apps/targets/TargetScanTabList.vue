@@ -1,6 +1,6 @@
 <template>
     <!--begin::Navbar-->
-    <div class="card mb-5 mb-xxl-8">
+    <div class="card mb-3 mb-xxl-8">
         <!--begin::Card header-->
         <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
             <!--begin::Card toolbar-->
@@ -30,67 +30,50 @@
             <!--end::Card toolbar-->
         </div>
         <!--end::Card header-->
-        <div class="card-body pt-3 pb-0">
+        <div class="card-body pt-2 pb-0">
             <!--begin::Details-->
-            <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
+            <div class="d-flex flex-wrap flex-sm-nowrap">
                 <!--begin::Info-->
                 <div class="flex-grow-1">
                     <!--begin::Title-->
-                    <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap">
                         <!--begin::Card body-->
-                        <div class="card-body ">
+                        <div class="card-body py-4 px-0">
                             <!--begin::Row-->
-                            <div class="row mb-2">
-                                <div class="col-6">
+                            <div class="row mb-5">
+                                <div class="col-3">
                                     <div class="row">
                                         <!--begin::Label-->
-                                        <label class="col-lg-4 fw-semobold text-muted">ID mục tiêu :</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8">
-                                            <span class="fw-bold fs-6 text-dark">{{ targetData.id }}</span>
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-lg-4 fw-semobold text-muted">Tên mục tiêu :</label>
+                                        <label class="col-4 fw-semobold text-muted">Tên :</label>
                                         <!--end::Label-->
 
                                         <!--begin::Col-->
-                                        <div class="col-lg-8">
+                                        <div class="col">
                                             <span class="fw-bold fs-6 text-dark">{{ targetData.name }}</span>
                                         </div>
                                         <!--end::Col-->
                                     </div>
                                 </div>
-                            </div>
-                            <!--end::Row-->
-
-                            <!--begin::Row-->
-                            <div class="row mb-9">
-                                <div class="col-6">
+                                <div class="col-3">
                                     <div class="row">
                                         <!--begin::Label-->
-                                        <label class="col-lg-3 fw-semobold text-muted">ID :</label>
+                                        <label class="col-4 fw-semobold text-muted">IP :</label>
                                         <!--end::Label-->
                                         <!--begin::Col-->
-                                        <div class="col-lg-8">
+                                        <div class="col">
                                             <span class="fw-bold fs-6 text-dark">{{ targetData.ip }}</span>
                                         </div>
                                         <!--end::Col-->
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-3">
                                     <div class="row">
                                         <!--begin::Label-->
-                                        <label class="col-lg-4 fw-semobold text-muted">Domain :</label>
+                                        <label class="col-4 fw-semobold text-muted">Domain :</label>
                                         <!--end::Label-->
 
                                         <!--begin::Col-->
-                                        <div class="col-lg-8">
+                                        <div class="col">
                                             <span class="fw-bold fs-6 text-dark">{{ targetData.domain }}</span>
                                         </div>
                                         <!--end::Col-->
@@ -99,75 +82,76 @@
                             </div>
                             <!--end::Row-->
 
+
                             <!--begin::Row-->
-                            <div class="row mb-2">
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-12 fw-semobold text-dark">Thời Gian</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-12">
-                                            <span class="fw-bold fs-1 ext-dark">{{ targetData.ip }}</span>
+                            <div class="row">
+                                <div class=" col-3 p-2">
+                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                        <!--begin::Number-->
+                                        <div class="d-flex align-items-center">
+                                            <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
+                                            <div class="fs-2 fw-bold">10m 38s </div>
                                         </div>
-                                        <!--end::Col-->
+                                        <!--end::Number-->
+
+                                        <!--begin::Label-->
+                                        <div class="fw-semobold fs-6 text-gray-400">Thời Gian</div>
+                                        <!--end::Label-->
                                     </div>
+                                    <!--end::Stat-->
                                 </div>
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-12 fw-semobold text-dark">Yêu cầu</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-12">
-                                            <span class="fw-bold fs-1 text-dark">{{ countRequest }}</span>
+                                <div class="col-3 p-2">
+                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                        <!--begin::Number-->
+                                        <div class="d-flex align-items-center">
+                                            <KTIcon icon-name="arrow-up-down" icon-class="fs-3 text-success me-2" />
+                                            <div class="fs-2 fw-bold">{{ countRequest }}</div>
                                         </div>
-                                        <!--end::Col-->
+                                        <!--end::Number-->
+
+                                        <!--begin::Label-->
+                                        <div class="fw-semobold fs-6 text-gray-400">Yêu cầu</div>
+                                        <!--end::Label-->
                                     </div>
+
                                 </div>
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-12 fw-semobold text-dark">Average Response Time</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-12">
-                                            <span class="fw-bold fs-1 text-dark">{{ averageResponseTime }}</span>
+                                <div class="col-3 p-2">
+                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                        <!--begin::Number-->
+                                        <div class="d-flex align-items-center">
+                                            <KTIcon icon-name="watch" icon-class="fs-3 text-success me-2" />
+                                            <div class="fs-2 fw-bold">{{ averageResponseTime }}</div>
                                         </div>
-                                        <!--end::Col-->
+                                        <!--end::Number-->
+
+                                        <!--begin::Label-->
+                                        <div class="fw-semobold fs-6 text-gray-400">Average Response Time</div>
+                                        <!--end::Label-->
                                     </div>
+                                    <!--end::Stat-->
+
                                 </div>
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-12 fw-semobold text-dark">Đường dẫn</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-12">
-                                            <span class="fw-bold fs-1 text-dark">{{ locations }}</span>
+                                <div class="col-3 p-2">
+                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                        <!--begin::Number-->
+                                        <div class="d-flex align-items-center">
+                                            <KTIcon icon-name="pointers" icon-class="fs-3 text-success me-2" />
+                                            <div class="fs-2 fw-bold">{{ locations }}</div>
                                         </div>
-                                        <!--end::Col-->
+                                        <!--end::Number-->
+
+                                        <!--begin::Label-->
+                                        <div class="fw-semobold fs-6 text-gray-400">Đường dẫn</div>
+                                        <!--end::Label-->
                                     </div>
+                                    <!--end::Stat-->
+
                                 </div>
                             </div>
                             <!--end::Row-->
 
                         </div>
                         <!--end::Card body-->
-
-                        <!--begin::Actions-->
-                        <div class="d-flex my-4">
-                            <!--begin::Menu-->
-                            <div class="me-0">
-                                <button class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"
-                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
-                                    data-kt-menu-flip="top-end">
-                                    <i class="bi bi-three-dots fs-3"></i>
-                                </button>
-                            </div>
-                            <!--end::Menu-->
-                        </div>
-                        <!--end::Actions-->
                     </div>
                     <!--end::Title-->
                 </div>
@@ -177,6 +161,78 @@
         </div>
     </div>
     <!--end::Navbar-->
+    <div class="d-flex mb-3 h-50px">
+        <div class="py-2">
+            <div>
+                <button type="button" class="btn btn-icon btn-sm fw-bold bg-success h-35px w-35px text-white">
+                    {{ severityInfo }}
+                </button>
+                <button type="button" class="btn btn-icon btn-sm fw-bold bg-primary h-35px w-35px text-white ms-2">
+                    {{ severityLow }}
+                </button>
+                <button type="button" class="btn btn-icon btn-sm fw-bold bg-warning h-35px w-35px text-white ms-2">
+                    {{ severityMedium }}
+                </button>
+                <button type="button" class="btn btn-icon btn-sm fw-bold bg-danger h-35px w-35px text-white ms-2">
+                    {{ severityHigh }}
+                </button>
+                <button type="button"
+                    class="btn btn-icon btn-sm fw-bold btn-outline btn-outline-dashed btn-outline-info h-35px w-35px text-info ms-2">
+                    All
+                </button>
+            </div>
+        </div>
+        <div class="ms-auto py-2">
+            <div class="d-flex">
+                <!--begin::Tab nav-->
+                <ul class="nav nav-pills me-6 mb-2 mb-sm-0" role="tablist">
+                    <li class="nav-item m-0" role="presentation">
+                        <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary me-3 active"
+                            data-bs-toggle="tab" href="#kt_project_users_card_pane" aria-selected="true" role="tab">
+                            <i class="ki-duotone ki-element-plus fs-2"><span class="path1"></span><span
+                                    class="path2"></span><span class="path3"></span><span class="path4"></span><span
+                                    class="path5"></span></i> </a>
+                    </li>
+
+                    <li class="nav-item m-0" role="presentation">
+                        <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary" data-bs-toggle="tab"
+                            href="#kt_project_users_table_pane" aria-selected="false" role="tab" tabindex="-1">
+                            <i class="ki-duotone ki-row-horizontal fs-2"><span class="path1"></span><span
+                                    class="path2"></span></i> </a>
+                    </li>
+                </ul>
+                <!--end::Tab nav-->
+
+                <!--begin::Actions-->
+                <div class="d-flex my-0 mx-2">
+                    <!--begin::Select-->
+                    <button type="button"
+                        class="btn btn-sm h-35px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                        <KTIcon icon-name="arrows-loop" icon-class="fs-2 text-white" />
+                        Tải lại
+                    </button>
+                    <!--end::Select-->
+                </div>
+                <!--end::Actions-->
+
+                <!--begin::Actions-->
+                <div class="d-flex my-0">
+                    <!--begin::Select-->
+                    <el-form-item>
+                        <el-select placeholder="Chọn kiểu" name="type" as="select" height="40px"
+                            class="input-group-lg w-150px">
+                            <el-option value="">Chọn kiểu</el-option>
+                            <el-option label="DB Leak" value="1">DB Leak</el-option>
+                            <el-option label="Hacker News" value="2">Hacker News</el-option>
+                        </el-select>
+                    </el-form-item>
+                    <!--end::Select-->
+                </div>
+                <!--end::Actions-->
+            </div>
+        </div>
+    </div>
+
     <!--begin::Card-->
     <div class="card h-100 d-block">
 
@@ -188,7 +244,7 @@
                 :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
                 <div :style="{ width: contentWidth + 'px' }">
                     <KTDatatable :clickOnRow="true" :data="list" :header="headerConfig" :loading="loading"
-                        :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
+                         :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
                         @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
                         <template v-slot:severity="{ row: customer }">
                             <div class="text-center">
@@ -237,7 +293,7 @@
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, watchEffect } from "vue";
+import { defineComponent, ref, onMounted, reactive } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
@@ -331,6 +387,10 @@ export default defineComponent({
             ip: '',
             name: ''
         })
+        const severityInfo = ref<number>()
+        const severityLow = ref<number>()
+        const severityMedium = ref<number>()
+        const severityHigh = ref<number>()
 
         const headerConfig = ref([
             {
@@ -387,6 +447,12 @@ export default defineComponent({
                     averageResponseTime.value = data.web_scan_status.avg_response_time != undefined ? data.web_scan_status.avg_response_time + 'ms' : '0ms';
                     locations.value = new Intl.NumberFormat("en-US").format(data.web_scan_status.locations ?? 0);
                     maxResponseTime.value = data.web_scan_status.max_response_time
+
+                    // severity
+                    severityInfo.value = data.severity_counts.info
+                    severityLow.value = data.severity_counts.low
+                    severityHigh.value = data.severity_counts.high
+                    severityMedium.value = data.severity_counts.medium
                     console.log(countRequest.value)
                     console.log(averageResponseTime.value)
                     console.log(locations.value)
@@ -527,6 +593,10 @@ export default defineComponent({
             locations,
             averageResponseTime,
             countRequest,
+            severityMedium,
+            severityHigh,
+            severityLow,
+            severityInfo,
 
             // crud
             apiData,
