@@ -8,7 +8,7 @@ export interface MenuItem {
   sub?: Array<MenuItem>;
 }
 const accountLeakMenu = {
-  heading: "Tài khoản rò rỉ",
+  heading: "Account Leaks",
   route: "/account-leaks",
   pages: [
     {

@@ -1,44 +1,25 @@
 <template>
   <div class="card h-100 d-block">
-    <div
-      class="card-header border-0 pt-6 position-absolute end-0 pe-1"
-      style="top: -80px"
-    >
+    <div class="card-header border-0 pt-6 position-absolute end-0 pe-1" style="top: -80px">
       <div class="card-toolbar">
         <div v-show="selectedIds.length === 0">
-          <div
-            class="d-flex justify-content-end"
-            data-kt-subscription-table-toolbar="base"
-          >
+          <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
             <VueCustomTooltip label="Filter" position="is-top">
-              <importAccountLeak
-                @notify="
-                  (info, noti_type, more_detail) =>
-                    notification(info, noti_type, more_detail)
-                "
-              />
+              <importAccountLeak @notify="(info, noti_type, more_detail) =>
+                  notification(info, noti_type, more_detail)
+                " />
             </VueCustomTooltip>
             <VueCustomTooltip label="Filter" position="is-top">
-              <button
-                type="button"
-                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                data-kt-menu-trigger="click"
-                data-kt-menu-placement="bottom-end"
-                data-kt-menu-flip="top-end"
-              >
+              <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
                 <KTIcon icon-name="filter" icon-class="fs-2" />
                 Filter
               </button>
               <Fillter @filterData="handleFilter"></Fillter>
             </VueCustomTooltip>
             <VueCustomTooltip label="Thêm mới" position="is-top">
-              <button
-                type="button"
-                class="btn btn-sm fw-bold btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#kt_modal_new_target_group"
-                @click.passive="handleClick({}, 'add')"
-              >
+              <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
+                data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                 <KTIcon icon-name="plus" icon-class="fs-2" />
                 Thêm
               </button>
@@ -48,15 +29,9 @@
         <div v-show="selectedIds.length !== 0">
           <div class="d-flex justify-content-end align-items-center">
             <div class="fw-bold me-5">
-              <span class="me-2">{{ selectedIds.length }}</span
-              >Selected
+              <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
-            <button
-              type="button"
-              data-bs-target="#kt_modal_delete"
-              data-bs-toggle="modal"
-              class="btn btn-danger btn-sm"
-            >
+            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm">
               Delete Selected
             </button>
           </div>
@@ -65,20 +40,10 @@
     </div>
 
     <div class="card-body pt-0 overflow-scroll h-100 p-0 m-0">
-      <KTDatatable
-        @on-sort="sort"
-        @on-items-select="onItemSelect"
-        :data="accountLeakList"
-        :header="headerConfig"
-        :loading="loading"
-        :checkbox-enabled="true"
-        :itemsPerPage="itemsPerPage"
-        :total="totalPage"
-        :currentPage="currentPage"
-        @page-change="handlePage"
-        @on-items-per-page-change="handlePerPage"
-        @customRow="customRowTable"
-      >
+      <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="accountLeakList" :header="headerConfig"
+        :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
+        :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
+        @customRow="customRowTable">
         <template v-slot:id="{ row: account }">{{ account.id }}</template>
         <template v-slot:email="{ row: account }">{{ account.email }}</template>
         <template v-slot:username="{ row: account }">
@@ -97,13 +62,8 @@
           {{ truncateText(account.country ?? "", 25) }}
         </template>
         <template v-slot:actions="{ row: account }">
-          <button
-            type="button"
-            class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
-            data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_target_group"
-            @click="handleClick(account, 'edit')"
-          >
+          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
+            data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group" @click="handleClick(account, 'edit')">
             <KTIcon icon-name="pencil" icon-class="fs-3" />
           </button>
         </template>
@@ -112,42 +72,22 @@
   </div>
 
   <!-- modal  -->
-  <div
-    class="modal fade"
-    tabindex="-1"
-    id="kt_modal_new_target_group"
-    ref="newTargetGroupModalRef"
-    aria-hidden="true"
-  >
+  <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-900px">
       <div class="modal-content">
         <div class="modal-header" id="kt_modal_new_target_group_header">
           <h2>{{ nameType }}</h2>
-          <div
-            class="btn btn-sm btn-icon btn-active-color-primary"
-            data-bs-dismiss="modal"
-          >
+          <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
             <KTIcon icon-name="cross" icon-class="fs-1" />
           </div>
         </div>
 
-        <VForm
-          id="kt_modal_new_target_group_form"
-          class="form"
-          @submit="submit"
-          :validation-schema="validationSchema"
-        >
+        <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit" :validation-schema="validationSchema">
           <div class="modal-body py-10 px-lg-17">
-            <div
-              class="scroll-y me-n7 pe-7"
-              id="kt_modal_new_target_group_scroll"
-              data-kt-scroll="true"
-              data-kt-scroll-activate="{default: false, lg: true}"
-              data-kt-scroll-max-height="auto"
+            <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
+              data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
               data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
-              data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll"
-              data-kt-scroll-offset="300px"
-            >
+              data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
               <!--begin::Input group-->
               <div class="mb-10" v-if="typeModal == 'edit'">
                 <!--begin::Label-->
@@ -155,19 +95,10 @@
                 <!--end::Label-->
 
                 <!--begin::Switch-->
-                <div
-                  class="form-check form-switch form-switch-sm form-check-custom form-check-solid"
-                >
+                <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
                   <label class="form-check-label">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      name="is_ok"
-                      v-model="apiData.is_ok"
-                    />
-                    <span class="form-check-label user-select-none"
-                      >Đã kiểm tra</span
-                    >
+                    <input class="form-check-input" type="checkbox" name="is_ok" v-model="apiData.is_ok" />
+                    <span class="form-check-label user-select-none">Đã kiểm tra</span>
                   </label>
                 </div>
                 <!--end::Switch-->
@@ -175,19 +106,11 @@
               <!--end::Input group-->
               <div class="mb-5 fv-row row">
                 <div class="col-4">
-                  <label
-                    class="d-flex align-items-center fs-6 fw-semobold mb-2"
-                  >
+                  <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                     <span class="required">Username</span>
                   </label>
-                  <Field
-                    type="text"
-                    class="form-control form-control-solid"
-                    placeholder="feng"
-                    @keydown="removeErrorMsgText"
-                    name="username"
-                    v-model="apiData.username"
-                  />
+                  <Field type="text" class="form-control form-control-solid" placeholder="feng"
+                    @keydown="removeErrorMsgText" name="username" v-model="apiData.username" />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
                       <ErrorMessage name="username" />
@@ -198,19 +121,11 @@
                   </div>
                 </div>
                 <div class="col-4">
-                  <label
-                    class="d-flex align-items-center fs-6 fw-semobold mb-2"
-                  >
+                  <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                     <span>Email</span>
                   </label>
-                  <Field
-                    type="text"
-                    class="form-control form-control-solid"
-                    placeholder="feng@gmail.com"
-                    @keydown="removeErrorMsgText"
-                    name="email"
-                    v-model="apiData.email"
-                  />
+                  <Field type="text" class="form-control form-control-solid" placeholder="feng@gmail.com"
+                    @keydown="removeErrorMsgText" name="email" v-model="apiData.email" />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
                       <ErrorMessage name="email" />
@@ -222,17 +137,10 @@
                 </div>
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
-                <label class="fs-6 fw-semobold mb-2 required"
-                  >Password Hash</label
-                >
-                <Field
-                  as="textarea"
-                  class="form-control form-control-solid"
-                  rows="3"
-                  name="password_hash"
+                <label class="fs-6 fw-semobold mb-2 required">Password Hash</label>
+                <Field as="textarea" class="form-control form-control-solid" rows="3" name="password_hash"
                   placeholder="$5b$12$d6vIh2U0gviSKNdyT3LRAuTcJ5W6G2Ln1SvlnC7bbKoQFN3cXssdC"
-                  v-model="apiData.password_hash"
-                />
+                  v-model="apiData.password_hash" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="password_hash" />
@@ -241,14 +149,8 @@
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
                 <label class="fs-6 fw-semobold mb-2">Password Crack</label>
-                <Field
-                  type="text"
-                  class="form-control form-control-solid"
-                  placeholder="abc@123"
-                  @keydown="removeErrorMsgText"
-                  name="password_crack"
-                  v-model="apiData.password_crack"
-                />
+                <Field type="text" class="form-control form-control-solid" placeholder="abc@123"
+                  @keydown="removeErrorMsgText" name="password_crack" v-model="apiData.password_crack" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="password_crack" />
@@ -260,14 +162,8 @@
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
                 <label class="fs-6 fw-semobold mb-2">Nguồn dữ liệu</label>
-                <Field
-                  type="text"
-                  class="form-control form-control-solid"
-                  placeholder="Mua dữ liệu"
-                  @keydown="removeErrorMsgText"
-                  name="source_data"
-                  v-model="apiData.source_data"
-                />
+                <Field type="text" class="form-control form-control-solid" placeholder="Mua dữ liệu"
+                  @keydown="removeErrorMsgText" name="source_data" v-model="apiData.source_data" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="source_data" />
@@ -279,31 +175,15 @@
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
                 <div class="col-4">
-                  <label
-                    class="d-flex align-items-center fs-6 fw-semobold mb-2"
-                  >
+                  <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                     <span class="required">Quốc gia</span>
                   </label>
                   <el-form-item prop="assign">
-                    <el-select
-                      filterable="true"
-                      placeholder="Chọn kiểu"
-                      as="select"
-                      height="40px"
-                      name="product_text"
-                      class="input-group-lg"
-                      v-model.lazy="apiData.country_id"
-                    >
-                      <el-option label="Chọn quốc gia" value=""
-                        >Chọn quốc gia</el-option
-                      >
+                    <el-select filterable="true" placeholder="Chọn kiểu" as="select" height="40px" name="product_text"
+                      class="input-group-lg" v-model.lazy="apiData.country_id">
+                      <el-option label="Chọn quốc gia" value="">Chọn quốc gia</el-option>
                       <el-option label="Khác" value="0"></el-option>
-                      <el-option
-                        v-for="item in countryList"
-                        :key="item.id"
-                        :label="item.name"
-                        :value="item.id"
-                      />
+                      <el-option v-for="item in countryList" :key="item.id" :label="item.name" :value="item.id" />
                     </el-select>
                     <div class="fv-plugins-message-container">
                       <div class="fv-help-block">
@@ -320,8 +200,8 @@
                 <div class="fv-help-block">
                   <span class="" v-if="errors.detail">{{
                     Array.isArray(errors.detail)
-                      ? errors.detail[0]
-                      : errors.detail
+                    ? errors.detail[0]
+                    : errors.detail
                   }}</span>
                 </div>
               </div>
@@ -333,30 +213,19 @@
           <!--begin::Modal footer-->
           <div class="modal-footer flex-center">
             <!--begin::Button-->
-            <button
-              ref="discardButtonRef"
-              type="button"
-              id="kt_modal_new_target_group_cancel"
-              class="btn btn-sm btn-light me-3"
-              data-bs-dismiss="modal"
-            >
+            <button ref="discardButtonRef" type="button" id="kt_modal_new_target_group_cancel"
+              class="btn btn-sm btn-light me-3" data-bs-dismiss="modal">
               Hủy bỏ
             </button>
             <!--end::Button-->
 
             <!--begin::Button-->
-            <button
-              ref="submitButtonRef"
-              type="submit"
-              id="kt_modal_new_target_group_submit"
-              class="btn btn-sm btn-primary"
-            >
+            <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
+              class="btn btn-sm btn-primary">
               <span class="indicator-label"> Thực hiện </span>
               <span class="indicator-progress">
                 Please wait...
-                <span
-                  class="spinner-border spinner-border-sm align-middle ms-2"
-                ></span>
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             </button>
             <!--end::Button-->
@@ -371,13 +240,7 @@
   </div>
 
   <!-- modal delete  -->
-  <div
-    class="modal fade"
-    tabindex="-1"
-    id="kt_modal_delete"
-    ref="ModalDelete"
-    aria-hidden="true"
-  >
+  <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered">
       <!--begin::Modal content-->
@@ -386,11 +249,7 @@
           <h3 class="modal-title">Xác nhận xóa tài khoản rò rỉ</h3>
 
           <!--begin::Close-->
-          <div
-            class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
+          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
             <span class="svg-icon svg-icon-2x"></span>
           </div>
           <!--end::Close-->
@@ -399,23 +258,14 @@
         <div class="modal-body">
           <p style="font-size: 16px">
             Bạn có chắc chắn muốn xóa
-            <span
-              v-if="selectedIds.length > 0"
-              class="fw-bold"
-              style="color: red"
-              >{{ selectedIds.length }}</span
-            >
+            <span v-if="selectedIds.length > 0" class="fw-bold" style="color: red">{{ selectedIds.length }}</span>
             bản ghi này không?
           </p>
         </div>
         <!--end::Form-->
         <div class="modal-footer" data-bs-dismiss="modal">
           <button type="button" class="btn btn-sm btn-light">Hủy bỏ</button>
-          <button
-            type="button"
-            class="btn btn-sm btn-primary"
-            @click.passive="deleteFewSubscriptions()"
-          >
+          <button type="button" class="btn btn-sm btn-primary" @click.passive="deleteFewSubscriptions()">
             Đồng ý
           </button>
         </div>
@@ -426,15 +276,9 @@
   </div>
 
   <!-- modal detail  -->
-  <div
-    class="modal fade"
-    tabindex="-1"
-    ref="ModalDetail"
-    aria-hidden="true"
-    id="kt_modal_detail"
-  >
+  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
     <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered mw-650px">
+    <div class="modal-dialog modal-dialog-centered mw-750px">
       <!--begin::Modal content-->
       <div class="modal-content">
         <!--begin::Form-->
@@ -449,13 +293,8 @@
               </div>
               <!--begin::Card toolbar-->
               <div class="card-toolbar">
-                <button
-                  type="button"
-                  class="btn btn-light-warning btn-sm me-1"
-                  data-bs-toggle="modal"
-                  data-bs-target="#kt_modal_new_target_group"
-                  @click="handleClick(detailData, 'edit')"
-                >
+                <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
+                  data-bs-target="#kt_modal_new_target_group" @click="handleClick(detailData, 'edit')">
                   <KTIcon icon-name="pencil" icon-class="fs-3" /> Update
                 </button>
               </div>
@@ -471,58 +310,58 @@
                       <div class="row fs-6 mb-3">
                         <div class="col-3 text-gray-400">Tình trạng:</div>
                         <div class="col-9 text-gray-800 fs-5 fw-bold">
-                          <span>{{
-                            detailData.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra"
-                          }}</span>
+                          <span class="badge" :class="{'badge-success': detailData.is_ok,'badge-danger': !detailData.is_ok}">{{ detailData.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra"}}</span>
                         </div>
                       </div>
                       <div class="row fs-6 mb-3">
                         <div class="col-3 text-gray-400">Tên người dùng:</div>
-                        <div class="col-9 text-gray-800 fs-5 fw-bold">
-                          <span>{{ detailData.username ?? "--" }}</span>
+                        <div class="col-9 text-gray-800">
+                          <span>{{ detailData.username ? detailData.username : "--:--" }}</span>
                         </div>
                       </div>
                       <div class="row fs-6 mb-3">
                         <div class="col-3 text-gray-400">Email:</div>
                         <div class="col-9 text-gray-800">
-                          <span>{{ detailData.email ?? "--" }}</span>
+                          <span>{{ detailData.email ? detailData.email : "--:--" }}</span>
                         </div>
                       </div>
+                      <div class="row fs-6 mb-3">
+                          <div class="col-3 text-gray-400">Password Crack:</div>
+                          <div class="col-9 text-gray-800">
+                            <span>{{ detailData.password_crack ? detailData.password_crack : "--:--" }}</span>
+                          </div>
+                        </div>
                       <div class="row fs-6 mb-3">
                         <div class="col-3 text-gray-400">Pasword Hash:</div>
                         <div class="col-9 text-gray-800">
-                          <span>{{ detailData.password_hash ?? "--" }}</span>
+                          <span>{{ detailData.password_hash ? detailData.password_hash : "--:--" }}</span>
                         </div>
                       </div>
-                      <div class="row fs-6 mb-3">
+                      <div class="row fs-6 mb-3" v-if="detailData.hash_type && detailData.hash_type.length">
                         <div class="col-3 text-gray-400">
-                          Possible Hash Type:
+                          Hash Type:
                         </div>
                         <div class="col-9 text-gray-800">
-                          <li
-                            v-for="(value, key) in detailData.hash_type"
-                            :key="key"
-                          >
-                            {{ value }}
-                          </li>
-                        </div>
-                      </div>
-                      <div class="row fs-6 mb-3">
-                        <div class="col-3 text-gray-400">Password Crack:</div>
-                        <div class="col-9 text-gray-800">
-                          <span>{{ detailData.password_crack ?? "--" }}</span>
+                          <template v-for="(value, key) in detailData.hash_type" :key="key">
+                            <div class="col-6 d-inline-block mb-2" style="float: left;">
+                              <li class="d-flex align-items-center" style="padding: 5px 0px 0px 0px;">
+                                <span class="bullet bullet-dot bg-primary h-5px w-5px me-2"></span><span
+                                  class="text-gray-800">{{ value }}</span>
+                              </li>
+                            </div>
+                          </template>
                         </div>
                       </div>
                       <div class="row fs-6 mb-3">
                         <div class="col-3 text-gray-400">Nguồn dữ liệu:</div>
                         <div class="col-9 text-gray-800">
-                          <span>{{ detailData.source_data ?? "--" }}</span>
+                          <span>{{ detailData.source_data ? detailData.source_data: "--:--" }}</span>
                         </div>
                       </div>
                       <div class="row fs-6 mb-3">
                         <div class="col-3 text-gray-400">Quốc gia:</div>
                         <div class="col-9 text-gray-800">
-                          <span>{{ detailData.country ?? "--" }}</span>
+                          <span>{{ detailData.country ? detailData.country:  "--:--" }}</span>
                         </div>
                       </div>
                       <div class="row fs-6 mb-3">
@@ -548,11 +387,7 @@
         </div>
         <!--end::Form-->
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-sm btn-primary me-9"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-sm btn-primary me-9" data-bs-dismiss="modal">
             Quay lại
           </button>
         </div>
@@ -580,7 +415,6 @@ import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
-import dayjs from "dayjs";
 
 const accountLeakList = ref<object | any>([]);
 const vDebounce = vue3Debounce({ lock: true });
@@ -684,7 +518,7 @@ interface CountryItem {
   id: number;
   name: string;
 }
-interface CountryList extends Array<CountryItem> {}
+interface CountryList extends Array<CountryItem> { }
 
 const discardButtonRef = ref<HTMLElement | null>(null);
 const ModalDetail = ref<null | HTMLElement>(null);
@@ -977,11 +811,7 @@ const submit = async () => {
 };
 
 const formatDate = (date: string) => {
-  if (date === "false" || date === "null") {
-    return "--:--";
-  }
-  const dateFormat = "DD/MM/YYYY HH:mm:ss";
-  return dayjs(date).format(dateFormat);
+  return date? date: '--:--'
 };
 
 const setQuery = event => {
