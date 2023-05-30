@@ -57,6 +57,11 @@
                     {{ truncateText(customer.description ?? '', 25) }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
+                    <VueCustomTooltip label="Scan" position="is-top">
+                        <router-link :to="`cve/${customer.id}/scan`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
+                            <KTIcon icon-name="search-list" icon-class="fs-3" />
+                        </router-link>
+                    </VueCustomTooltip>
                     <VueCustomTooltip label="Sửa" position="is-top">
                         <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
                             data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"

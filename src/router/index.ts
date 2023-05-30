@@ -151,6 +151,16 @@ const routes: Array<RouteRecordRaw> = [
           breadcrumbs: ["CVE"],
         },
       },
+      {
+        path: "/cve/:id/scan",
+        name: "scanCVEList",
+        component: () => import("@/views/apps/cves/CVEScanList.vue"),
+        meta: {
+          pageTitle: "Phát hiện mục tiêu",
+          breadcrumbs: ["CVE","Scan"],
+          links: ["/cve"],
+        },
+      },
     ],
   },
   {
