@@ -34,11 +34,16 @@
           <li class="breadcrumb-item">
             <span class="bullet bg-gray-400 w-5px h-2px"></span>
           </li>
-          
           <li class="breadcrumb-item text-muted" v-if="links&&(i>=0 && i < (<any>breadcrumbs).length - 1  )">
-          <router-link :to="links[i]" class="text-muted text-hover-primary">
-            {{ item }}
-          </router-link>
+            <router-link :to="links[i]" class="text-muted text-hover-primary" v-if="links[i]">
+              {{ item }}
+            </router-link>
+            <router-link :to="linkToBack" class="text-muted text-hover-primary" v-else-if="linkToBack">
+              {{ item }}
+            </router-link>
+            <template v-else>
+              {{ item }}
+            </template>
           </li>
           <li class="breadcrumb-item text-muted" v-else>{{ item }}</li>
         </template>
@@ -51,20 +56,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import {
   pageTitleBreadcrumbDisplay,
   pageTitleDirection,
   pageTitleDisplay,
 } from "@/core/helpers/config";
-import { useRoute  } from "vue-router";
+import { useRoute   } from "vue-router";
 
 export default defineComponent({
   name: "layout-page-title",
   components: {},
   setup() {
     const route = useRoute();
-
+    const linkToBack = ref('');
     const pageTitle = computed(() => {
       return route.meta.pageTitle;
     });
@@ -74,13 +79,18 @@ export default defineComponent({
     });
 
     const links = computed<string[]>(() => {
+      if(route.name=='target-scanstab'){
+        linkToBack.value = `/target-scans/${route.params['idScan']}`
+      }
       return route.meta.links as string[];
     });
+
 
     return {
       pageTitle,
       breadcrumbs,
       links,
+      linkToBack,
       pageTitleDisplay,
       pageTitleBreadcrumbDisplay,
       pageTitleDirection,

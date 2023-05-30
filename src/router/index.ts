@@ -1,6 +1,7 @@
 import {
   createRouter,
   createWebHashHistory,
+  createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
@@ -26,6 +27,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-recons/:id",
+        name: "target-recon",
+        component: () => import("@/views/apps/targets/TargetReconList.vue"),
+        meta: {
+          pageTitle: "Quản lý danh sách recon",
+          breadcrumbs: ["Target","Recon"],
+          links: ["/target-list"],
+        },
+      },
+      {
         path: "/target-scans/:id",
         name: "target-scan",
         component: () => import("@/views/apps/targets/TargetScanList.vue"),
@@ -36,12 +47,13 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/target-scanstab/:id",
+        path: "/target-scan-detail/:idScan/:id/detail",
         name: "target-scanstab",
         component: () => import("@/views/apps/targets/TargetScanTabList.vue"),
         meta: {
           pageTitle: "Chi tiết danh sách quét",
-          breadcrumbs: ["Target","Scan","Tabs"],
+          breadcrumbs: ["Target","Scan","DetailScan"],
+          links: ["/target-list",''],
         },
       },
       {
@@ -641,7 +653,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 

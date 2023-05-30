@@ -2,11 +2,6 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { Tooltip } from "bootstrap";
 import App from "./App.vue";
-
-// ant
-// import Antd from 'ant-design-vue';
-// import 'ant-design-vue/dist/antd.css';
-
 /*
 TIP: To get started with clean router change path to @/router/clean.ts.
  */
@@ -21,13 +16,11 @@ import { initInlineSvg } from "@/core/plugins/inline-svg";
 import { initVeeValidate } from "@/core/plugins/vee-validate";
 import { initKtIcon } from "@/core/plugins/keenthemes";
 import 'vue-toast-notification/dist/theme-sugar.css';
-
 import "@/core/plugins/prismjs";
-
+// Import the tooltip component and option types
+import VueCustomTooltip from '@adamdehaven/vue-custom-tooltip'
 const app = createApp(App);
-// ant
-// app.use(Antd);
-
+app.use(VueCustomTooltip)
 app.use(createPinia());
 app.use(router);
 app.use(ElementPlus);

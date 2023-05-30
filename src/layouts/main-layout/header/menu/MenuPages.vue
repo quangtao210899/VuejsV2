@@ -335,7 +335,7 @@ export default defineComponent({
       if (menuItem == '/telegram-list' && routeName == 'telegram-type') {
         return true;
       }
-      if (menuItem == '/target-list' && routeName == 'target-scan') {
+      if (menuItem == '/target-list' && ['target-scan', 'target-recon', 'target-scanstab'].includes(routeName)) {
         return true;
       }
       return false

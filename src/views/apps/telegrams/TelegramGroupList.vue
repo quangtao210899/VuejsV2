@@ -24,6 +24,7 @@
             </button> -->
             <!--end::Export-->
             <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
+            <VueCustomTooltip label="Tìm kiếm" position="is-top">  
               <button
                 type="button"
                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
@@ -34,32 +35,37 @@
                 <KTIcon icon-name="filter" icon-class="fs-2" />
                 Filter
               </button>
-            <!-- </div> -->
+              <!-- </div> -->
 
-            <Fillter @filterData="handleFilter"></Fillter>
+              <Fillter @filterData="handleFilter"></Fillter>
+            </VueCustomTooltip>
             <!--begin::Add subscription-->
             <!--end::Add subscription-->
-            <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click.passive="handleSubmitSetting">
-              <KTIcon icon-name="setting-2" icon-class="fs-2" />
-              Cấu hình
-            </button>
-
-            <button type="button"  class="btn btn-sm fw-bold btn-success me-2" @click.passive="handleSyncAll">
-              <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
-              Đồng bộ All
-            </button>
+            <VueCustomTooltip label="Cấu hình thời gian lấy tin nhắn" position="is-top">  
+              <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click.passive="handleSubmitSetting">
+                <KTIcon icon-name="setting-2" icon-class="fs-2" />
+                Cấu hình
+              </button>
+            </VueCustomTooltip>
+            <VueCustomTooltip label="Đồng bộ toàn bộ tin nhắn" position="is-top">  
+              <button type="button"  class="btn btn-sm fw-bold btn-success me-2" @click.passive="handleSyncAll">
+                <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
+                Đồng bộ All
+              </button>
+            </VueCustomTooltip>
 
             <!-- <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-success btn-active-light-success me-2"
             data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
               <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
               Đồng bộ All
             </button> -->
-
-            <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-              data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
-              <KTIcon icon-name="plus-circle" icon-class="fs-2" />
-              Thêm
-            </button>
+            <VueCustomTooltip label="Thêm mới" position="is-top">  
+              <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
+                data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
+                <KTIcon icon-name="plus-circle" icon-class="fs-2" />
+                Thêm
+              </button>
+            </VueCustomTooltip>
 
           </div>
         <!--end::Toolbar-->
@@ -71,10 +77,12 @@
             <div class="fw-bold me-5">
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
-            <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
-              <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
-              Delete Selected
-            </button>
+            <VueCustomTooltip label="Xóa" position="is-top">  
+              <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
+                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
+                Delete Selected
+              </button>
+            </VueCustomTooltip>
             <!-- <button type="button" class="btn btn-light-danger ms-2">
               Hủy
             </button> -->
@@ -105,17 +113,22 @@
             <KTIcon v-on:click.stop @click.passive="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-3x text-success' :'fs-3x text-danger'"/>
           </template>
           <template v-slot:actions="{ row: customer }">
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click.passive="handleSyncItem(customer)">
-            <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
-          </button>
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" @click.passive="handleClick(customer, 'detail')" >
-            <KTIcon icon-name="eye" icon-class="fs-3" />
-          </button>
-
-          <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
-            data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick(customer, 'edit')">
-            <KTIcon icon-name="pencil" icon-class="fs-3" />
-          </button>
+          <VueCustomTooltip label="Đồng bộ" position="is-top">  
+            <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click.passive="handleSyncItem(customer)">
+              <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
+            </button>
+          </VueCustomTooltip>
+          <VueCustomTooltip label="Chi tiết tin nhắn" position="is-top">  
+            <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" @click.passive="handleClick(customer, 'detail')" >
+              <KTIcon icon-name="eye" icon-class="fs-3" />
+            </button>
+          </VueCustomTooltip>
+          <VueCustomTooltip label="Sửa" position="is-top">  
+            <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
+              data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick(customer, 'edit')">
+              <KTIcon icon-name="pencil" icon-class="fs-3" />
+            </button>
+          </VueCustomTooltip>
         </template>        
       </KTDatatable>
       </div>
@@ -431,17 +444,6 @@
       <div class="modal-footer flex-center">
         <!--begin::Button-->
         <button
-          ref="discardButtonRef"
-          type="reset"
-          id="kt_modal_new_telegram_cancel"
-          class="btn btn-sm  btn-light me-3"
-        >
-          Discard
-        </button>
-        <!--end::Button-->
-
-        <!--begin::Button-->
-        <button
           ref="submitButtonRef"
           type="submit"
           id="kt_modal_new_target_group_submit"
@@ -753,7 +755,6 @@ export default defineComponent({
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
-          console.log(data.results)
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -993,9 +994,28 @@ export default defineComponent({
     };
 
     const updateSchedule = async () => {
+      const next_run = new Date(setingData.value.next_run)
+      const time_next_run = new Date(setingData.value.time_next_run)
+
+      const year = next_run.getFullYear(); // Get the year (e.g., 2023)
+      const month = next_run.getMonth() + 1; // Get the month (0-11, so we add 1 to get 1-12)
+      const day = next_run.getDate(); // Get the day of the month (1-31)
+      // Format the values as strings with leading zeros if necessary
+      const formattedYear = year.toString().padStart(4, '0');
+      const formattedMonth = month.toString().padStart(2, '0');
+      const formattedDay = day.toString().padStart(2, '0');
+
+      const hours = time_next_run.getHours(); // Get the hours (0-23)
+      const minutes = time_next_run.getMinutes(); // Get the minutes (0-59)
+      const seconds = time_next_run.getSeconds(); // Get the seconds (0-59)
+      // Format the values as strings with leading zeros if necessary
+      const formattedHours = hours.toString().padStart(2, '0');
+      const formattedMinutes = minutes.toString().padStart(2, '0');
+      const formattedSeconds = seconds.toString().padStart(2, '0');
+
       let formData = {
         hour: setingData.value.hour,
-        next_run: dayjs(setingData.value.next_run).format('DD-MM-YYYY') + " " + dayjs(setingData.value.time_next_run).format('HH:mm:ss')
+        next_run: `${formattedDay}-${formattedMonth}-${formattedYear} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`
       }
       return ApiService.post(`/telegram/schedule`,formData)
         .then(({ data }) => {
@@ -1020,18 +1040,17 @@ export default defineComponent({
       return ApiService.get(`/telegram/schedule/show`)
         .then(({ data }) => {
           setingData.value = {
-            next_run: dayjs(dayjs(data.next_run).format('YYYY-MM-DDDD'), 'YYYY-MM-DDDD'),
-            time_next_run: dayjs(dayjs(data.next_run).format('HH:mm:ss'), 'HH:mm:ss'),
+            next_run: data.next_run,
+            time_next_run: data.next_run,
             hour: data.hour
           };
           prevData.value = {
-            next_run: dayjs(dayjs(data.next_run).format('YYYY-MM-DDDD'), 'YYYY-MM-DDDD'),
-            time_next_run: dayjs(dayjs(data.next_run).format('HH:mm:ss'), 'HH:mm:ss'),
+            next_run:data.next_run,
+            time_next_run: data.next_run,
             hour: data.hour
           };
         })
         .catch(({ response }) => {
-          // console.log(response)
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         });
     };
