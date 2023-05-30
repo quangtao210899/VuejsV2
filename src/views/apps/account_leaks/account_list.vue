@@ -110,9 +110,9 @@
               </div>
               <!--end::Input group-->
               <div class="mb-5 fv-row row">
-                <div class="col-4">
+                <div class="col-6">
                   <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                    <span class="required">Username</span>
+                    <span class="">Username</span>
                   </label>
                   <Field type="text" class="form-control form-control-solid" placeholder="feng"
                     @keydown="removeErrorMsgText" name="username" v-model="apiData.username" />
@@ -125,7 +125,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                   <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                     <span>Email</span>
                   </label>
@@ -142,7 +142,7 @@
                 </div>
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
-                <label class="fs-6 fw-semobold mb-2 required">Password Hash</label>
+                <label class="fs-6 fw-semobold mb-2">Password Hash</label>
                 <Field as="textarea" class="form-control form-control-solid" rows="3" name="password_hash"
                   placeholder="$5b$12$d6vIh2U0gviSKNdyT3LRAuTcJ5W6G2Ln1SvlnC7bbKoQFN3cXssdC"
                   v-model="apiData.password_hash" />
@@ -181,7 +181,7 @@
               <div class="d-flex flex-column mb-5 fv-row">
                 <div class="col-4">
                   <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                    <span class="required">Quốc gia</span>
+                    <span>Quốc gia</span>
                   </label>
                   <el-form-item prop="assign">
                     <el-select filterable="true" placeholder="Chọn kiểu" as="select" height="40px" name="product_text"
