@@ -32,7 +32,7 @@
             data-kt-subscription-table-filter="search"
             v-model="debouncedSearchTerm"
             class="form-control form-control-solid w-100 ps-14"
-            placeholder="Tìm kiếm trong danh sách"
+            placeholder="Tìm kiếm theo username và email"
           />
         </div>
       </div>

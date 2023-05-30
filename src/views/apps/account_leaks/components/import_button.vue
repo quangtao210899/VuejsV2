@@ -1,11 +1,11 @@
 <template>
   <button
     type="button"
-    class="btn btn-sm fw-bold btn-primary"
+    class="btn btn-sm fw-bold btn-info me-2"
     data-bs-toggle="modal"
     data-bs-target="#kt_modal_1"
   >
-    <KTIcon icon-name="plus" icon-class="fs-2" />
+    <KTIcon icon-name="bi bi-upload" icon-class="fs-2"/>
     Import
   </button>
 
@@ -13,7 +13,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
+          <h5 class="modal-title">Upload danh sách tài khoản</h5>
 
           <!--begin::Close-->
           <div
@@ -38,10 +38,10 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-            Close
+            Đóng
           </button>
           <button type="button" class="btn btn-primary" @click="processUpload">
-            Save changes
+            Tải lên
           </button>
         </div>
       </div>
