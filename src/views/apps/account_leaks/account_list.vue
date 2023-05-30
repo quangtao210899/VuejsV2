@@ -10,7 +10,7 @@
                 <KTIcon icon-name="filter" icon-class="fs-2" />
                 Filter
               </button>
-              <Fillter @filterData="handleFilter"></Fillter>
+              <Fillter @filterData="handleFilter" :country-list='countryList'></Fillter>
             </VueCustomTooltip>
             <VueCustomTooltip label="Upload Account leaks" position="is-top">
               <importAccountLeak @notify="(info, noti_type, more_detail) =>
@@ -32,7 +32,8 @@
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
             <VueCustomTooltip label="Xóa" position="is-top">
-              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm">
+              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                class="btn btn-danger btn-sm">
                 Delete Selected
               </button>
             </VueCustomTooltip>
@@ -413,7 +414,6 @@ import ApiService from "@/core/services/ApiService";
 // validate
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
-import { vue3Debounce } from "vue-debounce";
 import Fillter from "@/views/apps/account_leaks/filter_account_leak.vue";
 import importAccountLeak from "@/views/apps/account_leaks/components/import_button.vue";
 
@@ -423,7 +423,6 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import { Modal } from "bootstrap";
 
 const accountLeakList = ref<object | any>([]);
-const vDebounce = vue3Debounce({ lock: true });
 interface APIData {
   email: string;
   username: string;
@@ -484,7 +483,7 @@ const orderingID = ref<String>("");
 const typeModal = ref<String>("");
 const id = ref<number>(0);
 const nameType = ref<string>("");
-
+const search_country = ref<String>('');
 const apiData = ref<APIData>({
   email: "",
   username: "",
@@ -614,7 +613,7 @@ const getData = () => {
   loading.value = true;
   setTimeout(() => (loading.value = false), 500);
   return ApiService.get(
-    `account-leak/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`,
+    `account-leak/index?search=${query.value}&country_id=${search_country.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`,
   )
     .then(({ data }) => {
       accountLeakList.value = data.results;
@@ -820,14 +819,11 @@ const formatDate = (date: string) => {
   return date ? date : '--:--'
 };
 
-const setQuery = event => {
-  query.value = event.target.value;
-  currentPage.value = 1;
-};
-
 const handleFilter = (data: any) => {
   if (data) {
-    query.value = data.search_query;
+    query.value = data.query;
+    search_country.value = data.type;
+    currentPage.value = 1;
     getData();
   } else {
     notification("Có lỗi với filter", "error", "Có lỗi xảy ra");

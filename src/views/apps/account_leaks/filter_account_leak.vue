@@ -1,9 +1,6 @@
 <template>
   <!--begin::Menu 1-->
-  <div
-    class="menu menu-sub menu-sub-dropdown w-250px w-md-350px"
-    data-kt-menu="true"
-  >
+  <div class="menu menu-sub menu-sub-dropdown w-250px w-md-350px" data-kt-menu="true">
     <!--begin::Header-->
     <div class="px-7 py-5">
       <div class="fs-5 text-dark fw-bold">Filter Options</div>
@@ -23,37 +20,36 @@
 
         <!--begin::Input-->
         <div class="d-flex align-items-center position-relative my-1">
-          <KTIcon
-            icon-name="magnifier"
-            icon-class="fs-1 position-absolute ms-6"
-          />
-          <input
-            type="text"
-            data-kt-subscription-table-filter="search"
-            v-model="debouncedSearchTerm"
-            class="form-control form-control-solid w-100 ps-14"
-            placeholder="Tìm kiếm theo username và email"
-          />
+          <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
+          <input type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
+            class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm theo username và email" />
         </div>
       </div>
 
-      <div class="separator my-2"></div>
+      <div class="mb-7">
+        <!--begin::Label-->
+        <label class="form-label fw-semobold">Tìm kiếm theo nhóm mục tiêu:</label>
+        <!--end::Label-->
+
+        <el-form-item prop="assign">
+          <el-select v-model="data.type" placeholder="Tìm kiếm theo quốc gia" name="type" as="select" height="40px"
+            class="input-group-lg">
+            <el-option value="">Chọn nhóm quốc gia</el-option>
+            <el-option value="0" label="Khác">Khác</el-option>
+            <el-option :label="item.name" :value="item.id" v-for="item in countryList">{{ item.name
+            }}</el-option>
+          </el-select>
+        </el-form-item>
+
+      </div>
 
       <!--begin::Actions-->
       <div class="d-flex justify-content-end">
-        <button
-          @click="reset"
-          type="reset"
-          class="btn btn-sm btn-outline btn-outline-dashed btn-outline-info me-2"
-        >
+        <button @click="reset" type="reset" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-info me-2">
           Reset
         </button>
 
-        <button
-          type="submit"
-          class="btn btn-sm btn-primary"
-          data-kt-menu-dismiss="true"
-        >
+        <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">
           Apply
         </button>
       </div>
@@ -69,25 +65,28 @@ import { defineComponent, ref, watch } from "vue";
 import { debounce } from "vue-debounce";
 
 interface Filter {
-  search_query: string | null;
+  query: string | null;
+  type: string | null;
 }
 
 export default defineComponent({
   name: "filter-scan",
+  props: {
+    countryList: { type: Object, required: false },
+  },
   emits: ["filter-data"],
 
   setup(props, { emit }) {
     var check_return = 0;
     const submit = async () => {
-      if (data.value.search_query != debouncedSearchTerm.value) {
-        data.value.search_query = debouncedSearchTerm.value;
-        return;
+      if (data.value.query != debouncedSearchTerm.value) {
+        data.value.query = debouncedSearchTerm.value
+        return
       }
       if (check_return == 2 || check_return == 1) {
-        check_return--;
-        if (check_return == 0) {
-          // trạng thái ban đầu bằng 1 => return
-          return;
+        check_return--
+        if (check_return == 0) { // trạng thái ban đầu bằng 1 => return
+          return
         }
       }
       emit("filter-data", data.value);
@@ -95,7 +94,8 @@ export default defineComponent({
     const debouncedSearchTerm = ref("");
     const debounceSearch = debounce(submit, 1000);
     const data = ref<Filter>({
-      search_query: "",
+      query: "",
+      type: '',
     });
 
     watch(debouncedSearchTerm, debounceSearch);
@@ -105,8 +105,9 @@ export default defineComponent({
 
     const reset = () => {
       check_return = 2;
-      debouncedSearchTerm.value = "";
-      data.value.search_query = "";
+      debouncedSearchTerm.value = '';
+      data.value.query = '';
+      data.value.type = '';
     };
 
     return {
