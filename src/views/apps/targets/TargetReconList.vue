@@ -39,10 +39,10 @@
                 <template v-slot:user="{ row: customer }">{{ customer.user.username }}</template>
                 <template v-slot:status_name="{ row: customer }"><span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--' }}</span></template>
                 <template v-slot:created_at="{ row: customer }">
-                    {{ customer.created_at ? formatDate(customer.created_at) : '--:--' }}
+                    {{ customer.created_at }}
                 </template>
-                <template v-slot:finished_at="{ row: customer }">
-                    {{ customer.finished_at ? formatDate(customer.finished_at) : '--:--' }}
+                <template v-slot:modified_at="{ row: customer }">
+                    {{ (customer.status==2 || customer.status==1) ? "--:--" : customer.modified_at }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
@@ -84,12 +84,13 @@
                                 node-key="id"
                                 :default-expanded-keys="['0-0']"
                                 :props="defaultProps"
+                                class="custom-tree"
                             />
                         </div>
                     </div>
 
                     <div class="modal-footer flex-center">
-                        <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
+                        <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel" @click="resetData"
                             class="btn btn-sm  btn-light me-3">
                             Discard
                         </button>
@@ -138,13 +139,13 @@
     </div>
 
     <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-        <div class="modal-dialog modal-dialog-centered mw-650px">
+        <div class="modal-dialog modal-dialog-centered mw-850px">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="card card-flush pt-3 mb-5 mb-xl-10">
                         <div class="card-header">
                             <div class="card-title">
-                                <h1 class="fw-bold"><span class="text-gray-400">Người recon:</span> {{ detailData.username }}</h1>
+                                <h1 class="fw-bold"><span class="text-gray-400">Người recon:</span> <span class="text-gray-800">{{ detailData.username }}</span></h1>
                             </div>
                         </div>
                         <div class="card-body py-0">
@@ -155,12 +156,14 @@
                                         <div class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
                                             <template v-for="(recon, index) in detailData.dataRecon" :key="index">
                                                 <div v-if="recon.active">
-                                                    <strong class="fw-bolder">{{ recon.title }}: </strong>
+                                                    <span class="fw-bolder text-gray-400">{{ recon.title }}: </span>
                                                 </div>
                                                 <div class="row">
                                                     <template v-for="(pair, pairIndex) in recon.children" :key="pairIndex">
                                                         <div v-if="pair.active" class="col-6 d-inline-block mb-2" style="float: left;">
-                                                            <span>{{ pair.title }}</span>
+                                                            <li class="d-flex align-items-center">
+                                                                <span class="bullet me-3 m-0"></span><span class="text-gray-800">{{ pair.title }}</span>
+                                                            </li>
                                                         </div>
                                                     </template>
                                                 </div>
@@ -171,11 +174,11 @@
                                             </div>
                                             <div class="row mb-4">
                                                 <div class="text-gray-400 col-6">Thời gian bắt đầu:</div>
-                                                <div class="text-gray-800 col-6">{{ formatDate(detailData.created_at) }}</div>
+                                                <div class="text-gray-800 col-6">{{ detailData.created_at}}</div>
                                             </div>
                                             <div class="row mb-4">
                                                 <div class="text-gray-400 col-6">Thời gian kết thúc:</div>
-                                                <div class="text-gray-800 col-6">{{ formatDate(detailData.finished_at) }}</div>
+                                                <div class="text-gray-800 col-6">{{ (detailData.status=='2' || detailData.status== '1' ) ? "--:--" : detailData.modified_at }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -193,6 +196,9 @@
         </div>
     </div>
 </template>
+<style>
+
+</style>
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
@@ -212,20 +218,19 @@ import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
-import dayjs from 'dayjs';
 import { useToast } from 'vue-toast-notification';
 
 interface APIData {
     status: string;
     created_at: string;
-    finished_at: string;
+    modified_at: string;
     user: string;
 }
 
 interface Errors {
     status: string;
     created_at: string;
-    finished_at: string;
+    modified_at: string;
     user: string;
     detail: string;
     tree: string;
@@ -267,16 +272,17 @@ export default defineComponent({
         const id = ref<number>(0);
         const nameType = ref<string>('');
         const toastr = useToast();
+
         const apiData = ref<APIData>({
             status: '',
             created_at: "",
-            finished_at: '',
+            modified_at: '',
             user: '',
         });
         const errors: Errors = reactive({
             status: "",
             created_at: "",
-            finished_at: '',
+            modified_at: '',
             user: '',
             detail: '',
             tree: '',
@@ -292,7 +298,7 @@ export default defineComponent({
             id: '',
             username: "",
             created_at: "",
-            finished_at: '',
+            modified_at: '',
             status: '',
             statusName: '',
             dataRecon: [{
@@ -699,7 +705,7 @@ export default defineComponent({
             },
             {
                 columnName: "Thời gian kết thúc",
-                columnLabel: "finished_at",
+                columnLabel: "modified_at",
             },
             {
                 columnName: "Trạng thái",
@@ -733,22 +739,21 @@ export default defineComponent({
             // errors.group = ''
             // errors.detail = ''
 
-            nameType.value = "Quét lỗ hổng bảo mật"
+            nameType.value = "Chọn thông tin recon"
             if (discardButtonRef.value !== null) {
                 discardButtonRef.value.click();
             }
-                // resetData();
+
+            resetData();
         };
 
         const getCheckedKeys = () => {
             return treeRef.value!.getCheckedKeys(false)
         }
 
-        // const resetData = () => {
-        //   apiData.value.title = '';
-        //   apiData.value.description = '';
-        //   id.value = 0;
-        // }
+        const resetData = () => {
+            treeRef.value!.setCheckedKeys([], false)
+        }
 
         const handlePage = (page: number) => {
             currentPage.value = page ?? 1;
@@ -767,7 +772,7 @@ export default defineComponent({
             
             setTimeout(() => loading.value = false, 500)
             return ApiService.get(`/recon/${target_id}/target?search_recon=${query.value}&search_status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
-                .then(({ data }) => {
+                .then(({ data }) => {  
                     list.value = data.results
                     totalPage.value = data.count
                 })
@@ -806,7 +811,7 @@ export default defineComponent({
         const customRowTable = (detail: any) => {
             if (detail) {
                 detailData.username = detail.user.username
-                detailData.finished_at = detail.finishedAt
+                detailData.modified_at = detail.modified_at
                 detailData.status = detail.status
                 detailData.statusName = detail.status_name
                 detailData.dataRecon = detail.data_recon
@@ -849,8 +854,9 @@ export default defineComponent({
         })
 
         const validationSchema = () => {
-            const checkedKeys = getCheckedKeys()
-            
+            let checkedKey: string[]  = [],
+                expandedKey: string[]  = [];
+            let selectedKey = getCheckedKeys()
             if (getCheckedKeys().length == 0) {
                 toastr.error('Bạn phải chọn ít nhất một recon', { position: 'top-right' });
 
@@ -858,11 +864,20 @@ export default defineComponent({
             } else {
                 dataValidateTree.value.map(el => {
                     el.children.map(e => {
-                        if (checkedKeys.includes(el.key) && !checkedKeys.includes(e.key)) {
+                        if (getCheckedKeys().includes(el.key) && !getCheckedKeys().includes(e.key)) {
+                            let keyExpanded = e.key.slice(0, 5);
+                            checkedKey.push(e.key);
+                            expandedKey.push(keyExpanded);
                             errors.notifi_error_select.push("Để recon " + el.title + " bạn cần chạy thêm " + e.title);
                         }
                     })
                 })
+
+                const mergedArray = [...new Set([...selectedKey, ...checkedKey])];
+                console.log(mergedArray);
+                
+                treeRef.value!.setCheckedKeys(mergedArray, false)
+                
 
                 if (errors.notifi_error_select.length) {
                     for (let i = 0; i < errors.notifi_error_select.length; i++) {
@@ -966,13 +981,6 @@ export default defineComponent({
             }
         };
 
-        const formatDate = (date: string) => {            
-            if (date === "false" || date === "null") {
-                return '--:--';
-            }
-            const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-            return dayjs(date).format(dateFormat)
-        }
 
         // end validate
         const clearHeaderOptions = () => {            
@@ -1041,7 +1049,6 @@ export default defineComponent({
 
             // edit 
             nameType,
-            formatDate,
             loading,
 
             getStatus,
@@ -1058,6 +1065,7 @@ export default defineComponent({
             treeRef,
             getCheckedKeys,
             dataValidateTree,
+            resetData,
         };
     },
 });
