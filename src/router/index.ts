@@ -68,6 +68,25 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: "/account-leaks",
+    redirect: "/account-leaks",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },
+    children: [
+      {
+        path: "/account-leaks",
+        name: "account-leaks",
+        component: () => import("@/views/apps/account_leaks/account_list.vue"),
+        meta: {
+          pageTitle: "Tài khoản rò rỉ",
+          breadcrumbs: ["Account Leaks"],
+        },
+      },
+    ],
+  },
+  {
     path: "/scans",
     redirect: "/scans",
     component: () => import("@/layouts/main-layout/MainLayout.vue"),

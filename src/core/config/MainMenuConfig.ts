@@ -7,7 +7,18 @@ export interface MenuItem {
   bootstrapIcon?: string;
   sub?: Array<MenuItem>;
 }
-
+const accountLeakMenu = {
+  heading: "Tài khoản rò rỉ",
+  route: "/account-leaks",
+  pages: [
+    {
+      heading: "Quản lý tài khoản rò rỉ",
+      route: "/account-leaks",
+      keenthemesIcon: "bi bi-person-exclamation",
+      bootstrapIcon: "bi bi-person-exclamation",
+    },
+  ],
+};
 const MainMenuConfig: Array<MenuItem> = [
   {
     pages: [
@@ -43,6 +54,7 @@ const MainMenuConfig: Array<MenuItem> = [
       },
     ],
   },
+  accountLeakMenu,
   {
     heading: "Telgram",
     route: "/telegram",
