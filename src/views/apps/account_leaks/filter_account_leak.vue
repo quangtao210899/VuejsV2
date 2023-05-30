@@ -104,7 +104,7 @@ export default defineComponent({
     });
 
     const reset = () => {
-      check_return = 2;
+      check_return = 0;
       debouncedSearchTerm.value = '';
       data.value.query = '';
       data.value.type = '';

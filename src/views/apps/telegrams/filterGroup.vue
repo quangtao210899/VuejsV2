@@ -138,7 +138,7 @@ export default defineComponent({
     watch(debouncedSearchTerm, debounceSearch);
 
     const reset = () => {
-      check_return = 2
+      check_return = 0
       debouncedSearchTerm.value = '';
       data.value.type = '';
       data.value.query = '';

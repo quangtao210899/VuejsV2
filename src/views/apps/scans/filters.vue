@@ -199,7 +199,7 @@ export default defineComponent({
 
 
     const reset = () => {
-      check_return = 3
+      check_return = 0
       debouncedSearchIp.value = ''
       debouncedSearchDomain.value = ''
       data.value.status = '';

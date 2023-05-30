@@ -114,7 +114,7 @@ export default defineComponent({
         // const emit = defineEmits(['filter-data'])
 
         const reset = () => {
-            check_return = 2
+            check_return = 0
             debouncedSearchTerm.value = '';
             data.value.query = '';
             data.value.status = '';
