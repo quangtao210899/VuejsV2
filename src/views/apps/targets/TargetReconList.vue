@@ -67,7 +67,7 @@
 
                 <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
                 >
-                    <div class="modal-body py-10 px-lg-17">
+                    <div class="modal-body py-5 px-lg-17">
                         <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
                             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
                             data-kt-scroll-dependencies="#kt_modal_new_target_group_header"

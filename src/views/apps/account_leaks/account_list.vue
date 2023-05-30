@@ -14,8 +14,7 @@
             </VueCustomTooltip>
             <VueCustomTooltip label="Upload Account leaks" position="is-top">
               <importAccountLeak @notify="(info, noti_type, more_detail) =>
-                notification(info, noti_type, more_detail)
-                " />
+                notification(info, noti_type, more_detail)" @resetData="()=> getData()" />
             </VueCustomTooltip>
             <VueCustomTooltip label="Thêm mới" position="is-top">
               <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
