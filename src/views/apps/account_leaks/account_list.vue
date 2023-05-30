@@ -700,14 +700,14 @@ const validationSchema = Yup.object().shape({
     is: "",
     then: schema => schema.required("Hãy điền vào Username hoặc Email"),
     otherwise: schema => schema.min(0),
-  }),
-  email: Yup.string(),
+  }).nullable(),
+  email: Yup.string().nullable(),
   password_hash: Yup.string().when("password_crack", {
     is: "",
     then: schema =>
       schema.required("Hãy điền vào Password Hash hoặc Password Crack"),
     otherwise: schema => schema.min(0),
-  }),
+  }).nullable(),
   password_crack: Yup.string().nullable(),
   // country_id: Yup.number().required("Hãy lựa chọn một quốc gia"),
 });
