@@ -10,34 +10,39 @@
             class="d-flex justify-content-end"
             data-kt-subscription-table-toolbar="base"
           >
-            <importAccountLeak
-              @notify="
-                (info, noti_type, more_detail) =>
-                  notification(info, noti_type, more_detail)
-              "
-            />
-            <button
-              type="button"
-              class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-              data-kt-menu-trigger="click"
-              data-kt-menu-placement="bottom-end"
-              data-kt-menu-flip="top-end"
-            >
-              <KTIcon icon-name="filter" icon-class="fs-2" />
-              Filter
-            </button>
-            <Fillter @filterData="handleFilter"></Fillter>
-
-            <button
-              type="button"
-              class="btn btn-sm fw-bold btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#kt_modal_new_target_group"
-              @click.passive="handleClick({}, 'add')"
-            >
-              <KTIcon icon-name="plus" icon-class="fs-2" />
-              Thêm
-            </button>
+            <VueCustomTooltip label="Filter" position="is-top">
+              <importAccountLeak
+                @notify="
+                  (info, noti_type, more_detail) =>
+                    notification(info, noti_type, more_detail)
+                "
+              />
+            </VueCustomTooltip>
+            <VueCustomTooltip label="Filter" position="is-top">
+              <button
+                type="button"
+                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                data-kt-menu-trigger="click"
+                data-kt-menu-placement="bottom-end"
+                data-kt-menu-flip="top-end"
+              >
+                <KTIcon icon-name="filter" icon-class="fs-2" />
+                Filter
+              </button>
+              <Fillter @filterData="handleFilter"></Fillter>
+            </VueCustomTooltip>
+            <VueCustomTooltip label="Thêm mới" position="is-top">
+              <button
+                type="button"
+                class="btn btn-sm fw-bold btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#kt_modal_new_target_group"
+                @click.passive="handleClick({}, 'add')"
+              >
+                <KTIcon icon-name="plus" icon-class="fs-2" />
+                Thêm
+              </button>
+            </VueCustomTooltip>
           </div>
         </div>
         <div v-show="selectedIds.length !== 0">
@@ -196,7 +201,7 @@
                   <label
                     class="d-flex align-items-center fs-6 fw-semobold mb-2"
                   >
-                    <span class="required">Email</span>
+                    <span>Email</span>
                   </label>
                   <Field
                     type="text"
@@ -217,7 +222,9 @@
                 </div>
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
-                <label class="fs-6 fw-semobold mb-2">Password Hash</label>
+                <label class="fs-6 fw-semobold mb-2 required"
+                  >Password Hash</label
+                >
                 <Field
                   as="textarea"
                   class="form-control form-control-solid"
@@ -233,9 +240,7 @@
                 </div>
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
-                <label class="fs-6 fw-semobold mb-2 required"
-                  >Password Crack</label
-                >
+                <label class="fs-6 fw-semobold mb-2">Password Crack</label>
                 <Field
                   type="text"
                   class="form-control form-control-solid"
@@ -254,9 +259,7 @@
                 </div>
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
-                <label class="fs-6 fw-semobold mb-2 required"
-                  >Nguồn dữ liệu</label
-                >
+                <label class="fs-6 fw-semobold mb-2">Nguồn dữ liệu</label>
                 <Field
                   type="text"
                   class="form-control form-control-solid"
@@ -288,13 +291,13 @@
                       as="select"
                       height="40px"
                       name="product_text"
-                      @change="removeErrorMsgOption"
                       class="input-group-lg"
                       v-model.lazy="apiData.country_id"
                     >
                       <el-option label="Chọn quốc gia" value=""
                         >Chọn quốc gia</el-option
                       >
+                      <el-option label="Khác" value="0"></el-option>
                       <el-option
                         v-for="item in countryList"
                         :key="item.id"
@@ -304,7 +307,7 @@
                     </el-select>
                     <div class="fv-plugins-message-container">
                       <div class="fv-help-block">
-                        <ErrorMessage name="country" />
+                        <ErrorMessage name="country_id" />
                         <span class="" v-if="errors.country_id">{{
                           errors.country_id[0]
                         }}</span>
@@ -332,9 +335,10 @@
             <!--begin::Button-->
             <button
               ref="discardButtonRef"
-              type="reset"
+              type="button"
               id="kt_modal_new_target_group_cancel"
               class="btn btn-sm btn-light me-3"
+              data-bs-dismiss="modal"
             >
               Hủy bỏ
             </button>
@@ -405,14 +409,8 @@
           </p>
         </div>
         <!--end::Form-->
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-sm btn-light"
-            data-bs-dismiss="modal"
-          >
-            Hủy bỏ
-          </button>
+        <div class="modal-footer" data-bs-dismiss="modal">
+          <button type="button" class="btn btn-sm btn-light">Hủy bỏ</button>
           <button
             type="button"
             class="btn btn-sm btn-primary"
@@ -565,9 +563,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive } from "vue";
+<script setup lang="ts">
+import { ref, onMounted, reactive } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import ApiService from "@/core/services/ApiService";
@@ -586,14 +583,14 @@ import { Modal } from "bootstrap";
 import dayjs from "dayjs";
 
 const accountLeakList = ref<object | any>([]);
-
+const vDebounce = vue3Debounce({ lock: true });
 interface APIData {
   email: string;
   username: string;
   password_hash: string;
   password_crack: string;
   source_data: string;
-  country_id: string;
+  country_id: number;
   is_ok: boolean;
 }
 const headerConfig = ref([
@@ -638,416 +635,371 @@ const headerConfig = ref([
     columnWidth: 50,
   },
 ]);
-export default defineComponent({
-  name: "account-leak-list",
 
-  components: {
-    KTDatatable,
-    ErrorMessage,
-    Field,
-    VForm,
-    Fillter,
-    importAccountLeak,
+const totalPage = ref<number>(0);
+const currentPage = ref<number>(1);
+const itemsPerPage = ref<number>(20);
+const query = ref<String>("");
+const orderingID = ref<String>("");
+const typeModal = ref<String>("");
+const id = ref<number>(0);
+const nameType = ref<string>("");
+
+const apiData = ref<APIData>({
+  email: "",
+  username: "",
+  password_hash: "",
+  password_crack: "",
+  source_data: "",
+  country_id: 0,
+  is_ok: false,
+});
+
+const errors = reactive({
+  username: "",
+  email: "",
+  password_hash: "",
+  password_crack: "",
+  source_data: "",
+  country_id: "",
+  country: "",
+  detail: "",
+});
+const detailData = reactive({
+  id: "",
+  email: "",
+  password_hash: "",
+  password_crack: "",
+  source_data: "",
+  country: "",
+  country_id: "",
+  hash_type: [],
+  username: "",
+  is_ok: false,
+  modified_at: "",
+  created_at: "",
+});
+
+interface CountryItem {
+  id: number;
+  name: string;
+}
+interface CountryList extends Array<CountryItem> {}
+
+const discardButtonRef = ref<HTMLElement | null>(null);
+const ModalDetail = ref<null | HTMLElement>(null);
+const loading = ref<boolean>(false);
+const countryList = ref<CountryList>([
+  {
+    id: 0,
+    name: "Khác",
   },
-  directives: {
-    debounce: vue3Debounce({ lock: true }),
-  },
-  setup() {
-    const totalPage = ref<number>(0);
-    const currentPage = ref<number>(1);
-    const itemsPerPage = ref<number>(20);
-    const query = ref<String>("");
-    const orderingID = ref<String>("");
-    const typeModal = ref<String>("");
-    const id = ref<number>(0);
-    const nameType = ref<string>("");
-
-    const apiData = ref<APIData>({
-      email: "",
-      username: "",
-      password_hash: "",
-      password_crack: "",
-      source_data: "",
-      country_id: "",
-      is_ok: false,
+]);
+const getCountryList = () => {
+  return ApiService.get("/countries")
+    .then(({ data }) => {
+      countryList.value = data;
+    })
+    .catch(({ response }) => {
+      notification(
+        response.data.detail,
+        "error",
+        "Không tải được danh sách quốc gia",
+      );
     });
+};
+// Khai báo header
 
-    const errors = reactive({
-      username: "",
-      email: "",
-      password_hash: "",
-      password_crack: "",
-      source_data: "",
-      country_id: 0,
-      country: "",
-      detail: "",
+const handleClick = (data: object | any, type: String) => {
+  typeModal.value = type;
+  for (let key in errors) {
+    errors[key] = "";
+  }
+
+  if (Object.keys(data).length != 0 && type === "edit") {
+    nameType.value = "Chỉnh sửa tài khoản rò rỉ";
+    console.log(data);
+    apiData.value.email = data.email;
+    apiData.value.username = data.username;
+    apiData.value.password_hash = data.password_hash;
+    apiData.value.password_crack = data.password_crack;
+    apiData.value.source_data = data.source_data;
+    apiData.value.country_id = data.country_id;
+    apiData.value.is_ok = data.is_ok;
+    id.value = data.id;
+  } else {
+    nameType.value = "Thêm tài khoản rò rỉ mới";
+    apiData.value.email = "";
+    apiData.value.username = "";
+    apiData.value.password_hash = "";
+    apiData.value.password_crack = "";
+    apiData.value.source_data = "";
+    apiData.value.country_id = 0;
+    apiData.value.is_ok = false;
+    for (let key in errors) {
+      errors[key] = "";
+    }
+    if (discardButtonRef.value !== null) {
+      discardButtonRef.value.click();
+    }
+    // resetData();
+  }
+};
+
+// const resetData = () => {
+//   apiData.value.username = '';
+//   apiData.value.password_hash = '';
+//   id.value = 0;
+// }
+
+const handlePage = (page: number) => {
+  currentPage.value = page ?? 1;
+  getData();
+};
+
+const truncateText = (text: string, maxLength: number) => {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + "...";
+  }
+  return text;
+};
+
+const handlePerPage = (itemsPage: number) => {
+  currentPage.value = 1;
+  itemsPerPage.value = itemsPage ?? 20;
+  getData();
+};
+
+const getData = () => {
+  loading.value = true;
+  setTimeout(() => (loading.value = false), 500);
+  return ApiService.get(
+    `account-leak/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`,
+  )
+    .then(({ data }) => {
+      accountLeakList.value = data.results;
+      totalPage.value = data.count;
+    })
+    .catch(({ response }) => {
+      notification(response.data.detail, "error", "Có lỗi xảy ra");
     });
-    const detailData = reactive({
-      id: "",
-      email: "",
-      password_hash: "",
-      password_crack: "",
-      source_data: "",
-      country: "",
-      country_id: "",
-      hash_type: [],
-      username: "",
-      is_ok: false,
-      modified_at: "",
-      created_at: "",
-    });
-    const discardButtonRef = ref<HTMLElement | null>(null);
-    const ModalDetail = ref<null | HTMLElement>(null);
-    const loading = ref<boolean>(false);
-    const countryList = ref([
-      {
-        id: 0,
-        name: "Vui lòng đợi danh sách quốc gia được tải về",
-      },
-    ]);
-    const getCountryList = () => {
-      return ApiService.get("/countries")
-        .then(({ data }) => {
-          countryList.value = data;
-        })
-        .catch(({ response }) => {
-          notification(
-            response.data.detail,
-            "error",
-            "Không tải được danh sách quốc gia",
-          );
-        });
-    };
-    // Khai báo header
+};
 
-    const handleClick = (data: object | any, type: String) => {
-      typeModal.value = type;
-      errors.username = "";
-      errors.email = "";
-      errors.password_hash = "";
-      (errors.password_crack = ""),
-        (errors.source_data = ""),
-        (errors.country = ""),
-        (errors.detail = "");
-      if (Object.keys(data).length != 0 && type === "edit") {
-        nameType.value = "Chỉnh sửa tài khoản rò rỉ";
-        console.log(data);
-        apiData.value.email = data.email;
-        apiData.value.username = data.username;
-        apiData.value.password_hash = data.password_hash;
-        apiData.value.password_crack = data.password_crack;
-        apiData.value.source_data = data.source_data;
-        apiData.value.country_id = data.country_id;
-        apiData.value.is_ok = data.is_ok;
-        id.value = data.id;
-      } else {
-        nameType.value = "Thêm tài khoản rò rỉ mới";
-        apiData.value.email = "";
-        if (discardButtonRef.value !== null) {
-          discardButtonRef.value.click();
-        }
-        // resetData();
-      }
-    };
+const selectedIds = ref<Array<number>>([]);
+const deleteFewSubscriptions = () => {
+  deleteSubscription(selectedIds.value);
+};
 
-    // const resetData = () => {
-    //   apiData.value.username = '';
-    //   apiData.value.password_hash = '';
-    //   id.value = 0;
-    // }
+const removeErrorMsgText = () => {
+  errors.username = "";
+  errors.email = "";
+  errors.password_crack = "";
+  errors.password_hash = "";
+};
 
-    const handlePage = (page: number) => {
-      currentPage.value = page ?? 1;
-      getData();
-    };
-
-    const truncateText = (text: string, maxLength: number) => {
-      if (text.length > maxLength) {
-        return text.substring(0, maxLength) + "...";
-      }
-      return text;
-    };
-
-    const handlePerPage = (itemsPage: number) => {
-      currentPage.value = 1;
-      itemsPerPage.value = itemsPage ?? 20;
-      getData();
-    };
-
-    const getData = () => {
-      loading.value = true;
-      setTimeout(() => (loading.value = false), 500);
-      return ApiService.get(
-        `account-leak/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`,
-      )
-        .then(({ data }) => {
-          accountLeakList.value = data.results;
-          totalPage.value = data.count;
-        })
-        .catch(({ response }) => {
-          notification(response.data.detail, "error", "Có lỗi xảy ra");
-        });
-    };
-
-    const selectedIds = ref<Array<number>>([]);
-    const deleteFewSubscriptions = () => {
-      deleteSubscription(selectedIds.value);
-    };
-    const removeErrorMsgOption = () => {
-      apiData.value.email !== "" ? (errors.email = "") : "";
-    };
-
-    const removeErrorMsgText = () => {
-      errors.username = "";
-    };
-
-    const ModalDelete = ref<null | HTMLElement>(null);
-    const deleteSubscription = (ids: Array<number>) => {
-      let formData = {
-        id: ids,
-      };
-      if (ids) {
-        return ApiService.post(`account-leak/delete`, formData)
-          .then(({ data }) => {
-            notification(data.detail, "success", "Xóa thành công");
-            currentPage.value = 1;
-            selectedIds.value.length = 0;
-            getData();
-          })
-          .catch(({ response }) => {
-            notification(response.data.detail, "error", "Có lỗi xảy ra");
-          });
-      }
-    };
-
-    const sort = (sort: Sort) => {
-      if (sort.label) {
-        orderingID.value =
-          sort.order === "asc" ? `${sort.label}` : `-${sort.label}`;
-      }
-      getData();
-    };
-    const customRowTable = (detail: any) => {
-      if (detail) {
-        detailData.id = detail.id;
-        detailData.email = detail.email;
-        detailData.username = detail.username;
-        detailData.password_hash = detail.password_hash;
-        detailData.hash_type = detail.hash_type;
-        detailData.password_crack = detail.password_crack;
-        detailData.source_data = detail.source_data;
-        detailData.country = detail.country;
-        detailData.country_id = detail.country_id;
-        detailData.is_ok = detail.is_ok;
-        detailData.modified_at = detail.modified_at;
-        detailData.created_at = detail.created_at;
-        const modal = new Modal(
-          document.getElementById("kt_modal_detail") as Element,
-        );
-        modal.show();
-      } else {
-        notification("", "error", "Có lỗi xảy ra");
-      }
-    };
-
-    const onItemSelect = (selectedItems: Array<number>) => {
-      selectedIds.value = selectedItems;
-    };
-
-    // validate start
-    const submitButtonRef = ref<null | HTMLButtonElement>(null);
-    const modalRef = ref<null | HTMLElement>(null);
-    const newTargetGroupModalRef = ref<null | HTMLElement>(null);
-    const usernameMatchingPattern = /[0-9a-zA-Z]+$/;
-
-    const validationSchema = Yup.object().shape({
-      username: Yup.string()
-        .matches(usernameMatchingPattern, "Tên người dùng không hợp lệ")
-        .required("Vui lòng nhập tên người dùng"),
-    });
-
-    const notification = (values: string, icon: string, more: string) => {
-      Swal.fire({
-        text: values ?? more,
-        icon: icon,
-        buttonsStyling: false,
-        confirmButtonText: "Okay!",
-        heightAuto: false,
-        customClass: {
-          confirmButton: "btn btn-primary",
-        },
-      }).then(() => {
-        hideModal(newTargetGroupModalRef.value);
-        hideModal(ModalDelete.value);
-        hideModal(ModalDetail.value);
-      });
-    };
-
-    const submit = async () => {
-      if (!submitButtonRef.value) {
-        return;
-      }
-      let formData = {
-        username: apiData.value.username,
-        email: apiData.value.email ?? "",
-        password_hash: apiData.value.password_hash,
-        password_crack: apiData.value.password_crack,
-        source_data: apiData.value.source_data,
-        country_id: apiData.value.country_id,
-      };
-      if (typeModal.value == "edit") {
-        formData["is_ok"] = apiData.value.is_ok;
-      }
-      if (typeModal.value == "add") {
-        return ApiService.post("account-leak/create", formData)
-          .then(({ data }) => {
-            if (submitButtonRef.value) {
-              //Disable button
-              submitButtonRef.value.disabled = true;
-              // Activate indicator
-              submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-              setTimeout(() => {
-                if (submitButtonRef.value) {
-                  submitButtonRef.value.disabled = false;
-                  submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                }
-                notification(data.detail, "success", "Thêm mới thành công");
-                getData();
-              }, 1000);
-            }
-          })
-          .catch(({ response }) => {
-            if (response?.data) {
-              errors.username = response.data.username;
-              errors.email = response.data.email;
-              errors.password_hash = response.data.password_hash;
-              errors.password_crack = response.data.password_crack;
-              errors.source_data = response.data.source_data;
-              errors.country = response.data.country;
-              errors.detail = response.data.detail;
-            } else {
-              notification(response?.data?.detail, "error", "Có lỗi xảy ra");
-            }
-          });
-      } else {
-        return ApiService.put(`/account-leak/${id.value}/update/`, formData)
-          .then(({ data }) => {
-            if (submitButtonRef.value) {
-              //Disable button
-              submitButtonRef.value.disabled = true;
-              // Activate indicator
-              submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-              setTimeout(() => {
-                if (submitButtonRef.value) {
-                  submitButtonRef.value.disabled = false;
-                  submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                }
-                notification(
-                  data.detail,
-                  "success",
-                  "Thao tác thực hiện thành công",
-                );
-                getData();
-              }, 1000);
-            }
-          })
-          .catch(({ response }) => {
-            if (response.data) {
-              errors.username = response.data.username;
-              errors.email = response.data.email;
-              errors.password_hash = response.data.password_hash;
-              errors.password_crack = response.data.password_crack;
-              errors.source_data = response.data.source_data;
-              errors.country = response.data.country;
-              errors.detail = response.data.detail;
-              console.log(errors);
-            } else {
-              notification(response.data.detail, "error", "Có lỗi xảy ra");
-            }
-          });
-      }
-    };
-
-    const formatDate = (date: string) => {
-      if (date === "false" || date === "null") {
-        return "--:--";
-      }
-      const dateFormat = "DD/MM/YYYY HH:mm:ss";
-      return dayjs(date).format(dateFormat);
-    };
-
-    // end validate
-
-    // tìm kiếm
-    const setQuery = event => {
-      query.value = event.target.value;
-      currentPage.value = 1;
-    };
-
-    const handleFilter = (data: any) => {
-      if (data) {
-        query.value = data.search_query;
+const ModalDelete = ref<null | HTMLElement>(null);
+const deleteSubscription = (ids: Array<number>) => {
+  let formData = {
+    id: ids,
+  };
+  if (ids) {
+    return ApiService.post(`account-leak/delete`, formData)
+      .then(({ data }) => {
+        notification(data.detail, "success", "Xóa thành công");
+        currentPage.value = 1;
+        selectedIds.value.length = 0;
         getData();
-      } else {
-        notification("Có lỗi với filter", "error", "Có lỗi xảy ra");
-      }
-    };
+      })
+      .catch(({ response }) => {
+        notification(response.data.detail, "error", "Có lỗi xảy ra");
+      });
+  }
+};
 
-    onMounted(() => {
-      getData();
-      getCountryList();
-    });
+const sort = (sort: Sort) => {
+  if (sort.label) {
+    orderingID.value =
+      sort.order === "asc" ? `${sort.label}` : `-${sort.label}`;
+  }
+  getData();
+};
+const customRowTable = (detail: any) => {
+  if (detail) {
+    detailData.id = detail.id;
+    detailData.email = detail.email;
+    detailData.username = detail.username;
+    detailData.password_hash = detail.password_hash;
+    detailData.hash_type = detail.hash_type;
+    detailData.password_crack = detail.password_crack;
+    detailData.source_data = detail.source_data;
+    detailData.country = detail.country;
+    detailData.country_id = detail.country_id;
+    detailData.is_ok = detail.is_ok;
+    detailData.modified_at = detail.modified_at;
+    detailData.created_at = detail.created_at;
+    const modal = new Modal(
+      document.getElementById("kt_modal_detail") as Element,
+    );
+    modal.show();
+  } else {
+    notification("", "error", "Có lỗi xảy ra");
+  }
+};
 
-    return {
-      hostname: import.meta.env.VITE_APP_API_URL,
-      getData,
-      accountLeakList,
-      headerConfig,
-      sort,
-      onItemSelect,
-      selectedIds,
-      deleteFewSubscriptions,
-      deleteSubscription,
-      getAssetPath,
-      truncateText,
-      // validate
-      // crud
-      apiData,
-      validationSchema,
-      submit,
-      submitButtonRef,
-      modalRef,
-      newTargetGroupModalRef,
-      handleClick,
-      errors,
-      ModalDelete,
-      discardButtonRef,
-      notification,
-      // detials
-      ModalDetail,
-      customRowTable,
-      detailData,
-      // page
-      itemsPerPage,
-      totalPage,
-      currentPage,
-      handlePage,
-      handlePerPage,
+const onItemSelect = (selectedItems: Array<number>) => {
+  selectedIds.value = selectedItems;
+};
 
-      // search query
-      query,
-      setQuery,
-      handleFilter,
+// validate start
+const submitButtonRef = ref<null | HTMLButtonElement>(null);
+const modalRef = ref<null | HTMLElement>(null);
+const newTargetGroupModalRef = ref<null | HTMLElement>(null);
+const usernameMatchingPattern = /[0-9a-zA-Z]+$/;
 
-      // edit
-      nameType,
-      formatDate,
-      loading,
-      countryList,
-      typeModal,
-      removeErrorMsgOption,
-      removeErrorMsgText,
-    };
-  },
+const validationSchema = Yup.object().shape({
+  username: Yup.string().when("email", {
+    is: "",
+    then: schema => schema.required("Hãy điền vào Username hoặc Email"),
+    otherwise: schema => schema.min(0),
+  }),
+  email: Yup.string(),
+  password_hash: Yup.string().when("password_crack", {
+    is: "",
+    then: schema =>
+      schema.required("Hãy điền vào Password Hash hoặc Password Crack"),
+    otherwise: schema => schema.min(0),
+  }),
+  password_crack: Yup.string().nullable(),
+  // country_id: Yup.number().required("Hãy lựa chọn một quốc gia"),
+});
+
+// field: email, username, password, password_hash, source_data, country
+
+const notification = (values: string, icon: string, more: string) => {
+  Swal.fire({
+    text: values ?? more,
+    icon: icon,
+    buttonsStyling: false,
+    confirmButtonText: "Okay!",
+    heightAuto: false,
+    customClass: {
+      confirmButton: "btn btn-primary",
+    },
+  }).then(() => {
+    hideModal(newTargetGroupModalRef.value);
+    hideModal(ModalDelete.value);
+    hideModal(ModalDetail.value);
+  });
+};
+
+const submit = async () => {
+  if (!submitButtonRef.value) {
+    return;
+  }
+  let formData = {
+    username: apiData.value.username,
+    email: apiData.value.email ?? "",
+    password_hash: apiData.value.password_hash,
+    password_crack: apiData.value.password_crack,
+    source_data: apiData.value.source_data,
+    country_id: apiData.value.country_id,
+  };
+  if (typeModal.value == "edit") {
+    formData["is_ok"] = apiData.value.is_ok;
+  }
+  if (typeModal.value == "add") {
+    return ApiService.post("account-leak/create", formData)
+      .then(({ data }) => {
+        if (submitButtonRef.value) {
+          //Disable button
+          submitButtonRef.value.disabled = true;
+          // Activate indicator
+          submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+          setTimeout(() => {
+            if (submitButtonRef.value) {
+              submitButtonRef.value.disabled = false;
+              submitButtonRef.value?.removeAttribute("data-kt-indicator");
+            }
+            notification(data.detail, "success", "Thêm mới thành công");
+            getData();
+          }, 1000);
+        }
+      })
+      .catch(({ response }) => {
+        if (response?.data) {
+          errors.username = response.data.username;
+          errors.email = response.data.email;
+          errors.password_hash = response.data.password_hash;
+          errors.password_crack = response.data.password_crack;
+          errors.source_data = response.data.source_data;
+          errors.country = response.data.country;
+          errors.detail = response.data.detail;
+        } else {
+          notification(response?.data?.detail, "error", "Có lỗi xảy ra");
+        }
+      });
+  } else {
+    return ApiService.put(`/account-leak/${id.value}/update/`, formData)
+      .then(({ data }) => {
+        if (submitButtonRef.value) {
+          //Disable button
+          submitButtonRef.value.disabled = true;
+          // Activate indicator
+          submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+          setTimeout(() => {
+            if (submitButtonRef.value) {
+              submitButtonRef.value.disabled = false;
+              submitButtonRef.value?.removeAttribute("data-kt-indicator");
+            }
+            notification(
+              data.detail,
+              "success",
+              "Thao tác thực hiện thành công",
+            );
+            getData();
+          }, 1000);
+        }
+      })
+      .catch(({ response }) => {
+        if (response.data) {
+          errors.username = response.data.username;
+          errors.email = response.data.email;
+          errors.password_hash = response.data.password_hash;
+          errors.password_crack = response.data.password_crack;
+          errors.source_data = response.data.source_data;
+          errors.country = response.data.country;
+          errors.detail = response.data.detail;
+        } else {
+          notification(response.data.detail, "error", "Có lỗi xảy ra");
+        }
+      });
+  }
+};
+
+const formatDate = (date: string) => {
+  if (date === "false" || date === "null") {
+    return "--:--";
+  }
+  const dateFormat = "DD/MM/YYYY HH:mm:ss";
+  return dayjs(date).format(dateFormat);
+};
+
+const setQuery = event => {
+  query.value = event.target.value;
+  currentPage.value = 1;
+};
+
+const handleFilter = (data: any) => {
+  if (data) {
+    query.value = data.search_query;
+    getData();
+  } else {
+    notification("Có lỗi với filter", "error", "Có lỗi xảy ra");
+  }
+};
+
+onMounted(() => {
+  getData();
+  getCountryList();
 });
 </script>
