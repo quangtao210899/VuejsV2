@@ -139,7 +139,7 @@
     </div>
 
     <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-        <div class="modal-dialog modal-dialog-centered mw-850px">
+        <div class="modal-dialog modal-dialog-centered mw-700px">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="card card-flush pt-3 mb-5 mb-xl-10">
@@ -161,8 +161,8 @@
                                                 <div class="row">
                                                     <template v-for="(pair, pairIndex) in recon.children" :key="pairIndex">
                                                         <div v-if="pair.active" class="col-6 d-inline-block mb-2" style="float: left;">
-                                                            <li class="d-flex align-items-center">
-                                                                <span class="bullet me-3 m-0"></span><span class="text-gray-800">{{ pair.title }}</span>
+                                                            <li class="d-flex align-items-center" style="padding: 5px 0px 0px 10px;">
+                                                                <span class="bullet bullet-dot bg-primary h-5px w-5px me-2"></span><span class="text-gray-800">{{ pair.title }}</span>
                                                             </li>
                                                         </div>
                                                     </template>
@@ -170,7 +170,7 @@
                                             </template>
                                             <div class="row mb-4 ">
                                                 <div class="text-gray-400 col-6">Trạng thái:</div>
-                                                <span :class="`badge badge-${getStatus(detailData.status).color} col-2`">{{ detailData.statusName }}</span>
+                                                <span :class="`badge badge-${getStatus(detailData.status).color} col-2`" style="margin-left:10px;">{{ detailData.statusName }}</span>
                                             </div>
                                             <div class="row mb-4">
                                                 <div class="text-gray-400 col-6">Thời gian bắt đầu:</div>
