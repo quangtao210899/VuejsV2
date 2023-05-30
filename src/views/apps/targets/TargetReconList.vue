@@ -23,7 +23,8 @@
                         <div class="fw-bold me-5">
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
-                        <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
+                        <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                            class="btn btn-danger btn-sm ">
                             Delete Selected
                         </button>
                     </div>
@@ -37,12 +38,14 @@
                 @customRow="customRowTable">
                 <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
                 <template v-slot:user="{ row: customer }">{{ customer.user.username }}</template>
-                <template v-slot:status_name="{ row: customer }"><span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--' }}</span></template>
+                <template v-slot:status_name="{ row: customer }"><span
+                        :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--'
+                        }}</span></template>
                 <template v-slot:created_at="{ row: customer }">
                     {{ customer.created_at }}
                 </template>
                 <template v-slot:modified_at="{ row: customer }">
-                    {{ (customer.status==2 || customer.status==1) ? "--:--" : customer.modified_at }}
+                    {{ (customer.status == 2 || customer.status == 1) ? "--:--" : customer.modified_at }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
@@ -65,8 +68,7 @@
                     </div>
                 </div>
 
-                <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
-                >
+                <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit">
                     <div class="modal-body py-10 px-lg-17">
                         <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
                             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
@@ -74,18 +76,18 @@
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
                             <div class="fv-plugins-message-container">
                                 <div class="fv-help-block">
-                                    <span class="" v-if="errors.tree">{{ Array.isArray(errors.tree) ? errors.tree[0] : errors.tree }}</span>
+                                    <span class="" v-if="errors.tree">{{ Array.isArray(errors.tree) ? errors.tree[0] :
+                                        errors.tree }}</span>
                                 </div>
                             </div>
-                            <el-tree
-                                ref="treeRef"
-                                :data="dataFormCreate"
-                                show-checkbox
-                                node-key="id"
-                                :default-expanded-keys="['0-0']"
-                                :props="defaultProps"
-                                class="custom-tree"
-                            />
+                            <el-tree ref="treeRef" :data="dataFormCreate" show-checkbox :node-key="node => node.id"
+                                :default-expanded-keys="['0-0']" :props="defaultProps" class="custom-tree">
+                                <template v-slot="{ node, data }">
+                                    <span class="custom-tree-node">
+                                        <span @click="handleLabelClick(node, data)">{{ node.label }}</span>
+                                    </span>
+                                </template>
+                            </el-tree>
                         </div>
                     </div>
 
@@ -94,8 +96,8 @@
                             class="btn btn-sm  btn-light me-3">
                             Discard
                         </button>
-                        <button ref="submitButtonRef" type="submit" @click="getCheckedKeys" id="kt_modal_new_target_group_submit"
-                            class="btn btn-sm  btn-primary">
+                        <button ref="submitButtonRef" type="submit" @click="getCheckedKeys"
+                            id="kt_modal_new_target_group_submit" class="btn btn-sm  btn-primary">
                             <span class="indicator-label"> Submit </span>
                             <span class="indicator-progress">
                                 Please wait...
@@ -145,7 +147,8 @@
                     <div class="card card-flush pt-3 mb-5 mb-xl-10">
                         <div class="card-header">
                             <div class="card-title">
-                                <h1 class="fw-bold"><span class="text-gray-400">Người recon:</span> <span class="text-gray-800">{{ detailData.username }}</span></h1>
+                                <h1 class="fw-bold"><span class="text-gray-400">Người recon:</span> <span
+                                        class="text-gray-800">{{ detailData.username }}</span></h1>
                             </div>
                         </div>
                         <div class="card-body py-0">
@@ -160,9 +163,13 @@
                                                 </div>
                                                 <div class="row">
                                                     <template v-for="(pair, pairIndex) in recon.children" :key="pairIndex">
-                                                        <div v-if="pair.active" class="col-6 d-inline-block mb-2" style="float: left;">
-                                                            <li class="d-flex align-items-center" style="padding: 5px 0px 0px 10px;">
-                                                                <span class="bullet bullet-dot bg-primary h-5px w-5px me-2"></span><span class="text-gray-800">{{ pair.title }}</span>
+                                                        <div v-if="pair.active" class="col-6 d-inline-block mb-2"
+                                                            style="float: left;">
+                                                            <li class="d-flex align-items-center"
+                                                                style="padding: 5px 0px 0px 10px;">
+                                                                <span
+                                                                    class="bullet bullet-dot bg-primary h-5px w-5px me-2"></span><span
+                                                                    class="text-gray-800">{{ pair.title }}</span>
                                                             </li>
                                                         </div>
                                                     </template>
@@ -170,15 +177,17 @@
                                             </template>
                                             <div class="row mb-4 ">
                                                 <div class="text-gray-400 col-6">Trạng thái:</div>
-                                                <span :class="`badge badge-${getStatus(detailData.status).color} col-2`" style="margin-left:10px;">{{ detailData.statusName }}</span>
+                                                <span :class="`badge badge-${getStatus(detailData.status).color} col-2`"
+                                                    style="margin-left:10px;">{{ detailData.statusName }}</span>
                                             </div>
                                             <div class="row mb-4">
                                                 <div class="text-gray-400 col-6">Thời gian bắt đầu:</div>
-                                                <div class="text-gray-800 col-6">{{ detailData.created_at}}</div>
+                                                <div class="text-gray-800 col-6">{{ detailData.created_at }}</div>
                                             </div>
                                             <div class="row mb-4">
                                                 <div class="text-gray-400 col-6">Thời gian kết thúc:</div>
-                                                <div class="text-gray-800 col-6">{{ (detailData.status=='2' || detailData.status== '1' ) ? "--:--" : detailData.modified_at }}</div>
+                                                <div class="text-gray-800 col-6">{{ (detailData.status == '2' ||
+                                                    detailData.status == '1') ? "--:--" : detailData.modified_at }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -196,9 +205,7 @@
         </div>
     </div>
 </template>
-<style>
-
-</style>
+<style></style>
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
@@ -211,7 +218,7 @@ import ApiService from "@/core/services/ApiService";
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
-import { ElTree } from 'element-plus'
+import { ElTree } from 'element-plus';
 import Fillter from "@/views/apps/targets/filterTargetScan.vue";
 
 import * as Yup from "yup";
@@ -225,6 +232,13 @@ interface APIData {
     created_at: string;
     modified_at: string;
     user: string;
+}
+interface TreeNode {
+    id: number;
+    label: string;
+    checked: boolean;
+    children?: TreeNode[];
+    parent?: TreeNode;
 }
 
 interface Errors {
@@ -324,7 +338,7 @@ export default defineComponent({
                 return 'Tuần tự'
             } else if (speed == 2) {
                 return 'Chậm'
-            }  else if (speed == 3) {
+            } else if (speed == 3) {
                 return 'Trung bình'
             }
 
@@ -684,7 +698,7 @@ export default defineComponent({
                 ],
             },
         ]);
-        
+
         const discardButtonRef = ref<HTMLElement | null>(null);
         const ModalDetail = ref<null | HTMLElement>(null);
         const loading = ref<boolean>(false)
@@ -769,10 +783,10 @@ export default defineComponent({
         const getData = () => {
             loading.value = true;
             let target_id = getIdFromUrl()
-            
+
             setTimeout(() => loading.value = false, 500)
             return ApiService.get(`/recon/${target_id}/target?search_recon=${query.value}&search_status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
-                .then(({ data }) => {  
+                .then(({ data }) => {
                     list.value = data.results
                     totalPage.value = data.count
                 })
@@ -854,8 +868,8 @@ export default defineComponent({
         })
 
         const validationSchema = () => {
-            let checkedKey: string[]  = [],
-                expandedKey: string[]  = [];
+            let checkedKey: string[] = [],
+                expandedKey: string[] = [];
             let selectedKey = getCheckedKeys()
             if (getCheckedKeys().length == 0) {
                 toastr.error('Bạn phải chọn ít nhất một recon', { position: 'top-right' });
@@ -875,15 +889,15 @@ export default defineComponent({
 
                 const mergedArray = [...new Set([...selectedKey, ...checkedKey])];
                 console.log(mergedArray);
-                
+
                 treeRef.value!.setCheckedKeys(mergedArray, false)
-                
+
 
                 if (errors.notifi_error_select.length) {
                     for (let i = 0; i < errors.notifi_error_select.length; i++) {
                         const error = errors.notifi_error_select[i];
                         toastr.error(error, { position: 'top-right' });
-                    }    
+                    }
                     errors.notifi_error_select = []
 
                     return true
@@ -909,7 +923,7 @@ export default defineComponent({
                 hideModal(ModalDetail.value);
             });
         }
-        
+
         const eyeButtonRef = ref<boolean>(false);
         const eyePassword = () => {
             eyeButtonRef.value = (eyeButtonRef.value) ? false : true;
@@ -919,7 +933,7 @@ export default defineComponent({
             if (!submitButtonRef.value) {
                 return;
             }
-            
+
             if (validationSchema()) {
                 return
             }
@@ -928,8 +942,8 @@ export default defineComponent({
                 let dataTree = dataFormCreate.value[0]['children']
                 let checkedKey = getCheckedKeys();
 
-                let arr: string[]  = [];
-                
+                let arr: string[] = [];
+
                 checkedKey.forEach((element) => {
                     if (typeof element === 'string' && element.length > 5) {
                         arr.push(element.slice(0, 5));
@@ -949,10 +963,10 @@ export default defineComponent({
                     })),
                     target_id: getIdFromUrl(),
                 }
-                
+
                 return ApiService.post("recon/create/", form_data)
                     .then(({ data }) => {
-                        if(submitButtonRef.value){
+                        if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;
                             // Activate indicator
@@ -962,7 +976,7 @@ export default defineComponent({
                                     submitButtonRef.value.disabled = false;
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
-                                
+
                                 notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
                                 getData();
 
@@ -972,7 +986,7 @@ export default defineComponent({
                     .catch(({ response }) => {
                         if (response?.data) {
                             errors.detail = response.data.detail;
-                            
+
                             notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                         } else {
                             notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
@@ -983,10 +997,10 @@ export default defineComponent({
 
 
         // end validate
-        const clearHeaderOptions = () => {            
+        const clearHeaderOptions = () => {
             scanFormState.headerOptionValue = []
         }
-        
+
         const handleFilter = (data: any) => {
             if (data) {
                 query.value = data.query;
@@ -998,12 +1012,38 @@ export default defineComponent({
             }
 
         };
+        function handleLabelClick(node, data) {
+            // Toggle the checked state of the clicked node
+            node.checked = !node.checked;
+            updateChildrenCheckedState(node);
+            updateParentCheckedState(node);
+        }
+
+        function updateChildrenCheckedState(node) {
+            // Update the checked state of the node's children
+            if (node.children) {
+                node.children.forEach((child) => {
+                    child.checked = node.checked;
+                    updateChildrenCheckedState(child);
+                });
+            }
+        }
+
+        function updateParentCheckedState(node) {
+            // Update the checked state of the node's parent
+            if (node.parent) {
+                const parent = node.parent;
+                parent.checked = parent.children.every((child) => child.checked);
+                updateParentCheckedState(parent);
+            }
+        }
 
         onMounted(() => {
             getData();
         });
 
         return {
+            handleLabelClick,
             getData,
             list,
             headerConfig,
