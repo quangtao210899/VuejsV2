@@ -36,11 +36,11 @@
           </form>
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+        <div class="modal-footer flex-center">
+          <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">
             Đóng
           </button>
-          <button type="button" class="btn btn-primary" @click="processUpload">
+          <button type="button" class="btn btn-sm btn-primary" @click="processUpload">
             Tải lên
           </button>
         </div>
