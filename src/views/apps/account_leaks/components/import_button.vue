@@ -9,7 +9,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Upload danh sách tài khoản</h5>
-
           <!--begin::Close-->
           <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
             <span class="svg-icon svg-icon-2x"></span>
@@ -29,13 +28,18 @@
           </form>
         </div>
 
-        <div class="modal-footer flex-center">
-          <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">
-            Đóng
-          </button>
-          <button type="button" class="btn btn-sm btn-primary" @click="processUpload">
-            Tải lên
-          </button>
+        <div class="modal-footer justify-content-between">
+          <div>
+            <a :href="url" download="example.xlsx">{{exampleFileName}}</a>
+          </div>
+          <div>
+            <button type="button" class="btn btn-sm btn-light me-2" data-bs-dismiss="modal">
+              Đóng
+            </button>
+            <button type="button" class="btn btn-sm btn-primary" @click="processUpload">
+              Tải lên
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -114,6 +118,10 @@ onMounted(() => {
     }
   });
 });
+
+const fileExample = 'example.xlsx'
+const url = import.meta.env.VITE_APP_API_URL + '/Storage/' + fileExample
+const exampleFileName = "Tải file mẫu"
 </script>
 <style>
 .dropzone .dz-preview .dz-filename {
