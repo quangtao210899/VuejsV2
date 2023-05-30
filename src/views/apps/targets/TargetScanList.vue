@@ -75,7 +75,7 @@
                     {{ customer.finished_at ?customer.finished_at : '--:--' }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
-                    <router-link :to="`/target-scanstab/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                    <router-link :to="`/target-scan-detail/${targetId}/${customer.id}/detail`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                         <KTIcon icon-name="eye" icon-class="fs-3" />
                     </router-link>
                 </template>
@@ -576,6 +576,7 @@ export default defineComponent({
                 return parseInt(idMatch[1]);
             }
         };
+        const targetId = getIdFromUrl();
         const getScanSpeedName = (speed: number | string) => {
             if (speed == 1) {
                 return 'Tuần tự'
@@ -936,6 +937,7 @@ export default defineComponent({
             headerInputValue,
             eyePassword,
             eyeButtonRef,
+            targetId
         };
     },
 });

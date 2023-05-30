@@ -46,12 +46,13 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/target-scanstab/:id",
+        path: "/target-scan-detail/:idScan/:id/detail",
         name: "target-scanstab",
         component: () => import("@/views/apps/targets/TargetScanTabList.vue"),
         meta: {
           pageTitle: "Chi tiết danh sách quét",
-          breadcrumbs: ["Target","Scan","Tabs"],
+          breadcrumbs: ["Target","Scan","DetailScan"],
+          links: ["/target-list",''],
         },
       },
       {
