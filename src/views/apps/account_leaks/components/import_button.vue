@@ -1,11 +1,6 @@
 <template>
-  <button
-    type="button"
-    class="btn btn-sm fw-bold btn-info me-2"
-    data-bs-toggle="modal"
-    data-bs-target="#kt_modal_1"
-  >
-    <KTIcon icon-name="bi bi-upload" icon-class="fs-2"/>
+  <button type="button" class="btn btn-sm fw-bold btn-info me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1">
+    <KTIcon icon-name="bi bi-upload" icon-class="fs-2" />
     Import
   </button>
 
@@ -16,11 +11,7 @@
           <h5 class="modal-title">Upload danh sách tài khoản</h5>
 
           <!--begin::Close-->
-          <div
-            class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
+          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
             <span class="svg-icon svg-icon-2x"></span>
           </div>
           <!--end::Close-->
@@ -31,8 +22,10 @@
             <div class="fallback">
               <input name="file" type="file" />
             </div>
-            <!-- <div class="previews"></div> -->
-            <!-- <button type="submit">Submit data and files!</button> -->
+            <div class="dz-message" data-dz-message>
+              <span>Tải lên tệp của bạn tại đây</span>
+            </div>
+            <div class="previews"></div>
           </form>
         </div>
 
@@ -48,20 +41,21 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { onMounted } from "vue";
 import Dropzone from "dropzone";
 import JwtService from "@/core/services/JwtService";
-const emit = defineEmits(["notify"]);
+const emit = defineEmits(["notify",'resetData']);
 
 let headers = {
   Authorization: `Bearer ${JwtService.getToken()}`,
   Accept: "application/json",
   "Cache-Control": null,
 };
-let dropzone;
+let dropzone: Dropzone | null;
 function processUpload() {
-  if (dropzone == null || dropzone.getAcceptedFiles() == 0) {
+  if (dropzone == null || dropzone.getQueuedFiles().length === 0) {
     emit(
       "notify",
       "Vui lòng chọn tệp để import vào hệ thống",
@@ -69,7 +63,7 @@ function processUpload() {
       "Hãy lựa chọn một tệp",
     );
   } else {
-    let files = dropzone.getAcceptedFiles();
+    let files = dropzone.getQueuedFiles();
     console.log(files);
     dropzone.processQueue();
   }
@@ -88,18 +82,41 @@ Dropzone.options.myForm = {
 };
 onMounted(() => {
   let myDropzone = new Dropzone("#my-form");
-  myDropzone.on("addedfile", file => {
+  myDropzone.on("addedfile", (file) => {
+    if (myDropzone.files.length > 1) {
+      myDropzone.removeFile(myDropzone.files[0]); // Xóa tệp cũ
+    }
+    let filenameElement = file.previewElement.querySelector(".dz-filename");
+    filenameElement.style.marginTop = "30px";
     file.previewElement.addEventListener("click", function () {
       myDropzone.removeFile(file);
     });
     dropzone = myDropzone;
   });
-  myDropzone.on("success", file => {
+  myDropzone.on("success", (file) => {
     myDropzone.removeAllFiles();
-    console.log(file.xhr.response);
     let res = JSON.parse(file.xhr.response);
-    console.log(res);
     emit("notify", res.detail.Errors.toString(), "info", "Thông tin thêm");
+    emit("resetData");
+  });
+  myDropzone.on("error", file => {
+    myDropzone.removeAllFiles();
+    let errorMessage = file.previewElement.querySelector(".dz-error-message");
+    if (errorMessage) {
+      file.previewElement.removeChild(errorMessage);
+    }
+    try {
+      const errorResponse = JSON.parse(file.xhr.response);
+      const errorMessage = errorResponse.file.detail ?? "Có lỗi xảy ra";
+      emit("notify", errorMessage, "error", "Lỗi");
+    } catch (error) {
+      emit("notify", "Có lỗi xảy ra", "error", "Lỗi");
+    }
   });
 });
 </script>
+<style>
+.dropzone .dz-preview .dz-filename {
+  margin-top: 5px;
+}
+</style>
