@@ -185,8 +185,8 @@
                   </label>
                   <el-form-item prop="assign">
                     <el-select filterable="true" placeholder="Chọn kiểu" as="select" height="40px" name="product_text"
-                      class="input-group-lg" v-model.lazy="apiData.country_id">
-                      <el-option label="Chọn quốc gia" value="">Chọn quốc gia</el-option>
+                      class="input-group-lg" v-model="apiData.country_id">
+                      <el-option label="Chọn quốc gia" value="" disabled>Chọn quốc gia</el-option>
                       <el-option label="Khác" value="0"></el-option>
                       <el-option v-for="item in countryList" :key="item.id" :label="item.name" :value="item.id" />
                     </el-select>
@@ -429,7 +429,7 @@ interface APIData {
   password_hash: string;
   password_crack: string;
   source_data: string;
-  country_id: number;
+  country_id: String;
   is_ok: boolean;
 }
 const headerConfig = ref([
@@ -490,7 +490,7 @@ const apiData = ref<APIData>({
   password_hash: "",
   password_crack: "",
   source_data: "",
-  country_id: 0,
+  country_id: "",
   is_ok: false,
 });
 
@@ -557,15 +557,15 @@ const handleClick = (data: object | any, type: String) => {
 
   if (Object.keys(data).length != 0 && type === "edit") {
     nameType.value = "Chỉnh sửa tài khoản rò rỉ";
-    console.log(data);
     apiData.value.email = data.email;
     apiData.value.username = data.username;
     apiData.value.password_hash = data.password_hash;
     apiData.value.password_crack = data.password_crack;
     apiData.value.source_data = data.source_data;
-    apiData.value.country_id = data.country_id;
+    apiData.value.country_id = data.country_id==0?'0': data.country_id;
     apiData.value.is_ok = data.is_ok;
     id.value = data.id;
+    console.log(apiData.value)
   } else {
     nameType.value = "Thêm tài khoản rò rỉ mới";
     apiData.value.email = "";
@@ -573,7 +573,7 @@ const handleClick = (data: object | any, type: String) => {
     apiData.value.password_hash = "";
     apiData.value.password_crack = "";
     apiData.value.source_data = "";
-    apiData.value.country_id = 0;
+    apiData.value.country_id = "";
     apiData.value.is_ok = false;
     for (let key in errors) {
       errors[key] = "";

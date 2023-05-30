@@ -33,7 +33,7 @@
 
         <el-form-item prop="assign">
           <el-select v-model="data.type" placeholder="Tìm kiếm theo quốc gia" name="type" as="select" height="40px"
-            class="input-group-lg">
+            class="input-group-lg" filterable="true">
             <el-option value="">Chọn nhóm quốc gia</el-option>
             <el-option value="0" label="Khác">Khác</el-option>
             <el-option :label="item.name" :value="item.id" v-for="item in countryList">{{ item.name
