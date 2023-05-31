@@ -125,7 +125,7 @@ onMounted(() => {
 });
 
 const fileExample = 'example_account_leaks.xlsx'
-const url = import.meta.env.VITE_APP_API_URL + '/Storage/' + fileExample
+const url = import.meta.env.VITE_APP_API_URL + '/Storage/accountLeak/' + fileExample
 const exampleFileName = "Tải file mẫu"
 import { hideModal } from "@/core/helpers/dom";
 const uploadModalRef = ref<null | HTMLElement>(null);
