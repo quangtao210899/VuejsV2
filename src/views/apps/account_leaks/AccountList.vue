@@ -14,7 +14,8 @@
             </VueCustomTooltip>
             <VueCustomTooltip label="Upload Account leaks" position="is-top">
               <importAccountLeak ref="importComponentRef" @notify="(info, noti_type, more_detail, hideImportModal) =>
-                notification(info, noti_type, more_detail, hideImportModal)" @resetData="()=> getData()" @confirm="(info, noti_type)=>comfirmDownload(info, noti_type)"/>
+                notification(info, noti_type, more_detail, hideImportModal)" @resetData="() => getData()"
+                @confirm="(info, noti_type) => comfirmDownload(info, noti_type)" />
             </VueCustomTooltip>
             <VueCustomTooltip label="Thêm mới" position="is-top">
               <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
@@ -101,7 +102,8 @@
                 <!--begin::Switch-->
                 <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="is_ok" v-model="apiData.is_ok" />
+                    <el-switch v-model="apiData.is_ok" class="ml-2"
+                      style="--el-switch-on-color: #13ce66; --el-switch-off-color: #f1416C" />
                     <span class="form-check-label user-select-none">Đã kiểm tra</span>
                   </label>
                 </div>
@@ -563,7 +565,7 @@ const handleClick = (data: object | any, type: String) => {
     apiData.value.password_hash = data.password_hash;
     apiData.value.password_crack = data.password_crack;
     apiData.value.source_data = data.source_data;
-    apiData.value.country_id = data.country_id==0?'0': data.country_id;
+    apiData.value.country_id = data.country_id == 0 ? '0' : data.country_id;
     apiData.value.is_ok = data.is_ok;
     id.value = data.id;
     console.log(apiData.value)
@@ -755,14 +757,14 @@ const comfirmDownload = (values: string, icon: string) => {
     } else if (result.dismiss === Swal.DismissReason.cancel) {
 
     }
-    if(importComponentRef.value){
+    if (importComponentRef.value) {
       importComponentRef.value.closeModal()
     }
   });
 };
 const downloadFile = async () => {
   try {
-    const response = await ApiService.query(`account-leak/import`,{
+    const response = await ApiService.query(`account-leak/import`, {
       responseType: 'blob'
     })
 
@@ -785,7 +787,7 @@ const downloadFile = async () => {
     // Giải phóng đường dẫn URL sau khi hoàn thành
     URL.revokeObjectURL(fileUrl);
   } catch (error: any) {
-    notification(error.detail?? 'Lỗi khi tải file','error')
+    notification(error.detail ?? 'Lỗi khi tải file', 'error')
     console.error('Lỗi khi tải file:', error);
   }
 }
