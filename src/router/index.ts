@@ -78,7 +78,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/account-leaks",
         name: "account-leaks",
-        component: () => import("@/views/apps/account_leaks/account_list.vue"),
+        component: () => import("@/views/apps/account_leaks/AccountList.vue"),
         meta: {
           pageTitle: "Tài khoản rò rỉ",
           breadcrumbs: ["Account Leaks"],

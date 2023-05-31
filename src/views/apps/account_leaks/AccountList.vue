@@ -413,8 +413,8 @@ import ApiService from "@/core/services/ApiService";
 // validate
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
-import Fillter from "@/views/apps/account_leaks/filter_account_leak.vue";
-import importAccountLeak from "@/views/apps/account_leaks/components/import_button.vue";
+import Fillter from "@/views/apps/account_leaks/filterAccountLeak.vue";
+import importAccountLeak from "@/views/apps/account_leaks/components/importButton.vue";
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
