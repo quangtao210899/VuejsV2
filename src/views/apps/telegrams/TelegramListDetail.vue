@@ -162,7 +162,7 @@
   <div class="modal fade" tabindex="-1" 
     ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
     <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered mw-600px">
       <!--begin::Modal content-->
       <div class="modal-content">
         <!--begin::Form-->
