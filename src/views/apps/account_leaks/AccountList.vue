@@ -13,8 +13,8 @@
               <Fillter @filterData="handleFilter" :country-list='countryList'></Fillter>
             </VueCustomTooltip>
             <VueCustomTooltip label="Upload Account leaks" position="is-top">
-              <importAccountLeak @notify="(info, noti_type, more_detail) =>
-                notification(info, noti_type, more_detail)" @resetData="()=> getData()" />
+              <importAccountLeak ref="importComponentRef" @notify="(info, noti_type, more_detail) =>
+                notification(info, noti_type, more_detail)" @resetData="()=> getData()" @confirm="(info, noti_type)=>comfirmDownload(info, noti_type)"/>
             </VueCustomTooltip>
             <VueCustomTooltip label="Thêm mới" position="is-top">
               <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
@@ -415,11 +415,13 @@ import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import Fillter from "@/views/apps/account_leaks/filterAccountLeak.vue";
 import importAccountLeak from "@/views/apps/account_leaks/components/importButton.vue";
-
+type ImportAccountLeakType = typeof importAccountLeak;
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
+
+const importComponentRef = ref<null | ImportAccountLeakType>(null);
 
 const accountLeakList = ref<object | any>([]);
 interface APIData {
@@ -713,7 +715,7 @@ const validationSchema = Yup.object().shape({
 
 // field: email, username, password, password_hash, source_data, country
 
-const notification = (values: string, icon: string, more: string) => {
+const notification = (values: string, icon: string, more: string = '') => {
   Swal.fire({
     text: values ?? more,
     icon: icon,
@@ -721,14 +723,72 @@ const notification = (values: string, icon: string, more: string) => {
     confirmButtonText: "Okay!",
     heightAuto: false,
     customClass: {
-      confirmButton: "btn btn-primary",
+      confirmButton: "btn btn-sm btn-primary",
     },
   }).then(() => {
     hideModal(newTargetGroupModalRef.value);
     hideModal(ModalDelete.value);
     hideModal(ModalDetail.value);
+    if (importComponentRef.value) {
+      importComponentRef.value.closeModal()
+    }
   });
 };
+
+const comfirmDownload = (values: string, icon: string) => {
+  Swal.fire({
+    text: values,
+    icon: icon,
+    buttonsStyling: false,
+    showCancelButton: true,
+    cancelButtonText: "Hủy bỏ",
+    confirmButtonText: "Tải file lỗi",
+    heightAuto: false,
+    customClass: {
+      cancelButton: "btn btn-sm btn-primary",
+      confirmButton: "btn btn-sm btn-danger",
+    },
+    reverseButtons: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      downloadFile()
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+    }
+    if(importComponentRef.value){
+      importComponentRef.value.closeModal()
+    }
+  });
+};
+const downloadFile = async () => {
+  try {
+    const response = await ApiService.query(`account-leak/import`,{
+      responseType: 'blob'
+    })
+
+    const fileData = response.data;
+    const fileBlob = new Blob([fileData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+    const fileUrl = URL.createObjectURL(fileBlob);
+
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const day = now.getDate();
+    const month = now.getMonth() + 1; // Tháng bắt đầu từ 0, nên cần +1
+    const year = now.getFullYear();
+    link.download = `chi_tiết_lỗi_${hours}h${minutes}p_${day}-${month}-${year}.xlsx`;
+    link.click();
+
+    // Giải phóng đường dẫn URL sau khi hoàn thành
+    URL.revokeObjectURL(fileUrl);
+  } catch (error: any) {
+    notification(error.detail?? 'Lỗi khi tải file','error')
+    console.error('Lỗi khi tải file:', error);
+  }
+}
 
 const submit = async () => {
   if (!submitButtonRef.value) {

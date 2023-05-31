@@ -4,7 +4,7 @@
     Import
   </button>
 
-  <div class="modal fade" tabindex="-1" id="kt_modal_1">
+  <div class="modal fade" tabindex="-1" id="kt_modal_1" ref="uploadModalRef">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -30,7 +30,8 @@
 
         <div class="modal-footer justify-content-between">
           <div>
-            <a :href="url" download="example.xlsx">{{exampleFileName}}</a>
+            <el-link type="primary" :href="url" download="example_account_leaks.xlsx">{{ exampleFileName }}</el-link>
+            <!-- <a :href="url" download="example_account_leaks.xlsx">{{exampleFileName}}</a> -->
           </div>
           <div>
             <button type="button" class="btn btn-sm btn-light me-2" data-bs-dismiss="modal">
@@ -47,11 +48,11 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { onMounted } from "vue";
 import Dropzone from "dropzone";
 import JwtService from "@/core/services/JwtService";
-const emit = defineEmits(["notify",'resetData']);
-
+const emit = defineEmits(["notify",'resetData','confirm']);
 let headers = {
   Authorization: `Bearer ${JwtService.getToken()}`,
   Accept: "application/json",
@@ -68,7 +69,6 @@ function processUpload() {
     );
   } else {
     let files = dropzone.getQueuedFiles();
-    console.log(files);
     dropzone.processQueue();
   }
 }
@@ -100,7 +100,12 @@ onMounted(() => {
   myDropzone.on("success", (file) => {
     myDropzone.removeAllFiles();
     let res = JSON.parse(file.xhr.response);
-    emit("notify", res.detail.Errors.toString(), "info", "Thông tin thêm");
+    if(res.detail.Errors.length){
+      emit("confirm", 'Có lỗi xảy ra trong quá trình cập nhật dữ liệu từ file vào hệ thống', "error");
+    }
+    else {
+      emit("notify","Upload thành công" , "success","Thông tin thêm");
+    }
     emit("resetData");
   });
   myDropzone.on("error", file => {
@@ -119,12 +124,26 @@ onMounted(() => {
   });
 });
 
-const fileExample = 'example.xlsx'
+const fileExample = 'example_account_leaks.xlsx'
 const url = import.meta.env.VITE_APP_API_URL + '/Storage/' + fileExample
 const exampleFileName = "Tải file mẫu"
+import { hideModal } from "@/core/helpers/dom";
+const uploadModalRef = ref<null | HTMLElement>(null);
+const closeModal = () => {
+  hideModal(uploadModalRef.value)
+};
+defineExpose({
+  closeModal
+});
 </script>
-<style>
+<style scoped>
 .dropzone .dz-preview .dz-filename {
   margin-top: 5px;
+}
+.el-link {
+  margin-right: 8px;
+}
+.el-link .el-icon--right.el-icon {
+  vertical-align: text-bottom;
 }
 </style>
