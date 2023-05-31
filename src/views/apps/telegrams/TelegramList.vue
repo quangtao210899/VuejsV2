@@ -16,19 +16,14 @@
         <!--begin::Toolbar-->
         <div v-show="selectedIds.length === 0">
           <div class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
-            <VueCustomTooltip label="Tìm kiếm" position="is-top">  
-              <button
-                type="button"
-                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                data-kt-menu-trigger="click"
-                data-kt-menu-placement="bottom-end"
-                data-kt-menu-flip="top-end"
-              >
+            <el-tooltip class="box-item" effect="dark" content="Tìm kiếm" placement="top">
+              <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
                 <KTIcon icon-name="filter" icon-class="fs-2" />
                 Filter
               </button>
               <Fillter @filterData="handleFilter" :type="group_type"></Fillter>
-            </VueCustomTooltip>
+            </el-tooltip>
           </div>
         </div>
 
@@ -38,9 +33,10 @@
             <div class="fw-bold me-5">
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
-            <VueCustomTooltip label="Xóa" position="is-top">  
-              <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
-                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
+            <VueCustomTooltip label="Xóa" position="is-top">
+              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                class="btn btn-danger  btn-sm">
+                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
                 Delete Selected
               </button>
             </VueCustomTooltip>
@@ -59,11 +55,11 @@
       <!--begin::Card body-->
       <div class="card-body pt-0 overflow-scroll h-100 p-0 m-0">
         <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
-          :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
-          @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+          :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
+          @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
           <template v-slot:id="{ row: customer }">{{ customer.id ?? '--' }}</template>
           <template v-slot:group_name="{ row: customer }">
-            <span class="text-dark text-hover-primary fs-6 fw-bold">{{customer.group_name ?? '--' }}</span>
+            <span class="text-dark text-hover-primary fs-6 fw-bold">{{ customer.group_name ?? '--' }}</span>
           </template>
 
           <template v-slot:username="{ row: customer }">
@@ -71,20 +67,20 @@
               <!--begin::Symbol-->
               <div class="symbol symbol-45px me-5">
                 <span class="symbol-label">
-                  <KTIcon icon-name="user" icon-class="text-success  fs-2x"/>
+                  <KTIcon icon-name="user" icon-class="text-success  fs-2x" />
                 </span>
               </div>
               <!--end::Symbol-->
               <!--begin::Text-->
               <div class="d-flex flex-column">
-                <span class="text-dark text-hover-primary fs-6 fw-bold">{{customer.username ?? '--' }}</span>
+                <span class="text-dark text-hover-primary fs-6 fw-bold">{{ customer.username ?? '--' }}</span>
                 <span class="text-muted fw-semobold">{{ customer.phone ?? '--' }}</span>
               </div>
               <!--end::Text-->
             </div>
           </template>
           <template v-slot:text="{ row: customer }">
-            <div><span >{{ truncateText(customer.text, 25) }}</span></div>
+            <div><span>{{ truncateText(customer.text, 25) }}</span></div>
           </template>
           <template v-slot:date="{ row: customer }">{{ customer.date }}</template>
         </KTDatatable>
@@ -96,8 +92,7 @@
   <!--end::Card-->
 
   <!-- modal delete  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_delete"    
-    ref="ModalDelete" aria-hidden="true">
+  <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered">
       <!--begin::Modal content-->
@@ -107,26 +102,19 @@
           <h5 class="modal-title">Xác nhận xóa recon</h5>
 
           <!--begin::Close-->
-          <div
-            class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
+          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
             <span class="svg-icon svg-icon-2x"></span>
           </div>
           <!--end::Close-->
         </div>
         <!--begin::Form-->
         <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }} </span> bản ghi này không?.</p>
+          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }}
+            </span> bản ghi này không?.</p>
         </div>
         <!--end::Form-->
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-light"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
             Hủy bỏ
           </button>
           <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
@@ -137,11 +125,10 @@
       <!--end::Modal content-->
     </div>
     <!--end::Modal dialog-->
-      </div>
+  </div>
 
   <!-- modal detail  -->
-  <div class="modal fade" tabindex="-1" 
-    ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-600px">
       <!--begin::Modal content-->
@@ -150,71 +137,72 @@
         <div class="modal-body">
           <!--begin::Card-->
           <div class="card card-flush pt-3 mb-5 mb-xl-10">
-              <!--begin::Card header-->
-              <div class="card-header mb-5">
-                <!--begin::Card title-->
-                <div class="card-title">
-                  <div class="d-flex align-items-center">
-                    <!--begin::Symbol-->
-                    <div class="symbol symbol-50px me-5">
-                      <span class="symbol-label bg-light-success">
-                        <KTIcon icon-name="user" icon-class="text-success fs-2x"/>
-                      </span>
-                    </div>
-                    <!--end::Symbol-->
-                    <!--begin::Text-->
-                    <div class="d-flex flex-column">
-                      <span class="text-dark text-hover-primary fs-4 fw-bold">{{detailData.username ?? '--' }}</span>
-                      <span class="text-muted fw-semobold">{{ detailData.phone ?? '--' }}</span>
-                    </div>
-                    <!--end::Text-->
+            <!--begin::Card header-->
+            <div class="card-header mb-5">
+              <!--begin::Card title-->
+              <div class="card-title">
+                <div class="d-flex align-items-center">
+                  <!--begin::Symbol-->
+                  <div class="symbol symbol-50px me-5">
+                    <span class="symbol-label bg-light-success">
+                      <KTIcon icon-name="user" icon-class="text-success fs-2x" />
+                    </span>
                   </div>
+                  <!--end::Symbol-->
+                  <!--begin::Text-->
+                  <div class="d-flex flex-column">
+                    <span class="text-dark text-hover-primary fs-4 fw-bold">{{ detailData.username ?? '--' }}</span>
+                    <span class="text-muted fw-semobold">{{ detailData.phone ?? '--' }}</span>
+                  </div>
+                  <!--end::Text-->
                 </div>
-                <!--begin::Card toolbar-->
-
-                <!--end::Card toolbar-->
               </div>
-              <!--end::Card header-->
+              <!--begin::Card toolbar-->
 
-              <!--begin::Card body-->
-              <div class="card-body py-0">
-                <!--begin::Section-->
-                <div class="mb-10">
-                  <!--begin::Title-->
-                  <h6>Thông tin chi tiết:</h6>
-                  <!--end::Title-->
+              <!--end::Card toolbar-->
+            </div>
+            <!--end::Card header-->
 
-                  <!--begin::Details-->
-                  <div class="py-5">
-                    <!--begin::Row-->
-                    <div class="me-5"> 
-                      <!--begin::Details-->
-                      <div>
-                        <div class="row fs-6 mb-3">
-                          <div class="col-3 text-gray-400">Tên nhóm:</div>
-                          <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.group_name ?? '--' }}</span></div>
-                        </div>
-                        <div class="row fs-6 mb-3">
-                          <div class="col-3 text-gray-400">Nội dung:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.text ?? '--' }}</span></div>
-                        </div>
-                        <div class="row fs-6">
-                          <div class="col-3 text-gray-400">Thời gian:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.date }}</span></div>
+            <!--begin::Card body-->
+            <div class="card-body py-0">
+              <!--begin::Section-->
+              <div class="mb-10">
+                <!--begin::Title-->
+                <h6>Thông tin chi tiết:</h6>
+                <!--end::Title-->
+
+                <!--begin::Details-->
+                <div class="py-5">
+                  <!--begin::Row-->
+                  <div class="me-5">
+                    <!--begin::Details-->
+                    <div>
+                      <div class="row fs-6 mb-3">
+                        <div class="col-3 text-gray-400">Tên nhóm:</div>
+                        <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.group_name ?? '--' }}</span>
                         </div>
                       </div>
-                      <!--end::Details-->
+                      <div class="row fs-6 mb-3">
+                        <div class="col-3 text-gray-400">Nội dung:</div>
+                        <div class="col-9 text-gray-800"><span>{{ detailData.text ?? '--' }}</span></div>
+                      </div>
+                      <div class="row fs-6">
+                        <div class="col-3 text-gray-400">Thời gian:</div>
+                        <div class="col-9 text-gray-800"><span>{{ detailData.date }}</span></div>
+                      </div>
                     </div>
-                    <!--end::Row-->
-
+                    <!--end::Details-->
                   </div>
                   <!--end::Row-->
+
                 </div>
-                <!--end::Section-->
+                <!--end::Row-->
               </div>
-              <!--end::Card body-->
+              <!--end::Section-->
             </div>
-            <!--end::Card-->
+            <!--end::Card body-->
+          </div>
+          <!--end::Card-->
         </div>
         <!--end::Form-->
         <div class="modal-footer">
@@ -227,7 +215,6 @@
     </div>
     <!--end::Modal dialog-->
   </div>
-
 </template>
 
 <script lang="ts">
@@ -238,12 +225,12 @@ import ApiService from "@/core/services/ApiService";
 
 // validate
 import { hideModal } from "@/core/helpers/dom";
-import { ErrorMessage, Field, Form  as VForm } from "vee-validate";
+import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import Fillter from "@/views/apps/telegrams/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
-import {Modal} from "bootstrap";
+import { Modal } from "bootstrap";
 import { useRoute } from 'vue-router';
 
 export default defineComponent({
@@ -258,7 +245,7 @@ export default defineComponent({
     CodeHighlighter,
   },
   directives: {
-      debounce: vue3Debounce({ lock: true })
+    debounce: vue3Debounce({ lock: true })
   },
   setup() {
     const route = useRoute();
@@ -316,7 +303,7 @@ export default defineComponent({
 
     const getData = async () => {
       loading.value = true;
-      setTimeout(() => loading.value = false ,500)
+      setTimeout(() => loading.value = false, 500)
       await ApiService.get(`/telegram/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
         .then(({ data }) => {
           list.value = data.results
@@ -334,7 +321,7 @@ export default defineComponent({
 
     const ModalDelete = ref<null | HTMLElement>(null);
     const deleteSubscription = (ids: Array<number>) => {
-      if(ids){
+      if (ids) {
         return ApiService.delete(`telegram/message/multi-delete?id=${ids}`)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
@@ -348,7 +335,7 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
-      if(detail){
+      if (detail) {
         detailData.id = detail.id
         detailData.username = detail.username
         detailData.date = detail.date
@@ -359,11 +346,11 @@ export default defineComponent({
           document.getElementById("kt_modal_detail") as Element
         );
         modal.show();
-      }else{
+      } else {
         notification('', 'error', 'Có lỗi xảy ra')
       }
     };
-    
+
     const onItemSelect = (selectedItems: Array<number>) => {
       selectedIds.value = selectedItems;
 
@@ -380,18 +367,18 @@ export default defineComponent({
           confirmButton: "btn btn-primary",
         },
       }).then(() => {
-        hideModal( ModalDelete.value);
+        hideModal(ModalDelete.value);
         // hideModal( ModalConfirm.value);
       });
     };
 
     const handleFilter = (data: any) => {
-      if(data){
+      if (data) {
         query.value = data.query;
         group_type.value = data.type;
         currentPage.value = 1;
         getData();
-      }else{
+      } else {
         notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
       }
 
