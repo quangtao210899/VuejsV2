@@ -180,6 +180,16 @@ const routes: Array<RouteRecordRaw> = [
           links: ["/cve"],
         },
       },
+      {
+        path: "/cve/scan-detail/:id",
+        name: "targetDetectionListCVE",
+        component: () => import("@/views/apps/cves/targetDetectionListCVE.vue"),
+        meta: {
+          pageTitle: "Danh sách mục tiêu dính lỗ hổng",
+          breadcrumbs: ["CVE","Scan"],
+          links: ["/cve"],
+        },
+      },
     ],
   },
   {

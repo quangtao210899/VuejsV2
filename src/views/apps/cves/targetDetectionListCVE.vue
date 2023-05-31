@@ -38,13 +38,18 @@
                 :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
                 @customRow="customRowTable">
                 <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-                <template v-slot:username="{ row: customer }">{{ customer.username }}</template>
-                <template v-slot:status_name="{ row: customer }"><span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--' }}</span></template>
-                <template v-slot:created_at="{ row: customer }">
-                    {{ customer.created_at ? customer.created_at: '--:--' }}
+                <template v-slot:ip="{ row: customer }">{{ customer.ip }}</template>
+                <template v-slot:port="{ row: customer }">{{ customer.port ?? '--' }}</template>
+                <template v-slot:hostnames="{ row: customer }">
+                    <span v-for="(value, index) in customer.hostnames" :key="index" :class="`badge badge-primary`">
+                        <a :href="`https://${value}`" target="_blank" class="text-white">{{ value }}</a>
+                    </span>
                 </template>
-                <template v-slot:finished_at="{ row: customer }">
-                    {{ customer.finished_at ?customer.finished_at : '3===D' }}
+                <template v-slot:country="{ row: customer }">
+                    {{ customer.country ? customer.country: '--:--' }}
+                </template>
+                <template v-slot:org="{ row: customer }">
+                    {{ customer.org ?customer.org : '3===D' }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <router-link :to="`/cve/scan-detail/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
@@ -211,15 +216,14 @@ export default defineComponent({
             status: '',
             statusName: '',
         });
-        // const target_id = ref(null);
         const getIdFromUrl = () => {
             const url = window.location.href;
-            const idMatch = url.match(/\/(\d+)\//);
+            const idMatch = url.match(/\/(\d+)$/);
             if (idMatch) {
                 return parseInt(idMatch[1]);
             }
         };
-        const CVEId = getIdFromUrl();
+        const CVEScanId = getIdFromUrl();
         const getScanSpeedName = (speed: number | string) => {
             if (speed == 1) {
                 return 'Tuần tự'
@@ -243,25 +247,24 @@ export default defineComponent({
                 sortEnabled: true,
             },
             {
-                columnName: "Người scan",
-                columnLabel: "username",
+                columnName: "IP",
+                columnLabel: "ip",
             },
             {
-                columnName: "Thời gian bắt đầu",
-                columnLabel: "created_at",
+                columnName: "Port",
+                columnLabel: "port",
             },
             {
-                columnName: "Thời gian kết thúc",
-                columnLabel: "finished_at",
+                columnName: "Host names",
+                columnLabel: "hostnames",
             },
             {
-                columnName: "Trạng thái",
-                columnLabel: "status_name",
+                columnName: "Quốc gia",
+                columnLabel: "country",
             },
             {
-                columnName: "Actions",
-                columnLabel: "actions",
-                columnWidth: 50,
+                columnName: "Tổ chức",
+                columnLabel: "org",
             },
         ]);
 
@@ -312,9 +315,10 @@ export default defineComponent({
 
         const getData = () => {
             loading.value = true;
+            console.log(getIdFromUrl(), 123132);
             
             setTimeout(() => loading.value = false, 500)
-            return ApiService.get(`/cve/${getIdFromUrl()}/scan?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
+            return ApiService.get(`/cve/scan-detail/${getIdFromUrl()}?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     console.log(data.results);
                     
@@ -337,7 +341,7 @@ export default defineComponent({
                 'id': ids
             }
             if (ids) {
-                return ApiService.post(`cve/${getIdFromUrl()}/delete`, formData)
+                return ApiService.post(`/cve/scan-delete/${getIdFromUrl()}`, formData)
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
                         currentPage.value = 1;
@@ -358,16 +362,16 @@ export default defineComponent({
         };
         const customRowTable = (detail: any) => {
             if (detail) {
-                detailData.username = detail.user.username
-                detailData.finished_at = detail.finishedAt
-                detailData.status = detail.status
-                detailData.statusName = detail.status_name
-                detailData.created_at = detail.created_at
-                detailData.finished_at = detail.finished_at
-                const modal = new Modal(
-                    document.getElementById("kt_modal_detail") as Element
-                );
-                modal.show();
+                // detailData.username = detail.user.username
+                // detailData.finished_at = detail.finishedAt
+                // detailData.status = detail.status
+                // detailData.statusName = detail.status_name
+                // detailData.created_at = detail.created_at
+                // detailData.finished_at = detail.finished_at
+                // const modal = new Modal(
+                //     document.getElementById("kt_modal_detail") as Element
+                // );
+                // modal.show();
             } else {
                 notification('', 'error', 'Có lỗi xảy ra')
             }
@@ -474,7 +478,6 @@ export default defineComponent({
             submit,
             submitButtonRef,
             modalRef,
-            // target_id,
             getIdFromUrl,
             newTargetGroupModalRef,
             handleClick,
@@ -506,7 +509,7 @@ export default defineComponent({
             //SCAN
             getScanSpeedName,
             headerInputValue,
-            CVEId,
+            CVEScanId,
         };
     },
 });
