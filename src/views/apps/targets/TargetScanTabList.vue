@@ -6,22 +6,30 @@
             <!--begin::Card toolbar-->
             <div class="card-toolbar">
 
-                <div class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
-                    <button type="button"
-                        class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white"
-                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                        <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />
-                        Hủy bỏ
+                <div class="d-flex justify-content-end ">
+                    <el-popconfirm confirm-button-text="Đồng ý"  width="250" cancel-button-text="Không" icon="InfoFilled" icon-color="#626AEF"
+                        title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"  @cancel="cancelEvent">
+                        <template #reference>
+                            <button type="button" :disabled="checkDisabled"
+                                class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
+                                <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy bỏ
+                            </button>
+                        </template>
+                    </el-popconfirm>
+
+                    <button v-if="scanStatus != 5" type="button" @click="handlePauser"
+                        :disabled="(checkDisabled || scanStatus == 3)"
+                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                        <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
+                        <span class="text-danger">Tạm dừng</span>
                     </button>
-                    <button type="button"
-                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-primary ms-2"
-                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                        <KTIcon icon-name="filter" icon-class="fs-2" />
-                        Tạm dừng
+                    <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled)"
+                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                        <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
+                        <span class="text-primary"> Tiếp tục</span>
                     </button>
-                    <button type="button"
-                        class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white"
-                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                    <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
+                        class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
                         <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
                         Xuất kết quả
                     </button>
@@ -96,7 +104,7 @@
                                                 <!--begin::Number-->
                                                 <div class="d-flex align-items-center">
                                                     <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
-                                                    <div class="fs-2 fw-bold">10m 38s </div>
+                                                    <div class="fs-2 fw-bold">{{ diffTime }}</div>
                                                 </div>
                                                 <!--end::Number-->
 
@@ -157,7 +165,7 @@
                                     <!--end::Row-->
 
                                     <div class="mt-5 w-100">
-                                        <el-progress :percentage="100" status="success" />
+                                        <el-progress :percentage="progress" status="success" />
                                     </div>
                                 </el-collapse-item>
                             </el-collapse>
@@ -207,7 +215,7 @@
         <div class="ms-auto py-2">
             <div class="d-flex">
                 <!--begin::Tab nav-->
-                <ul class="nav nav-pills me-6 mb-2 mb-sm-0" role="tablist">
+                <!-- <ul class="nav nav-pills me-6 mb-2 mb-sm-0" role="tablist">
                     <li class="nav-item m-0" role="presentation">
                         <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary me-3 active"
                             data-bs-toggle="tab" href="#kt_project_users_card_pane" aria-selected="true" role="tab">
@@ -222,13 +230,13 @@
                             <i class="ki-duotone ki-row-horizontal fs-2"><span class="path1"></span><span
                                     class="path2"></span></i> </a>
                     </li>
-                </ul>
+                </ul> -->
                 <!--end::Tab nav-->
 
                 <!--begin::Actions-->
                 <div class="d-flex my-0 mx-2">
                     <!--begin::Select-->
-                    <button type="button"
+                    <button type="button" @click="reloadData" :disabled="checkDisabled"
                         class="btn btn-sm h-35px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
                         <KTIcon icon-name="arrows-loop" icon-class="fs-2 text-white" />
                         Tải lại
@@ -240,14 +248,13 @@
                 <!--begin::Actions-->
                 <div class="d-flex my-0">
                     <!--begin::Select-->
-                    <el-form-item>
-                        <el-select placeholder="Chọn kiểu" name="type" as="select" height="40px"
-                            class="input-group-lg w-150px">
-                            <el-option value="">Chọn kiểu</el-option>
-                            <el-option label="DB Leak" value="1">DB Leak</el-option>
-                            <el-option label="Hacker News" value="2">Hacker News</el-option>
-                        </el-select>
-                    </el-form-item>
+                    <el-select v-model="eventTime" class="d-block w-150px" height="40px" as="select">
+                        <el-option value="300000" key="300000" label="5 phút" />
+                        <el-option value="60000" key="60000" label="1 phút" />
+                        <el-option value="30000" key="30000" label="30 giây" />
+                        <el-option value="15000" key="15000" label="15 giây" />
+                        <el-option value="5000" key="5000" label="5 giây" />
+                    </el-select>
                     <!--end::Select-->
                 </div>
                 <!--end::Actions-->
@@ -262,7 +269,7 @@
             <div class="card-body overflow-scroll h-100 m-0" ref="container" @mousedown="handleMouseDown"
                 :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
                 :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
-                <div :style="{ width: contentWidth + 'px' }">
+                <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }">
                     <KTDatatable :clickOnRow="true" :data="list" :header="headerConfig" :loading="loading"
                         :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" @page-change="handlePage"
                         @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
@@ -577,11 +584,37 @@
 
     </div>
     <!--end::Card-->
+
+
+    <!-- // modoal  -->
+    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file">
+        <div class="card h-100 bg-secondary ">
+            <!--begin::Card body-->
+            <div class="card-body d-flex justify-content-center text-center flex-column p-8">
+                <!--begin::Name-->
+                <div class="symbol symbol-60px mb-5">
+                    <KTIcon class="me-1" icon-name="document" icon-class="fs-4x text-success" />
+                </div>
+                <!--end::Image-->
+
+                <!--begin::Title-->
+                <div class="fs-5 fw-bold mb-2 text-dark"> {{ `Scan_${scanID}_report.xlsx` }} </div>
+                <!--end::Name-->
+            </div>
+            <!--end::Card body-->
+        </div>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="fileDownVisible = false">Hủy bỏ</el-button>
+                <el-button type="primary" @click="downloadAcunetix">Tải về</el-button>
+            </span>
+        </template>
+    </el-dialog>
 </template>
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, watch } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, onBeforeUnmount } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
@@ -596,6 +629,11 @@ import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { Modal } from "bootstrap";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
+import { ElMessage } from 'element-plus'
+import { InfoFilled } from '@element-plus/icons-vue'
+
+// import dayjs from 'dayjs';
+import axios from 'axios'
 
 interface APIData {
     title: string;
@@ -672,10 +710,15 @@ export default defineComponent({
             name: ''
         })
         const severityInfo = ref<number>(0)
+        const progress = ref<number>(0)
+        const checkStatus = ref<boolean>(false)
         const severityLow = ref<number>(0)
         const severityMedium = ref<number>(0)
         const severityHigh = ref<number>(0)
+        const scanStatus = ref<number>(0)
         const filterSeverity = ref<number | null>(null)
+        const timeEnd = ref<number | any>(null)
+        const timeStart = ref<number | any>(null)
 
         const headerConfig = ref([
             {
@@ -748,11 +791,22 @@ export default defineComponent({
                     severityLow.value = data.severity_counts.low
                     severityHigh.value = data.severity_counts.high
                     severityMedium.value = data.severity_counts.medium
+
+                    // check
+                    progress.value = data.progress
+                    timeStart.value = data.scan_started_at
+                    timeEnd.value = data.scan_finished_at
+                    checkStatus.value = (data.scan_status == 3) ? true : false
+                    scanStatus.value = data.scan_status
+                    humanDiffTime()
+                    showLocaleTime()
                     // console.log(countRequest.value)
                     // console.log(averageResponseTime.value)
                     // console.log(locations.value)
                     // console.log(maxResponseTime.value)
-                    console.log(list.value)
+                    // console.log(data)
+                    // console.log(new Date(timeEnd.value))
+                    // console.log(new Date(timeStart.value))
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -812,7 +866,7 @@ export default defineComponent({
                     detailVuln.cvss3 = data.cvss3 ?? ''
                     detailVuln.tags = data.tags.find((value: String) => value.includes("CWE-")) ?? ''
                     detailVuln.cvss_score = data.cvss_score ?? ''
-                    console.log(detailVuln)
+                    // console.log(detailVuln)
 
                 })
                 .catch(({ response }) => {
@@ -867,7 +921,6 @@ export default defineComponent({
             } else {
                 filterSeverity.value = data
             }
-            console.log(filterSeverity.value)
             getData();
         };
 
@@ -954,6 +1007,187 @@ export default defineComponent({
             window.removeEventListener("mouseup", handleMouseUp);
         };
 
+        // reloadData
+        const reloadgetData = () => {
+            getData();
+            ElMessage({
+                message: 'Tải lại thành công',
+                type: 'success',
+                center: false,
+            })
+        };
+        const reloadData = debounce(reloadgetData, 500);
+
+        // tạm dừng
+        // false - tạm dừng
+        // true - tiếp tục
+        const checkPauser = ref<boolean>(false);
+        const checkDisabled = ref<boolean>(false);
+        const handlePauser = async () => {
+            checkPauser.value = (checkPauser.value) ? false : true;
+            checkDisabled.value = true
+            setTimeout(() => {
+                checkDisabled.value = false;
+            }, 500);
+            if (checkStatus.value) {
+                ElMessage({
+                    message: 'Danh dách đã được quét thành công không thể tạm dừng',
+                    type: 'success',
+                    center: false,
+                })
+            } else if (scanStatus.value == 5) {
+                // console.log('tiếp tục')
+                getResume()
+            } else {
+                // console.log('tạm dừng')
+                getPauser()
+            }
+
+        };
+
+        const getResume = async () => {
+            const formData = {
+                control_param: {
+                    "action": 'continue'
+                }
+            }
+            return ApiService.post(`/scan/${scanID.value}/control`, formData)
+                .then(({ data }) => {
+                    getData()
+                    ElMessage({
+                        message: data.detail ?? 'Tiếp tục thành công',
+                        type: 'success',
+                        center: false,
+                    })
+                })
+                .catch(({ response }) => {
+                    ElMessage({
+                        message: response.data.detail ?? 'Có lỗi xảy ra',
+                        type: 'error',
+                        center: false,
+                    })
+                });
+        };
+
+        const getPauser = async () => {
+            const formData = {
+                control_param: {
+                    "action": 'pause'
+                }
+            }
+            return ApiService.post(`/scan/${scanID.value}/control`, formData)
+                .then(({ data }) => {
+                    getData()
+                    ElMessage({
+                        message: data.detail ?? 'Tạm dừng thành công',
+                        type: 'success',
+                        center: false,
+                    })
+                })
+                .catch(({ response }) => {
+                    ElMessage({
+                        message: response.data.detail ?? 'Có lỗi xảy ra',
+                        type: 'error',
+                        center: false,
+                    })
+                });
+        };
+
+        // thời gian tự động chạy
+        const timeAuto = ref<any>(null);
+
+        const showLocaleTime = async () => {
+            if (checkStatus.value || !checkPauser.value) {
+                clearInterval(timeAuto.value);
+                humanDiff();
+            } else {
+                clearInterval(timeAuto.value);
+                timeAuto.value = setInterval(() => { humanDiff(); }, 1000);
+            }
+        };
+
+        // tải về files
+        const fileDownVisible = ref(false)
+        const downloadAcunetix = async () => {
+            axios({
+                url: `/scan/${scanID.value}/download/v1`, //your url
+                method: 'GET',
+                responseType: 'blob', // important
+            }).then((response) => {
+                const href = URL.createObjectURL(response.data);
+                const link = document.createElement('a');
+                link.href = href;
+                link.setAttribute('download', `Scan_${scanID.value}_report.xlsx`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(href);
+                fileDownVisible.value = false;
+            }).catch(async error => {
+                // xử lý hiển thị lỗi 
+                const reponse_message = JSON.parse(await error.response.data.text()).detail ?? "Có lỗi xảy ra"
+                ElMessage({
+                    message: reponse_message ?? 'Tạm dừng thành công',
+                    type: 'success',
+                    center: false,
+                })
+                fileDownVisible.value = false;
+            })
+        };
+        // hủy
+        const confirmEvent = () => {
+            ElMessage({
+                message: 'Test hủy',
+                type: 'success',
+                center: false,
+            })
+        }
+
+        const cancelEvent = () => {
+            ElMessage({
+                message: 'Hủy bỏ lệnh thành công',
+                type: 'info',
+                center: false,
+            })
+        }
+
+
+        // tính thời gian
+        const diffTime = ref<string | null>(null);
+        const time = ref<any>(null);
+        const eventTime = ref<number | any>('30000');
+
+        const humanDiff = async () => {
+            let date1: any = (checkStatus.value == false) ? new Date() : new Date(timeEnd.value);
+            let date2: any = new Date(timeStart.value);
+            let diff = Math.max(date2, date1) - Math.min(date2, date1);
+            let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
+            let hrs = Math.floor(diff / HRS);
+            let min = Math.floor((diff % HRS) / MIN).toLocaleString('en-US', { minimumIntegerDigits: 1 });
+            let sec = Math.floor(((diff % MIN) / SEC)).toLocaleString('en-US', { minimumIntegerDigits: 2 });
+            if (hrs == 0) {
+                return diffTime.value = min + 'm ' + sec + 's';
+            }
+            return diffTime.value = hrs + 'h ' + min + 'm ' + sec + 's';
+        };
+
+        const humanDiffTime = () => {
+            checkDisabled.value = true
+            setTimeout(() => {
+                checkDisabled.value = false;
+            }, 500);
+            if (checkStatus.value || !checkPauser.value) {
+                clearInterval(time.value);
+
+                humanDiff();
+            } else {
+                clearInterval(time.value);
+                humanDiff();
+                time.value = setInterval(() => { getData(); humanDiff(); }, eventTime.value);
+            }
+        };
+        watch(eventTime, humanDiffTime);
+
         // Tính toán chiều rộng nội dung
         const contentWidth = ref(0);
         onMounted(() => {
@@ -962,9 +1196,17 @@ export default defineComponent({
 
         onMounted(() => {
             getData();
+            humanDiffTime();
         });
 
+        onBeforeUnmount(() => {
+            clearInterval(timeAuto);
+            clearInterval(time);
+        });
+
+
         return {
+            scanID,
             getData,
             list,
             headerConfig,
@@ -982,6 +1224,10 @@ export default defineComponent({
             handleSeverity,
             filterSeverity,
             activeName,
+
+            // tải về
+            fileDownVisible,
+            downloadAcunetix,
 
 
             // crud
@@ -1026,6 +1272,23 @@ export default defineComponent({
             handleMouseDown,
             contentWidth,
             container,
+
+            // reloadData
+            reloadData,
+            progress,
+            checkStatus,
+            diffTime,
+            eventTime,
+            checkPauser,
+
+            // tạm dừng
+            handlePauser,
+            checkDisabled,
+            scanStatus,
+
+            // hủy 
+            confirmEvent,
+            cancelEvent,
         };
     },
 });
