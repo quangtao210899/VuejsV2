@@ -66,6 +66,7 @@ function processUpload() {
       "Vui lòng chọn tệp để import vào hệ thống",
       "error",
       "Hãy lựa chọn một tệp",
+      false
     );
   } else {
     let files = dropzone.getQueuedFiles();
@@ -82,7 +83,7 @@ Dropzone.options.myForm = {
   method: "post",
   autoProcessQueue: false,
   createImageThumbnails: false,
-  acceptedFiles: ".csv, .xlsx, .txt",
+  acceptedFiles: ".csv, .xlsx",
 };
 onMounted(() => {
   let myDropzone = new Dropzone("#my-form");
@@ -100,11 +101,13 @@ onMounted(() => {
   myDropzone.on("success", (file) => {
     myDropzone.removeAllFiles();
     let res = JSON.parse(file.xhr.response);
-    if(res.detail.Errors.length){
-      emit("confirm", 'Có lỗi xảy ra trong quá trình cập nhật dữ liệu từ file vào hệ thống', "error");
+    if(res.detail['total_error']){
+      const message = `Upload thành công ${res.detail['total_success']} bản ghi, thất bại ${res.detail['total_error']} bản ghi. Tải file để xem chi tiết lỗi`
+      emit("confirm", message , "error");
     }
     else {
-      emit("notify","Upload thành công" , "success","Thông tin thêm");
+      const message = `Upload thành công ${res.detail['total_success']} bản ghi.`
+      emit("notify", message, "success","Thông tin thêm", true);
     }
     emit("resetData");
   });
@@ -117,9 +120,9 @@ onMounted(() => {
     try {
       const errorResponse = JSON.parse(file.xhr.response);
       const errorMessage = errorResponse.file.detail ?? "Có lỗi xảy ra";
-      emit("notify", errorMessage, "error", "Lỗi");
+      emit("notify", errorMessage, "error", "Lỗi", false);
     } catch (error) {
-      emit("notify", "Có lỗi xảy ra", "error", "Lỗi");
+      emit("notify", "Có lỗi xảy ra", "error", "Lỗi", false);
     }
   });
 });

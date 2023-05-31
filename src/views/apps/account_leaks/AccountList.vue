@@ -13,8 +13,8 @@
               <Fillter @filterData="handleFilter" :country-list='countryList'></Fillter>
             </VueCustomTooltip>
             <VueCustomTooltip label="Upload Account leaks" position="is-top">
-              <importAccountLeak ref="importComponentRef" @notify="(info, noti_type, more_detail) =>
-                notification(info, noti_type, more_detail)" @resetData="()=> getData()" @confirm="(info, noti_type)=>comfirmDownload(info, noti_type)"/>
+              <importAccountLeak ref="importComponentRef" @notify="(info, noti_type, more_detail, hideImportModal) =>
+                notification(info, noti_type, more_detail, hideImportModal)" @resetData="()=> getData()" @confirm="(info, noti_type)=>comfirmDownload(info, noti_type)"/>
             </VueCustomTooltip>
             <VueCustomTooltip label="Thêm mới" position="is-top">
               <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
@@ -715,7 +715,7 @@ const validationSchema = Yup.object().shape({
 
 // field: email, username, password, password_hash, source_data, country
 
-const notification = (values: string, icon: string, more: string = '') => {
+const notification = (values: string, icon: string, more: string = '', hideImportModal: boolean = true) => {
   Swal.fire({
     text: values ?? more,
     icon: icon,
@@ -729,7 +729,7 @@ const notification = (values: string, icon: string, more: string = '') => {
     hideModal(newTargetGroupModalRef.value);
     hideModal(ModalDelete.value);
     hideModal(ModalDetail.value);
-    if (importComponentRef.value) {
+    if (importComponentRef.value && hideImportModal) {
       importComponentRef.value.closeModal()
     }
   });
