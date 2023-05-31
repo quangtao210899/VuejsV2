@@ -1,27 +1,35 @@
 <template>
     <!--begin::Navbar-->
-    <div class="card mb-5 mb-xxl-8">
+    <div class="card mb-3 mb-xxl-8">
         <!--begin::Card header-->
         <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
             <!--begin::Card toolbar-->
             <div class="card-toolbar">
 
-                <div class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
-                    <button type="button"
-                        class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white"
-                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                        <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />
-                        Hủy bỏ
+                <div class="d-flex justify-content-end ">
+                    <el-popconfirm confirm-button-text="Đồng ý"  width="250" cancel-button-text="Không" icon="InfoFilled" icon-color="#626AEF"
+                        title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"  @cancel="cancelEvent">
+                        <template #reference>
+                            <button type="button" :disabled="checkDisabled"
+                                class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
+                                <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy bỏ
+                            </button>
+                        </template>
+                    </el-popconfirm>
+
+                    <button v-if="scanStatus != 5" type="button" @click="handlePauser"
+                        :disabled="(checkDisabled || scanStatus == 3)"
+                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                        <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
+                        <span class="text-danger">Tạm dừng</span>
                     </button>
-                    <button type="button"
-                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-primary ms-2"
-                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                        <KTIcon icon-name="filter" icon-class="fs-2" />
-                        Tạm dừng
+                    <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled)"
+                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                        <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
+                        <span class="text-primary"> Tiếp tục</span>
                     </button>
-                    <button type="button"
-                        class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white"
-                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                    <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
+                        class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
                         <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
                         Xuất kết quả
                     </button>
@@ -30,144 +38,143 @@
             <!--end::Card toolbar-->
         </div>
         <!--end::Card header-->
-        <div class="card-body pt-3 pb-0">
+        <div class="card-body pt-2 pb-0 shadow-hvover">
             <!--begin::Details-->
-            <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
+            <div class="d-flex flex-wrap flex-sm-nowrap">
                 <!--begin::Info-->
                 <div class="flex-grow-1">
                     <!--begin::Title-->
-                    <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap">
                         <!--begin::Card body-->
-                        <div class="card-body ">
-                            <!--begin::Row-->
-                            <div class="row mb-2">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-lg-4 fw-semobold text-muted">ID mục tiêu :</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8">
-                                            <span class="fw-bold fs-6 text-dark">{{ targetData.id }}</span>
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-lg-4 fw-semobold text-muted">Tên mục tiêu :</label>
-                                        <!--end::Label-->
+                        <div class="card-body py-4 px-0">
+                            <el-collapse v-model="activeName" accordion>
+                                <el-collapse-item name="1">
+                                    <template #title>
+                                        <!--begin::Row-->
+                                        <div class="row w-100">
+                                            <div class="col-3">
+                                                <div class="row">
+                                                    <!--begin::Label-->
+                                                    <label class="col-4 fw-semobold text-muted">Tên</label>
+                                                    <!--end::Label-->
 
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8">
-                                            <span class="fw-bold fs-6 text-dark">{{ targetData.name }}</span>
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end::Row-->
+                                                    <!--begin::Col-->
+                                                    <div class="col">
+                                                        <span class="fw-bold fs-6 text-dark">{{ targetData.name }}</span>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="row">
+                                                    <!--begin::Label-->
+                                                    <label class="col-4 fw-semobold text-muted">IP</label>
+                                                    <!--end::Label-->
+                                                    <!--begin::Col-->
+                                                    <div class="col">
+                                                        <span class="fw-bold fs-6 text-dark">{{ targetData.ip }}</span>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="row">
+                                                    <!--begin::Label-->
+                                                    <label class="col-4 fw-semobold text-muted">Domain</label>
+                                                    <!--end::Label-->
 
-                            <!--begin::Row-->
-                            <div class="row mb-9">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-lg-3 fw-semobold text-muted">ID :</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8">
-                                            <span class="fw-bold fs-6 text-dark">{{ targetData.ip }}</span>
+                                                    <!--begin::Col-->
+                                                    <div class="col">
+                                                        <span class="fw-bold fs-6 text-dark">{{ targetData.domain }}</span>
+                                                    </div>
+                                                    <!--end::Col-->
+                                                </div>
+                                            </div>
                                         </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-lg-4 fw-semobold text-muted">Domain :</label>
-                                        <!--end::Label-->
+                                        <!--end::Row-->
 
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8">
-                                            <span class="fw-bold fs-6 text-dark">{{ targetData.domain }}</span>
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end::Row-->
+                                        <el-icon class="header-icon">
+                                            <info-filled />
+                                        </el-icon>
+                                    </template>
+                                    <!--begin::Row-->
+                                    <div class="row">
+                                        <div class=" col-3 p-2">
+                                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                                <!--begin::Number-->
+                                                <div class="d-flex align-items-center">
+                                                    <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
+                                                    <div class="fs-2 fw-bold">{{ diffTime }}</div>
+                                                </div>
+                                                <!--end::Number-->
 
-                            <!--begin::Row-->
-                            <div class="row mb-2">
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-12 fw-semobold text-dark">Thời Gian</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-12">
-                                            <span class="fw-bold fs-1 ext-dark">{{ targetData.ip }}</span>
+                                                <!--begin::Label-->
+                                                <div class="fw-semobold fs-6 text-gray-400">Thời Gian</div>
+                                                <!--end::Label-->
+                                            </div>
+                                            <!--end::Stat-->
                                         </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-12 fw-semobold text-dark">Yêu cầu</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-12">
-                                            <span class="fw-bold fs-1 text-dark">{{ countRequest }}</span>
+                                        <div class="col-3 p-2">
+                                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                                <!--begin::Number-->
+                                                <div class="d-flex align-items-center">
+                                                    <KTIcon icon-name="arrow-up-down" icon-class="fs-3 text-success me-2" />
+                                                    <div class="fs-2 fw-bold">{{ countRequest }}</div>
+                                                </div>
+                                                <!--end::Number-->
+
+                                                <!--begin::Label-->
+                                                <div class="fw-semobold fs-6 text-gray-400">Yêu cầu</div>
+                                                <!--end::Label-->
+                                            </div>
+
                                         </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-12 fw-semobold text-dark">Average Response Time</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-12">
-                                            <span class="fw-bold fs-1 text-dark">{{ averageResponseTime }}</span>
+                                        <div class="col-3 p-2">
+                                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                                <!--begin::Number-->
+                                                <div class="d-flex align-items-center">
+                                                    <KTIcon icon-name="watch" icon-class="fs-3 text-success me-2" />
+                                                    <div class="fs-2 fw-bold">{{ averageResponseTime }}</div>
+                                                </div>
+                                                <!--end::Number-->
+
+                                                <!--begin::Label-->
+                                                <div class="fw-semobold fs-6 text-gray-400">Average Response Time</div>
+                                                <!--end::Label-->
+                                            </div>
+                                            <!--end::Stat-->
+
                                         </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="col-12 fw-semobold text-dark">Đường dẫn</label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-12">
-                                            <span class="fw-bold fs-1 text-dark">{{ locations }}</span>
+                                        <div class="col-3 p-2">
+                                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                                <!--begin::Number-->
+                                                <div class="d-flex align-items-center">
+                                                    <KTIcon icon-name="pointers" icon-class="fs-3 text-success me-2" />
+                                                    <div class="fs-2 fw-bold">{{ locations }}</div>
+                                                </div>
+                                                <!--end::Number-->
+
+                                                <!--begin::Label-->
+                                                <div class="fw-semobold fs-6 text-gray-400">Đường dẫn</div>
+                                                <!--end::Label-->
+                                            </div>
+                                            <!--end::Stat-->
+
                                         </div>
-                                        <!--end::Col-->
                                     </div>
-                                </div>
-                            </div>
-                            <!--end::Row-->
+                                    <!--end::Row-->
+
+                                    <div class="mt-5 w-100">
+                                        <el-progress :percentage="progress" status="success" />
+                                    </div>
+                                </el-collapse-item>
+                            </el-collapse>
+
+
+
 
                         </div>
                         <!--end::Card body-->
-
-                        <!--begin::Actions-->
-                        <div class="d-flex my-4">
-                            <!--begin::Menu-->
-                            <div class="me-0">
-                                <button class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"
-                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
-                                    data-kt-menu-flip="top-end">
-                                    <i class="bi bi-three-dots fs-3"></i>
-                                </button>
-                            </div>
-                            <!--end::Menu-->
-                        </div>
-                        <!--end::Actions-->
                     </div>
                     <!--end::Title-->
                 </div>
@@ -177,19 +184,95 @@
         </div>
     </div>
     <!--end::Navbar-->
+    <div class="d-flex mb-3 h-50px">
+        <div class="py-2 row">
+            <div class="col-6">
+                <el-input class="w-100 h-35px" v-model="query" placeholder="Tìm kiếm theo tên"></el-input>
+            </div>
+            <div class="col-6">
+                <button type="button" class="btn btn-icon btn-sm fw-bold bg-success h-35px w-35px text-white"
+                    @click.passive="handleSeverity(0)">
+                    {{ severityInfo }}
+                </button>
+                <button type="button" class="btn btn-icon btn-sm fw-bold bg-primary h-35px w-35px text-white ms-2"
+                    @click.passive="handleSeverity(1)">
+                    {{ severityLow }}
+                </button>
+                <button type="button" class="btn btn-icon btn-sm fw-bold bg-warning h-35px w-35px text-white ms-2"
+                    @click.passive="handleSeverity(2)">
+                    {{ severityMedium }}
+                </button>
+                <button type="button" class="btn btn-icon btn-sm fw-bold bg-danger h-35px w-35px text-white ms-2"
+                    @click.passive="handleSeverity(3)">
+                    {{ severityHigh }}
+                </button>
+                <button @click.passive="handleSeverity(4)" type="button"
+                    class="btn btn-icon btn-sm fw-bold btn-outline btn-outline-dashed btn-outline-info h-35px w-35px text-info ms-2">
+                    All
+                </button>
+            </div>
+        </div>
+        <div class="ms-auto py-2">
+            <div class="d-flex">
+                <!--begin::Tab nav-->
+                <!-- <ul class="nav nav-pills me-6 mb-2 mb-sm-0" role="tablist">
+                    <li class="nav-item m-0" role="presentation">
+                        <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary me-3 active"
+                            data-bs-toggle="tab" href="#kt_project_users_card_pane" aria-selected="true" role="tab">
+                            <i class="ki-duotone ki-element-plus fs-2"><span class="path1"></span><span
+                                    class="path2"></span><span class="path3"></span><span class="path4"></span><span
+                                    class="path5"></span></i> </a>
+                    </li>
+
+                    <li class="nav-item m-0" role="presentation">
+                        <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary" data-bs-toggle="tab"
+                            href="#kt_project_users_table_pane" aria-selected="false" role="tab" tabindex="-1">
+                            <i class="ki-duotone ki-row-horizontal fs-2"><span class="path1"></span><span
+                                    class="path2"></span></i> </a>
+                    </li>
+                </ul> -->
+                <!--end::Tab nav-->
+
+                <!--begin::Actions-->
+                <div class="d-flex my-0 mx-2">
+                    <!--begin::Select-->
+                    <button type="button" @click="reloadData" :disabled="checkDisabled"
+                        class="btn btn-sm h-35px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                        <KTIcon icon-name="arrows-loop" icon-class="fs-2 text-white" />
+                        Tải lại
+                    </button>
+                    <!--end::Select-->
+                </div>
+                <!--end::Actions-->
+
+                <!--begin::Actions-->
+                <div class="d-flex my-0">
+                    <!--begin::Select-->
+                    <el-select v-model="eventTime" class="d-block w-150px" height="40px" as="select">
+                        <el-option value="300000" key="300000" label="5 phút" />
+                        <el-option value="60000" key="60000" label="1 phút" />
+                        <el-option value="30000" key="30000" label="30 giây" />
+                        <el-option value="15000" key="15000" label="15 giây" />
+                        <el-option value="5000" key="5000" label="5 giây" />
+                    </el-select>
+                    <!--end::Select-->
+                </div>
+                <!--end::Actions-->
+            </div>
+        </div>
+    </div>
+
     <!--begin::Card-->
     <div class="card h-100 d-block">
-
-
-        <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'py-2 ps-2 pe-1' : ''">
+        <div class="d-flex hand-height-3 shadow-hvover " :class="classDetail ? 'py-2 ps-2 pe-1' : ''">
             <!--begin::Card body-->
             <div class="card-body overflow-scroll h-100 m-0" ref="container" @mousedown="handleMouseDown"
                 :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
                 :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
-                <div :style="{ width: contentWidth + 'px' }">
+                <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }">
                     <KTDatatable :clickOnRow="true" :data="list" :header="headerConfig" :loading="loading"
-                        :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
-                        @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+                        :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" @page-change="handlePage"
+                        @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
                         <template v-slot:severity="{ row: customer }">
                             <div class="text-center">
                                 <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
@@ -201,9 +284,12 @@
                         </template>
                         <template v-slot:vt_name="{ row: customer }"><span
                                 class="fs-6 fw-bold text-dark text-hover-primary">
-                                {{ customer.vt_name ?? customer.port_scan["vt_name"] }}</span></template>
+                                {{ customer.vt_name ?? (customer.port_scan.vt_name ?? (customer.port_scan.name +
+                                    (customer.port_scan["matcher-name"] ? ":" + customer.port_scan["matcher-name"] : "")))
+                                }}</span></template>
                         <template v-slot:affects_url="{ row: customer }">
-                            <div class="badge badge-light">{{ customer.affects_url ?? '--' }}</div>
+                            <div class="badge badge-light">
+                                {{ customer.affects_url ?? (customer.port_scan.host ?? "Default Name") }}</div>
                         </template>
                         <template v-slot:status="{ row: customer }">
                             <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ??
@@ -225,19 +311,310 @@
             <div class="overflow-scroll h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
                 :class="classDetail ? ' d-block' : 'd-none'">
                 <div class="ms-3 pb-10">
-                    ````123````
+                    <div class="card-title py-2 position-relative">
+                        <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailVuln.vt_name }}</h2>
+                        <div class="position-absolute top-50 end-0 translate-middle-y">
+                            <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
+                                <KTIcon icon-name="x" icon-class="bi bi-x" :style="{ fontSize: '25px' }" />
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lh-lg mt-2">
+                        <div class="mb-5" v-if="detailVuln.host != null && detailVuln.host != ''">
+                            <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">URL : <span>{{ detailVuln.host
+                            }}</span></h4>
+                        </div>
+                        <div class="mb-5" v-if="detailVuln.severity != '' || detailVuln.status != ''">
+                            <span class="badge text-white me-2"
+                                :style="{ background: getSeverity(detailVuln.severity).color }">Severity: {{
+                                    getSeverity(detailVuln.severity).title }}</span>
+                            <span :class="`badge badge-${getStatus(detailVuln.status).color}`">Trạng thái: {{
+                                detailVuln.status }}</span>
+                        </div>
+
+                        <template v-if="checkDetailVuln">
+                            <div class="mb-5" v-if="detailVuln.details != null && detailVuln.details != ''">
+                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Attack Details</h4>
+                                <span> {{ detailVuln.details }}</span>
+                            </div>
+                            <div class="mb-5" v-if="detailVuln.classification != null && detailVuln.classification != ''">
+                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Classification</h4>
+                                <div class="lh-base mt-3">
+                                    <div class="row">
+                                        <div class="w-70px"><span>CWE</span></div>
+                                        <div class="col"><span>{{ detailVuln.tags ?? '--' }}</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="w-70px"><span>CVSS</span></div>
+                                        <div class="col">
+                                            <template v-for="(items, index) in detailVuln.classification" :key="index">
+                                                <template v-if="items != null">
+                                                    <template v-if="Array.isArray(items)">
+                                                        <template v-for="(item, key) in items" :key="key">
+                                                            <li class="d-flex align-items-center py-2">
+                                                                <span
+                                                                    class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
+                                                                {{ index }} : {{ item }}
+                                                            </li>
+                                                        </template>
+                                                    </template>
+                                                    <template v-else>
+                                                        <li class="d-flex align-items-center py-2">
+                                                            <span
+                                                                class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
+                                                            {{ index }} : {{ items }}
+                                                        </li>
+                                                    </template>
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <div id="kt_detail_collapsible_scan">
+
+                                    <div class="py-1" v-if="detailVuln.description != null && detailVuln.description != ''">
+                                        <div class="py-3 d-flex flex-stack flex-wrap">
+                                            <div class="d-flex align-items-center collapsible toggle collapsed"
+                                                data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_5"
+                                                aria-expanded="false">
+                                                <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                                                    <KTIcon icon-name="minus-square"
+                                                        icon-class="toggle-on text-primary fs-2" />
+                                                    <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                                                </div>
+
+                                                <div class="me-3">
+                                                    <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">Vulnerability
+                                                        Description</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="kt_detail_collapsible_scan_5" class="fs-6 px-2 collapse" style="">
+                                            <div>
+                                                <span>{{ detailVuln.description }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="separator separator-dashed"
+                                        v-if="detailVuln.description != null && detailVuln.description != ''"></div>
+
+
+                                    <div class="py-1" v-if="detailVuln.impact != null && detailVuln.impact != ''">
+                                        <div class="py-3 d-flex flex-stack flex-wrap">
+                                            <div class="d-flex align-items-center collapsible toggle collapsed"
+                                                data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_5"
+                                                aria-expanded="false">
+                                                <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                                                    <KTIcon icon-name="minus-square"
+                                                        icon-class="toggle-on text-primary fs-2" />
+                                                    <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                                                </div>
+
+                                                <div class="me-3">
+                                                    <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">The impact of this
+                                                        vulnerability</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="kt_detail_collapsible_scan_5" class="fs-6 px-2 collapse" style="">
+                                            <div>
+                                                <span>{{ detailVuln.impact }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="separator separator-dashed"
+                                        v-if="detailVuln.impact != null && detailVuln.impact != ''"></div>
+
+
+                                    <div class="py-1" v-if="detailVuln.request != null && detailVuln.request != ''">
+                                        <div class="py-3 d-flex flex-stack flex-wrap">
+                                            <div class="d-flex align-items-center collapsible toggle collapsed"
+                                                data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_1"
+                                                aria-expanded="false">
+                                                <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                                                    <KTIcon icon-name="minus-square"
+                                                        icon-class="toggle-on text-primary fs-2" />
+                                                    <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                                                </div>
+
+                                                <div class="me-3">
+                                                    <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">HTTP Request</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="kt_detail_collapsible_scan_1" class="fs-6 px-2 collapse" style="">
+                                            <div>
+                                                <CodeHighlighter lang="json">{{ detailVuln.request }}</CodeHighlighter>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="separator separator-dashed"
+                                        v-if="detailVuln.request != null && detailVuln.request != ''"></div>
+
+                                    <div class="py-1"
+                                        v-if="detailVuln.http_response != null && detailVuln.http_response != ''">
+                                        <div class="py-3 d-flex flex-stack flex-wrap">
+                                            <div class="d-flex align-items-center collapsible toggle collapsed"
+                                                data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_2">
+                                                <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                                                    <KTIcon icon-name="minus-square"
+                                                        icon-class="toggle-on text-primary fs-2" />
+
+                                                    <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                                                </div>
+
+                                                <div class="me-3">
+                                                    <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">HTTP Response</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="kt_detail_collapsible_scan_2" class="collapse fs-6 px-2">
+                                            <div>
+                                                <CodeHighlighter lang="html">{{ detailVuln.http_response }}
+                                                </CodeHighlighter>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="separator separator-dashed"
+                                        v-if="detailVuln.http_response != null && detailVuln.http_response != ''"></div>
+
+                                    <div class="py-1"
+                                        v-if="detailVuln.recommendation != null && detailVuln.recommendation != ''">
+                                        <div class="py-3 d-flex flex-stack flex-wrap">
+                                            <div class="d-flex align-items-center collapsible toggle collapsed"
+                                                data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_3">
+                                                <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                                                    <KTIcon icon-name="minus-square"
+                                                        icon-class="toggle-on text-primary fs-2" />
+                                                    <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                                                </div>
+
+                                                <div class="me-3">
+                                                    <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">How to fix this
+                                                        vulnerability</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="kt_detail_collapsible_scan_3" class="collapse fs-6 px-2">
+                                            <div>
+                                                {{ detailVuln.recommendation }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div class="mb-5" v-if="detailVuln.tags != null && detailVuln.tags != ''">
+                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">CVE/CWE</h4>
+                                <div class="lh-base ms-5">
+                                    <template v-for="(tag, index) in detailVuln.tags" :key="index">
+                                        <li class="d-flex align-items-center py-2">
+                                            <span class="bullet bullet-dot h-5px w-5px bg-success me-5"></span> {{ tag }}
+                                        </li>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="mb-5" v-if="detailVuln.classification != null && detailVuln.classification != ''">
+                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Classification</h4>
+                                <div class="lh-base ms-5">
+                                    <template v-for="(items, index) in detailVuln.classification" :key="index">
+                                        <template v-if="items != null">
+                                            <template v-if="Array.isArray(items)">
+                                                <template v-for="(item, key) in items" :key="key">
+                                                    <li class="d-flex align-items-center py-2">
+                                                        <span class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
+                                                        {{ index }} : {{ item }}
+                                                    </li>
+                                                </template>
+                                            </template>
+                                            <template v-else>
+                                                <li class="d-flex align-items-center py-2">
+                                                    <span class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
+                                                    {{ index }} : {{ items }}
+                                                </li>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="mb-5" v-if="detailVuln.type != null && detailVuln.type != ''">
+                                <p><span class="text-gray-800 fs-6 fw-bold cursor-pointer ">Service : </span><span
+                                        class="badge badge-light-primary">{{ detailVuln.type }}</span></p>
+                            </div>
+                            <div class="mb-5" v-if="detailVuln.reference != null && detailVuln.reference != ''">
+                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Reference</h4>
+                                <div class="lh-base ms-5">
+                                    <template v-for="(tag, index) in detailVuln.reference" :key="index">
+                                        <li class="d-flex align-items-center py-2">
+                                            <span class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
+                                            {{ tag }}
+                                            <KTIcon icon-name="copy" class="fs-2 ms-3" data-clipboard-target="123" />
+                                        </li>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="mb-5" v-if="detailVuln.matcherName != null && detailVuln.matcherName != ''">
+                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">matcher name</h4>
+                                <span> {{ detailVuln.matcherName }}</span>
+                            </div>
+                            <div class="mb-5" v-if="detailVuln.description != null && detailVuln.description != ''">
+                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Description</h4>
+                                <span> {{ detailVuln.description }}</span>
+                            </div>
+                        </template>
+
+                    </div>
                 </div>
             </div>
+
             <!--end::Card2 body-->
         </div>
 
     </div>
     <!--end::Card-->
+
+
+    <!-- // modoal  -->
+    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file">
+        <div class="card h-100 bg-secondary ">
+            <!--begin::Card body-->
+            <div class="card-body d-flex justify-content-center text-center flex-column p-8">
+                <!--begin::Name-->
+                <div class="symbol symbol-60px mb-5">
+                    <KTIcon class="me-1" icon-name="document" icon-class="fs-4x text-success" />
+                </div>
+                <!--end::Image-->
+
+                <!--begin::Title-->
+                <div class="fs-5 fw-bold mb-2 text-dark"> {{ `Scan_${scanID}_report.xlsx` }} </div>
+                <!--end::Name-->
+            </div>
+            <!--end::Card body-->
+        </div>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="fileDownVisible = false">Hủy bỏ</el-button>
+                <el-button type="primary" @click="downloadAcunetix">Tải về</el-button>
+            </span>
+        </template>
+    </el-dialog>
 </template>
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, watchEffect } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, onBeforeUnmount } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
@@ -251,6 +628,12 @@ import Fillter from "@/views/apps/scans/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { Modal } from "bootstrap";
 import { useRoute } from 'vue-router';
+import { debounce } from 'vue-debounce'
+import { ElMessage } from 'element-plus'
+import { InfoFilled } from '@element-plus/icons-vue'
+
+// import dayjs from 'dayjs';
+import axios from 'axios'
 
 interface APIData {
     title: string;
@@ -270,7 +653,7 @@ interface detailData {
     status: string;
     affects_url: string;
     vt_name: string;
-    severity: string;
+    severity: string | number;
 }
 
 interface targetData {
@@ -295,9 +678,6 @@ export default defineComponent({
         Fillter,
         CodeHighlighter,
     },
-    directives: {
-        debounce: vue3Debounce({ lock: true })
-    },
     setup() {
         const route = useRoute();
         const scanID = ref<null | number | any>(route.params.id ?? '');
@@ -306,7 +686,7 @@ export default defineComponent({
         const totalPage = ref<number>(0);
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
-        const query = ref<String>('');
+        const query = ref<string | null | any>('');
         const typeModal = ref<String>('');
         const nameType = ref<string>('');
         const classDetail = ref<boolean>(false);
@@ -318,10 +698,8 @@ export default defineComponent({
             title: '',
             description: '',
         });
-        const detailData = ref({
-            id: '',
-            vt_name: '',
-        });
+        const activeName = ref('1')
+
         const targetData = ref<targetData>({
             created_at: '',
             modified_at: '',
@@ -331,6 +709,16 @@ export default defineComponent({
             ip: '',
             name: ''
         })
+        const severityInfo = ref<number>(0)
+        const progress = ref<number>(0)
+        const checkStatus = ref<boolean>(false)
+        const severityLow = ref<number>(0)
+        const severityMedium = ref<number>(0)
+        const severityHigh = ref<number>(0)
+        const scanStatus = ref<number>(0)
+        const filterSeverity = ref<number | null>(null)
+        const timeEnd = ref<number | any>(null)
+        const timeStart = ref<number | any>(null)
 
         const headerConfig = ref([
             {
@@ -375,7 +763,17 @@ export default defineComponent({
             setTimeout(() => loading.value = false, 500)
             return ApiService.get(`/scan/detail/${scanID.value}`)
                 .then(({ data }) => {
-                    list.value = data.vulnerabilities
+
+                    if (filterSeverity.value != null && query.value != null) {
+                        list.value = data.vulnerabilities.filter((vulnerability: detailData) => (vulnerability.vt_name.toLowerCase().indexOf(query.value.toLowerCase()) > -1 && vulnerability.severity == filterSeverity.value))
+                    } else if (filterSeverity.value != null) {
+                        list.value = data.vulnerabilities.filter((vulnerability: detailData) => (vulnerability.severity == filterSeverity.value))
+                    } else if (query.value != null) {
+                        list.value = data.vulnerabilities.filter((vulnerability: detailData) => (vulnerability.vt_name.toLowerCase().indexOf(query.value.toLowerCase()) > -1))
+                    } else {
+                        list.value = data.vulnerabilities;
+                    }
+
                     targetData.value.id = data.target.id
                     targetData.value.domain = data.target.domain
                     targetData.value.ip = data.target.ip
@@ -387,20 +785,114 @@ export default defineComponent({
                     averageResponseTime.value = data.web_scan_status.avg_response_time != undefined ? data.web_scan_status.avg_response_time + 'ms' : '0ms';
                     locations.value = new Intl.NumberFormat("en-US").format(data.web_scan_status.locations ?? 0);
                     maxResponseTime.value = data.web_scan_status.max_response_time
-                    console.log(countRequest.value)
-                    console.log(averageResponseTime.value)
-                    console.log(locations.value)
-                    console.log(maxResponseTime.value)
-                    console.log(data)
+
+                    // severity
+                    severityInfo.value = data.severity_counts.info
+                    severityLow.value = data.severity_counts.low
+                    severityHigh.value = data.severity_counts.high
+                    severityMedium.value = data.severity_counts.medium
+
+                    // check
+                    progress.value = data.progress
+                    timeStart.value = data.scan_started_at
+                    timeEnd.value = data.scan_finished_at
+                    checkStatus.value = (data.scan_status == 3) ? true : false
+                    scanStatus.value = data.scan_status
+                    humanDiffTime()
+                    showLocaleTime()
+                    // console.log(countRequest.value)
+                    // console.log(averageResponseTime.value)
+                    // console.log(locations.value)
+                    // console.log(maxResponseTime.value)
+                    // console.log(data)
+                    // console.log(new Date(timeEnd.value))
+                    // console.log(new Date(timeStart.value))
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                 });
         }
+        const debounceSearch = debounce(getData, 1000);
+        watch(query, debounceSearch);
+        const detailVuln = reactive({
+            id: '',
+            vt_name: '',
+            severity: '',
+            ip: '',
+            host: '',
+            schema: '',
+            created_at: '',
+            status: '',
+            last_seen: '',
+            url: '',
+            parameter: '',
+            tags: '',
+            cvss_score: '',
+            details: '',
+            description: '',
+            request: '',
+            http_response: '',
+            recommendation: '',
+            in_cpe: '',
+            protocol: '',
+            reference: '',
+            type: '',
+            classification: '',
+            port: '',
+            service: '',
+            author: '',
+            matcherName: '',
+            cvss3: '',
+            references: '',
+            long_description: '',
+            impact: '',
+        });
+        const checkDetailVuln = ref<boolean>(false)
+        const getDetailVuln = async (vuln_id: number) => {
+            return ApiService.get(`/scan/vulnerabilities/${scanID.value}?vul_id=${vuln_id}`)
+                .then(({ data }) => {
+                    detailVuln.vt_name = data.vt_name ?? ''
+                    detailVuln.request = data.request ?? ''
+                    detailVuln.severity = data.severity ?? ''
+                    detailVuln.host = data.affects_url ?? ''
+                    detailVuln.details = data.details ?? ''
+                    detailVuln.description = data.description ?? ''
+                    detailVuln.http_response = data.http_response ?? ''
+                    detailVuln.impact = data.impact ?? ''
+                    detailVuln.recommendation = data.recommendation ?? ''
+                    detailVuln.long_description = data.long_description ?? ''
+                    detailVuln.references = data.references ?? ''
+                    detailVuln.classification = data.classification ?? ''
+                    detailVuln.cvss3 = data.cvss3 ?? ''
+                    detailVuln.tags = data.tags.find((value: String) => value.includes("CWE-")) ?? ''
+                    detailVuln.cvss_score = data.cvss_score ?? ''
+                    // console.log(detailVuln)
+
+                })
+                .catch(({ response }) => {
+                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+                });
+        };
 
         const customRowTable = (detail: any) => {
             classDetail.value = true;
-            console.log(detail)
+            if (detail.vuln_id) {
+                checkDetailVuln.value = true;
+                getDetailVuln(detail.vuln_id)
+            } else {
+                checkDetailVuln.value = false;
+                detailVuln.vt_name = detail.vt_name ?? detail.port_scan.vt_name
+                detailVuln.author = detail.port_scan.author ?? ''
+                detailVuln.host = detail.port_scan.host ?? ''
+                detailVuln.description = detail.port_scan.description ?? ''
+                detailVuln.reference = detail.port_scan.reference ?? ''
+                detailVuln.classification = detail.port_scan.classification ?? ''
+                detailVuln.tags = detail.port_scan.tags ?? ''
+                detailVuln.severity = detail.severity
+                detailVuln.status = detail.port_scan.status ?? detail.status
+                detailVuln.type = detail.port_scan.type ?? ''
+                detailVuln.matcherName = detail.port_scan['matcher-name'] ?? ''
+            }
         };
 
         const handleCloseDetail = () => {
@@ -423,6 +915,15 @@ export default defineComponent({
             });
         };
 
+        const handleSeverity = (data: number) => {
+            if (data == 4) {
+                filterSeverity.value = null
+            } else {
+                filterSeverity.value = data
+            }
+            getData();
+        };
+
         const getSeverity = (severity: number | string) => {
             if (severity == 0) {
                 return { id: 0, title: 'Info', color: '#28a745', class: 'severityInfo' };
@@ -433,17 +934,17 @@ export default defineComponent({
             } else if (severity == 3) {
                 return { id: 3, title: 'High', color: '#e11f26', class: 'severityHigh' };
             }
-            return { id: 4, title: 'undefined', color: 'light', class: 'severityundefined' };
+            return { id: 4, title: 'undefined', color: '#7239ea', class: 'severityundefined' };
         };
 
         const getStatus = (status: string) => {
-            if (status === 'open') {
+            if (status == 'open') {
                 return { id: 3, title: 'Open', color: 'success' };
-            } else if (status === 're-open') {
+            } else if (status == 're-open') {
                 return { id: 5, title: 'Reopen', color: 'primary' };
-            } else if (status === 'closed') {
+            } else if (status == 'closed') {
                 return { id: 6, title: 'Close', color: 'danger' };
-            } else if (status === 'rick-accepted') {
+            } else if (status == 'rick-accepted') {
                 return { id: 7, title: 'Accepted', color: 'info' };
             }
             return { id: 8, title: 'undefined', color: 'light' };
@@ -506,6 +1007,187 @@ export default defineComponent({
             window.removeEventListener("mouseup", handleMouseUp);
         };
 
+        // reloadData
+        const reloadgetData = () => {
+            getData();
+            ElMessage({
+                message: 'Tải lại thành công',
+                type: 'success',
+                center: false,
+            })
+        };
+        const reloadData = debounce(reloadgetData, 500);
+
+        // tạm dừng
+        // false - tạm dừng
+        // true - tiếp tục
+        const checkPauser = ref<boolean>(false);
+        const checkDisabled = ref<boolean>(false);
+        const handlePauser = async () => {
+            checkPauser.value = (checkPauser.value) ? false : true;
+            checkDisabled.value = true
+            setTimeout(() => {
+                checkDisabled.value = false;
+            }, 500);
+            if (checkStatus.value) {
+                ElMessage({
+                    message: 'Danh dách đã được quét thành công không thể tạm dừng',
+                    type: 'success',
+                    center: false,
+                })
+            } else if (scanStatus.value == 5) {
+                // console.log('tiếp tục')
+                getResume()
+            } else {
+                // console.log('tạm dừng')
+                getPauser()
+            }
+
+        };
+
+        const getResume = async () => {
+            const formData = {
+                control_param: {
+                    "action": 'continue'
+                }
+            }
+            return ApiService.post(`/scan/${scanID.value}/control`, formData)
+                .then(({ data }) => {
+                    getData()
+                    ElMessage({
+                        message: data.detail ?? 'Tiếp tục thành công',
+                        type: 'success',
+                        center: false,
+                    })
+                })
+                .catch(({ response }) => {
+                    ElMessage({
+                        message: response.data.detail ?? 'Có lỗi xảy ra',
+                        type: 'error',
+                        center: false,
+                    })
+                });
+        };
+
+        const getPauser = async () => {
+            const formData = {
+                control_param: {
+                    "action": 'pause'
+                }
+            }
+            return ApiService.post(`/scan/${scanID.value}/control`, formData)
+                .then(({ data }) => {
+                    getData()
+                    ElMessage({
+                        message: data.detail ?? 'Tạm dừng thành công',
+                        type: 'success',
+                        center: false,
+                    })
+                })
+                .catch(({ response }) => {
+                    ElMessage({
+                        message: response.data.detail ?? 'Có lỗi xảy ra',
+                        type: 'error',
+                        center: false,
+                    })
+                });
+        };
+
+        // thời gian tự động chạy
+        const timeAuto = ref<any>(null);
+
+        const showLocaleTime = async () => {
+            if (checkStatus.value || !checkPauser.value) {
+                clearInterval(timeAuto.value);
+                humanDiff();
+            } else {
+                clearInterval(timeAuto.value);
+                timeAuto.value = setInterval(() => { humanDiff(); }, 1000);
+            }
+        };
+
+        // tải về files
+        const fileDownVisible = ref(false)
+        const downloadAcunetix = async () => {
+            axios({
+                url: `/scan/${scanID.value}/download/v1`, //your url
+                method: 'GET',
+                responseType: 'blob', // important
+            }).then((response) => {
+                const href = URL.createObjectURL(response.data);
+                const link = document.createElement('a');
+                link.href = href;
+                link.setAttribute('download', `Scan_${scanID.value}_report.xlsx`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(href);
+                fileDownVisible.value = false;
+            }).catch(async error => {
+                // xử lý hiển thị lỗi 
+                const reponse_message = JSON.parse(await error.response.data.text()).detail ?? "Có lỗi xảy ra"
+                ElMessage({
+                    message: reponse_message ?? 'Tạm dừng thành công',
+                    type: 'success',
+                    center: false,
+                })
+                fileDownVisible.value = false;
+            })
+        };
+        // hủy
+        const confirmEvent = () => {
+            ElMessage({
+                message: 'Test hủy',
+                type: 'success',
+                center: false,
+            })
+        }
+
+        const cancelEvent = () => {
+            ElMessage({
+                message: 'Hủy bỏ lệnh thành công',
+                type: 'info',
+                center: false,
+            })
+        }
+
+
+        // tính thời gian
+        const diffTime = ref<string | null>(null);
+        const time = ref<any>(null);
+        const eventTime = ref<number | any>('30000');
+
+        const humanDiff = async () => {
+            let date1: any = (checkStatus.value == false) ? new Date() : new Date(timeEnd.value);
+            let date2: any = new Date(timeStart.value);
+            let diff = Math.max(date2, date1) - Math.min(date2, date1);
+            let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
+            let hrs = Math.floor(diff / HRS);
+            let min = Math.floor((diff % HRS) / MIN).toLocaleString('en-US', { minimumIntegerDigits: 1 });
+            let sec = Math.floor(((diff % MIN) / SEC)).toLocaleString('en-US', { minimumIntegerDigits: 2 });
+            if (hrs == 0) {
+                return diffTime.value = min + 'm ' + sec + 's';
+            }
+            return diffTime.value = hrs + 'h ' + min + 'm ' + sec + 's';
+        };
+
+        const humanDiffTime = () => {
+            checkDisabled.value = true
+            setTimeout(() => {
+                checkDisabled.value = false;
+            }, 500);
+            if (checkStatus.value || !checkPauser.value) {
+                clearInterval(time.value);
+
+                humanDiff();
+            } else {
+                clearInterval(time.value);
+                humanDiff();
+                time.value = setInterval(() => { getData(); humanDiff(); }, eventTime.value);
+            }
+        };
+        watch(eventTime, humanDiffTime);
+
         // Tính toán chiều rộng nội dung
         const contentWidth = ref(0);
         onMounted(() => {
@@ -514,9 +1196,17 @@ export default defineComponent({
 
         onMounted(() => {
             getData();
+            humanDiffTime();
         });
 
+        onBeforeUnmount(() => {
+            clearInterval(timeAuto);
+            clearInterval(time);
+        });
+
+
         return {
+            scanID,
             getData,
             list,
             headerConfig,
@@ -527,6 +1217,18 @@ export default defineComponent({
             locations,
             averageResponseTime,
             countRequest,
+            severityMedium,
+            severityHigh,
+            severityLow,
+            severityInfo,
+            handleSeverity,
+            filterSeverity,
+            activeName,
+
+            // tải về
+            fileDownVisible,
+            downloadAcunetix,
+
 
             // crud
             apiData,
@@ -534,6 +1236,8 @@ export default defineComponent({
 
             // detials
             customRowTable,
+            getDetailVuln,
+            checkDetailVuln,
 
             // page 
             itemsPerPage,
@@ -557,7 +1261,7 @@ export default defineComponent({
 
             // detail
             classDetail,
-            detailData,
+            detailVuln,
 
             // Dragging kéo lề
             startDragging,
@@ -568,6 +1272,23 @@ export default defineComponent({
             handleMouseDown,
             contentWidth,
             container,
+
+            // reloadData
+            reloadData,
+            progress,
+            checkStatus,
+            diffTime,
+            eventTime,
+            checkPauser,
+
+            // tạm dừng
+            handlePauser,
+            checkDisabled,
+            scanStatus,
+
+            // hủy 
+            confirmEvent,
+            cancelEvent,
         };
     },
 });
@@ -576,6 +1297,10 @@ export default defineComponent({
 <style>
 .shadow-hvover {
     box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
+}
+
+.hand-height-3 {
+    height: calc(100% - 220px) !important;
 }
 
 .el-select .el-input__wrapper {

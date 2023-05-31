@@ -432,14 +432,7 @@
             ></i>
           </label>
           <!--end::Label-->
-          <el-input
-            maxlength="2"
-            v-model="setingData.hour"
-            type="number"              
-            placeholder="Enter Time"
-            name="hour"
-            class="h-40px"
-          ></el-input>
+          <el-input-number v-model="setingData.hour" :min="1" :max="24" />
         </div>
         <!--end::Input group-->
         </div>
