@@ -65,7 +65,7 @@
       <div class="card-body overflow-auto h-100 m-0" ref="container" @mousedown="handleMouseDown"
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
         :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
-        <div :style="{ width: contentWidth + 'px' }">
+        <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }">
           <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :data="list" :header="headerConfig" :loading="loading"
             :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
             @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
@@ -341,7 +341,7 @@
                     <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
                       <KTIcon icon-name="minus-square" icon-class="toggle-on text-primary fs-2" />
                       <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
-                    </div>
+                    </div> 
 
                     <div class="me-3">
                       <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">Resolution</h4>

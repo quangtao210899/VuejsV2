@@ -1,7 +1,7 @@
 <template>
   <tbody class="fw-semibold text-gray-600 ">
     <template v-for="(row, i) in data" :key="i">
-      <tr class="bg-hover-light" :class="(clickOnRow && selectRowID == row.id) ? 'bg-secondary' : ''">
+      <tr class="bg-hover-light" :class="(clickOnRow && indexTable == i) ? 'bg-secondary' : ''">
         <td v-if="checkboxEnabled">
           <div class="form-check form-check-sm form-check-custom form-check-solid ms-2">
             <input class="form-check-input" type="checkbox" :value="row[checkboxLabel]" v-model="selectedItems"
@@ -21,7 +21,7 @@
               {{ row }}
             </slot>
           </td>
-          <td v-else class="cursor-pointer" @click.passive="customRow(row)" data-bs-target="#kt_modal_detail">
+          <td v-else class="cursor-pointer" @click.passive="customRow(row, i)" data-bs-target="#kt_modal_detail">
             <slot :name="`${properties.columnLabel}`" :row="row">
               {{ row }}
             </slot>
@@ -53,8 +53,9 @@ export default defineComponent({
   emits: ["on-select", "custom-row"],
   setup(props, { emit }) {
     const selectedItems = ref<Array<any>>([]);
-      const selectRow = ref<object>();
-        const selectRowID = ref<number>(0);
+    const selectRow = ref<object>();
+    const selectRowID = ref<number>(0);
+    const indexTable = ref<number>(0);
 
     watch(
       () => [...props.currentlySelectedItems],
@@ -73,9 +74,10 @@ export default defineComponent({
       emit("on-select", selectedItems.value);
     };
 
-    const customRow = (data: object | any) => {
+    const customRow = (data: object | any, index: number) => {
       selectRow.value = data
       selectRowID.value = data.id
+      indexTable.value = index
       emit("custom-row", selectRow.value);
     };
 
@@ -85,6 +87,7 @@ export default defineComponent({
       customRow,
       selectRow,
       selectRowID,
+      indexTable,
     };
   },
 });

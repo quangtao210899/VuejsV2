@@ -72,7 +72,7 @@
         <div class="row">
           <div class="col-8 pe-0">
             <el-input v-model="debouncedSearchIp" type="text" placeholder="Nhập IP" name="targetTitle"
-              class="h-40px"></el-input>
+              class="h-35px"></el-input>
           </div>
           <div class="col-4 ">
             <el-form-item prop="assign">
@@ -101,7 +101,7 @@
         <div class="row">
           <div class="col-8 pe-0">
             <el-input v-model="debouncedSearchDomain" type="text" placeholder="Nhập Domain" name="targetTitle"
-              class="h-40px"></el-input>
+              class="h-35px"></el-input>
           </div>
           <div class="col-4 ">
             <el-form-item prop="assign">
