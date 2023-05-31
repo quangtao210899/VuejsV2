@@ -21,7 +21,7 @@
                 <div v-show="selectedIds.length === 0">
                     <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
                         <!--begin::Export-->
-                        <VueCustomTooltip label="Tìm kiếm" position="is-top">                            
+                        <VueCustomTooltip label="Tìm kiếm" position="is-top">
                             <button type="button"
                                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">

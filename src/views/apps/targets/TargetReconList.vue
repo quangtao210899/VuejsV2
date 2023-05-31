@@ -4,18 +4,22 @@
             <div class="card-toolbar">
                 <div v-show="selectedIds.length === 0">
                     <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
-                        <button type="button"
-                            class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                            <KTIcon icon-name="filter" icon-class="fs-2" />
-                            Filter
-                        </button>
-                        <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
-                        <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
-                            <KTIcon icon-name="plus" icon-class="fs-2" />
-                            Thêm
-                        </button>
+                        <VueCustomTooltip label="Tìm kiếm" position="is-top">
+                            <button type="button"
+                                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                                <KTIcon icon-name="filter" icon-class="fs-2" />
+                                Filter
+                            </button>
+                            <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
+                        </VueCustomTooltip>
+                        <VueCustomTooltip label="Thêm mới" position="is-top">
+                            <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
+                                <KTIcon icon-name="plus" icon-class="fs-2" />
+                                Thêm
+                            </button>
+                        </VueCustomTooltip>
                     </div>
                 </div>
                 <div v-show="selectedIds.length !== 0">
@@ -23,9 +27,11 @@
                         <div class="fw-bold me-5">
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
-                        <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
-                            Delete Selected
-                        </button>
+                        <VueCustomTooltip label="Xóa" position="is-top">
+                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
+                                Delete Selected
+                            </button>
+                        </VueCustomTooltip>
                     </div>
                 </div>
             </div>
@@ -45,11 +51,13 @@
                     {{ (customer.status==2 || customer.status==1) ? "--:--" : customer.modified_at }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
-                    <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
-                        data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
-                        @click="handleClick(customer, 'edit')" title="Sửa">
-                        <KTIcon icon-name="pencil" icon-class="fs-3" />
-                    </button>
+                    <VueCustomTooltip label="Sửa" position="is-top">
+                        <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
+                            data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
+                            @click="handleClick(customer, 'edit')">
+                            <KTIcon icon-name="pencil" icon-class="fs-3" />
+                        </button>
+                    </VueCustomTooltip>
                 </template>
             </KTDatatable>
         </div>
@@ -621,6 +629,22 @@ export default defineComponent({
                         key: "0-0-1-5",
                         title: "DNS Records",
                     },
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
                 ],
             },
             {
@@ -641,6 +665,22 @@ export default defineComponent({
                         key: "0-0-3-0",
                         title: "Web Prober",
                     },
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
                 ],
             },
             {
@@ -651,6 +691,22 @@ export default defineComponent({
                         key: "0-0-3-0",
                         title: "Web Prober",
                     },
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
                 ],
             },
             {
@@ -661,6 +717,22 @@ export default defineComponent({
                         key: "0-0-3-0",
                         title: "Web Prober",
                     },
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
                 ],
             },
             {
@@ -671,6 +743,22 @@ export default defineComponent({
                         key: "0-0-1-6",
                         title: "JS files & Source Code Scraping",
                     },
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
                 ],
             },
             {
@@ -681,6 +769,26 @@ export default defineComponent({
                         key: "0-0-3-2",
                         title: "Url extraction",
                     },
+                    {
+                        key: "0-0-3-0",
+                        title: "Web Prober",
+                    },
+                    {
+                        key: "0-0-1-0",
+                        title: "Passive",
+                    },
+                    {
+                        key: "0-0-1-1",
+                        title: "Certificate transparency",
+                    },
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                    {
+                        key: "0-0-1-4",
+                        title: "Bruteforce",
+                    }
                 ],
             },
         ]);
