@@ -24,7 +24,7 @@
           </button> -->
           <!--end::Export-->
           <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
-          <VueCustomTooltip label="Tìm kiếm" position="is-top">  
+          <VueCustomTooltip label="Tìm kiếm" position="is-top">
             <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary"
               data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
               <KTIcon icon-name="filter" icon-class="fs-2" />
@@ -44,7 +44,7 @@
           <div class="fw-bold me-5">
             <span class="me-2">{{ selectedIds.length }}</span>Selected
           </div>
-          <VueCustomTooltip label="Xóa" position="is-top">  
+          <VueCustomTooltip label="Xóa" position="is-top">
             <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
               <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
               Delete Selected
@@ -66,9 +66,10 @@
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
         :class="classDetail ? 'd-block border-end p-0' : 'col-12 d-block p-0'">
         <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }">
-          <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig" :loading="loading"
-            :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :checkitemsPerPage="checkitemsPerPage" :total="totalPage" :currentPage="currentPage"
-            @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+          <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :closeOnRow="closeOnRow" :data="list"
+            :header="headerConfig" :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage"
+            :checkitemsPerPage="checkitemsPerPage" :total="totalPage" :currentPage="currentPage" @page-change="handlePage"
+            @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
             <template v-slot:severity="{ row: customer }">
               <div class="text-center">
                 <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
@@ -78,7 +79,7 @@
               </div>
             </template>
             <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-hover-primary">
-               {{ customer.vt_name ?? customer.port_scan["vt_name"]}}</span></template>
+                {{ customer.vt_name ?? customer.port_scan["vt_name"] }}</span></template>
             <template v-slot:hostname="{ row: customer }">
               <div class="badge badge-light">{{ customer.hostname ?? '--' }}</div>
             </template>
@@ -86,7 +87,8 @@
               <div class="badge badge-light">{{ (customer.ip == '') ? '--' : customer.ip }}</div>
             </template>
             <template v-slot:schema="{ row: customer }">
-              <div><span class="badge badge-light-primary"> {{ customer.schema ?? (customer.nmap_scan ? customer.port_scan["service"] : customer.port_scan["type"]) }}</span></div>
+              <div><span class="badge badge-light-primary"> {{ customer.schema ?? (customer.nmap_scan ?
+                customer.port_scan["service"] : customer.port_scan["type"]) }}</span></div>
             </template>
             <template v-slot:created_at="{ row: customer }">
               <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
@@ -102,18 +104,25 @@
         </div>
       </div>
       <!--end::Card body-->
-      <div v-if="classDetail" @mousedown="startDragging" class="drag-handle"></div>
+      <div v-if="classDetail" @mousedown="startDragging" class="drag-handle position-relative">
+        <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
+          <el-button @click="handleCustomSize" type="primary" class="btn h-30px w-40px btn-sm btn-light btn-icon ">
+            <KTIcon icon-name="entrance-right" icon-class="text-info" :style="{ fontSize: '22px' }" />
+          </el-button>
+        </div>
+      </div>
       <!--begin::Card2 body-->
-      <div class="overflow-scroll h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
+      <div class="overflow-scroll  h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
         :class="classDetail ? ' d-block' : 'd-none'">
-        <div class="ms-3 pb-10">
-
-          <div class="card-title py-5 position-relative">
+        <div class="ms-3 pb-10 affix-container">
+          <div class="card-title py-5 ">
             <h2 class="fw-bold pe-15 mt-5 fs-1">{{ detailData.vt_name }}</h2>
-            <div class="position-absolute top-50 end-0 translate-middle-y">
-              <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
-                <KTIcon icon-name="x" icon-class="bi bi-x" :style="{ fontSize: '25px' }" />
-              </button>
+            <div class="position-absolute translate-middle-y" :style="{top: '50px', right: '10px'}">
+              <el-affix target=".affix-container" :offset="170">
+                <button @click="handleCloseDetail" type="button" class="btn zindex-fixed btn-icon ">
+                  <KTIcon icon-name="abstract-11" icon-class="text-dark" :style="{ fontSize: '22px' }" />
+                </button>
+              </el-affix>
             </div>
           </div>
           <div class="row">
@@ -187,7 +196,7 @@
               <div>
                 <li class="d-flex align-items-center py-2">
                   <span class="bullet bg-warning me-5"></span>
-                  <label for="Host name">Base Score: </label> 
+                  <label for="Host name">Base Score: </label>
                   <strong class="ps-2"> {{ detailData.cvss_score }}</strong>
                 </li>
               </div>
@@ -259,14 +268,14 @@
                 <template v-for="(items, index) in detailData.classification" :key="index">
                   <li class="d-flex align-items-center py-2">
                     <template v-if="items != null">
-                        <template v-if="Array.isArray(items)">
-                            <template v-for="(item, key) in items" :key="key">
-                              <span class="bullet bullet-vertical bg-primary me-5"></span> {{index}} : {{ item }}<br>
-                            </template>
+                      <template v-if="Array.isArray(items)">
+                        <template v-for="(item, key) in items" :key="key">
+                          <span class="bullet bullet-vertical bg-primary me-5"></span> {{ index }} : {{ item }}<br>
                         </template>
-                        <template v-else>
-                          <span class="bullet bullet-vertical bg-primary me-5"></span> {{index}} : {{ items }}<br>
-                        </template>
+                      </template>
+                      <template v-else>
+                        <span class="bullet bullet-vertical bg-primary me-5"></span> {{ index }} : {{ items }}<br>
+                      </template>
                     </template>
                   </li>
                 </template>
@@ -341,7 +350,7 @@
                     <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
                       <KTIcon icon-name="minus-square" icon-class="toggle-on text-primary fs-2" />
                       <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
-                    </div> 
+                    </div>
 
                     <div class="me-3">
                       <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">Resolution</h4>
@@ -631,7 +640,7 @@ export default defineComponent({
       detailData.classification = detail.port_scan.classification
       detailData.type = detail.port_scan.type
       detailData.references = detail.port_scan.references
-      
+
       dataConfirm.severity = detailData.severity
       dataConfirm.status = detailData.status
       console.log(detail)
@@ -788,11 +797,17 @@ export default defineComponent({
 
     // keos thar
     const container = ref<null | any>(null);
+    const CustomWidth = ref<boolean>(true);
     const state = reactive({
       isDragging: false,
       startX: 0,
       startScrollLeft: 0,
     });
+
+    const handleCustomSize = () => {
+      CustomWidth.value = !CustomWidth.value
+      console.log(CustomWidth.value)
+    };
 
     const handleMouseDown = (event: any) => {
       state.isDragging = true;
@@ -889,6 +904,7 @@ export default defineComponent({
       handleMouseDown,
       contentWidth,
       container,
+      handleCustomSize,
     };
   },
 });
@@ -959,5 +975,4 @@ export default defineComponent({
   height: 0px;
   background-color: black;
 }
-
 </style>
