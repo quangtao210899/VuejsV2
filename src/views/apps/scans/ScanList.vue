@@ -24,16 +24,14 @@
           </button> -->
           <!--end::Export-->
           <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
-          <VueCustomTooltip label="Tìm kiếm" position="is-top">
+          <el-tooltip class="box-item" effect="dark" content="Tìm kiếm" placement="top"> 
             <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary"
               data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
               <KTIcon icon-name="filter" icon-class="fs-2" />
               Filter
             </button>
-            <!-- </div> -->
-
-            <Fillter @filterData="handleFilter"></Fillter>
-          </VueCustomTooltip>
+          </el-tooltip>
+          <Fillter @filterData="handleFilter"></Fillter>
           <!--begin::Add subscription-->
           <!--end::Add subscription-->
         </div>
@@ -44,12 +42,12 @@
           <div class="fw-bold me-5">
             <span class="me-2">{{ selectedIds.length }}</span>Selected
           </div>
-          <VueCustomTooltip label="Xóa" position="is-top">
+          <el-tooltip class="box-item" effect="dark" content="Xóa" placement="top">  
             <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
               <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
               Delete Selected
             </button>
-          </VueCustomTooltip>
+          </el-tooltip>
           <!-- <button type="button" class="btn btn-light-danger ms-2">
             Hủy
           </button> -->
@@ -60,12 +58,12 @@
     </div>
     <!--end::Card header-->
 
-    <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'ps-0 pe-1' : ''">
+    <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'pe-1' : ''">
       <!--begin::Card body-->
       <div class="card-body overflow-auto h-100 m-0" ref="container" @mousedown="handleMouseDown"
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
-        :class="classDetail ? 'd-block border-end p-0' : 'col-12 d-block p-0'">
-        <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }">
+        :class="classDetail ? 'd-block border-end pt-2 p-0' : 'col-12 d-block px-5 py-0'">
+        <div class="w-100">
           <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :closeOnRow="closeOnRow" :data="list"
             :header="headerConfig" :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage"
             :checkitemsPerPage="checkitemsPerPage" :total="totalPage" :currentPage="currentPage" @page-change="handlePage"
@@ -97,7 +95,7 @@
               </span>
             </template>
             <template v-slot:status="{ row: customer }">
-              <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ?? '--' }}</span>
+              <div class="text-end"> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ?? '--' }}</span>
               </div>
             </template>
           </KTDatatable>
@@ -106,7 +104,7 @@
       <!--end::Card body-->
       <div v-if="classDetail" @mousedown="startDragging" class="drag-handle position-relative">
         <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
-          <el-button @click="handleCustomSize" type="primary" class="btn h-30px w-40px btn-sm btn-light btn-icon ">
+          <el-button class="btn h-30px w-35px btn-sm btn-light btn-icon ">
             <KTIcon icon-name="entrance-right" icon-class="text-info" :style="{ fontSize: '22px' }" />
           </el-button>
         </div>
@@ -411,39 +409,11 @@
     <!--end::Modal dialog-->
   </div>
 
-  <!-- modal confirm  -->
-  <div class="modal fade" tabindex="-1" @v-on="testModal" ref="Modalconfirm" aria-hidden="true" id="kt_modal_confirm">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered">
-      <!--begin::Modal content-->
-      <div class="modal-content">
-
-
-        <!--begin::Form-->
-        <div class="modal-body">
-          <p>Bạn có chắc chắn muốn thay đổi <span class="fw-bold text-danger">{{ typeConfirm }} </span> lỗ hổng của bản gi
-            <span class="fw-bold text-danger">{{ detailData.vt_name }} </span> không?.
-          </p>
-        </div>
-        <!--end::Form-->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal" @click.passive="quitUpdateData()">
-            Hủy bỏ
-          </button>
-          <button type="button" class="btn btn-primary" @click.passive="updateData()">
-            Đồng ý
-          </button>
-        </div>
-      </div>
-      <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-  </div>
 </template>
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, watchEffect } from "vue";
+import { defineComponent, ref, onMounted, reactive } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
@@ -451,11 +421,9 @@ import ApiService from "@/core/services/ApiService";
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
-
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import Fillter from "@/views/apps/scans/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
-import { Modal } from "bootstrap";
 
 interface APIData {
   title: string;
@@ -490,7 +458,6 @@ export default defineComponent({
     const typeIp = ref<String | null>('');
     const typeDomain = ref<String | null>('');
     const typeModal = ref<String>('');
-    const id = ref<number>(0);
     const nameType = ref<string>('');
     const classDetail = ref<boolean>(false);
     const closeOnRow = ref(true);
@@ -534,6 +501,8 @@ export default defineComponent({
       {
         columnName: "Sev",
         columnLabel: "severity",
+        columnWidth: 90,
+        textAlign: "center",
       },
       {
         columnName: "Tên",
@@ -558,6 +527,7 @@ export default defineComponent({
       {
         columnName: "Trạng thái",
         columnLabel: "status",
+        columnWidth: 90,
       },
     ]);
 
@@ -651,40 +621,16 @@ export default defineComponent({
       closeOnRow.value = false;
       checkitemsPerPage.value = false;
     };
-    const dataModal = ref<any>(null);
-    const ModalConfirm = ref<string | HTMLElement>('#kt_modal_confirm');
-    const typeConfirm = ref<null | string>(null);
+
     const handleChangeUpdate = (type: string) => {
-      // console.log(dataConfirm.value)
       if (detailData.status && detailData.severity && type) {
-        typeConfirm.value = type
-        const modal = new Modal(ModalConfirm.value);
-        modal.show();
-        dataModal.value = modal
-        // console.log( dataModal.value)
+        updateData()
       } else {
         notification('', 'error', 'Có lỗi xảy ra')
       }
     };
 
-    const quitUpdateData = () => {
-      detailData.status = dataConfirm.status
-      detailData.severity = dataConfirm.severity
-    };
-    // watchEffect(() => {
-    //   if(dataModal.value){
-    //     // dataModal.value.handleUpdate()
-    //     dataModal.value.toggle()
-    //     console.log('123')
-    //   }
-    //   if(!dataModal.value){
-    //     console.log('1234')
-    //   }
-    // });
-
-
     const updateData = async () => {
-      dataModal.value.hide();
       // console.log( dataModal.value)
       let form_data = {
         severity: detailData.severity,
@@ -700,11 +646,6 @@ export default defineComponent({
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         });
     };
-
-    const testModal = (data) => {
-      console.log(data)
-    };
-
 
     const onItemSelect = (selectedItems: Array<number>) => {
       selectedIds.value = selectedItems;
@@ -723,7 +664,6 @@ export default defineComponent({
         },
       }).then(() => {
         hideModal(ModalDelete.value);
-        // hideModal( ModalConfirm.value);
       });
     };
 
@@ -774,10 +714,9 @@ export default defineComponent({
     const rightWidth = ref(window.innerWidth / 2);
     let startX = ref<null | any>(null);
 
-    const startDragging = (event) => {
+    const startDragging = (event: any) => {
       startX = event.clientX;
-
-      const handleDragging = (e) => {
+      const handleDragging = (e : any) => {
         const deltaX = e.clientX - startX;
 
         leftWidth.value += deltaX;
@@ -797,17 +736,24 @@ export default defineComponent({
 
     // keos thar
     const container = ref<null | any>(null);
-    const CustomWidth = ref<boolean>(true);
+    const CustomWidth = ref<boolean>(false);
     const state = reactive({
       isDragging: false,
       startX: 0,
       startScrollLeft: 0,
     });
 
-    const handleCustomSize = () => {
-      CustomWidth.value = !CustomWidth.value
-      console.log(CustomWidth.value)
-    };
+    // const handleCustomSize = () => {
+    //   CustomWidth.value = !CustomWidth.value
+    //   if(CustomWidth.value){
+    //     leftWidth.value = 200;
+    //   }else{
+    //     contentWidth.value = container.value.scrollWidth;
+    //   }
+    //   console.log(CustomWidth.value)
+    //   console.log(contentWidth.value)
+
+    // };
 
     const handleMouseDown = (event: any) => {
       state.isDragging = true;
@@ -890,21 +836,17 @@ export default defineComponent({
       handleCloseDetail,
       handleChangeUpdate,
       updateData,
-      ModalConfirm,
-      typeConfirm,
-      testModal,
-      quitUpdateData,
 
       // Dragging kéo lề
       startDragging,
       leftWidth,
       rightWidth,
+      CustomWidth,
 
       // mouse down di chuột xuống
       handleMouseDown,
       contentWidth,
       container,
-      handleCustomSize,
     };
   },
 });

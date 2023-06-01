@@ -175,7 +175,7 @@
         <div class="col-8 py-2 d-flex justify-content-start ">
             <div class="row">
                 <div class="col" :class="classDetail ? ' d-block ' : 'd-none'">
-                    <VueCustomTooltip label="Thông tin tiến trình" position="is-top">
+                    <el-tooltip class="box-item" effect="dark" content="Thông tin tiến trình" placement="top">
                         <button type="button"
                             class="btn btn-sm fw-bold bg-secondary btn-color-gray-700 h-35px w-150px btn-active-color-primary me-2"
                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
@@ -184,12 +184,11 @@
                             Information
                         </button>
                         <!-- </div> -->
-
-                        <filtersTabScan @filterData="handleFilter" :targetData="targetData" :diffTime="diffTime"
-                            :countRequest="countRequest" :averageResponseTime="averageResponseTime" :locations="locations"
-                            :progress="progress" :scanStatus="scanStatus">
-                        </filtersTabScan>
-                    </VueCustomTooltip>
+                    </el-tooltip>
+                    <filtersTabScan @filterData="handleFilter" :targetData="targetData" :diffTime="diffTime"
+                        :countRequest="countRequest" :averageResponseTime="averageResponseTime" :locations="locations"
+                        :progress="progress" :scanStatus="scanStatus">
+                    </filtersTabScan>
                 </div>
                 <div class="col">
                     <div class="d-flex align-items-center position-relative">
@@ -279,7 +278,7 @@
             <!--begin::Card body-->
             <div class="card-body overflow-scroll h-100 m-0" ref="container" @mousedown="handleMouseDown"
                 :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
-                :class="classDetail ? 'd-block border-end p-0' : 'col-12 d-block px-5 py-0'">
+                :class="classDetail ? 'd-block border-end pt-2 p-0' : 'col-12 d-block px-5 py-0'">
                 <div class="w-100">
                     <!-- <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }"> -->
                     <KTDatatable :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig"
@@ -634,7 +633,6 @@ import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
-import { InfoFilled } from '@element-plus/icons-vue'
 
 // import dayjs from 'dayjs';
 import axios from 'axios'

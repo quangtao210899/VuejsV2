@@ -24,7 +24,7 @@
             </button> -->
             <!--end::Export-->
             <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
-            <VueCustomTooltip label="Tìm kiếm" position="is-top">  
+            <el-tooltip class="box-item" effect="dark" content="Tìm kiếm" placement="top">
               <button
                 type="button"
                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
@@ -36,36 +36,35 @@
                 Filter
               </button>
               <!-- </div> -->
-
-              <Fillter @filterData="handleFilter"></Fillter>
-            </VueCustomTooltip>
+            </el-tooltip>
+            <Fillter @filterData="handleFilter"></Fillter>
             <!--begin::Add subscription-->
             <!--end::Add subscription-->
-            <VueCustomTooltip label="Cấu hình thời gian lấy tin nhắn" position="is-top">  
+            <el-tooltip class="box-item" effect="dark" content="Cấu hình thời gian lấy tin nhắn" placement="top">
               <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click.passive="handleSubmitSetting">
                 <KTIcon icon-name="setting-2" icon-class="fs-2" />
                 Cấu hình
               </button>
-            </VueCustomTooltip>
-            <VueCustomTooltip label="Đồng bộ toàn bộ tin nhắn" position="is-top">  
+            </el-tooltip>
+            <el-tooltip class="box-item" effect="dark" content="Đồng bộ toàn bộ tin nhắn" placement="top"> 
               <button type="button"  class="btn btn-sm fw-bold btn-success me-2" @click.passive="handleSyncAll">
                 <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
                 Đồng bộ All
               </button>
-            </VueCustomTooltip>
+            </el-tooltip>
 
             <!-- <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-success btn-active-light-success me-2"
             data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
               <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
               Đồng bộ All
             </button> -->
-            <VueCustomTooltip label="Thêm mới" position="is-top">  
+            <el-tooltip class="box-item" effect="dark" content="Thêm mới" placement="top"> 
               <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                 data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
                 <KTIcon icon-name="plus-circle" icon-class="fs-2" />
                 Thêm
               </button>
-            </VueCustomTooltip>
+            </el-tooltip>
 
           </div>
         <!--end::Toolbar-->
@@ -77,12 +76,12 @@
             <div class="fw-bold me-5">
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
-            <VueCustomTooltip label="Xóa" position="is-top">  
+            <el-tooltip class="box-item" effect="dark" content="Xóa" placement="top">
               <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
                 Delete Selected
               </button>
-            </VueCustomTooltip>
+            </el-tooltip>
             <!-- <button type="button" class="btn btn-light-danger ms-2">
               Hủy
             </button> -->
@@ -113,22 +112,22 @@
             <KTIcon v-on:click.stop @click.passive="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-3x text-success' :'fs-3x text-danger'"/>
           </template>
           <template v-slot:actions="{ row: customer }">
-          <VueCustomTooltip label="Đồng bộ" position="is-top">  
+          <el-tooltip class="box-item" effect="dark" content="Đồng bộ" placement="top">
             <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click.passive="handleSyncItem(customer)">
               <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
             </button>
-          </VueCustomTooltip>
-          <VueCustomTooltip label="Chi tiết tin nhắn" position="is-top">  
+          </el-tooltip>
+          <el-tooltip class="box-item" effect="dark" content="Chi tiết tin nhắn" placement="top">  
             <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" @click.passive="handleClick(customer, 'detail')" >
               <KTIcon icon-name="eye" icon-class="fs-3" />
             </button>
-          </VueCustomTooltip>
-          <VueCustomTooltip label="Sửa" position="is-top">  
+          </el-tooltip>
+          <el-tooltip class="box-item" effect="dark" content="Chỉnh sửa" placement="top">
             <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
               data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick(customer, 'edit')">
               <KTIcon icon-name="pencil" icon-class="fs-3" />
             </button>
-          </VueCustomTooltip>
+          </el-tooltip>
         </template>        
       </KTDatatable>
       </div>

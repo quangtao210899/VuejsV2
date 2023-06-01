@@ -22,8 +22,8 @@
                 <KTIcon icon-name="filter" icon-class="fs-2" />
                 Filter
               </button>
-              <Fillter @filterData="handleFilter" :type="group_type"></Fillter>
             </el-tooltip>
+            <Fillter @filterData="handleFilter" :type="group_type"></Fillter>
           </div>
         </div>
 
@@ -33,13 +33,13 @@
             <div class="fw-bold me-5">
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
-            <VueCustomTooltip label="Xóa" position="is-top">
+            <el-tooltip class="box-item" effect="dark" content="Xóa" placement="top">
               <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
                 class="btn btn-danger  btn-sm">
                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
                 Delete Selected
               </button>
-            </VueCustomTooltip>
+            </el-tooltip>
             <!-- <button type="button" class="btn btn-light-danger ms-2">
               Hủy
             </button> -->

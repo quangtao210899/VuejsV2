@@ -33,8 +33,8 @@
       </TableBodyRow>
       <template v-else>
         <tr class="odd">
-          <td colspan="7" class="dataTables_empty">
-            <el-empty :image-size="200" />
+          <td colspan="12" class="dataTables_empty">
+            <el-empty :image-size="150" />
           </td>
         </tr>
       </template>

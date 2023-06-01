@@ -21,26 +21,26 @@
                 <div v-show="selectedIds.length === 0">
                     <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
                         <!--begin::Export-->
-                        <VueCustomTooltip label="Tìm kiếm" position="is-top">
+                        <el-tooltip class="box-item" effect="dark" content="Tìm kiếm" placement="top">
                             <button type="button"
                                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
                                 <KTIcon icon-name="filter" icon-class="fs-2" />
                                 Filter
                             </button>
-                            <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
-                        </VueCustomTooltip>
+                        </el-tooltip>
+                        <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
     
                         <!--end::Export-->
     
                         <!--begin::Add subscription-->
-                        <VueCustomTooltip label="Quét" position="is-top">
+                        <el-tooltip class="box-item" effect="dark" content="Scan mục tiêu" placement="top">
                             <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                                 <KTIcon icon-name="plus" icon-class="fs-2" />
                                 Quét
                             </button>
-                        </VueCustomTooltip>
+                        </el-tooltip>
                         <!--end::Add subscription-->
                     </div>
                 </div>
@@ -52,11 +52,11 @@
                         <div class="fw-bold me-5">
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
-                        <VueCustomTooltip label="Xóa" position="is-top">
+                        <el-tooltip class="box-item" effect="dark" content="Xóa" placement="top">
                             <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
                                 Delete Selected
                             </button>
-                        </VueCustomTooltip>
+                        </el-tooltip>
                     </div>
                 </div>
                 <!--end::Group actions-->
@@ -81,11 +81,11 @@
                     {{ customer.finished_at ?customer.finished_at : '--:--' }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
-                    <VueCustomTooltip label="Chi tiết " position="is-top">
+                    <el-tooltip class="box-item" effect="dark" content="Chi tiết" placement="top">
                         <router-link :to="`/target-scan-detail/${targetId}/${customer.id}/detail`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                             <KTIcon icon-name="eye" icon-class="fs-3" />
                         </router-link>
-                    </VueCustomTooltip>
+                    </el-tooltip>
                 </template>
             </KTDatatable>
         </div>
