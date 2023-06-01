@@ -12,11 +12,9 @@
               </button>
             </el-tooltip>
             <Fillter @filterData="handleFilter" :country-list='countryList'></Fillter>
-            <el-tooltip class="box-item" effect="dark" content="Upload Account Leaks" placement="top">
-              <importAccountLeak ref="importComponentRef" @notify="(info, noti_type, more_detail, hideImportModal) =>
-                notification(info, noti_type, more_detail, hideImportModal)" @resetData="() => getData()"
-                @confirm="(info, noti_type) => comfirmDownload(info, noti_type)" />
-            </el-tooltip>
+            <importAccountLeak ref="importComponentRef" @notify="(info, noti_type, more_detail, hideImportModal) =>
+              notification(info, noti_type, more_detail, hideImportModal)" @resetData="() => getData()"
+              @confirm="(info, noti_type) => comfirmDownload(info, noti_type)" />
             <el-tooltip class="box-item" effect="dark" content="Thêm mới" placement="top">
               <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                 data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
