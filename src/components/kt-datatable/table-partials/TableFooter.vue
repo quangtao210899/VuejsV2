@@ -1,11 +1,14 @@
 <template>
   <div class="row px-5 mb-9">
-    <TableItemsPerPageSelect
-      v-model:itemsPerPage="itemsCountInTable"
-      :items-per-page-dropdown-enabled="itemsPerPageDropdownEnabled"
-    />
+    <template v-if="!checkitemsPerPage">
+      <TableItemsPerPageSelect
+        v-model:itemsPerPage="itemsCountInTable"
+        :items-per-page-dropdown-enabled="itemsPerPageDropdownEnabled"
+      />
+    </template>
     <TablePagination
       v-if="pageCount > 1"
+      :checkitemsPerPage="checkitemsPerPage"
       :total-pages="pageCount"
       :total="count"
       :per-page="itemsPerPage"
@@ -34,6 +37,7 @@ export default defineComponent({
     TablePagination,
   },
   props: {
+    checkitemsPerPage: { type: Boolean, required: false, default: false },
     count: { type: Number, required: false, default: 5 },
     itemsPerPage: { type: Number, default: 5 },
     itemsPerPageDropdownEnabled: {

@@ -13,6 +13,7 @@
       :sort-order="sortOrder"
       :loading="loading"
       :clickOnRow="clickOnRow"
+      :closeOnRow="closeOnRow"
     >
       <template v-for="(_, name) in $slots" v-slot:[name]="{ row: item }">
         <slot :name="name" :row="item" />
@@ -23,6 +24,7 @@
       :current-page="currentPage"
       v-model:itemsPerPage="itemsInTable"
       :count="totalItems"
+      :checkitemsPerPage="checkitemsPerPage"
       :items-per-page-dropdown-enabled="itemsPerPageDropdownEnabled"
     />
   </div>
@@ -46,10 +48,12 @@ export default defineComponent({
       default: true,
     },
     checkboxEnabled: { type: Boolean, required: false, default: false },
+    checkitemsPerPage: { type: Boolean, required: false, default: false },
     checkboxLabel: { type: String, required: false, default: "id" },
     total: { type: Number, required: false },
     loading: { type: Boolean, required: false, default: false },
     clickOnRow: { type: Boolean, required: false, default: false },
+    closeOnRow: { type: Boolean, required: false, default: false },
     sortLabel: { type: String, required: false, default: null },
     sortOrder: {
       type: String as () => "asc" | "desc",

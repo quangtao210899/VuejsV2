@@ -60,14 +60,14 @@
     </div>
     <!--end::Card header-->
 
-    <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'py-2 ps-2 pe-1' : ''">
+    <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'ps-0 pe-1' : ''">
       <!--begin::Card body-->
       <div class="card-body overflow-auto h-100 m-0" ref="container" @mousedown="handleMouseDown"
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
-        :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
+        :class="classDetail ? 'd-block border-end p-0' : 'col-12 d-block p-0'">
         <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }">
-          <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :data="list" :header="headerConfig" :loading="loading"
-            :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
+          <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig" :loading="loading"
+            :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :checkitemsPerPage="checkitemsPerPage" :total="totalPage" :currentPage="currentPage"
             @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
             <template v-slot:severity="{ row: customer }">
               <div class="text-center">
@@ -77,7 +77,7 @@
                   getSeverity(customer.severity).title }}</p>
               </div>
             </template>
-            <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">
+            <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-hover-primary">
                {{ customer.vt_name ?? customer.port_scan["vt_name"]}}</span></template>
             <template v-slot:hostname="{ row: customer }">
               <div class="badge badge-light">{{ customer.hostname ?? '--' }}</div>
@@ -484,6 +484,8 @@ export default defineComponent({
     const id = ref<number>(0);
     const nameType = ref<string>('');
     const classDetail = ref<boolean>(false);
+    const closeOnRow = ref(true);
+    const checkitemsPerPage = ref<boolean>(false);
     const apiData = ref<APIData>({
       title: '',
       description: '',
@@ -600,7 +602,9 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
+      closeOnRow.value = true;
       classDetail.value = true;
+      checkitemsPerPage.value = true;
       detailData.id = detail.id ?? detail.port_scan.id
       detailData.vt_name = detail.vt_name ?? detail.port_scan.name
       detailData.status = detail.status
@@ -635,6 +639,8 @@ export default defineComponent({
 
     const handleCloseDetail = () => {
       classDetail.value = false;
+      closeOnRow.value = false;
+      checkitemsPerPage.value = false;
     };
     const dataModal = ref<any>(null);
     const ModalConfirm = ref<string | HTMLElement>('#kt_modal_confirm');
@@ -830,6 +836,8 @@ export default defineComponent({
       deleteFewSubscriptions,
       deleteSubscription,
       getAssetPath,
+      closeOnRow,
+      checkitemsPerPage,
 
       // validate
       // crud

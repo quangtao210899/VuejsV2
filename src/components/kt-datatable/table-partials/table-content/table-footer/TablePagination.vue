@@ -1,6 +1,7 @@
 <template>
   <div
-    class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end"
+    :class="(checkitemsPerPage) ? 'col-12 justify-content-md-start' : 'col-sm-12 col-md-7 justify-content-md-end'"
+    class=" d-flex align-items-center justify-content-center"
   >
     <div class="dataTables_paginate paging_simple_numbers">
       <ul class="pagination">
@@ -71,6 +72,7 @@ export default defineComponent({
   components: {},
 
   props: {
+    checkitemsPerPage: { type: Boolean, required: false, default: false },
     maxVisibleButtons: {
       type: Number,
       required: false,
