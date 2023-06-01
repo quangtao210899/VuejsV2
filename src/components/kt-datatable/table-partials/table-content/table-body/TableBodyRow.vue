@@ -1,7 +1,7 @@
 <template>
   <tbody class="fw-semibold text-gray-600 ">
     <template v-for="(row, i) in data" :key="i">
-      <tr class="bg-hover-light" :class="(clickOnRow && indexTable == i) ? 'bg-secondary' : ''">
+      <tr class="bg-hover-light" :class="(clickOnRow && closeOnRow && isClicked && indexTable == i) ? 'text-primary bg-light' : ''">
         <td v-if="checkboxEnabled">
           <div class="form-check form-check-sm form-check-custom form-check-solid ms-2">
             <input class="form-check-input" type="checkbox" :value="row[checkboxLabel]" v-model="selectedItems"
@@ -16,7 +16,7 @@
           </td>
         </template> -->
         <template v-for="(properties, j) in header" :key="j">
-          <td v-if="properties.columnLabel == 'actions'" class="text-end">
+          <td v-if="properties.columnLabel == 'actions'" class="text-end ">
             <slot :name="`${properties.columnLabel}`" :row="row">
               {{ row }}
             </slot>
@@ -40,6 +40,7 @@ export default defineComponent({
   components: {},
   props: {
     clickOnRow: { type: Boolean, required: false, default: false },
+    closeOnRow: { type: Boolean, required: false, default: false },
     header: { type: Array as () => Array<any>, required: true },
     data: { type: Array as () => Array<any>, required: true },
     currentlySelectedItems: { type: Array, required: false, default: () => [] },
@@ -56,6 +57,7 @@ export default defineComponent({
     const selectRow = ref<object>();
     const selectRowID = ref<number>(0);
     const indexTable = ref<number>(0);
+    const isClicked = ref(false);
 
     watch(
       () => [...props.currentlySelectedItems],
@@ -69,6 +71,8 @@ export default defineComponent({
         }
       }
     );
+
+    watch(selectRow, ()=>{isClicked.value = true})
 
     const onChange = () => {
       emit("on-select", selectedItems.value);
@@ -88,6 +92,7 @@ export default defineComponent({
       selectRow,
       selectRowID,
       indexTable,
+      isClicked,
     };
   },
 });

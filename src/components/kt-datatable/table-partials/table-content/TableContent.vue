@@ -1,5 +1,6 @@
 <template>
-  <div class="table-responsive  px-5" 
+  <div class="table-responsive" 
+  :style="{overflow: 'unset'}"
   :class="[loading && 'overlay overlay-block']"
       >
     <table
@@ -24,6 +25,7 @@
         :checkbox-enabled="checkboxEnabled"
         :checkbox-label="checkboxLabel"
         :clickOnRow="clickOnRow"
+        :closeOnRow="closeOnRow"
       >
         <template v-for="(_, name) in $slots" v-slot:[name]="{ row: item }">
           <slot :name="name" :row="item" />
@@ -32,7 +34,7 @@
       <template v-else>
         <tr class="odd">
           <td colspan="7" class="dataTables_empty">
-            {{ emptyTableText }}
+            <el-empty :image-size="200" />
           </td>
         </tr>
       </template>
@@ -64,6 +66,8 @@ export default defineComponent({
     checkboxLabel: { type: String, required: false, default: "id" },
     loading: { type: Boolean, required: false, default: false },
     clickOnRow: { type: Boolean, required: false, default: false },
+    closeOnRow: { type: Boolean, required: false, default: false },
+
   },
   emits: ["on-sort", "on-items-select", "custom-row"],
   components: {

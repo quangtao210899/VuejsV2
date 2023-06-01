@@ -1,14 +1,15 @@
 <template>
     <!--begin::Navbar-->
-    <div class="card mb-3 mb-xxl-8">
+    <div class="card " :class="classDetail ? '' : 'mb-3 mb-xxl-8'">
         <!--begin::Card header-->
         <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
             <!--begin::Card toolbar-->
             <div class="card-toolbar">
 
                 <div class="d-flex justify-content-end ">
-                    <el-popconfirm confirm-button-text="Đồng ý"  width="250" cancel-button-text="Không" icon="InfoFilled" icon-color="#626AEF"
-                        title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"  @cancel="cancelEvent">
+                    <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
+                        icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
+                        @cancel="cancelEvent">
                         <template #reference>
                             <button type="button" :disabled="checkDisabled"
                                 class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
@@ -38,7 +39,7 @@
             <!--end::Card toolbar-->
         </div>
         <!--end::Card header-->
-        <div class="card-body pt-2 pb-0 shadow-hvover">
+        <div class="card-body pt-2 pb-0 shadow-hvover" :class="!classDetail ? ' d-block' : 'd-none'">
             <!--begin::Details-->
             <div class="d-flex flex-wrap flex-sm-nowrap">
                 <!--begin::Info-->
@@ -47,132 +48,117 @@
                     <div class="d-flex justify-content-between align-items-start flex-wrap">
                         <!--begin::Card body-->
                         <div class="card-body py-4 px-0">
-                            <el-collapse v-model="activeName" accordion>
-                                <el-collapse-item name="1">
-                                    <template #title>
-                                        <!--begin::Row-->
-                                        <div class="row w-100">
-                                            <div class="col-3">
-                                                <div class="row">
-                                                    <!--begin::Label-->
-                                                    <label class="col-4 fw-semobold text-muted">Tên</label>
-                                                    <!--end::Label-->
-
-                                                    <!--begin::Col-->
-                                                    <div class="col">
-                                                        <span class="fw-bold fs-6 text-dark">{{ targetData.name }}</span>
-                                                    </div>
-                                                    <!--end::Col-->
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="row">
-                                                    <!--begin::Label-->
-                                                    <label class="col-4 fw-semobold text-muted">IP</label>
-                                                    <!--end::Label-->
-                                                    <!--begin::Col-->
-                                                    <div class="col">
-                                                        <span class="fw-bold fs-6 text-dark">{{ targetData.ip }}</span>
-                                                    </div>
-                                                    <!--end::Col-->
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="row">
-                                                    <!--begin::Label-->
-                                                    <label class="col-4 fw-semobold text-muted">Domain</label>
-                                                    <!--end::Label-->
-
-                                                    <!--begin::Col-->
-                                                    <div class="col">
-                                                        <span class="fw-bold fs-6 text-dark">{{ targetData.domain }}</span>
-                                                    </div>
-                                                    <!--end::Col-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--end::Row-->
-
-                                        <el-icon class="header-icon">
-                                            <info-filled />
-                                        </el-icon>
-                                    </template>
-                                    <!--begin::Row-->
+                            <div class="row w-100">
+                                <div class="col-3">
                                     <div class="row">
-                                        <div class=" col-3 p-2">
-                                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                                <!--begin::Number-->
-                                                <div class="d-flex align-items-center">
-                                                    <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
-                                                    <div class="fs-2 fw-bold">{{ diffTime }}</div>
-                                                </div>
-                                                <!--end::Number-->
+                                        <!--begin::Label-->
+                                        <label class="col-4 fw-semobold text-muted">Tên</label>
+                                        <!--end::Label-->
 
-                                                <!--begin::Label-->
-                                                <div class="fw-semobold fs-6 text-gray-400">Thời Gian</div>
-                                                <!--end::Label-->
-                                            </div>
-                                            <!--end::Stat-->
+                                        <!--begin::Col-->
+                                        <div class="col">
+                                            <span class="fw-bold fs-6 text-dark">{{ targetData.name }}</span>
                                         </div>
-                                        <div class="col-3 p-2">
-                                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                                <!--begin::Number-->
-                                                <div class="d-flex align-items-center">
-                                                    <KTIcon icon-name="arrow-up-down" icon-class="fs-3 text-success me-2" />
-                                                    <div class="fs-2 fw-bold">{{ countRequest }}</div>
-                                                </div>
-                                                <!--end::Number-->
-
-                                                <!--begin::Label-->
-                                                <div class="fw-semobold fs-6 text-gray-400">Yêu cầu</div>
-                                                <!--end::Label-->
-                                            </div>
-
-                                        </div>
-                                        <div class="col-3 p-2">
-                                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                                <!--begin::Number-->
-                                                <div class="d-flex align-items-center">
-                                                    <KTIcon icon-name="watch" icon-class="fs-3 text-success me-2" />
-                                                    <div class="fs-2 fw-bold">{{ averageResponseTime }}</div>
-                                                </div>
-                                                <!--end::Number-->
-
-                                                <!--begin::Label-->
-                                                <div class="fw-semobold fs-6 text-gray-400">Average Response Time</div>
-                                                <!--end::Label-->
-                                            </div>
-                                            <!--end::Stat-->
-
-                                        </div>
-                                        <div class="col-3 p-2">
-                                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                                <!--begin::Number-->
-                                                <div class="d-flex align-items-center">
-                                                    <KTIcon icon-name="pointers" icon-class="fs-3 text-success me-2" />
-                                                    <div class="fs-2 fw-bold">{{ locations }}</div>
-                                                </div>
-                                                <!--end::Number-->
-
-                                                <!--begin::Label-->
-                                                <div class="fw-semobold fs-6 text-gray-400">Đường dẫn</div>
-                                                <!--end::Label-->
-                                            </div>
-                                            <!--end::Stat-->
-
-                                        </div>
+                                        <!--end::Col-->
                                     </div>
-                                    <!--end::Row-->
-
-                                    <div class="mt-5 w-100">
-                                        <el-progress :percentage="progress" status="success" />
+                                </div>
+                                <div class="col-3">
+                                    <div class="row">
+                                        <!--begin::Label-->
+                                        <label class="col-4 fw-semobold text-muted">IP</label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col">
+                                            <span class="fw-bold fs-6 text-dark">{{ targetData.ip }}</span>
+                                        </div>
+                                        <!--end::Col-->
                                     </div>
-                                </el-collapse-item>
-                            </el-collapse>
+                                </div>
+                                <div class="col-3">
+                                    <div class="row">
+                                        <!--begin::Label-->
+                                        <label class="col-4 fw-semobold text-muted">Domain</label>
+                                        <!--end::Label-->
 
+                                        <!--begin::Col-->
+                                        <div class="col">
+                                            <span class="fw-bold fs-6 text-dark">{{ targetData.domain }}</span>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--begin::Row-->
+                            <div class="row">
+                                <div class=" col-3 p-2">
+                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                        <!--begin::Number-->
+                                        <div class="d-flex align-items-center">
+                                            <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
+                                            <div class="fs-2 fw-bold">{{ diffTime }}</div>
+                                        </div>
+                                        <!--end::Number-->
 
+                                        <!--begin::Label-->
+                                        <div class="fw-semobold fs-6 text-gray-400">Thời Gian</div>
+                                        <!--end::Label-->
+                                    </div>
+                                    <!--end::Stat-->
+                                </div>
+                                <div class="col-3 p-2">
+                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                        <!--begin::Number-->
+                                        <div class="d-flex align-items-center">
+                                            <KTIcon icon-name="arrow-up-down" icon-class="fs-3 text-success me-2" />
+                                            <div class="fs-2 fw-bold">{{ countRequest }}</div>
+                                        </div>
+                                        <!--end::Number-->
 
+                                        <!--begin::Label-->
+                                        <div class="fw-semobold fs-6 text-gray-400">Yêu cầu</div>
+                                        <!--end::Label-->
+                                    </div>
 
+                                </div>
+                                <div class="col-3 p-2">
+                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                        <!--begin::Number-->
+                                        <div class="d-flex align-items-center">
+                                            <KTIcon icon-name="watch" icon-class="fs-3 text-success me-2" />
+                                            <div class="fs-2 fw-bold">{{ averageResponseTime }}</div>
+                                        </div>
+                                        <!--end::Number-->
+
+                                        <!--begin::Label-->
+                                        <div class="fw-semobold fs-6 text-gray-400">Average Response Time</div>
+                                        <!--end::Label-->
+                                    </div>
+                                    <!--end::Stat-->
+
+                                </div>
+                                <div class="col-3 p-2">
+                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                        <!--begin::Number-->
+                                        <div class="d-flex align-items-center">
+                                            <KTIcon icon-name="pointers" icon-class="fs-3 text-success me-2" />
+                                            <div class="fs-2 fw-bold">{{ locations }}</div>
+                                        </div>
+                                        <!--end::Number-->
+
+                                        <!--begin::Label-->
+                                        <div class="fw-semobold fs-6 text-gray-400">Đường dẫn</div>
+                                        <!--end::Label-->
+                                    </div>
+                                    <!--end::Stat-->
+
+                                </div>
+                            </div>
+                            <!--end::Row-->
+
+                            <div class="mt-5 mb-2 w-100">
+                                <span class="fw-semobold text-muted">Tiến trình</span>
+                                <el-progress :percentage="progress" status="success" />
+                            </div>
                         </div>
                         <!--end::Card body-->
                     </div>
@@ -184,36 +170,61 @@
         </div>
     </div>
     <!--end::Navbar-->
-    <div class="d-flex mb-3 h-50px">
-        <div class="py-2 row">
-            <div class="col-6">
-                <el-input class="w-100 h-35px" v-model="query" placeholder="Tìm kiếm theo tên"></el-input>
-            </div>
-            <div class="col-6">
-                <button type="button" class="btn btn-icon btn-sm fw-bold bg-success h-35px w-35px text-white"
-                    @click.passive="handleSeverity(0)">
-                    {{ severityInfo }}
-                </button>
-                <button type="button" class="btn btn-icon btn-sm fw-bold bg-primary h-35px w-35px text-white ms-2"
-                    @click.passive="handleSeverity(1)">
-                    {{ severityLow }}
-                </button>
-                <button type="button" class="btn btn-icon btn-sm fw-bold bg-warning h-35px w-35px text-white ms-2"
-                    @click.passive="handleSeverity(2)">
-                    {{ severityMedium }}
-                </button>
-                <button type="button" class="btn btn-icon btn-sm fw-bold bg-danger h-35px w-35px text-white ms-2"
-                    @click.passive="handleSeverity(3)">
-                    {{ severityHigh }}
-                </button>
-                <button @click.passive="handleSeverity(4)" type="button"
-                    class="btn btn-icon btn-sm fw-bold btn-outline btn-outline-dashed btn-outline-info h-35px w-35px text-info ms-2">
-                    All
-                </button>
+    <div class="row mb-3 h-50px align-items-center"
+        :class="classDetail ? 'shadow-hvover bg-white rounded-3 mx-0 my-2' : ''">
+        <div class="col-8 py-2 d-flex justify-content-start ">
+            <div class="row">
+                <div class="col" :class="classDetail ? ' d-block ' : 'd-none'">
+                    <VueCustomTooltip label="Thông tin tiến trình" position="is-top">
+                        <button type="button"
+                            class="btn btn-sm fw-bold bg-secondary btn-color-gray-700 h-35px w-150px btn-active-color-primary me-2"
+                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+                            data-kt-menu-flip="top-start">
+                            <KTIcon icon-name="information-3" icon-class="fs-2" />
+                            Information
+                        </button>
+                        <!-- </div> -->
+
+                        <filtersTabScan @filterData="handleFilter" :targetData="targetData" :diffTime="diffTime"
+                            :countRequest="countRequest" :averageResponseTime="averageResponseTime" :locations="locations"
+                            :progress="progress" :scanStatus="scanStatus">
+                        </filtersTabScan>
+                    </VueCustomTooltip>
+                </div>
+                <div class="col">
+                    <div class="d-flex align-items-center position-relative">
+                        <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-5" />
+                        <input type="text" data-kt-subscription-table-filter="search" v-model="query"
+                            :class="classDetail ? 'w-150px' : 'w-100'"
+                            class="form-control h-35px ps-14 btn-active-color-primary" placeholder="Tìm kiếm theo tên" />
+                    </div>
+                </div>
+                <div class="col d-flex flex-row">
+                    <button type="button" class="btn btn-icon btn-sm fw-bold bg-success h-35px w-35px text-white"
+                        @click.passive="handleSeverity(0)">
+                        {{ severityInfo }}
+                    </button>
+                    <button type="button" class="btn btn-icon btn-sm fw-bold bg-primary h-35px w-35px text-white ms-2"
+                        @click.passive="handleSeverity(1)">
+                        {{ severityLow }}
+                    </button>
+                    <button type="button" class="btn btn-icon btn-sm fw-bold bg-warning h-35px w-35px text-white ms-2"
+                        @click.passive="handleSeverity(2)">
+                        {{ severityMedium }}
+                    </button>
+                    <button type="button" class="btn btn-icon btn-sm fw-bold bg-danger h-35px w-35px text-white ms-2"
+                        @click.passive="handleSeverity(3)">
+                        {{ severityHigh }}
+                    </button>
+                    <button @click.passive="handleSeverity(4)" type="button"
+                        class="btn btn-icon btn-sm fw-bold btn-outline btn-outline-dashed btn-outline-info h-35px w-35px text-info ms-2">
+                        All
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="ms-auto py-2">
-            <div class="d-flex">
+        <div class="col-4 text-end ms-auto py-2">
+            <div class="d-flex justify-content-end">
                 <!--begin::Tab nav-->
                 <!-- <ul class="nav nav-pills me-6 mb-2 mb-sm-0" role="tablist">
                     <li class="nav-item m-0" role="presentation">
@@ -237,7 +248,7 @@
                 <div class="d-flex my-0 mx-2">
                     <!--begin::Select-->
                     <button type="button" @click="reloadData" :disabled="checkDisabled"
-                        class="btn btn-sm h-35px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                        class="btn btn-sm w-100px h-35px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
                         <KTIcon icon-name="arrows-loop" icon-class="fs-2 text-white" />
                         Tải lại
                     </button>
@@ -264,14 +275,16 @@
 
     <!--begin::Card-->
     <div class="card h-100 d-block">
-        <div class="d-flex hand-height-3 shadow-hvover " :class="classDetail ? 'py-2 ps-2 pe-1' : ''">
+        <div class="d-flex shadow-hvover" :class="classDetail ? 'hand-height-4 pe-1' : 'hand-height-3'">
             <!--begin::Card body-->
             <div class="card-body overflow-scroll h-100 m-0" ref="container" @mousedown="handleMouseDown"
                 :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
-                :class="classDetail ? 'd-block border-end p-3' : 'col-12 d-block p-0'">
-                <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }">
-                    <KTDatatable :clickOnRow="true" :data="list" :header="headerConfig" :loading="loading"
-                        :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" @page-change="handlePage"
+                :class="classDetail ? 'd-block border-end p-0' : 'col-12 d-block px-5 py-0'">
+                <div class="w-100">
+                    <!-- <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }"> -->
+                    <KTDatatable :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig"
+                        :loading="loading" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
+                        @page-change="handlePage" :checkitemsPerPage="checkitemsPerPage"
                         @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
                         <template v-slot:severity="{ row: customer }">
                             <div class="text-center">
@@ -282,8 +295,7 @@
                                         getSeverity(customer.severity).title }}</p>
                             </div>
                         </template>
-                        <template v-slot:vt_name="{ row: customer }"><span
-                                class="fs-6 fw-bold text-dark text-hover-primary">
+                        <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-hover-primary">
                                 {{ customer.vt_name ?? (customer.port_scan.vt_name ?? (customer.port_scan.name +
                                     (customer.port_scan["matcher-name"] ? ":" + customer.port_scan["matcher-name"] : "")))
                                 }}</span></template>
@@ -335,7 +347,7 @@
                         <template v-if="checkDetailVuln">
                             <div class="mb-5" v-if="detailVuln.details != null && detailVuln.details != ''">
                                 <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Attack Details</h4>
-                                <span> {{ detailVuln.details }}</span>
+                                <div v-html="detailVuln.details"></div>
                             </div>
                             <div class="mb-5" v-if="detailVuln.classification != null && detailVuln.classification != ''">
                                 <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Classification</h4>
@@ -393,8 +405,7 @@
                                         </div>
 
                                         <div id="kt_detail_collapsible_scan_5" class="fs-6 px-2 collapse" style="">
-                                            <div>
-                                                <span>{{ detailVuln.description }}</span>
+                                            <div v-html="detailVuln.description">
                                             </div>
                                         </div>
                                     </div>
@@ -617,16 +628,9 @@ import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, ref, onMounted, reactive, watch, onBeforeUnmount } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
-
-// validate
-import { hideModal } from "@/core/helpers/dom";
-import { ErrorMessage, Field, Form as VForm } from "vee-validate";
-import { vue3Debounce } from 'vue-debounce';
-
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import Fillter from "@/views/apps/scans/filters.vue";
+import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
-import { Modal } from "bootstrap";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
@@ -672,10 +676,7 @@ export default defineComponent({
 
     components: {
         KTDatatable,
-        ErrorMessage,
-        Field,
-        VForm,
-        Fillter,
+        filtersTabScan,
         CodeHighlighter,
     },
     setup() {
@@ -690,9 +691,10 @@ export default defineComponent({
         const typeModal = ref<String>('');
         const nameType = ref<string>('');
         const classDetail = ref<boolean>(false);
-        const countRequest = ref<number | string>(0);
-        const averageResponseTime = ref<number | string>(0);
-        const locations = ref<number | string>(0);
+        const checkitemsPerPage = ref<boolean>(false);
+        const countRequest = ref<number | any>(0);
+        const averageResponseTime = ref<number | any>(0);
+        const locations = ref<number | any>(0);
         const maxResponseTime = ref<number | string>(0);
         const apiData = ref<APIData>({
             title: '',
@@ -719,11 +721,14 @@ export default defineComponent({
         const filterSeverity = ref<number | null>(null)
         const timeEnd = ref<number | any>(null)
         const timeStart = ref<number | any>(null)
+        const closeOnRow = ref(true);
 
         const headerConfig = ref([
             {
                 columnName: "Mức độ",
                 columnLabel: "severity",
+                columnWidth: 90,
+                textAlign: "center",
             },
             {
                 columnName: "Lỗ hổng",
@@ -736,6 +741,7 @@ export default defineComponent({
             {
                 columnName: "Trạng thái",
                 columnLabel: "status",
+                columnWidth: 90,
             },
             {
                 columnName: "Ngày tạo",
@@ -854,6 +860,8 @@ export default defineComponent({
                     detailVuln.vt_name = data.vt_name ?? ''
                     detailVuln.request = data.request ?? ''
                     detailVuln.severity = data.severity ?? ''
+                    detailVuln.schema = data.schema ?? ''
+                    detailVuln.status = data.status ?? ''
                     detailVuln.host = data.affects_url ?? ''
                     detailVuln.details = data.details ?? ''
                     detailVuln.description = data.description ?? ''
@@ -866,7 +874,8 @@ export default defineComponent({
                     detailVuln.cvss3 = data.cvss3 ?? ''
                     detailVuln.tags = data.tags.find((value: String) => value.includes("CWE-")) ?? ''
                     detailVuln.cvss_score = data.cvss_score ?? ''
-                    // console.log(detailVuln)
+                    console.log(detailVuln)
+                    console.log(data)
 
                 })
                 .catch(({ response }) => {
@@ -876,6 +885,8 @@ export default defineComponent({
 
         const customRowTable = (detail: any) => {
             classDetail.value = true;
+            closeOnRow.value = true;
+            checkitemsPerPage.value = true;
             if (detail.vuln_id) {
                 checkDetailVuln.value = true;
                 getDetailVuln(detail.vuln_id)
@@ -897,6 +908,8 @@ export default defineComponent({
 
         const handleCloseDetail = () => {
             classDetail.value = false;
+            closeOnRow.value = false;
+            checkitemsPerPage.value = false;
         };
 
         const notification = (values: string, icon: string, more: string) => {
@@ -925,13 +938,13 @@ export default defineComponent({
         };
 
         const getSeverity = (severity: number | string) => {
-            if (severity == 0) {
+            if (severity == 0 || severity == 'Info') {
                 return { id: 0, title: 'Info', color: '#28a745', class: 'severityInfo' };
-            } else if (severity == 1) {
+            } else if (severity == 1 || severity == 'Low') {
                 return { id: 1, title: 'Low', color: '#23b7e5', class: 'severityLow' };
-            } else if (severity == 2) {
+            } else if (severity == 2 || severity == 'Medium') {
                 return { id: 2, title: 'Medium', color: '#fcba32', class: 'severityMedium' };
-            } else if (severity == 3) {
+            } else if (severity == 3 || severity == 'High') {
                 return { id: 3, title: 'High', color: '#e11f26', class: 'severityHigh' };
             }
             return { id: 4, title: 'undefined', color: '#7239ea', class: 'severityundefined' };
@@ -978,6 +991,7 @@ export default defineComponent({
 
         // keos thar
         const container = ref<null | any>(null);
+        const container2 = ref<number>(0);
         const state = reactive({
             isDragging: false,
             startX: 0,
@@ -997,6 +1011,7 @@ export default defineComponent({
             if (!state.isDragging) return;
 
             const deltaX = event.clientX - state.startX;
+            container2.value = deltaX
             container.value.scrollLeft = state.startScrollLeft - deltaX;
         };
 
@@ -1024,7 +1039,7 @@ export default defineComponent({
         const checkPauser = ref<boolean>(false);
         const checkDisabled = ref<boolean>(false);
         const handlePauser = async () => {
-            checkPauser.value = (checkPauser.value) ? false : true;
+            checkPauser.value = !checkPauser.value
             checkDisabled.value = true
             setTimeout(() => {
                 checkDisabled.value = false;
@@ -1151,9 +1166,21 @@ export default defineComponent({
             })
         }
 
+        // tìm kiếm 
+        const handleFilter = (data: any) => {
+            if (data) {
+                query.value = data.query;
+                currentPage.value = 1;
+                getData();
+            } else {
+                notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
+            }
+
+        };
+
 
         // tính thời gian
-        const diffTime = ref<string | null>(null);
+        const diffTime = ref<string | any>(0);
         const time = ref<any>(null);
         const eventTime = ref<number | any>('30000');
 
@@ -1191,6 +1218,7 @@ export default defineComponent({
         // Tính toán chiều rộng nội dung
         const contentWidth = ref(0);
         onMounted(() => {
+            // contentWidth.value = container.value.scrollWidth;
             contentWidth.value = container.value.scrollWidth;
         });
 
@@ -1224,6 +1252,8 @@ export default defineComponent({
             handleSeverity,
             filterSeverity,
             activeName,
+            closeOnRow,
+            checkitemsPerPage,
 
             // tải về
             fileDownVisible,
@@ -1258,6 +1288,7 @@ export default defineComponent({
 
             // filter
             loading,
+            handleFilter,
 
             // detail
             classDetail,
@@ -1300,7 +1331,11 @@ export default defineComponent({
 }
 
 .hand-height-3 {
-    height: calc(100% - 220px) !important;
+    height: calc(100% - 260px) !important;
+}
+
+.hand-height-4 {
+    height: calc(100% - 70px) !important;
 }
 
 .el-select .el-input__wrapper {
