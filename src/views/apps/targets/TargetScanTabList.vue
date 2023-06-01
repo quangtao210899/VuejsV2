@@ -278,7 +278,7 @@
             <!--begin::Card body-->
             <div class="card-body overflow-scroll h-100 m-0" ref="container" @mousedown="handleMouseDown"
                 :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
-                :class="classDetail ? 'd-block border-end p-0' : 'col-12 d-block px-5 py-0'">
+                :class="classDetail ? 'd-block border-end pt-2 p-0' : 'col-12 d-block px-5 py-0'">
                 <div class="w-100">
                     <!-- <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }"> -->
                     <KTDatatable :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig"
@@ -633,7 +633,6 @@ import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
-import { InfoFilled } from '@element-plus/icons-vue'
 
 // import dayjs from 'dayjs';
 import axios from 'axios'

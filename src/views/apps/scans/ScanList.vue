@@ -58,15 +58,16 @@
     </div>
     <!--end::Card header-->
 
-    <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'ps-0 pe-1' : ''">
+    <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'pe-1' : ''">
       <!--begin::Card body-->
       <div class="card-body overflow-auto h-100 m-0" ref="container" @mousedown="handleMouseDown"
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
-        :class="classDetail ? 'd-block border-end p-0' : 'col-12 d-block p-0'">
-        <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }">
-          <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig" :loading="loading"
-            :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :checkitemsPerPage="checkitemsPerPage" :total="totalPage" :currentPage="currentPage"
-            @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+        :class="classDetail ? 'd-block border-end pt-2 p-0' : 'col-12 d-block px-5 py-0'">
+        <div class="w-100">
+          <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :closeOnRow="closeOnRow" :data="list"
+            :header="headerConfig" :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage"
+            :checkitemsPerPage="checkitemsPerPage" :total="totalPage" :currentPage="currentPage" @page-change="handlePage"
+            @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
             <template v-slot:severity="{ row: customer }">
               <div class="text-center">
                 <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
@@ -76,7 +77,7 @@
               </div>
             </template>
             <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-hover-primary">
-               {{ customer.vt_name ?? customer.port_scan["vt_name"]}}</span></template>
+                {{ customer.vt_name ?? customer.port_scan["vt_name"] }}</span></template>
             <template v-slot:hostname="{ row: customer }">
               <div class="badge badge-light">{{ customer.hostname ?? '--' }}</div>
             </template>
@@ -84,7 +85,8 @@
               <div class="badge badge-light">{{ (customer.ip == '') ? '--' : customer.ip }}</div>
             </template>
             <template v-slot:schema="{ row: customer }">
-              <div><span class="badge badge-light-primary"> {{ customer.schema ?? (customer.nmap_scan ? customer.port_scan["service"] : customer.port_scan["type"]) }}</span></div>
+              <div><span class="badge badge-light-primary"> {{ customer.schema ?? (customer.nmap_scan ?
+                customer.port_scan["service"] : customer.port_scan["type"]) }}</span></div>
             </template>
             <template v-slot:created_at="{ row: customer }">
               <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
@@ -93,25 +95,32 @@
               </span>
             </template>
             <template v-slot:status="{ row: customer }">
-              <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ?? '--' }}</span>
+              <div class="text-end"> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ?? '--' }}</span>
               </div>
             </template>
           </KTDatatable>
         </div>
       </div>
       <!--end::Card body-->
-      <div v-if="classDetail" @mousedown="startDragging" class="drag-handle"></div>
+      <div v-if="classDetail" @mousedown="startDragging" class="drag-handle position-relative">
+        <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
+          <el-button class="btn h-30px w-35px btn-sm btn-light btn-icon ">
+            <KTIcon icon-name="entrance-right" icon-class="text-info" :style="{ fontSize: '22px' }" />
+          </el-button>
+        </div>
+      </div>
       <!--begin::Card2 body-->
-      <div class="overflow-scroll h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
+      <div class="overflow-scroll  h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
         :class="classDetail ? ' d-block' : 'd-none'">
-        <div class="ms-3 pb-10">
-
-          <div class="card-title py-5 position-relative">
+        <div class="ms-3 pb-10 affix-container">
+          <div class="card-title py-5 ">
             <h2 class="fw-bold pe-15 mt-5 fs-1">{{ detailData.vt_name }}</h2>
-            <div class="position-absolute top-50 end-0 translate-middle-y">
-              <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
-                <KTIcon icon-name="x" icon-class="bi bi-x" :style="{ fontSize: '25px' }" />
-              </button>
+            <div class="position-absolute translate-middle-y" :style="{top: '50px', right: '10px'}">
+              <el-affix target=".affix-container" :offset="170">
+                <button @click="handleCloseDetail" type="button" class="btn zindex-fixed btn-icon ">
+                  <KTIcon icon-name="abstract-11" icon-class="text-dark" :style="{ fontSize: '22px' }" />
+                </button>
+              </el-affix>
             </div>
           </div>
           <div class="row">
@@ -185,7 +194,7 @@
               <div>
                 <li class="d-flex align-items-center py-2">
                   <span class="bullet bg-warning me-5"></span>
-                  <label for="Host name">Base Score: </label> 
+                  <label for="Host name">Base Score: </label>
                   <strong class="ps-2"> {{ detailData.cvss_score }}</strong>
                 </li>
               </div>
@@ -257,14 +266,14 @@
                 <template v-for="(items, index) in detailData.classification" :key="index">
                   <li class="d-flex align-items-center py-2">
                     <template v-if="items != null">
-                        <template v-if="Array.isArray(items)">
-                            <template v-for="(item, key) in items" :key="key">
-                              <span class="bullet bullet-vertical bg-primary me-5"></span> {{index}} : {{ item }}<br>
-                            </template>
+                      <template v-if="Array.isArray(items)">
+                        <template v-for="(item, key) in items" :key="key">
+                          <span class="bullet bullet-vertical bg-primary me-5"></span> {{ index }} : {{ item }}<br>
                         </template>
-                        <template v-else>
-                          <span class="bullet bullet-vertical bg-primary me-5"></span> {{index}} : {{ items }}<br>
-                        </template>
+                      </template>
+                      <template v-else>
+                        <span class="bullet bullet-vertical bg-primary me-5"></span> {{ index }} : {{ items }}<br>
+                      </template>
                     </template>
                   </li>
                 </template>
@@ -339,7 +348,7 @@
                     <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
                       <KTIcon icon-name="minus-square" icon-class="toggle-on text-primary fs-2" />
                       <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
-                    </div> 
+                    </div>
 
                     <div class="me-3">
                       <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">Resolution</h4>
@@ -400,39 +409,11 @@
     <!--end::Modal dialog-->
   </div>
 
-  <!-- modal confirm  -->
-  <div class="modal fade" tabindex="-1" @v-on="testModal" ref="Modalconfirm" aria-hidden="true" id="kt_modal_confirm">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered">
-      <!--begin::Modal content-->
-      <div class="modal-content">
-
-
-        <!--begin::Form-->
-        <div class="modal-body">
-          <p>Bạn có chắc chắn muốn thay đổi <span class="fw-bold text-danger">{{ typeConfirm }} </span> lỗ hổng của bản gi
-            <span class="fw-bold text-danger">{{ detailData.vt_name }} </span> không?.
-          </p>
-        </div>
-        <!--end::Form-->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal" @click.passive="quitUpdateData()">
-            Hủy bỏ
-          </button>
-          <button type="button" class="btn btn-primary" @click.passive="updateData()">
-            Đồng ý
-          </button>
-        </div>
-      </div>
-      <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-  </div>
 </template>
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, watchEffect } from "vue";
+import { defineComponent, ref, onMounted, reactive } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
@@ -440,11 +421,9 @@ import ApiService from "@/core/services/ApiService";
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
-
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import Fillter from "@/views/apps/scans/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
-import { Modal } from "bootstrap";
 
 interface APIData {
   title: string;
@@ -479,7 +458,6 @@ export default defineComponent({
     const typeIp = ref<String | null>('');
     const typeDomain = ref<String | null>('');
     const typeModal = ref<String>('');
-    const id = ref<number>(0);
     const nameType = ref<string>('');
     const classDetail = ref<boolean>(false);
     const closeOnRow = ref(true);
@@ -523,6 +501,8 @@ export default defineComponent({
       {
         columnName: "Sev",
         columnLabel: "severity",
+        columnWidth: 90,
+        textAlign: "center",
       },
       {
         columnName: "Tên",
@@ -547,6 +527,7 @@ export default defineComponent({
       {
         columnName: "Trạng thái",
         columnLabel: "status",
+        columnWidth: 90,
       },
     ]);
 
@@ -629,7 +610,7 @@ export default defineComponent({
       detailData.classification = detail.port_scan.classification
       detailData.type = detail.port_scan.type
       detailData.references = detail.port_scan.references
-      
+
       dataConfirm.severity = detailData.severity
       dataConfirm.status = detailData.status
       console.log(detail)
@@ -640,40 +621,16 @@ export default defineComponent({
       closeOnRow.value = false;
       checkitemsPerPage.value = false;
     };
-    const dataModal = ref<any>(null);
-    const ModalConfirm = ref<string | HTMLElement>('#kt_modal_confirm');
-    const typeConfirm = ref<null | string>(null);
+
     const handleChangeUpdate = (type: string) => {
-      // console.log(dataConfirm.value)
       if (detailData.status && detailData.severity && type) {
-        typeConfirm.value = type
-        const modal = new Modal(ModalConfirm.value);
-        modal.show();
-        dataModal.value = modal
-        // console.log( dataModal.value)
+        updateData()
       } else {
         notification('', 'error', 'Có lỗi xảy ra')
       }
     };
 
-    const quitUpdateData = () => {
-      detailData.status = dataConfirm.status
-      detailData.severity = dataConfirm.severity
-    };
-    // watchEffect(() => {
-    //   if(dataModal.value){
-    //     // dataModal.value.handleUpdate()
-    //     dataModal.value.toggle()
-    //     console.log('123')
-    //   }
-    //   if(!dataModal.value){
-    //     console.log('1234')
-    //   }
-    // });
-
-
     const updateData = async () => {
-      dataModal.value.hide();
       // console.log( dataModal.value)
       let form_data = {
         severity: detailData.severity,
@@ -689,11 +646,6 @@ export default defineComponent({
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         });
     };
-
-    const testModal = (data) => {
-      console.log(data)
-    };
-
 
     const onItemSelect = (selectedItems: Array<number>) => {
       selectedIds.value = selectedItems;
@@ -712,7 +664,6 @@ export default defineComponent({
         },
       }).then(() => {
         hideModal(ModalDelete.value);
-        // hideModal( ModalConfirm.value);
       });
     };
 
@@ -763,10 +714,9 @@ export default defineComponent({
     const rightWidth = ref(window.innerWidth / 2);
     let startX = ref<null | any>(null);
 
-    const startDragging = (event) => {
+    const startDragging = (event: any) => {
       startX = event.clientX;
-
-      const handleDragging = (e) => {
+      const handleDragging = (e : any) => {
         const deltaX = e.clientX - startX;
 
         leftWidth.value += deltaX;
@@ -786,11 +736,24 @@ export default defineComponent({
 
     // keos thar
     const container = ref<null | any>(null);
+    const CustomWidth = ref<boolean>(false);
     const state = reactive({
       isDragging: false,
       startX: 0,
       startScrollLeft: 0,
     });
+
+    // const handleCustomSize = () => {
+    //   CustomWidth.value = !CustomWidth.value
+    //   if(CustomWidth.value){
+    //     leftWidth.value = 200;
+    //   }else{
+    //     contentWidth.value = container.value.scrollWidth;
+    //   }
+    //   console.log(CustomWidth.value)
+    //   console.log(contentWidth.value)
+
+    // };
 
     const handleMouseDown = (event: any) => {
       state.isDragging = true;
@@ -873,15 +836,12 @@ export default defineComponent({
       handleCloseDetail,
       handleChangeUpdate,
       updateData,
-      ModalConfirm,
-      typeConfirm,
-      testModal,
-      quitUpdateData,
 
       // Dragging kéo lề
       startDragging,
       leftWidth,
       rightWidth,
+      CustomWidth,
 
       // mouse down di chuột xuống
       handleMouseDown,
@@ -957,5 +917,4 @@ export default defineComponent({
   height: 0px;
   background-color: black;
 }
-
 </style>
