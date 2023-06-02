@@ -854,12 +854,14 @@ export default defineComponent({
                         }
                     })
                     .catch((response) => {
-                        if (response?.data) {
-                            errors.detail = response.data.detail;
+                        let r = response.response
+                        if (r?.data) {
                             
-                            notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
+                            errors.detail = r.data.detail;
+                            
+                            notification(r?.data?.detail, 'error', 'Có lỗi xảy ra')
                         } else {
-                            notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
+                            notification(r?.data?.detail, 'error', 'Có lỗi xảy ra')
                         }
                     });
             }
