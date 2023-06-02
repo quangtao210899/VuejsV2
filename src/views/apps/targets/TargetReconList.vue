@@ -1058,7 +1058,7 @@ export default defineComponent({
                     target_id: getIdFromUrl(),
                 }
                 
-                return ApiService.post("recon/create/", form_data)
+                return ApiService.post("recon/create2/", form_data)
                     .then(({ data }) => {
                         if(submitButtonRef.value){
                             //Disable button
