@@ -37,6 +37,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-recon-detail/:idRecon/:id/detail",
+        name: "target-recon-tab",
+        component: () => import("@/views/apps/targets/TargetReconTabList.vue"),
+        meta: {
+          pageTitle: "Chi tiết recon",
+          breadcrumbs: ["Target","Recon","DetailRecon"],
+          links: ["/target-list",''],
+        },
+      },
+      {
         path: "/target-scans/:id",
         name: "target-scan",
         component: () => import("@/views/apps/targets/TargetScanList.vue"),

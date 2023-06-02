@@ -60,9 +60,9 @@
 
     <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'pe-1' : ''">
       <!--begin::Card body-->
-      <div class="card-body overflow-auto h-100 m-0" ref="container" @mousedown="handleMouseDown"
+      <div class="card-body overflow-y-auto overflow-x-hidden h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
-        :class="classDetail ? 'd-block border-end pt-2 p-0' : 'col-12 d-block px-5 py-0'">
+        :class="classDetail ? ' border-end' : 'col-12 '">
         <div class="w-100">
           <KTDatatable @on-items-select="onItemSelect" :clickOnRow="true" :closeOnRow="closeOnRow" :data="list"
             :header="headerConfig" :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage"

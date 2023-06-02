@@ -104,7 +104,6 @@ import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, ref, onMounted } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-
 import Widget1 from "@/components/dashboard-default-widgets/Widget1.vue";
 import Widget2 from "@/components/dashboard-default-widgets/Widget2.vue";
 import Widget3 from "@/components/dashboard-default-widgets/Widget3.vue";
