@@ -276,9 +276,9 @@
     <div class="card h-100 d-block">
         <div class="d-flex shadow-hvover" :class="classDetail ? 'hand-height-4 pe-1' : 'hand-height-3'">
             <!--begin::Card body-->
-            <div class="card-body overflow-scroll h-100 m-0" ref="container" @mousedown="handleMouseDown"
+            <div class="card-body overflow-y-auto overflow-x-hidden h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
                 :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
-                :class="classDetail ? 'd-block border-end pt-2 p-0' : 'col-12 d-block px-5 py-0'">
+                :class="classDetail ? 'border-end' : 'col-12'">
                 <div class="w-100">
                     <!-- <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }"> -->
                     <KTDatatable :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig"
@@ -744,6 +744,7 @@ export default defineComponent({
             {
                 columnName: "Ngày tạo",
                 columnLabel: "last_seen",
+                columnWidth: 100,
             }
         ]);
 

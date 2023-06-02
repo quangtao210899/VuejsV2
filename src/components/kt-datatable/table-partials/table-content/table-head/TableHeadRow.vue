@@ -15,7 +15,7 @@
       </th>
       <template v-for="(column, i) in header" :key="i">
         <th
-          :class="{ 'text-end': i === header.length - 1,}"
+          :class="{ 'text-end  pe-5': i === header.length - 1,}"
           @click.passive="onSort(column.columnLabel, column.sortEnabled)"
           :style="{
             minWidth: column.columnWidth ? `${column.columnWidth}px` : '0',
