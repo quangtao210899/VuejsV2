@@ -1071,7 +1071,7 @@ export default defineComponent({
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
                                 
-                                notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
+                                notification(data.detail, 'success', 'Recon mục tiêu thành công')
                                 getData();
 
                             }, 1000);
