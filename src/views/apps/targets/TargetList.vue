@@ -647,7 +647,6 @@ export default defineComponent({
                 'domain': apiData.value.domain ?? "",
                 'group': apiData.value.group
             }
-            console.log(formData);
             
             if (typeModal.value == 'add') {
                 return ApiService.post("/targets/", formData)

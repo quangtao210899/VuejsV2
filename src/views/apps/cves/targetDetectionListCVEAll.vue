@@ -4,42 +4,19 @@
             <div class="card-toolbar">
                 <div v-show="selectedIds.length === 0">
                     <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
-                        <el-tooltip class="box-item" effect="dark" content="Tìm kiếm" placement="top">
-                            <button type="button"
-                                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                                <KTIcon icon-name="filter" icon-class="fs-2" />
-                                Filter
-                            </button>
-                        </el-tooltip>
+                        <button type="button"
+                            class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                            <KTIcon icon-name="filter" icon-class="fs-2" />
+                            Filter
+                        </button>
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
-
-                        <el-tooltip class="box-item" effect="dark" content="Danh sách mục tiêu" placement="top"> 
-                            <router-link :to="`/cve/${getIdFromUrl()}/scan/detail`">
-                                <button type="button"  class="btn btn-sm fw-bold btn-success me-2">
-                                    <KTIcon icon-name="document" icon-class="fs-2" />
-                                    Danh sách mục tiêu
-                                </button>
-                            </router-link>
-                        </el-tooltip>
-
-                        <el-popconfirm
-                            width="300"
-                            confirm-button-text="Submit"
-                            :icon="InfoFilled"
-                            icon-color="#626AEF"
-                            title="Bạn có chắc muốn scan CVE không?"
-                            @confirm="submit"
-                        >
-                            <template #reference>
-                                <!-- <el-tooltip class="box-item" effect="dark" content="Thêm mới" placement="top"> -->
-                                    <button type="button" class="btn btn-sm fw-bold btn-primary">
-                                        <KTIcon icon-name="plus" icon-class="fs-2" />
-                                        Quét
-                                    </button>
-                                <!-- </el-tooltip> -->
-                            </template>
-                        </el-popconfirm>
+    
+                        <!-- <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
+                            <KTIcon icon-name="plus" icon-class="fs-2" />
+                            Quét
+                        </button> -->
                     </div>
                 </div>
                 <div v-show="selectedIds.length !== 0">
@@ -55,19 +32,24 @@
             </div>
         </div>
 
-        <div class="card-body pt-0  overflow-y-auto overflow-x-hiddenh-100 p-0 m-0 ">
+        <div class="card-body pt-0  overflow-y-auto overflow-x-hidden h-100 p-0 m-0 ">
             <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
                 :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
                 @customRow="customRowTable">
                 <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-                <template v-slot:username="{ row: customer }">{{ customer.username }}</template>
-                <template v-slot:status_name="{ row: customer }"><span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--' }}</span></template>
-                <template v-slot:created_at="{ row: customer }">
-                    {{ customer.created_at ? customer.created_at: '--:--' }}
+                <template v-slot:ip="{ row: customer }">{{ customer.ip }}</template>
+                <template v-slot:port="{ row: customer }">{{ customer.port ?? '--' }}</template>
+                <template v-slot:hostnames="{ row: customer }">
+                    <span v-for="(value, index) in customer.hostnames" :key="index" :class="`badge badge-primary`">
+                        <a :href="`https://${value}`" target="_blank" class="text-white">{{ value }}</a>
+                    </span>
                 </template>
-                <template v-slot:modified_at="{ row: customer }">
-                    {{ (customer.status=='2' || customer.status== '1' ) ? "--:--" : customer.modified_at }}
+                <template v-slot:country="{ row: customer }">
+                    {{ customer.country ? customer.country: '--:--' }}
+                </template>
+                <template v-slot:org="{ row: customer }">
+                    {{ customer.org ?customer.org : '--:--' }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <router-link :to="`/cve/scan-detail/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
@@ -78,49 +60,67 @@
         </div>
     </div>
 
+
     <!-- modal detail  -->
     <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-        <div class="modal-dialog modal-dialog-centered mw-700px">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <!--begin::Modal content-->
             <div class="modal-content">
+                <!--begin::Form-->
                 <div class="modal-body">
+                    <!--begin::Card-->
                     <div class="card card-flush pt-3 mb-5 mb-xl-10">
+                        <!--begin::Card header-->
                         <div class="card-header">
+                            <!--begin::Card title-->
                             <div class="card-title">
-                                <h1 class="fw-bold"><span class="text-gray-400">Người recon:</span> <span class="text-gray-800">{{ detailData.username }}</span></h1>
+                                <h1 class="fw-bold">{{ detailData.ip }}</h1>
                             </div>
                         </div>
                         <div class="card-body py-0">
                             <div class="mb-10">
-                                <h5>Thông tin chi tiết:</h5>
-                                <div class="d-flex flex-wrap py-5">
-                                    <div class="flex-equal me-5">
-                                        <div class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-                                            <div class="row mb-4 ">
-                                                <div class="text-gray-400 col-6">Trạng thái:</div>
-                                                <span :class="`badge badge-${getStatus(detailData.status).color} col-2`" style="margin-left:10px;">{{ detailData.statusName }}</span>
+                                <h6>Thông tin chi tiết:</h6>
+                                <div class="py-5">
+                                    <!--begin::Row-->
+                                    <div class="me-5">
+                                    <!--begin::Details-->
+                                        <div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Port:</div>
+                                                <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.port ?? '' }}</span></div>
                                             </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Thời gian bắt đầu:</div>
-                                                <div class="text-gray-800 col-6">{{ detailData.created_at}}</div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Hostnames:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.hostnames[0] ?? '' }}</span></div>
                                             </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Thời gian kết thúc:</div>
-                                                <div class="text-gray-800 col-6">{{ (detailData.status=='2' || detailData.status== '1' ) ? "--:--" : detailData.modified_at }}</div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Quốc gia:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.country ?? '' }}</span></div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Tổ chức:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.org ?? '' }}</span></div>
                                             </div>
                                         </div>
+                                        <!--end::Details-->
                                     </div>
+                                <!--end::Row-->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--end::Form-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
                         Quay lại
                     </button>
                 </div>
             </div>
+            <!--end::Modal content-->
         </div>
+        <!--end::Modal dialog-->
     </div>
 
     <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">
@@ -134,15 +134,30 @@
                     </div>
                 </div>
 
-                <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit">
-                    <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
-                        class="btn btn-sm  btn-primary">
-                        <span class="indicator-label"> Submit </span>
-                        <span class="indicator-progress">
-                            Please wait...
-                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                        </span>
-                    </button>
+                <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
+                >
+                <div class="modal-body py-10 px-lg-17">
+                        <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
+                            data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
+                            data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
+                            data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
+                            <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                    <h4>Bạn có chắc muốn scan CVE không</h4>
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer flex-center">
+                        <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
+                            class="btn btn-sm  btn-primary">
+                            <span class="indicator-label"> Submit </span>
+                            <span class="indicator-progress">
+                                Please wait...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
                 </VForm>
             </div>
         </div>
@@ -195,23 +210,25 @@ import { defineComponent, ref, onMounted, reactive } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import ApiService from "@/core/services/ApiService";
-import { InfoFilled } from '@element-plus/icons-vue'
 
 // validate
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
-import Fillter from "@/views/apps/targets/filterTargetScan.vue";
+import Fillter from "@/views/apps/targets/filterTargetDectionListCVE.vue";
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
+import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
+dayjs.locale('vi');
 
 interface APIData {
     status: string;
     created_at: string;
-    modified_at: string;
+    finished_at: string;
     user: string;
 }
 
@@ -224,7 +241,6 @@ export default defineComponent({
         Field,
         VForm,
         Fillter,
-        InfoFilled,
     },
     directives: {
         debounce: vue3Debounce({ lock: true })
@@ -245,25 +261,26 @@ export default defineComponent({
         const apiData = ref<APIData>({
             status: '',
             created_at: "",
-            modified_at: '',
+            finished_at: '',
             user: '',
         });
         const errors = reactive({
             status: "",
             created_at: "",
-            modified_at: '',
+            finished_at: '',
             user: '',
             detail: '',
         });
         const detailData = reactive({
             id: '',
-            username: "",
-            created_at: "",
-            modified_at: '',
-            status: '',
-            statusName: '',
+            cve_id: "",
+            cve_scan_id: "",
+            hostnames: [],
+            ip: '',
+            org: '',
+            port: '',
+            country: ''
         });
-
         const getIdFromUrl = () => {
             const url = window.location.href;
             const idMatch = url.match(/\/(\d+)\//);
@@ -271,7 +288,7 @@ export default defineComponent({
                 return parseInt(idMatch[1]);
             }
         };
-        const CVEId = getIdFromUrl();
+        const CVEScanId = getIdFromUrl();
         const getScanSpeedName = (speed: number | string) => {
             if (speed == 1) {
                 return 'Tuần tự'
@@ -295,25 +312,24 @@ export default defineComponent({
                 sortEnabled: true,
             },
             {
-                columnName: "Người scan",
-                columnLabel: "username",
+                columnName: "IP",
+                columnLabel: "ip",
             },
             {
-                columnName: "Thời gian bắt đầu",
-                columnLabel: "created_at",
+                columnName: "Port",
+                columnLabel: "port",
             },
             {
-                columnName: "Thời gian kết thúc",
-                columnLabel: "modified_at",
+                columnName: "Host names",
+                columnLabel: "hostnames",
             },
             {
-                columnName: "Trạng thái",
-                columnLabel: "status_name",
+                columnName: "Quốc gia",
+                columnLabel: "country",
             },
             {
-                columnName: "Actions",
-                columnLabel: "actions",
-                columnWidth: 50,
+                columnName: "Tổ chức",
+                columnLabel: "org",
             },
         ]);
 
@@ -330,20 +346,20 @@ export default defineComponent({
             return { color: 'warning' };
         };
 
-        const handleClick = (data: object | any, type: String) => {
-            typeModal.value = type
-            // errors.name = ''
-            // errors.domain = ''
-            // errors.ip = ''
-            // errors.group = ''
-            // errors.detail = ''
+        // const handleClick = (data: object | any, type: String) => {
+        //     typeModal.value = type
+        //     // errors.name = ''
+        //     // errors.domain = ''
+        //     // errors.ip = ''
+        //     // errors.group = ''
+        //     // errors.detail = ''
             
-            nameType.value = "Quét CVE"
-            if (discardButtonRef.value !== null) {
-                discardButtonRef.value.click();
-            }
-                // resetData();
-        };
+        //     nameType.value = "Quét CVE"
+        //     if (discardButtonRef.value !== null) {
+        //         discardButtonRef.value.click();
+        //     }
+        //         // resetData();
+        // };
 
         // const resetData = () => {
         //   apiData.value.title = '';
@@ -364,10 +380,12 @@ export default defineComponent({
 
         const getData = () => {
             loading.value = true;
+            
             setTimeout(() => loading.value = false, 500)
-
-            return ApiService.get(`/cve/${getIdFromUrl()}/scan?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
+            return ApiService.get(`/cve/${getIdFromUrl()}/scan/detail?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
+                    console.log(data.results,234234222);
+                    
                     list.value = data.results
                     totalPage.value = data.count
                 })
@@ -387,7 +405,7 @@ export default defineComponent({
                 'id': ids
             }
             if (ids) {
-                return ApiService.post(`cve/${getIdFromUrl()}/delete`, formData)
+                return ApiService.post(`/cve/scan-delete/${getIdFromUrl()}`, formData)
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
                         currentPage.value = 1;
@@ -408,12 +426,14 @@ export default defineComponent({
         };
         const customRowTable = (detail: any) => {
             if (detail) {
-                detailData.username = detail.username
-                detailData.modified_at = detail.finishedAt
-                detailData.status = detail.status
-                detailData.statusName = detail.status_name
-                detailData.created_at = detail.created_at
-                detailData.modified_at = detail.modified_at
+                detailData.country = detail.country
+                detailData.cve_id = detail.cve_id
+                detailData.cve_scan_id = detail.cve_scan_id
+                detailData.id = detail.id
+                detailData.ip = detail.ip
+                detailData.org = detail.org
+                detailData.port = detail.port
+                detailData.hostnames = detail.hostnames
                 const modal = new Modal(
                     document.getElementById("kt_modal_detail") as Element
                 );
@@ -450,39 +470,41 @@ export default defineComponent({
             });
         }
         const headerInputValue = ref("")
-        const submit = async () => {            
+        const submit = async () => {
             if (!submitButtonRef.value) {
                 return;
             }
-            
-            return ApiService.post(`cve/${getIdFromUrl()}/create_scan`, {})
-                .then(({ data }) => {
-                    
-                    if(submitButtonRef.value){
-                        //Disable button
-                        submitButtonRef.value.disabled = true;
-                        // Activate indicator
-                        submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-                        setTimeout(() => {
-                            if (submitButtonRef.value) {
-                                submitButtonRef.value.disabled = false;
-                                submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                            }
-                            notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
-                            getData();
-
-                        }, 1000);
-                    }
-                })
-                .catch((response) => {
-                    if (response?.data) {
-                        errors.detail = response.data.detail;
+            if (typeModal.value == 'add') {
+                
+                return ApiService.post(`cve/${getIdFromUrl()}/create_scan`, {})
+                    .then(({ data }) => {
                         
-                        notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
-                    } else {
-                        notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
-                    }
-                });
+                        if(submitButtonRef.value){
+                            //Disable button
+                            submitButtonRef.value.disabled = true;
+                            // Activate indicator
+                            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+                            setTimeout(() => {
+                                if (submitButtonRef.value) {
+                                    submitButtonRef.value.disabled = false;
+                                    submitButtonRef.value?.removeAttribute("data-kt-indicator");
+                                }
+                                notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
+                                getData();
+
+                            }, 1000);
+                        }
+                    })
+                    .catch((response) => {
+                        if (response?.data) {
+                            errors.detail = response.data.detail;
+                            
+                            notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
+                        } else {
+                            notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
+                        }
+                    });
+            }
         };
 
 
@@ -522,10 +544,9 @@ export default defineComponent({
             submit,
             submitButtonRef,
             modalRef,
-            // target_id,
             getIdFromUrl,
             newTargetGroupModalRef,
-            handleClick,
+            // handleClick,
             errors,
             ModalDelete,
             discardButtonRef,
@@ -554,7 +575,7 @@ export default defineComponent({
             //SCAN
             getScanSpeedName,
             headerInputValue,
-            CVEId,
+            CVEScanId,
         };
     },
 });

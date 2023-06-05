@@ -12,11 +12,11 @@
                         </button>
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
     
-                        <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
+                        <!-- <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                             data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                             <KTIcon icon-name="plus" icon-class="fs-2" />
                             Quét
-                        </button>
+                        </button> -->
                     </div>
                 </div>
                 <div v-show="selectedIds.length !== 0">
@@ -49,7 +49,7 @@
                     {{ customer.country ? customer.country: '--:--' }}
                 </template>
                 <template v-slot:org="{ row: customer }">
-                    {{ customer.org ?customer.org : '3===D' }}
+                    {{ customer.org ?customer.org : '--:--' }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <router-link :to="`/cve/scan-detail/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
@@ -58,6 +58,69 @@
                 </template>
             </KTDatatable>
         </div>
+    </div>
+
+
+    <!-- modal detail  -->
+    <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
+                <!--begin::Form-->
+                <div class="modal-body">
+                    <!--begin::Card-->
+                    <div class="card card-flush pt-3 mb-5 mb-xl-10">
+                        <!--begin::Card header-->
+                        <div class="card-header">
+                            <!--begin::Card title-->
+                            <div class="card-title">
+                                <h1 class="fw-bold">{{ detailData.ip }}</h1>
+                            </div>
+                        </div>
+                        <div class="card-body py-0">
+                            <div class="mb-10">
+                                <h6>Thông tin chi tiết:</h6>
+                                <div class="py-5">
+                                    <!--begin::Row-->
+                                    <div class="me-5">
+                                    <!--begin::Details-->
+                                        <div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Port:</div>
+                                                <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.port ?? '' }}</span></div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Hostnames:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.hostnames[0] ?? '' }}</span></div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Quốc gia:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.country ?? '' }}</span></div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Tổ chức:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.org ?? '' }}</span></div>
+                                            </div>
+                                        </div>
+                                        <!--end::Details-->
+                                    </div>
+                                <!--end::Row-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Form-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
+                        Quay lại
+                    </button>
+                </div>
+            </div>
+            <!--end::Modal content-->
+        </div>
+        <!--end::Modal dialog-->
     </div>
 
     <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">
@@ -152,7 +215,7 @@ import ApiService from "@/core/services/ApiService";
 import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
-import Fillter from "@/views/apps/targets/filterTargetScan.vue";
+import Fillter from "@/views/apps/targets/filterTargetDectionListCVE.vue";
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -210,11 +273,13 @@ export default defineComponent({
         });
         const detailData = reactive({
             id: '',
-            username: "",
-            created_at: "",
-            finished_at: '',
-            status: '',
-            statusName: '',
+            cve_id: "",
+            cve_scan_id: "",
+            hostnames: [],
+            ip: '',
+            org: '',
+            port: '',
+            country: ''
         });
         const getIdFromUrl = () => {
             const url = window.location.href;
@@ -281,20 +346,20 @@ export default defineComponent({
             return { color: 'warning' };
         };
 
-        const handleClick = (data: object | any, type: String) => {
-            typeModal.value = type
-            // errors.name = ''
-            // errors.domain = ''
-            // errors.ip = ''
-            // errors.group = ''
-            // errors.detail = ''
+        // const handleClick = (data: object | any, type: String) => {
+        //     typeModal.value = type
+        //     // errors.name = ''
+        //     // errors.domain = ''
+        //     // errors.ip = ''
+        //     // errors.group = ''
+        //     // errors.detail = ''
             
-            nameType.value = "Quét CVE"
-            if (discardButtonRef.value !== null) {
-                discardButtonRef.value.click();
-            }
-                // resetData();
-        };
+        //     nameType.value = "Quét CVE"
+        //     if (discardButtonRef.value !== null) {
+        //         discardButtonRef.value.click();
+        //     }
+        //         // resetData();
+        // };
 
         // const resetData = () => {
         //   apiData.value.title = '';
@@ -315,7 +380,6 @@ export default defineComponent({
 
         const getData = () => {
             loading.value = true;
-            console.log(getIdFromUrl(), 123132);
             
             setTimeout(() => loading.value = false, 500)
             return ApiService.get(`/cve/scan-detail/${getIdFromUrl()}?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
@@ -362,16 +426,18 @@ export default defineComponent({
         };
         const customRowTable = (detail: any) => {
             if (detail) {
-                // detailData.username = detail.user.username
-                // detailData.finished_at = detail.finishedAt
-                // detailData.status = detail.status
-                // detailData.statusName = detail.status_name
-                // detailData.created_at = detail.created_at
-                // detailData.finished_at = detail.finished_at
-                // const modal = new Modal(
-                //     document.getElementById("kt_modal_detail") as Element
-                // );
-                // modal.show();
+                detailData.country = detail.country
+                detailData.cve_id = detail.cve_id
+                detailData.cve_scan_id = detail.cve_scan_id
+                detailData.id = detail.id
+                detailData.ip = detail.ip
+                detailData.org = detail.org
+                detailData.port = detail.port
+                detailData.hostnames = detail.hostnames
+                const modal = new Modal(
+                    document.getElementById("kt_modal_detail") as Element
+                );
+                modal.show();
             } else {
                 notification('', 'error', 'Có lỗi xảy ra')
             }
@@ -480,7 +546,7 @@ export default defineComponent({
             modalRef,
             getIdFromUrl,
             newTargetGroupModalRef,
-            handleClick,
+            // handleClick,
             errors,
             ModalDelete,
             discardButtonRef,

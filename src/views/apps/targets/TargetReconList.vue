@@ -982,10 +982,8 @@ export default defineComponent({
                 })
 
                 const mergedArray = [...new Set([...selectedKey, ...checkedKey])];
-                console.log(mergedArray);
                 
                 treeRef.value!.setCheckedKeys(mergedArray, false)
-                
 
                 if (errors.notifi_error_select.length) {
                     for (let i = 0; i < errors.notifi_error_select.length; i++) {

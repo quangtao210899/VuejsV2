@@ -134,13 +134,13 @@
                                 </div>
                                 <div class="col-4">
                                     <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                        <span class="required">Loại sản phẩm</span>
+                                        <span class="required">Loại lỗ hổng</span>
                                     </label>
                                     <el-form-item prop="assign">
                                         <el-select placeholder="Chọn kiểu" as="select" height="40px"
                                             @change="removeErrorMsgOption"
                                             class="input-group-lg" v-model="apiData.vul_type">
-                                            <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option>
+                                            <el-option label="Chọn loại lỗ hổng" value="">Chọn loại lỗ hổng</el-option>
                                             <el-option
                                                 v-for="item in dataVul"
                                                 :key="item.value"
@@ -332,27 +332,27 @@
                       <div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Loại sản phẩm:</div>
-                          <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.product_text ?? '--' }}</span></div>
+                          <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.product_text ?? '' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Loại lỗ hổng:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.vul_text ?? '--' }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.vul_text ?? '' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Mô tả:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.description ?? '--' }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.description ?? '' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Phiên bản:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.version ?? '--' }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.version ?? '' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Shodan dock:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.shodan_dock ?? '--' }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.shodan_dock ?? '' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">POC:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.poc ?? '--' }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.poc ?? '' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Ngày tạo:</div>
@@ -851,8 +851,6 @@ export default defineComponent({
             deleteSubscription(selectedIds.value);
         };
         const removeErrorMsgOption = () => {
-            console.log(apiData.value.product_type != '', apiData.value.product_type, 123123);
-            
             apiData.value.product_type !== '' ? errors.product_type = '' : ''
             apiData.value.vul_type !== '' ? errors.vul_type = '' : ''
         };
@@ -1028,8 +1026,6 @@ export default defineComponent({
                             errors.shodan_dock = response.data.shodan_dock;
                             errors.poc = response.data.poc;
                             errors.detail = response.data.detail;
-                            console.log(errors);
-                            
                         } else {
                             notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                         }
