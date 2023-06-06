@@ -384,8 +384,6 @@ export default defineComponent({
             setTimeout(() => loading.value = false, 500)
             return ApiService.get(`/cve/${getIdFromUrl()}/scan/detail?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
-                    console.log(data.results,234234222);
-                    
                     list.value = data.results
                     totalPage.value = data.count
                 })
@@ -405,7 +403,7 @@ export default defineComponent({
                 'id': ids
             }
             if (ids) {
-                return ApiService.post(`/cve/scan-delete/${getIdFromUrl()}`, formData)
+                return ApiService.post(`/cve/${getIdFromUrl()}/scan/delete`, formData)
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
                         currentPage.value = 1;

@@ -70,7 +70,7 @@
                     {{ (customer.status=='2' || customer.status== '1' ) ? "--:--" : customer.modified_at }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
-                    <router-link :to="`/cve/scan-detail/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                    <router-link :to="`/cve/${getIdFromUrl()}/scan-detail/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                         <KTIcon icon-name="eye" icon-class="fs-3" />
                     </router-link>
                 </template>
@@ -179,16 +179,6 @@
     </div>
 </template>
 
-<style lang="scss">
-.el-select {
-  width: 100%;
-}
-
-.el-date-editor.el-input,
-.el-date-editor.el-input__inner {
-  width: 100%;
-}
-</style>
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, ref, onMounted, reactive } from "vue";

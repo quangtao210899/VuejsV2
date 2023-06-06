@@ -1324,7 +1324,7 @@ export default defineComponent({
 });
 </script>
   
-<style>
+<style scoped>
 .shadow-hvover {
     box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
 }

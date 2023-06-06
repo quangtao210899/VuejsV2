@@ -191,14 +191,13 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/cve/scan-detail/:id",
+        path: "/cve/:idCVE/scan-detail/:id",
         name: "targetDetectionListCVE",
         component: () => import("@/views/apps/cves/targetDetectionListCVE.vue"),
         meta: {
           pageTitle: "Danh sách mục tiêu dính lỗ hổng",
-          breadcrumbs: ["CVE","Scan", "Detail"],
-          links: ["/cve",
-          ({ params }) => `/cve/${params.id}/scan`,],
+          breadcrumbs: ["CVE","Scan","Detail"],
+          links: ["/cve",''],
         },
       },
       {
@@ -208,8 +207,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Danh sách mục tiêu dính lỗ hổng",
           breadcrumbs: ["CVE","Scan","ListAll"],
-          links: ["/cve",
-          ({ params }) => `/cve/${params.id}/scan`,],
+          links: ["/cve",''],
         },
         beforeEnter: (to, from, next) => {
           const id = to.params.id; // Lấy giá trị id từ đường dẫn
