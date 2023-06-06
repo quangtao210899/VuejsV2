@@ -194,16 +194,6 @@
     </div>
 </template>
 
-<style lang="scss">
-.el-select {
-  width: 100%;
-}
-
-.el-date-editor.el-input,
-.el-date-editor.el-input__inner {
-  width: 100%;
-}
-</style>
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, ref, onMounted, reactive } from "vue";
@@ -384,8 +374,6 @@ export default defineComponent({
             setTimeout(() => loading.value = false, 500)
             return ApiService.get(`/cve/scan-detail/${getIdFromUrl()}?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
-                    console.log(data.results);
-                    
                     list.value = data.results
                     totalPage.value = data.count
                 })

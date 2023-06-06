@@ -22,7 +22,7 @@
                 <!--begin::Input-->
                 <div class="d-flex align-items-center position-relative my-1">
                     <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
-                    <input type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
+                    <input type="text" data-kt-subscription-table-filter="search" v-model.value="debouncedSearchTerm"
                         class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm" />
                 </div>
                 <!--end::Input-->
@@ -78,7 +78,7 @@ export default defineComponent({
             emit("filter-data", data.value);
         };
         const debouncedSearchTerm = ref('');
-        const debounceSearch = debounce(submit, 1000);
+        const debounceSearch = debounce(submit, 700);
         const data = ref<Filter>({
             query: '',
             status: '',
@@ -86,9 +86,7 @@ export default defineComponent({
         watch(debouncedSearchTerm, debounceSearch);
         watch(
             data.value,
-            () => {
-                submit()
-            }
+            debounceSearch
         );
 
         // const emit = defineEmits(['filter-data'])

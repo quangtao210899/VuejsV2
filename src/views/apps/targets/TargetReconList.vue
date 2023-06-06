@@ -204,9 +204,6 @@
         </div>
     </div>
 </template>
-<style>
-
-</style>
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";

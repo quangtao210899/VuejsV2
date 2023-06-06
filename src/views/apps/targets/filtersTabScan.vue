@@ -225,12 +225,12 @@ export default defineComponent({
       emit("filter-data", data.value);
     };
     const debouncedSearchTerm = ref('');
-    const debounceSearch = debounce(submit, 1000);
+    const debounceSearch = debounce(submit, 700);
     const data = ref<Filter>({
       query: '',
     });
     watch(debouncedSearchTerm, debounceSearch);
-    watch(data.value, () => { submit() });
+    watch(data.value, debounceSearch);
     // watch(() => props.progress, () => { console.log('123') });
 
     // const emit = defineEmits(['filter-data'])

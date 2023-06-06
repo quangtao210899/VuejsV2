@@ -92,16 +92,17 @@ export default defineComponent({
       emit("filter-data", data.value);
     };
     const debouncedSearchTerm = ref("");
-    const debounceSearch = debounce(submit, 1000);
+    const debounceSearch = debounce(submit, 700);
     const data = ref<Filter>({
       query: "",
       type: '',
     });
 
     watch(debouncedSearchTerm, debounceSearch);
-    watch(data.value, () => {
-      submit();
-    });
+    watch(
+      data.value,
+      debounceSearch
+    );
 
     const reset = () => {
       check_return = 0;

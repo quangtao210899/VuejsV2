@@ -98,7 +98,7 @@
                                     <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                         <span class="required">Mã CVE</span>
                                     </label>
-                                    <Field type="text" class="form-control form-control-solid" placeholder="CVE-YYYY-xxxxxx" @keydown="removeErrorMsgText"
+                                    <Field type="text" class="form-control form-control-solid" placeholder="CVE-YYYY-xxxxxx" @keydown="removeErrorMsgText" style="height: 40px;"
                                         name="code" v-model="apiData.code" />
                                     <div class="fv-plugins-message-container">
                                         <div class="fv-help-block">
@@ -113,10 +113,10 @@
                                         <span class="required">Loại sản phẩm</span>
                                     </label>
                                     <el-form-item prop="assign">
-                                        <el-select placeholder="Chọn kiểu" as="select" height="40px" name="product_text"
+                                        <el-select name="product_type" placeholder="Select"
                                             @change="removeErrorMsgOption"
-                                            class="input-group-lg" v-model.lazy="apiData.product_type">
-                                            <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option>
+                                            v-model="apiData.product_type">
+                                            <!-- <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option> -->
                                             <el-option
                                                 v-for="item in dataProduct"
                                                 :key="item.value"
@@ -137,10 +137,10 @@
                                         <span class="required">Loại lỗ hổng</span>
                                     </label>
                                     <el-form-item prop="assign">
-                                        <el-select placeholder="Chọn kiểu" as="select" height="40px"
+                                        <el-select name="vul_type" placeholder="Select"
                                             @change="removeErrorMsgOption"
-                                            class="input-group-lg" v-model="apiData.vul_type">
-                                            <el-option label="Chọn loại lỗ hổng" value="">Chọn loại lỗ hổng</el-option>
+                                            v-model="apiData.vul_type">
+                                            <!-- <el-option label="Chọn loại lỗ hổng" value="">Chọn loại lỗ hổng</el-option> -->
                                             <el-option
                                                 v-for="item in dataVul"
                                                 :key="item.value"
@@ -1113,3 +1113,9 @@ export default defineComponent({
     },
 });
 </script>
+
+<style>
+.el-select .el-input__wrapper {
+    height: 40px !important;
+}
+</style>
