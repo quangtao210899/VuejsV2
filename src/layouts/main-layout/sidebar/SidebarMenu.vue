@@ -151,38 +151,7 @@
           </template>
         </template>
 
-        <div class="menu-item pt-5">
-          <!--begin:Menu content-->
-          <div class="menu-content">
-            <span class="menu-heading fw-bold text-uppercase fs-7">Help</span>
-          </div>
-          <!--end:Menu content-->
-        </div>
-        <!--begin:Menu item-->
-        <div class="menu-item">
-          <!--begin:Menu link-->
-          <a
-            class="menu-link"
-            href="https://preview.keenthemes.com/metronic8/vue/docs/#/utilities"
-          >
-            <span class="menu-icon">
-              <i
-                v-if="sidebarMenuIcons === 'bootstrap'"
-                class="bi bi-briefcase fs-3"
-              ></i>
-              <KTIcon
-                v-else-if="sidebarMenuIcons === 'keenthemes'"
-                icon-name="rocket"
-                icon-class="fs-2"
-              />
-            </span>
-            <span class="menu-title">Components</span>
-          </a>
-          <!--end:Menu link-->
-        </div>
-        <!--end:Menu item-->
-        <div class="menu-item">
-          <!--begin:Menu link-->
+        <!-- <div class="menu-item">
           <a
             class="menu-link"
             href="https://preview.keenthemes.com/metronic8/vue/docs/#/doc-overview"
@@ -200,12 +169,8 @@
             </span>
             <span class="menu-title">Documentation</span>
           </a>
-          <!--end:Menu link-->
-        </div>
-        <!--begin:Menu item-->
-        <!--end:Menu item-->
-        <div class="menu-item">
-          <!--begin:Menu link-->
+        </div> -->
+        <!-- <div class="menu-item">
           <a
             class="menu-link"
             href="https://preview.keenthemes.com/metronic8/vue/docs/#/changelog"
@@ -223,8 +188,7 @@
             </span>
             <span class="menu-title">Changelog</span>
           </a>
-          <!--end:Menu link-->
-        </div>
+        </div> -->
         <!--begin:Menu item-->
         <!--end:Menu item-->
       </div>

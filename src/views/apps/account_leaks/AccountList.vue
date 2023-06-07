@@ -102,7 +102,7 @@
                   <label class="form-check-label">
                     <el-switch v-model="apiData.is_ok" class="ml-2"
                       style="--el-switch-on-color: #13ce66; --el-switch-off-color: #f1416C" />
-                    <span class="form-check-label user-select-none">Đã kiểm tra</span>
+                    <span class="form-check-label user-select-none">{{ apiData.is_ok?"Đã kiểm tra": "Chưa kiểm tra"}}</span>
                   </label>
                 </div>
                 <!--end::Switch-->

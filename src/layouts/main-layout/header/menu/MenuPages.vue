@@ -142,7 +142,7 @@
     </div>
   </template>
 
-  <div
+  <!-- <div
     data-kt-menu-trigger="click"
     data-kt-menu-placement="bottom-start"
     class="menu-item menu-lg-down-accordion me-lg-1"
@@ -155,9 +155,7 @@
       class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown w-100 w-lg-600px p-5 p-lg-5"
       style=""
     >
-      <!--begin:Row-->
       <div class="row" data-kt-menu-dismiss="true">
-        <!--begin:Col-->
         <div class="col-lg-4 border-left-lg-1">
           <div class="menu-inline menu-column menu-active-bg">
             <div class="menu-item">
@@ -202,8 +200,6 @@
             </div>
           </div>
         </div>
-        <!--end:Col-->
-        <!--begin:Col-->
         <div class="col-lg-4 border-left-lg-1">
           <div class="menu-inline menu-column menu-active-bg">
             <div class="menu-item">
@@ -248,8 +244,6 @@
             </div>
           </div>
         </div>
-        <!--end:Col-->
-        <!--begin:Col-->
         <div class="col-lg-4 border-left-lg-1">
           <div class="menu-inline menu-column menu-active-bg">
             <div class="menu-item">
@@ -294,11 +288,9 @@
             </div>
           </div>
         </div>
-        <!--end:Col-->
       </div>
-      <!--end:Row-->
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts">
