@@ -26,7 +26,6 @@
                         <el-popconfirm
                             width="300"
                             confirm-button-text="Submit"
-                            :icon="InfoFilled"
                             icon-color="#626AEF"
                             title="Bạn có chắc muốn scan CVE không?"
                             @confirm="submit"
@@ -185,7 +184,6 @@ import { defineComponent, ref, onMounted, reactive } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import ApiService from "@/core/services/ApiService";
-import { InfoFilled } from '@element-plus/icons-vue'
 
 // validate
 import { hideModal } from "@/core/helpers/dom";
@@ -214,7 +212,6 @@ export default defineComponent({
         Field,
         VForm,
         Fillter,
-        InfoFilled,
     },
     directives: {
         debounce: vue3Debounce({ lock: true })
