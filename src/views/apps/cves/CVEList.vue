@@ -332,27 +332,27 @@
                       <div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Loại sản phẩm:</div>
-                          <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.product_text ?? '' }}</span></div>
+                          <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.product_text ? detailData.product_text : '--:--' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Loại lỗ hổng:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.vul_text ?? '' }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.vul_text ? detailData.vul_text: '--:--' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Mô tả:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.description ?? '' }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.description ? detailData.description: '--:--' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Phiên bản:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.version ?? '' }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.version ? detailData.version:'--:--' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Shodan dock:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.shodan_dock ?? '' }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.shodan_dock ? detailData.shodan_dock: '--:--' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">POC:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.poc ?? '' }}</span></div>
+                          <div class="col-9 text-gray-800"><span>{{ detailData.poc ? detailData.poc: '--:--' }}</span></div>
                         </div>
                         <div class="row fs-6 mb-3">
                           <div class="col-3 text-gray-400">Ngày tạo:</div>

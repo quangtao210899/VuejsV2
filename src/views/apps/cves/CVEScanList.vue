@@ -31,12 +31,14 @@
                             @confirm="submit"
                         >
                             <template #reference>
-                                <!-- <el-tooltip class="box-item" effect="dark" content="Thêm mới" placement="top"> -->
-                                    <button type="button" class="btn btn-sm fw-bold btn-primary">
-                                        <KTIcon icon-name="plus" icon-class="fs-2" />
-                                        Quét
-                                    </button>
-                                <!-- </el-tooltip> -->
+                                <span>
+                                    <el-tooltip class="box-item" effect="dark" content="Thêm mới" placement="top">
+                                        <button type="button" class="btn btn-sm fw-bold btn-primary">
+                                            <KTIcon icon-name="plus" icon-class="fs-2" />
+                                            Quét
+                                        </button>
+                                    </el-tooltip>
+                                </span>
                             </template>
                         </el-popconfirm>
                     </div>
@@ -465,10 +467,9 @@ export default defineComponent({
                         }, 1000);
                     }
                 })
-                .catch((response) => {
+                .catch(({response}) => {
                     if (response?.data) {
                         errors.detail = response.data.detail;
-                        
                         notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                     } else {
                         notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
