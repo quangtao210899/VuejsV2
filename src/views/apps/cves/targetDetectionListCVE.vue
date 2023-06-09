@@ -75,7 +75,7 @@
                         <div class="card-header">
                             <!--begin::Card title-->
                             <div class="card-title">
-                                <h1 class="fw-bold">{{ detailData.ip }}</h1>
+                                <h1 class="fw-bold"><span class="text-gray-400">IP:</span> {{ detailData.ip }}</h1>
                             </div>
                         </div>
                         <div class="card-body py-0">
