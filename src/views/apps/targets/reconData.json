@@ -1,0 +1,1072 @@
+{
+    "id": 161,
+    "user": {
+        "id": 1,
+        "first_name": "Quang Tạo",
+        "username": "admin@demo.com",
+        "is_staff": true,
+        "last_login": "07/06/2023 08:38:04",
+        "date_joined": "12/05/2023 09:59:58"
+    },
+    "target": {
+        "id": 1,
+        "name": "ETC",
+        "ip": "14.232.240.61",
+        "domain": "etc.vn",
+        "group": {
+            "title": "Nhóm 1",
+            "id": 1
+        },
+        "created_at": "12/05/2023 10:03:56",
+        "modified_at": "07/06/2023 13:25:00"
+    },
+    "created_at": "2023-06-07T13:23:01.574176+07:00",
+    "modified_at": "2023-06-07T13:29:15.673866+07:00",
+    "status": 3,
+    "recon": [{
+            "activity": {
+                "task_done": [{
+                        "name": "Domain information",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "IP info",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Certificate transparency",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Metadata finder",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Google Analytics ID",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Port Scanner",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "NOERROR subdomain discovery",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Bruteforce",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Emails addresses and users",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Password leaks",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Passive",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Cloud checkers",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "DNS Records",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "JS files & Source Code Scraping",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Subdomains takeover",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "TLS handshake",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    },
+                    {
+                        "name": "Hoàn thành",
+                        "time": "2 giờ",
+                        "status": 3,
+                        "color": "success"
+                    }
+                ],
+                "total_finish": 16,
+                "total_not_done": 0
+            },
+            "subdomain": {
+                "total_subdomain": 23,
+                "total_subdomain_live": 3
+            },
+            "services": {
+                "total_open": 0,
+                "total_close": 0,
+                "total": 0
+            },
+            "account": {
+                "email": 7,
+                "credentials": 0
+            },
+            "endpoint": {
+                "status": 3,
+                "message": {
+                    "total_endpoint": 224,
+                    "total_endpoint_live": 155
+                }
+            },
+            "domain_info": {
+                "status": 4,
+                "message": "This TLD has no whois server, but you can access the whois database at\nhttp://www.vnnic.vn/en\n"
+            },
+            "ip_info": {
+                "status": 3,
+                "message": {
+                    "ip_info": {
+                        "ip": "14.232.240.61",
+                        "location": {
+                            "country": "VN",
+                            "region": "Hanoi",
+                            "city": "Văn Chương",
+                            "lat": 21.01667,
+                            "lng": 105.83333,
+                            "postalCode": "",
+                            "timezone": "+07:00",
+                            "geonameId": 1563155
+                        },
+                        "isp": "VNPT",
+                        "connectionType": ""
+                    },
+                    "inetnums": {
+                        "inetnum": "14.232.240.0 - 14.232.255.255",
+                        "inetnumFirst": 281470931890176,
+                        "inetnumLast": 281470931894271,
+                        "inetnumFirstString": "281470931890176",
+                        "inetnumLastString": "281470931894271",
+                        "asn": 45899,
+                        "netname": "VNPT-VN",
+                        "description": "Vietnam Posts and Telecommunications Group. No 57, Huynh Thuc Khang Street, Lang Ha ward, Dong Da district, Ha Noi City",
+                        "modified": "2018-01-25T03:55:18Z",
+                        "country": "VN",
+                        "address": ""
+                    },
+                    "contact": {
+                        "adminContact": [{
+                            "id": "PTH13-AP",
+                            "person": "Pham Tien Huy",
+                            "email": "huypt@vnpt.vn",
+                            "phone": "+84-24-37741604",
+                            "country": "VN",
+                            "city": "",
+                            "address": [
+                                "VNPT-VN"
+                            ]
+                        }],
+                        "techContact": [{
+                            "id": "PTH13-AP",
+                            "person": "Pham Tien Huy",
+                            "email": "huypt@vnpt.vn",
+                            "phone": "+84-24-37741604",
+                            "country": "VN",
+                            "city": "",
+                            "address": [
+                                "VNPT-VN"
+                            ]
+                        }],
+                        "abuseContact": []
+                    }
+                }
+            },
+            "related_domain": {
+                "status": 3,
+                "message": {
+                    "kq.bvhn.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "ibh.masstel.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "mpos.masscom.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "hanu.edu.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "3d.aktivmap.com": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "tuvnord.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "proxy.metechvn.com": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "hongngochospital.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "dulieuhtkt.aktivmap.com": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "www.draytek.com": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "chinhphu.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "ppm.tuvnordvietnam.com.vn": {
+                        "type": "https",
+                        "status": true
+                    }
+                }
+            },
+            "port_service": {
+                "status": 3,
+                "message": ["Service1212", "90/Https", "444/Https", "22/Https"]
+            },
+            "related_email": {
+                "status": 3,
+                "message": [{
+                        "email": "Support.customs@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
+                    },
+                    {
+                        "email": "contact@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
+                    },
+                    {
+                        "email": "contact@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
+                    },
+                    {
+                        "email": "contact@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
+                    },
+                    {
+                        "email": "contact@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
+                    },
+                    {
+                        "email": "huypq@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
+                    },
+                    {
+                        "email": "tuyendung@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
+                    },
+                    {
+                        "email": "cuc.nt@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
+                    },
+                    {
+                        "email": "22@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
+                    },
+                    {
+                        "email": "sales@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
+                    }
+                ]
+            },
+            "technology": {
+                "status": 3,
+                "message": ["php", "html", "javascript", "pyhtonl", "ok"]
+            },
+            "metadata": {
+                "status": 3,
+                "message": {
+                    "authors": [],
+                    "software": []
+                }
+            },
+            "subdomain_result": [{
+                    "name": "cs.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "dns_record": {}
+                },
+                {
+                    "name": "access.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
+                        ]
+                    }
+                },
+                {
+                    "name": "www.access.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "dns_record": {}
+                },
+                {
+                    "name": "www.etc.vn",
+                    "enpoint": 171,
+                    "url_checked": "https://www.etc.vn",
+                    "status": "200",
+                    "title": "ETC",
+                    "ip": "14.232.240.61",
+                    "dns_record": {
+                        "a": [
+                            "14.232.240.61"
+                        ]
+                    }
+                },
+                {
+                    "name": "git.cs.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
+                        ]
+                    }
+                },
+                {
+                    "name": "git.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "dns_record": {}
+                },
+                {
+                    "name": "www.git.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "dns_record": {}
+                },
+                {
+                    "name": "meet.cs.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "dns_record": {}
+                },
+                {
+                    "name": "tfs.cs.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
+                        ]
+                    }
+                },
+                {
+                    "name": "autodiscover.etc.vn",
+                    "enpoint": 1,
+                    "url_checked": "http://autodiscover.etc.vn",
+                    "status": "301",
+                    "title": "--:--",
+                    "ip": "52.98.84.248",
+                    "dns_record": {
+                        "a": [
+                            "52.98.84.248",
+                            "40.100.47.40",
+                            "40.99.8.152",
+                            "40.100.45.216",
+                            "40.100.47.88",
+                            "40.100.20.216",
+                            "40.100.47.24",
+                            "52.98.40.8"
+                        ],
+                        "cname": [
+                            "atod-g2.tm-4.office.com",
+                            "autodiscover.outlook.com"
+                        ]
+                    }
+                },
+                {
+                    "name": "drive.etc.vn",
+                    "enpoint": 1,
+                    "url_checked": "http://drive.etc.vn",
+                    "status": "302",
+                    "title": "302 Moved",
+                    "ip": "142.250.66.115",
+                    "dns_record": {
+                        "a": [
+                            "142.250.66.115"
+                        ],
+                        "cname": [
+                            "ghs.googlehosted.com"
+                        ]
+                    }
+                },
+                {
+                    "name": "ms.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "dns_record": {}
+                },
+                {
+                    "name": "voip.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "222.252.16.4",
+                    "dns_record": {
+                        "a": [
+                            "222.252.16.4"
+                        ]
+                    }
+                },
+                {
+                    "name": "helpdesk.etc.vn",
+                    "enpoint": 19,
+                    "url_checked": "https://helpdesk.etc.vn",
+                    "status": "200",
+                    "title": ".: Helpdesk :.",
+                    "ip": "222.252.16.4",
+                    "dns_record": {
+                        "a": [
+                            "222.252.16.4"
+                        ]
+                    }
+                },
+                {
+                    "name": "calendar.etc.vn",
+                    "enpoint": 1,
+                    "url_checked": "http://calendar.etc.vn",
+                    "status": "302",
+                    "title": "302 Moved",
+                    "ip": "142.251.220.83",
+                    "dns_record": {
+                        "a": [
+                            "142.251.220.83"
+                        ],
+                        "cname": [
+                            "ghs.googlehosted.com"
+                        ]
+                    }
+                },
+                {
+                    "name": "egene.etc.vn",
+                    "enpoint": 5,
+                    "url_checked": "https://egene.etc.vn",
+                    "status": "200",
+                    "title": "Egene | ETC",
+                    "ip": "14.232.240.58",
+                    "dns_record": {
+                        "a": [
+                            "14.232.240.58"
+                        ]
+                    }
+                },
+                {
+                    "name": "tuyendung.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "dns_record": {}
+                },
+                {
+                    "name": "doc.cs.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
+                        ]
+                    }
+                },
+                {
+                    "name": "gps.cs.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
+                        ]
+                    }
+                },
+                {
+                    "name": "mail.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "dns_record": {}
+                },
+                {
+                    "name": "tfs01.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "dns_record": {}
+                },
+                {
+                    "name": "giadinh.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "dns_record": {}
+                },
+                {
+                    "name": "changepass.etc.vn",
+                    "enpoint": 0,
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "title": "OSINT",
+            "data": {
+                "domain": "This TLD has no whois server, but you can access the whois database at\nhttp://www.vnnic.vn/en\n",
+                "email": "Support.customs@etc.vn\ncontact@etc.vn\nhuypq@etc.vn\ntuyendung@etc.vn\ncuc.nt@etc.vn\n22@etc.vn\nsales@etc.vn",
+                "password": "Nothing found",
+                "metadata": "{'authors': [], 'software': []}",
+                "created_at": "2023-06-07T13:23:01.581987+07:00",
+                "modified_at": "2023-06-07T13:24:06.606401+07:00",
+                "domain_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:23:01",
+                    "start_time": "2023-06-07 13:23:01"
+                },
+                "email_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:23:54",
+                    "start_time": "2023-06-07 13:23:01"
+                },
+                "password_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:24:06",
+                    "start_time": "2023-06-07 13:23:54"
+                },
+                "metadata_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:23:20",
+                    "start_time": "2023-06-07 13:23:01"
+                },
+                "status": 3
+            }
+        },
+        {
+            "id": 2,
+            "title": "Subdomains",
+            "data": {
+                "sub_passive": "www.git.etc.vn\naccess.etc.vn\negene.etc.vn\ncs.etc.vn\ntuyendung.etc.vn\ngit.cs.etc.vn\nmeet.cs.etc.vn\ntfs.cs.etc.vn\ngit.etc.vn\ndoc.cs.etc.vn\ngps.cs.etc.vn\nmail.etc.vn\nwww.access.etc.vn\ntfs01.etc.vn\netc.vn\ngiadinh.etc.vn\nwww.etc.vn\ncalendar.etc.vn\nchangepass.etc.vn\n",
+                "subdomains_takeover": "Nothing found",
+                "s3buckets": "Nothing found",
+                "sub_crt": "cs.etc.vn\netc.vn\naccess.etc.vn\nwww.access.etc.vn\nwww.etc.vn\ngit.cs.etc.vn\ngit.etc.vn\nwww.git.etc.vn\nmeet.cs.etc.vn\ntfs.cs.etc.vn\n",
+                "sub_active": "{\"kq.bvhn.vn\": \"https\", \"ibh.masstel.vn\": \"https\", \"mpos.masscom.vn\": \"https\", \"hanu.edu.vn\": \"https\", \"3d.aktivmap.com\": \"https\", \"tuvnord.vn\": \"https\", \"proxy.metechvn.com\": \"https\", \"hongngochospital.vn\": \"https\", \"dulieuhtkt.aktivmap.com\": \"https\", \"www.draytek.com\": \"https\", \"chinhphu.vn\": \"https\", \"ppm.tuvnordvietnam.com.vn\": \"https\"}",
+                "sub_noerror": "autodiscover.etc.vn\ndrive.etc.vn\nms.etc.vn\nvoip.etc.vn\nwww.etc.vn\n",
+                "sub_brute": "helpdesk.etc.vn\nautodiscover.etc.vn\ncalendar.etc.vn\nwww.etc.vn\n",
+                "sub_recursive_passive": null,
+                "sub_recursive_brute": null,
+                "sub_dns": "{\"access.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"voip.etc.vn\": {\"a\": [\"222.252.16.4\"]}, \"helpdesk.etc.vn\": {\"a\": [\"222.252.16.4\"]}, \"changepass.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"tfs.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"doc.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"git.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"calendar.etc.vn\": {\"a\": [\"142.251.220.83\"], \"cname\": [\"ghs.googlehosted.com\"]}, \"egene.etc.vn\": {\"a\": [\"14.232.240.58\"]}, \"www.etc.vn\": {\"a\": [\"14.232.240.61\"]}, \"drive.etc.vn\": {\"a\": [\"142.250.66.115\"], \"cname\": [\"ghs.googlehosted.com\"]}, \"gps.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"autodiscover.etc.vn\": {\"a\": [\"52.98.84.248\", \"40.100.47.40\", \"40.99.8.152\", \"40.100.45.216\", \"40.100.47.88\", \"40.100.20.216\", \"40.100.47.24\", \"52.98.40.8\"], \"cname\": [\"atod-g2.tm-4.office.com\", \"autodiscover.outlook.com\"]}}",
+                "sub_scraping": "{\"total_endpoint\": 224, \"total_endpoint_live\": 155, \"endpoints\": {\"https://helpdesk.etc.vn\": true, \"https://egene.etc.vn\": true, \"https://www.etc.vn\": true, \"http://drive.etc.vn\": false, \"https://helpdesk.etc.vn/js/core/util.js?v=Y8C6TdQsRp568Vadn6tsO5MWRAZTPRfTUYRtVsNlgrI\": true, \"https://helpdesk.etc.vn/js/pages/particles.app.js\": true, \"https://www.etc.vn/resources/core/plugins/language/js/language-public.js?v=1.0.0\": true, \"https://www.etc.vn/resources/company/js/morphing.js?v=20230109.1002\": true, \"https://egene.etc.vn/static/css/20.a79e86a5.chunk.css\": true, \"https://www.etc.vn/resources/core/plugins/simple-slider/js/simple-slider.js?v=1.0.1\": true, \"https://www.etc.vn/resources/company/js/jquery.sticky-kit.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/js/wow.min.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/js/scrollspy.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/core/plugins/simple-slider/libraries/owl-carousel/owl.carousel.js?v=1.0.1\": true, \"https://www.etc.vn/resources/company/js/script.js?v=20230109.1002\": true, \"https://helpdesk.etc.vn/js/core/config.js?v=nfqCvKZOqIsAdhCzIMMEgKOtT8FKDE3uzFDKHmeQo2Q\": true, \"https://www.etc.vn/resources/core/plugins/simple-slider/css/simple-slider.css?v=1.0.1\": true, \"https://helpdesk.etc.vn/js/pages/password-addon.init.js\": true, \"https://helpdesk.etc.vn/js/modules/login.js?v=6CqSpUZPMyys87PT1t3Cg4AgJF9D-Qi8n1hZhLlYSZY\": true, \"https://www.etc.vn/resources/core/plugins/simple-slider/libraries/owl-carousel/owl.carousel.css?v=1.0.1\": true, \"https://www.etc.vn/resources/company/css/slick.css?v=20230109.1002\": true, \"https://helpdesk.etc.vn/libs/toastify-js/src/toastify.js\": true, \"https://www.etc.vn/resources/company/css/fancybox.css?v=20230109.1002\": true, \"https://helpdesk.etc.vn/js/layout.js\": true, \"https://helpdesk.etc.vn/libs/node-waves/dist/waves.min.js\": true, \"https://www.etc.vn/resources/company/js/slick.min.js?v=20230109.1002\": true, \"mailto:sales@etc.vn\": false, \"https://www.etc.vn/resources/company/css/animate.css?v=20230109.1002\": true, \"https://helpdesk.etc.vn/css/custom.css\": true, \"https://www.etc.vn/resources/core/plugins/language/css/language-public.css?v=1.0.0\": true, \"https://helpdesk.etc.vn/\": true, \"https://helpdesk.etc.vn/libs/particles.js/particles.js\": true, \"https://www.etc.vn/resources/company/js/fancybox.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/css/main.css?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/js/bootstrap.min.js?v=20230109.1002\": true, \"https://helpdesk.etc.vn/libs/bootstrap/dist/js/bootstrap.bundle.min.js\": true, \"https://helpdesk.etc.vn/libs/simplebar/dist/simplebar.min.js\": true, \"https://www.etc.vn/resources/company/fonts/fontawesome-pro-5.15.3-web/css/all.min.css?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/js/jquery.js?v=20230109.1002\": true, \"https://helpdesk.etc.vn/libs/feather-icons/dist/feather.min.js\": true, \"https://www.etc.vn/resources/company/css/bootstrap.min.css?v=20230109.1002\": true, \"https://changepass.etc.vn:3344/authorization.do\": true, \"https://helpdesk.etc.vn/css/bootstrap.min.css\": true, \"https://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1\": true, \"https://www.etc.vn/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore\": true, \"https://www.etc.vn/dell-technologies-cam-ket-hop-tac-voi-bo-gtvt-va-etc-trong-linh-vuc-cntt\": true, \"http://calendar.etc.vn\": false, \"https://www.etc.vn/vi\": false, \"https://www.etc.vn/vi/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore\": false, \"https://helpdesk.etc.vn/css/app.css\": true, \"https://www.etc.vn/itera\": true, \"https://www.etc.vn/trung-tam-itera-hoan-thien-70-giai-doan-1\": true, \"https://egene.etc.vn/static/js/main.0b392305.chunk.js\": true, \"https://www.etc.vn/en\": true, \"https://www.etc.vn/vi/trung-tam-itera-hoan-thien-70-giai-doan-1\": false, \"https://www.etc.vn/vi/dell-technologies-cam-ket-hop-tac-voi-bo-gtvt-va-etc-trong-linh-vuc-cntt\": false, \"https://www.etc.vn/resources/company/js/%27%20+%20path%20+%20%27\": false, \"http://autodiscover.etc.vn\": false, \"https://helpdesk.etc.vn/css/icons.min.css\": true, \"https://www.etc.vn/lien-he\": true, \"https://www.etc.vn/en/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1\": true, \"https://www.etc.vn/\": true, \"https://egene.etc.vn/static/css/main.07a379ec.chunk.css\": true, \"https://www.etc.vn/en/itera-1\": true, \"https://www.etc.vn/vi/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1\": false, \"https://www.etc.vn/jobs\": true, \"https://changepass.etc.vn:3344/js/popLayer.js\": true, \"https://changepass.etc.vn:3344/js/CustomLogonScript.js\": true, \"https://changepass.etc.vn:3344/js/common/LanguageList.js\": true, \"https://changepass.etc.vn:3344/adsf/js/common/WindowHandler.js\": true, \"https://changepass.etc.vn:3344/js/layout/Utils.js\": true, \"https://changepass.etc.vn:3344/js/validation.js\": true, \"https://changepass.etc.vn:3344/adsf/js/common/security-url-validator.min.js\": true, \"https://changepass.etc.vn:3344/adsf/js/common/sso/CustomSSO.js\": true, \"https://changepass.etc.vn:3344/adsf/js/common/security-core.js\": true, \"https://changepass.etc.vn:3344/js/AjaxAPI.js?build=6220\": true, \"https://changepass.etc.vn:3344/adsf/js/common/jquery/jquery-migrate-1.4.1.min.js\": true, \"https://changepass.etc.vn:3344/js/report.js\": true, \"https://changepass.etc.vn:3344/js/Esearch.js\": true, \"https://changepass.etc.vn:3344/js/form-util.js?build=6220\": true, \"https://helpdesk.etc.vn/js/pages/plugins/lord-icon-2.1.0.js\": true, \"https://www.etc.vn/en/dell-technologies-cam-ket-hop-tac-voi-bo-gtvt-va-etc-trong-linh-vuc-cntt\": true, \"https://changepass.etc.vn:3344/js/CommonUtil.js?build=6220\": true, \"https://changepass.etc.vn:3344/js/ValidateLogon.js?build=6220\": true, \"https://changepass.etc.vn:3344/adsf/js/common/JumpTo.js\": true, \"https://changepass.etc.vn:3344/styles/customer-styles.css\": true, \"https://www.etc.vn/en/etc-and-epay-proudly-be-a-strategic-partner-in-the-implementation-of-the-e-id-and-authentication-service-project\": true, \"https://www.etc.vn/en/trung-tam-itera-hoan-thien-70-giai-doan-1\": true, \"https://www.etc.vn/vi/itera\": false, \"https://www.etc.vn/vi/lien-he\": false, \"https://www.etc.vn/en/etc-epay-contribute-to-promote-digital-transfer-of-financial-services\": true, \"https://changepass.etc.vn:3344/styles/blue/style.css\": true, \"https://www.etc.vn/en/lien-he\": false, \"https://www.etc.vn/en/contact\": true, \"https://www.etc.vn/en/etc-switching-using-customs-declaration-software-provided-by-customs\": true, \"https://www.etc.vn/en/itera\": false, \"https://www.etc.vn/itera-1\": false, \"https://changepass.etc.vn:3344/webclient/vendor/js/jquery.js?build=6220\": true, \"https://changepass.etc.vn:3344/js/jquery-ui.min.js\": true, \"https://www.etc.vn/jobs?page=3\": true, \"https://changepass.etc.vn:3344/webclient/assets/login.css\": true, \"https://changepass.etc.vn:3344/styles/styles.css\": true, \"https://www.etc.vn/jobs?page=2\": true, \"https://www.etc.vn/vi/jobs/nhan-vien-ho-tro-khach-hang\": false, \"https://www.etc.vn/vi/jobs/tuyen-dung-ba-lead\": false, \"https://www.etc.vn/vi/jobs/tuyen-dung-tech-lead\": false, \"https://www.etc.vn/vi/jobs/net-developer-1\": false, \"https://www.etc.vn/vi/jobs/quan-ly-san-pham-product-owner\": false, \"https://www.etc.vn/vi/jobs/nhan-vien-dan-nhan-ai-label\": false, \"https://www.etc.vn/vi/jobs/nhan-vien-bao-hanh-sua-chua-san-pham\": false, \"https://www.etc.vn/vi/jobs/back-end-developer-nodejs\": false, \"https://www.etc.vn/vi/jobs/ky-su-iot\": false, \"https://www.etc.vn/vi/jobs/front-end-developer-angularjs\": false, \"https://egene.etc.vn/static/js/20.7cc948e2.chunk.js\": true, \"https://www.etc.vn/vi/jobs/nhan-vien-dam-bao-chat-luong-qa\": false, \"https://www.etc.vn/vi/jobs/si-engineer-ki-su-tich-hop-he-thong\": false, \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-audit\": false, \"https://www.etc.vn/vi/jobs/uiux-designer\": false, \"https://www.etc.vn/en/jobs\": true, \"https://www.etc.vn/vi/jobs/hanh-chinh-nhan-su\": false, \"https://www.etc.vn/vi/jobs/chuyen-vien-tu-van-giai-phap-cntt-presale-phan-mem\": false, \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-pentest\": false, \"https://www.etc.vn/vi/jobs\": false, \"https://www.etc.vn/en/news\": true, \"https://www.etc.vn/vi/jobs/bach\": false, \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-soc\": false, \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-tich-hop-he-thong\": false, \"https://www.etc.vn/en/service/fod-system-and-prevent-runway-incursions\": true, \"https://www.etc.vn/en/service/image-screening-and-analysis-system\": true, \"https://www.etc.vn/en/service/portable-drug-analyzer-and-detector\": true, \"https://www.etc.vn/en/service/dich-vu-quan-tri-va-van-hanh-he-thong-1\": true, \"https://www.etc.vn/en/service/unmanned-aircraft-system-uas\": true, \"https://www.etc.vn/en/service/security-solution-kit-siem-soc\": true, \"https://www.etc.vn/en/service/server-data-storage-and-backup-system\": true, \"https://www.etc.vn/en/service/data-center\": true, \"https://www.etc.vn/en/service/deploy-and-integrate-network-infrastructure\": true, \"https://www.etc.vn/en/service/firewall-solution-network-attack-prevention\": true, \"https://www.etc.vn/en/service/ai-bigdata-infrastructure-solution\": true, \"https://www.etc.vn/en/service/erp-for-smb-enterprises\": true, \"https://www.etc.vn/en/service/virtualization-and-cloud-computing-solutions\": true, \"https://www.etc.vn/en/service/customs-declaration\": true, \"https://www.etc.vn/en/service/professional-solutions-for-the-ministry-of-public-security\": true, \"https://www.etc.vn/en/service/professional-solutions-for-ministry-of-health\": true, \"https://www.etc.vn/en/service/customs-professional-solutions\": true, \"https://www.etc.vn/en/service/airport-operation-management\": true, \"https://www.etc.vn/en/about-us\": true, \"https://www.etc.vn/en/service/warehouse-management\": true, \"https://www.etc.vn/en/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore\": true, \"https://www.etc.vn/tin-tuc\": true, \"https://www.etc.vn/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu\": true, \"https://www.etc.vn/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center\": true, \"https://www.etc.vn/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata\": true, \"https://www.etc.vn/vi/etc-aws-thuc-day-hop-tac-voi-chuong-trinh-dao-tao-ve-dien-toan-dam-may\": false, \"https://www.etc.vn/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang\": true, \"https://www.etc.vn/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc\": true, \"https://www.etc.vn/en/home-page-1\": false, \"https://www.etc.vn/vi/tin-etc\": false, \"https://www.etc.vn/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may\": true, \"https://www.etc.vn/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay\": true, \"https://www.etc.vn/en/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu\": true, \"https://www.etc.vn/service/trien-khai-tich-hop-ha-tang-mang\": true, \"https://www.etc.vn/en/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center\": true, \"https://www.etc.vn/en/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc\": true, \"https://www.etc.vn/en/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata\": true, \"https://www.etc.vn/vi/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata\": false, \"https://www.etc.vn/vi/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu\": false, \"https://www.etc.vn/en/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang\": true, \"https://www.etc.vn/en/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay\": true, \"https://www.etc.vn/vi/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang\": false, \"https://www.etc.vn/en/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may\": true, \"https://www.etc.vn/en/service/trien-khai-tich-hop-ha-tang-mang\": true, \"https://www.etc.vn/vi/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc\": false, \"https://www.etc.vn/vi/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay\": false, \"https://www.etc.vn/vi/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center\": false, \"https://www.etc.vn/tin-tuc?page=2\": true, \"https://www.etc.vn/tin-tuc?page=3\": true, \"https://www.etc.vn/vi/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may\": false, \"https://www.etc.vn/vi/service/trien-khai-tich-hop-ha-tang-mang\": false, \"https://www.etc.vn/vi/amazon-web-service-dao-tao-gioi-thieu-ve-dam-may-rieng-tai-cho-amazon-outpost-cho-hon-40-ky-su-cntt-cong-ty-etc\": false, \"https://www.etc.vn/vi/chuyen-tham-trung-tam-itera-dau-nam-2023-day-la-khoi-dau-cua-mot-ky-nguyen-moi\": false, \"https://www.etc.vn/vi/etc-vinh-du-co-nhan-su-dat-chung-chi-bao-mat-the-gioi-oscp\": false, \"https://www.etc.vn/vi/etc-epay-tien-phong-thu-nghiem-giai-phap-smart-check-in-tai-nha-ga-t2-cang-san-bay-phu-bai\": false, \"https://www.etc.vn/vi/pho-chu-tich-cac-thi-truong-moi-noi-chau-a-cua-dell-technologies-toi-tham-va-chuc-mung-etc-tro-thanh-doi-tac-titanium\": false, \"https://www.etc.vn/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas\": true, \"https://www.etc.vn/vi/etc-tro-thanh-1-trong-9-doi-tac-titanium-tai-viet-nam-cua-ong-trum-dell-technologies\": false, \"https://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh\": true, \"https://www.etc.vn/service/he-thong-fod-va-chong-xam-nhap-duong-bang\": true, \"https://www.etc.vn/service/quan-ly-kho-bai\": true, \"https://www.etc.vn/en/tin-tuc\": false, \"https://www.etc.vn/vi/tin-tuc\": false, \"https://www.etc.vn/service/erp-cho-cac-doanh-nghiep-smb\": true, \"https://www.etc.vn/service/giai-phap-nghiep-vu-hai-quan\": true, \"https://www.etc.vn/service/dich-vu-quan-tri-va-van-hanh-he-thong\": true, \"https://www.etc.vn/en/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas\": true, \"https://www.etc.vn/service/khai-bao-hai-quan\": true, \"https://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong\": true, \"https://www.etc.vn/en/service/quan-ly-kho-bai\": true, \"https://www.etc.vn/vi/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas\": false, \"https://www.etc.vn/vi/service/quan-ly-kho-bai\": false, \"https://www.etc.vn/en/service/he-thong-fod-va-chong-xam-nhap-duong-bang\": true, \"https://www.etc.vn/en/service/he-thong-soi-chieu-va-phan-tich-hinh-anh\": true, \"https://www.etc.vn/en/service/giai-phap-nghiep-vu-hai-quan\": true, \"https://www.etc.vn/vi/service/giai-phap-nghiep-vu-hai-quan\": false, \"https://www.etc.vn/en/service/dich-vu-quan-tri-va-van-hanh-he-thong\": true, \"https://www.etc.vn/en/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong\": true, \"https://www.etc.vn/vi/service/he-thong-fod-va-chong-xam-nhap-duong-bang\": false, \"https://www.etc.vn/vi/service/dich-vu-quan-tri-va-van-hanh-he-thong\": false, \"https://www.etc.vn/en/service/erp-cho-cac-doanh-nghiep-smb\": true, \"https://www.etc.vn/vi/service/khai-bao-hai-quan\": false, \"https://www.etc.vn/en/service/khai-bao-hai-quan\": true, \"https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong\": false, \"https://www.etc.vn/vi/service/he-thong-soi-chieu-va-phan-tich-hinh-anh\": false, \"https://www.etc.vn/service/giai-phap-nghiep-vu-bo-y-te\": true, \"https://www.etc.vn/service/giai-phap-nghiep-vu-bo-cong-an\": true, \"https://www.etc.vn/vi/service/erp-cho-cac-doanh-nghiep-smb\": false, \"https://www.etc.vn/ve-chung-toi\": true, \"https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-y-te\": false, \"https://www.etc.vn/en/service/giai-phap-nghiep-vu-bo-cong-an\": true, \"https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-cong-an\": false, \"https://www.etc.vn/en/service/giai-phap-nghiep-vu-bo-y-te\": true, \"https://www.etc.vn/cau-chuyen-thuong-hieu\": true, \"https://www.etc.vn/vi/ve-chung-toi\": false, \"https://www.etc.vn/en/ve-chung-toi\": false}, \"endpoint_counts\": {\"helpdesk.etc.vn\": 19, \"egene.etc.vn\": 5, \"www.etc.vn\": 171, \"drive.etc.vn\": 1, \"mailto:sales@etc.vn\": 1, \"changepass.etc.vn:3344\": 24, \"calendar.etc.vn\": 1, \"autodiscover.etc.vn\": 1}}",
+                "sub_analytics": "{}",
+                "status": 3,
+                "created_at": "2023-06-07T13:23:01.597081+07:00",
+                "modified_at": "2023-06-07T13:29:15.666924+07:00",
+                "sub_passive_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:24:18",
+                    "start_time": "2023-06-07 13:23:01"
+                },
+                "subdomains_takeover_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:26:27",
+                    "start_time": "2023-06-07 13:24:18"
+                },
+                "s3buckets_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:24:22",
+                    "start_time": "2023-06-07 13:24:18"
+                },
+                "sub_crt_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:23:08",
+                    "start_time": "2023-06-07 13:23:01"
+                },
+                "sub_active_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:29:15",
+                    "start_time": "2023-06-07 13:23:01"
+                },
+                "sub_noerror_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:23:30",
+                    "start_time": "2023-06-07 13:23:01"
+                },
+                "sub_brute_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:23:33",
+                    "start_time": "2023-06-07 13:23:01"
+                },
+                "sub_recursive_passive_time": {
+                    "status": 1,
+                    "end_time": null,
+                    "start_time": null
+                },
+                "sub_recursive_brute_time": {
+                    "status": 1,
+                    "end_time": null,
+                    "start_time": null
+                },
+                "sub_dns_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:24:25",
+                    "start_time": "2023-06-07 13:24:18"
+                },
+                "sub_scraping_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:25:07",
+                    "start_time": "2023-06-07 13:24:18"
+                },
+                "sub_analytics_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:23:21",
+                    "start_time": "2023-06-07 13:23:01"
+                },
+                "subdomain_result": [{
+                        "url": "",
+                        "name": "cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "access.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "www.access.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "https://www.etc.vn",
+                        "name": "www.etc.vn",
+                        "title": "ETC",
+                        "status": "Alive",
+                        "status_code": "200"
+                    },
+                    {
+                        "url": "",
+                        "name": "git.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "git.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "www.git.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "meet.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "tfs.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "http://autodiscover.etc.vn",
+                        "name": "autodiscover.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": "301"
+                    },
+                    {
+                        "url": "http://drive.etc.vn",
+                        "name": "drive.etc.vn",
+                        "title": "302 Moved",
+                        "status": "Not alive",
+                        "status_code": "302"
+                    },
+                    {
+                        "url": "",
+                        "name": "ms.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "voip.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "https://helpdesk.etc.vn",
+                        "name": "helpdesk.etc.vn",
+                        "title": ".: Helpdesk :.",
+                        "status": "Alive",
+                        "status_code": "200"
+                    },
+                    {
+                        "url": "http://calendar.etc.vn",
+                        "name": "calendar.etc.vn",
+                        "title": "302 Moved",
+                        "status": "Not alive",
+                        "status_code": "302"
+                    },
+                    {
+                        "url": "https://egene.etc.vn",
+                        "name": "egene.etc.vn",
+                        "title": "Egene | ETC",
+                        "status": "Alive",
+                        "status_code": "200"
+                    },
+                    {
+                        "url": "",
+                        "name": "tuyendung.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "doc.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "gps.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "mail.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "tfs01.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "giadinh.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    },
+                    {
+                        "url": "",
+                        "name": "changepass.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "status_code": ""
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "title": "Hosts",
+            "data": {
+                "whoisxml": "{\n  \"ip\": \"14.232.240.61\",\n  \"location\": {\n    \"country\": \"VN\",\n    \"region\": \"Hanoi\",\n    \"city\": \"V\\u0103n Ch\\u01b0\\u01a1ng\",\n    \"lat\": 21.01667,\n    \"lng\": 105.83333,\n    \"postalCode\": \"\",\n    \"timezone\": \"+07:00\",\n    \"geonameId\": 1563155\n  },\n  \"as\": {\n    \"asn\": 45899,\n    \"name\": \"VNPT-AS-VN\",\n    \"route\": \"14.232.240.0/20\",\n    \"domain\": \"vnpt.com.vn\",\n    \"type\": \"Cable/DSL/ISP\"\n  },\n  \"isp\": \"VNPT\",\n  \"connectionType\": \"\",\n  \"inetnums\": {\n    \"inetnum\": \"14.232.240.0 - 14.232.255.255\",\n    \"inetnumFirst\": 281470931890176,\n    \"inetnumLast\": 281470931894271,\n    \"inetnumFirstString\": \"281470931890176\",\n    \"inetnumLastString\": \"281470931894271\",\n    \"parent\": \"14.224.0.0 - 14.255.255.255\",\n    \"as\": {\n      \"asn\": 45899,\n      \"name\": \"VNPT-AS-VN\",\n      \"type\": \"Cable/DSL/ISP\",\n      \"route\": \"14.232.240.0/20\",\n      \"domain\": \"vnpt.com.vn\"\n    },\n    \"netname\": \"VNPT-VN\",\n    \"nethandle\": \"\",\n    \"description\": [\n      \"Vietnam Posts and Telecommunications Group\",\n      \"No 57, Huynh Thuc Khang Street, Lang Ha ward, Dong Da district, Ha Noi City\"\n    ],\n    \"modified\": \"2018-01-25T03:55:18Z\",\n    \"country\": \"VN\",\n    \"city\": \"\",\n    \"address\": [],\n    \"abuseContact\": [],\n    \"adminContact\": [\n      {\n        \"id\": \"PTH13-AP\",\n        \"person\": \"Pham Tien Huy\",\n        \"email\": \"huypt@vnpt.vn\",\n        \"phone\": \"+84-24-37741604\",\n        \"country\": \"VN\",\n        \"city\": \"\",\n        \"address\": [\n          \"VNPT-VN\"\n        ]\n      }\n    ],\n    \"techContact\": [\n      {\n        \"id\": \"PTH13-AP\",\n        \"person\": \"Pham Tien Huy\",\n        \"email\": \"huypt@vnpt.vn\",\n        \"phone\": \"+84-24-37741604\",\n        \"country\": \"VN\",\n        \"city\": \"\",\n        \"address\": [\n          \"VNPT-VN\"\n        ]\n      }\n    ],\n    \"org\": null,\n    \"mntBy\": [\n      {\n        \"mntner\": \"MAINT-VN-VNNIC\",\n        \"email\": \"thuthuy@vnnic.vn\"\n      }\n    ],\n    \"mntDomains\": [],\n    \"mntLower\": [\n      {\n        \"mntner\": \"MAINT-VN-VNPT\",\n        \"email\": \"hm-changed@vnnic.net.vn\\nhuypt@vnpt.vn\"\n      }\n    ],\n    \"mntRoutes\": [\n      {\n        \"mntner\": \"MAINT-VN-VNPT\",\n        \"email\": \"hm-changed@vnnic.net.vn\\nhuypt@vnpt.vn\"\n      }\n    ],\n    \"remarks\": [\n      \"for admin contact mail to Nguyen Xuan Cuong -->NXC1-AP\",\n      \"for Tech contact mail to Nguyen Hien Khanh --> KNH1-AP\"\n    ],\n    \"source\": \"APNIC\"\n  }\n}",
+                "ipcdn": null,
+                "wafw00f": null,
+                "port_scanner": "# Nmap 7.80 scan initiated Wed Jun  7 13:23:01 2023 as: nmap -sT -sV -A -oA /home/quangtao/DjangoAPI/Storage/recon/recon_161/host/port_scanner/portscan_active 14.232.240.61\nNmap scan report for 14.232.240.61\nHost is up (0.019s latency).\nNot shown: 997 closed ports\nPORT    STATE SERVICE  VERSION\n22/tcp  open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)\n80/tcp  open  http     nginx\n|_http-title: Welcome to nginx!\n443/tcp open  ssl/http nginx\n|_http-title: ETC\n| ssl-cert: Subject: commonName=etc.vn\n| Subject Alternative Name: DNS:etc.vn, DNS:www.etc.vn\n| Not valid before: 2023-05-07T23:12:53\n|_Not valid after:  2023-08-05T23:12:52\n|_ssl-date: TLS randomness does not represent time\n| tls-alpn: \n|   h2\n|_  http/1.1\nService Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel\n\nService detection performed. Please report any incorrect results at https://nmap.org/submit/ .\n# Nmap done at Wed Jun  7 13:23:22 2023 -- 1 IP address (1 host up) scanned in 20.87 seconds\n",
+                "created_at": "2023-06-07T13:23:01.610845+07:00",
+                "modified_at": "2023-06-07T13:23:22.594203+07:00",
+                "status": 3,
+                "whoisxml_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:23:07",
+                    "start_time": "2023-06-07 13:23:01"
+                },
+                "ipcdn_time": {
+                    "status": 1,
+                    "end_time": null,
+                    "start_time": null
+                },
+                "wafw00f_time": {
+                    "status": 1,
+                    "end_time": null,
+                    "start_time": null
+                },
+                "port_scanner_time": {
+                    "status": 3,
+                    "end_time": "2023-06-07 13:23:22",
+                    "start_time": "2023-06-07 13:23:01"
+                }
+            }
+        },
+        {
+            "id": 4,
+            "title": "Webs",
+            "data": "false"
+        }
+    ],
+    "data_recon": [{
+            "title": "OSINT",
+            "active": true,
+            "children": [{
+                    "name": "domain",
+                    "title": "Domain information",
+                    "active": true
+                },
+                {
+                    "name": "email",
+                    "title": "Emails addresses and users",
+                    "active": true
+                },
+                {
+                    "name": "password",
+                    "title": "Password leaks",
+                    "active": true
+                },
+                {
+                    "name": "metadata",
+                    "title": "Metadata finder",
+                    "active": true
+                }
+            ]
+        },
+        {
+            "title": "Subdomains",
+            "active": true,
+            "children": [{
+                    "name": "sub_passive",
+                    "title": "Passive",
+                    "active": true
+                },
+                {
+                    "name": "sub_crt",
+                    "title": "Certificate transparency",
+                    "active": true
+                },
+                {
+                    "name": "sub_active",
+                    "title": "TLS handshake",
+                    "active": true
+                },
+                {
+                    "name": "sub_noerror",
+                    "title": "NOERROR subdomain discovery",
+                    "active": true
+                },
+                {
+                    "name": "sub_brute",
+                    "title": "Bruteforce",
+                    "active": true
+                },
+                {
+                    "name": "sub_dns",
+                    "title": "DNS Records",
+                    "active": true
+                },
+                {
+                    "name": "sub_scraping",
+                    "title": "JS files & Source Code Scraping",
+                    "active": true
+                },
+                {
+                    "name": "sub_analytics",
+                    "title": "Google Analytics ID",
+                    "active": true
+                },
+                {
+                    "name": "s3buckets",
+                    "title": "Cloud checkers",
+                    "active": true
+                },
+                {
+                    "name": "subdomains_takeover",
+                    "title": "Subdomains takeover",
+                    "active": true
+                }
+            ]
+        },
+        {
+            "title": "Hosts",
+            "active": true,
+            "children": [{
+                    "name": "whoisxml",
+                    "title": "IP info",
+                    "active": true
+                },
+                {
+                    "name": "ipcdn",
+                    "title": "CDN checker",
+                    "active": false
+                },
+                {
+                    "name": "wafw00f",
+                    "title": "WAF checker",
+                    "active": false
+                },
+                {
+                    "name": "port_scanner",
+                    "title": "Port Scanner",
+                    "active": true
+                }
+            ]
+        },
+        {
+            "title": "Webs",
+            "active": false,
+            "children": [{
+                    "name": "web_probe_full",
+                    "title": "Web Prober",
+                    "active": false
+                },
+                {
+                    "name": "cms_scanner",
+                    "title": "CMS Scanner",
+                    "active": false
+                },
+                {
+                    "name": "urlchecks",
+                    "title": "Url extraction",
+                    "active": false
+                },
+                {
+                    "name": "url_gf",
+                    "title": "URL patterns Search and filtering",
+                    "active": false
+                },
+                {
+                    "name": "jschecks",
+                    "title": "Javascript analysis",
+                    "active": false
+                },
+                {
+                    "name": "fuzz",
+                    "title": "Fuzzing",
+                    "active": false
+                }
+            ]
+        }
+    ]
+}
