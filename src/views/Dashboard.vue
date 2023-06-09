@@ -237,9 +237,9 @@ export default defineComponent({
           // Latest Most common Ports
           LatestVulnerabilities.value.push(...data.last_vuls)
 
-          console.log(MostcommonPorts.value)
-          console.log(MostcommonPortColor.value)
-          console.log(MostcommonPortLabels.value)
+          // console.log(targetGroupLabels.value)
+          // console.log(MostcommonPortColor.value)
+          // console.log(MostcommonPortLabels.value)
 
         })
         .catch(({ response }) => {

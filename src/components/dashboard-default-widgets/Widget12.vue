@@ -13,7 +13,6 @@
       <!--begin::Toolbar-->
       <div class="card-toolbar">
         <router-link class="btn btn-sm btn-light text-hover-primary" to="/scans" active-class="active">View all</router-link>
-
       </div>
       <!--end::Toolbar-->
     </div>
