@@ -46,15 +46,17 @@
                         <div class="fw-bold me-5">
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
-                        <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
-                            Delete Selected
-                        </button>
+                        <el-tooltip class="box-item" effect="dark" content="Xóa" placement="top">
+                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
+                                Delete Selected
+                            </button>
+                        </el-tooltip>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="card-body pt-0  overflow-y-auto overflow-x-hid`den h-100 p-0 m-0 ">
+        <div class="card-body pt-0  overflow-y-auto overflow-x-hidden h-100 p-0 m-0 ">
             <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
                 :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
@@ -69,9 +71,11 @@
                     {{ (customer.status=='2' || customer.status== '1' ) ? "--:--" : customer.modified_at }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
-                    <router-link :to="`/cve/${getIdFromUrl()}/scan-detail/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                        <KTIcon icon-name="eye" icon-class="fs-3" />
-                    </router-link>
+                    <el-tooltip class="box-item" effect="dark" content="Chi tiết" placement="top">
+                        <router-link :to="`/cve/${getIdFromUrl()}/scan-detail/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                            <KTIcon icon-name="eye" icon-class="fs-3" />
+                        </router-link>
+                    </el-tooltip>
                 </template>
             </KTDatatable>
         </div>
