@@ -18,12 +18,12 @@
         <template v-for="(properties, j) in header" :key="j">
           <td v-if="properties.columnLabel == 'actions'" class="text-end pe-3">
             <slot :name="`${properties.columnLabel}`" :row="row">
-              {{ row }}123
+              {{ row }}
             </slot>
           </td>
           <td v-else class="cursor-pointer pe-3" @click.passive="customRow(row, i)" data-bs-target="#kt_modal_detail">
             <slot :name="`${properties.columnLabel}`" :row="row">
-              {{ row }}123
+              {{ row }}
             </slot>
           </td>
         </template>
