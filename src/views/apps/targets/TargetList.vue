@@ -86,7 +86,7 @@
                 <template v-slot:actions="{ row: customer }">
                     <el-tooltip class="box-item" effect="dark" content="Recon" placement="top">
                         <router-link :to="`/target-recons/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
-                            <KTIcon icon-name="scan-barcode" icon-class="fs-3" />
+                            <i class="fas fa-mail-bulk"></i>
                         </router-link>
                     </el-tooltip>
                     <el-tooltip class="box-item" effect="dark" content="Scan" placement="top">

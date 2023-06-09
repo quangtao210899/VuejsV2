@@ -461,10 +461,9 @@ export default defineComponent({
                         }, 1000);
                     }
                 })
-                .catch((response) => {
+                .catch(({response}) => {
                     if (response?.data) {
                         errors.detail = response.data.detail;
-                        
                         notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                     } else {
                         notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
