@@ -1,6 +1,6 @@
 <template>
     <!--begin::Navbar-->
-    <div class="card mb-3">
+    <div class="card mb-3 me-2">
         <!--begin::Card header-->
         <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
             <!--begin::Card toolbar-->
@@ -70,12 +70,11 @@
     </div>
     <!--end::Navbar-->
 
-
     <!--begin::Card-->
     <div class="">
-        <el-scrollbar height="700px" class="w-100">
+        <el-scrollbar height="700px" :noresize="true" min-size="10" :native="true" wrap-class="w-100 overflow-x-hidden pe-1">
             <el-row :gutter="10">
-                <el-col :span="8" class="mb-3">
+                <el-col :span="8" class="mb-3 mx-0">
                     <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 5px' }">
                         <reconActivity :activitieLine="activities" :activity="activity" chartHeight="300"
                             :process="process"></reconActivity>
@@ -83,7 +82,7 @@
                 </el-col>
                 <el-col :span="16" class="d-grid">
                     <el-row :gutter="10">
-                        <el-col :span="6" class="mb-3">
+                        <el-col :span="6" class="mb-3 mx-0">
                             <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 10px' }">
                                 <!--begin::Label-->
                                 <div class="fs-7 text-muted fw-semobold">Subdomains</div>
@@ -101,7 +100,7 @@
 
                             </el-card>
                         </el-col>
-                        <el-col :span="6" class="mb-3">
+                        <el-col :span="6" class="mb-3 mx-0">
                             <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
                                 <!--begin::Label-->
                                 <div class="fs-7 text-muted fw-semobold">Endpoints</div>
@@ -119,7 +118,7 @@
                                 </div>
                             </el-card>
                         </el-col>
-                        <el-col :span="6" class="mb-3">
+                        <el-col :span="6" class="mb-3 mx-0">
                             <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
                                 <!--begin::Label-->
                                 <div class="fs-7 text-muted fw-semobold">Services</div>
@@ -134,7 +133,7 @@
                                 </div>
                             </el-card>
                         </el-col>
-                        <el-col :span="6" class="mb-3">
+                        <el-col :span="6" class="mb-3 mx-0">
                             <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
                                 <!--begin::Label-->
                                 <div class="fs-7 text-muted fw-semobold">Tài khoản</div>
@@ -164,12 +163,12 @@
                         </el-col>
                     </el-row>
                     <el-row :gutter="10" class="">
-                        <el-col :span="12" class="mb-3">
+                        <el-col :span="12" class="mb-3 mx-0">
                             <el-card shadow="hover" class="box-card rounded-3 h-100 "
                                 :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
                                 <template #header>
                                     <div class="card-header">
-                                        <span>Thông tin về Domain</span>
+                                        <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về Domain</span>
                                     </div>
                                 </template>
                                 <div class="h-100">
@@ -179,7 +178,7 @@
                                             <el-tab-pane v-for="(items, index) in domain_info" :key="index" :label="index"
                                                 class="">
                                                 <template #label>
-                                                    <span class="custom-tabs-label">
+                                                    <span class="custom-tabs-label text-capitalize">
                                                         <span>{{ index }}</span>
                                                     </span>
                                                 </template>
@@ -257,12 +256,12 @@
                                 </div>
                             </el-card>
                         </el-col>
-                        <el-col :span="12" class="mb-3">
+                        <el-col :span="12" class="mb-3 mx-0">
                             <el-card shadow="hover" class="box-card rounded-3 h-100 "
                                 :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
                                 <template #header>
                                     <div class="card-header">
-                                        <span>Thông tin về IP</span>
+                                        <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về IP</span>
                                     </div>
                                 </template>
                                 <div class="h-100">
@@ -272,8 +271,8 @@
                                             <el-tab-pane v-for="(items, index) in ip_info" :key="index" :label="index"
                                                 class="">
                                                 <template #label>
-                                                    <span class="custom-tabs-label">
-                                                        <span>{{ index }}</span>
+                                                    <span class="custom-tabs-label text-capitalize">
+                                                        <span>{{ index }}</span><br>
                                                     </span>
                                                 </template>
                                                 <div class="">
@@ -369,11 +368,12 @@
                 </el-col>
             </el-row>
             <el-row :gutter="10">
-                <el-col :span="8" class="mb-3">
+                <el-col :span="8" class="mb-3 mx-0">
                     <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '10px' }">
                         <template #header>
-                            <div class="card-header">
-                                <span>Cổng Dịch vụ</span>
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch vụ</span>
+                                <span class="badge badge-circle badge-success ms-2">{{ Object.keys(port_service).length }}</span>
                             </div>
                         </template>
                         <div class="h-450px py-5">
@@ -397,11 +397,13 @@
                         </div>
                     </el-card>
                 </el-col>
-                <el-col :span="8" class="mb-3 ">
+
+                <el-col :span="8" class="mb-3 mx-0">
                     <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                         <template #header>
-                            <div class="card-header">
-                                <span>Email liên quan</span>
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span class="card-label fw-bold text-gray-800 fs-5">Email liên quan</span>
+                                <span class="badge badge-circle badge-success ms-2">{{ Object.keys(related_email).length }}</span>
                             </div>
                         </template>
                         <div class="h-450px">
@@ -459,11 +461,12 @@
                     </el-card>
                 </el-col>
 
-                <el-col :span="8" class="mb-3 ">
+                <el-col :span="8" class="mb-3 mx-0">
                     <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                         <template #header>
-                            <div class="card-header">
-                                <span>Tên miền liên quan đến mục tiêu</span>
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span class="card-label fw-bold text-gray-800 fs-5">Tên miền liên quan đến mục tiêu</span>
+                                <span class="badge badge-circle badge-success ms-2">{{ Object.keys(related_domain).length }}</span>
                             </div>
                         </template>
                         <div class="h-450px">
@@ -517,11 +520,12 @@
                     </el-card>
                 </el-col>
 
-                <el-col :span="8" class="mb-3 ">
+                <el-col :span="8" class="mb-3 mx-0">
                     <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '10px' }">
                         <template #header>
-                            <div class="card-header">
-                                <span>Công nghệ sử dụng</span>
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span class="card-label fw-bold text-gray-800 fs-5">Công nghệ sử dụng</span>
+                                <span class="badge badge-circle badge-success ms-2">{{ Object.keys(technology).length }}</span>
                             </div>
                         </template>
                         <div class="h-450px">
@@ -546,12 +550,69 @@
                     </el-card>
                 </el-col>
 
-                <el-col :span="8" class="mb-3">
+                <el-col :span="8" class="mb-3 mx-0">
                     <el-card shadow="hover" class="box-card rounded-3 h-100 "
                         :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
                         <template #header>
                             <div class="card-header">
-                                <span>Thông tin về IP</span>
+                                <span class="card-label fw-bold text-gray-800 fs-5">Metadata</span>
+                            </div>
+                        </template>
+                        <div class="h-100">
+                            <el-tabs tab-position="left" type="border-card" :stretch="true"
+                                class="demo-tabs border border-0 h-100" :lazy="true">
+                                <template v-if="metadata_status == 3">
+                                    <el-tab-pane v-for="(items, index) in metadata" :key="index" :label="index" class="">
+                                        <template #label>
+                                            <span class="custom-tabs-label">
+                                                <span>{{ index }}</span>
+                                            </span>
+                                        </template>
+                                        <div class="">
+                                            <!--begin::Table container-->
+                                            <div class="table-responsive w-100 h-500px">
+                                                <!--begin::Table-->
+                                                <table class="table table-row-dashed table-row-gray-300 ">
+                                                    <!--begin::Table body-->
+                                                    <tbody class="overflow-y-auto w-100">
+                                                        <tr v-for="(item, key) in items" :key="key">
+                                                            <td class="text-start">
+                                                                <span>{{ item }}</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <!--end::Table body-->
+                                                </table>
+                                                <!--end::Table-->
+                                            </div>
+                                            <!--end::Table container-->
+                                        </div>
+                                    </el-tab-pane>
+                                </template>
+                                <template v-else-if="ip_info_status == 4">
+                                    <div class="my-9 mx-5 ">
+                                        <div class="text-center mb-3">
+                                            <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
+                                        </div>
+                                        <div class="" v-html="linkCheck"></div>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="mt-5 me-3">
+                                        <el-skeleton :rows="7" animated />
+                                    </div>
+                                </template>
+                            </el-tabs>
+                        </div>
+                    </el-card>
+                </el-col>
+
+                <el-col :span="8" class="mb-3 mx-0">
+                    <el-card shadow="hover" class="box-card rounded-3 h-100 "
+                        :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
+                        <template #header>
+                            <div class="card-header">
+                                <span class="card-label fw-bold text-gray-800 fs-5">Web Data</span>
                             </div>
                         </template>
                         <div class="h-100">
@@ -649,127 +710,27 @@
                         </div>
                     </el-card>
                 </el-col>
-                <el-col :span="8" class="mb-3">
-                    <el-card shadow="hover" class="box-card rounded-3 h-100 "
-                        :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
-                        <template #header>
-                            <div class="card-header">
-                                <span>Thông tin về IP</span>
-                            </div>
-                        </template>
-                        <div class="h-100">
-                            <el-tabs tab-position="left" type="border-card" :stretch="true"
-                                class="demo-tabs border border-0 h-100" :lazy="true">
-                                <template v-if="ip_info_status == 3">
-                                    <el-tab-pane v-for="(items, index) in ip_info" :key="index" :label="index" class="">
-                                        <template #label>
-                                            <span class="custom-tabs-label">
-                                                <span>{{ index }}</span>
-                                            </span>
-                                        </template>
-                                        <div class="">
-                                            <!--begin::Table container-->
-                                            <div class="table-responsive w-100 h-500px">
-                                                <!--begin::Table-->
-                                                <table class="table table-row-dashed table-row-gray-300 ">
-                                                    <!--begin::Table body-->
-                                                    <tbody class="overflow-y-auto w-100">
-                                                        <tr v-for="(item, key) in items" :key="key">
-                                                            <td class="text-start"><span>{{ checkString(key)
-                                                            }}</span>
-                                                            </td>
-                                                            <td v-if="checkArray(item) == true" class="text-start">
-                                                                <div class="d-flex flex-column">
-                                                                    <template v-for="(el, i) in item" :key="i">
-                                                                        <template v-if="checkArray(el) == true">
-                                                                            <li v-for="(e, j) in el" :key="j"
-                                                                                class="d-flex align-items-center py-2">
-                                                                                <template v-if="checkArray(e) == true">
-                                                                                    <span
-                                                                                        class="bullet bullet-dot bg-success me-5"></span>
-                                                                                    <div class="d-flex align-items-start">
-                                                                                        <span>{{ j }} : </span>
-                                                                                        <div>
-                                                                                            <span v-for="q in e" :key="q"
-                                                                                                class="badge badge-light-primary ms-2">
-                                                                                                {{ (q == '' || q ==
-                                                                                                    null) ? 'None...' :
-                                                                                                    q }}
-                                                                                            </span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </template>
-                                                                                <template v-else>
-                                                                                    <span
-                                                                                        class="bullet bullet-dot bg-success me-5"></span>
-                                                                                    {{ j }} : {{ (e == '' || e ==
-                                                                                        null)
-                                                                                        ? 'None...' : e }}
-                                                                                </template>
-                                                                            </li>
-                                                                        </template>
-                                                                        <template v-else>
-                                                                            <li class="d-flex align-items-center py-2">
-                                                                                <span
-                                                                                    class="bullet bullet-dot bg-success me-5"></span>
-                                                                                {{ i }} : {{ (el == '' || el ==
-                                                                                    null) ?
-                                                                                    'None...' : el }}
-                                                                            </li>
-                                                                        </template>
-                                                                    </template>
-                                                                </div>
-                                                            </td>
-                                                            <td v-else class="text-start">
-                                                                <span>{{ (item == '' || item == null) ? 'None...' :
-                                                                    item
-                                                                }}</span>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <!--end::Table body-->
-                                                </table>
-                                                <!--end::Table-->
-                                            </div>
-                                            <!--end::Table container-->
-                                        </div>
-                                    </el-tab-pane>
-                                </template>
-                                <template v-else-if="ip_info_status == 4">
-                                    <div class="my-9 mx-5 ">
-                                        <div class="text-center mb-3">
-                                            <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
-                                        </div>
-                                        <div class="" v-html="linkCheck"></div>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="mt-5 me-3">
-                                        <el-skeleton :rows="7" animated />
-                                    </div>
-                                </template>
-                            </el-tabs>
-                        </div>
-                    </el-card>
-                </el-col>
-                <el-col :span="24" class="mb-3 ">
+
+                <el-col :span="24" class="mb-3 mx-0">
                     <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                         <template #header>
-                            <div class="card-header">
-                                <span>Subdomain</span>
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span class="card-label fw-bold text-gray-800 fs-5">Subdomain</span>
+                                <router-link class="btn btn-sm btn-light text-hover-primary text-primary" to="#"
+                                    active-class="active">View all</router-link>
                             </div>
                         </template>
                         <div class="h-450px">
                             <template v-if="related_email_status == 3">
                                 <el-table :data="subdomain_result" height="450" style="width: 100%"
                                     class-name="my-custom-table">
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="name" label="Subdomain">
+                                    <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="name" label="Subdomain">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal">
                                                 {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center"
-                                        label="Endpoints">
+                                        label="Endpoints" min-width="90">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal">
                                                 {{ (scope.row.enpoint == '') ? '--' : scope.row.enpoint }}</span>
@@ -810,13 +771,13 @@
                                         </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="" label="Cổng dịch vụ"
-                                        align="center">
+                                        align="center"  min-width="90">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal">{{ 'chưa có' }}</span>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="" align="center"
-                                        label="Công nghệ sử dụng">
+                                        label="Công nghệ sử dụng" min-width="90">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal">{{ 'chưa có' }}</span>
                                         </template>
@@ -858,15 +819,11 @@
                         </div>
                     </el-card>
                 </el-col>
+
             </el-row>
-
         </el-scrollbar>
-
-
-
     </div>
     <!--end::Card-->
-
 
     <!-- // modoal  -->
     <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file">
@@ -910,7 +867,6 @@ import dataRecon from "@/views/apps/targets/reconData.json";
 // import dayjs from 'dayjs';
 import axios from 'axios'
 
-
 interface APIData {
     title: string;
     description: string;
@@ -924,7 +880,6 @@ interface getData {
     severity: string;
 }
 
-
 interface targetData {
     created_at: string;
     modified_at: string;
@@ -934,7 +889,6 @@ interface targetData {
     ip: string;
     name: string;
 }
-
 
 export default defineComponent({
     name: "kt-scanstabs-list",
@@ -1073,7 +1027,7 @@ export default defineComponent({
             subdomain_result.value = dataRecon.recon[0].subdomain_result
 
             console.log(list.value)
-            console.log(related_domain.value)
+            console.log(metadata.value)
 
             // return ApiService.get(`/scan/detail/${scanID.value}`)
             //     .then(({ data }) => {
@@ -1468,7 +1422,8 @@ export default defineComponent({
 .demo-tabs .el-tabs__content {
     padding: 0px !important;
 }
-.demo-tabs .el-tabs__nav{
+
+.demo-tabs .el-tabs__nav {
     justify-content: space-between;
     height: 100%;
 }
