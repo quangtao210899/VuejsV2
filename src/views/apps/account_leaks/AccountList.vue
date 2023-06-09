@@ -17,7 +17,7 @@
               @confirm="(info, noti_type) => comfirmDownload(info, noti_type)" />
             <el-tooltip class="box-item" effect="dark" content="Thêm mới" placement="top">
               <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
+                data-bs-target="#kt_modal_new_target_group" @click="handleClick({}, 'add')">
                 <KTIcon icon-name="plus" icon-class="fs-2" />
                 Thêm
               </button>
@@ -113,7 +113,7 @@
                   <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                     <span class="required">Username</span>
                   </label>
-                  <Field type="text" class="form-control form-control-solid" placeholder="feng"
+                  <Field type="text" class="form-control form-control-solid" placeholder="Nhập username"
                     @keydown="removeErrorMsgText" name="username" v-model="apiData.username" />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
@@ -128,7 +128,7 @@
                   <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                     <span>Email</span>
                   </label>
-                  <Field type="text" class="form-control form-control-solid" placeholder="feng@gmail.com"
+                  <Field type="text" class="form-control form-control-solid" placeholder="Nhập email"
                     @keydown="removeErrorMsgText" name="email" v-model="apiData.email" />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
@@ -143,7 +143,7 @@
               <div class="d-flex flex-column mb-5 fv-row">
                 <label class="fs-6 fw-semobold mb-2 required">Password Hash</label>
                 <Field as="textarea" class="form-control form-control-solid" rows="3" name="password_hash"
-                  placeholder="$5b$12$d6vIh2U0gviSKNdyT3LRAuTcJ5W6G2Ln1SvlnC7bbKoQFN3cXssdC"
+                  placeholder="Nhập password hash"
                   v-model="apiData.password_hash" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -153,7 +153,7 @@
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
                 <label class="fs-6 fw-semobold mb-2">Password Crack</label>
-                <Field type="text" class="form-control form-control-solid" placeholder="abc@123"
+                <Field type="text" class="form-control form-control-solid" placeholder="Nhập password crack"
                   @keydown="removeErrorMsgText" name="password_crack" v-model="apiData.password_crack" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -217,16 +217,16 @@
           <!--begin::Modal footer-->
           <div class="modal-footer flex-center">
             <!--begin::Button-->
-            <button ref="discardButtonRef" type="button" id="kt_modal_new_target_group_cancel"
-              class="btn btn-sm btn-light me-3" data-bs-dismiss="modal">
-              Hủy bỏ
-            </button>
+            <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
+                            class="btn btn-sm  btn-light me-3">
+                            Discard
+                        </button>
             <!--end::Button-->
 
             <!--begin::Button-->
             <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
-              class="btn btn-sm btn-primary">
-              <span class="indicator-label"> Thực hiện </span>
+              class="btn btn-sm  btn-primary">
+              <span class="indicator-label"> Submit </span>
               <span class="indicator-progress">
                 Please wait...
                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -576,9 +576,7 @@ const handleClick = (data: object | any, type: String) => {
     apiData.value.source_data = "";
     apiData.value.country_id = "";
     apiData.value.is_ok = false;
-    for (let key in errors) {
-      errors[key] = "";
-    }
+
     if (discardButtonRef.value !== null) {
       discardButtonRef.value.click();
     }
@@ -697,21 +695,19 @@ const newTargetGroupModalRef = ref<null | HTMLElement>(null);
 const usernameMatchingPattern = /[0-9a-zA-Z]+$/;
 
 const validationSchema = Yup.object().shape({
-  username: Yup.string().when("email", {
-    is: "",
-    then: schema => schema.required("Hãy điền vào Username hoặc Email"),
-    otherwise: schema => schema.min(0),
+  username: Yup.mixed().test('required', 'Hãy điền vào Email hoặc Username', function(value) {
+    const { email } = this.parent;
+    return !!value || !!email;
   }),
-  email: Yup.string(),
-  password_hash: Yup.string().when("password_crack", {
-    is: "",
-    then: schema =>
-      schema.required("Hãy điền vào Password Hash hoặc Password Crack"),
-    otherwise: schema => schema.min(0),
+  email: Yup.string().nullable(),
+  password_hash: Yup.mixed().test('required', 'Hãy điền vào Password Hash hoặc Password Crack', function(value) {
+    const { password_crack } = this.parent;
+    return !!value || !!password_crack;
   }),
   password_crack: Yup.string().nullable(),
-  // country_id: Yup.number().required("Hãy lựa chọn một quốc gia"),
 });
+
+console.log(validationSchema, 111);
 
 // field: email, username, password, password_hash, source_data, country
 
@@ -825,12 +821,14 @@ const submit = async () => {
       })
       .catch(({ response }) => {
         if (response?.data) {
+          console.log(response?.data);
+          
           errors.username = response.data.username;
           errors.email = response.data.email;
           errors.password_hash = response.data.password_hash;
           errors.password_crack = response.data.password_crack;
           errors.source_data = response.data.source_data;
-          errors.country = response.data.country;
+          errors.country_id = response.data.country_id;
           errors.detail = response.data.detail;
         } else {
           notification(response?.data?.detail, "error", "Có lỗi xảy ra");

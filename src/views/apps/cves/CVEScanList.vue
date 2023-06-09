@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <div class="card-body pt-0  overflow-y-auto overflow-x-hiddenh-100 p-0 m-0 ">
+        <div class="card-body pt-0  overflow-y-auto overflow-x-hid`den h-100 p-0 m-0 ">
             <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
                 :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
