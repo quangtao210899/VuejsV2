@@ -598,12 +598,12 @@
 
     <!-- // modoal  -->
     <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file">
-        <div class="card h-100 bg-secondary ">
+        <div class="card h-100 bg-secondary">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
                 <!--begin::Name-->
                 <div class="symbol symbol-60px mb-5">
-                    <KTIcon class="me-1" icon-name="document" icon-class="fs-4x text-success" />
+                    <i class="fa-solid fa-file-excel fs-4x text-primary"></i>
                 </div>
                 <!--end::Image-->
 
