@@ -1,22 +1,25 @@
 <template>
   <!--begin::Mixed Widget 4-->
-  <div class="card">
+  <div class="card overflow-auto h-650px">
     <!--begin::Beader-->
-    <div class="card-header border-0 p-2">
-      <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold fs-3 mb-1">Action</span>
-      </h3>
-
-    </div>
+    <span class="card-label fw-bold fs-3 text mb-3">Action</span>
     <!--end::Header-->
 
     <!--begin::Body-->
     <div class="card-body d-flex flex-column p-2">
       <div class="flex-grow-1">
         <!--begin::Chart-->
-        <apexchart ref="chartRef" class="mixed-widget-4-chart" :options="chart" :series="series" :height="chartHeight"
-          type="radialBar"></apexchart>
+        <apexchart v-if="process && chart" ref="chartRef" class="mixed-widget-4-chart" :options="chart" :series="process"
+          :height="chartHeight" type="radialBar"></apexchart>
         <!--end::Chart-->
+        <div class="d-flex justify-content-evenly flex-wrap">
+          <li class="d-flex align-items-center py-2">
+            <span class="bullet bullet-vertical  me-3 h-10px w-20px" :class="(process[0] == 100 ? 'bg-success' : 'bg-primary' )"></span> <strong class="me-1">{{activity.total_finish}} </strong> Hoàn thành
+          </li>
+          <li class="d-flex align-items-center py-2">
+            <span class="bullet bullet-vertical me-3 h-10px w-20px"></span><strong class="me-1">{{activity.total_not_done}} </strong> Chưa chạy
+          </li>
+        </div>
       </div>
 
       <div class="pt-5">
@@ -24,12 +27,11 @@
           <span class="badge badge-light-danger fs-8">Notes:</span>&nbsp;
           Tiến trình Recon
         </p>
-
         <el-timeline class="ps-0">
-          <el-timeline-item v-for="(activity, index) in activities" :key="index" :icon="activity.icon"
-            :type="activity.type" :color="activity.color" :size="activity.size" :hollow="activity.hollow"
-            :timestamp="activity.timestamp">
-            {{ activity.content }}
+          <el-timeline-item v-for="(activity, index) in activitieLine" :key="index" :icon="activity.icon"
+          :type="activity.color" :color="activity.color" :size="activity.size" :hollow="true"
+            :timestamp="activity.time">
+            {{ activity.name }}
           </el-timeline-item>
         </el-timeline>
       </div>
@@ -48,6 +50,11 @@ import type VueApexCharts from "vue3-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import { useThemeStore } from "@/stores/theme";
 
+interface ElementType {
+  total_finish: number;
+  total_not_done: number;
+}
+
 export default defineComponent({
   name: "widget-1",
   components: {
@@ -57,21 +64,23 @@ export default defineComponent({
     chartColor: String,
     chartHeight: String,
     btnColor: String,
-    activities: Object,
+    activitieLine: Object,
+    process: { type: Array, required: true, default: [0] },
+    activity: { type: Object as () => Record<string, any>, required: true },
   },
   setup(props) {
     const chartRef = ref<typeof VueApexCharts | null>(null);
     let chart: ApexOptions = {};
     const store = useThemeStore();
 
-    const series = ref([74]);
+    const series = ref([23]);
 
     const themeMode = computed(() => {
       return store.mode;
     });
 
     onBeforeMount(() => {
-      Object.assign(chart, chartOptions(props.chartColor, props.chartHeight));
+      Object.assign(chart, chartOptions(props.process[0], props.chartColor, props.chartHeight));
     });
 
     const refreshChart = () => {
@@ -79,10 +88,14 @@ export default defineComponent({
         return;
       }
 
-      Object.assign(chart, chartOptions(props.chartColor, props.chartHeight));
+      Object.assign(chart, chartOptions(props.process[0], props.chartColor, props.chartHeight));
 
       chartRef.value.refresh();
     };
+
+    watch(props, () => {
+      refreshChart();
+    });
 
     watch(themeMode, () => {
       refreshChart();
@@ -98,12 +111,12 @@ export default defineComponent({
 });
 
 const chartOptions = (
+  process: any,
   color: string = "primary",
   height: string = "auto"
 ): ApexOptions => {
-  const baseColor = getCSSVariableValue(`--bs-${color}`);
+  const baseColor = (process == 100) ? getCSSVariableValue(`--bs-success`) : getCSSVariableValue(`--bs-primary`);
   const lightColor = getCSSVariableValue(`--bs-${color}-light`);
-  const labelColor = getCSSVariableValue("--bs-gray-700");
 
   return {
     chart: {
@@ -124,7 +137,6 @@ const chartOptions = (
             fontWeight: "700",
           },
           value: {
-            color: labelColor,
             fontSize: "30px",
             fontWeight: "700",
             offsetY: 12,
@@ -151,10 +163,13 @@ const chartOptions = (
 
 <style>
 .el-timeline-item__wrapper {
-    display: flex;
-    align-content: center;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  align-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.el-timeline-item__content{
+  margin-right: 10px;
 }
 </style>
   
