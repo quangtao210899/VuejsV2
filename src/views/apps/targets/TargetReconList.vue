@@ -51,6 +51,11 @@
                     {{ (customer.status==2 || customer.status==1) ? "--:--" : customer.modified_at }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
+                    <el-tooltip class="box-item" effect="dark" content="Chi tiết" placement="top">
+                        <router-link :to="`/target-recon-detail/${reconID}/${customer.id}/detail`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                            <KTIcon icon-name="eye" icon-class="fs-3" />
+                        </router-link>
+                    </el-tooltip>
                     <el-tooltip class="box-item" effect="dark" content="Chỉnh sửa" placement="top">
                         <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
                             data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
@@ -224,6 +229,7 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
 import { useToast } from 'vue-toast-notification';
+import { useRoute } from 'vue-router';
 
 interface APIData {
     status: string;
@@ -870,13 +876,15 @@ export default defineComponent({
             itemsPerPage.value = itemsPage ?? 20;
             getData();
         };
+        const route = useRoute();
+        const reconID = ref<null | number | any>(route.params.id ?? '');
 
         const getData = () => {
             loading.value = true;
-            let target_id = getIdFromUrl()
+            // let target_id = getIdFromUrl()
             
             setTimeout(() => loading.value = false, 500)
-            return ApiService.get(`/recon/${target_id}/target?search_recon=${query.value}&search_status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
+            return ApiService.get(`/recon/${reconID.value}/target?search_recon=${query.value}&search_status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {  
                     list.value = data.results
                     totalPage.value = data.count
@@ -1050,7 +1058,7 @@ export default defineComponent({
                             active: checkedKeyNew.find(name => name == id) == id ? true : false,
                         }))
                     })),
-                    target_id: getIdFromUrl(),
+                    target_id: reconID.value,
                 }
                 
                 return ApiService.post("recon/create2/", form_data)
@@ -1127,6 +1135,7 @@ export default defineComponent({
             modalRef,
             // target_id,
             getIdFromUrl,
+            reconID,
             newTargetGroupModalRef,
             handleClick,
             errors,
