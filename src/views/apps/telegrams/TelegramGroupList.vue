@@ -24,7 +24,7 @@
             </button> -->
             <!--end::Export-->
             <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
-            <el-tooltip class="box-item" effect="dark" content="Tìm kiếm" placement="top">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
               <button
                 type="button"
                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
@@ -40,13 +40,13 @@
             <Fillter @filterData="handleFilter"></Fillter>
             <!--begin::Add subscription-->
             <!--end::Add subscription-->
-            <el-tooltip class="box-item" effect="dark" content="Cấu hình thời gian lấy tin nhắn" placement="top">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Cấu hình thời gian lấy tin nhắn" placement="top">
               <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click.passive="handleSubmitSetting">
                 <KTIcon icon-name="setting-2" icon-class="fs-2" />
                 Cấu hình
               </button>
             </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="Đồng bộ toàn bộ tin nhắn" placement="top"> 
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng bộ toàn bộ tin nhắn" placement="top"> 
               <button type="button"  class="btn btn-sm fw-bold btn-success me-2" @click.passive="handleSyncAll">
                 <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
                 Đồng bộ All
@@ -58,7 +58,7 @@
               <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
               Đồng bộ All
             </button> -->
-            <el-tooltip class="box-item" effect="dark" content="Thêm mới" placement="top"> 
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top"> 
               <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                 data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
                 <KTIcon icon-name="plus-circle" icon-class="fs-2" />
@@ -76,7 +76,7 @@
             <div class="fw-bold me-5">
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
-            <el-tooltip class="box-item" effect="dark" content="Xóa" placement="top">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
               <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
                 Delete Selected
@@ -112,17 +112,17 @@
             <KTIcon v-on:click.stop @click.passive="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-3x text-success' :'fs-3x text-danger'"/>
           </template>
           <template v-slot:actions="{ row: customer }">
-          <el-tooltip class="box-item" effect="dark" content="Đồng bộ" placement="top">
+          <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng bộ" placement="top">
             <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click.passive="handleSyncItem(customer)">
               <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
             </button>
           </el-tooltip>
-          <el-tooltip class="box-item" effect="dark" content="Chi tiết tin nhắn" placement="top">  
+          <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết tin nhắn" placement="top">  
             <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" @click.passive="handleClick(customer, 'detail')" >
               <KTIcon icon-name="eye" icon-class="fs-3" />
             </button>
           </el-tooltip>
-          <el-tooltip class="box-item" effect="dark" content="Chỉnh sửa" placement="top">
+          <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
             <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
               data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick(customer, 'edit')">
               <KTIcon icon-name="pencil" icon-class="fs-3" />

@@ -175,7 +175,7 @@
         <div class="col-8 py-2 d-flex justify-content-start ">
             <div class="row">
                 <div class="col" :class="classDetail ? ' d-block ' : 'd-none'">
-                    <el-tooltip class="box-item" effect="dark" content="Thông tin tiến trình" placement="top">
+                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin tiến trình" placement="top">
                         <button type="button"
                             class="btn btn-sm fw-bold bg-secondary btn-color-gray-700 h-35px w-150px btn-active-color-primary me-2"
                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"

@@ -24,7 +24,7 @@
             </button> -->
             <!--end::Export-->
             <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
-            <el-tooltip class="box-item" effect="dark" content="Tìm kiếm" placement="top">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
               <button
                 type="button"
                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
@@ -56,7 +56,7 @@
             <div class="fw-bold me-5">
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
-            <el-tooltip class="box-item" effect="dark" content="Xóa" placement="top"> 
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top"> 
               <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
                 Delete Selected

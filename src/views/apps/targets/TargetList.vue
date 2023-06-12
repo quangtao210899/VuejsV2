@@ -52,7 +52,7 @@
                         <div class="fw-bold me-5">
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
-                        <el-tooltip class="box-item" effect="dark" content="Xóa" placement="top">
+                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
                             <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
                                 Delete Selected
                             </button>
@@ -84,17 +84,17 @@
                     {{ customer.group.title }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
-                    <el-tooltip class="box-item" effect="dark" content="Recon" placement="top">
+                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Recon" placement="top">
                         <router-link :to="`/target-recons/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
                             <i class="fas fa-mail-bulk"></i>
                         </router-link>
                     </el-tooltip>
-                    <el-tooltip class="box-item" effect="dark" content="Scan" placement="top">
+                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan" placement="top">
                         <router-link :to="`/target-scans/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
                             <KTIcon icon-name="search-list" icon-class="fs-3" />
                         </router-link>
                     </el-tooltip>
-                    <el-tooltip class="box-item" effect="dark" content="Chỉnh sửa" placement="top">
+                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
                         <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
                             data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
                             @click="handleClick(customer, 'edit')" title="Sửa">

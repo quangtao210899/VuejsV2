@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip class="box-item" effect="dark" content="Upload Account Leaks" placement="top">
+  <el-tooltip class="box-item" effect="dark" hide-after="0" content="Upload Account Leaks" placement="top">
     <button type="button" class="btn btn-sm fw-bold btn-info me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1">
       <KTIcon icon-name="bi bi-upload" icon-class="fs-2" />
       Import
