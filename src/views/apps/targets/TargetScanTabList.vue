@@ -17,18 +17,17 @@
                             </button>
                         </template>
                     </el-popconfirm>
-
-                    <button v-if="scanStatus != 5" type="button" @click="handlePauser"
-                        :disabled="(checkDisabled || scanStatus == 3)"
-                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
-                        <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
-                        <span class="text-danger">Tạm dừng</span>
-                    </button>
-                    <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled)"
+                    <button v-if="scanStatus == 5" type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
                         class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
                         <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
                         <span class="text-primary"> Tiếp tục</span>
                     </button>
+                    <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
+                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                        <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
+                        <span class="text-danger">Tạm dừng</span>
+                    </button>
+
                     <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
                         class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
                         <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
@@ -175,7 +174,8 @@
         <div class="col-8 py-2 d-flex justify-content-start ">
             <div class="row">
                 <div class="col" :class="classDetail ? ' d-block ' : 'd-none'">
-                    <el-tooltip class="box-item" effect="dark" content="Thông tin tiến trình" placement="top">
+                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin tiến trình"
+                        placement="top">
                         <button type="button"
                             class="btn btn-sm fw-bold bg-secondary btn-color-gray-700 h-35px w-150px btn-active-color-primary me-2"
                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
@@ -276,8 +276,8 @@
     <div class="card h-100 d-block">
         <div class="d-flex shadow-hvover" :class="classDetail ? 'hand-height-4 pe-1' : 'hand-height-3'">
             <!--begin::Card body-->
-            <div class="card-body overflow-y-auto overflow-x-hidden h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
-                :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
+            <div class="card-body overflow-y-auto overflow-x-hidden h-100 m-0 p-0" ref="container"
+                @mousedown="handleMouseDown" :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
                 :class="classDetail ? 'border-end' : 'col-12'">
                 <div class="w-100">
                     <!-- <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }"> -->
@@ -598,12 +598,12 @@
 
     <!-- // modoal  -->
     <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file">
-        <div class="card h-100 bg-secondary ">
+        <div class="card h-100 bg-secondary">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
                 <!--begin::Name-->
                 <div class="symbol symbol-60px mb-5">
-                    <KTIcon class="me-1" icon-name="document" icon-class="fs-4x text-success" />
+                    <i class="fa-solid fa-file-excel fs-4x text-primary"></i>
                 </div>
                 <!--end::Image-->
 
@@ -712,6 +712,7 @@ export default defineComponent({
         const severityInfo = ref<number>(0)
         const progress = ref<number>(0)
         const checkStatus = ref<boolean>(false)
+        const checkStatusDisabled = ref<boolean>(false)
         const severityLow = ref<number>(0)
         const severityMedium = ref<number>(0)
         const severityHigh = ref<number>(0)
@@ -801,7 +802,8 @@ export default defineComponent({
                     progress.value = data.progress
                     timeStart.value = data.scan_started_at
                     timeEnd.value = data.scan_finished_at
-                    checkStatus.value = (data.scan_status == 3) ? true : false
+                    checkStatus.value = (data.scan_status == 3 || data.scan_status == 0 || data.scan_status == 4 || data.scan_status == 1) ? true : false
+                    // checkStatusDisabled.value = (data.scan_status == 3) ? true : false
                     scanStatus.value = data.scan_status
                     humanDiffTime()
                     showLocaleTime()
@@ -809,9 +811,9 @@ export default defineComponent({
                     // console.log(averageResponseTime.value)
                     // console.log(locations.value)
                     // console.log(maxResponseTime.value)
-                    // console.log(data)
-                    // console.log(new Date(timeEnd.value))
-                    // console.log(new Date(timeStart.value))
+                    console.log(data.scan_status)
+                    console.log(new Date(timeEnd.value))
+                    console.log(new Date(timeStart.value))
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -1035,15 +1037,14 @@ export default defineComponent({
         // tạm dừng
         // false - tạm dừng
         // true - tiếp tục
-        const checkPauser = ref<boolean>(false);
         const checkDisabled = ref<boolean>(false);
         const handlePauser = async () => {
-            checkPauser.value = !checkPauser.value
+
             checkDisabled.value = true
             setTimeout(() => {
                 checkDisabled.value = false;
             }, 500);
-            if (checkStatus.value) {
+            if (scanStatus.value == 3) {
                 ElMessage({
                     message: 'Danh dách đã được quét thành công không thể tạm dừng',
                     type: 'success',
@@ -1052,9 +1053,15 @@ export default defineComponent({
             } else if (scanStatus.value == 5) {
                 // console.log('tiếp tục')
                 getResume()
-            } else {
+            } else if (scanStatus.value == 2) {
                 // console.log('tạm dừng')
                 getPauser()
+            } else {
+                ElMessage({
+                    message: 'Có lỗi xảy ra',
+                    type: 'error',
+                    center: false,
+                })
             }
 
         };
@@ -1111,12 +1118,14 @@ export default defineComponent({
         const timeAuto = ref<any>(null);
 
         const showLocaleTime = async () => {
-            if (checkStatus.value || !checkPauser.value) {
+            if (scanStatus.value == 5) {
                 clearInterval(timeAuto.value);
                 humanDiff();
-            } else {
+            } else if (scanStatus.value == 2) {
                 clearInterval(timeAuto.value);
                 timeAuto.value = setInterval(() => { humanDiff(); }, 1000);
+            }else {
+                return;
             }
         };
 
@@ -1184,7 +1193,7 @@ export default defineComponent({
         const eventTime = ref<number | any>('30000');
 
         const humanDiff = async () => {
-            let date1: any = (checkStatus.value == false) ? new Date() : new Date(timeEnd.value);
+            let date1: any = (scanStatus.value == 2) ? new Date() : new Date(timeEnd.value);
             let date2: any = new Date(timeStart.value);
             let diff = Math.max(date2, date1) - Math.min(date2, date1);
             let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
@@ -1202,17 +1211,18 @@ export default defineComponent({
             setTimeout(() => {
                 checkDisabled.value = false;
             }, 500);
-            if (checkStatus.value || !checkPauser.value) {
+            if (scanStatus.value == 5) {
                 clearInterval(time.value);
-
                 humanDiff();
-            } else {
+            } else if (scanStatus.value == 2){
                 clearInterval(time.value);
                 humanDiff();
                 time.value = setInterval(() => { getData(); humanDiff(); }, eventTime.value);
+            } else{
+                return
             }
         };
-        watch(eventTime, humanDiffTime);
+        // watch(eventTime, humanDiffTime);
 
         // Tính toán chiều rộng nội dung
         const contentWidth = ref(0);
@@ -1223,7 +1233,7 @@ export default defineComponent({
 
         onMounted(() => {
             getData();
-            humanDiffTime();
+            // humanDiffTime();
         });
 
         onBeforeUnmount(() => {
@@ -1309,8 +1319,7 @@ export default defineComponent({
             checkStatus,
             diffTime,
             eventTime,
-            checkPauser,
-
+            
             // tạm dừng
             handlePauser,
             checkDisabled,

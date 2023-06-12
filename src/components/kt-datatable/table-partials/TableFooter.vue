@@ -1,5 +1,5 @@
 <template>
-  <div class="row px-5 mb-9">
+  <div class="row px-3 mb-9 mt-2">
     <template v-if="!checkitemsPerPage">
       <TableItemsPerPageSelect
         v-model:itemsPerPage="itemsCountInTable"

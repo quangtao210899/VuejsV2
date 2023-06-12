@@ -25,7 +25,7 @@
       >
         <!--begin::Item-->
         <li class="breadcrumb-item text-muted">
-          <router-link to="/" class="text-muted text-hover-primary"
+          <router-link to="/" class="text-hover-danger text-primary"
             >Home</router-link
           >
         </li>
@@ -35,10 +35,10 @@
             <span class="bullet bg-gray-400 w-5px h-2px"></span>
           </li>
           <li class="breadcrumb-item text-muted" v-if="links&&(i>=0 && i < (<any>breadcrumbs).length - 1  )">
-            <router-link :to="links[i]" class="text-muted text-hover-primary" v-if="links[i]">
+            <router-link :to="links[i]" class="text-hover-danger text-primary" v-if="links[i]">
               {{ item }}
             </router-link>
-            <router-link :to="linkToBack" class="text-muted text-hover-primary" v-else-if="linkToBack">
+            <router-link :to="linkToBack" class="text-hover-danger text-primary" v-else-if="linkToBack">
               {{ item }}
             </router-link>
             <template v-else>
@@ -79,9 +79,14 @@ export default defineComponent({
     });
 
     const links = computed<string[]>(() => {
+      console.log(route.name)
       if(route.name=='target-scanstab'){
         linkToBack.value = `/target-scans/${route.params['idScan']}`
-      } else if (route.name=='targetDetectionListCVE') {
+      }
+      else if(route.name=='target-recon-tab'){
+        linkToBack.value = `/target-recons/${route.params['idRecon']}`
+      } 
+      else if (route.name=='targetDetectionListCVE') {
         linkToBack.value = `/cve/${route.params['idCVE']}/scan`
       } else if (route.name=='targetDetectionListCVEAll') {
         linkToBack.value = `/cve/${route.params['id']}/scan`
