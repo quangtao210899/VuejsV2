@@ -79,9 +79,14 @@ export default defineComponent({
     });
 
     const links = computed<string[]>(() => {
+      console.log(route.name)
       if(route.name=='target-scanstab'){
         linkToBack.value = `/target-scans/${route.params['idScan']}`
-      } else if (route.name=='targetDetectionListCVE') {
+      }
+      else if(route.name=='target-recon-tab'){
+        linkToBack.value = `/target-recons/${route.params['idRecon']}`
+      } 
+      else if (route.name=='targetDetectionListCVE') {
         linkToBack.value = `/cve/${route.params['idCVE']}/scan`
       } else if (route.name=='targetDetectionListCVEAll') {
         linkToBack.value = `/cve/${route.params['id']}/scan`

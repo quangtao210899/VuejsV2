@@ -1057,9 +1057,15 @@ export default defineComponent({
             } else if (scanStatus.value == 5) {
                 // console.log('tiếp tục')
                 getResume()
-            } else {
+            } else if (scanStatus.value == 2) {
                 // console.log('tạm dừng')
                 getPauser()
+            } else {
+                ElMessage({
+                    message: 'Có lỗi xảy ra',
+                    type: 'error',
+                    center: false,
+                })
             }
 
         };
