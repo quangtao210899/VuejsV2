@@ -5,7 +5,6 @@
         <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
             <!--begin::Card toolbar-->
             <div class="card-toolbar">
-
                 <div class="d-flex justify-content-end ">
                     <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
                         icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
@@ -18,16 +17,15 @@
                         </template>
                     </el-popconfirm>
                     <button v-if="scanStatus == 5" type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
-                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                        class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
                         <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
                         <span class="text-primary"> Tiếp tục</span>
                     </button>
                     <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
-                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                        class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
                         <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
                         <span class="text-danger">Tạm dừng</span>
                     </button>
-
                     <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
                         class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
                         <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
@@ -51,7 +49,20 @@
                                 <div class="col-3">
                                     <div class="row">
                                         <!--begin::Label-->
-                                        <label class="col-4 fw-semobold text-muted">Tên</label>
+                                        <label class="w-60px fw-semobold text-muted">ID:</label>
+                                        <!--end::Label-->
+
+                                        <!--begin::Col-->
+                                        <div class="col">
+                                            <span class="fw-bold fs-6 text-dark">{{ targetData.id }}</span>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="row">
+                                        <!--begin::Label-->
+                                        <label class="w-60px fw-semobold text-muted">Tên:</label>
                                         <!--end::Label-->
 
                                         <!--begin::Col-->
@@ -64,7 +75,7 @@
                                 <div class="col-3">
                                     <div class="row">
                                         <!--begin::Label-->
-                                        <label class="col-4 fw-semobold text-muted">IP</label>
+                                        <label class="w-60px fw-semobold text-muted">IP:</label>
                                         <!--end::Label-->
                                         <!--begin::Col-->
                                         <div class="col">
@@ -76,7 +87,7 @@
                                 <div class="col-3">
                                     <div class="row">
                                         <!--begin::Label-->
-                                        <label class="col-4 fw-semobold text-muted">Domain</label>
+                                        <label class="w-80px fw-semobold text-muted">Domain:</label>
                                         <!--end::Label-->
 
                                         <!--begin::Col-->
@@ -247,7 +258,7 @@
                 <div class="d-flex my-0 mx-2">
                     <!--begin::Select-->
                     <button type="button" @click="reloadData" :disabled="checkDisabled"
-                        class="btn btn-sm w-100px h-35px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                        class="btn btn-icon btn-sm w-100px h-30px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
                         <KTIcon icon-name="arrows-loop" icon-class="fs-2 text-white" />
                         Tải lại
                     </button>
@@ -258,7 +269,7 @@
                 <!--begin::Actions-->
                 <div class="d-flex my-0">
                     <!--begin::Select-->
-                    <el-select v-model="eventTime" class="d-block w-150px" height="40px" as="select">
+                    <el-select v-model="eventTime" class="d-block w-150px" height="40px" size="default" as="select">
                         <el-option value="300000" key="300000" label="5 phút" />
                         <el-option value="60000" key="60000" label="1 phút" />
                         <el-option value="30000" key="30000" label="30 giây" />
@@ -1319,7 +1330,7 @@ export default defineComponent({
             checkStatus,
             diffTime,
             eventTime,
-            
+
             // tạm dừng
             handlePauser,
             checkDisabled,
