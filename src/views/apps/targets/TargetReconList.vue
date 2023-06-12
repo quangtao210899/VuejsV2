@@ -470,32 +470,32 @@ export default defineComponent({
                             {
                                 id: '0-0-3-0',
                                 label: 'Web Prober',
-                                name: "web_probe_full",
+                                name: "prober",
                             },
                             {
                                 id: '0-0-3-1',
                                 label: 'CMS Scanner',
-                                name: "cms_scanner",
+                                name: "cms",
                             },
                             {
                                 id: '0-0-3-2',
                                 label: 'Url extraction',
-                                name: "urlchecks",
+                                name: "url_extraction",
                             },
                             {
                                 id: '0-0-3-3',
                                 label: 'URL patterns Search and filtering',
-                                name: "url_gf",
+                                name: "url_filter",
                             },
                             {
                                 id: '0-0-3-4',
                                 label: 'Javascript analysis',
-                                name: "jschecks",
+                                name: "js_analysis",
                             },
                             {
                                 id: '0-0-3-5',
                                 label: 'Fuzzing',
-                                name: "fuzz",
+                                name: "fuzzing",
                             },
                         ],
                     },
