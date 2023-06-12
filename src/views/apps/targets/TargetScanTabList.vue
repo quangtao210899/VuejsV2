@@ -1037,12 +1037,8 @@ export default defineComponent({
         // tạm dừng
         // false - tạm dừng
         // true - tiếp tục
-        const checkPauser = ref<boolean>(false); // xem xet vứt
         const checkDisabled = ref<boolean>(false);
         const handlePauser = async () => {
-            checkPauser.value = !checkPauser.value
-            // console.log(checkPauser.value)
-            // console.log(scanStatus.value)
 
             checkDisabled.value = true
             setTimeout(() => {
@@ -1057,9 +1053,15 @@ export default defineComponent({
             } else if (scanStatus.value == 5) {
                 // console.log('tiếp tục')
                 getResume()
-            } else {
+            } else if (scanStatus.value == 2) {
                 // console.log('tạm dừng')
                 getPauser()
+            } else {
+                ElMessage({
+                    message: 'Có lỗi xảy ra',
+                    type: 'error',
+                    center: false,
+                })
             }
 
         };
@@ -1116,12 +1118,14 @@ export default defineComponent({
         const timeAuto = ref<any>(null);
 
         const showLocaleTime = async () => {
-            if (checkStatus.value || !checkPauser.value) {
+            if (scanStatus.value == 5) {
                 clearInterval(timeAuto.value);
                 humanDiff();
-            } else {
+            } else if (scanStatus.value == 2) {
                 clearInterval(timeAuto.value);
                 timeAuto.value = setInterval(() => { humanDiff(); }, 1000);
+            }else {
+                return;
             }
         };
 
@@ -1189,7 +1193,7 @@ export default defineComponent({
         const eventTime = ref<number | any>('30000');
 
         const humanDiff = async () => {
-            let date1: any = (checkStatus.value == false) ? new Date() : new Date(timeEnd.value);
+            let date1: any = (scanStatus.value == 2) ? new Date() : new Date(timeEnd.value);
             let date2: any = new Date(timeStart.value);
             let diff = Math.max(date2, date1) - Math.min(date2, date1);
             let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
@@ -1207,13 +1211,15 @@ export default defineComponent({
             setTimeout(() => {
                 checkDisabled.value = false;
             }, 500);
-            if (checkStatus.value || !checkPauser.value) {
+            if (scanStatus.value == 5) {
                 clearInterval(time.value);
                 humanDiff();
-            } else {
+            } else if (scanStatus.value == 2){
                 clearInterval(time.value);
                 humanDiff();
                 time.value = setInterval(() => { getData(); humanDiff(); }, eventTime.value);
+            } else{
+                return
             }
         };
         // watch(eventTime, humanDiffTime);
@@ -1313,8 +1319,7 @@ export default defineComponent({
             checkStatus,
             diffTime,
             eventTime,
-            checkPauser,
-
+            
             // tạm dừng
             handlePauser,
             checkDisabled,

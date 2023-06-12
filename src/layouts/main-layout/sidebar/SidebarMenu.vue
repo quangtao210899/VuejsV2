@@ -239,7 +239,7 @@ export default defineComponent({
       if (menuItem == '/telegram-list' && routeName == 'telegram-type') {
         return true;
       }
-      if (menuItem == '/target-list' && ['target-scan','target-recon','target-scanstab'].includes(routeName) ) {
+      if (menuItem == '/target-list' && ['target-scan','target-recon','target-scanstab','target-recon-tab'].includes(routeName) ) {
         return true;
       }
       return false
