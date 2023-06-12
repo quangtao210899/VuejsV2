@@ -50,10 +50,6 @@ import type VueApexCharts from "vue3-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import { useThemeStore } from "@/stores/theme";
 
-interface ElementType {
-  total_finish: number;
-  total_not_done: number;
-}
 
 export default defineComponent({
   name: "widget-1",
@@ -69,6 +65,7 @@ export default defineComponent({
     activity: { type: Object as () => Record<string, any>, required: true },
   },
   setup(props) {
+    // console.log(props)
     const chartRef = ref<typeof VueApexCharts | null>(null);
     let chart: ApexOptions = {};
     const store = useThemeStore();
@@ -80,7 +77,7 @@ export default defineComponent({
     });
 
     onBeforeMount(() => {
-      Object.assign(chart, chartOptions(props.process[0], props.chartColor, props.chartHeight));
+      Object.assign(chart, chartOptions(props.chartColor, props.chartHeight));
     });
 
     const refreshChart = () => {
@@ -88,14 +85,14 @@ export default defineComponent({
         return;
       }
 
-      Object.assign(chart, chartOptions(props.process[0], props.chartColor, props.chartHeight));
+      Object.assign(chart, chartOptions( props.chartColor, props.chartHeight));
 
       chartRef.value.refresh();
     };
 
-    watch(props, () => {
-      refreshChart();
-    });
+    // watch(props, () => {
+    //   refreshChart();
+    // });
 
     watch(themeMode, () => {
       refreshChart();
@@ -111,11 +108,10 @@ export default defineComponent({
 });
 
 const chartOptions = (
-  process: any,
   color: string = "primary",
   height: string = "auto"
 ): ApexOptions => {
-  const baseColor = (process == 100) ? getCSSVariableValue(`--bs-success`) : getCSSVariableValue(`--bs-primary`);
+  const baseColor = getCSSVariableValue(`--bs-primary`);
   const lightColor = getCSSVariableValue(`--bs-${color}-light`);
 
   return {

@@ -16,17 +16,16 @@
                             </button>
                         </template>
                     </el-popconfirm>
-
-                    <button v-if="scanStatus != 5" type="button" @click="handlePauser"
-                        :disabled="(checkDisabled || scanStatus == 3)"
-                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
-                        <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
-                        <span class="text-danger">Tạm dừng</span>
-                    </button>
-                    <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled)"
-                        class="btn btn-sm btn-outline btn-outline-dashed fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                    <button v-if="scanStatus == 5" type="button" @click="handlePauser"
+                        :disabled="(checkDisabled || checkStatus)"
+                        class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
                         <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
                         <span class="text-primary"> Tiếp tục</span>
+                    </button>
+                    <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
+                        class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                        <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
+                        <span class="text-danger">Tạm dừng</span>
                     </button>
                     <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
                         class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
@@ -89,7 +88,7 @@
                                 <div class="fs-7 text-muted fw-semobold">Subdomains</div>
                                 <!--end::Label-->
                                 <!--begin::Stat-->
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-start flex-wrap">
                                     <div class="fs-2x fw-bold me-2">{{ subdomain.total_subdomain }}</div>
                                     <!--begin::Badge-->
                                     <span class="badge badge-light-success fs-base">
@@ -254,7 +253,7 @@
                                     <template v-else-if="domain_info_status == 4">
                                         <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
                                             <div class="text-center mb-5">
-                                                <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
+                                                <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
                                             </div>
                                             <div class="" v-html="linkCheck"></div>
                                         </div>
@@ -417,7 +416,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch vụ</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (port_service_status == 3) ? Object.keys(port_service).length : 0}}</span>
+                                    {{ (port_service_status == 3) ? Object.keys(port_service).length : 0 }}</span>
                             </div>
                         </template>
                         <div class="h-450px py-5">
@@ -439,7 +438,7 @@
                             <template v-else-if="port_service_status == 4">
                                 <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                     <div class="text-center mb-5">
-                                        <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
+                                        <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
                                     </div>
                                     <div class="" v-html="port_service"></div>
                                 </div>
@@ -467,7 +466,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Email liên quan</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (related_email_status == 3) ? Object.keys(related_email).length : 0}}
+                                    {{ (related_email_status == 3) ? Object.keys(related_email).length : 0 }}
                                 </span>
                             </div>
                         </template>
@@ -479,6 +478,14 @@
                                             <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                         </div>
                                         <span>Không tìm thấy dữ liệu nào!</span>
+                                    </div>
+                                </template>
+                                <template v-else-if="!Array.isArray(related_email)">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                        </div>
+                                        <span>{{ related_email }}</span>
                                     </div>
                                 </template>
                                 <template v-else>
@@ -551,8 +558,8 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Tên miền liên quan đến mục tiêu</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (related_domain_status == 3) ? Object.keys(related_domain).length : 0}}
-                                   </span>
+                                    {{ (related_domain_status == 3) ? Object.keys(related_domain).length : 0 }}
+                                </span>
                             </div>
                         </template>
                         <div class="h-450px">
@@ -632,7 +639,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Công nghệ sử dụng</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (technology_status == 3) ? Object.keys(technology).length : 0}}
+                                    {{ (technology_status == 3) ? Object.keys(technology).length : 0 }}
                                 </span>
                             </div>
                         </template>
@@ -687,7 +694,7 @@
                         </template>
                         <div class="h-100">
                             <template v-if="metadata_status == 3">
-                                <template v-if="metadata == '' || Object.values(metadata).length == 0">
+                                <template v-if="metadata == '' || Object.values(metadata.authors).length == 0 && Object.values(metadata.software).length == 0">
                                     <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                         <div class="text-center mb-5">
                                             <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
@@ -1028,7 +1035,7 @@ export default defineComponent({
         const getData = async () => {
             loading.value = true;
             setTimeout(() => loading.value = false, 500)
-            return ApiService.get(`recon/detail3/${scanID.value}`)
+            return await ApiService.get(`recon/detail3/${scanID.value}`)
                 .then(({ data }) => {
                     list.value = data
                     account.value = data.recon[0].account
@@ -1041,6 +1048,11 @@ export default defineComponent({
                     const totalCount = (activity.value.total_finish / (activity.value.total_finish + activity.value.total_not_done)) * 100;
                     process.value = [parseFloat(totalCount.toFixed(1))]
                     activities.value = (data.recon[0].activity !== undefined) ? data.recon[0].activity.task_done : {}
+
+                    // console.log(activity.value, '123')
+                    // console.log(process.value)
+                    // console.log(activities.value, '321')
+
                     // if (totalCount == 100) {
                     // } else {
                     //     activities.value = { ...activities.value, load: 'Đang chạy...' }
@@ -1055,7 +1067,6 @@ export default defineComponent({
                     ip_info.value = (data.recon[0].ip_info !== undefined) ? data.recon[0].ip_info.message : {};
                     ip_info_status.value = (data.recon[0].ip_info !== undefined) ? data.recon[0].ip_info.status : {};
                     linkCheckIP.value = checkLink(ip_info.value)
-                    console.log(ip_info.value)
 
                     // port_service
                     port_service.value = (data.recon[0].port_service !== undefined) ? data.recon[0].port_service.message : {};
@@ -1078,16 +1089,16 @@ export default defineComponent({
                     technology_status.value = (data.recon[0].technology !== undefined) ? data.recon[0].technology.status : {};
 
                     // subdomain_result
-                    subdomain_result.value = data.recon[0].subdomain_result
-                    humanDiffTime()
-                    showLocaleTime()
+                    // subdomain_result.value = data.recon[0].subdomain_result
+                    // humanDiffTime()
+                    // showLocaleTime()
                     console.log(data)
+
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                 });
         }
-
 
         const notification = (values: string, icon: string, more: string) => {
             Swal.fire({
@@ -1157,12 +1168,12 @@ export default defineComponent({
         const checkPauser = ref<boolean>(false);
         const checkDisabled = ref<boolean>(false);
         const handlePauser = async () => {
-            checkPauser.value = !checkPauser.value
+
             checkDisabled.value = true
             setTimeout(() => {
                 checkDisabled.value = false;
             }, 500);
-            if (checkStatus.value) {
+            if (scanStatus.value == 3) {
                 ElMessage({
                     message: 'Danh dách đã được quét thành công không thể tạm dừng',
                     type: 'success',
@@ -1171,9 +1182,15 @@ export default defineComponent({
             } else if (scanStatus.value == 5) {
                 // console.log('tiếp tục')
                 getResume()
-            } else {
+            } else if (scanStatus.value == 2) {
                 // console.log('tạm dừng')
                 getPauser()
+            } else {
+                ElMessage({
+                    message: 'Có lỗi xảy ra',
+                    type: 'error',
+                    center: false,
+                })
             }
 
         };
@@ -1230,12 +1247,14 @@ export default defineComponent({
         const timeAuto = ref<any>(null);
 
         const showLocaleTime = async () => {
-            if (checkStatus.value || !checkPauser.value) {
+            if (scanStatus.value == 5) {
                 clearInterval(timeAuto.value);
                 humanDiff();
-            } else {
+            } else if (scanStatus.value == 2) {
                 clearInterval(timeAuto.value);
                 timeAuto.value = setInterval(() => { humanDiff(); }, 1000);
+            } else {
+                return;
             }
         };
 
@@ -1290,7 +1309,7 @@ export default defineComponent({
         const eventTime = ref<number | any>('30000');
 
         const humanDiff = async () => {
-            let date1: any = (checkStatus.value == false) ? new Date() : new Date(timeEnd.value);
+            let date1: any = (scanStatus.value == 2) ? new Date() : new Date(timeEnd.value);
             let date2: any = new Date(timeStart.value);
             let diff = Math.max(date2, date1) - Math.min(date2, date1);
             let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
@@ -1308,21 +1327,22 @@ export default defineComponent({
             setTimeout(() => {
                 checkDisabled.value = false;
             }, 500);
-            if (checkStatus.value || !checkPauser.value) {
+            if (scanStatus.value == 5) {
                 clearInterval(time.value);
-
                 humanDiff();
-            } else {
+            } else if (scanStatus.value == 2) {
                 clearInterval(time.value);
                 humanDiff();
                 time.value = setInterval(() => { getData(); humanDiff(); }, eventTime.value);
+            } else {
+                return
             }
         };
-        watch(eventTime, humanDiffTime);
+        // watch(eventTime, humanDiffTime);
 
         onMounted(() => {
             getData();
-            humanDiffTime();
+            // humanDiffTime();
         });
 
         onBeforeUnmount(() => {
@@ -1346,8 +1366,7 @@ export default defineComponent({
         };
 
         const checkLink = (data: any) => {
-            console.log(data)
-            if(Object.values(data).length > 0){
+            if (Object.values(data).length > 0) {
                 return data.replace(/(http:\/\/\S+)/, '<a href="$1" target="_blank">$1</a>');
             }
             return data
