@@ -175,9 +175,10 @@
                                 <div class="h-450px">
                                     <template v-if="domain_info_status == 3">
                                         <template v-if="domain_info == '' || Object.keys(domain_info).length == 0">
-                                            <div class="my-9 mx-5 text-center">
-                                                <div class="text-center mb-3">
-                                                    <KTIcon icon-name="information" icon-class="fs-3x text-primary" />
+                                            <div
+                                                class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                <div class="text-center mb-5">
+                                                    <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                 </div>
                                                 <span>Không tìm thấy dữ liệu nào!</span>
                                             </div>
@@ -185,8 +186,7 @@
                                         <template v-else>
                                             <el-tabs model-value tab-position="left" type="border-card" :stretch="true"
                                                 class="demo-tabs border border-0 h-100" :lazy="true">
-                                                <el-tab-pane v-for="(items, index) in domain_info" :key="index"
-                                                    :label="index" class="">
+                                                <el-tab-pane v-for="(items, index) in domain_info" :key="index" class="">
                                                     <template #label>
                                                         <span class="custom-tabs-label text-capitalize">
                                                             <span>{{ index }}</span>
@@ -252,15 +252,23 @@
                                         </template>
                                     </template>
                                     <template v-else-if="domain_info_status == 4">
-                                        <div class="my-9 mx-5 ">
-                                            <div class="text-center mb-3">
+                                        <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
+                                            <div class="text-center mb-5">
                                                 <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
                                             </div>
                                             <div class="" v-html="linkCheck"></div>
                                         </div>
                                     </template>
+                                    <template v-else-if="domain_info_status == 0">
+                                        <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
+                                            <div class="text-center mb-5">
+                                                <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                            </div>
+                                            <div class="text-center">{{ domain_info }}</div>
+                                        </div>
+                                    </template>
                                     <template v-else>
-                                        <div class="mt-5 me-3">
+                                        <div class="mt-5 m-3">
                                             <el-skeleton :rows="7" animated />
                                         </div>
                                     </template>
@@ -278,9 +286,10 @@
                                 <div class="h-450px">
                                     <template v-if="ip_info_status == 3">
                                         <template v-if="ip_info == '' || Object.keys(ip_info).length == 0">
-                                            <div class="my-9 mx-5 text-center">
-                                                <div class="text-center mb-3">
-                                                    <KTIcon icon-name="information" icon-class="fs-3x text-primary" />
+                                            <div
+                                                class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                <div class="text-center mb-5">
+                                                    <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                 </div>
                                                 <span>Không tìm thấy dữ liệu nào!</span>
                                             </div>
@@ -288,8 +297,7 @@
                                         <template v-else>
                                             <el-tabs tab-position="left" type="border-card" :stretch="true"
                                                 class="demo-tabs border border-0 h-100" :lazy="true">
-                                                <el-tab-pane v-for="(items, index) in ip_info" :key="index" :label="index"
-                                                    class="">
+                                                <el-tab-pane v-for="(items, index) in ip_info" :key="index" class="">
                                                     <template #label>
                                                         <span class="custom-tabs-label text-capitalize">
                                                             <span>{{ index }}</span><br>
@@ -375,15 +383,23 @@
                                         </template>
                                     </template>
                                     <template v-else-if="ip_info_status == 4">
-                                        <div class="my-9 mx-5 ">
-                                            <div class="text-center mb-3">
+                                        <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
+                                            <div class="text-center mb-5">
                                                 <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
                                             </div>
-                                            <div class="" v-html="linkCheck"></div>
+                                            <div class="" v-html="linkCheckIP"></div>
+                                        </div>
+                                    </template>
+                                    <template v-else-if="ip_info_status == 0">
+                                        <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
+                                            <div class="text-center mb-5">
+                                                <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                            </div>
+                                            <div class="text-center">{{ domain_info }}</div>
                                         </div>
                                     </template>
                                     <template v-else>
-                                        <div class="mt-5 me-3">
+                                        <div class="mt-5 m-3">
                                             <el-skeleton :rows="7" animated />
                                         </div>
                                     </template>
@@ -400,16 +416,16 @@
                         <template #header>
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch vụ</span>
-                                <span class="badge badge-circle badge-success ms-2">{{ Object.keys(port_service).length
-                                }}</span>
+                                <span class="badge badge-circle badge-success ms-2">
+                                    {{ (port_service_status == 3) ? Object.keys(port_service).length : 0}}</span>
                             </div>
                         </template>
                         <div class="h-450px py-5">
                             <template v-if="port_service_status == 3">
                                 <template v-if="port_service == '' || Object.keys(port_service).length == 0">
-                                    <div class="my-9 mx-5 text-center">
-                                        <div class="text-center mb-3">
-                                            <KTIcon icon-name="information" icon-class="fs-3x text-primary" />
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                         </div>
                                         <span>Không tìm thấy dữ liệu nào!</span>
                                     </div>
@@ -421,15 +437,23 @@
 
                             </template>
                             <template v-else-if="port_service_status == 4">
-                                <div class="my-9 mx-5 ">
-                                    <div class="text-center mb-3">
+                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
                                         <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
                                     </div>
                                     <div class="" v-html="port_service"></div>
                                 </div>
                             </template>
+                            <template v-else-if="port_service_status == 0">
+                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
+                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                    </div>
+                                    <div class="text-center">{{ port_service }}</div>
+                                </div>
+                            </template>
                             <template v-else>
-                                <div class="mt-5 me-3">
+                                <div class="mt-5 m-3">
                                     <el-skeleton :rows="7" animated />
                                 </div>
                             </template>
@@ -442,16 +466,17 @@
                         <template #header>
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Email liên quan</span>
-                                <span class="badge badge-circle badge-success ms-2">{{ Object.keys(related_email).length
-                                }}</span>
+                                <span class="badge badge-circle badge-success ms-2">
+                                    {{ (related_email_status == 3) ? Object.keys(related_email).length : 0}}
+                                </span>
                             </div>
                         </template>
                         <div class="h-450px">
                             <template v-if="related_email_status == 3">
                                 <template v-if="related_email == '' || Object.keys(related_email).length == 0">
-                                    <div class="my-9 mx-5 text-center">
-                                        <div class="text-center mb-3">
-                                            <KTIcon icon-name="information" icon-class="fs-3x text-primary" />
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                         </div>
                                         <span>Không tìm thấy dữ liệu nào!</span>
                                     </div>
@@ -495,16 +520,24 @@
                                 </template>
 
                             </template>
-                            <template v-else-if="port_service_status == 4">
-                                <div class="my-9 mx-5 ">
-                                    <div class="text-center mb-3">
+                            <template v-else-if="related_email_status == 4">
+                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
                                         <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
                                     </div>
                                     <div class="" v-html="related_email"></div>
                                 </div>
                             </template>
+                            <template v-else-if="related_email_status == 0">
+                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
+                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                    </div>
+                                    <div class="text-center">{{ related_email }}</div>
+                                </div>
+                            </template>
                             <template v-else>
-                                <div class="mt-5 me-3">
+                                <div class="mt-5 m-3">
                                     <el-skeleton :rows="7" animated />
                                 </div>
                             </template>
@@ -517,16 +550,18 @@
                         <template #header>
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Tên miền liên quan đến mục tiêu</span>
-                                <span class="badge badge-circle badge-success ms-2">{{ Object.keys(related_domain).length
-                                }}</span>
+                                <span class="badge badge-circle badge-success ms-2">
+                                    {{ (related_domain_status == 3) ? Object.keys(related_domain).length : 0}}
+                                   </span>
                             </div>
                         </template>
                         <div class="h-450px">
                             <template v-if="related_domain_status == 3">
                                 <template v-if="related_domain == '' || Object.keys(related_domain).length == 0">
-                                    <div class="my-9 mx-5 text-center">
-                                        <div class="text-center mb-3">
-                                            <KTIcon icon-name="information" icon-class="fs-3x text-primary" />
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+
                                         </div>
                                         <span>Không tìm thấy dữ liệu nào!</span>
                                     </div>
@@ -566,16 +601,24 @@
                                 </template>
 
                             </template>
-                            <template v-else-if="port_service_status == 4">
-                                <div class="my-9 mx-5 ">
-                                    <div class="text-center mb-3">
+                            <template v-else-if="related_domain_status == 4">
+                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
                                         <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
                                     </div>
                                     <div class="" v-html="related_domain"></div>
                                 </div>
                             </template>
+                            <template v-else-if="related_domain_status == 0">
+                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
+                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                    </div>
+                                    <div class="text-center">{{ related_domain }}</div>
+                                </div>
+                            </template>
                             <template v-else>
-                                <div class="mt-5 me-3">
+                                <div class="mt-5 m-3">
                                     <el-skeleton :rows="7" animated />
                                 </div>
                             </template>
@@ -588,16 +631,18 @@
                         <template #header>
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Công nghệ sử dụng</span>
-                                <span class="badge badge-circle badge-success ms-2">{{ Object.keys(technology).length
-                                }}</span>
+                                <span class="badge badge-circle badge-success ms-2">
+                                    {{ (technology_status == 3) ? Object.keys(technology).length : 0}}
+                                </span>
                             </div>
                         </template>
                         <div class="h-450px">
                             <template v-if="technology_status == 3">
                                 <template v-if="technology == '' || Object.keys(technology).length == 0">
-                                    <div class="my-9 mx-5 text-center">
-                                        <div class="text-center mb-3">
-                                            <KTIcon icon-name="information" icon-class="fs-3x text-primary" />
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+
                                         </div>
                                         <span>Không tìm thấy dữ liệu nào!</span>
                                     </div>
@@ -607,16 +652,24 @@
                                         class="badge badge-light-primary fs-7 me-2 my-1">{{ item }}</span>
                                 </template>
                             </template>
-                            <template v-else-if="port_service_status == 4">
-                                <div class="my-9 mx-5 ">
-                                    <div class="text-center mb-3">
+                            <template v-else-if="technology_status == 4">
+                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
                                         <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
                                     </div>
                                     <div class="" v-html="technology"></div>
                                 </div>
                             </template>
+                            <template v-else-if="technology_status == 0">
+                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
+                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                    </div>
+                                    <div class="text-center">{{ technology }}</div>
+                                </div>
+                            </template>
                             <template v-else>
-                                <div class="mt-5 me-3">
+                                <div class="mt-5 m-3">
                                     <el-skeleton :rows="7" animated />
                                 </div>
                             </template>
@@ -635,9 +688,9 @@
                         <div class="h-100">
                             <template v-if="metadata_status == 3">
                                 <template v-if="metadata == '' || Object.values(metadata).length == 0">
-                                    <div class="my-9 mx-5 text-center">
-                                        <div class="text-center mb-3">
-                                            <KTIcon icon-name="information" icon-class="fs-3x text-primary" />
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                         </div>
                                         <span>Không tìm thấy dữ liệu nào!</span>
                                     </div>
@@ -645,8 +698,7 @@
                                 <template v-else>
                                     <el-tabs tab-position="left" type="border-card" :stretch="true"
                                         class="demo-tabs border border-0 h-100" :lazy="true">
-                                        <el-tab-pane v-for="(items, index) in metadata" :key="index" :label="index"
-                                            class="">
+                                        <el-tab-pane v-for="(items, index) in metadata" :key="index" class="">
                                             <template #label>
                                                 <span class="custom-tabs-label">
                                                     <span>{{ index }}</span>
@@ -675,16 +727,24 @@
                                     </el-tabs>
                                 </template>
                             </template>
-                            <template v-else-if="ip_info_status == 4">
-                                <div class="my-9 mx-5 ">
-                                    <div class="text-center mb-3">
+                            <template v-else-if="metadata_status == 4">
+                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
                                         <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
                                     </div>
-                                    <div class="" v-html="linkCheck"></div>
+                                    <div class="" v-html="metadata"></div>
+                                </div>
+                            </template>
+                            <template v-else-if="metadata_status == 0">
+                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
+                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                    </div>
+                                    <div class="text-center">{{ metadata }}</div>
                                 </div>
                             </template>
                             <template v-else>
-                                <div class="mt-5 me-3">
+                                <div class="mt-5 m-3">
                                     <el-skeleton :rows="7" animated />
                                 </div>
                             </template>
@@ -715,7 +775,7 @@
                             </div>
                         </template>
                         <div class="h-450px">
-                            <template v-if="related_email_status == 3">
+                            <template v-if="Object.values(subdomain_result).length > 0">
                                 <el-table :data="subdomain_result" height="450" style="width: 100%"
                                     class-name="my-custom-table">
                                     <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="name"
@@ -798,17 +858,9 @@
                                     </el-table-column>
                                 </el-table>
                             </template>
-                            <template v-else-if="port_service_status == 4">
-                                <div class="my-9 mx-5 ">
-                                    <div class="text-center mb-3">
-                                        <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
-                                    </div>
-                                    <div class="" v-html="related_email"></div>
-                                </div>
-                            </template>
                             <template v-else>
-                                <div class="mt-5 me-3">
-                                    <el-skeleton :rows="7" animated />
+                                <div class="mt-5 m-3">
+                                    <el-skeleton :rows="10" animated />
                                 </div>
                             </template>
                         </div>
@@ -966,6 +1018,8 @@ export default defineComponent({
         const technology_status = ref<number | any>(null);
         const metadata = ref<any>({});
         const metadata_status = ref<number | any>(null);
+        const linkCheck = ref<string>('')
+        const linkCheckIP = ref<string>('')
 
         const handleClick = (data: object | any, type: String) => {
             apiData.value.description = data.description;
@@ -995,10 +1049,13 @@ export default defineComponent({
                     // domain
                     domain_info.value = (data.recon[0].domain_info !== undefined) ? data.recon[0].domain_info.message : {};
                     domain_info_status.value = (data.recon[0].domain_info !== undefined) ? data.recon[0].domain_info.status : {};
-                    checkLink(domain_info.value)
-                    // domain
+                    linkCheck.value = checkLink(domain_info.value)
+
+                    // IP
                     ip_info.value = (data.recon[0].ip_info !== undefined) ? data.recon[0].ip_info.message : {};
                     ip_info_status.value = (data.recon[0].ip_info !== undefined) ? data.recon[0].ip_info.status : {};
+                    linkCheckIP.value = checkLink(ip_info.value)
+                    console.log(ip_info.value)
 
                     // port_service
                     port_service.value = (data.recon[0].port_service !== undefined) ? data.recon[0].port_service.message : {};
@@ -1027,8 +1084,6 @@ export default defineComponent({
                     console.log(data)
                 })
                 .catch(({ response }) => {
-                    console.log(response)
-
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                 });
         }
@@ -1129,7 +1184,7 @@ export default defineComponent({
                     "action": 'continue'
                 }
             }
-            return ApiService.post(`/scan/${scanID.value}/control`, formData)
+            return ApiService.post(`recon/${scanID.value}/stop2`, formData)
                 .then(({ data }) => {
                     getData()
                     ElMessage({
@@ -1153,7 +1208,7 @@ export default defineComponent({
                     "action": 'pause'
                 }
             }
-            return ApiService.post(`/scan/${scanID.value}/control`, formData)
+            return ApiService.post(`recon/${scanID.value}/stop2`, formData)
                 .then(({ data }) => {
                     getData()
                     ElMessage({
@@ -1289,10 +1344,13 @@ export default defineComponent({
             }
             return data.charAt(0).toUpperCase() + data.slice(1);
         };
-        const linkCheck = ref<string>('')
 
         const checkLink = (data: any) => {
-            linkCheck.value = data.replace(/(http:\/\/\S+)/, '<a href="$1" target="_blank">$1</a>');
+            console.log(data)
+            if(Object.values(data).length > 0){
+                return data.replace(/(http:\/\/\S+)/, '<a href="$1" target="_blank">$1</a>');
+            }
+            return data
         };
         const countSTT = ref(1)
         const info = ref('info')
@@ -1363,7 +1421,6 @@ export default defineComponent({
             domain_info_status,
             checkArray,
             checkString,
-            checkLink,
             linkCheck,
             countSTT,
             related_domain_status,
@@ -1378,6 +1435,7 @@ export default defineComponent({
             technology_status,
             metadata_status,
             subdomain_result,
+            linkCheckIP,
         };
     },
 });
