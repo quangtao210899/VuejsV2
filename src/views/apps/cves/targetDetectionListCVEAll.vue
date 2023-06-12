@@ -41,7 +41,7 @@
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
                 :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
                 @customRow="customRowTable">
-                <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
+                <template v-slot:id="{ row: customer }">{{ customer.index }}</template>
                 <template v-slot:ip="{ row: customer }">{{ customer.ip }}</template>
                 <template v-slot:port="{ row: customer }">{{ customer.port ?? '--' }}</template>
                 <template v-slot:hostnames="{ row: customer }">
