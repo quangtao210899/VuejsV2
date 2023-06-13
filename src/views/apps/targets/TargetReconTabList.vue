@@ -48,7 +48,7 @@
 
                     <!--begin::Select-->
                     <button type="button" @click="reloadData" :disabled="checkDisabled"
-                        class="btn btn-sm w-100px h-35px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary me-2 py-1 text-white">
+                        class="btn btn-icon btn-sm w-100px h-30px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary me-2 py-1 text-white">
                         <KTIcon icon-name="arrows-loop" icon-class="fs-2 text-white" />
                         Tải lại
                     </button>
@@ -162,7 +162,7 @@
                             </el-card>
                         </el-col>
                     </el-row>
-                    <el-row :gutter="10" class="">
+                    <el-row :gutter="10">
                         <el-col :span="12" class="mb-3 mx-0">
                             <el-card shadow="hover" class="box-card rounded-3 h-100 "
                                 :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
@@ -171,7 +171,7 @@
                                         <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về Domain</span>
                                     </div>
                                 </template>
-                                <div class="h-450px">
+                                <div class="h-100">
                                     <template v-if="domain_info_status == 3">
                                         <template v-if="domain_info == '' || Object.keys(domain_info).length == 0">
                                             <div
@@ -183,8 +183,8 @@
                                             </div>
                                         </template>
                                         <template v-else>
-                                            <el-tabs model-value tab-position="left" type="border-card" :stretch="true"
-                                                class="demo-tabs border border-0 h-100" :lazy="true">
+                                            <el-tabs tab-position="left" type="border-card" :stretch="true"
+                                                class="demo-tabs2 border border-0 h-100" :lazy="true">
                                                 <el-tab-pane v-for="(items, index) in domain_info" :key="index" class="">
                                                     <template #label>
                                                         <span class="custom-tabs-label text-capitalize">
@@ -282,7 +282,7 @@
                                         <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về IP</span>
                                     </div>
                                 </template>
-                                <div class="h-450px">
+                                <div class="h-100">
                                     <template v-if="ip_info_status == 3">
                                         <template v-if="ip_info == '' || Object.keys(ip_info).length == 0">
                                             <div
@@ -496,9 +496,9 @@
                                             <!--begin::Table head-->
                                             <thead>
                                                 <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                    <th class="p-0 text-start">Tên miền</th>
-                                                    <th class="p-0 text-start">Giao thức</th>
-                                                    <th class="p-0 text-end">Cùng dải mạng?</th>
+                                                    <th class="p-0 text-start">Email</th>
+                                                    <th class="p-0 text-center">Password</th>
+                                                    <th class="p-0 text-end">Password Crack</th>
                                                 </tr>
                                             </thead>
                                             <!--end::Table head-->
@@ -509,13 +509,27 @@
                                                     <td class="text-start"><span>
                                                             <span>{{ (item.email == '') ? '--' : item.email }}</span>
                                                         </span></td>
-                                                    <td class="text-start">
-                                                        <span>{{ (item.password_crack == '') ? '--' : item.password_crack
-                                                        }}</span>
+                                                    <td class="text-center ">
+                                                        <template v-if="checkArray(item.password_crack)">
+                                                            <span class="badge badge-light text-dark"
+                                                                v-for="i in item.password_crack">{{ (i == '') ? '--' :
+                                                                    i }}</span>
+                                                        </template>
+                                                        <template v-else>
+                                                            <span class="badge badge-light-danger">{{ (item.password_crack
+                                                                == '') ? '--' : item.password_crack }}</span>
+                                                        </template>
                                                     </td>
                                                     <td class="text-end">
-                                                        <span>{{ (item.password_hash == '') ? '--' : item.password_hash
-                                                        }}</span>
+                                                        <template v-if="checkArray(item.password_hash)">
+                                                            <span class="badge badge-light text-dark"
+                                                                v-for="i in item.password_hash">{{ (i == '') ? '--' :
+                                                                    i }}</span>
+                                                        </template>
+                                                        <template v-else>
+                                                            <span class="badge badge-light-danger">{{ (item.password_hash ==
+                                                                '') ? '--' : item.password_hash }}</span>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -694,7 +708,8 @@
                         </template>
                         <div class="h-100">
                             <template v-if="metadata_status == 3 || metadata_status == '3'">
-                                <template v-if="metadata == '' || Object.values(metadata.authors).length == 0 && Object.values(metadata.software).length == 0">
+                                <template
+                                    v-if="metadata == '' || Object.values(metadata.authors).length == 0 && Object.values(metadata.software).length == 0">
                                     <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                         <div class="text-center mb-5">
                                             <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
@@ -711,24 +726,37 @@
                                                     <span>{{ index }}</span>
                                                 </span>
                                             </template>
-                                            <div class="">
-                                                <!--begin::Table container-->
-                                                <div class="table-responsive w-100 h-500px">
-                                                    <!--begin::Table-->
-                                                    <table class="table table-row-dashed table-row-gray-300 ">
-                                                        <!--begin::Table body-->
-                                                        <tbody class="overflow-y-auto w-100">
-                                                            <tr v-for="(item, key) in items" :key="key">
-                                                                <td class="text-start">
-                                                                    <span>{{ item }}</span>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <!--end::Table body-->
-                                                    </table>
-                                                    <!--end::Table-->
-                                                </div>
-                                                <!--end::Table container-->
+                                            <div class="h-500px">
+                                                <template v-if="items == '' || items == null">
+                                                    <div
+                                                        class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                        <div class="text-center mb-5">
+                                                            <i
+                                                                class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                                        </div>
+                                                        <span>Không tìm thấy dữ liệu nào!</span>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    <!--begin::Table container-->
+                                                    <div class="table-responsive w-100 ">
+                                                        <!--begin::Table-->
+                                                        <table class="table table-row-dashed table-row-gray-300 ">
+                                                            <!--begin::Table body-->
+                                                            <tbody class="overflow-y-auto w-100">
+                                                                <tr v-for="(item, key) in items" :key="key">
+                                                                    <td class="text-start">
+                                                                        <span>{{ item }}</span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <!--end::Table body-->
+                                                        </table>
+                                                        <!--end::Table-->
+                                                    </div>
+                                                    <!--end::Table container-->
+                                                </template>
+
                                             </div>
                                         </el-tab-pane>
                                     </el-tabs>
@@ -907,7 +935,7 @@
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, watch, onBeforeUnmount } from "vue";
+import { defineComponent, ref, onMounted, onBeforeUnmount } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
@@ -917,6 +945,7 @@ import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+import data from "@/views/apps/targets/reconData.json";
 
 // import dayjs from 'dayjs';
 import axios from 'axios'
@@ -1037,9 +1066,10 @@ export default defineComponent({
             loading.value = true;
             setTimeout(() => loading.value = false, 500)
             return await ApiService.get(`recon/detail3/${scanID.value}`)
-                .then(({ data }) => {
+                .then(({ data1 }) => {
                     console.log(data)
-
+                    console.log(data1)
+                    1
                     list.value = data
                     account.value = data.recon[0].account
                     services.value = data.recon[0].services
@@ -1096,7 +1126,7 @@ export default defineComponent({
                     subdomain_result.value = data.recon[0].subdomain_result
                     // humanDiffTime()
                     // showLocaleTime()
-                    console.log(technology.value )
+                    console.log(technology.value)
 
                 })
                 .catch(({ response }) => {
@@ -1159,7 +1189,7 @@ export default defineComponent({
         const reloadgetData = () => {
             disabled.value = true
             setTimeout(() => {
-              disabled.value = false
+                disabled.value = false
             }, 1000);
             getData();
             ElMessage({
@@ -1472,31 +1502,32 @@ export default defineComponent({
 });
 </script>
   
-<style>
+<style >
 .shadow-hvover {
     box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
 }
 
 .demo-tabs .el-tabs__item {
-    min-height: 100px !important;
+    min-height: 33.60% !important;
     padding: 0 10px !important;
 }
 
+.demo-tabs2 .el-tabs__item {
+    padding: 0 10px !important;
+    min-height: 25.25% !important;
+}
+
+.demo-tabs2 .el-tabs__content,
 .demo-tabs .el-tabs__content {
     padding: 0px !important;
 }
 
+.demo-tabs2 .el-tabs__nav,
 .demo-tabs .el-tabs__nav {
-    justify-content: space-between;
     height: 100%;
 }
 
-/* .my-custom-table .cell {
-    padding: 10px !important;
-} */
-
 .my-custom-table td.el-table__cell {
     border-bottom-style: dashed !important;
-}
-</style>
+}</style>
   
