@@ -822,7 +822,7 @@
                                         align="center">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal">
-                                                {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
+                                                {{ (scope.row.title == '') ? '--' : scope.row.title }}</span>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP"
@@ -1038,6 +1038,8 @@ export default defineComponent({
             setTimeout(() => loading.value = false, 500)
             return await ApiService.get(`recon/detail3/${scanID.value}`)
                 .then(({ data }) => {
+                    console.log(data)
+
                     list.value = data
                     account.value = data.recon[0].account
                     services.value = data.recon[0].services
@@ -1062,12 +1064,13 @@ export default defineComponent({
                     // domain
                     domain_info.value = (data.recon[0].domain_info !== undefined) ? data.recon[0].domain_info.message : {};
                     domain_info_status.value = (data.recon[0].domain_info !== undefined) ? data.recon[0].domain_info.status : {};
-                    linkCheck.value = checkLink(domain_info.value)
+                    linkCheck.value = (domain_info_status.value == 4) ? checkLink(domain_info.value) : ''
 
                     // IP
                     ip_info.value = (data.recon[0].ip_info !== undefined) ? data.recon[0].ip_info.message : {};
                     ip_info_status.value = (data.recon[0].ip_info !== undefined) ? data.recon[0].ip_info.status : {};
-                    linkCheckIP.value = checkLink(ip_info.value)
+                    linkCheckIP.value = (ip_info_status.value == 4) ? checkLink(ip_info.value) : ''
+
 
                     // port_service
                     port_service.value = (data.recon[0].port_service !== undefined) ? data.recon[0].port_service.message : {};
@@ -1090,10 +1093,10 @@ export default defineComponent({
                     technology_status.value = (data.recon[0].technology !== undefined) ? data.recon[0].technology.status : {};
 
                     // subdomain_result
-                    // subdomain_result.value = data.recon[0].subdomain_result
+                    subdomain_result.value = data.recon[0].subdomain_result
                     // humanDiffTime()
                     // showLocaleTime()
-                    console.log(data)
+                    console.log(technology.value )
 
                 })
                 .catch(({ response }) => {
