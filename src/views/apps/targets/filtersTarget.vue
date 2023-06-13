@@ -100,19 +100,31 @@ export default defineComponent({
             query: '',
             type: '',
         });
-        watch(debouncedSearchTerm, debounceSearch);
-        watch(
-            data.value,
-            debounceSearch
-        );
+
+        let isReset = false;
+
+        watch(debouncedSearchTerm, () => {
+            if (!isReset) {
+                debounceSearch();
+            }
+            isReset = false
+        });
+        watch(data.value, () => {
+            if (!isReset) {
+                submit();
+            }
+            isReset = false
+        });
 
         // const emit = defineEmits(['filter-data'])
 
         const reset = () => {
+            isReset = true;
             check_return = 0
             debouncedSearchTerm.value = '';
             data.value.query = '';
             data.value.type = '';
+            submit()
         };
 
         return {
