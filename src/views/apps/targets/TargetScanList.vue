@@ -957,10 +957,3 @@ export default defineComponent({
     },
 });
 </script>
-
-<style lang="scss">
-.override-styles {
-  z-index: 99999 !important;
-  pointer-events: initial;
-}
-</style>

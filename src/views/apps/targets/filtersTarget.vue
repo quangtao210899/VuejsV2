@@ -35,8 +35,8 @@
 
                 <el-form-item prop="assign">
 
-                    <el-select v-model="data.type" placeholder="Chọn nhóm mục tiêu" name="type" as="select" height="40px"
-                        class="input-group-lg">
+                    <el-select v-model="data.type" placeholder="Chọn nhóm mục tiêu" name="type" as="select" height="40px" 
+                        class="input-group-lg w-100">
                         <el-option value="">Chọn nhóm mục tiêu</el-option>
                         <el-option :label="item.title" :value="item.id" v-for="item in dataGroup">{{ item.title
                         }}</el-option>

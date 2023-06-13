@@ -255,7 +255,7 @@
                 <!--end::Tab nav-->
 
                 <!--begin::Actions-->
-                <div class="d-flex my-0 mx-2">
+                <div class=" mx-2">
                     <!--begin::Select-->
                     <button type="button" @click="reloadData" :disabled="checkDisabled"
                         class="btn btn-icon btn-sm w-100px h-30px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
@@ -267,9 +267,9 @@
                 <!--end::Actions-->
 
                 <!--begin::Actions-->
-                <div class="d-flex my-0">
+                <div class="">
                     <!--begin::Select-->
-                    <el-select v-model="eventTime" class="d-block w-150px" height="40px" size="default" as="select">
+                    <el-select v-model="eventTime" clearable  class="w-150px">
                         <el-option value="300000" key="300000" label="5 phút" />
                         <el-option value="60000" key="60000" label="1 phút" />
                         <el-option value="30000" key="30000" label="30 giây" />
@@ -1364,9 +1364,9 @@ export default defineComponent({
     height: calc(100% - 70px) !important;
 }
 
-.el-select .el-input__wrapper {
+/* .el-select .el-input__wrapper {
     height: 35px !important;
-}
+} */
 
 /* cursor: col-resize; */
 .drag-handle {
