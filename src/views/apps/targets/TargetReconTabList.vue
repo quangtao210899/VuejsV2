@@ -693,7 +693,7 @@
                             </div>
                         </template>
                         <div class="h-100">
-                            <template v-if="metadata_status == 3">
+                            <template v-if="metadata_status == 3 || metadata_status == '3'">
                                 <template v-if="metadata == '' || Object.values(metadata.authors).length == 0 && Object.values(metadata.software).length == 0">
                                     <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                         <div class="text-center mb-5">
@@ -898,8 +898,8 @@
         </div>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="fileDownVisible = false">Hủy bỏ</el-button>
-                <el-button type="primary" @click="downloadAcunetix">Tải về</el-button>
+                <el-button @click="fileDownVisible = false" :disabled="disabled">Hủy bỏ</el-button>
+                <el-button type="primary" :disabled="disabled" @click="downloadAcunetix">Tải về</el-button>
             </span>
         </template>
     </el-dialog>
@@ -1027,6 +1027,7 @@ export default defineComponent({
         const metadata_status = ref<number | any>(null);
         const linkCheck = ref<string>('')
         const linkCheckIP = ref<string>('')
+        const disabled = ref<boolean>(false);
 
         const handleClick = (data: object | any, type: String) => {
             apiData.value.description = data.description;
@@ -1153,6 +1154,10 @@ export default defineComponent({
 
         // reloadData
         const reloadgetData = () => {
+            disabled.value = true
+            setTimeout(() => {
+              disabled.value = false
+            }, 1000);
             getData();
             ElMessage({
                 message: 'Tải lại thành công',
@@ -1168,7 +1173,6 @@ export default defineComponent({
         const checkPauser = ref<boolean>(false);
         const checkDisabled = ref<boolean>(false);
         const handlePauser = async () => {
-
             checkDisabled.value = true
             setTimeout(() => {
                 checkDisabled.value = false;
@@ -1261,6 +1265,10 @@ export default defineComponent({
         // tải về files
         const fileDownVisible = ref(false)
         const downloadAcunetix = async () => {
+            checkDisabled.value = true
+            setTimeout(() => {
+                checkDisabled.value = false
+            }, 1000);
             axios({
                 url: `/recon/${scanID.value}/download`, //your url
                 method: 'POST',
@@ -1279,7 +1287,7 @@ export default defineComponent({
                 // xử lý hiển thị lỗi 
                 const reponse_message = JSON.parse(await error.response.data.text()).detail ?? "Có lỗi xảy ra"
                 ElMessage({
-                    message: reponse_message ?? 'Tạm dừng thành công',
+                    message: reponse_message,
                     type: 'success',
                     center: false,
                 })
@@ -1455,6 +1463,7 @@ export default defineComponent({
             metadata_status,
             subdomain_result,
             linkCheckIP,
+            disabled,
         };
     },
 });

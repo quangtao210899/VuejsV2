@@ -15,8 +15,7 @@
       <div class="card-toolbar">
         <!--begin::Toolbar-->
         <div v-show="selectedIds.length === 0">
-          <div class="d-flex justify-content-end "
-            data-kt-subscription-table-toolbar="base">
+          <div class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
             <!--begin::Export-->
             <!-- <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
               data-bs-target="#kt_subscriptions_export_modal">
@@ -25,7 +24,7 @@
             </button> -->
             <!--end::Export-->
             <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top"> 
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
               <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary"
                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
                 <KTIcon icon-name="filter" icon-class="fs-2" />
@@ -45,8 +44,9 @@
             <div class="fw-bold me-5">
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">  
-              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
+              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" :disabled="disabled"
+                class="btn btn-danger  btn-sm">
                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
                 Delete Selected
               </button>
@@ -99,7 +99,8 @@
               </span>
             </template>
             <template v-slot:status="{ row: customer }">
-              <div class="text-end"> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ?? '--' }}</span>
+              <div class="text-end"> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status
+                ?? '--' }}</span>
               </div>
             </template>
           </KTDatatable>
@@ -119,9 +120,9 @@
         <div class="ms-3 pb-10 affix-container">
           <div class="card-title py-5 ">
             <h2 class="fw-bold pe-15 mt-5 fs-1">{{ detailData.vt_name }}</h2>
-            <div class="position-absolute translate-middle-y" :style="{top: '50px', right: '10px'}">
+            <div class="position-absolute translate-middle-y" :style="{ top: '50px', right: '10px' }">
               <el-affix target=".affix-container" :offset="170">
-                <button @click="handleCloseDetail" type="button" class="btn zindex-fixed btn-icon ">
+                <button @click="handleCloseDetail" type="button" class="btn zindex-fixed btn-icon " :disabled="disabled">
                   <KTIcon icon-name="abstract-11" icon-class="text-dark" :style="{ fontSize: '22px' }" />
                 </button>
               </el-affix>
@@ -412,7 +413,6 @@
     </div>
     <!--end::Modal dialog-->
   </div>
-
 </template>
 
 <script lang="ts">
@@ -567,11 +567,15 @@ export default defineComponent({
     const deleteFewSubscriptions = () => {
       deleteSubscription(selectedIds.value);
     };
-
+    const disabled = ref<boolean>(false);
     const ModalDelete = ref<null | HTMLElement>(null);
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
         let formData = { id: ids }
+        disabled.value = true
+        setTimeout(() => {
+          disabled.value = false
+        }, 1000);
         return ApiService.post('vuls/multi_delete', formData)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
@@ -636,6 +640,10 @@ export default defineComponent({
 
     const updateData = async () => {
       // console.log( dataModal.value)
+      disabled.value = true
+        setTimeout(() => {
+          disabled.value = false
+        }, 1000);
       let form_data = {
         severity: detailData.severity,
         status: detailData.status
@@ -643,7 +651,6 @@ export default defineComponent({
       return ApiService.put(`/vuls/${detailData.id}/update`, form_data)
         .then(({ data }) => {
           notification(data.detail, 'success', 'Update thành công')
-
           getData();
         })
         .catch(({ response }) => {
@@ -720,7 +727,7 @@ export default defineComponent({
 
     const startDragging = (event: any) => {
       startX = event.clientX;
-      const handleDragging = (e : any) => {
+      const handleDragging = (e: any) => {
         const deltaX = e.clientX - startX;
 
         leftWidth.value += deltaX;
@@ -851,6 +858,7 @@ export default defineComponent({
       handleMouseDown,
       contentWidth,
       container,
+      disabled,
     };
   },
 });

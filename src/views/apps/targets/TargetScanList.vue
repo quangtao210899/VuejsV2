@@ -35,7 +35,7 @@
     
                         <!--begin::Add subscription-->
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan mục tiêu" placement="top">
-                            <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
+                            <button  :disabled="disabled" type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                                 <KTIcon icon-name="plus" icon-class="fs-2" />
                                 Quét
@@ -53,7 +53,7 @@
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
+                            <button  :disabled="disabled" type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
                                 Delete Selected
                             </button>
                         </el-tooltip>
@@ -351,7 +351,7 @@
                     </div>
 
                     <div class="modal-footer flex-center">
-                        <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
+                        <button ref="discardButtonRef"  :disabled="disabled" type="reset" id="kt_modal_new_target_group_cancel"
                             class="btn btn-sm  btn-light me-3">
                             Discard
                         </button>
@@ -388,10 +388,10 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm  btn-light" data-bs-dismiss="modal">
+                    <button type="button" :disabled="disabled" class="btn btn-sm  btn-light" data-bs-dismiss="modal">
                         Hủy bỏ
                     </button>
-                    <button type="button" class="btn btn-sm  btn-primary" @click.passive="deleteFewSubscriptions()">
+                    <button type="button" :disabled="disabled" class="btn btn-sm  btn-primary" @click.passive="deleteFewSubscriptions()">
                         Đồng ý
                     </button>
                 </div>
@@ -463,7 +463,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal" :disabled="disabled">
                         Quay lại
                     </button>
                 </div>
@@ -576,6 +576,8 @@ export default defineComponent({
                 nuclei_check: false,
             },
         });
+        const disabled = ref<boolean>(false);
+
         // const target_id = ref(null);
         const getIdFromUrl = () => {
             const url = window.location.href;
@@ -698,6 +700,10 @@ export default defineComponent({
         const ModalDelete = ref<null | HTMLElement>(null);
         const deleteSubscription = (ids: Array<number>) => {
             if (ids) {
+                disabled.value = true
+                setTimeout(() => {
+                    disabled.value = false
+                }, 1000);
                 return ApiService.delete(`scan/multi-delete?id=${ids}`)
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
@@ -719,7 +725,6 @@ export default defineComponent({
         };
         const customRowTable = (detail: any) => {
             if (detail) {
-                
                 detailData.username = detail.user.username
                 detailData.finished_at = detail.finishedAt
                 detailData.status = detail.status
@@ -836,7 +841,7 @@ export default defineComponent({
                 
                 return ApiService.post("scan/create/", scanFormState)
                     .then(({ data }) => {
-                        
+                        notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
                         if(submitButtonRef.value){
                             //Disable button
                             submitButtonRef.value.disabled = true;
@@ -847,11 +852,10 @@ export default defineComponent({
                                     submitButtonRef.value.disabled = false;
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
-                                notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
-                                getData();
 
                             }, 1000);
                         }
+                        getData();
                     })
                     .catch((response) => {
                         let r = response.response
@@ -947,15 +951,9 @@ export default defineComponent({
             headerInputValue,
             eyePassword,
             eyeButtonRef,
-            targetId
+            targetId,
+            disabled,
         };
     },
 });
 </script>
-
-<style lang="scss">
-.override-styles {
-  z-index: 99999 !important;
-  pointer-events: initial;
-}
-</style>

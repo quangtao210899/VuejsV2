@@ -3,12 +3,12 @@
         <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
             <div class="card-toolbar">
                 <div v-show="selectedIds.length === 0">
-                    <div class="d-flex justify-content-end"
-                        data-kt-subscription-table-toolbar="base">
+                    <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
                             <button type="button"
                                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+                                data-kt-menu-flip="top-end">
                                 <KTIcon icon-name="filter" icon-class="fs-2" />
                                 Filter
                             </button>
@@ -16,7 +16,8 @@
                         <Fillter @filterData="handleFilter"></Fillter>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top">
                             <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
+                                data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')"
+                                :disabled="disabled">
                                 <KTIcon icon-name="plus" icon-class="fs-2" />
                                 Thêm
                             </button>
@@ -30,7 +31,7 @@
                         </div>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
                             <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
-                                class="btn btn-danger btn-sm ">
+                                class="btn btn-danger btn-sm " :disabled="disabled">
                                 Delete Selected
                             </button>
                         </el-tooltip>
@@ -58,13 +59,14 @@
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan" placement="top">
-                        <router-link :to="`cve/${customer.id}/scan`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
+                        <router-link :to="`cve/${customer.id}/scan`"
+                            class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
                             <KTIcon icon-name="search-list" icon-class="fs-3" />
                         </router-link>
                     </el-tooltip>
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
                         <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
-                            data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
+                            data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group" :disabled="disabled"
                             @click="handleClick(customer, 'edit')">
                             <KTIcon icon-name="pencil" icon-class="fs-3" />
                         </button>
@@ -98,8 +100,9 @@
                                     <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                         <span class="required">Mã CVE</span>
                                     </label>
-                                    <Field type="text" class="form-control form-control-solid" placeholder="CVE-YYYY-xxxxxx" @keydown="removeErrorMsgText" style="height: 40px;"
-                                        name="code" v-model="apiData.code" />
+                                    <Field type="text" class="form-control form-control-solid" placeholder="CVE-YYYY-xxxxxx"
+                                        @keydown="removeErrorMsgText" style="height: 40px;" name="code"
+                                        v-model="apiData.code" />
                                     <div class="fv-plugins-message-container">
                                         <div class="fv-help-block">
                                             <ErrorMessage name="code" />
@@ -113,21 +116,17 @@
                                         <span class="required">Loại sản phẩm</span>
                                     </label>
                                     <el-form-item prop="assign">
-                                        <el-select name="product_type" placeholder="Select"
-                                            @change="removeErrorMsgOption"
+                                        <el-select name="product_type" placeholder="Select" @change="removeErrorMsgOption"
                                             v-model="apiData.product_type">
                                             <!-- <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option> -->
-                                            <el-option
-                                                v-for="item in dataProduct"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value"
-                                            />
+                                            <el-option v-for="item in dataProduct" :key="item.value" :label="item.label"
+                                                :value="item.value" />
                                         </el-select>
                                         <div class="fv-plugins-message-container">
                                             <div class="fv-help-block">
                                                 <ErrorMessage name="product_type" />
-                                                <span class="" v-if="errors.product_type">{{ errors.product_type[0] }}</span>
+                                                <span class="" v-if="errors.product_type">{{ errors.product_type[0]
+                                                }}</span>
                                             </div>
                                         </div>
                                     </el-form-item>
@@ -137,16 +136,11 @@
                                         <span class="required">Loại lỗ hổng</span>
                                     </label>
                                     <el-form-item prop="assign">
-                                        <el-select name="vul_type" placeholder="Select"
-                                            @change="removeErrorMsgOption"
+                                        <el-select name="vul_type" placeholder="Select" @change="removeErrorMsgOption"
                                             v-model="apiData.vul_type">
                                             <!-- <el-option label="Chọn loại lỗ hổng" value="">Chọn loại lỗ hổng</el-option> -->
-                                            <el-option
-                                                v-for="item in dataVul"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value"
-                                            />
+                                            <el-option v-for="item in dataVul" :key="item.value" :label="item.label"
+                                                :value="item.value" />
                                         </el-select>
                                         <div class="fv-plugins-message-container">
                                             <div class="fv-help-block">
@@ -326,49 +320,58 @@
                             <div class="mb-10">
                                 <h6>Thông tin chi tiết:</h6>
                                 <div class="py-5">
-                    <!--begin::Row-->
-                    <div class="me-5">
-                      <!--begin::Details-->
-                      <div>
-                        <div class="row fs-6 mb-3">
-                          <div class="col-3 text-gray-400">Loại sản phẩm:</div>
-                          <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.product_text ? detailData.product_text : '--:--' }}</span></div>
-                        </div>
-                        <div class="row fs-6 mb-3">
-                          <div class="col-3 text-gray-400">Loại lỗ hổng:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.vul_text ? detailData.vul_text: '--:--' }}</span></div>
-                        </div>
-                        <div class="row fs-6 mb-3">
-                          <div class="col-3 text-gray-400">Mô tả:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.description ? detailData.description: '--:--' }}</span></div>
-                        </div>
-                        <div class="row fs-6 mb-3">
-                          <div class="col-3 text-gray-400">Phiên bản:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.version ? detailData.version:'--:--' }}</span></div>
-                        </div>
-                        <div class="row fs-6 mb-3">
-                          <div class="col-3 text-gray-400">Shodan dock:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.shodan_dock ? detailData.shodan_dock: '--:--' }}</span></div>
-                        </div>
-                        <div class="row fs-6 mb-3">
-                          <div class="col-3 text-gray-400">POC:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.poc ? detailData.poc: '--:--' }}</span></div>
-                        </div>
-                        <div class="row fs-6 mb-3">
-                          <div class="col-3 text-gray-400">Ngày tạo:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.created_at }}</span></div>
-                        </div>
-                        <div class="row fs-6">
-                          <div class="col-3 text-gray-400">Ngày cập nhập:</div>
-                          <div class="col-9 text-gray-800"><span>{{ detailData.modified_at }}</span></div>
-                        </div>
-                      </div>
-                      <!--end::Details-->
-                    </div>
-                    <!--end::Row-->
+                                    <!--begin::Row-->
+                                    <div class="me-5">
+                                        <!--begin::Details-->
+                                        <div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Loại sản phẩm:</div>
+                                                <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{
+                                                    detailData.product_text ? detailData.product_text : '--:--'
+                                                }}</span></div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Loại lỗ hổng:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.vul_text ?
+                                                    detailData.vul_text : '--:--' }}</span></div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Mô tả:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.description ?
+                                                    detailData.description : '--:--' }}</span></div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Phiên bản:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.version ?
+                                                    detailData.version : '--:--' }}</span></div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Shodan dock:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.shodan_dock ?
+                                                    detailData.shodan_dock : '--:--' }}</span></div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">POC:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.poc ? detailData.poc :
+                                                    '--:--' }}</span></div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3 text-gray-400">Ngày tạo:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.created_at }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row fs-6">
+                                                <div class="col-3 text-gray-400">Ngày cập nhập:</div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.modified_at }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Details-->
+                                    </div>
+                                    <!--end::Row-->
 
-                  </div>
-            
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -784,9 +787,9 @@ export default defineComponent({
             errors.vul_type = ''
             errors.description = ''
             errors.version = '',
-            errors.shodan_dock = '',
-            errors.poc = '',
-            errors.detail = ''
+                errors.shodan_dock = '',
+                errors.poc = '',
+                errors.detail = ''
             if (Object.keys(data).length != 0 && type === 'edit') {
                 nameType.value = "Chỉnh sửa CVE"
                 apiData.value.code = data.code;
@@ -858,6 +861,7 @@ export default defineComponent({
         const removeErrorMsgText = () => {
             errors.code = ''
         };
+        const disabled = ref<boolean>(false);
 
         const ModalDelete = ref<null | HTMLElement>(null);
         const deleteSubscription = (ids: Array<number>) => {
@@ -865,6 +869,10 @@ export default defineComponent({
                 'id': ids
             }
             if (ids) {
+                disabled.value = true
+                setTimeout(() => {
+                    disabled.value = false
+                }, 1000);
                 return ApiService.post(`cve/delete`, formData)
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
@@ -917,7 +925,7 @@ export default defineComponent({
         const modalRef = ref<null | HTMLElement>(null);
         const newTargetGroupModalRef = ref<null | HTMLElement>(null);
         const PatternCVECode = /^[Cc][Vv][Ee]-\d{4}-\d+$/
-        
+
 
         const validationSchema = Yup.object().shape({
             code: Yup.string()
@@ -967,6 +975,8 @@ export default defineComponent({
             if (typeModal.value == 'add') {
                 return ApiService.post("cve/create/", formData)
                     .then(({ data }) => {
+                        notification(data.detail, 'success', 'Thêm mới thành công')
+                        getData();
                         if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;
@@ -977,8 +987,7 @@ export default defineComponent({
                                     submitButtonRef.value.disabled = false;
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
-                                notification(data.detail, 'success', 'Thêm mới thành công')
-                                getData();
+
 
                             }, 1000);
                         }
@@ -1000,6 +1009,8 @@ export default defineComponent({
             } else {
                 return ApiService.put(`/cve/${id.value}/update/`, formData)
                     .then(({ data }) => {
+                        notification(data.detail, 'success', 'Sửa mới thành công')
+                        getData();
                         if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;
@@ -1010,8 +1021,7 @@ export default defineComponent({
                                     submitButtonRef.value.disabled = false;
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
-                                notification(data.detail, 'success', 'Sửa mới thành công')
-                                getData();
+
                             }, 1000);
                         }
 
@@ -1109,6 +1119,7 @@ export default defineComponent({
 
             removeErrorMsgOption,
             removeErrorMsgText,
+            disabled,
         };
     },
 });
@@ -1117,5 +1128,4 @@ export default defineComponent({
 <style>
 .el-select .el-input__wrapper {
     height: 40px !important;
-}
-</style>
+}</style>

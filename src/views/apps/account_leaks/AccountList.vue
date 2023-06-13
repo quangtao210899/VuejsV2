@@ -30,8 +30,8 @@
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
-                class="btn btn-danger btn-sm">
+              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm"
+                :disabled="disabled">
                 Delete Selected
               </button>
             </el-tooltip>
@@ -102,7 +102,9 @@
                   <label class="form-check-label">
                     <el-switch v-model="apiData.is_ok" class="ml-2"
                       style="--el-switch-on-color: #13ce66; --el-switch-off-color: #f1416C" />
-                    <span class="form-check-label user-select-none">{{ apiData.is_ok?"Đã kiểm tra": "Chưa kiểm tra"}}</span>
+                    <span class="form-check-label user-select-none">
+                      {{ apiData.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra"}}
+                    </span>
                   </label>
                 </div>
                 <!--end::Switch-->
@@ -143,8 +145,7 @@
               <div class="d-flex flex-column mb-5 fv-row">
                 <label class="fs-6 fw-semobold mb-2 required">Password Hash</label>
                 <Field as="textarea" class="form-control form-control-solid" rows="3" name="password_hash"
-                  placeholder="Nhập password hash"
-                  v-model="apiData.password_hash" />
+                  placeholder="Nhập password hash" v-model="apiData.password_hash" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="password_hash" />
@@ -218,9 +219,9 @@
           <div class="modal-footer flex-center">
             <!--begin::Button-->
             <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
-                            class="btn btn-sm  btn-light me-3">
-                            Discard
-                        </button>
+              class="btn btn-sm  btn-light me-3">
+              Discard
+            </button>
             <!--end::Button-->
 
             <!--begin::Button-->
@@ -634,6 +635,7 @@ const removeErrorMsgText = () => {
   errors.password_crack = "";
   errors.password_hash = "";
 };
+const disabled = ref<boolean>(false);
 
 const ModalDelete = ref<null | HTMLElement>(null);
 const deleteSubscription = (ids: Array<number>) => {
@@ -641,6 +643,10 @@ const deleteSubscription = (ids: Array<number>) => {
     id: ids,
   };
   if (ids) {
+    disabled.value = true
+    setTimeout(() => {
+      disabled.value = false
+    }, 1000);
     return ApiService.post(`account-leak/delete`, formData)
       .then(({ data }) => {
         notification(data.detail, "success", "Xóa thành công");
@@ -695,12 +701,12 @@ const newTargetGroupModalRef = ref<null | HTMLElement>(null);
 const usernameMatchingPattern = /[0-9a-zA-Z]+$/;
 
 const validationSchema = Yup.object().shape({
-  username: Yup.mixed().test('required', 'Hãy điền vào Email hoặc Username', function(value) {
+  username: Yup.mixed().test('required', 'Hãy điền vào Email hoặc Username', function (value) {
     const { email } = this.parent;
     return !!value || !!email;
   }),
   email: Yup.string().nullable(),
-  password_hash: Yup.mixed().test('required', 'Hãy điền vào Password Hash hoặc Password Crack', function(value) {
+  password_hash: Yup.mixed().test('required', 'Hãy điền vào Password Hash hoặc Password Crack', function (value) {
     const { password_crack } = this.parent;
     return !!value || !!password_crack;
   }),
@@ -804,6 +810,8 @@ const submit = async () => {
   if (typeModal.value == "add") {
     return ApiService.post("account-leak/create", formData)
       .then(({ data }) => {
+        notification(data.detail, "success", "Thêm mới thành công");
+        getData();
         if (submitButtonRef.value) {
           //Disable button
           submitButtonRef.value.disabled = true;
@@ -814,15 +822,14 @@ const submit = async () => {
               submitButtonRef.value.disabled = false;
               submitButtonRef.value?.removeAttribute("data-kt-indicator");
             }
-            notification(data.detail, "success", "Thêm mới thành công");
-            getData();
+
           }, 1000);
         }
       })
       .catch(({ response }) => {
         if (response?.data) {
           console.log(response?.data);
-          
+
           errors.username = response.data.username;
           errors.email = response.data.email;
           errors.password_hash = response.data.password_hash;
@@ -837,6 +844,12 @@ const submit = async () => {
   } else {
     return ApiService.put(`/account-leak/${id.value}/update/`, formData)
       .then(({ data }) => {
+        notification(
+          data.detail,
+          "success",
+          "Thao tác thực hiện thành công",
+        );
+        getData();
         if (submitButtonRef.value) {
           //Disable button
           submitButtonRef.value.disabled = true;
@@ -847,12 +860,7 @@ const submit = async () => {
               submitButtonRef.value.disabled = false;
               submitButtonRef.value?.removeAttribute("data-kt-indicator");
             }
-            notification(
-              data.detail,
-              "success",
-              "Thao tác thực hiện thành công",
-            );
-            getData();
+
           }, 1000);
         }
       })

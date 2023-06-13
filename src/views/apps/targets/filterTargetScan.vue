@@ -36,7 +36,7 @@
                 <el-form-item prop="assign">
 
                     <el-select v-model="data.status" placeholder="Chọn trạng thái" name="status" as="select" height="40px"
-                        class="input-group-lg">
+                        class="input-group-lg w-100">
                         <el-option value="">Chọn trạng thái</el-option>
                         <el-option label="Chưa thực hiện" value="1">Chưa thực hiện</el-option>
                         <el-option label="Đang thực hiện" value="2">Đang thực hiện</el-option>

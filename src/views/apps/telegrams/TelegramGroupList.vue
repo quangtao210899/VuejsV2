@@ -15,7 +15,7 @@
       <div class="card-toolbar">
         <!--begin::Toolbar-->
         <div v-show="selectedIds.length === 0">
-          <div  class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
+          <div class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
             <!--begin::Export-->
             <!-- <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
               data-bs-target="#kt_subscriptions_export_modal">
@@ -25,13 +25,8 @@
             <!--end::Export-->
             <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
-              <button
-                type="button"
-                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                data-kt-menu-trigger="click"
-                data-kt-menu-placement="bottom-end"
-                data-kt-menu-flip="top-end"
-              >
+              <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
                 <KTIcon icon-name="filter" icon-class="fs-2" />
                 Filter
               </button>
@@ -40,14 +35,17 @@
             <Fillter @filterData="handleFilter"></Fillter>
             <!--begin::Add subscription-->
             <!--end::Add subscription-->
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Cấu hình thời gian lấy tin nhắn" placement="top">
-              <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click.passive="handleSubmitSetting">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Cấu hình thời gian lấy tin nhắn"
+              placement="top">
+              <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click.passive="handleSubmitSetting"
+                :disabled="disabled">
                 <KTIcon icon-name="setting-2" icon-class="fs-2" />
                 Cấu hình
               </button>
             </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng bộ toàn bộ tin nhắn" placement="top"> 
-              <button type="button"  class="btn btn-sm fw-bold btn-success me-2" @click.passive="handleSyncAll">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng bộ toàn bộ tin nhắn" placement="top">
+              <button type="button" class="btn btn-sm fw-bold btn-success me-2" @click.passive="handleSyncAll"
+                :disabled="disabled">
                 <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
                 Đồng bộ All
               </button>
@@ -58,16 +56,16 @@
               <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
               Đồng bộ All
             </button> -->
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top"> 
-              <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick({},'add')">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top">
+              <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal" :disabled="disabled"
+                data-bs-target="#kt_modal_new_telegram_group" @click.passive="handleClick({}, 'add')">
                 <KTIcon icon-name="plus-circle" icon-class="fs-2" />
                 Thêm
               </button>
             </el-tooltip>
 
           </div>
-        <!--end::Toolbar-->
+          <!--end::Toolbar-->
         </div>
 
         <!--begin::Group actions-->
@@ -77,8 +75,9 @@
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-              <button type="button"  data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger  btn-sm">
-                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{fontSize: '16px' }" />
+              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                class="btn btn-danger  btn-sm" :disabled="disabled">
+                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
                 Delete Selected
               </button>
             </el-tooltip>
@@ -93,43 +92,50 @@
     </div>
     <!--end::Card header-->
 
-    <div class="hand-height-2 shadow-hvover"> 
+    <div class="hand-height-2 shadow-hvover">
       <!--begin::Card body-->
       <div class="card-body overflow-y-auto overflow-x-hidden h-100 p-0 m-0 ">
-        <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
-          :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage" 
-          @page-change="handlePage"  @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+        <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
+          :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
+          :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
+          @customRow="customRowTable">
           <template v-slot:id="{ row: customer }">{{ customer.id ?? '--' }}</template>
           <template v-slot:name="{ row: customer }">
-            <span class="text-dark text-hover-primary ">{{customer.name ?? '--' }}</span>
+            <span class="text-dark text-hover-primary ">{{ customer.name ?? '--' }}</span>
           </template>
           <template v-slot:date_update="{ row: customer }">{{ formatDate(customer.date_update) }}</template>
           <template v-slot:total_message="{ row: customer }">
             <div class="badge badge-light">{{ customer.total_message ?? 0 }}</div>
           </template>
-          <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--' }}</template>
+          <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--'
+          }}</template>
           <template v-slot:status="{ row: customer }">
-            <KTIcon v-on:click.stop @click.passive="updateStatus(customer)" :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(customer.status == 0) ? 'fs-3x text-success' :'fs-3x text-danger'"/>
+            <KTIcon v-on:click.stop @click.passive="updateStatus(customer)" :disabled="disabled"
+              :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'"
+              :icon-class="(customer.status == 0) ? 'fs-3x text-success' : 'fs-3x text-danger'" />
           </template>
           <template v-slot:actions="{ row: customer }">
-          <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng bộ" placement="top">
-            <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" :disabled="disabledButton" ref="submitButtonRef" @click.passive="handleSyncItem(customer)">
-              <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
-            </button>
-          </el-tooltip>
-          <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết tin nhắn" placement="top">  
-            <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" @click.passive="handleClick(customer, 'detail')" >
-              <KTIcon icon-name="eye" icon-class="fs-3" />
-            </button>
-          </el-tooltip>
-          <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
-            <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" data-bs-toggle="modal"
-              data-bs-target="#kt_modal_new_telegram_group"  @click.passive="handleClick(customer, 'edit')">
-              <KTIcon icon-name="pencil" icon-class="fs-3" />
-            </button>
-          </el-tooltip>
-        </template>        
-      </KTDatatable>
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng bộ" placement="top">
+              <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1"
+                :disabled="disabledButton" ref="submitButtonRef" @click.passive="handleSyncItem(customer)">
+                <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
+              </button>
+            </el-tooltip>
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết tin nhắn" placement="top">
+              <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
+                @click.passive="handleClick(customer, 'detail')">
+                <KTIcon icon-name="eye" icon-class="fs-3" />
+              </button>
+            </el-tooltip>
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
+              <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
+                data-bs-toggle="modal" data-bs-target="#kt_modal_new_telegram_group"
+                @click.passive="handleClick(customer, 'edit')" :disabled="disabled">
+                <KTIcon icon-name="pencil" icon-class="fs-3" />
+              </button>
+            </el-tooltip>
+          </template>
+        </KTDatatable>
       </div>
       <!--end::Card body-->
     </div>
@@ -137,9 +143,9 @@
   </div>
   <!--end::Card-->
 
-    <!-- modal  -->
-    <div class="modal fade" tabindex="-1" id="kt_modal_new_telegram_group"    
-    ref="newTargetTelegramModalRef" aria-hidden="true">
+  <!-- modal  -->
+  <div class="modal fade" tabindex="-1" id="kt_modal_new_telegram_group" ref="newTargetTelegramModalRef"
+    aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
       <!--begin::Modal content-->
@@ -151,10 +157,7 @@
           <!--end::Modal title-->
 
           <!--begin::Close-->
-          <div
-            class="btn btn-sm btn-icon btn-active-color-primary"
-            data-bs-dismiss="modal"
-          >
+          <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
             <KTIcon icon-name="cross" icon-class="fs-1" />
           </div>
           <!--end::Close-->
@@ -162,45 +165,25 @@
         <!--end::Modal header-->
 
         <!--begin::Form-->
-        <VForm
-          id="kt_modal_new_telegram_group_form"
-          class="form"
-          @submit="submit"
-          :validation-schema="validationSchema"
-        >
+        <VForm id="kt_modal_new_telegram_group_form" class="form" @submit="submit" :validation-schema="validationSchema">
           <!--begin::Modal body-->
           <div class="modal-body py-10 px-lg-17">
             <!--begin::Scroll-->
-            <div
-              class="scroll-y me-n7 pe-7"
-              id="kt_modal_new_telegram_group_scroll"
-              data-kt-scroll="true"
-              data-kt-scroll-activate="{default: false, lg: true}"
-              data-kt-scroll-max-height="auto"
+            <div class="scroll-y me-n7 pe-7" id="kt_modal_new_telegram_group_scroll" data-kt-scroll="true"
+              data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
               data-kt-scroll-dependencies="#kt_modal_new_telegram_group_header"
-              data-kt-scroll-wrappers="#kt_modal_new_telegram_group_scroll"
-              data-kt-scroll-offset="300px"
-            >
+              data-kt-scroll-wrappers="#kt_modal_new_telegram_group_scroll" data-kt-scroll-offset="300px">
               <!--begin::Input group-->
               <div class="mb-5 fv-row">
                 <!--begin::Label-->
                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                <span class="required">Tên nhóm Telegram</span>
-                <i
-                  class="fas fa-exclamation-circle ms-2 fs-7"
-                  data-bs-toggle="tooltip"
-                  title="Bắt buộc phải nhập"
-                ></i>
-              </label>
+                  <span class="required">Tên nhóm Telegram</span>
+                  <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Bắt buộc phải nhập"></i>
+                </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <Field
-                  type="text" 
-                  class="form-control form-control-solid"
-                  placeholder="Nhập nhóm mục tiêu"
-                  name="name"
-                  v-model="apiData.name"
-                />
+                <Field type="text" class="form-control form-control-solid" placeholder="Nhập nhóm mục tiêu" name="name"
+                  v-model="apiData.name" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="name" />
@@ -211,13 +194,11 @@
               </div>
               <!--end::Input group-->
 
-               <!--begin::Input group-->
+              <!--begin::Input group-->
               <div class="d-flex flex-stack mb-8">
                 <!--begin::Label-->
                 <div class="me-5">
-                  <label class="fs-6 fw-semobold"
-                    >Trạng thái</label
-                  >
+                  <label class="fs-6 fw-semobold">Trạng thái</label>
 
                   <div class="fs-7 fw-semobold text-gray-400">
                     Bật trạng thái để có thể đồng bộ hóa Telegram
@@ -226,16 +207,9 @@
                 <!--end::Label-->
 
                 <!--begin::Switch-->
-                <label
-                  class="form-check form-switch form-check-custom form-check-solid"
-                >
-                
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    :checked="apiData.status"
-                    v-model="apiData.status"
-                  />
+                <label class="form-check form-switch form-check-custom form-check-solid">
+
+                  <input class="form-check-input" type="checkbox" :checked="apiData.status" v-model="apiData.status" />
                   <span class="form-check-label fw-semobold text-gray-400">
                     Allowed
                   </span>
@@ -260,17 +234,9 @@
                   <!--begin::radio-->
                   <div class="d-flex align-items-center">
                     <!--begin::radio-->
-                    <label
-                      class="form-check form-check-custom form-check-solid me-10"
-                    >
-                      <input
-                        class="form-check-input h-20px w-20px"
-                        type="radio"
-                        name="type"
-                        value="1"
-                        v-model="apiData.type"
-                        checked
-                      />
+                    <label class="form-check form-check-custom form-check-solid me-10">
+                      <input class="form-check-input h-20px w-20px" type="radio" name="type" value="1"
+                        v-model="apiData.type" checked />
 
                       <span class="form-check-label fw-semobold"> DB Leak </span>
                     </label>
@@ -278,13 +244,8 @@
 
                     <!--begin::radio-->
                     <label class="form-check form-check-custom form-check-solid">
-                      <input
-                        v-model="apiData.type"
-                        class="form-check-input h-20px w-20px"
-                        type="radio"
-                        name="type"
-                        value="2"
-                      />
+                      <input v-model="apiData.type" class="form-check-input h-20px w-20px" type="radio" name="type"
+                        value="2" />
 
                       <span class="form-check-label fw-semobold"> Hacker News </span>
                     </label>
@@ -303,29 +264,19 @@
           <!--begin::Modal footer-->
           <div class="modal-footer flex-center">
             <!--begin::Button-->
-            <button
-              ref="discardButtonRef"
-              type="reset"
-              id="kt_modal_new_telegram_cancel"
-              class="btn btn-sm  btn-light me-3"
-            >
+            <button ref="discardButtonRef" type="reset" id="kt_modal_new_telegram_cancel"
+              class="btn btn-sm  btn-light me-3">
               Discard
             </button>
             <!--end::Button-->
 
             <!--begin::Button-->
-            <button
-              ref="submitButtonRef"
-              type="submit"
-              id="kt_modal_new_target_group_submit"
-              class="btn btn-sm  btn-primary"
-            >
+            <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
+              class="btn btn-sm  btn-primary">
               <span class="indicator-label"> Submit </span>
               <span class="indicator-progress">
                 Please wait...
-                <span
-                  class="spinner-border spinner-border-sm align-middle ms-2"
-                ></span>
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             </button>
             <!--end::Button-->
@@ -339,182 +290,137 @@
     <!--end::Modal dialog-->
   </div>
 
-    <!-- modal seting  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_new_setting"    
-  ref="newTSetingModalRef" aria-hidden="true">
-  <!--begin::Modal dialog-->
-  <div class="modal-dialog modal-dialog-centered mw-500px">
-  <!--begin::Modal content-->
-  <div class="modal-content">
-    <!--begin::Modal header-->
-    <div class="modal-header" >
-      <!--begin::Modal title-->
-      <h2>Lập lịch lấy thông tin</h2>
-      <!--end::Modal title-->
+  <!-- modal seting  -->
+  <div class="modal fade" tabindex="-1" id="kt_modal_new_setting" ref="newTSetingModalRef" aria-hidden="true">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-500px">
+      <!--begin::Modal content-->
+      <div class="modal-content">
+        <!--begin::Modal header-->
+        <div class="modal-header">
+          <!--begin::Modal title-->
+          <h2>Lập lịch lấy thông tin</h2>
+          <!--end::Modal title-->
 
-      <!--begin::Close-->
-      <div
-        class="btn btn-sm btn-icon btn-active-color-primary"
-        data-bs-dismiss="modal"
-      >
-        <KTIcon icon-name="cross" icon-class="fs-1" />
-      </div>
-      <!--end::Close-->
-    </div>
-    <!--end::Modal header-->
-
-    <!--begin::Form-->
-    <VForm
-      id="kt_modal_new_setting_form"
-      class="form"
-      @submit="updateSchedule"
-    >
-      <!--begin::Modal body-->
-      <div class="modal-body py-10 px-lg-17">
-        <!--begin::Scroll-->
-        <div
-          class="me-n7 pe-7"
-          data-kt-scroll-activate="{default: false, lg: true}"
-          data-kt-scroll-max-height="auto"
-        >
-        <!--begin::Input group-->
-        <div class="row g-9 mb-3">
-          <label class="required fs-6 fw-semobold">Lần chạy kế tiếp</label>
-          <!--begin::Col-->
-          <div class="col-md-6 fv-row mt-2">
-
-            <el-form-item prop="next_run">
-                <el-date-picker
-                  v-model="setingData.next_run"
-                  disabled
-                  type="date"
-                  placeholder="Select a date"
-                  :teleported="false"
-                  popper-class="override-styles"
-                  name="next_run"
-                />
-              </el-form-item>
+          <!--begin::Close-->
+          <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+            <KTIcon icon-name="cross" icon-class="fs-1" />
           </div>
-          <!--end::Col-->
+          <!--end::Close-->
+        </div>
+        <!--end::Modal header-->
 
-          <!--begin::Col-->
-          <div class="col-md-6 fv-row mt-2">
-            <!--begin::Input-->
-            <div class="position-relative align-items-center">
-              <!--begin::Datepicker-->
-              <el-form-item prop="time_next_run">
-                <el-time-picker
-                  v-model="setingData.time_next_run"
-                  type="time"
-                  placeholder="Select a date"
-                  :teleported="false"
-                  popper-class="override-styles"
-                  name="time_next_run"
-                />
-              </el-form-item>
-              <!--end::Datepicker-->
+        <!--begin::Form-->
+        <VForm id="kt_modal_new_setting_form" class="form" @submit="updateSchedule">
+          <!--begin::Modal body-->
+          <div class="modal-body py-10 px-lg-17">
+            <!--begin::Scroll-->
+            <div class="me-n7 pe-7" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto">
+              <!--begin::Input group-->
+              <div class="row g-9 mb-3">
+                <label class="required fs-6 fw-semobold">Lần chạy kế tiếp</label>
+                <!--begin::Col-->
+                <div class="col-md-6 fv-row mt-2">
+
+                  <el-form-item prop="next_run">
+                    <el-date-picker v-model="setingData.next_run" disabled type="date" placeholder="Select a date"
+                      :teleported="false" popper-class="override-styles" name="next_run" />
+                  </el-form-item>
+                </div>
+                <!--end::Col-->
+
+                <!--begin::Col-->
+                <div class="col-md-6 fv-row mt-2">
+                  <!--begin::Input-->
+                  <div class="position-relative align-items-center">
+                    <!--begin::Datepicker-->
+                    <el-form-item prop="time_next_run">
+                      <el-time-picker v-model="setingData.time_next_run" type="time" placeholder="Select a date"
+                        :teleported="false" popper-class="override-styles" name="time_next_run" />
+                    </el-form-item>
+                    <!--end::Datepicker-->
+                  </div>
+                  <!--end::Input-->
+                </div>
+                <!--end::Col-->
+              </div>
+              <!--end::Input group-->
+              <!--begin::Input group-->
+              <div class="d-flex flex-column fv-row">
+                <!--begin::Label-->
+                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                  <span class="required">Thời gian giữa các lần chạy (giờ)</span>
+                  <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
+                    title="Specify a target name for future usage and reference"></i>
+                </label>
+                <!--end::Label-->
+                <el-input-number v-model="setingData.hour" :min="1" :max="24" />
+              </div>
+              <!--end::Input group-->
             </div>
-            <!--end::Input-->
+            <!--end::Scroll-->
           </div>
-          <!--end::Col-->
-        </div>
-        <!--end::Input group-->
-          <!--begin::Input group-->
-        <div class="d-flex flex-column fv-row">
-          <!--begin::Label-->
-          <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-            <span class="required">Thời gian giữa các lần chạy (giờ)</span>
-            <i
-              class="fas fa-exclamation-circle ms-2 fs-7"
-              data-bs-toggle="tooltip"
-              title="Specify a target name for future usage and reference"
-            ></i>
-          </label>
-          <!--end::Label-->
-          <el-input-number v-model="setingData.hour" :min="1" :max="24" />
-        </div>
-        <!--end::Input group-->
-        </div>
-        <!--end::Scroll-->
-      </div>
-      <!--end::Modal body-->
+          <!--end::Modal body-->
 
-      <!--begin::Modal footer-->
-      <div class="modal-footer flex-center">
-        <!--begin::Button-->
-        <button
-          ref="submitButtonRef"
-          type="submit"
-          id="kt_modal_new_target_group_submit"
-          class="btn btn-sm  btn-primary"
-            :disabled="disabledButton"
-        >
-          <span class="indicator-label"> Submit </span>
-          <span class="indicator-progress">
-            Please wait...
-            <span
-              class="spinner-border spinner-border-sm align-middle ms-2"
-            ></span>
-          </span>
-        </button>
-        <!--end::Button-->
+          <!--begin::Modal footer-->
+          <div class="modal-footer flex-center">
+            <!--begin::Button-->
+            <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
+              class="btn btn-sm  btn-primary" :disabled="disabledButton">
+              <span class="indicator-label"> Submit </span>
+              <span class="indicator-progress">
+                Please wait...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
+            </button>
+            <!--end::Button-->
+          </div>
+          <!--end::Modal footer-->
+        </VForm>
+        <!--end::Form-->
       </div>
-      <!--end::Modal footer-->
-    </VForm>
-    <!--end::Form-->
-  </div>
-  <!--end::Modal content-->
-  </div>
-  <!--end::Modal dialog-->
+      <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
   </div>
 
   <!-- modal delete  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_delete"    
-  ref="ModalDelete" aria-hidden="true">
-  <!--begin::Modal dialog-->
-  <div class="modal-dialog modal-dialog-centered">
-  <!--begin::Modal content-->
-  <div class="modal-content">
+  <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered">
+      <!--begin::Modal content-->
+      <div class="modal-content">
 
-    <div class="modal-header">
-      <h5 class="modal-title">Xác nhận xóa nhóm</h5>
+        <div class="modal-header">
+          <h5 class="modal-title">Xác nhận xóa nhóm</h5>
 
-      <!--begin::Close-->
-      <div
-        class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-      >
-        <span class="svg-icon svg-icon-2x"></span>
+          <!--begin::Close-->
+          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+            <span class="svg-icon svg-icon-2x"></span>
+          </div>
+          <!--end::Close-->
+        </div>
+        <!--begin::Form-->
+        <div class="modal-body">
+          <p>Bạn có chắc chắn muốn xóa <span class="fw-bold">{{ selectedIds.length }} </span> bản ghi này không?.</p>
+        </div>
+        <!--end::Form-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+            Hủy bỏ
+          </button>
+          <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
+            Đồng ý
+          </button>
+        </div>
       </div>
-      <!--end::Close-->
+      <!--end::Modal content-->
     </div>
-    <!--begin::Form-->
-    <div class="modal-body">
-      <p>Bạn có chắc chắn muốn xóa <span class="fw-bold">{{ selectedIds.length }} </span> bản ghi này không?.</p>
-    </div>
-    <!--end::Form-->
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-light"
-        data-bs-dismiss="modal"
-      >
-        Hủy bỏ
-      </button>
-      <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
-        Đồng ý
-      </button>
-    </div>
-  </div>
-  <!--end::Modal content-->
-  </div>
-  <!--end::Modal dialog-->
+    <!--end::Modal dialog-->
   </div>
 
   <!-- modal detail  -->
-  <div class="modal fade" tabindex="-1" 
-    ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered">
       <!--begin::Modal content-->
@@ -523,81 +429,82 @@
         <div class="modal-body">
           <!--begin::Card-->
           <div class="card card-flush pt-3 mb-5 mb-xl-10">
-              <!--begin::Card header-->
-              <div class="card-header mb-5">
-                <!--begin::Card title-->
+            <!--begin::Card header-->
+            <div class="card-header mb-5">
+              <!--begin::Card title-->
+              <div class="card-title">
                 <div class="card-title">
-                  <div class="card-title">
-                    <h1 class="fw-bold">{{ detailData.name }}</h1>
-                  </div>
+                  <h1 class="fw-bold">{{ detailData.name }}</h1>
                 </div>
-                <!--begin::Card toolbar-->
-
-                <!--end::Card toolbar-->
               </div>
-              <!--end::Card header-->
+              <!--begin::Card toolbar-->
 
-              <!--begin::Card body-->
-              <div class="card-body py-0">
-                <!--begin::Section-->
-                <div class="mb-10">
-                  <!--begin::Title-->
-                  <h6>Thông tin chi tiết:</h6>
-                  <!--end::Title-->
+              <!--end::Card toolbar-->
+            </div>
+            <!--end::Card header-->
 
-                  <!--begin::Details-->
-                  <div class="d-flex flex-wrap py-5">
-                    <!--begin::Row-->
-                    <div class="me-5">
-                      <!--begin::Details-->
-                      <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
+            <!--begin::Card body-->
+            <div class="card-body py-0">
+              <!--begin::Section-->
+              <div class="mb-10">
+                <!--begin::Title-->
+                <h6>Thông tin chi tiết:</h6>
+                <!--end::Title-->
 
-                        <!--begin::Row-->
-                        <tr class="d-flex align-items-center">
-                          <td class="text-gray-400 w-200px d-inline-block">Trạng thái:</td>
-                          <td class="text-gray-800 text-dark fs-5 fw-bold">
-                           <div class="d-flex align-items-center p-0 m-0">
-                            <KTIcon :icon-name="(detailData.status == '0') ? 'toggle-on-circle' : 'toggle-off-circle'" :icon-class="(detailData.status == '0') ? 'fs-2hx text-success' :'fs-2hx text-danger'"/>
+                <!--begin::Details-->
+                <div class="d-flex flex-wrap py-5">
+                  <!--begin::Row-->
+                  <div class="me-5">
+                    <!--begin::Details-->
+                    <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
+
+                      <!--begin::Row-->
+                      <tr class="d-flex align-items-center">
+                        <td class="text-gray-400 w-200px d-inline-block">Trạng thái:</td>
+                        <td class="text-gray-800 text-dark fs-5 fw-bold">
+                          <div class="d-flex align-items-center p-0 m-0">
+                            <KTIcon :icon-name="(detailData.status == '0') ? 'toggle-on-circle' : 'toggle-off-circle'"
+                              :icon-class="(detailData.status == '0') ? 'fs-2hx text-success' : 'fs-2hx text-danger'" />
                             <span class="ms-2">{{ (detailData.status == '0') ? ' Hoạt động' : ' Không hoạt động' }}</span>
-                           </div>
-                          </td>
-                        </tr>
-                        <!--end::Row-->
+                          </div>
+                        </td>
+                      </tr>
+                      <!--end::Row-->
 
-                        <!--begin::Row-->
-                        <tr class="d-flex align-items-center">
-                          <td class="text-gray-400 w-200px d-inline-block">kiểu:</td>
-                          <td class="text-gray-800 " >{{ (detailData.type  == '1' ? 'DB Leak' : 'Hacker News') }}</td>
-                        </tr>
-                        <!--end::Row-->
+                      <!--begin::Row-->
+                      <tr class="d-flex align-items-center">
+                        <td class="text-gray-400 w-200px d-inline-block">kiểu:</td>
+                        <td class="text-gray-800 ">{{ (detailData.type == '1' ? 'DB Leak' : 'Hacker News') }}</td>
+                      </tr>
+                      <!--end::Row-->
 
-                        <!--begin::Row-->
-                        <tr class="d-flex align-items-center">
-                          <td class="text-gray-400 w-200px d-inline-block">Thời gian thêm mới:</td>
-                          <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
-                        </tr>
-                        <!--end::Row-->
-                        
-                        <!--begin::Row-->
-                        <tr class="d-flex align-items-center">
-                          <td class="text-gray-400 w-200px d-inline-block">Thời gian cập nhật cuối:</td>
-                          <td class="text-gray-800">{{ formatDate(detailData.date_update) }}</td>
-                        </tr>
-                        <!--end::Row-->
+                      <!--begin::Row-->
+                      <tr class="d-flex align-items-center">
+                        <td class="text-gray-400 w-200px d-inline-block">Thời gian thêm mới:</td>
+                        <td class="text-gray-800">{{ formatDate(detailData.created_at) }}</td>
+                      </tr>
+                      <!--end::Row-->
 
-                      </table>
-                      <!--end::Details-->
-                    </div>
-                    <!--end::Row-->
+                      <!--begin::Row-->
+                      <tr class="d-flex align-items-center">
+                        <td class="text-gray-400 w-200px d-inline-block">Thời gian cập nhật cuối:</td>
+                        <td class="text-gray-800">{{ formatDate(detailData.date_update) }}</td>
+                      </tr>
+                      <!--end::Row-->
 
+                    </table>
+                    <!--end::Details-->
                   </div>
                   <!--end::Row-->
+
                 </div>
-                <!--end::Section-->
+                <!--end::Row-->
               </div>
-              <!--end::Card body-->
+              <!--end::Section-->
             </div>
-            <!--end::Card-->
+            <!--end::Card body-->
+          </div>
+          <!--end::Card-->
         </div>
         <!--end::Form-->
         <div class="modal-footer">
@@ -614,13 +521,13 @@
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, watch , shallowRef} from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, shallowRef } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
 // validate
 import { hideModal } from "@/core/helpers/dom";
-import { ErrorMessage, Field, Form  as VForm } from "vee-validate";
+import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -629,10 +536,10 @@ import 'dayjs/locale/vi';
 dayjs.locale('vi');
 import Fillter from "@/views/apps/telegrams/filterGroup.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
-import {Modal} from "bootstrap";
+import { Modal } from "bootstrap";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import * as Yup from "yup";
-import {useToast} from 'vue-toast-notification';
+import { useToast } from 'vue-toast-notification';
 import { useRouter, useRoute } from 'vue-router';
 
 // import useCurrencyInput from "vue-currency-input";
@@ -655,7 +562,7 @@ export default defineComponent({
     CodeHighlighter,
   },
   directives: {
-      debounce: vue3Debounce({ lock: true })
+    debounce: vue3Debounce({ lock: true })
   },
   setup() {
     const list = ref<object | any>([])
@@ -666,7 +573,7 @@ export default defineComponent({
     const query = ref<String>('');
     const route = useRoute();
     const filterType = ref<null | string | any>('');
-    const filterStatus = ref<String | null>(''); 
+    const filterStatus = ref<String | null>('');
     const detailData = reactive({
       id: '',
       status: '',
@@ -749,7 +656,7 @@ export default defineComponent({
     // getdata
     const getData = () => {
       loading.value = true;
-      setTimeout(() => loading.value = false ,500)
+      setTimeout(() => loading.value = false, 500)
       return ApiService.get(`/telegram/group/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&status=${filterStatus.value}&type=${filterType.value}&search=${query.value}&orderingID=${sortId.value}&orderingDate=${sortDate.value}&orderingTotal=${sortTotal.value}`)
         .then(({ data }) => {
           list.value = data.results
@@ -765,23 +672,24 @@ export default defineComponent({
     const sortDate = ref<string>('');
     const sortTotal = ref<string>('');
     const sort = (sort: Sort) => {
-      if(sort.label == 'id'){
-        sortId.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
+      if (sort.label == 'id') {
+        sortId.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}`;
         sortTotal.value = '';
         sortDate.value = '';
-      }else if(sort.label == 'date_update'){
-        sortDate.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
+      } else if (sort.label == 'date_update') {
+        sortDate.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}`;
         sortId.value = '';
         sortTotal.value = '';
-      }else if(sort.label == 'total_message'){
-        sortTotal.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}` ;
+      } else if (sort.label == 'total_message') {
+        sortTotal.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}`;
         sortId.value = '';
         sortDate.value = '';
-      }else{
+      } else {
         notification('Có lỗi xayt ra với sắp sếp', 'error', 'Có lỗi xảy ra')
       }
       getData();
     };
+    const disabled = ref<boolean>(false);
 
     const selectedIds = ref<Array<number>>([]);
     const deleteFewSubscriptions = () => {
@@ -791,7 +699,11 @@ export default defineComponent({
     // xóa
     const ModalDelete = ref<null | HTMLElement>(null);
     const deleteSubscription = (ids: Array<number>) => {
-      if(ids){
+      if (ids) {
+        disabled.value = true
+        setTimeout(() => {
+          disabled.value = false
+        }, 1000);
         return ApiService.delete(`telegram/group/multi-delete?id=${ids.join()}`)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
@@ -805,7 +717,7 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
-      if(detail){
+      if (detail) {
         detailData.id = detail.id
         detailData.modified_at = detail.modified_at
         detailData.created_at = detail.created_at
@@ -818,11 +730,11 @@ export default defineComponent({
           document.getElementById("kt_modal_detail") as Element
         );
         modal.show();
-      }else{
+      } else {
         notification('', 'error', 'Có lỗi xảy ra')
       }
     };
-    
+
     const onItemSelect = (selectedItems: Array<number>) => {
       selectedIds.value = selectedItems;
 
@@ -839,24 +751,24 @@ export default defineComponent({
           confirmButton: "btn btn-primary",
         },
       }).then(() => {
-        hideModal( ModalDelete.value);
-        hideModal( newTargetTelegramModalRef.value);
-        hideModal( newTSetingModalRef.value);
+        hideModal(ModalDelete.value);
+        hideModal(newTargetTelegramModalRef.value);
+        hideModal(newTSetingModalRef.value);
       });
     };
 
     const formatDate = (date: string) => {
-      return date?date:"--:--"
+      return date ? date : "--:--"
     };
 
     const handleFilter = (data: any) => {
-      if(data){
+      if (data) {
         query.value = data.query;
         filterType.value = data.type;
         filterStatus.value = data.status;
         currentPage.value = 1;
         getData();
-      }else{
+      } else {
         notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
       }
 
@@ -869,13 +781,13 @@ export default defineComponent({
 
     const validationSchema = Yup.object().shape({
       name: Yup.string()
-      .min(3, 'Tối thiểu 3 kí tự')
-      .required('Vui lòng nhập tên nhóm')
+        .min(3, 'Tối thiểu 3 kí tự')
+        .required('Vui lòng nhập tên nhóm')
     });
 
     // add - edit 
     const typeModal = ref<String>('');
-    const errors = reactive({name: ''});
+    const errors = reactive({ name: '' });
     const nameType = ref<string>('');
     const apiData = ref<APIData>({
       name: '',
@@ -889,15 +801,15 @@ export default defineComponent({
     const handleClick = (data: object | any, type: String) => {
       typeModal.value = type
       errors.name = ''
-      if(Object.keys(data).length != 0 && type === 'edit'){
+      if (Object.keys(data).length != 0 && type === 'edit') {
         nameType.value = "Sửa nhóm nhóm Telegram"
         apiData.value.name = data.name;
         apiData.value.type = data.type;
         apiData.value.status = (data.status == 0) ? true : false;
         id.value = data.id;
-      }else if(data.id && type === 'detail'){
+      } else if (data.id && type === 'detail') {
         router.push({ name: 'telegram-detail', params: { id: data.id } });
-      }else{
+      } else {
         nameType.value = "Thêm Mới nhóm Telegram"
         if (discardButtonRef.value !== null) {
           discardButtonRef.value.click();
@@ -912,15 +824,15 @@ export default defineComponent({
     const toastr = useToast();
 
     const handleSyncItem = (data: object | any) => {
-      if(data){
+      if (data) {
         idSync.value = data.id
         getSyncItem();
-        if(submitButtonRef.value){
+        if (submitButtonRef.value) {
           disabledButton.value = true
           submitButtonRef.value.disabled = true;
           submitButtonRef.value.setAttribute("data-kt-indicator", "on");
           setTimeout(() => {
-            if(submitButtonRef.value){
+            if (submitButtonRef.value) {
               disabledButton.value = false
               submitButtonRef.value.disabled = false;
               submitButtonRef.value?.removeAttribute("data-kt-indicator");
@@ -950,24 +862,24 @@ export default defineComponent({
     };
 
     const getSyncItem = async () => {
-      return ApiService.post(`telegram/sync-data/${idSync.value}/group`,0)
+      return ApiService.post(`telegram/sync-data/${idSync.value}/group`, 0)
         .then(({ data }) => {
-          toastr.success(data.detail ?? 'Đang đồng bộ hóa tin nhắn' , {position: 'top'});
+          toastr.success(data.detail ?? 'Đang đồng bộ hóa tin nhắn', { position: 'top' });
           getData();
         })
         .catch(({ response }) => {
-          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra', { position: 'top' });
         });
     };
 
     const getSyncAll = async () => {
       return ApiService.post('telegram/sync-data', '')
         .then(({ data }) => {
-          toastr.success(data.detail ?? 'Đang đồng bộ hóa tin nhắn' , {position: 'top'});
+          toastr.success(data.detail ?? 'Đang đồng bộ hóa tin nhắn', { position: 'top' });
           getData();
         })
         .catch(({ response }) => {
-          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra', { position: 'top' });
         });
     };
 
@@ -975,7 +887,7 @@ export default defineComponent({
     const newTSetingModalRef = ref<null | HTMLElement>(null);
     const dataModal = ref<any>(null);
     const ModalSetting = ref<string | HTMLElement>('#kt_modal_new_setting');
-    const initialData  = {
+    const initialData = {
       next_run: '',
       time_next_run: '',
       hour: '',
@@ -985,10 +897,10 @@ export default defineComponent({
 
     const handleSubmitSetting = () => {
       const modal = new Modal(ModalSetting.value);
-      modal.show(); 
+      modal.show();
       dataModal.value = modal
       if (setingData.next_run !== prevData.value.next_run || setingData.time_next_run !== prevData.value.time_next_run || setingData.hour !== prevData.value.hour) {
-        setingData.value = { ...prevData.value}
+        setingData.value = { ...prevData.value }
       }
     };
 
@@ -1016,14 +928,14 @@ export default defineComponent({
         hour: setingData.value.hour,
         next_run: `${formattedDay}-${formattedMonth}-${formattedYear} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`
       }
-      return ApiService.post(`/telegram/schedule`,formData)
+      return ApiService.post(`/telegram/schedule`, formData)
         .then(({ data }) => {
-          hideModal( newTSetingModalRef.value);
-          if(disabledButton.value){
+          hideModal(newTSetingModalRef.value);
+          if (disabledButton.value) {
             disabledButton.value = true
             setTimeout(() => {
-                disabledButton.value = false
-              }, 1000)
+              disabledButton.value = false
+            }, 1000)
           }
           // Cập nhật prevData với giá trị mới của setingData
           prevData.value = { ...setingData.value };
@@ -1031,7 +943,7 @@ export default defineComponent({
           getData();
         })
         .catch(({ response }) => {
-          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top-right'});
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra', { position: 'top-right' });
         });
     };
 
@@ -1044,7 +956,7 @@ export default defineComponent({
             hour: data.hour
           };
           prevData.value = {
-            next_run:data.next_run,
+            next_run: data.next_run,
             time_next_run: data.next_run,
             hour: data.hour
           };
@@ -1062,56 +974,57 @@ export default defineComponent({
       let formData = {
         name: apiData.value.name,
         type: apiData.value.type,
-        status: (apiData.value.status ==  true) ? 0 : 1 
+        status: (apiData.value.status == true) ? 0 : 1
       }
-      if(typeModal.value == 'add'){
+      if (typeModal.value == 'add') {
 
         return ApiService.post("/telegram/group/create", formData)
           .then(({ data }) => {
-            if(submitButtonRef.value){
-            //Disable button
-            submitButtonRef.value.disabled = true;
-            // Activate indicator
-            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-            notification(data.detail,'success','Thêm mới thành công')
+            notification(data.detail, 'success', 'Thêm mới thành công')
             getData();
-            setTimeout(() => {
-              if (submitButtonRef.value) {
-                submitButtonRef.value.disabled = false;
-                submitButtonRef.value?.removeAttribute("data-kt-indicator");
-              }
-            }, 1000);
+            if (submitButtonRef.value) {
+              //Disable button
+              submitButtonRef.value.disabled = true;
+              // Activate indicator
+              submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+              setTimeout(() => {
+                if (submitButtonRef.value) {
+                  submitButtonRef.value.disabled = false;
+                  submitButtonRef.value?.removeAttribute("data-kt-indicator");
+                }
+              }, 1000);
             }
           })
           .catch(({ response }) => {
-            if(response.data){
+            if (response.data) {
               errors.name = response.data.name;
-            }else{
+            } else {
               notification(response.data.detail, 'error', 'Có lỗi xảy ra')
             }
           });
-      }else{
+      } else {
         return ApiService.put(`/telegram/group/${id.value}/update`, formData)
           .then(({ data }) => {
-            if(submitButtonRef.value){
-            //Disable button
-            submitButtonRef.value.disabled = true;
-            // Activate indicator
-            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
             notification(data.detail, 'success', 'Sửa mới thành công')
             getData();
-            setTimeout(() => {
-              if (submitButtonRef.value) {
-                submitButtonRef.value.disabled = false;
-                submitButtonRef.value?.removeAttribute("data-kt-indicator");
-              }
-            }, 1000);
+            if (submitButtonRef.value) {
+              //Disable button
+              submitButtonRef.value.disabled = true;
+              // Activate indicator
+              submitButtonRef.value.setAttribute("data-kt-indicator", "on");
+
+              setTimeout(() => {
+                if (submitButtonRef.value) {
+                  submitButtonRef.value.disabled = false;
+                  submitButtonRef.value?.removeAttribute("data-kt-indicator");
+                }
+              }, 1000);
             }
           })
           .catch(({ response }) => {
-            if(response.data){
+            if (response.data) {
               errors.name = response.data.name;
-            }else{
+            } else {
               notification(response.data.detail, 'error', 'Có lỗi xảy ra')
             }
           });
@@ -1119,19 +1032,23 @@ export default defineComponent({
     };
 
     // upadte status 
-    const updateStatus = async (data : object | any) => {
+    const updateStatus = async (data: object | any) => {
       let formData = {
         name: data.name,
         type: data.type,
-        status: (data.status ==  1) ? 0 : 1 
+        status: (data.status == 1) ? 0 : 1
       }
+      disabled.value = true
+      setTimeout(() => {
+        disabled.value = false
+      }, 1000);
       return ApiService.put(`/telegram/group/${data.id}/update`, formData)
         .then(({ data }) => {
-          toastr.success(data.detail ?? 'Thay đổi trạng thái thành công' , {position: 'top'});
+          toastr.success(data.detail ?? 'Thay đổi trạng thái thành công', { position: 'top' });
           getData();
         })
         .catch(({ response }) => {
-          toastr.error(response.data.detail ?? 'Có lỗi xảy ra' , {position: 'top'});
+          toastr.error(response.data.detail ?? 'Có lỗi xảy ra', { position: 'top' });
         });
     };
 
@@ -1207,6 +1124,7 @@ export default defineComponent({
       updateStatus,
       // formattedValue,
       // inputRef,
+      disabled,
     };
   },
 });

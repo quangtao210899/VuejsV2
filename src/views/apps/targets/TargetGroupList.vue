@@ -30,9 +30,9 @@
             </el-tooltip>
             <Fillter @filterData="handleFilter"></Fillter>
             <!--end::Export-->
-  
+
             <!--begin::Add subscription-->
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top"> 
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top">
               <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                 data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                 <KTIcon icon-name="plus" icon-class="fs-2" />
@@ -43,14 +43,15 @@
           </div>
           <!--end::Toolbar-->
         </div>
-        <div v-show="selectedIds.length !== 0">        
+        <div v-show="selectedIds.length !== 0">
           <!--begin::Group actions-->
           <div class="d-flex justify-content-end align-items-center">
             <div class="fw-bold me-5">
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top"> 
-              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-sm  btn-danger">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
+              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                class="btn btn-sm  btn-danger">
                 Delete Selected
               </button>
             </el-tooltip>
@@ -88,7 +89,8 @@
         <template v-slot:actions="{ row: customer }">
           <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
             <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
-              data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group" @click="handleClick(customer, 'edit')" title="Sửa">
+              data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group" @click="handleClick(customer, 'edit')"
+              title="Sửa">
               <KTIcon icon-name="pencil" icon-class="fs-3" />
             </button>
           </el-tooltip>
@@ -228,7 +230,8 @@
           <button type="button" class="btn btn-sm  btn-light" data-bs-dismiss="modal">
             Hủy bỏ
           </button>
-          <button type="button" class="btn btn-sm  btn-primary" @click.passive="deleteFewSubscriptions()">
+          <button type="button" class="btn btn-sm  btn-primary" :disabled="disabled"
+            @click.passive="deleteFewSubscriptions()">
             Đồng ý
           </button>
         </div>
@@ -316,9 +319,9 @@
                     <!--end::Label-->
                     <!--begin::Input-->
                     <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
-                      v-model="detailData.description" disabled v-if="detailData.description"/>
+                      v-model="detailData.description" disabled v-if="detailData.description" />
                     <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
-                        v-model="detailData.description" disabled v-else placeholder="Chưa có mô tả"/>
+                      v-model="detailData.description" disabled v-else placeholder="Chưa có mô tả" />
                     <div class="fv-plugins-message-container">
                       <div class="fv-help-block">
                         <ErrorMessage name="description" />
@@ -419,6 +422,7 @@ export default defineComponent({
     const discardButtonRef = ref<HTMLElement | null>(null);
     const ModalDetail = ref<null | HTMLElement>(null);
     const loading = ref<boolean>(false)
+    const disabled = ref<boolean>(false);
 
     const headerConfig = ref([
       {
@@ -513,6 +517,10 @@ export default defineComponent({
       if (ids) {
         return ApiService.delete(`targetgroup/${ids}`)
           .then(({ data }) => {
+            disabled.value = true
+            setTimeout(() => {
+              disabled.value = false
+            }, 1000);
             notification(data.detail, 'success', 'Xóa thành công')
             currentPage.value = 1;
             selectedIds.value.length = 0;
@@ -562,9 +570,9 @@ export default defineComponent({
 
     const validationSchema = Yup.object().shape({
       title: Yup.string()
-      .min(3, 'Tối thiểu 3 kí tự')
-      .required('Vui lòng nhập tên')
-      .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
+        .min(3, 'Tối thiểu 3 kí tự')
+        .required('Vui lòng nhập tên')
+        .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
     });
 
     const notification = (values: string, icon: string, more: string) => {
@@ -596,20 +604,19 @@ export default defineComponent({
       if (typeModal.value == 'add') {
         return ApiService.post("/targetgroup", formData)
           .then(({ data }) => {
-            if(submitButtonRef.value){
+            if (submitButtonRef.value) {
+              notification(data.detail, 'success', 'Thêm mới thành công')
               //Disable button
               submitButtonRef.value.disabled = true;
               // Activate indicator
               submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-
               setTimeout(() => {
                 if (submitButtonRef.value) {
                   submitButtonRef.value.disabled = false;
                   submitButtonRef.value?.removeAttribute("data-kt-indicator");
                 }
-                notification(data.detail, 'success', 'Thêm mới thành công')
-                getData();
               }, 1000);
+              getData();
             }
           })
           .catch(({ response }) => {
@@ -622,20 +629,19 @@ export default defineComponent({
       } else {
         return ApiService.put(`/targetgroup/${id.value}`, formData)
           .then(({ data }) => {
-            if(submitButtonRef.value){
+            if (submitButtonRef.value) {
+              notification(data.detail, 'success', 'Sửa mới thành công')
               //Disable button
               submitButtonRef.value.disabled = true;
               // Activate indicator
               submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-
               setTimeout(() => {
                 if (submitButtonRef.value) {
                   submitButtonRef.value.disabled = false;
                   submitButtonRef.value?.removeAttribute("data-kt-indicator");
                 }
-                notification(data.detail, 'success', 'Sửa mới thành công')
-                getData();
               }, 1000);
+              getData();
             }
           })
           .catch(({ response }) => {
@@ -717,6 +723,7 @@ export default defineComponent({
       // edit 
       nameType,
       loading,
+      disabled,
     };
   },
 });
