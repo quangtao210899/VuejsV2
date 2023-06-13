@@ -12,7 +12,8 @@
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
                             <button type="button"
                                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+                                data-kt-menu-flip="top-end">
                                 <KTIcon icon-name="filter" icon-class="fs-2" />
                                 Filter
                             </button>
@@ -37,7 +38,8 @@
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
+                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                                class="btn btn-danger btn-sm " :disabled="disabled">
                                 Delete Selected
                             </button>
                         </el-tooltip>
@@ -57,7 +59,8 @@
                 @customRow="customRowTable">
 
                 <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-                <template v-slot:first_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{ customer.first_name }}</span></template>
+                <template v-slot:first_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{
+                    customer.first_name }}</span></template>
                 <template v-slot:username="{ row: customer }">
                     {{ customer.username }}
                 </template>
@@ -110,12 +113,15 @@
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
                             <div class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                    <span v-bind:class="{ 'required': nameType!='Chỉnh sửa thông tin người dùng' }">Email</span>
+                                    <span
+                                        v-bind:class="{ 'required': nameType != 'Chỉnh sửa thông tin người dùng' }">Email</span>
                                 </label>
-                                <Field type="text" class="form-control form-control-solid" :disabled="nameType=='Chỉnh sửa thông tin người dùng'"
-                                    :style="{ cursor: nameType=='Chỉnh sửa thông tin người dùng' ? 'not-allowed' : '', 'background-color': nameType=='Chỉnh sửa thông tin người dùng' ? '#eee' : ''}"
+                                <Field type="text" class="form-control form-control-solid"
+                                    :disabled="nameType == 'Chỉnh sửa thông tin người dùng'"
+                                    :style="{ cursor: nameType == 'Chỉnh sửa thông tin người dùng' ? 'not-allowed' : '', 'background-color': nameType == 'Chỉnh sửa thông tin người dùng' ? '#eee' : '' }"
                                     :placeholder="editEmail" name="username" v-model="apiData.username" />
-                                <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="fv-plugins-message-container">
+                                <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'"
+                                    class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="username" />
                                         <span class="" v-if="errors.username">{{ errors.username[0] }}</span>
@@ -143,19 +149,22 @@
 
                                 <!--begin::Input wrapper-->
                                 <div class="position-relative mb-3">
-                                    <Field :type="!eyeButtonRef ? 'password' : 'text'" class="form-control form-control-solid h-35px" name="password"
-                                    id="password" v-model="apiData.password" />
+                                    <Field :type="!eyeButtonRef ? 'password' : 'text'"
+                                        class="form-control form-control-solid h-35px" name="password" id="password"
+                                        v-model="apiData.password" />
 
                                     <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
-                                        <KTIcon :icon-name="!eyeButtonRef ? 'eye-slash' : 'eye'" icon-class="fs-2" @click="eyePassword"/>
+                                        <KTIcon :icon-name="!eyeButtonRef ? 'eye-slash' : 'eye'" icon-class="fs-2"
+                                            @click="eyePassword" />
                                     </span>
                                 </div>
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="password" />
                                         <span v-if="Object.keys(errors.password).length !== 0">
-                                        <template v-for="(el, key) in errors.password" :key="key">{{ el }}<br></template>
-                                        </span> 
+                                            <template v-for="(el, key) in errors.password" :key="key">{{ el
+                                            }}<br></template>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -164,31 +173,35 @@
                                 <label class="form-label fw-semibold fs-6 mb-2 required">Nhập lại mật khẩu</label>
 
                                 <div class="position-relative mb-3">
-                                <Field :type="!eyeButtonRef2 ? 'password' : 'text'" class="form-control form-control-solid h-35px" name="password_confirm"
-                                    id="password_confirm" v-model="apiData.password_confirm" />
+                                    <Field :type="!eyeButtonRef2 ? 'password' : 'text'"
+                                        class="form-control form-control-solid h-35px" name="password_confirm"
+                                        id="password_confirm" v-model="apiData.password_confirm" />
 
-                                <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
-                                    <KTIcon :icon-name="!eyeButtonRef2 ? 'eye-slash' : 'eye'" icon-class="fs-2" @click="eyePassword2"/>
-                                </span>
+                                    <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
+                                        <KTIcon :icon-name="!eyeButtonRef2 ? 'eye-slash' : 'eye'" icon-class="fs-2"
+                                            @click="eyePassword2" />
+                                    </span>
                                 </div>
 
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="password_confirm" />
                                         <span v-if="Object.keys(errors.password_confirm).length !== 0">
-                                        <template v-for="(el, key) in errors.password_confirm" :key="key">{{ el }}<br></template>
-                                        </span> 
+                                            <template v-for="(el, key) in errors.password_confirm" :key="key">{{ el
+                                            }}<br></template>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="mt-5 fv-row">
                                 <div class="form-check form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="1" id="is_staff" name="is_staff" v-model="apiData.is_staff" :checked="apiData.is_staff">
+                                    <input class="form-check-input" type="checkbox" value="1" id="is_staff" name="is_staff"
+                                        v-model="apiData.is_staff" :checked="apiData.is_staff">
                                     <label class="form-check-label" for="is_staff">Quản trị viên</label>
                                 </div>
                             </div>
-                            
+
                             <div class="fv-plugins-message-container">
                                 <div class="fv-help-block">
                                     <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] :
@@ -203,8 +216,8 @@
                     <!--begin::Modal footer-->
                     <div class="modal-footer flex-center">
                         <!--begin::Button-->
-                        <button ref="discardButtonRef" @click="removeTextModal" type="reset" id="kt_modal_new_target_group_cancel"
-                            class="btn btn-sm  btn-light me-3">
+                        <button ref="discardButtonRef" @click="removeTextModal" type="reset"
+                            id="kt_modal_new_target_group_cancel" class="btn btn-sm  btn-light me-3">
                             Discard
                         </button>
                         <!--end::Button-->
@@ -311,23 +324,25 @@
                                             <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Họ Tên:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.first_name}} </td>
+                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.first_name }}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-gray-400">Phân quyền:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.is_staff ? 'Quản trị viên' : 'Người dùng' }}</td>
+                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.is_staff ?
+                                                    'Quản trị viên' : 'Người dùng' }}</td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Ngày tạo:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.date_joined)}}</td>
+                                                <td class="text-gray-800">{{ formatDate(detailData.date_joined) }}</td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Ngày cập nhật cuối:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.last_login)}}</td>
+                                                <td class="text-gray-800">{{ formatDate(detailData.last_login) }}</td>
                                             </tr>
                                             <!--end::Row-->
                                         </table>
@@ -525,10 +540,15 @@ export default defineComponent({
         const deleteFewSubscriptions = () => {
             deleteSubscription(selectedIds.value);
         };
+        const disabled = ref<boolean>(false);
 
         const ModalDelete = ref<null | HTMLElement>(null);
         const deleteSubscription = (ids: Array<number>) => {
             if (ids) {
+                disabled.value = true
+                setTimeout(() => {
+                    disabled.value = false
+                }, 1000);
                 return ApiService.delete(`user/multi-delete?id=${ids}`)
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
@@ -629,11 +649,13 @@ export default defineComponent({
                 'password': apiData.value.password ?? "",
                 'is_staff': apiData.value.is_staff,
             }
-            
+
             if (typeModal.value == 'add') {
                 return ApiService.post("/auth/register/", formData)
                     .then(({ data }) => {
-                        if(submitButtonRef.value){
+                        if (submitButtonRef.value) {
+                            notification(data.detail, 'success', 'Thêm mới thành công')
+                            getData();
                             //Disable button
                             submitButtonRef.value.disabled = true;
                             // Activate indicator
@@ -643,18 +665,17 @@ export default defineComponent({
                                     submitButtonRef.value.disabled = false;
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
-                                notification(data.detail, 'success', 'Thêm mới thành công')
-                                getData();
+
 
                             }, 1000);
                         }
                     })
                     .catch(({ response }) => {
                         if (response?.data) {
-                            errors.username = response.data.Errors.username ??'';
-                            errors.first_name = response.data.Errors.first_name??'';
-                            errors.password = response.data.Errors.password??'';
-                            errors.detail = response.data.detail??'';
+                            errors.username = response.data.Errors.username ?? '';
+                            errors.first_name = response.data.Errors.first_name ?? '';
+                            errors.password = response.data.Errors.password ?? '';
+                            errors.detail = response.data.detail ?? '';
                         } else {
                             notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                         }
@@ -664,10 +685,12 @@ export default defineComponent({
                     'first_name': apiData.value.first_name,
                     'is_staff': apiData.value.is_staff,
                 }
-                
+
                 return ApiService.put(`/user/${id.value}/update`, formData)
                     .then(({ data }) => {
-                        if(submitButtonRef.value){
+                        notification(data.detail, 'success', 'Sửa mới thành công')
+                        getData();
+                        if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;
                             // Activate indicator
@@ -677,8 +700,7 @@ export default defineComponent({
                                     submitButtonRef.value.disabled = false;
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
-                                notification(data.detail, 'success', 'Sửa mới thành công')
-                                getData();
+
                             }, 1000);
                         }
 
@@ -698,14 +720,14 @@ export default defineComponent({
         };
 
         const formatDate = (date: string) => {
-            return date?date:"--:--";
+            return date ? date : "--:--";
         }
 
         const removeTextModal = () => {
             console.log(apiData.value, typeModal.value, nameType.value, detailData.username);
             // typeModal.value == 'edit' && 
-            
-            
+
+
             apiData.value.is_staff = false
         }
 
@@ -784,7 +806,8 @@ export default defineComponent({
             eyePassword2,
 
             removeTextModal,
-            editEmail
+            editEmail,
+            disabled,
         };
     },
 });

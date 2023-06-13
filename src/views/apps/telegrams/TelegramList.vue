@@ -34,7 +34,7 @@
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" :disabled="disabled"
                 class="btn btn-danger  btn-sm">
                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
                 Delete Selected
@@ -318,10 +318,15 @@ export default defineComponent({
     const deleteFewSubscriptions = () => {
       deleteSubscription(selectedIds.value);
     };
+    const disabled = ref<boolean>(false);
 
     const ModalDelete = ref<null | HTMLElement>(null);
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
+        disabled.value = true
+        setTimeout(() => {
+          disabled.value = false
+        }, 1000);
         return ApiService.delete(`telegram/message/multi-delete?id=${ids}`)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
@@ -432,6 +437,7 @@ export default defineComponent({
       // detail
       detailData,
       truncateText,
+      disabled,
     };
   },
 });

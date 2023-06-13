@@ -7,13 +7,14 @@
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
                             <button type="button"
                                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+                                data-kt-menu-flip="top-end">
                                 <KTIcon icon-name="filter" icon-class="fs-2" />
                                 Filter
                             </button>
                         </el-tooltip>
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
-    
+
                         <!-- <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                             data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                             <KTIcon icon-name="plus" icon-class="fs-2" />
@@ -27,7 +28,8 @@
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
+                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                                class="btn btn-danger btn-sm " :disabled="disabled">
                                 Delete Selected
                             </button>
                         </el-tooltip>
@@ -50,13 +52,14 @@
                     </span>
                 </template>
                 <template v-slot:country="{ row: customer }">
-                    {{ customer.country ? customer.country: '--:--' }}
+                    {{ customer.country ? customer.country : '--:--' }}
                 </template>
                 <template v-slot:org="{ row: customer }">
-                    {{ customer.org ?customer.org : '--:--' }}
+                    {{ customer.org ? customer.org : '--:--' }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
-                    <router-link :to="`/cve/scan-detail/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                    <router-link :to="`/cve/scan-detail/${customer.id}`"
+                        class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                         <KTIcon icon-name="eye" icon-class="fs-3" />
                     </router-link>
                 </template>
@@ -88,28 +91,32 @@
                                 <div class="py-5">
                                     <!--begin::Row-->
                                     <div class="me-5">
-                                    <!--begin::Details-->
+                                        <!--begin::Details-->
                                         <div>
                                             <div class="row fs-6 mb-3">
                                                 <div class="col-3 text-gray-400">Port:</div>
-                                                <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.port ?? '' }}</span></div>
+                                                <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.port ?? ''
+                                                }}</span></div>
                                             </div>
                                             <div class="row fs-6 mb-3">
                                                 <div class="col-3 text-gray-400">Hostnames:</div>
-                                                <div class="col-9 text-gray-800"><span>{{ detailData.hostnames[0] ?? '' }}</span></div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.hostnames[0] ?? ''
+                                                }}</span></div>
                                             </div>
                                             <div class="row fs-6 mb-3">
                                                 <div class="col-3 text-gray-400">Quốc gia:</div>
-                                                <div class="col-9 text-gray-800"><span>{{ detailData.country ?? '' }}</span></div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.country ?? '' }}</span>
+                                                </div>
                                             </div>
                                             <div class="row fs-6 mb-3">
                                                 <div class="col-3 text-gray-400">Tổ chức:</div>
-                                                <div class="col-9 text-gray-800"><span>{{ detailData.org ?? '' }}</span></div>
+                                                <div class="col-9 text-gray-800"><span>{{ detailData.org ?? '' }}</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <!--end::Details-->
                                     </div>
-                                <!--end::Row-->
+                                    <!--end::Row-->
                                 </div>
                             </div>
                         </div>
@@ -138,15 +145,14 @@
                     </div>
                 </div>
 
-                <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
-                >
-                <div class="modal-body py-10 px-lg-17">
+                <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit">
+                    <div class="modal-body py-10 px-lg-17">
                         <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
                             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
                             data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
                             <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                    <h4>Bạn có chắc muốn scan CVE không</h4>
+                                <h4>Bạn có chắc muốn scan CVE không</h4>
                             </label>
 
                         </div>
@@ -288,13 +294,13 @@ export default defineComponent({
                 return 'Tuần tự'
             } else if (speed == 2) {
                 return 'Chậm'
-            }  else if (speed == 3) {
+            } else if (speed == 3) {
                 return 'Trung bình'
             }
 
             return 'Nhanh'
         };
-        
+
         const discardButtonRef = ref<HTMLElement | null>(null);
         const ModalDetail = ref<null | HTMLElement>(null);
         const loading = ref<boolean>(false)
@@ -347,7 +353,7 @@ export default defineComponent({
         //     // errors.ip = ''
         //     // errors.group = ''
         //     // errors.detail = ''
-            
+
         //     nameType.value = "Quét CVE"
         //     if (discardButtonRef.value !== null) {
         //         discardButtonRef.value.click();
@@ -374,7 +380,7 @@ export default defineComponent({
 
         const getData = () => {
             loading.value = true;
-            
+
             setTimeout(() => loading.value = false, 500)
             return ApiService.get(`/cve/scan-detail/${getIdFromUrl()}?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
@@ -390,6 +396,7 @@ export default defineComponent({
         const deleteFewSubscriptions = () => {
             deleteSubscription(selectedIds.value);
         };
+        const disabled = ref<boolean>(false);
 
         const ModalDelete = ref<null | HTMLElement>(null);
         const deleteSubscription = (ids: Array<number>) => {
@@ -397,6 +404,10 @@ export default defineComponent({
                 'id': ids
             }
             if (ids) {
+                disabled.value = true
+                setTimeout(() => {
+                    disabled.value = false
+                }, 1000);
                 return ApiService.post(`/cve/scan-delete/${getIdFromUrl()}`, formData)
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
@@ -437,7 +448,7 @@ export default defineComponent({
 
         const onItemSelect = (selectedItems: Array<number>) => {
             selectedIds.value = selectedItems;
-            console.log(selectedIds.value,selectedItems);
+            console.log(selectedIds.value, selectedItems);
 
         };
 
@@ -468,11 +479,12 @@ export default defineComponent({
                 return;
             }
             if (typeModal.value == 'add') {
-                
+
                 return ApiService.post(`cve/${getIdFromUrl()}/create_scan`, {})
                     .then(({ data }) => {
-                        
-                        if(submitButtonRef.value){
+                        notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
+                        getData();
+                        if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;
                             // Activate indicator
@@ -482,8 +494,7 @@ export default defineComponent({
                                     submitButtonRef.value.disabled = false;
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
-                                notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
-                                getData();
+
 
                             }, 1000);
                         }
@@ -491,7 +502,7 @@ export default defineComponent({
                     .catch((response) => {
                         if (response?.data) {
                             errors.detail = response.data.detail;
-                            
+
                             notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                         } else {
                             notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
@@ -569,14 +580,13 @@ export default defineComponent({
             getScanSpeedName,
             headerInputValue,
             CVEScanId,
+            disabled,
         };
     },
 });
 </script>
 
-<style lang="scss">
-.override-styles {
-  z-index: 99999 !important;
-  pointer-events: initial;
-}
-</style>
+<style lang="scss">.override-styles {
+    z-index: 99999 !important;
+    pointer-events: initial;
+}</style>

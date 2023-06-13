@@ -7,33 +7,31 @@
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
                             <button type="button"
                                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+                                data-kt-menu-flip="top-end">
                                 <KTIcon icon-name="filter" icon-class="fs-2" />
                                 Filter
                             </button>
                         </el-tooltip>
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
 
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Danh sách mục tiêu" placement="top"> 
+                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Danh sách mục tiêu"
+                            placement="top">
                             <router-link :to="`/cve/${getIdFromUrl()}/scan/detail`">
-                                <button type="button"  class="btn btn-sm fw-bold btn-success me-2">
+                                <button type="button" class="btn btn-sm fw-bold btn-success me-2">
                                     <KTIcon icon-name="document" icon-class="fs-2" />
                                     Danh sách mục tiêu
                                 </button>
                             </router-link>
                         </el-tooltip>
 
-                        <el-popconfirm
-                            width="300"
-                            confirm-button-text="Submit"
-                            icon-color="#626AEF"
-                            title="Bạn có chắc muốn scan CVE không?"
-                            @confirm="submit"
-                        >
+                        <el-popconfirm width="300" confirm-button-text="Submit" icon-color="#626AEF"
+                            title="Bạn có chắc muốn scan CVE không?" @confirm="submit">
                             <template #reference>
                                 <span>
-                                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top">
-                                        <button type="button" class="btn btn-sm fw-bold btn-primary">
+                                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới"
+                                        placement="top">
+                                        <button type="button" class="btn btn-sm fw-bold btn-primary" :disabled="disabled">
                                             <KTIcon icon-name="plus" icon-class="fs-2" />
                                             Quét
                                         </button>
@@ -49,7 +47,8 @@
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
+                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                                class="btn btn-danger btn-sm " :disabled="disabled">
                                 Delete Selected
                             </button>
                         </el-tooltip>
@@ -65,16 +64,19 @@
                 @customRow="customRowTable">
                 <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
                 <template v-slot:username="{ row: customer }">{{ customer.username }}</template>
-                <template v-slot:status_name="{ row: customer }"><span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--' }}</span></template>
+                <template v-slot:status_name="{ row: customer }"><span
+                        :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--'
+                        }}</span></template>
                 <template v-slot:created_at="{ row: customer }">
-                    {{ customer.created_at ? customer.created_at: '--:--' }}
+                    {{ customer.created_at ? customer.created_at : '--:--' }}
                 </template>
                 <template v-slot:modified_at="{ row: customer }">
-                    {{ (customer.status=='2' || customer.status== '1' ) ? "--:--" : customer.modified_at }}
+                    {{ (customer.status == '2' || customer.status == '1') ? "--:--" : customer.modified_at }}
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết" placement="top">
-                        <router-link :to="`/cve/${getIdFromUrl()}/scan-detail/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                        <router-link :to="`/cve/${getIdFromUrl()}/scan-detail/${customer.id}`"
+                            class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                             <KTIcon icon-name="eye" icon-class="fs-3" />
                         </router-link>
                     </el-tooltip>
@@ -91,7 +93,8 @@
                     <div class="card card-flush pt-3 mb-5 mb-xl-10">
                         <div class="card-header">
                             <div class="card-title">
-                                <h1 class="fw-bold"><span class="text-gray-400">Người recon:</span> <span class="text-gray-800">{{ detailData.username }}</span></h1>
+                                <h1 class="fw-bold"><span class="text-gray-400">Người recon:</span> <span
+                                        class="text-gray-800">{{ detailData.username }}</span></h1>
                             </div>
                         </div>
                         <div class="card-body py-0">
@@ -102,15 +105,17 @@
                                         <div class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
                                             <div class="row mb-4 ">
                                                 <div class="text-gray-400 col-6">Trạng thái:</div>
-                                                <span :class="`badge badge-${getStatus(detailData.status).color} col-2`" style="margin-left:10px;">{{ detailData.statusName }}</span>
+                                                <span :class="`badge badge-${getStatus(detailData.status).color} col-2`"
+                                                    style="margin-left:10px;">{{ detailData.statusName }}</span>
                                             </div>
                                             <div class="row mb-4">
                                                 <div class="text-gray-400 col-6">Thời gian bắt đầu:</div>
-                                                <div class="text-gray-800 col-6">{{ detailData.created_at}}</div>
+                                                <div class="text-gray-800 col-6">{{ detailData.created_at }}</div>
                                             </div>
                                             <div class="row mb-4">
                                                 <div class="text-gray-400 col-6">Thời gian kết thúc:</div>
-                                                <div class="text-gray-800 col-6">{{ (detailData.status=='2' || detailData.status== '1' ) ? "--:--" : detailData.modified_at }}</div>
+                                                <div class="text-gray-800 col-6">{{ (detailData.status == '2' ||
+                                                    detailData.status == '1') ? "--:--" : detailData.modified_at }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -270,13 +275,13 @@ export default defineComponent({
                 return 'Tuần tự'
             } else if (speed == 2) {
                 return 'Chậm'
-            }  else if (speed == 3) {
+            } else if (speed == 3) {
                 return 'Trung bình'
             }
 
             return 'Nhanh'
         };
-        
+
         const discardButtonRef = ref<HTMLElement | null>(null);
         const ModalDetail = ref<null | HTMLElement>(null);
         const loading = ref<boolean>(false)
@@ -330,12 +335,12 @@ export default defineComponent({
             // errors.ip = ''
             // errors.group = ''
             // errors.detail = ''
-            
+
             nameType.value = "Quét CVE"
             if (discardButtonRef.value !== null) {
                 discardButtonRef.value.click();
             }
-                // resetData();
+            // resetData();
         };
 
         // const resetData = () => {
@@ -373,6 +378,7 @@ export default defineComponent({
         const deleteFewSubscriptions = () => {
             deleteSubscription(selectedIds.value);
         };
+        const disabled = ref<boolean>(false);
 
         const ModalDelete = ref<null | HTMLElement>(null);
         const deleteSubscription = (ids: Array<number>) => {
@@ -380,6 +386,10 @@ export default defineComponent({
                 'id': ids
             }
             if (ids) {
+                disabled.value = true
+                setTimeout(() => {
+                    disabled.value = false
+                }, 1000);
                 return ApiService.post(`cve/${getIdFromUrl()}/delete`, formData)
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
@@ -443,15 +453,16 @@ export default defineComponent({
             });
         }
         const headerInputValue = ref("")
-        const submit = async () => {            
+        const submit = async () => {
             if (!submitButtonRef.value) {
                 return;
             }
-            
+
             return ApiService.post(`cve/${getIdFromUrl()}/create_scan`, {})
                 .then(({ data }) => {
-                    
-                    if(submitButtonRef.value){
+                    notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
+                    getData();
+                    if (submitButtonRef.value) {
                         //Disable button
                         submitButtonRef.value.disabled = true;
                         // Activate indicator
@@ -461,13 +472,12 @@ export default defineComponent({
                                 submitButtonRef.value.disabled = false;
                                 submitButtonRef.value?.removeAttribute("data-kt-indicator");
                             }
-                            notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
-                            getData();
+
 
                         }, 1000);
                     }
                 })
-                .catch(({response}) => {
+                .catch(({ response }) => {
                     if (response?.data) {
                         errors.detail = response.data.detail;
                         notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
@@ -547,6 +557,7 @@ export default defineComponent({
             getScanSpeedName,
             headerInputValue,
             CVEId,
+            disabled,
         };
     },
 });
@@ -554,7 +565,6 @@ export default defineComponent({
 
 <style lang="scss">
 .override-styles {
-  z-index: 99999 !important;
-  pointer-events: initial;
-}
-</style>
+    z-index: 99999 !important;
+    pointer-events: initial;
+}</style>

@@ -50,7 +50,7 @@
               <!--begin::Menu-->
               <div class="me-0">
                 <button class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary" data-kt-menu-trigger="click"
-                  data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                  data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end" :disabled="disabled">
                   <i class="bi bi-three-dots fs-3"></i>
                 </button>
                 <!-- <Dropdown3></Dropdown3> -->
@@ -78,8 +78,7 @@
 
           <!--begin:::Tab item-->
           <li class="nav-item">
-            <a class="nav-link text-active-primary me-6" data-bs-toggle="tab"
-              href="#kt_password_tab">Đổi mật khẩu</a>
+            <a class="nav-link text-active-primary me-6" data-bs-toggle="tab" href="#kt_password_tab">Đổi mật khẩu</a>
           </li>
           <!--end:::Tab item-->
         </ul>
@@ -179,13 +178,14 @@
               <div class="fv-row mb-10 fv-plugins-icon-container">
                 <label class="required form-label fs-6 mb-2">Mật khẩu cũ</label>
                 <Field type="password" class="form-control form-control-solid h-35px" placeholder=""
-                  name="currentpassword" autocomplete="off" id="currentpassword" v-model="dataPasswordChange.currentpassword" />
+                  name="currentpassword" autocomplete="off" id="currentpassword"
+                  v-model="dataPasswordChange.currentpassword" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="currentpassword" /><br>
                     <span v-if="Object.keys(erroPasswordChange.currentpassword).length !== 0">
                       <template v-for="(el, key) in erroPasswordChange.currentpassword" :key="key">{{ el }}<br></template>
-                    </span>                  
+                    </span>
                   </div>
                 </div>
               </div>
@@ -203,21 +203,25 @@
 
                   <!--begin::Input wrapper-->
                   <div class="position-relative mb-3">
-                    <Field :type="!eyeButtonRef ? 'password' : 'text'" class="form-control form-control-solid h-35px" name="newpassword"
-                      id="newpassword" v-model="dataPasswordChange.newpassword"/>
+                    <Field :type="!eyeButtonRef ? 'password' : 'text'" class="form-control form-control-solid h-35px"
+                      name="newpassword" id="newpassword" v-model="dataPasswordChange.newpassword" />
 
                     <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
-                      <KTIcon :icon-name="!eyeButtonRef ? 'eye-slash' : 'eye'" icon-class="fs-2" @click="eyePassword"/>
+                      <KTIcon :icon-name="!eyeButtonRef ? 'eye-slash' : 'eye'" icon-class="fs-2" @click="eyePassword" />
                     </span>
                   </div>
                   <!--end::Input wrapper-->
 
                   <!--begin::Meter-->
                   <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="(percentagePassword >= 25) ? 'active' : ''"></div>
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="(percentagePassword >= 50) ? 'active' : ''"></div>
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="(percentagePassword >= 75) ? 'active' : ''"></div>
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px" :class="(percentagePassword == 100) ? 'active' : ''"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"
+                      :class="(percentagePassword >= 25) ? 'active' : ''"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"
+                      :class="(percentagePassword >= 50) ? 'active' : ''"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"
+                      :class="(percentagePassword >= 75) ? 'active' : ''"></div>
+                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"
+                      :class="(percentagePassword == 100) ? 'active' : ''"></div>
                   </div>
                   <!--end::Meter-->
                 </div>
@@ -243,11 +247,11 @@
                 <label class="form-label fw-semibold fs-6 mb-2">Nhập lại mật khẩu</label>
 
                 <div class="position-relative mb-3">
-                  <Field :type="!eyeButtonRef2 ? 'password' : 'text'" class="form-control form-control-solid h-35px" name="confirmpassword"
-                    id="confirmpassword" v-model="dataPasswordChange.confirmpassword" />
+                  <Field :type="!eyeButtonRef2 ? 'password' : 'text'" class="form-control form-control-solid h-35px"
+                    name="confirmpassword" id="confirmpassword" v-model="dataPasswordChange.confirmpassword" />
 
                   <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
-                    <KTIcon :icon-name="!eyeButtonRef2 ? 'eye-slash' : 'eye'" icon-class="fs-2" @click="eyePassword2"/>
+                    <KTIcon :icon-name="!eyeButtonRef2 ? 'eye-slash' : 'eye'" icon-class="fs-2" @click="eyePassword2" />
                   </span>
                 </div>
 
@@ -256,7 +260,7 @@
                     <ErrorMessage name="confirmpassword" /><br>
                     <span v-if="Object.keys(erroPasswordChange.confirmpassword).length !== 0">
                       <template v-for="(el, key) in erroPasswordChange.confirmpassword" :key="key">{{ el }}<br></template>
-                    </span> 
+                    </span>
                   </div>
                 </div>
               </div>
@@ -274,7 +278,7 @@
                 </button>
               </div>
               <!--end::Actions-->
-            </VForm> 
+            </VForm>
             <!--end::Form-->
           </div>
           <!--end::Card body-->
@@ -288,11 +292,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive , watch } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch } from "vue";
 import ApiService from "@/core/services/ApiService";
 
 // validate
-import {ErrorMessage, Field, Form as VForm } from "vee-validate";
+import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import Fillter from "@/views/apps/telegrams/filterGroup.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
@@ -414,9 +418,14 @@ export default defineComponent({
     };
 
 
+    const disabled = ref<boolean>(false);
 
     // update data
     const upadateAccount = async () => {
+      disabled.value = true
+      setTimeout(() => {
+        disabled.value = false
+      }, 1000);
       return ApiService.post("/account/update", { first_name: editData.value.first_name })
         .then(({ data }) => {
           notification(data.detail, 'success', 'Cập nhật thành công')
@@ -482,12 +491,12 @@ export default defineComponent({
     // reset form 
     const discardButtonRef = ref<HTMLElement | null>(null);
     const resetForm = () => {
-      erroPasswordChange.value.currentpassword =  '';
-      erroPasswordChange.value.newpassword =  '';
+      erroPasswordChange.value.currentpassword = '';
+      erroPasswordChange.value.newpassword = '';
       erroPasswordChange.value.confirmpassword = '';
 
-      dataPasswordChange.currentpassword =  '';
-      dataPasswordChange.newpassword =  '';
+      dataPasswordChange.currentpassword = '';
+      dataPasswordChange.newpassword = '';
       dataPasswordChange.confirmpassword = '';
 
       percentagePassword.value = 0
@@ -514,17 +523,17 @@ export default defineComponent({
     watch(() => dataPasswordChange.newpassword, (newValue) => {
       checkStringValidity(newValue);
     });
-    
-    const checkStringValidity = (password : string) => {
+
+    const checkStringValidity = (password: string) => {
       // Kiểm tra chứa chữ thường
       const containsLowercase = /[a-z]/.test(password);
-      
+
       // Kiểm tra chứa chữ in hoa
       const containsUppercase = /[A-Z]/.test(password);
-      
+
       // Kiểm tra chứa số
       const containsNumber = /\d/.test(password);
-      
+
       // Kiểm tra chứa ký tự đặc biệt
       const containsSpecialChar = /[!@#$%^&*()]/.test(password);
 
@@ -575,6 +584,7 @@ export default defineComponent({
 
       checkStringValidity,
       percentagePassword,
+      disabled,
     };
   },
 });

@@ -211,22 +211,22 @@
                 </div>
                 <div class="col d-flex flex-row">
                     <button type="button" class="btn btn-icon btn-sm fw-bold bg-success h-35px w-35px text-white"
-                        @click.passive="handleSeverity(0)">
+                        @click.passive="handleSeverity(0)"  :disabled="checkDisabled">
                         {{ severityInfo }}
                     </button>
                     <button type="button" class="btn btn-icon btn-sm fw-bold bg-primary h-35px w-35px text-white ms-2"
-                        @click.passive="handleSeverity(1)">
+                        @click.passive="handleSeverity(1)"  :disabled="checkDisabled">
                         {{ severityLow }}
                     </button>
                     <button type="button" class="btn btn-icon btn-sm fw-bold bg-warning h-35px w-35px text-white ms-2"
-                        @click.passive="handleSeverity(2)">
+                        @click.passive="handleSeverity(2)"  :disabled="checkDisabled">
                         {{ severityMedium }}
                     </button>
                     <button type="button" class="btn btn-icon btn-sm fw-bold bg-danger h-35px w-35px text-white ms-2"
-                        @click.passive="handleSeverity(3)">
+                        @click.passive="handleSeverity(3)"  :disabled="checkDisabled">
                         {{ severityHigh }}
                     </button>
-                    <button @click.passive="handleSeverity(4)" type="button"
+                    <button @click.passive="handleSeverity(4)" type="button"  :disabled="checkDisabled"
                         class="btn btn-icon btn-sm fw-bold btn-outline btn-outline-dashed btn-outline-info h-35px w-35px text-info ms-2">
                         All
                     </button>
@@ -941,6 +941,10 @@ export default defineComponent({
         };
 
         const handleSeverity = (data: number) => {
+            checkDisabled.value = true
+            setTimeout(() => {
+                checkDisabled.value = false;
+            }, 500);
             if (data == 4) {
                 filterSeverity.value = null
             } else {
@@ -1050,7 +1054,6 @@ export default defineComponent({
         // true - tiếp tục
         const checkDisabled = ref<boolean>(false);
         const handlePauser = async () => {
-
             checkDisabled.value = true
             setTimeout(() => {
                 checkDisabled.value = false;
@@ -1143,6 +1146,10 @@ export default defineComponent({
         // tải về files
         const fileDownVisible = ref(false)
         const downloadAcunetix = async () => {
+            checkDisabled.value = true
+            setTimeout(() => {
+                checkDisabled.value = false;
+            }, 500);
             axios({
                 url: `/scan/${scanID.value}/download/v1`, //your url
                 method: 'GET',
@@ -1161,7 +1168,7 @@ export default defineComponent({
                 // xử lý hiển thị lỗi 
                 const reponse_message = JSON.parse(await error.response.data.text()).detail ?? "Có lỗi xảy ra"
                 ElMessage({
-                    message: reponse_message ?? 'Tạm dừng thành công',
+                    message: reponse_message,
                     type: 'success',
                     center: false,
                 })

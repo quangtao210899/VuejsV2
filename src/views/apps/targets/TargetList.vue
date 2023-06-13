@@ -21,18 +21,19 @@
                 <div v-show="selectedIds.length === 0">
                     <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
                         <!--begin::Export-->
-                        <el-tooltip class="box-item"  content="Tìm kiếm" placement="top">
+                        <el-tooltip class="box-item" content="Tìm kiếm" placement="top">
                             <button type="button"
                                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+                                data-kt-menu-flip="top-end">
                                 <KTIcon icon-name="filter" icon-class="fs-2" />
                                 Filter
                             </button>
                         </el-tooltip>
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
-    
+
                         <!--end::Export-->
-    
+
                         <!--begin::Add subscription-->
                         <el-tooltip class="box-item" content="Thêm mới" placement="top">
                             <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
@@ -53,7 +54,8 @@
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
+                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+                                class="btn btn-danger btn-sm ">
                                 Delete Selected
                             </button>
                         </el-tooltip>
@@ -73,7 +75,8 @@
                 @customRow="customRowTable">
 
                 <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-                <template v-slot:name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{ customer.name }}</span></template>
+                <template v-slot:name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{
+                    customer.name }}</span></template>
                 <template v-slot:ip="{ row: customer }">
                     {{ customer.ip }}
                 </template>
@@ -85,12 +88,14 @@
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Recon" placement="top">
-                        <router-link :to="`/target-recons/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
+                        <router-link :to="`/target-recons/${customer.id}`"
+                            class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
                             <i class="fas fa-mail-bulk"></i>
                         </router-link>
                     </el-tooltip>
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan" placement="top">
-                        <router-link :to="`/target-scans/${customer.id}`" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
+                        <router-link :to="`/target-scans/${customer.id}`"
+                            class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
                             <KTIcon icon-name="search-list" icon-class="fs-3" />
                         </router-link>
                     </el-tooltip>
@@ -188,10 +193,11 @@
                                         title="Bắt buộc phải nhập"></i>
                                 </label>
                                 <el-form-item prop="assign">
-                                    <el-select v-model.lazy="apiData.group" placeholder="Chọn nhóm mục tiêu" name="group" as="select" height="40px"
-                                        class="input-group-lg">
+                                    <el-select v-model.lazy="apiData.group" placeholder="Chọn nhóm mục tiêu" name="group"
+                                        as="select" height="40px" class="input-group-lg">
                                         <el-option value="" disabled>Chọn nhóm mục tiêu</el-option>
-                                        <el-option :label="item.title" :value="item.id" v-for="item in data_group">{{ item.title }}</el-option>
+                                        <el-option :label="item.title" :value="item.id" v-for="item in data_group">{{
+                                            item.title }}</el-option>
                                     </el-select>
                                 </el-form-item>
                                 <!-- <Field type="text" class="form-control form-control-solid" placeholder="Chọn nhóm mục tiêu"
@@ -269,10 +275,11 @@
                 </div>
                 <!--end::Form-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm  btn-light" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-sm  btn-light" data-bs-dismiss="modal" :disabled="disabled">
                         Hủy bỏ
                     </button>
-                    <button type="button" class="btn btn-sm  btn-primary" @click.passive="deleteFewSubscriptions()">
+                    <button type="button" class="btn btn-sm  btn-primary" :disabled="disabled"
+                        @click.passive="deleteFewSubscriptions()">
                         Đồng ý
                     </button>
                 </div>
@@ -325,20 +332,22 @@
                                             <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">IP:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.ip}} </td>
+                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.ip }} </td>
                                             </tr>
                                             <!--end::Row-->
 
                                             <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Domain:</td>
-                                                <td class="text-gray-800  badge badge-light pe-2">{{ detailData.domain}}</td>
+                                                <td class="text-gray-800  badge badge-light pe-2">{{ detailData.domain }}
+                                                </td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
                                             <tr>
                                                 <td class="text-gray-400">Nhóm group:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.group_title }}</td>
+                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.group_title
+                                                }}</td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
@@ -495,7 +504,7 @@ export default defineComponent({
                 apiData.value.name = data.name;
                 apiData.value.ip = data.ip;
                 apiData.value.domain = data.domain;
-                apiData.value.group= data.group_id??data.group.id;
+                apiData.value.group = data.group_id ?? data.group.id;
                 id.value = data.id;
             } else {
                 nameType.value = "Thêm mới mục tiêu"
@@ -558,10 +567,15 @@ export default defineComponent({
         const deleteFewSubscriptions = () => {
             deleteSubscription(selectedIds.value);
         };
+        const disabled = ref<boolean>(false);
 
         const ModalDelete = ref<null | HTMLElement>(null);
         const deleteSubscription = (ids: Array<number>) => {
             if (ids) {
+                disabled.value = true
+                setTimeout(() => {
+                    disabled.value = false
+                }, 1000);
                 return ApiService.delete(`targets/multi-delete?id=${ids}`)
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
@@ -647,11 +661,12 @@ export default defineComponent({
                 'domain': apiData.value.domain ?? "",
                 'group': apiData.value.group
             }
-            
+
             if (typeModal.value == 'add') {
                 return ApiService.post("/targets/", formData)
                     .then(({ data }) => {
-                        if(submitButtonRef.value){
+                        if (submitButtonRef.value) {
+                            notification(data.detail, 'success', 'Thêm mới thành công')
                             //Disable button
                             submitButtonRef.value.disabled = true;
                             // Activate indicator
@@ -661,10 +676,9 @@ export default defineComponent({
                                     submitButtonRef.value.disabled = false;
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
-                                notification(data.detail, 'success', 'Thêm mới thành công')
-                                getData();
 
                             }, 1000);
+                            getData();
                         }
                     })
                     .catch(({ response }) => {
@@ -681,7 +695,8 @@ export default defineComponent({
             } else {
                 return ApiService.put(`/targets/${id.value}/`, formData)
                     .then(({ data }) => {
-                        if(submitButtonRef.value){
+                        if (submitButtonRef.value) {
+                            notification(data.detail, 'success', 'Sửa mới thành công')
                             //Disable button
                             submitButtonRef.value.disabled = true;
                             // Activate indicator
@@ -691,9 +706,8 @@ export default defineComponent({
                                     submitButtonRef.value.disabled = false;
                                     submitButtonRef.value?.removeAttribute("data-kt-indicator");
                                 }
-                                notification(data.detail, 'success', 'Sửa mới thành công')
-                                getData();
                             }, 1000);
+                            getData();
                         }
 
                     })
@@ -777,7 +791,8 @@ export default defineComponent({
             // edit 
             nameType,
             loading,
-            resetForm
+            resetForm,
+            disabled,
         };
     },
 });
