@@ -120,8 +120,8 @@ export default defineComponent({
     },
 });
 </script>
-<style>
+<style scoped>
 .el-input.el-input--suffix {
-    height: 40px;
+  height: 40px;
 }
 </style>
