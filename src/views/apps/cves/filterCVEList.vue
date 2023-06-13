@@ -190,18 +190,30 @@ export default defineComponent({
       vul_type: '',
     });
 
-    watch(debouncedSearchTerm, debounceSearch);
-    watch(
-      data.value,
-      debounceSearch
-    );
+    let isReset = false;
+
+    watch(debouncedSearchTerm, () => {
+      if (!isReset) {
+        debounceSearch();
+      }
+      
+      isReset = false
+    });
+    watch(data.value, () => {
+      if (!isReset) {
+        submit();
+      }
+      isReset = false
+    });
 
     const reset = () => {
+      isReset = true;
       check_return = 0
       debouncedSearchTerm.value = '';
       data.value.product_type = '';
       data.value.query = '';
       data.value.vul_type = '';
+      submit()
     };
 
     return {
