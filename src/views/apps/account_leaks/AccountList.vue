@@ -219,7 +219,7 @@
           <div class="modal-footer flex-center">
             <!--begin::Button-->
             <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
-              class="btn btn-sm  btn-light me-3">
+              class="btn btn-sm  btn-light me-3" @click="resetForm">
               Discard
             </button>
             <!--end::Button-->
@@ -550,13 +550,16 @@ const getCountryList = () => {
     });
 };
 // Khai báo header
-
+const resetForm = () => {
+  apiData.value.country_id = "";
+  apiData.value.is_ok = false;
+}
 const handleClick = (data: object | any, type: String) => {
   typeModal.value = type;
   for (let key in errors) {
     errors[key] = "";
   }
-
+  resetForm()
   if (Object.keys(data).length != 0 && type === "edit") {
     nameType.value = "Chỉnh sửa tài khoản rò rỉ";
     apiData.value.email = data.email;
@@ -570,13 +573,11 @@ const handleClick = (data: object | any, type: String) => {
     console.log(apiData.value)
   } else {
     nameType.value = "Thêm tài khoản rò rỉ mới";
-    apiData.value.email = "";
-    apiData.value.username = "";
-    apiData.value.password_hash = "";
-    apiData.value.password_crack = "";
-    apiData.value.source_data = "";
-    apiData.value.country_id = "";
-    apiData.value.is_ok = false;
+    // apiData.value.email = "";
+    // apiData.value.username = "";
+    // apiData.value.password_hash = "";
+    // apiData.value.password_crack = "";
+    // apiData.value.source_data = "";
 
     if (discardButtonRef.value !== null) {
       discardButtonRef.value.click();
