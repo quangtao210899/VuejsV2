@@ -75,7 +75,7 @@
 
       <!--begin::Col-->
       <div class="col-xl-6">
-        <Widget11 v-bind:height="650" className="h-md-100" :MostcommonPortData="MostcommonPorts" :MostcommonPortLabels="MostcommonPortLabels"
+        <Widget11 className="h-md-100" :MostcommonPortData="MostcommonPorts" :MostcommonPortLabels="MostcommonPortLabels"
            :MostcommonPortColor="MostcommonPortColor" />
       </div>
       <!--end::Col-->
