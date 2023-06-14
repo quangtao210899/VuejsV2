@@ -27,7 +27,7 @@
     <!--begin::Body-->
     <div class="card-body">
       <!--begin::Chart-->
-      <apexchart ref="chartRef" :height="height" type="bar" :options="chart" :series="MostcommonPortData">
+      <apexchart ref="chartRef" height="100%" type="bar" :options="chart" :series="MostcommonPortData">
       </apexchart>
       <!--end::Chart-->
     </div>
@@ -51,7 +51,6 @@ export default defineComponent({
     MostcommonPortColor: { type: Array, required: true },
     MostcommonPortData: { type: Array, required: true },
     MostcommonPortLabels: { type: Array, required: true },
-    height: { type: Number || String, required: true },
   },
   components: {},
   setup(props) {
@@ -96,14 +95,13 @@ const chartOptions = (props: any): ApexOptions => {
     chart: {
       fontFamily: "inherit",
       stacked: true,
-      height: props.height,
       toolbar: {
         show: false,
       },
     },
     plotOptions: {
       bar: {
-        barHeight: '25px',
+        barHeight: '30px',
         distributed: true,
         horizontal: true,
         borderRadius: 6,
