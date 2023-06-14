@@ -442,7 +442,7 @@
                                             <div class="text-center mb-5">
                                                 <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
                                             </div>
-                                            <div class="text-center">{{ domain_info }}</div>
+                                            <div class="text-center">{{ ip_info }}</div>
                                         </div>
                                     </template>
                                     <template v-else>
