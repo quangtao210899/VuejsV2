@@ -27,7 +27,7 @@
     <!--begin::Body-->
     <div class="card-body">
       <!--begin::Chart-->
-      <apexchart ref="chartRef" class="mh-600px" height="600" type="bar" :options="chart" :series="MostcommonPortData">
+      <apexchart ref="chartRef" :height="height" type="bar" :options="chart" :series="MostcommonPortData">
       </apexchart>
       <!--end::Chart-->
     </div>

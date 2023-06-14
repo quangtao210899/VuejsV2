@@ -75,7 +75,7 @@
 
       <!--begin::Col-->
       <div class="col-xl-6">
-        <Widget11 v-bind:height="600" className="h-md-100" :MostcommonPortData="MostcommonPorts" :MostcommonPortLabels="MostcommonPortLabels"
+        <Widget11 v-bind:height="650" className="h-md-100" :MostcommonPortData="MostcommonPorts" :MostcommonPortLabels="MostcommonPortLabels"
            :MostcommonPortColor="MostcommonPortColor" />
       </div>
       <!--end::Col-->
@@ -163,7 +163,7 @@ export default defineComponent({
     // Vulmerabilities by serverity
     const vulnerableLabels = ref(['Info', 'Low', 'Medium', 'High']);
     const vulnerableData = ref<number[]>([]);
-    const vulnerableColor = ref(['#28a745', '#23b7e5', '#fcba32', '#e11f26']);
+    const vulnerableColor = ref(['#50cd89', '#009ef7', '#ffc700', '#f1416c']);
 
     // Nhóm mục tiêu
     const targetGroupLabels = ref<string[]>([]);

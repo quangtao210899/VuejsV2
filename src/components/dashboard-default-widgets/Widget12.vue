@@ -60,7 +60,7 @@
                 </td>
 
                 <td class="text-end pe-12">
-                  <span class="badge py-3 px-4 fs-7"
+                  <span class="badge py-2 px-4 fs-7"
                     :class="`badge-light-${checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan['service'] : row.port_scan['type'])).color}`">
                     <KTIcon
                       :class="`me-1 text-${checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan['service'] : row.port_scan['type'])).color}`"
