@@ -55,11 +55,9 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function connectSocket(host: string) {
-    // console.log('vào', connection.value)
     if (connection) {
       return
     }
-    // console.log('vào 123')
     console.log("Starting Connection to Websocket", host)
     connection = new WebSocket("ws://" + host + '/ws/notification/')
 

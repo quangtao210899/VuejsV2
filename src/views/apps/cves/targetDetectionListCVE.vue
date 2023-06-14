@@ -385,7 +385,10 @@ export default defineComponent({
                 .then(({ data }) => {
                     list.value = data.results
                     totalPage.value = data.count
-                    description.value = data.description
+                    if(!description.value && data.description){
+                        description.value = data.description
+                        notification(data.description, 'error','')
+                    }
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
