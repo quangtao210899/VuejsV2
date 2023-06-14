@@ -570,7 +570,6 @@ const handleClick = (data: object | any, type: String) => {
     apiData.value.country_id = data.country_id == 0 ? '0' : data.country_id;
     apiData.value.is_ok = data.is_ok;
     id.value = data.id;
-    console.log(apiData.value)
   } else {
     nameType.value = "Thêm tài khoản rò rỉ mới";
     // apiData.value.email = "";
@@ -714,7 +713,6 @@ const validationSchema = Yup.object().shape({
   password_crack: Yup.string().nullable(),
 });
 
-console.log(validationSchema, 111);
 
 // field: email, username, password, password_hash, source_data, country
 
@@ -829,7 +827,6 @@ const submit = async () => {
       })
       .catch(({ response }) => {
         if (response?.data) {
-          console.log(response?.data);
 
           errors.username = response.data.username;
           errors.email = response.data.email;

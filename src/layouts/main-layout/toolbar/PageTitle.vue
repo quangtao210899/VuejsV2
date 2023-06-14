@@ -79,7 +79,6 @@ export default defineComponent({
     });
 
     const links = computed<string[]>(() => {
-      console.log(route.name)
       if(route.name=='target-scanstab'){
         linkToBack.value = `/target-scans/${route.params['idScan']}`
       }

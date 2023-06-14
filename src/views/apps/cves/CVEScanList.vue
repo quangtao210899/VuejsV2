@@ -104,18 +104,22 @@
                                     <div class="flex-equal me-5">
                                         <div class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
                                             <div class="row mb-4 ">
-                                                <div class="text-gray-400 col-6">Trạng thái:</div>
+                                                <div class="text-gray-400 col-4">Trạng thái:</div>
                                                 <span :class="`badge badge-${getStatus(detailData.status).color} col-2`"
                                                     style="margin-left:10px;">{{ detailData.statusName }}</span>
                                             </div>
                                             <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Thời gian bắt đầu:</div>
-                                                <div class="text-gray-800 col-6">{{ detailData.created_at }}</div>
+                                                <div class="text-gray-400 col-4">Thời gian bắt đầu:</div>
+                                                <div class="text-gray-800 col-8">{{ detailData.created_at }}</div>
                                             </div>
                                             <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Thời gian kết thúc:</div>
-                                                <div class="text-gray-800 col-6">{{ (detailData.status == '2' ||
+                                                <div class="text-gray-400 col-4">Thời gian kết thúc:</div>
+                                                <div class="text-gray-800 col-8">{{ (detailData.status == '2' ||
                                                     detailData.status == '1') ? "--:--" : detailData.modified_at }}</div>
+                                            </div>
+                                            <div class="row mb-4" v-if="detailData.status == '4' && detailData.description">
+                                                <div class="text-gray-400 col-4">Mô tả:</div>
+                                                <div class="col-8 text-danger">{{ detailData.description }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -202,7 +206,6 @@ import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 import Fillter from "@/views/apps/targets/filterTargetScan.vue";
 
-import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
@@ -212,6 +215,7 @@ interface APIData {
     created_at: string;
     modified_at: string;
     user: string;
+    description: string;
 }
 
 export default defineComponent({
@@ -245,6 +249,7 @@ export default defineComponent({
             created_at: "",
             modified_at: '',
             user: '',
+            description: ""
         });
         const errors = reactive({
             status: "",
@@ -260,6 +265,7 @@ export default defineComponent({
             modified_at: '',
             status: '',
             statusName: '',
+            description: "",
         });
 
         const getIdFromUrl = () => {
@@ -417,6 +423,7 @@ export default defineComponent({
                 detailData.statusName = detail.status_name
                 detailData.created_at = detail.created_at
                 detailData.modified_at = detail.modified_at
+                detailData.description = detail.description
                 const modal = new Modal(
                     document.getElementById("kt_modal_detail") as Element
                 );

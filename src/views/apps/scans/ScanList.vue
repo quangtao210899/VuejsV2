@@ -621,7 +621,6 @@ export default defineComponent({
 
       dataConfirm.severity = detailData.severity
       dataConfirm.status = detailData.status
-      console.log(detail)
     };
 
     const handleCloseDetail = () => {
@@ -639,7 +638,6 @@ export default defineComponent({
     };
 
     const updateData = async () => {
-      // console.log( dataModal.value)
       disabled.value = true
         setTimeout(() => {
           disabled.value = false

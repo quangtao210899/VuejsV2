@@ -480,7 +480,6 @@ export default defineComponent({
               erroPasswordChange.value.newpassword = response.data.new_password ?? '';
               erroPasswordChange.value.confirmpassword = response.data.re_new_password ?? '';
               toastr.error(response.data.detail, { position: 'top-right' });
-              console.log(erroPasswordChange.value)
             } else {
               notification(response.data.detail, 'error', 'Có lỗi xảy ra')
             }
@@ -502,7 +501,6 @@ export default defineComponent({
       percentagePassword.value = 0
 
       if (discardButtonRef.value != null) {
-        console.log(discardButtonRef.value)
         discardButtonRef.value.click();
       }
     };

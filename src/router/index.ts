@@ -212,7 +212,6 @@ const routes: Array<RouteRecordRaw> = [
         beforeEnter: (to, from, next) => {
           const id = to.params.id; // Lấy giá trị id từ đường dẫn
           // Sử dụng id theo nhu cầu của bạn
-          console.log(id);
           next();
         },
       },

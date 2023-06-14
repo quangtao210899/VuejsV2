@@ -822,9 +822,6 @@ export default defineComponent({
                     // console.log(averageResponseTime.value)
                     // console.log(locations.value)
                     // console.log(maxResponseTime.value)
-                    console.log(data.scan_status)
-                    console.log(new Date(timeEnd.value))
-                    console.log(new Date(timeStart.value))
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -886,8 +883,6 @@ export default defineComponent({
                     detailVuln.cvss3 = data.cvss3 ?? ''
                     detailVuln.tags = data.tags.find((value: String) => value.includes("CWE-")) ?? ''
                     detailVuln.cvss_score = data.cvss_score ?? ''
-                    console.log(detailVuln)
-                    console.log(data)
 
                 })
                 .catch(({ response }) => {

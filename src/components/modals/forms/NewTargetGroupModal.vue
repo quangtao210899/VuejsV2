@@ -218,7 +218,6 @@ export default defineComponent({
         }
       });
     };
-    console.log('1234');
 
     return {
       targetData,

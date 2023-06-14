@@ -37,7 +37,6 @@
                 </div>
             </div>
         </div>
-
         <div class="card-body pt-0  overflow-y-auto overflow-x-hidden h-100 p-0 m-0 ">
             <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
@@ -217,7 +216,6 @@ import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 import Fillter from "@/views/apps/targets/filterTargetDectionListCVE.vue";
 
-import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
@@ -256,6 +254,7 @@ export default defineComponent({
         const query = ref<String>('');
         const orderingID = ref<String>('');
         const typeModal = ref<String>('');
+        const description = ref<String>('');
         const id = ref<number>(0);
         const nameType = ref<string>('');
         const apiData = ref<APIData>({
@@ -386,6 +385,7 @@ export default defineComponent({
                 .then(({ data }) => {
                     list.value = data.results
                     totalPage.value = data.count
+                    description.value = data.description
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -448,8 +448,6 @@ export default defineComponent({
 
         const onItemSelect = (selectedItems: Array<number>) => {
             selectedIds.value = selectedItems;
-            console.log(selectedIds.value, selectedItems);
-
         };
 
         // validate start

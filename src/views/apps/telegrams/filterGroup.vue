@@ -118,7 +118,6 @@ export default defineComponent({
           return
         }
       }
-      console.log(data.value.query, debouncedSearchTerm.value)
       emit("filter-data", data.value);
     };
     const debouncedSearchTerm = ref('');

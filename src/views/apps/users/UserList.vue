@@ -724,7 +724,6 @@ export default defineComponent({
         }
 
         const removeTextModal = () => {
-            console.log(apiData.value, typeModal.value, nameType.value, detailData.username);
             // typeModal.value == 'edit' && 
 
 
