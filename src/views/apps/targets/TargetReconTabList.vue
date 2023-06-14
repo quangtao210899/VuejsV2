@@ -73,7 +73,7 @@
 
     <!--begin::Card-->
     <div class="">
-        <el-scrollbar height="700px" :noresize="true" min-size="10" :native="true"
+        <el-scrollbar class="rounded-3" height="700px" :noresize="true" min-size="10" :native="true"
             wrap-class="w-100 overflow-x-hidden pe-1">
             <el-row :gutter="10">
                 <el-col :span="8" class="mb-3 mx-0">
@@ -244,7 +244,7 @@
                                                                                 <template v-if="checkArray(item) == true">
                                                                                     <template v-for="el in item">
                                                                                         <span
-                                                                                            class="badge badge-light-primary me-2">{{
+                                                                                            class="badge badge-light-primary me-2 my-1">{{
                                                                                                 el }}</span>
                                                                                     </template>
                                                                                 </template>
@@ -479,8 +479,62 @@
                                 </template>
                                 <template v-else>
                                     <div class="p-5">
-                                        <span v-for="item in port_service" :key="item"
-                                            class="badge badge-light-primary fs-7 me-2 my-1">{{ item }}</span>
+                                        <!-- <el-popover v-for="(item, key) in port_service" :key="key" 
+                                        :placement="(key == 0) ? 'bottom-start' : 'bottom'" :width="300" trigger="click">
+                                            <template #reference>
+                                                <span  class="badge badge-primary fs-7 me-2 my-1 cursor-pointer">{{ item }}</span>
+                                            </template>
+                                            <div>123</div>
+                                        </el-popover>
+                                        <br> -->
+                                        <el-popover v-for="(item, key) in port_service" :key="key" 
+                                        placement="bottom" :width="200" trigger="click">
+                                            <template #reference>
+                                                <el-tag 
+                                                :key="key"
+                                                :type="(item.status == false) ? 'danger' : ''"
+                                                class="mx-1 my-1 cursor-pointer"
+                                                effect="dark"
+                                                round
+                                                >
+                                                    {{ key }}
+                                                </el-tag>
+                                            </template>
+                                            <!--begin::Table container-->
+                                            <div class="table-responsive w-100 h-100 p-1 mh-300px">
+                                                <!--begin::Table-->
+                                                <table class="table table-row-dashed table-row-gray-300">
+                                                    <!--begin::Table head-->
+                                                    <thead>
+                                                        <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
+                                                            <th class="py-2 px-2 text-start w-50px">STT</th>
+                                                            <th class="py-2 px-2 text-start">IP</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <!--end::Table head-->
+
+                                                    <!--begin::Table body-->
+                                                    <tbody class="overflow-y-auto w-100 ">
+                                                        <tr v-for="(i, key) in  item.ips" :key="key">
+                                                            <td class="text-start ps-2"><span>{{ key + 1 }}</span></td>
+                                                            <td class="text-start ps-1">
+                                                                <span :class="`badge badge-light-${(item.status == false) ? 'danger' : 'primary'}`">{{ i }}</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" class="text-start ps-2">
+                                                                <span>Tổng IP :</span>
+                                                                <span class="ms-2 fs-6 fw-bold">{{ item.ips.length }}</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <!--end::Table body-->
+                                                </table>
+                                                <!--end::Table-->
+                                            </div>
+                                            <!--end::Table container-->
+                                        </el-popover>
+                                        
                                     </div>
                                 </template>
                             </template>
@@ -545,9 +599,9 @@
                                             <!--begin::Table head-->
                                             <thead>
                                                 <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                    <th class="p-0 text-start">Email</th>
-                                                    <th class="p-0 text-center">Password</th>
-                                                    <th class="p-0 text-end">Password Crack</th>
+                                                    <th class="py-2 px-0 text-start">Email</th>
+                                                    <th class="py-2 px-3 text-center">Password</th>
+                                                    <th class="py-2 px-3 text-end">Password Crack</th>
                                                 </tr>
                                             </thead>
                                             <!--end::Table head-->
@@ -556,28 +610,40 @@
                                             <tbody class="overflow-y-auto w-100 ">
                                                 <tr v-for="(item, key) in related_email" :key="key">
                                                     <td class="text-start"><span>
-                                                            <span>{{ (item.email == '') ? '--' : item.email }}</span>
+                                                            <span>{{ (item.email == '') ? 'None...' : item.email }}</span>
                                                         </span></td>
                                                     <td class="text-center ">
-                                                        <template v-if="checkArray(item.password_crack)">
-                                                            <span class="badge badge-light text-dark"
-                                                                v-for="i in item.password_crack">{{ (i == '') ? '--' :
-                                                                    i }}</span>
+                                                        <template v-if="checkArray(item.password_crack) || item.password_crack != ''">
+                                                            <template v-if="checkArray(item.password_crack)">
+                                                                <span class="badge badge-light text-dark ms-1 mb-1"
+                                                                v-for="i in item.password_crack">
+                                                                {{ (i == '') ? 'None...' : i }}</span>
+                                                            </template>
+                                                            <template v-else>
+                                                                <span class="badge badge-light text-dark">
+                                                                    {{ item.password_crack }}
+                                                                </span>
+                                                            </template>
                                                         </template>
                                                         <template v-else>
-                                                            <span class="badge badge-light-danger">{{ (item.password_crack
-                                                                == '') ? '--' : item.password_crack }}</span>
+                                                            <span class="badge badge-light-danger ">--</span>
                                                         </template>
                                                     </td>
                                                     <td class="text-end">
-                                                        <template v-if="checkArray(item.password_hash)">
-                                                            <span class="badge badge-light text-dark"
-                                                                v-for="i in item.password_hash">{{ (i == '') ? '--' :
-                                                                    i }}</span>
+                                                        <template v-if="checkArray(item.password_hash) || item.password_hash != ''">
+                                                            <template v-if="checkArray(item.password_hash)">
+                                                                <span class="badge badge-light text-dark ms-1 mb-1"
+                                                                v-for="i in item.password_hash">
+                                                                {{ (i == '') ? 'None...' : i }}</span>
+                                                            </template>
+                                                            <template v-else>
+                                                                <span class="badge badge-light text-dark">
+                                                                    {{ item.password_hash }}
+                                                                </span>
+                                                            </template>
                                                         </template>
                                                         <template v-else>
-                                                            <span class="badge badge-light-danger">{{ (item.password_hash ==
-                                                                '') ? '--' : item.password_hash }}</span>
+                                                            <span class="badge badge-light-danger ">--</span>
                                                         </template>
                                                     </td>
                                                 </tr>
@@ -644,9 +710,9 @@
                                             <!--begin::Table head-->
                                             <thead>
                                                 <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                    <th class="p-0 text-start">Tên miền</th>
-                                                    <th class="p-0 text-start">Giao thức</th>
-                                                    <th class="p-0 text-end">Cùng dải mạng?</th>
+                                                    <th class="py-2 px-0 text-start">Tên miền</th>
+                                                    <th class="py-2 px-3 text-start">Giao thức</th>
+                                                    <th class="py-2 px-3 text-end">Cùng dải mạng?</th>
                                                 </tr>
                                             </thead>
                                             <!--end::Table head-->
@@ -656,10 +722,15 @@
                                                 <tr v-for="(item, key) in related_domain" :key="key">
                                                     <td class="text-start"><span>{{ key }}</span></td>
                                                     <td class="text-start">
-                                                        <span>{{ (item.type == '') ? '--' : item.type }}</span>
+                                                        <span :class="`text-${(item.type == '') ? 'danger' : 'dark'}`">
+                                                            {{ (item.type == '') ? '--' : item.type }}
+                                                        </span>
                                                     </td>
                                                     <td class="text-end">
-                                                        <span>{{ (item.status == '') ? '--' : item.status }}</span>
+                                                        <span class="badge"
+                                                        :class="`badge-light-${(item.status == true) ? 'primary' : 'danger'}`">
+                                                            {{ item.status }}
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -860,9 +931,9 @@
                                     active-class="active">View all</router-link>
                             </div>
                         </template>
-                        <div class="h-450px">
+                        <div class="h-500px">
                             <template v-if="Object.values(subdomain_result).length > 0">
-                                <el-table :data="subdomain_result" height="450" style="width: 100%"
+                                <el-table :data="subdomain_result" height="500" style="width: 100%"
                                     class-name="my-custom-table">
                                     <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="name"
                                         label="Subdomain">
@@ -873,8 +944,9 @@
                                     <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center"
                                         label="Endpoints" min-width="90">
                                         <template #default="scope">
-                                            <span class="fs-7 fst-normal">
-                                                {{ (scope.row.enpoint == '') ? '--' : scope.row.enpoint }}</span>
+                                            <span class="fs-7 fst-normal badge"
+                                            :class="`badge-light-${(scope.row.enpoint == '') ? 'danger' : 'primary'}`">
+                                                {{ (scope.row.enpoint == '') ? '0' : scope.row.enpoint }}</span>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="" label="Directory"
@@ -959,7 +1031,7 @@
     <!--end::Card-->
 
     <!-- // modoal  -->
-    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file">
+    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file" width="500">
         <div class="card h-100 bg-secondary ">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
@@ -996,7 +1068,7 @@ import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-// import data from "@/views/apps/targets/reconData.json";
+import data from "@/views/apps/targets/reconData.json";
 import { Refresh } from '@element-plus/icons-vue'
 
 // import dayjs from 'dayjs';
@@ -1119,7 +1191,7 @@ export default defineComponent({
             loading.value = true;
             setTimeout(() => loading.value = false, 500)
             return await ApiService.get(`recon/detail3/${scanID.value}`)
-                .then(({ data }) => {
+                .then(({ data1 }) => {
                     // console.log(data)
                     // console.log(data1)
                     
@@ -1159,6 +1231,7 @@ export default defineComponent({
                     port_service.value = (data.recon[0].port_service !== undefined) ? data.recon[0].port_service.message : {};
                     port_service_status.value = (data.recon[0].port_service !== undefined) ? data.recon[0].port_service.status : {};
 
+
                     // related_email
                     related_email.value = (data.recon[0].related_email !== undefined) ? data.recon[0].related_email.message : {};
                     related_email_status.value = (data.recon[0].related_email !== undefined) ? data.recon[0].related_email.status : {};
@@ -1179,7 +1252,7 @@ export default defineComponent({
                     subdomain_result.value = data.recon[0].subdomain_result
                     // humanDiffTime()
                     // showLocaleTime()
-                    console.log(technology.value)
+                    console.log(port_service.value)
 
                 })
                 .catch(({ response }) => {
@@ -1571,6 +1644,10 @@ export default defineComponent({
 
 .padding-tabs .el-tabs__item {
     padding: 0 10px !important;
+    border-top: 1px solid #ccc !important;
+}
+.padding-tabs .el-tabs__item.is-active{
+    border-bottom-color:#fff !important;
 }
 
 .demo-tabs3 .el-tabs__item {

@@ -2,7 +2,7 @@
   <!--begin::Mixed Widget 4-->
   <div class="card overflow-auto h-650px">
     <!--begin::Beader-->
-    <span class="card-label fw-bold fs-3 text mb-3">Action</span>
+    <span class="card-label fw-bold fs-3 text-center mb-3">Action</span>
     <!--end::Header-->
 
     <!--begin::Body-->
