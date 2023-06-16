@@ -446,30 +446,98 @@
                 "message": {
                     "22/ssh": {
                         "status": true,
-                        "ips": [
-                            "1.1.1.1",
-                            "1.1.1.2",
-                            "1.1.1.3",
-                            "1.1.1.4"
-                        ]
+                        "ips": {
+                            "14.232.240.61": true,
+                            "14.232.240.58": true
+                        }
+                    },
+                    "80/http": {
+                        "status": true,
+                        "ips": {
+                            "14.232.240.61": true,
+                            "14.232.240.58": true,
+                            "172.217.24.115": true,
+                            "142.250.66.51": true
+                        }
                     },
                     "443/http": {
-                        "status": false,
-                        "ips": [
-                            "1.14.1.12",
-                            "1.15.1.22",
-                            "1.11.1.43"
-                        ]
-                    },
-                    "8080/http": {
                         "status": true,
-                        "ips": [
-                            "15.1.1.1",
-                            "16.1.1.2",
-                            "17.1.1.3",
-                            "16.12.1.313",
-                            "18.1.1.4"
-                        ]
+                        "ips": {
+                            "14.232.240.61": true,
+                            "14.232.240.58": true
+                        }
+                    },
+                    "113/ident": {
+                        "status": false,
+                        "ips": {
+                            "222.252.16.4": false,
+                            "103.122.82.60": false,
+                            "172.217.24.115": false,
+                            "142.250.66.51": false
+                        }
+                    },
+                    "179/tcpwrapped": {
+                        "status": true,
+                        "ips": {
+                            "222.252.16.4": true
+                        }
+                    },
+                    "443/https": {
+                        "status": true,
+                        "ips": {
+                            "222.252.16.4": true,
+                            "103.122.82.60": true,
+                            "172.217.24.115": true,
+                            "142.250.66.51": true
+                        }
+                    },
+                    "5080/onscreen": {
+                        "status": false,
+                        "ips": {
+                            "222.252.16.4": false
+                        }
+                    },
+                    "8089/unknown": {
+                        "status": true,
+                        "ips": {
+                            "222.252.16.4": true
+                        }
+                    },
+                    "80/http-proxy": {
+                        "status": true,
+                        "ips": {
+                            "103.122.82.60": true
+                        }
+                    },
+                    "3001/tcpwrapped": {
+                        "status": true,
+                        "ips": {
+                            "14.232.240.58": true
+                        }
+                    },
+                    "7443/tcpwrapped": {
+                        "status": true,
+                        "ips": {
+                            "14.232.240.58": true
+                        }
+                    },
+                    "8080/http-proxy": {
+                        "status": true,
+                        "ips": {
+                            "14.232.240.58": true
+                        }
+                    },
+                    "8443/tcpwrapped": {
+                        "status": true,
+                        "ips": {
+                            "14.232.240.58": true
+                        }
+                    },
+                    "9080/tcpwrapped": {
+                        "status": true,
+                        "ips": {
+                            "14.232.240.58": true
+                        }
                     }
                 }
             },
@@ -509,10 +577,25 @@
             },
             "technology": {
                 "status": 3,
-                "message": [
-                    "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3",
-                    "nginx"
-                ]
+                "message": {
+                    "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3": [
+                        "calendar.etc.vn",
+                        "egene.etc.vn"
+                    ],
+                    "nginx": [
+                        "calendar.etc.vn"
+                    ],
+                    "F5 BIG-IP load balancer http proxy": [
+                        "calendar.etc.vn"
+                    ],
+                    "nginx 1.21.4": [
+                        "calendar.etc.vn"
+                    ],
+                    "Google httpd": [
+                        "calendar.etc.vn",
+                        "calendar.etc.vn"
+                    ]
+                }
             },
             "metadata": {
                 "status": 3,
