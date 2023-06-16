@@ -605,253 +605,110 @@
                 }
             },
             "subdomain_result": [{
-                    "name": "cs.etc.vn",
-                    "enpoint": 0,
+                    "name": "access.etc.vn12123",
+                    "directory": 2,
+                    "directory_data": ["https://access.etc.vn/index", "https://access.etc.vn/new"],
+                    "enpoint": 30,
                     "url_checked": "--:--",
                     "status": "Not Exist",
                     "title": "--:--",
-                    "ip": "--:--",
-                    "dns_record": {}
+                    "ip": "183.80.250.208",
+                    "technology": [],
+                    "portservice": [
+                        "113/ident",
+                        "179/tcpwrapped",
+                        "443/https",
+                        "5080/onscreen",
+                        "8089/unknown"
+                    ],
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208",
+                            "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3"
+                        ]
+                    }
                 },
                 {
                     "name": "access.etc.vn",
-                    "enpoint": 0,
+                    "directory": 2,
+                    "directory_data": ["https://access.etc.vn/index", "https://access.etc.vn/new"],
+                    "enpoint": 30,
                     "url_checked": "--:--",
                     "status": "Not Exist",
                     "title": "--:--",
                     "ip": "183.80.250.208",
+                    "technology": [
+                        "Google httpd2",
+                        "Google httpd"
+                    ],
+                    "portservice": [
+                        "113/ident",
+                        "179/tcpwrapped",
+                        "443/https",
+                        "5080/onscreen",
+                        "8089/unknown"
+                    ],
                     "dns_record": {
                         "a": [
-                            "183.80.250.208"
+                            "183.80.250.208",
+                            "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3"
                         ]
                     }
                 },
                 {
-                    "name": "www.access.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "--:--",
-                    "dns_record": {}
-                },
-                {
-                    "name": "www.etc.vn",
-                    "enpoint": 172,
-                    "url_checked": "https://www.etc.vn",
-                    "status": "200",
-                    "title": "ETC",
-                    "ip": "14.232.240.61",
-                    "dns_record": {
-                        "a": [
-                            "14.232.240.61"
-                        ]
-                    }
-                },
-                {
-                    "name": "git.cs.etc.vn",
-                    "enpoint": 0,
+                    "name": "access.etc.vn",
+                    "directory": 2,
+                    "directory_data": ["https://access.etc.vn/index", "https://access.etc.vn/new"],
+                    "enpoint": 30,
                     "url_checked": "--:--",
                     "status": "Not Exist",
                     "title": "--:--",
                     "ip": "183.80.250.208",
+                    "technology": [
+                        "Google httpd2",
+                        "Google httpd3",
+                        "Google httpd"
+                    ],
+                    "portservice": [
+                        "113/ident",
+                        "179/tcpwrapped",
+                        "443/https",
+                        "5080/onscreen",
+                        "8089/unknown"
+                    ],
                     "dns_record": {
                         "a": [
-                            "183.80.250.208"
+                            "183.80.250.208",
+                            "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3"
                         ]
                     }
                 },
                 {
-                    "name": "git.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "--:--",
-                    "dns_record": {}
-                },
-                {
-                    "name": "www.git.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "--:--",
-                    "dns_record": {}
-                },
-                {
-                    "name": "meet.cs.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "--:--",
-                    "dns_record": {}
-                },
-                {
-                    "name": "tfs.cs.etc.vn",
-                    "enpoint": 0,
+                    "name": "access.etc.vn",
+                    "directory": 2,
+                    "directory_data": ["https://access.etc.vn/index", "https://access.etc.vn/new"],
+                    "enpoint": 30,
                     "url_checked": "--:--",
                     "status": "Not Exist",
                     "title": "--:--",
                     "ip": "183.80.250.208",
+                    "technology": [
+                        "Google httpd2",
+                        "Google httpd3",
+                        "Google httpd3",
+                        "Google httpd"
+                    ],
+                    "portservice": [
+                        "113/ident",
+                        "179/tcpwrapped",
+                        "443/https",
+                        "5080/onscreen",
+                        "8089/unknown"
+                    ],
                     "dns_record": {
                         "a": [
-                            "183.80.250.208"
-                        ]
-                    }
-                },
-                {
-                    "name": "calendar.etc.vn",
-                    "enpoint": 1,
-                    "url_checked": "http://calendar.etc.vn",
-                    "status": "302",
-                    "title": "302 Moved",
-                    "ip": "142.250.66.51",
-                    "dns_record": {
-                        "a": [
-                            "142.250.66.51"
-                        ],
-                        "cname": [
-                            "ghs.googlehosted.com"
-                        ]
-                    }
-                },
-                {
-                    "name": "drive.etc.vn",
-                    "enpoint": 1,
-                    "url_checked": "http://drive.etc.vn",
-                    "status": "302",
-                    "title": "302 Moved",
-                    "ip": "172.217.24.83",
-                    "dns_record": {
-                        "a": [
-                            "172.217.24.83"
-                        ],
-                        "cname": [
-                            "ghs.googlehosted.com"
-                        ]
-                    }
-                },
-                {
-                    "name": "voip.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "222.252.16.4",
-                    "dns_record": {
-                        "a": [
-                            "222.252.16.4"
-                        ]
-                    }
-                },
-                {
-                    "name": "autodiscover.etc.vn",
-                    "enpoint": 1,
-                    "url_checked": "http://autodiscover.etc.vn",
-                    "status": "301",
-                    "title": "--:--",
-                    "ip": "52.98.33.168",
-                    "dns_record": {
-                        "a": [
-                            "52.98.33.168",
-                            "52.98.54.136",
-                            "40.99.33.136",
-                            "40.99.10.8"
-                        ],
-                        "cname": [
-                            "autod.ms-acdc-autod.office.com",
-                            "atod-g2.tm-4.office.com",
-                            "autodiscover.outlook.com"
-                        ]
-                    }
-                },
-                {
-                    "name": "egene.etc.vn",
-                    "enpoint": 2,
-                    "url_checked": "http://egene.etc.vn",
-                    "status": "302",
-                    "title": "--:--",
-                    "ip": "14.232.240.58",
-                    "dns_record": {
-                        "a": [
-                            "14.232.240.58"
-                        ]
-                    }
-                },
-                {
-                    "name": "gps.cs.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "183.80.250.208",
-                    "dns_record": {
-                        "a": [
-                            "183.80.250.208"
-                        ]
-                    }
-                },
-                {
-                    "name": "doc.cs.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "183.80.250.208",
-                    "dns_record": {
-                        "a": [
-                            "183.80.250.208"
-                        ]
-                    }
-                },
-                {
-                    "name": "giadinh.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "--:--",
-                    "dns_record": {}
-                },
-                {
-                    "name": "mail.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "--:--",
-                    "dns_record": {}
-                },
-                {
-                    "name": "tuyendung.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "--:--",
-                    "dns_record": {}
-                },
-                {
-                    "name": "tfs01.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "--:--",
-                    "dns_record": {}
-                },
-                {
-                    "name": "changepass.etc.vn",
-                    "enpoint": 0,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "183.80.250.208",
-                    "dns_record": {
-                        "a": [
-                            "183.80.250.208"
+                            "183.80.250.208",
+                            "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3"
                         ]
                     }
                 }
