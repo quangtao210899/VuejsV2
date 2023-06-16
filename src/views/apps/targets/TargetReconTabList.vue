@@ -1,11 +1,11 @@
 <template>
     <!--begin::Navbar-->
-    <div class="card mb-3 me-2">
+    <div class="mb-3 me-2 position-relative position-repository bg-white rounded-3">
         <!--begin::Card header-->
-        <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
+        <div class="card-header border-0 p-0 position-absolute end-0 pe-1 position-sm-top">
             <!--begin::Card toolbar-->
             <div class="card-toolbar">
-                <div class="d-flex justify-content-end ">
+                <div class="d-flex justify-content-end w-100">
                     <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
                         icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
                         @cancel="cancelEvent">
@@ -37,25 +37,25 @@
             <!--end::Card toolbar-->
         </div>
         <!--end::Card header-->
-        <div class="row px-2 h-50px align-items-center ">
-            <div class="col-8 py-2">
+        <div class="row px-2 h-md-50px align-items-center ">
+            <div class="col-sm-12 col-md-8 py-2">
                 <div class="row">
                     <div class="col-6">
-                       <div>
-                        <span class="w-70px">Mục tiêu : </span>
-                        <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
-                       </div>
+                        <div>
+                            <span class="w-70px">Mục tiêu : </span>
+                            <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
+                        </div>
                     </div>
                     <div class="col-6">
-                       <div>
-                        <span class="w-70px">Nhóm mục tiêu : </span>
-                        <span class="fw-bold">{{ targets.group.title }}</span>
-                       </div>
+                        <div>
+                            <span class="w-70px">Nhóm mục tiêu : </span>
+                            <span class="fw-bold">{{ targets.group.title }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-4 text-end ms-auto py-2">
-                <div class="d-flex justify-content-end">
+            <div class="col-sm-12 col-md-4 text-end ms-auto py-2">
+                <div class="d-flex justify-content-sm-start justify-content-md-end">
 
                     <!--begin::Select-->
                     <el-button class="me-2" type="primary" :icon="RefreshIcon" @click="reloadData" :loading="disabled"
@@ -79,7 +79,7 @@
 
     <!--begin::Card-->
     <div class="">
-        <el-scrollbar class="rounded-3" height="700px" :noresize="true" min-size="10" :native="true"
+        <el-scrollbar class="rounded-3 height-repository" :noresize="true" min-size="10" :native="true"
             wrap-class="w-100 overflow-x-hidden pe-1">
             <el-row :gutter="10">
                 <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8" class="mb-3 mx-0">
@@ -226,7 +226,7 @@
                                                             <!--end::Table container-->
 
                                                             <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-500px" @mousedown="handleMouseDown">
+                                                            <div class="table-responsive w-100 h-500px">
                                                                 <!--begin::Table-->
                                                                 <table class="table table-row-dashed table-row-gray-300 ">
                                                                     <!--begin::Table head-->
@@ -505,16 +505,20 @@
                                             <!--begin::Table container-->
                                             <div class="mh-300px overflow-y-auto">
                                                 <div class="pb-2 mt-2">
-                                                    <h4 class="fs-4">Details for Post: {{ key.toString().split("/")[0] }}</h4>
-                                                    <span class="fs-7">Total 
-                                                        <span class="fw-bold text-dark">{{ Object.keys(item.ips).length }}</span>
-                                                         IP Addresses have Port 
-                                                         <span class="fw-bold text-dark">{{key.toString().split("/")[0] }}</span></span>
+                                                    <h4 class="fs-4">Details for Post: {{ key.toString().split("/")[0] }}
+                                                    </h4>
+                                                    <span class="fs-7">Total
+                                                        <span class="fw-bold text-dark">{{ Object.keys(item.ips).length
+                                                        }}</span>
+                                                        IP Addresses have Port
+                                                        <span class="fw-bold text-dark">{{ key.toString().split("/")[0]
+                                                        }}</span></span>
                                                 </div>
                                                 <div class="d-flex flex-column my-3 ms-2">
-                                                    <li v-for="(i, key) in  item.ips" :key="key" class="d-flex align-items-center py-2">
+                                                    <li v-for="(i, key) in  item.ips" :key="key"
+                                                        class="d-flex align-items-center py-2">
                                                         <span :class="`bg-${(i == true) ? 'primary' : 'danger'}`"
-                                                        class="bullet bullet-dot me-5 h-7px w-7px"></span>
+                                                            class="bullet bullet-dot me-5 h-7px w-7px"></span>
                                                         <!-- <span :class="`fs-7 badge badge-light-${(item.status == false) ? 'danger' : 'primary'}`">
                                                         {{ i }}</span> -->
                                                         <span class="fs-6">{{ key }}</span>
@@ -780,34 +784,35 @@
                                 </template>
                                 <template v-else>
                                     <div class="p-5">
-                                        <el-popover
-                                            v-for="(item, key) in technology" :key="key"
-                                            placement="top-start"
-                                            width="auto"
-                                            trigger="hover"
-                                            hide-after="100"
-                                        >
+                                        <el-popover v-for="(item, key) in technology" :key="key" placement="top-start"
+                                            width="auto" trigger="hover" hide-after="100">
                                             <template #reference>
-                                                <span @click="drawerTechnologys(item, key)" class="badge badge-light-primary fs-7 me-2 my-1 cursor-pointer">{{ key }}</span>                                                                                         
+                                                <span @click="drawerTechnologys(item, key)"
+                                                    class="badge badge-light-primary fs-7 me-2 my-1 cursor-pointer">{{ key
+                                                    }}</span>
                                             </template>
                                             <div>
-                                                <span>Total number of subdomains: <span class="fw-bold fs-6 text-primary">{{ Object.keys(item).length }}</span></span>
+                                                <span>Total number of subdomains: <span class="fw-bold fs-6 text-primary">{{
+                                                    Object.keys(item).length }}</span></span>
                                             </div>
                                         </el-popover>
                                         <el-drawer v-model="drawerTechnology" title="I am the title" :with-header="false">
                                             <div>
                                                 <h4>{{ detailTechnologyTitle }}</h4>
-                                                <span class="fs-7 mb-5 ">There Are 
-                                                        <span class="fw-bold text-dark ">{{ Object.keys(detailTechnology).length }}</span>
-                                                        Technologies Used In Total
+                                                <span class="fs-7 mb-5 ">There Are
+                                                    <span class="fw-bold text-dark ">{{ Object.keys(detailTechnology).length
+                                                    }}</span>
+                                                    Technologies Used In Total
                                                 </span>
                                             </div>
                                             <div class="d-flex flex-column ms-2 my-5">
-                                                <li class="d-flex align-items-center py-2" v-for="el in detailTechnology" :key="el">
-                                                    <span class="bullet bullet-dot bg-success me-5 h-7px w-7px"></span> {{ el }}
+                                                <li class="d-flex align-items-center py-2" v-for="el in detailTechnology"
+                                                    :key="el">
+                                                    <span class="bullet bullet-dot bg-success me-5 h-7px w-7px"></span> {{
+                                                        el }}
                                                 </li>
                                             </div>
-                                        </el-drawer> 
+                                        </el-drawer>
                                     </div>
                                 </template>
                             </template>
@@ -1000,15 +1005,47 @@
                                         </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="" label="Cổng dịch vụ"
-                                        align="center" min-width="90">
+                                        align="start" min-width="200">
                                         <template #default="scope">
-                                            <span class="fs-7 fst-normal">{{ 'chưa có' }}</span>
+                                            <div>
+                                                <template v-if="Object.keys(scope.row.portservice).length === 0">
+                                                    <span class="text-danger" >--</span>
+                                                </template>
+                                                <template v-else>
+                                                    <template v-for="(items, key) in scope.row.portservice" :key="key">
+                                                        <span v-if="key < 3 || expandedPortservice.includes(scope.$index)"
+                                                            class="badge badge-light-primary ms-1">{{ items }}</span>
+                                                    </template>
+                                                    <span v-if="Object.keys(scope.row.portservice).length > 3"
+                                                        @click="handlePortserviceMore(scope.$index)"
+                                                        class="badge badge-light ms-1 cursor-pointer">
+                                                        {{ isRowExpandedPortservice(scope.$index) ? "Ẩn" : "Thêm.." }}
+                                                    </span>
+                                                </template>
+                                            </div>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="" align="center"
-                                        label="Công nghệ sử dụng" min-width="90">
+                                    <el-table-column label-class-name="border border-0 fs-7" prop="" align="start"
+                                        label="Công nghệ sử dụng" min-width="200">
                                         <template #default="scope">
-                                            <span class="fs-7 fst-normal">{{ 'chưa có' }}</span>
+                                            <div>
+                                                <template v-if="Object.keys(scope.row.technology).length === 0">
+                                                    <span class="text-danger" >--</span>
+                                                </template>
+                                                <template v-else>
+                                                    <template v-for="(items, key) in scope.row.technology" :key="key">
+                                                        <span
+                                                            v-if="key < 3 || expandedRowsTeachnology.includes(scope.$index)"
+                                                            class="badge badge-light-primary ms-1">{{ items }}</span>
+                                                    </template>
+                                                    <span v-if="Object.keys(scope.row.technology).length > 3"
+                                                        @click="handleTechnologyMore(scope.$index)"
+                                                        class="badge badge-light ms-1 cursor-pointer">
+                                                        {{ isRowExpandedTechnology(scope.$index) ? "Ẩn" : "Thêm.." }}
+                                                    </span>
+                                                </template>
+
+                                            </div>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="left"
@@ -1021,7 +1058,7 @@
                                                 <template v-for="(items, index) in scope.row.dns_record" :key="index">
                                                     <li class="d-flex align-items-start mb-1">
                                                         <!-- <span class="bullet bullet-dot bg-success me-3 mt-3"></span> -->
-                                                        <div> 
+                                                        <div>
                                                             <span class="fw-bold text-capitalize">{{ index }}: </span>
                                                             <span class="fst-normal fs-7">{{ items.join(' , ') }}</span>
                                                         </div>
@@ -1075,7 +1112,7 @@
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, onBeforeUnmount, reactive  } from "vue";
+import { defineComponent, ref, onMounted, onBeforeUnmount, reactive } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
@@ -1575,12 +1612,49 @@ export default defineComponent({
 
         const detailTechnology = ref([])
         const detailTechnologyTitle = ref('')
-        const drawerTechnologys = (data: any, title: string) => {
-            drawerTechnology.value = true
-            detailTechnology.value = data
-            detailTechnologyTitle.value = title
+        const drawerTechnologys = (data: any, title: any) => {
+            if (data || title) {
+                drawerTechnology.value = true
+                detailTechnology.value = data
+                detailTechnologyTitle.value = title
+            }
         };
-        
+
+        // xem thêm Teachnology
+        const showItems = ref(false);
+        const expandedRowsTeachnology = ref([]);
+        const handleTechnologyMore = (rowIndex: any) => {
+            if (isRowExpandedTechnology(rowIndex)) {
+                expandedRowsTeachnology.value = expandedRowsTeachnology.value.filter(
+                    (row) => row !== rowIndex
+                );
+            } else {
+                expandedRowsTeachnology.value.push(rowIndex);
+            }
+        };
+
+        const isRowExpandedTechnology = (rowIndex) => {
+            console.log(expandedRowsTeachnology.value);
+            return expandedRowsTeachnology.value.includes(rowIndex);
+        };
+
+        // Portservice
+        const expandedPortservice = ref([]);
+        const handlePortserviceMore = (rowIndex: any) => {
+            if (isRowExpandedPortservice(rowIndex)) {
+                expandedPortservice.value = expandedPortservice.value.filter(
+                    (row) => row !== rowIndex
+                );
+            } else {
+                expandedPortservice.value.push(rowIndex);
+            }
+        };
+
+        const isRowExpandedPortservice = (rowIndex) => {
+            console.log(expandedPortservice.value);
+            return expandedPortservice.value.includes(rowIndex);
+        };
+
         return {
             activities,
             scanID,
@@ -1667,6 +1741,12 @@ export default defineComponent({
             detailTechnology,
             detailTechnologyTitle,
             targets,
+            handleTechnologyMore,
+            isRowExpandedTechnology,
+            expandedRowsTeachnology,
+            handlePortserviceMore,
+            isRowExpandedPortservice,
+            expandedPortservice,
         };
     },
 });
@@ -1712,6 +1792,56 @@ export default defineComponent({
 
 .my-custom-table td.el-table__cell {
     border-bottom-style: dashed !important;
+}
+
+/* // Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+    .position-sm-top {
+        position: unset !important;
+        margin-bottom: 5px;
+    }
+
+    .position-repository {
+        background-color: white;
+        padding: 10px 5px;
+        display: block;
+    }
+
+    .height-repository {
+        height: 645px;
+    }
+}
+
+/* // Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    .position-sm-top {
+        top: -40px;
+    }
+
+    .height-repository {
+        height: 700px;
+    }
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .position-sm-top {
+        top: -40px;
+    }
+
+    .height-repository {
+        height: 730px;
+    }
+}
+
+@media (min-width: 992px) {
+    .position-sm-top {
+        top: -60px;
+    }
+
+    .height-repository {
+        height: 700px;
+    }
 }
 </style>
   
