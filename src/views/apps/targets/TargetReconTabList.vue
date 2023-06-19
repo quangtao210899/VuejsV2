@@ -963,17 +963,21 @@
                                                 {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center"
-                                        label="Endpoints" min-width="90">
+                                        label="Endpoints" min-width="80">
                                         <template #default="scope">
-                                            <span class="fs-7 fst-normal badge"
-                                                :class="`badge-light-${(scope.row.enpoint == '') ? 'danger' : 'primary'}`">
-                                                {{ (scope.row.enpoint == '') ? '0' : scope.row.enpoint }}</span>
+                                            <span class="fs-7 fst-normal badge cursor-pointer"
+                                                @click="modelEndpoints(scope.row.enpoint_data)"
+                                                :class="`badge-light-${(scope.row.enpoint == 0) ? 'danger' : 'primary'}`">
+                                                {{ scope.row.enpoint }}</span>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="" label="Directory"
-                                        align="center">
+                                        align="center" min-width="80">
                                         <template #default="scope">
-                                            <span class="fs-7 fst-normal">{{ 'chưa có' }}</span>
+                                            <span class="fs-7 fst-normal badge cursor-pointer"
+                                                @click="modelDirectory(scope.row.directory_data)"
+                                                :class="`badge-light-${(scope.row.directory == 0) ? 'danger' : 'primary'}`">
+                                                {{ scope.row.directory }}</span>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="url_checked"
@@ -1009,7 +1013,7 @@
                                         <template #default="scope">
                                             <div>
                                                 <template v-if="Object.keys(scope.row.portservice).length === 0">
-                                                    <span class="text-danger" >--</span>
+                                                    <span class="text-danger">--</span>
                                                 </template>
                                                 <template v-else>
                                                     <template v-for="(items, key) in scope.row.portservice" :key="key">
@@ -1019,8 +1023,26 @@
                                                     <span v-if="Object.keys(scope.row.portservice).length > 3"
                                                         @click="handlePortserviceMore(scope.$index)"
                                                         class="badge badge-light ms-1 cursor-pointer">
-                                                        {{ isRowExpandedPortservice(scope.$index) ? "Ẩn" : "Thêm.." }}
+                                                        <template
+                                                            v-if="isRowExpandedPortservice(scope.$index)">Ẩn</template>
+                                                        <template v-else>
+                                                            <el-popover placement="right" width="200" trigger="hover"
+                                                                hide-after="100">
+                                                                <template #reference>
+                                                                    <span>Thêm</span>
+                                                                </template>
+                                                                <div>
+                                                                    <span
+                                                                        v-for="(el, elIndex) in scope.row.portservice.slice(3)"
+                                                                        :key="elIndex"
+                                                                        class="badge badge-light-primary ms-1 mb-1">{{ el
+                                                                        }}</span>
+                                                                </div>
+                                                            </el-popover>
+                                                        </template>
                                                     </span>
+
+
                                                 </template>
                                             </div>
                                         </template>
@@ -1030,7 +1052,7 @@
                                         <template #default="scope">
                                             <div>
                                                 <template v-if="Object.keys(scope.row.technology).length === 0">
-                                                    <span class="text-danger" >--</span>
+                                                    <span class="text-danger">--</span>
                                                 </template>
                                                 <template v-else>
                                                     <template v-for="(items, key) in scope.row.technology" :key="key">
@@ -1108,11 +1130,59 @@
             </span>
         </template>
     </el-dialog>
+
+    <!-- modoal  -->
+    <el-dialog v-model="dialogDirectoryVisible" title="directory_data" width="500">
+        <pre>{{ directory_data }}</pre>
+    </el-dialog>
+
+    <!-- modoal  -->
+    <el-dialog v-model="dialogEndpointsVisible" title="enpoint_data" width="800">
+        <el-table :data="enpoint_data" style="width: 100%" class-name="my-custom-table">
+            <el-table-column min-width="30" label-class-name="border border-0 fs-7"
+                label="STT">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ scope.$index + 1 }}</span> </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="url"
+                label="URL">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.url == '') ? '--' : scope.row.url }}</span> </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7"
+                label="Parameter">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">--</span></template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="title"
+                label="Title">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.title == '') ? '--' : scope.row.title }}</span> </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="status_code"
+                label="Status">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.status_code == '') ? '--' : scope.row.status_code }}</span> </template>
+            </el-table-column>
+        </el-table>
+        <!-- <el-pagination
+        @current-change="handleCurrentChangeEndpoint"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        :total="totalRecords"
+        layout="prev, pager, next"
+        ></el-pagination> -->
+
+    </el-dialog>
 </template>
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, onBeforeUnmount, reactive } from "vue";
+import { defineComponent, ref, onMounted, onBeforeUnmount, watch } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
@@ -1122,7 +1192,7 @@ import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-// import data from "@/views/apps/targets/reconData.json";
+import data from "@/views/apps/targets/reconData.json";
 import { Refresh } from '@element-plus/icons-vue'
 
 // import dayjs from 'dayjs';
@@ -1261,7 +1331,7 @@ export default defineComponent({
             loading.value = true;
             setTimeout(() => loading.value = false, 500)
             return await ApiService.get(`recon/detail3/${scanID.value}`)
-                .then(({ data }) => {
+                .then(({ data1 }) => {
                     // console.log(data)
                     // console.log(data1)
 
@@ -1621,39 +1691,97 @@ export default defineComponent({
         };
 
         // xem thêm Teachnology
-        const showItems = ref(false);
-        const expandedRowsTeachnology = ref([]);
+        const expandedRowsTeachnology = ref<any>([]);
         const handleTechnologyMore = (rowIndex: any) => {
             if (isRowExpandedTechnology(rowIndex)) {
                 expandedRowsTeachnology.value = expandedRowsTeachnology.value.filter(
-                    (row) => row !== rowIndex
+                    (row: any) => row !== rowIndex
                 );
             } else {
                 expandedRowsTeachnology.value.push(rowIndex);
             }
         };
 
-        const isRowExpandedTechnology = (rowIndex) => {
-            console.log(expandedRowsTeachnology.value);
+        const isRowExpandedTechnology = (rowIndex: any) => {
             return expandedRowsTeachnology.value.includes(rowIndex);
         };
 
         // Portservice
-        const expandedPortservice = ref([]);
+        const expandedPortservice = ref<any>([]);
         const handlePortserviceMore = (rowIndex: any) => {
             if (isRowExpandedPortservice(rowIndex)) {
                 expandedPortservice.value = expandedPortservice.value.filter(
-                    (row) => row !== rowIndex
+                    (row: any) => row !== rowIndex
                 );
             } else {
                 expandedPortservice.value.push(rowIndex);
             }
         };
 
-        const isRowExpandedPortservice = (rowIndex) => {
-            console.log(expandedPortservice.value);
+        const isRowExpandedPortservice = (rowIndex: any) => {
             return expandedPortservice.value.includes(rowIndex);
         };
+
+        // modoal subdomains
+        // detail subdmains
+
+        const dialogDirectoryVisible = ref(false)
+        const dialogEndpointsVisible = ref(false)
+        const directory_data = ref<any>({})
+        const enpoint_data = ref<any>({})
+        const currentPage = ref(1); // Trang hiện tại
+        const pageSize = ref(10); // Số lượng hàng mỗi trang
+        const totalRecords = ref(0); // Tổng số bản ghi
+        const pagedTableData = ref([]); // Tính toán dữ liệu bảng dựa trên trang hiện tại và kích thước trang
+
+        const modelEndpoints = (data: any) => {
+            dialogEndpointsVisible.value = true
+            fetchData(data, currentPage.value, pageSize.value)
+        };
+
+        // Lắng nghe sự thay đổi của currentPage và pageSize
+        // watch([currentPage, pageSize], ([newCurrentPage, newPageSize]) => {
+        //     fetchData(enpoint_data, newCurrentPage, newPageSize);
+        // });
+        
+        const fetchData = (data: any, currentPage: number, pageSize: number) => {
+            enpoint_data.value = data.slice(10);
+            // currentPage.value = currentPage;
+            // totalRecords.value = enpoint_data.length;
+            // console.log(enpoint_data.value)
+            console.log(data)
+            console.log(currentPage)
+            console.log(pageSize)
+        };
+
+        // Cập nhật dữ liệu bảng dựa trên trang hiện tại và kích thước trang
+        // const updatePagedTableData = () =>{
+        //     const start = (currentPage.value - 1) * pageSize.value;
+        //     const end = start + pageSize.value;
+        //     pagedTableData.value = enpoint_data.value.slice(start, end);
+        // }
+
+        // Xử lý sự kiện thay đổi trang
+        // const handleCurrentChangeEndpoint = (newPage: number) =>{
+        //     currentPage.value = newPage;
+        // }
+
+        // Theo dõi thay đổi của dữ liệu bảng và cập nhật dữ liệu bảng phụ thuộc vào trang hiện tại và kích thước trang
+        // watch(enpoint_data, () => {
+        //     updatePagedTableData();
+        // });
+
+
+
+
+        const modelDirectory = (data: any) => {
+            dialogDirectoryVisible.value = true
+            directory_data.value = data
+            console.log(directory_data.value )
+
+        };
+
+        
 
         return {
             activities,
@@ -1747,6 +1875,19 @@ export default defineComponent({
             handlePortserviceMore,
             isRowExpandedPortservice,
             expandedPortservice,
+
+            // modoal
+            dialogDirectoryVisible,
+            dialogEndpointsVisible,
+            modelDirectory,
+            modelEndpoints,
+            directory_data,
+            enpoint_data,
+            // handleCurrentChangeEndpoint,
+            currentPage,
+            pagedTableData,
+            totalRecords,
+            pageSize,
         };
     },
 });

@@ -1,11 +1,11 @@
 {
-    "id": 186,
+    "id": 213,
     "user": {
         "id": 1,
         "first_name": "Quang Tạo",
         "username": "admin@demo.com",
         "is_staff": true,
-        "last_login": "14/06/2023 09:49:43",
+        "last_login": "16/06/2023 11:12:19",
         "date_joined": "12/05/2023 09:59:58"
     },
     "target": {
@@ -18,252 +18,148 @@
             "id": 1
         },
         "created_at": "12/05/2023 10:03:56",
-        "modified_at": "12/06/2023 10:48:38"
+        "modified_at": "16/06/2023 15:11:18"
     },
-    "created_at": "2023-06-12T11:18:30.994234+07:00",
-    "modified_at": "2023-06-12T12:11:32.372028+07:00",
+    "created_at": "2023-06-16T15:07:27.873925+07:00",
+    "modified_at": "2023-06-16T15:13:46.332432+07:00",
     "status": 3,
     "recon": [{
             "activity": {
                 "task_done": [{
                         "name": "Domain information",
-                        "time": "1 ngày",
+                        "time": "6 phút",
                         "status": 3,
                         "color": "success"
                     },
                     {
                         "name": "Certificate transparency",
-                        "time": "1 ngày",
-                        "status": 2,
-                        "color": "primary"
+                        "time": "6 phút",
+                        "status": 3,
+                        "color": "success"
                     },
                     {
                         "name": "IP info",
-                        "time": "1 ngày",
-                        "status": 2,
-                        "color": "primary"
+                        "time": "6 phút",
+                        "status": 3,
+                        "color": "success"
                     },
                     {
                         "name": "Google Analytics ID",
-                        "time": "1 ngày",
-                        "status": 1,
-                        "color": "muted"
+                        "time": "6 phút",
+                        "status": 3,
+                        "color": "success"
                     },
                     {
                         "name": "Metadata finder",
-                        "time": "1 ngày",
-                        "status": 4,
-                        "color": "danger"
+                        "time": "6 phút",
+                        "status": 3,
+                        "color": "success"
                     },
                     {
                         "name": "Port Scanner",
-                        "time": "1 ngày",
-                        "status": 4,
-                        "color": "danger"
+                        "time": "6 phút",
+                        "status": 3,
+                        "color": "success"
                     },
                     {
                         "name": "NOERROR subdomain discovery",
-                        "time": "1 ngày",
+                        "time": "5 phút",
                         "status": 3,
                         "color": "success"
                     },
                     {
                         "name": "Bruteforce",
-                        "time": "1 ngày",
+                        "time": "5 phút",
                         "status": 3,
                         "color": "success"
                     },
                     {
                         "name": "Emails addresses and users",
-                        "time": "1 ngày",
-                        "status": 2,
-                        "color": "primary"
-                    },
-                    {
-                        "name": "Password leaks",
-                        "time": "1 ngày",
+                        "time": "5 phút",
                         "status": 3,
                         "color": "success"
                     },
                     {
-                        "name": "TLS handshake",
-                        "time": "1 ngày",
-                        "status": 2,
-                        "color": "primary"
+                        "name": "Password leaks",
+                        "time": "5 phút",
+                        "status": 3,
+                        "color": "success"
                     },
                     {
                         "name": "Passive",
-                        "time": "1 ngày",
+                        "time": "5 phút",
                         "status": 3,
                         "color": "success"
                     },
                     {
                         "name": "Cloud checkers",
-                        "time": "1 ngày",
-                        "status": 5,
-                        "color": "warning"
+                        "time": "5 phút",
+                        "status": 3,
+                        "color": "success"
                     },
                     {
                         "name": "DNS Records",
-                        "time": "1 ngày",
-                        "status": 1,
-                        "color": "muted"
+                        "time": "5 phút",
+                        "status": 3,
+                        "color": "success"
                     },
                     {
                         "name": "CDN checker",
-                        "time": "1 ngày",
-                        "status": 1,
-                        "color": "muted"
+                        "time": "5 phút",
+                        "status": 3,
+                        "color": "success"
                     },
                     {
                         "name": "JS files & Source Code Scraping",
-                        "time": "1 ngày",
-                        "status": 5,
-                        "color": "warning"
-                    },
-                    {
-                        "name": "Javascript analysis",
-                        "time": "1 ngày",
+                        "time": "4 phút",
                         "status": 3,
                         "color": "success"
                     },
                     {
                         "name": "Subdomains takeover",
-                        "time": "1 ngày",
+                        "time": "3 phút",
                         "status": 3,
                         "color": "success"
                     },
                     {
-                        "name": "Web Prober",
-                        "time": "1 ngày",
+                        "name": "TLS handshake",
+                        "time": "5 giây",
                         "status": 3,
                         "color": "success"
-                    },
-                    {
-                        "name": "CMS Scanner",
-                        "time": "1 ngày",
-                        "status": 3,
-                        "color": "success"
-                    },
-                    {
-                        "name": "WAF checker",
-                        "time": "1 ngày",
-                        "status": 3,
-                        "color": "success"
-                    },
-                    {
-                        "name": "Url extraction",
-                        "time": "1 ngày",
-                        "status": 3,
-                        "color": "success"
-                    },
-                    {
-                        "name": "Fuzzing",
-                        "time": "1 ngày",
-                        "status": 3,
-                        "color": "success"
-                    },
-                    {
-                        "name": "URL patterns Search and filtering",
-                        "time": "1 ngày",
-                        "status": 2,
-                        "color": "primary"
                     },
                     {
                         "name": "Hoàn thành",
-                        "time": "1 ngày",
-                        "status": 0,
-                        "color": "muted"
+                        "time": "5 giây",
+                        "status": 3,
+                        "color": "success"
                     }
                 ],
-                "total_finish": 20,
-                "total_not_done": 4
+                "total_finish": 17,
+                "total_not_done": 0
             },
             "subdomain": {
-                "total_subdomain": 21,
-                "total_subdomain_live": 1
+                "total_subdomain": 24,
+                "total_subdomain_live": 3
             },
             "services": {
-                "total_open": 3,
-                "total_close": 0,
-                "total": 3
+                "total_open": 19,
+                "total_close": 11,
+                "total": 30
             },
             "account": {
-                "email": 6,
+                "email": 2,
                 "credentials": 0
             },
             "endpoint": {
                 "status": 3,
                 "message": {
-                    "total_endpoint": 179,
-                    "total_endpoint_live": 108
+                    "total_endpoint": 217,
+                    "total_endpoint_live": 153
                 }
             },
             "domain_info": {
-                "status": 3,
-                "message": {
-                    "Domain": {
-                        "Domain Name": "EPAYJSC.COM",
-                        "Registry Domain ID": "2268635337_DOMAIN_COM-VRSN",
-                        "Registrar WHOIS Server": "whois.pavietnam.vn",
-                        "Registrar URL": "http://www.pavietnam.vn",
-                        "Updated Date": "2022-05-17T09:43:52Z",
-                        "Creation Date": "2018-05-28T02:04:53Z",
-                        "Registrar Registration Expiration Date": "2028-05-28 00:00:00",
-                        "Registrar": "P.A. Viet Nam Company Limited",
-                        "Registrar IANA ID": "1649",
-                        "Registrar Abuse Contact Email": "abuse@pavietnam.vn",
-                        "Registrar Abuse Contact Phone": "+84.2873019954",
-                        "Domain Status": "clientTransferProhibited https://icann.org/epp#clientTransferProhibited",
-                        "Name Server": [
-                            "NS1.PAVIETNAM.VN",
-                            "ns2.pavietnam.vnDNSSEC:Unsigned",
-                            "NS2.PAVIETNAM.VN",
-                            "nsbak.pavietnam.net",
-                            "ns1.pavietnam.vn",
-                            "NSBAK.PAVIETNAM.NET"
-                        ]
-                    },
-                    "Registrant": {
-                        "Registrant Name": "CONG TY CO PHAN DICH VU EPAY",
-                        "Registrant Organization": "CONG TY CO PHAN DICH VU EPAY",
-                        "Registrant Street": "Tang 10 toa nha 319 BQP, So 63, Phuong Trung Hoa, Quan Cau Giay",
-                        "Registrant City": "Ha Noi",
-                        "Registrant State/Province": "Registrant Postal Code: 700000",
-                        "Registrant Postal Code": "700000",
-                        "Registrant Country": "VN",
-                        "Registrant Phone": "+84.",
-                        "Registrant Phone Ext": "84",
-                        "Registrant Fax": "Registrant Email: general@epayjsc.com",
-                        "Registrant Email": "general@epayjsc.com"
-                    },
-                    "Admin": {
-                        "Admin Name": "Nguyen Mai Phuong",
-                        "Admin Organization": "CONG TY CO PHAN DICH VU EPAY",
-                        "Admin Street": "Tang 10 toa nha 319 BQP, So 63, Phuong Trung Hoa, Quan Cau Giay",
-                        "Admin City": "Ha Noi",
-                        "Admin State/Province": "Admin Postal Code: 700000",
-                        "Admin Postal Code": "700000",
-                        "Admin Country": "VN",
-                        "Admin Phone": "+84.",
-                        "Admin Phone Ext": "84",
-                        "Admin Fax": "Admin Email: general@epayjsc.com",
-                        "Admin Email": "general@epayjsc.com"
-                    },
-                    "Technical": {
-                        "Tech Name": "Nguyen Mai Phuong",
-                        "Tech Organization": "CONG TY CO PHAN DICH VU EPAY",
-                        "Tech Street": "Tang 10 toa nha 319 BQP, So 63, Phuong Trung Hoa, Quan Cau Giay",
-                        "Tech City": "Ha Noi",
-                        "Tech State/Province": "Tech Postal Code: 700000",
-                        "Tech Postal Code": "700000",
-                        "Tech Country": "VN",
-                        "Tech Phone": "+84.",
-                        "Tech Phone Ext": "84",
-                        "Tech Fax": "Tech Email: general@epayjsc.com",
-                        "Tech Email": "general@epayjsc.com"
-                    }
-                }
+                "status": 4,
+                "message": "This TLD has no whois server, but you can access the whois database at\nhttp://www.vnnic.vn/en\n"
             },
             "ip_info": {
                 "status": 3,
@@ -335,27 +231,11 @@
             "related_domain": {
                 "status": 3,
                 "message": {
-                    "hongngochospital.vn": {
-                        "type": "https",
-                        "status": false
-                    },
-                    "proxy.metechvn.com": {
-                        "type": "https",
-                        "status": true
-                    },
                     "kq.bvhn.vn": {
                         "type": "https",
                         "status": true
                     },
-                    "mpos.masscom.vn": {
-                        "type": "https",
-                        "status": true
-                    },
-                    "ibh.masstel.vn": {
-                        "type": "https",
-                        "status": true
-                    },
-                    "apim.mkdc.vn": {
+                    "tuvnord.vn": {
                         "type": "https",
                         "status": true
                     },
@@ -363,31 +243,11 @@
                         "type": "https",
                         "status": true
                     },
-                    "minio.mkdc.vn": {
+                    "webgis.mkdc.vn": {
                         "type": "https",
                         "status": true
                     },
-                    "hanu.edu.vn": {
-                        "type": "https",
-                        "status": true
-                    },
-                    "api.mkdc.vn": {
-                        "type": "https",
-                        "status": true
-                    },
-                    "esb.mkdc.vn": {
-                        "type": "https",
-                        "status": true
-                    },
-                    "kdb-api.tecotec.vn": {
-                        "type": "https",
-                        "status": true
-                    },
-                    "git.mkdc.vn": {
-                        "type": "https",
-                        "status": true
-                    },
-                    "3d.aktivmap.com": {
+                    "dss.mkdc.vn": {
                         "type": "https",
                         "status": true
                     },
@@ -399,11 +259,23 @@
                         "type": "https",
                         "status": true
                     },
+                    "logs.mkdc.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "minio.mkdc.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "kdb-api.tecotec.vn": {
+                        "type": "https",
+                        "status": true
+                    },
                     "metadata.mkdc.vn": {
                         "type": "https",
                         "status": true
                     },
-                    "tuvnord.vn": {
+                    "docs.mkdc.vn": {
                         "type": "https",
                         "status": true
                     },
@@ -411,19 +283,35 @@
                         "type": "https",
                         "status": true
                     },
-                    "dulieuhtkt.aktivmap.com": {
+                    "esb.mkdc.vn": {
                         "type": "https",
                         "status": true
                     },
-                    "dss.mkdc.vn": {
+                    "ibh.masstel.vn": {
                         "type": "https",
                         "status": true
                     },
-                    "webgis.mkdc.vn": {
+                    "hanu.edu.vn": {
                         "type": "https",
                         "status": true
                     },
-                    "example.com": {
+                    "api.mkdc.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "mpos.masscom.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "work.mkdc.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "proxy.metechvn.com": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "3d.aktivmap.com": {
                         "type": "https",
                         "status": true
                     },
@@ -431,7 +319,23 @@
                         "type": "https",
                         "status": true
                     },
+                    "apim.mkdc.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "git.mkdc.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "hongngochospital.vn": {
+                        "type": "https",
+                        "status": true
+                    },
                     "chinhphu.vn": {
+                        "type": "https",
+                        "status": true
+                    },
+                    "dulieuhtkt.aktivmap.com": {
                         "type": "https",
                         "status": true
                     },
@@ -455,8 +359,8 @@
                         "status": true,
                         "ips": {
                             "14.232.240.61": true,
+                            "40.99.10.104": true,
                             "14.232.240.58": true,
-                            "172.217.24.115": true,
                             "142.250.66.51": true
                         }
                     },
@@ -472,7 +376,7 @@
                         "ips": {
                             "222.252.16.4": false,
                             "103.122.82.60": false,
-                            "172.217.24.115": false,
+                            "40.99.10.104": false,
                             "142.250.66.51": false
                         }
                     },
@@ -483,11 +387,11 @@
                         }
                     },
                     "443/https": {
-                        "status": true,
+                        "status": false,
                         "ips": {
                             "222.252.16.4": true,
                             "103.122.82.60": true,
-                            "172.217.24.115": true,
+                            "40.99.10.104": false,
                             "142.250.66.51": true
                         }
                     },
@@ -507,6 +411,36 @@
                         "status": true,
                         "ips": {
                             "103.122.82.60": true
+                        }
+                    },
+                    "110/pop3": {
+                        "status": false,
+                        "ips": {
+                            "40.99.10.104": false
+                        }
+                    },
+                    "143/imap": {
+                        "status": false,
+                        "ips": {
+                            "40.99.10.104": false
+                        }
+                    },
+                    "587/submission": {
+                        "status": false,
+                        "ips": {
+                            "40.99.10.104": false
+                        }
+                    },
+                    "993/imaps": {
+                        "status": false,
+                        "ips": {
+                            "40.99.10.104": false
+                        }
+                    },
+                    "995/pop3s": {
+                        "status": false,
+                        "ips": {
+                            "40.99.10.104": false
                         }
                     },
                     "3001/tcpwrapped": {
@@ -544,34 +478,14 @@
             "related_email": {
                 "status": 3,
                 "message": [{
-                        "email": "cuc.nt@etc.vn",
-                        "password_crack": "12312321",
-                        "password_hash": ""
-                    },
-                    {
-                        "email": "Support.customs@etc.vn",
-                        "password_crack": "12312312312",
-                        "password_hash": "123123"
-                    },
-                    {
-                        "email": "contact@etc.vn",
-                        "password_crack": ["123123", "123", "321"],
-                        "password_hash": "123"
-                    },
-                    {
-                        "email": "tuyendung@etc.vn",
-                        "password_crack": "",
-                        "password_hash": ""
-                    },
-                    {
-                        "email": "huypq@etc.vn",
-                        "password_crack": "",
-                        "password_hash": "12312312"
-                    },
-                    {
                         "email": "sales@etc.vn",
                         "password_crack": "",
-                        "password_hash": ["123123", "123", "321"]
+                        "password_hash": ""
+                    },
+                    {
+                        "email": "22@etc.vn",
+                        "password_crack": "",
+                        "password_hash": ""
                     }
                 ]
             },
@@ -579,21 +493,25 @@
                 "status": 3,
                 "message": {
                     "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3": [
-                        "calendar.etc.vn",
+                        "etc.vn",
                         "egene.etc.vn"
                     ],
                     "nginx": [
-                        "calendar.etc.vn"
+                        "etc.vn",
+                        "egene.etc.vn"
                     ],
                     "F5 BIG-IP load balancer http proxy": [
-                        "calendar.etc.vn"
+                        "www.etc.vn"
+                    ],
+                    "Microsoft IIS httpd 10.0": [
+                        "autodiscover.etc.vn"
                     ],
                     "nginx 1.21.4": [
-                        "calendar.etc.vn"
+                        "egene.etc.vn"
                     ],
                     "Google httpd": [
                         "calendar.etc.vn",
-                        "calendar.etc.vn"
+                        "drive.etc.vn"
                     ]
                 }
             },
@@ -605,14 +523,1002 @@
                 }
             },
             "subdomain_result": [{
-                    "name": "access.etc.vn12123",
-                    "directory": 2,
-                    "directory_data": ["https://access.etc.vn/index", "https://access.etc.vn/new"],
-                    "enpoint": 30,
+                    "name": "calendar.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "http://calendar.etc.vn",
+                    "status": "302",
+                    "title": "302 Moved",
+                    "ip": "142.250.66.51",
+                    "technology": [
+                        "Google httpd"
+                    ],
+                    "portservice": [
+                        "80/http",
+                        "113/ident",
+                        "443/https"
+                    ],
+                    "dns_record": {
+                        "a": [
+                            "142.250.66.51"
+                        ],
+                        "cname": [
+                            "ghs.googlehosted.com"
+                        ]
+                    }
+                },
+                {
+                    "name": "cs.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
                     "url_checked": "--:--",
                     "status": "Not Exist",
                     "title": "--:--",
-                    "ip": "183.80.250.208",
+                    "ip": "--:--",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {}
+                },
+                {
+                    "name": "drive.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "http://drive.etc.vn",
+                    "status": "302",
+                    "title": "302 Moved",
+                    "ip": "142.250.66.51",
+                    "technology": [
+                        "Google httpd"
+                    ],
+                    "portservice": [
+                        "80/http",
+                        "113/ident",
+                        "443/https"
+                    ],
+                    "dns_record": {
+                        "a": [
+                            "142.250.66.51"
+                        ],
+                        "cname": [
+                            "ghs.googlehosted.com"
+                        ]
+                    }
+                },
+                {
+                    "name": "ms.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {}
+                },
+                {
+                    "name": "www.etc.vn",
+                    "directory": 6,
+                    "directory_data": {
+                        "https://www.etc.vn/0": {
+                            "name": "/0",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/en": {
+                            "name": "/en",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/news": {
+                            "name": "/news",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/search": {
+                            "name": "/search",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/contact": {
+                            "name": "/contact",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/resources": {
+                            "name": "/resources",
+                            "status": "403",
+                            "content_type": "text/html"
+                        }
+                    },
+                    "enpoint": 170,
+                    "enpoint_data": [{
+                            "url": "https://www.etc.vn/vi/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu",
+                            "title": "Redirecting to http://www.etc.vn/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-nghiep-vu-hai-quan",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-hai-quan",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/lien-he",
+                            "title": "Redirecting to http://www.etc.vn/lien-he",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/he-thong-soi-chieu-va-phan-tich-hinh-anh",
+                            "title": "Redirecting to http://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/dich-vu-quan-tri-va-van-hanh-he-thong",
+                            "title": "Redirecting to http://www.etc.vn/service/dich-vu-quan-tri-va-van-hanh-he-thong",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/he-thong-fod-va-chong-xam-nhap-duong-bang",
+                            "title": "Redirecting to http://www.etc.vn/service/he-thong-fod-va-chong-xam-nhap-duong-bang",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/ve-chung-toi",
+                            "title": "Redirecting to https://www.etc.vn/en/about-us",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/erp-cho-cac-doanh-nghiep-smb",
+                            "title": "Redirecting to http://www.etc.vn/service/erp-cho-cac-doanh-nghiep-smb",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi",
+                            "title": "Redirecting to http://www.etc.vn/",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-y-te",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-bo-y-te",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/itera",
+                            "title": "Redirecting to http://www.etc.vn/itera",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-cong-an",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-bo-cong-an",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/giai-phap-nghiep-vu-bo-cong-an",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/tin-tuc",
+                            "title": "Redirecting to https://www.etc.vn/en/news",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/dich-vu-quan-tri-va-van-hanh-he-thong",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/quan-ly-kho-bai",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/jobs?page=3",
+                            "title": "Tuyển dụng",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/giai-phap-nghiep-vu-hai-quan",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/he-thong-fod-va-chong-xam-nhap-duong-bang",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/tin-tuc?page=2",
+                            "title": "Tin tức",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/trien-khai-tich-hop-ha-tang-mang",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/erp-cho-cac-doanh-nghiep-smb",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/giai-phap-nghiep-vu-bo-y-te",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/lien-he",
+                            "title": "Redirecting to https://www.etc.vn/en/contact",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore",
+                            "title": "ETC và AWS trao đổi kinh nghiệm chuyển đổi số quốc gia tại Singapore",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/trung-tam-itera-hoan-thien-70-giai-doan-1",
+                            "title": "Dự án Trung tâm CNC ITERA hoàn thiện 70% giai đoạn 1 và chính thức đi vào hoạt động cuối năm 2023",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs",
+                            "title": "Redirecting to http://www.etc.vn/jobs",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas",
+                            "title": "Redirecting to http://www.etc.vn/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1",
+                            "title": "Redirecting to http://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/itera",
+                            "title": "Redirecting to https://www.etc.vn/en/itera-1",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/trien-khai-tich-hop-ha-tang-mang",
+                            "title": "Redirecting to http://www.etc.vn/service/trien-khai-tich-hop-ha-tang-mang",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/khai-bao-hai-quan",
+                            "title": "Redirecting to http://www.etc.vn/service/khai-bao-hai-quan",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/tin-tuc?page=4",
+                            "title": "Tin tức",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/quan-ly-kho-bai",
+                            "title": "Redirecting to http://www.etc.vn/service/quan-ly-kho-bai",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay",
+                            "title": "Redirecting to http://www.etc.vn/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang",
+                            "title": "Redirecting to http://www.etc.vn/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata",
+                            "title": "Redirecting to http://www.etc.vn/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may",
+                            "title": "Redirecting to http://www.etc.vn/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/jobs?page=2",
+                            "title": "Tuyển dụng",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc",
+                            "title": "Redirecting to http://www.etc.vn/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/khai-bao-hai-quan",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/ve-chung-toi",
+                            "title": "Redirecting to http://www.etc.vn/ve-chung-toi",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/tin-tuc?page=3",
+                            "title": "Tin tức",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/tin-tuc",
+                            "title": "Redirecting to http://www.etc.vn/tin-tuc",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/he-thong-soi-chieu-va-phan-tich-hinh-anh",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center",
+                            "title": "Redirecting to http://www.etc.vn/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/jobs",
+                            "title": "Jobs",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm",
+                            "title": "ETC nhận giải thưởng “Đối tác An ninh mạng của năm” từ IBM",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/home-page-1",
+                            "title": "Redirecting to https://www.etc.vn/en",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore",
+                            "title": "Redirecting to http://www.etc.vn/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/news",
+                            "title": "News",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/ai-bigdata-infrastructure-solution",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/about-us",
+                            "title": "About us",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/trung-tam-itera-hoan-thien-70-giai-doan-1",
+                            "title": "Dự án Trung tâm CNC ITERA hoàn thiện 70% giai đoạn 1 và chính thức đi vào hoạt động cuối năm 2023",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/cau-chuyen-thuong-hieu",
+                            "title": "Câu chuyện thương hiệu",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/etc-epay-contribute-to-promote-digital-transfer-of-financial-services",
+                            "title": "ETC & EPAY CONTRIBUTE TO PROMOTE DIGITAL TRANSFER OF FINANCIAL SERVICES",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/itera-1",
+                            "title": "ITERA",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/etc-and-epay-proudly-be-a-strategic-partner-in-the-implementation-of-the-e-id-and-authentication-service-project",
+                            "title": "ETC AND EPAY PROUDLY BE A STRATEGIC PARTNER IN THE IMPLEMENTATION OF THE E-ID AND AUTHENTICATION SERVICE PROJECT",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/contact",
+                            "title": "Contact",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/airport-operation-management",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/etc-switching-using-customs-declaration-software-provided-by-customs",
+                            "title": "ETC switching using customs declaration software provided by customs",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/customs-declaration",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/customs-professional-solutions",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/data-center",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/professional-solutions-for-ministry-of-health",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/deploy-and-integrate-network-infrastructure",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/css/animate.css?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/fod-system-and-prevent-runway-incursions",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/css/fancybox.css?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/dich-vu-quan-tri-va-van-hanh-he-thong-1",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/css/bootstrap.min.css?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/css/slick.css?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/erp-for-smb-enterprises",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/css/main.css?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/portable-drug-analyzer-and-detector",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/security-solution-kit-siem-soc",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/js/jquery.sticky-kit.js?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/js/bootstrap.min.js?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/js/fancybox.js?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/fonts/fontawesome-pro-5.15.3-web/css/all.min.css?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/js/morphing.js?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/professional-solutions-for-the-ministry-of-public-security",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/js/jquery.js?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/firewall-solution-network-attack-prevention",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/server-data-storage-and-backup-system",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/js/scrollspy.js?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/js/script.js?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/itera",
+                            "title": "ITERA",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/unmanned-aircraft-system-uas",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/warehouse-management",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/image-screening-and-analysis-system",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/js/slick.min.js?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/js/wow.min.js?v=20230109.1002",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/core/plugins/language/css/language-public.css?v=1.0.0",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/core/plugins/language/js/language-public.js?v=1.0.0",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/core/plugins/simple-slider/js/simple-slider.js?v=1.0.1",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/core/plugins/simple-slider/css/simple-slider.css?v=1.0.1",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/virtualization-and-cloud-computing-solutions",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/core/plugins/simple-slider/libraries/owl-carousel/owl.carousel.css?v=1.0.1",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/core/plugins/simple-slider/libraries/owl-carousel/owl.carousel.js?v=1.0.1",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/lien-he",
+                            "title": "Liên hệ",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/jobs",
+                            "title": "Tuyển dụng",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/itera-1",
+                            "title": "Redirecting to https://www.etc.vn/itera",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/he-thong-fod-va-chong-xam-nhap-duong-bang",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/dich-vu-quan-tri-va-van-hanh-he-thong",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/giai-phap-nghiep-vu-bo-y-te",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/quan-ly-kho-bai",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/giai-phap-nghiep-vu-bo-cong-an",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/giai-phap-nghiep-vu-hai-quan",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/erp-cho-cac-doanh-nghiep-smb",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/khai-bao-hai-quan",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/back-end-developer-nodejs",
+                            "title": "Redirecting to http://www.etc.vn/jobs/back-end-developer-nodejs",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/amazon-web-service-dao-tao-gioi-thieu-ve-dam-may-rieng-tai-cho-amazon-outpost-cho-hon-40-ky-su-cntt-cong-ty-etc",
+                            "title": "Redirecting to http://www.etc.vn/amazon-web-service-dao-tao-gioi-thieu-ve-dam-may-rieng-tai-cho-amazon-outpost-cho-hon-40-ky-su-cntt-cong-ty-etc",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/resources/company/js/'",
+                            "title": "ath + ' [404] [404 - Not found",
+                            "status_code": ""
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/etc-aws-thuc-day-hop-tac-voi-chuong-trinh-dao-tao-ve-dien-toan-dam-may",
+                            "title": "Redirecting to http://www.etc.vn/etc-aws-thuc-day-hop-tac-voi-chuong-trinh-dao-tao-ve-dien-toan-dam-may",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/front-end-developer-angularjs",
+                            "title": "Redirecting to http://www.etc.vn/jobs/front-end-developer-angularjs",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/chuyen-tham-trung-tam-itera-dau-nam-2023-day-la-khoi-dau-cua-mot-ky-nguyen-moi",
+                            "title": "Redirecting to http://www.etc.vn/chuyen-tham-trung-tam-itera-dau-nam-2023-day-la-khoi-dau-cua-mot-ky-nguyen-moi",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm",
+                            "title": "Redirecting to http://www.etc.vn/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/nhan-vien-bao-hanh-sua-chua-san-pham",
+                            "title": "Redirecting to http://www.etc.vn/jobs/nhan-vien-bao-hanh-sua-chua-san-pham",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/trung-tam-itera-hoan-thien-70-giai-doan-1",
+                            "title": "Redirecting to http://www.etc.vn/trung-tam-itera-hoan-thien-70-giai-doan-1",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/net-developer-1",
+                            "title": "Redirecting to http://www.etc.vn/jobs/net-developer-1",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/chuyen-vien-tu-van-giai-phap-cntt-presale-phan-mem",
+                            "title": "Redirecting to http://www.etc.vn/jobs/chuyen-vien-tu-van-giai-phap-cntt-presale-phan-mem",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/ke-toan-mang-trung-gian-thanh-toan",
+                            "title": "Redirecting to http://www.etc.vn/jobs/ke-toan-mang-trung-gian-thanh-toan",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/nhan-vien-dam-bao-chat-luong-qa",
+                            "title": "Redirecting to http://www.etc.vn/jobs/nhan-vien-dam-bao-chat-luong-qa",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/hanh-chinh-nhan-su",
+                            "title": "Redirecting to http://www.etc.vn/jobs/hanh-chinh-nhan-su",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/nhan-vien-dan-nhan-ai-label",
+                            "title": "Redirecting to http://www.etc.vn/jobs/nhan-vien-dan-nhan-ai-label",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/dell-technologies-cam-ket-hop-tac-voi-bo-gtvt-va-etc-trong-linh-vuc-cntt",
+                            "title": "Redirecting to http://www.etc.vn/dell-technologies-cam-ket-hop-tac-voi-bo-gtvt-va-etc-trong-linh-vuc-cntt",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore",
+                            "title": "ETC và AWS trao đổi kinh nghiệm chuyển đổi số quốc gia tại Singapore",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm",
+                            "title": "ETC nhận giải thưởng “Đối tác An ninh mạng của năm” từ IBM",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/nhan-vien-ho-tro-khach-hang",
+                            "title": "Redirecting to http://www.etc.vn/jobs/nhan-vien-ho-tro-khach-hang",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/bach",
+                            "title": "Redirecting to http://www.etc.vn/jobs/bach",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/etc-epay-tien-phong-thu-nghiem-giai-phap-smart-check-in-tai-nha-ga-t2-cang-san-bay-phu-bai",
+                            "title": "Redirecting to http://www.etc.vn/etc-epay-tien-phong-thu-nghiem-giai-phap-smart-check-in-tai-nha-ga-t2-cang-san-bay-phu-bai",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/etc-tro-thanh-1-trong-9-doi-tac-titanium-tai-viet-nam-cua-ong-trum-dell-technologies",
+                            "title": "Redirecting to http://www.etc.vn/etc-tro-thanh-1-trong-9-doi-tac-titanium-tai-viet-nam-cua-ong-trum-dell-technologies",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/ky-su-iot",
+                            "title": "Redirecting to http://www.etc.vn/jobs/ky-su-iot",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/quan-ly-san-pham-product-owner",
+                            "title": "Redirecting to http://www.etc.vn/jobs/quan-ly-san-pham-product-owner",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/si-engineer-ki-su-tich-hop-he-thong",
+                            "title": "Redirecting to http://www.etc.vn/jobs/si-engineer-ki-su-tich-hop-he-thong",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/thuc-tap-sinh-audit",
+                            "title": "Redirecting to http://www.etc.vn/jobs/thuc-tap-sinh-audit",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/thuc-tap-sinh-soc",
+                            "title": "Redirecting to http://www.etc.vn/jobs/thuc-tap-sinh-soc",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/service/trien-khai-tich-hop-ha-tang-mang",
+                            "title": "ETC",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/pho-chu-tich-cac-thi-truong-moi-noi-chau-a-cua-dell-technologies-toi-tham-va-chuc-mung-etc-tro-thanh-doi-tac-titanium",
+                            "title": "Redirecting to http://www.etc.vn/pho-chu-tich-cac-thi-truong-moi-noi-chau-a-cua-dell-technologies-toi-tham-va-chuc-mung-etc-tro-thanh-doi-tac-titanium",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/tuyen-dung-ba-lead",
+                            "title": "Redirecting to http://www.etc.vn/jobs/tuyen-dung-ba-lead",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/thuc-tap-sinh-tich-hop-he-thong",
+                            "title": "Redirecting to http://www.etc.vn/jobs/thuc-tap-sinh-tich-hop-he-thong",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/thuc-tap-sinh-pentest",
+                            "title": "Redirecting to http://www.etc.vn/jobs/thuc-tap-sinh-pentest",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/jobs/uiux-designer",
+                            "title": "Redirecting to http://www.etc.vn/jobs/uiux-designer",
+                            "status_code": "302"
+                        },
+                        {
+                            "url": "https://www.etc.vn/tin-tuc",
+                            "title": "Tin tức",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/ve-chung-toi",
+                            "title": "Về chúng tôi",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/tin-etc",
+                            "title": "Redirecting to http://www.etc.vn/tin-etc",
+                            "status_code": "302"
+                        }
+                    ],
+                    "url_checked": "https://www.etc.vn",
+                    "status": "200",
+                    "title": "ETC",
+                    "ip": "103.122.82.60",
+                    "technology": [
+                        "F5 BIG-IP load balancer http proxy"
+                    ],
+                    "portservice": [
+                        "80/http-proxy",
+                        "113/ident",
+                        "443/https"
+                    ],
+                    "dns_record": {
+                        "a": [
+                            "103.122.82.60"
+                        ]
+                    }
+                },
+                {
+                    "name": "voip.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "222.252.16.4",
                     "technology": [],
                     "portservice": [
                         "113/ident",
@@ -623,24 +1529,122 @@
                     ],
                     "dns_record": {
                         "a": [
-                            "183.80.250.208",
-                            "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3"
+                            "222.252.16.4"
                         ]
                     }
                 },
                 {
-                    "name": "access.etc.vn",
-                    "directory": 2,
-                    "directory_data": ["https://access.etc.vn/index", "https://access.etc.vn/new"],
-                    "enpoint": 30,
-                    "url_checked": "--:--",
-                    "status": "Not Exist",
-                    "title": "--:--",
-                    "ip": "183.80.250.208",
-                    "technology": [
-                        "Google httpd2",
-                        "Google httpd"
+                    "name": "helpdesk.etc.vn",
+                    "directory": 3,
+                    "directory_data": {
+                        "https://helpdesk.etc.vn/home": {
+                            "name": "/home",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://helpdesk.etc.vn/login": {
+                            "name": "/login",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://helpdesk.etc.vn/contact": {
+                            "name": "/contact",
+                            "status": "200",
+                            "content_type": "text/html"
+                        }
+                    },
+                    "enpoint": 17,
+                    "enpoint_data": [{
+                            "url": "https://helpdesk.etc.vn/js/modules/login.js?v=6CqSpUZPMyys87PT1t3Cg4AgJF9D-Qi8n1hZhLlYSZY",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/css/custom.css",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/js/pages/particles.app.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/js/layout.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/js/pages/password-addon.init.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/js/core/config.js?v=nfqCvKZOqIsAdhCzIMMEgKOtT8FKDE3uzFDKHmeQo2Q",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/js/core/util.js?v=Y8C6TdQsRp568Vadn6tsO5MWRAZTPRfTUYRtVsNlgrI",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/css/bootstrap.min.css",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/libs/bootstrap/dist/js/bootstrap.bundle.min.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/libs/node-waves/dist/waves.min.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/libs/particles.js/particles.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/libs/feather-icons/dist/feather.min.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/libs/toastify-js/src/toastify.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/libs/simplebar/dist/simplebar.min.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/js/pages/plugins/lord-icon-2.1.0.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/css/app.css",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://helpdesk.etc.vn/css/icons.min.css",
+                            "title": "",
+                            "status_code": "200"
+                        }
                     ],
+                    "url_checked": "https://helpdesk.etc.vn",
+                    "status": "200",
+                    "title": ".: Helpdesk :.",
+                    "ip": "222.252.16.4",
+                    "technology": [],
                     "portservice": [
                         "113/ident",
                         "179/tcpwrapped",
@@ -650,65 +1654,332 @@
                     ],
                     "dns_record": {
                         "a": [
-                            "183.80.250.208",
-                            "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3"
+                            "222.252.16.4"
+                        ]
+                    }
+                },
+                {
+                    "name": "autodiscover.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "http://autodiscover.etc.vn",
+                    "status": "301",
+                    "title": "--:--",
+                    "ip": "40.99.10.104",
+                    "technology": [
+                        "Microsoft IIS httpd 10.0"
+                    ],
+                    "portservice": [
+                        "80/http",
+                        "110/pop3",
+                        "113/ident",
+                        "143/imap",
+                        "443/https",
+                        "587/submission",
+                        "993/imaps",
+                        "995/pop3s"
+                    ],
+                    "dns_record": {
+                        "a": [
+                            "40.99.10.104",
+                            "52.98.33.168",
+                            "40.99.33.152",
+                            "40.99.8.200"
+                        ],
+                        "cname": [
+                            "autod.ms-acdc-autod.office.com",
+                            "atod-g2.tm-4.office.com",
+                            "autodiscover.outlook.com"
+                        ]
+                    }
+                },
+                {
+                    "name": "mail.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {}
+                },
+                {
+                    "name": "git.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {}
+                },
+                {
+                    "name": "tuyendung.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {}
+                },
+                {
+                    "name": "git.cs.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
+                        ]
+                    }
+                },
+                {
+                    "name": "tfs.cs.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
+                        ]
+                    }
+                },
+                {
+                    "name": "egene.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 4,
+                    "enpoint_data": [{
+                            "url": "https://egene.etc.vn/static/css/20.a79e86a5.chunk.css",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://egene.etc.vn/static/js/main.0b392305.chunk.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://egene.etc.vn/static/js/20.7cc948e2.chunk.js",
+                            "title": "",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://egene.etc.vn/static/css/main.07a379ec.chunk.css",
+                            "title": "",
+                            "status_code": "200"
+                        }
+                    ],
+                    "url_checked": "https://egene.etc.vn",
+                    "status": "200",
+                    "title": "Egene | ETC",
+                    "ip": "14.232.240.58",
+                    "technology": [
+                        "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3",
+                        "nginx 1.21.4"
+                    ],
+                    "portservice": [
+                        "22/ssh",
+                        "80/http",
+                        "443/http",
+                        "3001/tcpwrapped",
+                        "7443/tcpwrapped",
+                        "8080/http-proxy",
+                        "8443/tcpwrapped",
+                        "9080/tcpwrapped"
+                    ],
+                    "dns_record": {
+                        "a": [
+                            "14.232.240.58"
+                        ]
+                    }
+                },
+                {
+                    "name": "gps.cs.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
+                        ]
+                    }
+                },
+                {
+                    "name": "meet.cs.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {}
+                },
+                {
+                    "name": "giadinh.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {}
+                },
+                {
+                    "name": "tfs01.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {}
+                },
+                {
+                    "name": "svn.cs.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
+                        ]
+                    }
+                },
+                {
+                    "name": "www.access.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {}
+                },
+                {
+                    "name": "www.git.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "--:--",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {}
+                },
+                {
+                    "name": "doc.cs.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
+                    "url_checked": "--:--",
+                    "status": "Not Exist",
+                    "title": "--:--",
+                    "ip": "183.80.250.208",
+                    "technology": [],
+                    "portservice": [],
+                    "dns_record": {
+                        "a": [
+                            "183.80.250.208"
                         ]
                     }
                 },
                 {
                     "name": "access.etc.vn",
-                    "directory": 2,
-                    "directory_data": ["https://access.etc.vn/index", "https://access.etc.vn/new"],
-                    "enpoint": 30,
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
                     "url_checked": "--:--",
                     "status": "Not Exist",
                     "title": "--:--",
                     "ip": "183.80.250.208",
-                    "technology": [
-                        "Google httpd2",
-                        "Google httpd3",
-                        "Google httpd"
-                    ],
-                    "portservice": [
-                        "113/ident",
-                        "179/tcpwrapped",
-                        "443/https",
-                        "5080/onscreen",
-                        "8089/unknown"
-                    ],
+                    "technology": [],
+                    "portservice": [],
                     "dns_record": {
                         "a": [
-                            "183.80.250.208",
-                            "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3"
+                            "183.80.250.208"
                         ]
                     }
                 },
                 {
-                    "name": "access.etc.vn",
-                    "directory": 2,
-                    "directory_data": ["https://access.etc.vn/index", "https://access.etc.vn/new"],
-                    "enpoint": 30,
+                    "name": "changepass.etc.vn",
+                    "directory": 0,
+                    "directory_data": {},
+                    "enpoint": 0,
+                    "enpoint_data": [],
                     "url_checked": "--:--",
                     "status": "Not Exist",
                     "title": "--:--",
                     "ip": "183.80.250.208",
-                    "technology": [
-                        "Google httpd2",
-                        "Google httpd3",
-                        "Google httpd3",
-                        "Google httpd"
-                    ],
-                    "portservice": [
-                        "113/ident",
-                        "179/tcpwrapped",
-                        "443/https",
-                        "5080/onscreen",
-                        "8089/unknown"
-                    ],
+                    "technology": [],
+                    "portservice": [],
                     "dns_record": {
                         "a": [
-                            "183.80.250.208",
-                            "OpenSSH 8.2p1 Ubuntu 4ubuntu0.3"
+                            "183.80.250.208"
                         ]
                     }
                 }
@@ -718,31 +1989,31 @@
             "id": 1,
             "title": "OSINT",
             "data": {
-                "domain": "   Domain Name: EPAYJSC.COM\r\n   Registry Domain ID: 2268635337_DOMAIN_COM-VRSN\r\n   Registrar WHOIS Server: whois.pavietnam.vn\r\n   Registrar URL: http://www.pavietnam.vn\r\n   Updated Date: 2022-05-17T09:43:52Z\r\n   Creation Date: 2018-05-28T02:04:53Z\r\n   Registry Expiry Date: 2028-05-28T02:04:53Z\r\n   Registrar: P.A. Viet Nam Company Limited\r\n   Registrar IANA ID: 1649\r\n   Registrar Abuse Contact Email: abuse@pavietnam.vn\r\n   Registrar Abuse Contact Phone: +84.2873019954\r\n   Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited\r\n   Name Server: NS1.PAVIETNAM.VN\r\n   Name Server: NS2.PAVIETNAM.VN\r\n   Name Server: NSBAK.PAVIETNAM.NET\r\n   DNSSEC: unsigned\r\n   URL of the ICANN Whois Inaccuracy Complaint Form: https://www.icann.org/wicf/\r\n>>> Last update of whois database: 2023-06-14T03:51:37Z <<<\r\n\r\nFor more information on Whois status codes, please visit https://icann.org/epp\r\n\r\nNOTICE: The expiration date displayed in this record is the date the\r\nregistrar's sponsorship of the domain name registration in the registry is\r\ncurrently set to expire. This date does not necessarily reflect the expiration\r\ndate of the domain name registrant's agreement with the sponsoring\r\nregistrar.  Users may consult the sponsoring registrar's Whois database to\r\nview the registrar's reported date of expiration for this registration.\r\n\r\nDomain Name: epayjsc.com\r\nRegistry Domain ID: 2268635337_DOMAIN_COM-VRSN\r\nRegistrar WHOIS Server: whois.pavietnam.vn\r\nRegistrar URL: http://www.pavietnam.vn\r\nUpdated Date: 2022-05-17 \r\nCreation Date: 2022-05-12 00:00:00\r\nRegistrar Registration Expiration Date: 2028-05-28 00:00:00 \r\nRegistrar: P.A. Viet Nam Company Limited\r\nRegistrar IANA ID: 1649\r\nRegistrar Abuse Contact Email: abuse@pavietnam.vn\r\nRegistrar Abuse Contact Phone: +84.2873019954\r\nDomain Status: clientTransferProhibited http://www.icann.org/epp#clientTransferProhibited\r\nRegistry Registrant ID: Not available from Registry\r\nRegistrant Name: CONG TY CO PHAN DICH VU EPAY \r\nRegistrant Organization: CONG TY CO PHAN DICH VU EPAY \r\nRegistrant Street: Tang 10 toa nha 319 BQP, So 63, Phuong Trung Hoa, Quan Cau Giay \r\nRegistrant City: Ha Noi \r\nRegistrant State/Province:  \r\nRegistrant Postal Code: 700000 \r\nRegistrant Country: VN \r\nRegistrant Phone: +84. \r\nRegistrant Phone Ext: 84 \r\nRegistrant Fax:  \r\nRegistrant Email: general@epayjsc.com \r\nRegistry Admin ID: Not available from Registry\r\nAdmin Name: Nguyen Mai Phuong \r\nAdmin Organization: CONG TY CO PHAN DICH VU EPAY \r\nAdmin Street: Tang 10 toa nha 319 BQP, So 63, Phuong Trung Hoa, Quan Cau Giay \r\nAdmin City: Ha Noi \r\nAdmin State/Province:  \r\nAdmin Postal Code: 700000 \r\nAdmin Country: VN \r\nAdmin Phone: +84. \r\nAdmin Phone Ext: 84 \r\nAdmin Fax:  \r\nAdmin Email: general@epayjsc.com \r\nRegistry Tech ID: Not available from Registry\r\nTech Name: Nguyen Mai Phuong \r\nTech Organization: CONG TY CO PHAN DICH VU EPAY \r\nTech Street: Tang 10 toa nha 319 BQP, So 63, Phuong Trung Hoa, Quan Cau Giay \r\nTech City: Ha Noi \r\nTech State/Province:  \r\nTech Postal Code: 700000 \r\nTech Country: VN \r\nTech Phone: +84. \r\nTech Phone Ext: 84 \r\nTech Fax:  \r\nTech Email: general@epayjsc.com \r\nName Server: nsbak.pavietnam.net\r\nName Server: ns1.pavietnam.vn\r\nName Server: ns2.pavietnam.vnDNSSEC:Unsigned\r\nURL of the ICANN WHOIS Data Problem Reporting System: http://wdprs.internic.net/\r\n>>> Last update of WHOIS database: 2023-02-03T22:24:23Z <<<\r\n\r\nFor more information on Whois status codes, please visit https://icann.org/epp\r\n\r\n",
-                "email": "cuc.nt@etc.vn\nSupport.customs@etc.vn\ncontact@etc.vn\ntuyendung@etc.vn\nhuypq@etc.vn\nsales@etc.vn",
+                "domain": "This TLD has no whois server, but you can access the whois database at\nhttp://www.vnnic.vn/en\n",
+                "email": "sales@etc.vn\n22@etc.vn",
                 "password": "Nothing found",
                 "metadata": "{'authors': [], 'software': []}",
-                "created_at": "2023-06-12T11:18:31.003150+07:00",
-                "modified_at": "2023-06-12T11:19:28.759552+07:00",
+                "created_at": "2023-06-16T15:07:27.885091+07:00",
+                "modified_at": "2023-06-16T15:08:12.320107+07:00",
                 "domain_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:18:31",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:07:28",
+                    "start_time": "2023-06-16 15:07:28"
                 },
                 "email_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:19:18",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:08:06",
+                    "start_time": "2023-06-16 15:07:28"
                 },
                 "password_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:19:28",
-                    "start_time": "2023-06-12 11:19:18"
+                    "end_time": "2023-06-16 15:08:12",
+                    "start_time": "2023-06-16 15:08:06"
                 },
                 "metadata_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:18:50",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:07:43",
+                    "start_time": "2023-06-16 15:07:28"
                 },
                 "status": 3
             }
@@ -751,55 +2022,55 @@
             "id": 2,
             "title": "Subdomains",
             "data": {
-                "sub_passive": "egene.etc.vn\netc.vn\ngps.cs.etc.vn\nmeet.cs.etc.vn\ndoc.cs.etc.vn\ngit.etc.vn\ngiadinh.etc.vn\nwww.git.etc.vn\nmail.etc.vn\ntuyendung.etc.vn\ntfs.cs.etc.vn\ncs.etc.vn\nwww.access.etc.vn\ngit.cs.etc.vn\naccess.etc.vn\ntfs01.etc.vn\nwww.etc.vn\ncalendar.etc.vn\nchangepass.etc.vn\n",
+                "sub_passive": "mail.etc.vn\ncs.etc.vn\ngit.etc.vn\ntuyendung.etc.vn\nwww.etc.vn\ngit.cs.etc.vn\ntfs.cs.etc.vn\negene.etc.vn\ngps.cs.etc.vn\nmeet.cs.etc.vn\ngiadinh.etc.vn\ntfs01.etc.vn\nsvn.cs.etc.vn\netc.vn\nwww.access.etc.vn\nwww.git.etc.vn\ndoc.cs.etc.vn\naccess.etc.vn\ncalendar.etc.vn\nchangepass.etc.vn\n",
                 "subdomains_takeover": "Nothing found",
                 "s3buckets": "Nothing found",
-                "sub_crt": "cs.etc.vn\netc.vn\naccess.etc.vn\nwww.access.etc.vn\nwww.etc.vn\ngit.cs.etc.vn\ngit.etc.vn\nwww.git.etc.vn\nmeet.cs.etc.vn\ntfs.cs.etc.vn\n",
-                "sub_active": "{\"hongngochospital.vn\": \"https\", \"proxy.metechvn.com\": \"https\", \"kq.bvhn.vn\": \"https\", \"mpos.masscom.vn\": \"https\", \"ibh.masstel.vn\": \"https\", \"apim.mkdc.vn\": \"https\", \"storage.mkdc.vn\": \"https\", \"minio.mkdc.vn\": \"https\", \"hanu.edu.vn\": \"https\", \"api.mkdc.vn\": \"https\", \"esb.mkdc.vn\": \"https\", \"kdb-api.tecotec.vn\": \"https\", \"git.mkdc.vn\": \"https\", \"3d.aktivmap.com\": \"https\", \"gis.mkdc.vn\": \"https\", \"pwa.tecotec.vn\": \"https\", \"metadata.mkdc.vn\": \"https\", \"tuvnord.vn\": \"https\", \"kdb.tecotec.vn\": \"https\", \"dulieuhtkt.aktivmap.com\": \"https\", \"dss.mkdc.vn\": \"https\", \"webgis.mkdc.vn\": \"https\", \"example.com\": \"https\", \"www.draytek.com\": \"https\", \"chinhphu.vn\": \"https\", \"ppm.tuvnordvietnam.com.vn\": \"https\"}",
-                "sub_noerror": "calendar.etc.vn\ndrive.etc.vn\nvoip.etc.vn\nwww.etc.vn\n",
-                "sub_brute": "voip.etc.vn\nautodiscover.etc.vn\ncalendar.etc.vn\n",
+                "sub_crt": "Nothing found",
+                "sub_active": "{\"kq.bvhn.vn\": \"https\", \"tuvnord.vn\": \"https\", \"storage.mkdc.vn\": \"https\", \"webgis.mkdc.vn\": \"https\", \"dss.mkdc.vn\": \"https\", \"gis.mkdc.vn\": \"https\", \"pwa.tecotec.vn\": \"https\", \"logs.mkdc.vn\": \"https\", \"minio.mkdc.vn\": \"https\", \"kdb-api.tecotec.vn\": \"https\", \"metadata.mkdc.vn\": \"https\", \"docs.mkdc.vn\": \"https\", \"kdb.tecotec.vn\": \"https\", \"esb.mkdc.vn\": \"https\", \"ibh.masstel.vn\": \"https\", \"hanu.edu.vn\": \"https\", \"api.mkdc.vn\": \"https\", \"mpos.masscom.vn\": \"https\", \"work.mkdc.vn\": \"https\", \"proxy.metechvn.com\": \"https\", \"3d.aktivmap.com\": \"https\", \"www.draytek.com\": \"https\", \"apim.mkdc.vn\": \"https\", \"git.mkdc.vn\": \"https\", \"hongngochospital.vn\": \"https\", \"chinhphu.vn\": \"https\", \"dulieuhtkt.aktivmap.com\": \"https\", \"ppm.tuvnordvietnam.com.vn\": \"https\"}",
+                "sub_noerror": "calendar.etc.vn\ncs.etc.vn\ndrive.etc.vn\nms.etc.vn\nwww.etc.vn\nvoip.etc.vn\n",
+                "sub_brute": "voip.etc.vn\nhelpdesk.etc.vn\nwww.etc.vn\ncalendar.etc.vn\nautodiscover.etc.vn\n",
                 "sub_recursive_passive": null,
                 "sub_recursive_brute": null,
-                "sub_dns": "{\"www.etc.vn\": {\"a\": [\"14.232.240.61\"]}, \"doc.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"changepass.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"tfs.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"egene.etc.vn\": {\"a\": [\"14.232.240.58\"]}, \"access.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"gps.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"voip.etc.vn\": {\"a\": [\"222.252.16.4\"]}, \"drive.etc.vn\": {\"a\": [\"172.217.24.83\"], \"cname\": [\"ghs.googlehosted.com\"]}, \"git.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"calendar.etc.vn\": {\"a\": [\"142.250.66.51\"], \"cname\": [\"ghs.googlehosted.com\"]}, \"autodiscover.etc.vn\": {\"a\": [\"52.98.33.168\", \"52.98.54.136\", \"40.99.33.136\", \"40.99.10.8\"], \"cname\": [\"autod.ms-acdc-autod.office.com\", \"atod-g2.tm-4.office.com\", \"autodiscover.outlook.com\"]}}",
-                "sub_scraping": "{\"total_endpoint\": 179, \"total_endpoint_live\": 108, \"endpoints\": {\"https://www.etc.vn\": true, \"http://drive.etc.vn\": false, \"https://www.etc.vn/resources/company/js/morphing.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/core/plugins/language/js/language-public.js?v=1.0.0\": true, \"https://www.etc.vn/resources/core/plugins/simple-slider/js/simple-slider.js?v=1.0.1\": true, \"https://www.etc.vn/resources/company/js/wow.min.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/js/jquery.sticky-kit.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/js/scrollspy.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/core/plugins/simple-slider/css/simple-slider.css?v=1.0.1\": true, \"https://www.etc.vn/resources/core/plugins/simple-slider/libraries/owl-carousel/owl.carousel.css?v=1.0.1\": true, \"https://www.etc.vn/resources/company/css/slick.css?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/css/fancybox.css?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/js/script.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/core/plugins/simple-slider/libraries/owl-carousel/owl.carousel.js?v=1.0.1\": true, \"https://www.etc.vn/resources/core/plugins/language/css/language-public.css?v=1.0.0\": true, \"mailto:sales@etc.vn\": false, \"https://www.etc.vn/resources/company/js/slick.min.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/css/animate.css?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/css/main.css?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/js/fancybox.js?v=20230109.1002\": true, \"http://egene.etc.vn\": false, \"https://www.etc.vn/resources/company/js/bootstrap.min.js?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/css/bootstrap.min.css?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/fonts/fontawesome-pro-5.15.3-web/css/all.min.css?v=20230109.1002\": true, \"https://www.etc.vn/resources/company/js/jquery.js?v=20230109.1002\": true, \"http://autodiscover.etc.vn\": false, \"https://www.etc.vn/en\": true, \"https://www.etc.vn/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore\": true, \"https://www.etc.vn/vi/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm\": false, \"https://www.etc.vn/lien-he\": true, \"https://www.etc.vn/vi/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore\": false, \"https://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1\": true, \"https://www.etc.vn/itera\": true, \"https://www.etc.vn/vi\": false, \"https://www.etc.vn/vi/trung-tam-itera-hoan-thien-70-giai-doan-1\": false, \"http://calendar.etc.vn\": false, \"https://www.etc.vn/tin-tuc\": true, \"https://www.etc.vn/vi/lien-he\": false, \"https://www.etc.vn/en/etc-epay-contribute-to-promote-digital-transfer-of-financial-services\": true, \"https://egene.etc.vn/\": false, \"https://www.etc.vn/jobs\": true, \"https://www.etc.vn/vi/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1\": false, \"https://www.etc.vn/resources/company/js/%27%20+%20path%20+%20%27\": false, \"https://www.etc.vn/en/etc-and-epay-proudly-be-a-strategic-partner-in-the-implementation-of-the-e-id-and-authentication-service-project\": true, \"https://www.etc.vn/en/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1\": true, \"https://www.etc.vn/en/lien-he\": false, \"https://www.etc.vn/tin-tuc?page=4\": true, \"https://www.etc.vn/vi/itera\": false, \"https://www.etc.vn/tin-tuc?page=3\": true, \"https://www.etc.vn/jobs?page=3\": true, \"https://www.etc.vn/en/trung-tam-itera-hoan-thien-70-giai-doan-1\": true, \"https://www.etc.vn/en/itera\": false, \"https://www.etc.vn/tin-tuc?page=2\": true, \"https://www.etc.vn/jobs?page=2\": true, \"https://www.etc.vn/vi/jobs/tuyen-dung-tech-lead\": false, \"https://www.etc.vn/vi/jobs/tuyen-dung-ba-lead\": false, \"https://www.etc.vn/vi/jobs/quan-ly-san-pham-product-owner\": false, \"https://www.etc.vn/vi/jobs/nhan-vien-ho-tro-khach-hang\": false, \"https://www.etc.vn/vi/jobs/net-developer-1\": false, \"https://www.etc.vn/vi/jobs/back-end-developer-nodejs\": false, \"https://www.etc.vn/vi/jobs/ky-su-iot\": false, \"https://www.etc.vn/vi/jobs/nhan-vien-bao-hanh-sua-chua-san-pham\": false, \"https://www.etc.vn/vi/jobs/nhan-vien-dan-nhan-ai-label\": false, \"https://www.etc.vn/vi/jobs/front-end-developer-angularjs\": false, \"https://www.etc.vn/vi/jobs/si-engineer-ki-su-tich-hop-he-thong\": false, \"https://www.etc.vn/vi/jobs/nhan-vien-dam-bao-chat-luong-qa\": false, \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-audit\": false, \"https://www.etc.vn/vi/jobs/hanh-chinh-nhan-su\": false, \"https://www.etc.vn/en/jobs\": true, \"https://www.etc.vn/vi/jobs/bach\": false, \"https://www.etc.vn/vi/jobs/chuyen-vien-tu-van-giai-phap-cntt-presale-phan-mem\": false, \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-soc\": false, \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-pentest\": false, \"https://www.etc.vn/vi/jobs\": false, \"https://www.etc.vn/vi/chuyen-tham-trung-tam-itera-dau-nam-2023-day-la-khoi-dau-cua-mot-ky-nguyen-moi\": false, \"https://www.etc.vn/vi/amazon-web-service-dao-tao-gioi-thieu-ve-dam-may-rieng-tai-cho-amazon-outpost-cho-hon-40-ky-su-cntt-cong-ty-etc\": false, \"https://www.etc.vn/vi/etc-epay-tien-phong-thu-nghiem-giai-phap-smart-check-in-tai-nha-ga-t2-cang-san-bay-phu-bai\": false, \"https://www.etc.vn/vi/pho-chu-tich-cac-thi-truong-moi-noi-chau-a-cua-dell-technologies-toi-tham-va-chuc-mung-etc-tro-thanh-doi-tac-titanium\": false, \"https://www.etc.vn/vi/etc-tro-thanh-1-trong-9-doi-tac-titanium-tai-viet-nam-cua-ong-trum-dell-technologies\": false, \"https://www.etc.vn/vi/dell-technologies-cam-ket-hop-tac-voi-bo-gtvt-va-etc-trong-linh-vuc-cntt\": false, \"https://www.etc.vn/en/tin-tuc\": false, \"https://www.etc.vn/vi/jobs/uiux-designer\": false, \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-tich-hop-he-thong\": false, \"https://www.etc.vn/en/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore\": true, \"https://www.etc.vn/en/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm\": true, \"https://www.etc.vn/en/news\": true, \"https://www.etc.vn/en/service/unmanned-aircraft-system-uas\": true, \"https://www.etc.vn/en/etc-switching-using-customs-declaration-software-provided-by-customs\": true, \"https://www.etc.vn/en/itera-1\": true, \"https://www.etc.vn/en/contact\": true, \"https://www.etc.vn/en/service/portable-drug-analyzer-and-detector\": true, \"https://www.etc.vn/vi/tin-etc\": false, \"https://www.etc.vn/en/service/image-screening-and-analysis-system\": true, \"https://www.etc.vn/en/service/fod-system-and-prevent-runway-incursions\": true, \"https://www.etc.vn/vi/etc-aws-thuc-day-hop-tac-voi-chuong-trinh-dao-tao-ve-dien-toan-dam-may\": false, \"https://www.etc.vn/en/service/dich-vu-quan-tri-va-van-hanh-he-thong-1\": true, \"https://www.etc.vn/en/service/deploy-and-integrate-network-infrastructure\": true, \"https://www.etc.vn/en/service/server-data-storage-and-backup-system\": true, \"https://www.etc.vn/itera-1\": false, \"https://www.etc.vn/en/service/virtualization-and-cloud-computing-solutions\": true, \"https://www.etc.vn/en/service/firewall-solution-network-attack-prevention\": true, \"https://www.etc.vn/en/service/security-solution-kit-siem-soc\": true, \"https://www.etc.vn/en/service/data-center\": true, \"https://www.etc.vn/en/service/professional-solutions-for-ministry-of-health\": true, \"https://www.etc.vn/en/service/ai-bigdata-infrastructure-solution\": true, \"https://www.etc.vn/en/service/erp-for-smb-enterprises\": true, \"https://www.etc.vn/en/service/warehouse-management\": true, \"https://www.etc.vn/en/service/customs-declaration\": true, \"https://www.etc.vn/en/service/airport-operation-management\": true, \"https://www.etc.vn/en/about-us\": true, \"https://www.etc.vn/en/service/professional-solutions-for-the-ministry-of-public-security\": true, \"https://www.etc.vn/en/service/customs-professional-solutions\": true, \"https://www.etc.vn/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center\": true, \"https://www.etc.vn/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata\": true, \"https://www.etc.vn/trung-tam-itera-hoan-thien-70-giai-doan-1\": true, \"https://www.etc.vn/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm\": true, \"https://www.etc.vn/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu\": true, \"https://www.etc.vn/\": true, \"https://www.etc.vn/en/home-page-1\": false, \"https://www.etc.vn/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may\": true, \"https://www.etc.vn/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang\": true, \"https://www.etc.vn/en/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata\": true, \"https://www.etc.vn/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc\": true, \"https://www.etc.vn/service/trien-khai-tich-hop-ha-tang-mang\": true, \"https://www.etc.vn/vi/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata\": false, \"https://www.etc.vn/en/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center\": true, \"https://www.etc.vn/en/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang\": true, \"https://www.etc.vn/en/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu\": true, \"https://www.etc.vn/vi/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center\": false, \"https://www.etc.vn/vi/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu\": false, \"https://www.etc.vn/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay\": true, \"https://www.etc.vn/en/service/trien-khai-tich-hop-ha-tang-mang\": true, \"https://www.etc.vn/en/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may\": true, \"https://www.etc.vn/vi/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang\": false, \"https://www.etc.vn/en/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc\": true, \"https://www.etc.vn/vi/service/trien-khai-tich-hop-ha-tang-mang\": false, \"https://www.etc.vn/en/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay\": true, \"https://www.etc.vn/service/he-thong-fod-va-chong-xam-nhap-duong-bang\": true, \"https://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh\": true, \"https://www.etc.vn/vi/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay\": false, \"https://www.etc.vn/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas\": true, \"https://www.etc.vn/vi/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may\": false, \"https://www.etc.vn/service/dich-vu-quan-tri-va-van-hanh-he-thong\": true, \"https://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong\": true, \"https://www.etc.vn/service/erp-cho-cac-doanh-nghiep-smb\": true, \"https://www.etc.vn/service/quan-ly-kho-bai\": true, \"https://www.etc.vn/en/service/he-thong-fod-va-chong-xam-nhap-duong-bang\": true, \"https://www.etc.vn/en/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas\": true, \"https://www.etc.vn/service/khai-bao-hai-quan\": true, \"https://www.etc.vn/vi/service/he-thong-soi-chieu-va-phan-tich-hinh-anh\": false, \"https://www.etc.vn/en/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong\": true, \"https://www.etc.vn/vi/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas\": false, \"https://www.etc.vn/en/service/quan-ly-kho-bai\": true, \"https://www.etc.vn/en/service/erp-cho-cac-doanh-nghiep-smb\": true, \"https://www.etc.vn/vi/tin-tuc\": false, \"https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong\": false, \"https://www.etc.vn/en/service/dich-vu-quan-tri-va-van-hanh-he-thong\": true, \"https://www.etc.vn/en/service/khai-bao-hai-quan\": true, \"https://www.etc.vn/vi/service/erp-cho-cac-doanh-nghiep-smb\": false, \"https://www.etc.vn/vi/service/khai-bao-hai-quan\": false, \"https://www.etc.vn/vi/service/quan-ly-kho-bai\": false, \"https://www.etc.vn/vi/service/dich-vu-quan-tri-va-van-hanh-he-thong\": false, \"https://www.etc.vn/service/giai-phap-nghiep-vu-hai-quan\": true, \"https://www.etc.vn/service/giai-phap-nghiep-vu-bo-cong-an\": true, \"https://www.etc.vn/service/giai-phap-nghiep-vu-bo-y-te\": true, \"https://www.etc.vn/vi/service/he-thong-fod-va-chong-xam-nhap-duong-bang\": false, \"https://www.etc.vn/ve-chung-toi\": true, \"https://www.etc.vn/cau-chuyen-thuong-hieu\": true, \"https://www.etc.vn/en/service/giai-phap-nghiep-vu-hai-quan\": true, \"https://www.etc.vn/en/service/giai-phap-nghiep-vu-bo-cong-an\": true, \"https://www.etc.vn/en/service/giai-phap-nghiep-vu-bo-y-te\": true, \"https://www.etc.vn/en/ve-chung-toi\": false, \"https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-y-te\": false, \"https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-cong-an\": false, \"https://www.etc.vn/vi/ve-chung-toi\": false, \"https://www.etc.vn/vi/service/giai-phap-nghiep-vu-hai-quan\": false, \"https://www.etc.vn/en/service/he-thong-soi-chieu-va-phan-tich-hinh-anh\": true, \"https://www.etc.vn/vi/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc\": false}, \"endpoint_counts\": {\"www.etc.vn\": 172, \"drive.etc.vn\": 1, \"mailto:sales@etc.vn\": 1, \"egene.etc.vn\": 2, \"autodiscover.etc.vn\": 1, \"calendar.etc.vn\": 1}}",
+                "sub_dns": "{\"voip.etc.vn\": {\"a\": [\"222.252.16.4\"]}, \"www.etc.vn\": {\"a\": [\"103.122.82.60\"]}, \"git.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"autodiscover.etc.vn\": {\"a\": [\"40.99.10.104\", \"52.98.33.168\", \"40.99.33.152\", \"40.99.8.200\"], \"cname\": [\"autod.ms-acdc-autod.office.com\", \"atod-g2.tm-4.office.com\", \"autodiscover.outlook.com\"]}, \"gps.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"changepass.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"egene.etc.vn\": {\"a\": [\"14.232.240.58\"]}, \"svn.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"doc.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"access.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"helpdesk.etc.vn\": {\"a\": [\"222.252.16.4\"]}, \"calendar.etc.vn\": {\"a\": [\"142.250.66.51\"], \"cname\": [\"ghs.googlehosted.com\"]}, \"tfs.cs.etc.vn\": {\"a\": [\"183.80.250.208\"]}, \"drive.etc.vn\": {\"a\": [\"142.250.66.51\"], \"cname\": [\"ghs.googlehosted.com\"]}}",
+                "sub_scraping": "{\"total_endpoint\": 217, \"total_endpoint_live\": 153, \"endpoints\": {\"www.etc.vn\": [{\"url\": \"https://www.etc.vn/vi/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu\", \"title\": \"Redirecting to http://www.etc.vn/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/giai-phap-nghiep-vu-hai-quan\", \"title\": \"Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-hai-quan\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/lien-he\", \"title\": \"Redirecting to http://www.etc.vn/lien-he\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/he-thong-soi-chieu-va-phan-tich-hinh-anh\", \"title\": \"Redirecting to http://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/dich-vu-quan-tri-va-van-hanh-he-thong\", \"title\": \"Redirecting to http://www.etc.vn/service/dich-vu-quan-tri-va-van-hanh-he-thong\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/he-thong-fod-va-chong-xam-nhap-duong-bang\", \"title\": \"Redirecting to http://www.etc.vn/service/he-thong-fod-va-chong-xam-nhap-duong-bang\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/ve-chung-toi\", \"title\": \"Redirecting to https://www.etc.vn/en/about-us\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/erp-cho-cac-doanh-nghiep-smb\", \"title\": \"Redirecting to http://www.etc.vn/service/erp-cho-cac-doanh-nghiep-smb\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi\", \"title\": \"Redirecting to http://www.etc.vn/\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-y-te\", \"title\": \"Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-bo-y-te\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/itera\", \"title\": \"Redirecting to http://www.etc.vn/itera\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-cong-an\", \"title\": \"Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-bo-cong-an\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/service/giai-phap-nghiep-vu-bo-cong-an\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/tin-tuc\", \"title\": \"Redirecting to https://www.etc.vn/en/news\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/service/dich-vu-quan-tri-va-van-hanh-he-thong\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/quan-ly-kho-bai\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/jobs?page=3\", \"title\": \"Tuy\\u1ec3n d\\u1ee5ng\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/giai-phap-nghiep-vu-hai-quan\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/he-thong-fod-va-chong-xam-nhap-duong-bang\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/tin-tuc?page=2\", \"title\": \"Tin t\\u1ee9c\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/trien-khai-tich-hop-ha-tang-mang\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/erp-cho-cac-doanh-nghiep-smb\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/giai-phap-nghiep-vu-bo-y-te\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong\", \"title\": \"Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/lien-he\", \"title\": \"Redirecting to https://www.etc.vn/en/contact\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore\", \"title\": \"ETC v\\u00e0 AWS trao \\u0111\\u1ed5i kinh nghi\\u1ec7m chuy\\u1ec3n \\u0111\\u1ed5i s\\u1ed1 qu\\u1ed1c gia t\\u1ea1i Singapore\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/trung-tam-itera-hoan-thien-70-giai-doan-1\", \"title\": \"D\\u1ef1 \\u00e1n Trung t\\u00e2m CNC ITERA ho\\u00e0n thi\\u1ec7n 70% giai \\u0111o\\u1ea1n 1 v\\u00e0 ch\\u00ednh th\\u1ee9c \\u0111i v\\u00e0o ho\\u1ea1t \\u0111\\u1ed9ng cu\\u1ed1i n\\u0103m 2023\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/jobs\", \"title\": \"Redirecting to http://www.etc.vn/jobs\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas\", \"title\": \"Redirecting to http://www.etc.vn/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1\", \"title\": \"Redirecting to http://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/itera\", \"title\": \"Redirecting to https://www.etc.vn/en/itera-1\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/trien-khai-tich-hop-ha-tang-mang\", \"title\": \"Redirecting to http://www.etc.vn/service/trien-khai-tich-hop-ha-tang-mang\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/service/khai-bao-hai-quan\", \"title\": \"Redirecting to http://www.etc.vn/service/khai-bao-hai-quan\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/tin-tuc?page=4\", \"title\": \"Tin t\\u1ee9c\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/service/quan-ly-kho-bai\", \"title\": \"Redirecting to http://www.etc.vn/service/quan-ly-kho-bai\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay\", \"title\": \"Redirecting to http://www.etc.vn/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang\", \"title\": \"Redirecting to http://www.etc.vn/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata\", \"title\": \"Redirecting to http://www.etc.vn/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may\", \"title\": \"Redirecting to http://www.etc.vn/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/jobs?page=2\", \"title\": \"Tuy\\u1ec3n d\\u1ee5ng\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc\", \"title\": \"Redirecting to http://www.etc.vn/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/service/khai-bao-hai-quan\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/ve-chung-toi\", \"title\": \"Redirecting to http://www.etc.vn/ve-chung-toi\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/tin-tuc?page=3\", \"title\": \"Tin t\\u1ee9c\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/tin-tuc\", \"title\": \"Redirecting to http://www.etc.vn/tin-tuc\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/service/he-thong-soi-chieu-va-phan-tich-hinh-anh\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center\", \"title\": \"Redirecting to http://www.etc.vn/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/jobs\", \"title\": \"Jobs\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm\", \"title\": \"ETC nh\\u1eadn gi\\u1ea3i th\\u01b0\\u1edfng \\u201c\\u0110\\u1ed1i t\\u00e1c An ninh m\\u1ea1ng c\\u1ee7a n\\u0103m\\u201d t\\u1eeb IBM\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/home-page-1\", \"title\": \"Redirecting to https://www.etc.vn/en\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore\", \"title\": \"Redirecting to http://www.etc.vn/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/news\", \"title\": \"News\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/ai-bigdata-infrastructure-solution\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/about-us\", \"title\": \"About us\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/trung-tam-itera-hoan-thien-70-giai-doan-1\", \"title\": \"D\\u1ef1 \\u00e1n Trung t\\u00e2m CNC ITERA ho\\u00e0n thi\\u1ec7n 70% giai \\u0111o\\u1ea1n 1 v\\u00e0 ch\\u00ednh th\\u1ee9c \\u0111i v\\u00e0o ho\\u1ea1t \\u0111\\u1ed9ng cu\\u1ed1i n\\u0103m 2023\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/cau-chuyen-thuong-hieu\", \"title\": \"C\\u00e2u chuy\\u1ec7n th\\u01b0\\u01a1ng hi\\u1ec7u\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/etc-epay-contribute-to-promote-digital-transfer-of-financial-services\", \"title\": \"ETC & EPAY CONTRIBUTE TO PROMOTE DIGITAL TRANSFER OF FINANCIAL SERVICES\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/itera-1\", \"title\": \"ITERA\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/etc-and-epay-proudly-be-a-strategic-partner-in-the-implementation-of-the-e-id-and-authentication-service-project\", \"title\": \"ETC AND EPAY PROUDLY BE A STRATEGIC PARTNER IN THE IMPLEMENTATION OF THE E-ID AND AUTHENTICATION SERVICE PROJECT\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/contact\", \"title\": \"Contact\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/airport-operation-management\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/etc-switching-using-customs-declaration-software-provided-by-customs\", \"title\": \"ETC switching using customs declaration software provided by customs\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/customs-declaration\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/customs-professional-solutions\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/data-center\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/professional-solutions-for-ministry-of-health\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/deploy-and-integrate-network-infrastructure\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/css/animate.css?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/fod-system-and-prevent-runway-incursions\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/css/fancybox.css?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/dich-vu-quan-tri-va-van-hanh-he-thong-1\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/css/bootstrap.min.css?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/css/slick.css?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/erp-for-smb-enterprises\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/css/main.css?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/portable-drug-analyzer-and-detector\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/security-solution-kit-siem-soc\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/js/jquery.sticky-kit.js?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/js/bootstrap.min.js?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/js/fancybox.js?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/fonts/fontawesome-pro-5.15.3-web/css/all.min.css?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/js/morphing.js?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/professional-solutions-for-the-ministry-of-public-security\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/js/jquery.js?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/firewall-solution-network-attack-prevention\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/server-data-storage-and-backup-system\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/js/scrollspy.js?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/js/script.js?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/itera\", \"title\": \"ITERA\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/unmanned-aircraft-system-uas\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/warehouse-management\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/image-screening-and-analysis-system\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/js/slick.min.js?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/company/js/wow.min.js?v=20230109.1002\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/core/plugins/language/css/language-public.css?v=1.0.0\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/core/plugins/language/js/language-public.js?v=1.0.0\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/core/plugins/simple-slider/js/simple-slider.js?v=1.0.1\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/core/plugins/simple-slider/css/simple-slider.css?v=1.0.1\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/service/virtualization-and-cloud-computing-solutions\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/core/plugins/simple-slider/libraries/owl-carousel/owl.carousel.css?v=1.0.1\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/resources/core/plugins/simple-slider/libraries/owl-carousel/owl.carousel.js?v=1.0.1\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/lien-he\", \"title\": \"Li\\u00ean h\\u1ec7\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/jobs\", \"title\": \"Tuy\\u1ec3n d\\u1ee5ng\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/itera-1\", \"title\": \"Redirecting to https://www.etc.vn/itera\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/service/he-thong-fod-va-chong-xam-nhap-duong-bang\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/dich-vu-quan-tri-va-van-hanh-he-thong\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/giai-phap-nghiep-vu-bo-y-te\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/quan-ly-kho-bai\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/giai-phap-nghiep-vu-bo-cong-an\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/giai-phap-nghiep-vu-hai-quan\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/erp-cho-cac-doanh-nghiep-smb\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh-1\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/service/khai-bao-hai-quan\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/jobs/back-end-developer-nodejs\", \"title\": \"Redirecting to http://www.etc.vn/jobs/back-end-developer-nodejs\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/amazon-web-service-dao-tao-gioi-thieu-ve-dam-may-rieng-tai-cho-amazon-outpost-cho-hon-40-ky-su-cntt-cong-ty-etc\", \"title\": \"Redirecting to http://www.etc.vn/amazon-web-service-dao-tao-gioi-thieu-ve-dam-may-rieng-tai-cho-amazon-outpost-cho-hon-40-ky-su-cntt-cong-ty-etc\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/resources/company/js/'\", \"title\": \"ath + ' [404] [404 - Not found\", \"status_code\": \"\"}, {\"url\": \"https://www.etc.vn/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/etc-aws-thuc-day-hop-tac-voi-chuong-trinh-dao-tao-ve-dien-toan-dam-may\", \"title\": \"Redirecting to http://www.etc.vn/etc-aws-thuc-day-hop-tac-voi-chuong-trinh-dao-tao-ve-dien-toan-dam-may\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/front-end-developer-angularjs\", \"title\": \"Redirecting to http://www.etc.vn/jobs/front-end-developer-angularjs\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/chuyen-tham-trung-tam-itera-dau-nam-2023-day-la-khoi-dau-cua-mot-ky-nguyen-moi\", \"title\": \"Redirecting to http://www.etc.vn/chuyen-tham-trung-tam-itera-dau-nam-2023-day-la-khoi-dau-cua-mot-ky-nguyen-moi\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm\", \"title\": \"Redirecting to http://www.etc.vn/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/service/trien-khai-ha-tang-trung-tam-du-lieu-data-center\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/jobs/nhan-vien-bao-hanh-sua-chua-san-pham\", \"title\": \"Redirecting to http://www.etc.vn/jobs/nhan-vien-bao-hanh-sua-chua-san-pham\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/trung-tam-itera-hoan-thien-70-giai-doan-1\", \"title\": \"Redirecting to http://www.etc.vn/trung-tam-itera-hoan-thien-70-giai-doan-1\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/net-developer-1\", \"title\": \"Redirecting to http://www.etc.vn/jobs/net-developer-1\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/chuyen-vien-tu-van-giai-phap-cntt-presale-phan-mem\", \"title\": \"Redirecting to http://www.etc.vn/jobs/chuyen-vien-tu-van-giai-phap-cntt-presale-phan-mem\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/ke-toan-mang-trung-gian-thanh-toan\", \"title\": \"Redirecting to http://www.etc.vn/jobs/ke-toan-mang-trung-gian-thanh-toan\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/nhan-vien-dam-bao-chat-luong-qa\", \"title\": \"Redirecting to http://www.etc.vn/jobs/nhan-vien-dam-bao-chat-luong-qa\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/hanh-chinh-nhan-su\", \"title\": \"Redirecting to http://www.etc.vn/jobs/hanh-chinh-nhan-su\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/nhan-vien-dan-nhan-ai-label\", \"title\": \"Redirecting to http://www.etc.vn/jobs/nhan-vien-dan-nhan-ai-label\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/dell-technologies-cam-ket-hop-tac-voi-bo-gtvt-va-etc-trong-linh-vuc-cntt\", \"title\": \"Redirecting to http://www.etc.vn/dell-technologies-cam-ket-hop-tac-voi-bo-gtvt-va-etc-trong-linh-vuc-cntt\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/en/etc-va-aws-trao-doi-kinh-nghiem-chuyen-doi-so-quoc-gia-tai-singapore\", \"title\": \"ETC v\\u00e0 AWS trao \\u0111\\u1ed5i kinh nghi\\u1ec7m chuy\\u1ec3n \\u0111\\u1ed5i s\\u1ed1 qu\\u1ed1c gia t\\u1ea1i Singapore\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/en/etc-nhan-giai-thuong-doi-tac-an-ninh-mang-cua-nam-tu-ibm\", \"title\": \"ETC nh\\u1eadn gi\\u1ea3i th\\u01b0\\u1edfng \\u201c\\u0110\\u1ed1i t\\u00e1c An ninh m\\u1ea1ng c\\u1ee7a n\\u0103m\\u201d t\\u1eeb IBM\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/jobs/nhan-vien-ho-tro-khach-hang\", \"title\": \"Redirecting to http://www.etc.vn/jobs/nhan-vien-ho-tro-khach-hang\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/bach\", \"title\": \"Redirecting to http://www.etc.vn/jobs/bach\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/etc-epay-tien-phong-thu-nghiem-giai-phap-smart-check-in-tai-nha-ga-t2-cang-san-bay-phu-bai\", \"title\": \"Redirecting to http://www.etc.vn/etc-epay-tien-phong-thu-nghiem-giai-phap-smart-check-in-tai-nha-ga-t2-cang-san-bay-phu-bai\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/etc-tro-thanh-1-trong-9-doi-tac-titanium-tai-viet-nam-cua-ong-trum-dell-technologies\", \"title\": \"Redirecting to http://www.etc.vn/etc-tro-thanh-1-trong-9-doi-tac-titanium-tai-viet-nam-cua-ong-trum-dell-technologies\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/ky-su-iot\", \"title\": \"Redirecting to http://www.etc.vn/jobs/ky-su-iot\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/quan-ly-san-pham-product-owner\", \"title\": \"Redirecting to http://www.etc.vn/jobs/quan-ly-san-pham-product-owner\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/service/trien-khai-tich-hop-bo-giai-phap-an-toan-an-ninh-siem-soc\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/jobs/si-engineer-ki-su-tich-hop-he-thong\", \"title\": \"Redirecting to http://www.etc.vn/jobs/si-engineer-ki-su-tich-hop-he-thong\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-audit\", \"title\": \"Redirecting to http://www.etc.vn/jobs/thuc-tap-sinh-audit\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/service/trien-khai-tich-hop-ha-tang-giai-phap-ai-bigdata\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-soc\", \"title\": \"Redirecting to http://www.etc.vn/jobs/thuc-tap-sinh-soc\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/service/trien-khai-tich-hop-ha-tang-mang\", \"title\": \"ETC\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/pho-chu-tich-cac-thi-truong-moi-noi-chau-a-cua-dell-technologies-toi-tham-va-chuc-mung-etc-tro-thanh-doi-tac-titanium\", \"title\": \"Redirecting to http://www.etc.vn/pho-chu-tich-cac-thi-truong-moi-noi-chau-a-cua-dell-technologies-toi-tham-va-chuc-mung-etc-tro-thanh-doi-tac-titanium\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/tuyen-dung-ba-lead\", \"title\": \"Redirecting to http://www.etc.vn/jobs/tuyen-dung-ba-lead\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-tich-hop-he-thong\", \"title\": \"Redirecting to http://www.etc.vn/jobs/thuc-tap-sinh-tich-hop-he-thong\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/thuc-tap-sinh-pentest\", \"title\": \"Redirecting to http://www.etc.vn/jobs/thuc-tap-sinh-pentest\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/vi/jobs/uiux-designer\", \"title\": \"Redirecting to http://www.etc.vn/jobs/uiux-designer\", \"status_code\": \"302\"}, {\"url\": \"https://www.etc.vn/tin-tuc\", \"title\": \"Tin t\\u1ee9c\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/ve-chung-toi\", \"title\": \"V\\u1ec1 ch\\u00fang t\\u00f4i\", \"status_code\": \"200\"}, {\"url\": \"https://www.etc.vn/vi/tin-etc\", \"title\": \"Redirecting to http://www.etc.vn/tin-etc\", \"status_code\": \"302\"}], \"changepass.etc.vn:3344\": [{\"url\": \"https://changepass.etc.vn:3344/adsf/js/common/security-core.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/adsf/js/common/WindowHandler.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/adsf/js/common/JumpTo.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/CommonUtil.js?build=6301\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/adsf/js/common/jquery/jquery-migrate-1.4.1.min.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/CommonUtil.js?build=6220\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/AjaxAPI.js?build=6220\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/adsf/js/common/security-url-validator.min.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/authorization.do\", \"title\": \"ETC change Password\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/CustomLogonScript.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/common/LanguageList.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/ValidateLogon.js?build=6220\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/Esearch.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/form-util.js?build=6220\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/adsf/js/common/sso/CustomSSO.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/layout/Utils.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/form-util.js?build=6301\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/report.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/popLayer.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/validation.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/styles/customer-styles.css\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/js/jquery-ui.min.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/styles/blue/style.css\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/webclient/vendor/js/jquery.js?build=6220\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/webclient/assets/login.css\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://changepass.etc.vn:3344/styles/styles.css\", \"title\": \"\", \"status_code\": \"200\"}], \"egene.etc.vn\": [{\"url\": \"https://egene.etc.vn/static/css/20.a79e86a5.chunk.css\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://egene.etc.vn/static/js/main.0b392305.chunk.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://egene.etc.vn/static/js/20.7cc948e2.chunk.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://egene.etc.vn/static/css/main.07a379ec.chunk.css\", \"title\": \"\", \"status_code\": \"200\"}], \"helpdesk.etc.vn\": [{\"url\": \"https://helpdesk.etc.vn/js/modules/login.js?v=6CqSpUZPMyys87PT1t3Cg4AgJF9D-Qi8n1hZhLlYSZY\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/css/custom.css\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/js/pages/particles.app.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/js/layout.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/js/pages/password-addon.init.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/js/core/config.js?v=nfqCvKZOqIsAdhCzIMMEgKOtT8FKDE3uzFDKHmeQo2Q\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/js/core/util.js?v=Y8C6TdQsRp568Vadn6tsO5MWRAZTPRfTUYRtVsNlgrI\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/css/bootstrap.min.css\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/libs/bootstrap/dist/js/bootstrap.bundle.min.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/libs/node-waves/dist/waves.min.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/libs/particles.js/particles.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/libs/feather-icons/dist/feather.min.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/libs/toastify-js/src/toastify.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/libs/simplebar/dist/simplebar.min.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/js/pages/plugins/lord-icon-2.1.0.js\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/css/app.css\", \"title\": \"\", \"status_code\": \"200\"}, {\"url\": \"https://helpdesk.etc.vn/css/icons.min.css\", \"title\": \"\", \"status_code\": \"200\"}]}, \"endpoint_counts\": {\"www.etc.vn\": 170, \"changepass.etc.vn:3344\": 26, \"egene.etc.vn\": 4, \"helpdesk.etc.vn\": 17}}",
                 "sub_analytics": "{}",
                 "status": 3,
-                "created_at": "2023-06-12T11:18:31.016950+07:00",
-                "modified_at": "2023-06-12T11:22:10.477017+07:00",
+                "created_at": "2023-06-16T15:07:27.959123+07:00",
+                "modified_at": "2023-06-16T15:13:46.320947+07:00",
                 "sub_passive_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:19:46",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:08:28",
+                    "start_time": "2023-06-16 15:07:28"
                 },
                 "subdomains_takeover_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:22:10",
-                    "start_time": "2023-06-12 11:19:46"
+                    "end_time": "2023-06-16 15:10:33",
+                    "start_time": "2023-06-16 15:08:28"
                 },
                 "s3buckets_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:19:50",
-                    "start_time": "2023-06-12 11:19:46"
+                    "end_time": "2023-06-16 15:08:33",
+                    "start_time": "2023-06-16 15:08:28"
                 },
                 "sub_crt_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:18:33",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:07:29",
+                    "start_time": "2023-06-16 15:07:28"
                 },
                 "sub_active_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:19:41",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:13:46",
+                    "start_time": "2023-06-16 15:07:28"
                 },
                 "sub_noerror_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:18:58",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:07:56",
+                    "start_time": "2023-06-16 15:07:28"
                 },
                 "sub_brute_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:18:58",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:07:59",
+                    "start_time": "2023-06-16 15:07:28"
                 },
                 "sub_recursive_passive_time": {
                     "status": 1,
@@ -813,165 +2084,281 @@
                 },
                 "sub_dns_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:19:52",
-                    "start_time": "2023-06-12 11:19:46"
+                    "end_time": "2023-06-16 15:08:36",
+                    "start_time": "2023-06-16 15:08:28"
                 },
                 "sub_scraping_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:20:35",
-                    "start_time": "2023-06-12 11:19:46"
+                    "end_time": "2023-06-16 15:09:51",
+                    "start_time": "2023-06-16 15:08:28"
                 },
                 "sub_analytics_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:18:39",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:07:42",
+                    "start_time": "2023-06-16 15:07:28"
                 },
                 "subdomain_result": [{
-                        "url": "",
-                        "name": "cs.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
-                    },
-                    {
-                        "url": "",
-                        "name": "access.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
-                    },
-                    {
-                        "url": "",
-                        "name": "www.access.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
-                    },
-                    {
-                        "url": "https://www.etc.vn",
-                        "name": "www.etc.vn",
-                        "title": "ETC",
-                        "status": "Alive",
-                        "status_code": "200"
-                    },
-                    {
-                        "url": "",
-                        "name": "git.cs.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
-                    },
-                    {
-                        "url": "",
-                        "name": "git.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
-                    },
-                    {
-                        "url": "",
-                        "name": "www.git.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
-                    },
-                    {
-                        "url": "",
-                        "name": "meet.cs.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
-                    },
-                    {
-                        "url": "",
-                        "name": "tfs.cs.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
-                    },
-                    {
                         "url": "http://calendar.etc.vn",
                         "name": "calendar.etc.vn",
                         "title": "302 Moved",
                         "status": "Not alive",
-                        "status_code": "302"
+                        "directory": 0,
+                        "status_code": "302",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
                     },
                     {
                         "url": "http://drive.etc.vn",
                         "name": "drive.etc.vn",
                         "title": "302 Moved",
                         "status": "Not alive",
-                        "status_code": "302"
+                        "directory": 0,
+                        "status_code": "302",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "ms.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "https://www.etc.vn",
+                        "name": "www.etc.vn",
+                        "title": "ETC",
+                        "status": "Alive",
+                        "directory": 6,
+                        "status_code": "200",
+                        "directory_data": {
+                            "https://www.etc.vn/0": {
+                                "name": "/0",
+                                "status": "200",
+                                "content_type": "text/html"
+                            },
+                            "https://www.etc.vn/en": {
+                                "name": "/en",
+                                "status": "200",
+                                "content_type": "text/html"
+                            },
+                            "https://www.etc.vn/news": {
+                                "name": "/news",
+                                "status": "200",
+                                "content_type": "text/html"
+                            },
+                            "https://www.etc.vn/search": {
+                                "name": "/search",
+                                "status": "200",
+                                "content_type": "text/html"
+                            },
+                            "https://www.etc.vn/contact": {
+                                "name": "/contact",
+                                "status": "200",
+                                "content_type": "text/html"
+                            },
+                            "https://www.etc.vn/resources": {
+                                "name": "/resources",
+                                "status": "403",
+                                "content_type": "text/html"
+                            }
+                        }
                     },
                     {
                         "url": "",
                         "name": "voip.etc.vn",
                         "title": "",
                         "status": "Not alive",
-                        "status_code": ""
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "https://helpdesk.etc.vn",
+                        "name": "helpdesk.etc.vn",
+                        "title": ".: Helpdesk :.",
+                        "status": "Alive",
+                        "directory": 3,
+                        "status_code": "200",
+                        "directory_data": {
+                            "https://helpdesk.etc.vn/home": {
+                                "name": "/home",
+                                "status": "200",
+                                "content_type": "text/html"
+                            },
+                            "https://helpdesk.etc.vn/login": {
+                                "name": "/login",
+                                "status": "200",
+                                "content_type": "text/html"
+                            },
+                            "https://helpdesk.etc.vn/contact": {
+                                "name": "/contact",
+                                "status": "200",
+                                "content_type": "text/html"
+                            }
+                        }
                     },
                     {
                         "url": "http://autodiscover.etc.vn",
                         "name": "autodiscover.etc.vn",
                         "title": "",
                         "status": "Not alive",
-                        "status_code": "301"
-                    },
-                    {
-                        "url": "http://egene.etc.vn",
-                        "name": "egene.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": "302"
-                    },
-                    {
-                        "url": "",
-                        "name": "gps.cs.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
-                    },
-                    {
-                        "url": "",
-                        "name": "doc.cs.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
-                    },
-                    {
-                        "url": "",
-                        "name": "giadinh.etc.vn",
-                        "title": "",
-                        "status": "Not alive",
-                        "status_code": ""
+                        "directory": 0,
+                        "status_code": "301",
+                        "directory_data": {}
                     },
                     {
                         "url": "",
                         "name": "mail.etc.vn",
                         "title": "",
                         "status": "Not alive",
-                        "status_code": ""
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "git.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
                     },
                     {
                         "url": "",
                         "name": "tuyendung.etc.vn",
                         "title": "",
                         "status": "Not alive",
-                        "status_code": ""
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "git.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "tfs.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "https://egene.etc.vn",
+                        "name": "egene.etc.vn",
+                        "title": "Egene | ETC",
+                        "status": "Alive",
+                        "directory": 0,
+                        "status_code": "200",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "gps.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "meet.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "giadinh.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
                     },
                     {
                         "url": "",
                         "name": "tfs01.etc.vn",
                         "title": "",
                         "status": "Not alive",
-                        "status_code": ""
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "svn.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "www.access.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "www.git.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "doc.cs.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
+                    },
+                    {
+                        "url": "",
+                        "name": "access.etc.vn",
+                        "title": "",
+                        "status": "Not alive",
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
                     },
                     {
                         "url": "",
                         "name": "changepass.etc.vn",
                         "title": "",
                         "status": "Not alive",
-                        "status_code": ""
+                        "directory": 0,
+                        "status_code": "",
+                        "directory_data": {}
                     }
                 ]
             }
@@ -981,78 +2368,38 @@
             "title": "Hosts",
             "data": {
                 "whoisxml": "{\n  \"ip\": \"14.232.240.61\",\n  \"location\": {\n    \"country\": \"VN\",\n    \"region\": \"Hanoi\",\n    \"city\": \"V\\u0103n Ch\\u01b0\\u01a1ng\",\n    \"lat\": 21.01667,\n    \"lng\": 105.83333,\n    \"postalCode\": \"\",\n    \"timezone\": \"+07:00\",\n    \"geonameId\": 1563155\n  },\n  \"as\": {\n    \"asn\": 45899,\n    \"name\": \"VNPT-AS-VN\",\n    \"route\": \"14.232.240.0/20\",\n    \"domain\": \"vnpt.com.vn\",\n    \"type\": \"Cable/DSL/ISP\"\n  },\n  \"isp\": \"VNPT\",\n  \"connectionType\": \"\",\n  \"inetnums\": {\n    \"inetnum\": \"14.232.240.0 - 14.232.255.255\",\n    \"inetnumFirst\": 281470931890176,\n    \"inetnumLast\": 281470931894271,\n    \"inetnumFirstString\": \"281470931890176\",\n    \"inetnumLastString\": \"281470931894271\",\n    \"parent\": \"14.224.0.0 - 14.255.255.255\",\n    \"as\": {\n      \"asn\": 45899,\n      \"name\": \"VNPT-AS-VN\",\n      \"type\": \"Cable/DSL/ISP\",\n      \"route\": \"14.232.240.0/20\",\n      \"domain\": \"vnpt.com.vn\"\n    },\n    \"netname\": \"VNPT-VN\",\n    \"nethandle\": \"\",\n    \"description\": [\n      \"Vietnam Posts and Telecommunications Group\",\n      \"No 57, Huynh Thuc Khang Street, Lang Ha ward, Dong Da district, Ha Noi City\"\n    ],\n    \"modified\": \"2018-01-25T03:55:18Z\",\n    \"country\": \"VN\",\n    \"city\": \"\",\n    \"address\": [],\n    \"abuseContact\": [],\n    \"adminContact\": [\n      {\n        \"id\": \"PTH13-AP\",\n        \"person\": \"Pham Tien Huy\",\n        \"email\": \"huypt@vnpt.vn\",\n        \"phone\": \"+84-24-37741604\",\n        \"country\": \"VN\",\n        \"city\": \"\",\n        \"address\": [\n          \"VNPT-VN\"\n        ]\n      }\n    ],\n    \"techContact\": [\n      {\n        \"id\": \"PTH13-AP\",\n        \"person\": \"Pham Tien Huy\",\n        \"email\": \"huypt@vnpt.vn\",\n        \"phone\": \"+84-24-37741604\",\n        \"country\": \"VN\",\n        \"city\": \"\",\n        \"address\": [\n          \"VNPT-VN\"\n        ]\n      }\n    ],\n    \"org\": null,\n    \"mntBy\": [\n      {\n        \"mntner\": \"MAINT-VN-VNNIC\",\n        \"email\": \"thuthuy@vnnic.vn\"\n      }\n    ],\n    \"mntDomains\": [],\n    \"mntLower\": [\n      {\n        \"mntner\": \"MAINT-VN-VNPT\",\n        \"email\": \"hm-changed@vnnic.net.vn\\nhuypt@vnpt.vn\"\n      }\n    ],\n    \"mntRoutes\": [\n      {\n        \"mntner\": \"MAINT-VN-VNPT\",\n        \"email\": \"hm-changed@vnnic.net.vn\\nhuypt@vnpt.vn\"\n      }\n    ],\n    \"remarks\": [\n      \"for admin contact mail to Nguyen Xuan Cuong -->NXC1-AP\",\n      \"for Tech contact mail to Nguyen Hien Khanh --> KNH1-AP\"\n    ],\n    \"source\": \"APNIC\"\n  }\n}",
-                "ipcdn": "142.250.66.51 [cdn] [google]\n172.217.24.83 [cdn] [google]\n",
-                "wafw00f": "https://www.etc.vn;Barracuda (Barracuda Networks)\n",
-                "port_scanner": "# Nmap 7.80 scan initiated Mon Jun 12 11:18:31 2023 as: nmap -sT -sV -A -oA /home/quangtao/DjangoAPI/Storage/recon/recon_186/host/port_scanner/portscan_active 14.232.240.61\nNmap scan report for 14.232.240.61\nHost is up (0.0077s latency).\nNot shown: 997 closed ports\nPORT    STATE SERVICE  VERSION\n22/tcp  open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)\n80/tcp  open  http     nginx\n|_http-title: Welcome to nginx!\n443/tcp open  ssl/http nginx\n|_http-title: Did not follow redirect to https://14.232.240.61/\n| ssl-cert: Subject: commonName=etc.vn\n| Subject Alternative Name: DNS:etc.vn, DNS:www.etc.vn\n| Not valid before: 2023-05-07T23:12:53\n|_Not valid after:  2023-08-05T23:12:52\n|_ssl-date: TLS randomness does not represent time\n| tls-alpn: \n|   h2\n|_  http/1.1\nService Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel\n\nService detection performed. Please report any incorrect results at https://nmap.org/submit/ .\n# Nmap done at Mon Jun 12 11:18:51 2023 -- 1 IP address (1 host up) scanned in 20.62 seconds\n",
-                "created_at": "2023-06-12T11:18:31.030875+07:00",
-                "modified_at": "2023-06-12T11:35:09.006028+07:00",
+                "ipcdn": "142.250.66.51 [cdn] [google]\n",
+                "wafw00f": null,
+                "port_scanner": "# Nmap 7.80 scan initiated Fri Jun 16 15:07:28 2023 as: nmap -sT -sV -A -oA /home/quangtao/DjangoAPI/Storage/recon/recon_213/host/port_scanner/portscan_active 14.232.240.61\nNmap scan report for 14.232.240.61\nHost is up (0.0092s latency).\nNot shown: 997 closed ports\nPORT    STATE SERVICE  VERSION\n22/tcp  open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)\n80/tcp  open  http     nginx\n|_http-title: Welcome to nginx!\n443/tcp open  ssl/http nginx\n|_http-title: ETC\n| ssl-cert: Subject: commonName=etc.vn\n| Subject Alternative Name: DNS:etc.vn, DNS:www.etc.vn\n| Not valid before: 2023-05-07T23:12:53\n|_Not valid after:  2023-08-05T23:12:52\n|_ssl-date: TLS randomness does not represent time\n| tls-alpn: \n|   h2\n|_  http/1.1\nService Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel\n\nService detection performed. Please report any incorrect results at https://nmap.org/submit/ .\n# Nmap done at Fri Jun 16 15:07:45 2023 -- 1 IP address (1 host up) scanned in 16.97 seconds\n",
+                "created_at": "2023-06-16T15:07:27.974237+07:00",
+                "modified_at": "2023-06-16T15:08:37.085844+07:00",
                 "status": 3,
                 "whoisxml_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:18:34",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:07:31",
+                    "start_time": "2023-06-16 15:07:28"
                 },
                 "ipcdn_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:19:53",
-                    "start_time": "2023-06-12 11:19:52"
+                    "end_time": "2023-06-16 15:08:37",
+                    "start_time": "2023-06-16 15:08:36"
                 },
                 "wafw00f_time": {
-                    "status": 3,
-                    "end_time": "2023-06-12 11:35:09",
-                    "start_time": "2023-06-12 11:34:37"
+                    "status": 1,
+                    "end_time": null,
+                    "start_time": null
                 },
                 "port_scanner_time": {
                     "status": 3,
-                    "end_time": "2023-06-12 11:18:51",
-                    "start_time": "2023-06-12 11:18:31"
+                    "end_time": "2023-06-16 15:07:45",
+                    "start_time": "2023-06-16 15:07:28"
                 }
             }
         },
         {
             "id": 4,
             "title": "Webs",
-            "data": {
-                "prober": "http://autodiscover.etc.vn\nhttp://calendar.etc.vn\nhttp://drive.etc.vn\nhttps://www.etc.vn\nhttps://access.etc.vn:8443\nhttp://access.etc.vn:8280\nhttps://changepass.etc.vn:8443\nhttp://changepass.etc.vn:8280\nhttps://doc.cs.etc.vn:8443\nhttp://doc.cs.etc.vn:8280\nhttp://egene.etc.vn:8080\nhttps://git.cs.etc.vn:8443\nhttp://git.cs.etc.vn:8280\nhttps://gps.cs.etc.vn:8443\nhttp://gps.cs.etc.vn:8280\nhttp://tfs.cs.etc.vn:8280\nhttps://tfs.cs.etc.vn:8443\n",
-                "cms": "[{'last_scanned': '2023-06-12 11:34:37.944747', 'target_url': 'https://login.microsoftonline.com/common/oauth2/authorize?client_id=00000002-0000-0ff1-ce00-000000000000&redirect_uri=https%3a%2f%2foutlook.office365.com%2fowa%2f&resource=00000002-0000-0ff1-ce00-000000000000&response_mode=form_post&response_type=code+id_token&scope=openid&msafed=1&msaredir=1&client-request-id=de419620-7a88-b7df-60c3-174aee5827c0&protectedtoken=true&claims=%7b%22id_token%22%3a%7b%22xms_cc%22%3a%7b%22values%22%3a%5b%22CP1%22%5d%7d%7d%7d&domain_hint=etc.vn&nonce=638221412784316099.fff74c32-9eec-45cd-8c04-0fadae06a34e&state=Dcs9DsMgDEBhSG_SoRuJAYefIepZLGOkSk2Q0pRevwzf255WSt2GadAwomLwyTmL1sWE3gbIea61RmTvTBZhgysXkxjQQKVCAoE8ih7vfWk_Wp6n0Hvf5OK5H49eNvperbw-3Lqcfw', 'url': 'http://autodiscover.etc.vn'}, {'last_scanned': '2023-06-12 11:34:39.660151', 'target_url': 'https://www.google.com/a/etc.vn/ServiceLogin?service=cl&continue=https://calendar.google.com/calendar/&followup=https://calendar.google.com/calendar/&osid=1&passive=1209600', 'url': 'http://calendar.etc.vn'}, {'last_scanned': '2023-06-12 11:34:41.878483', 'target_url': 'https://www.google.com/a/etc.vn/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://drive.google.com/a/etc.vn/&followup=https://drive.google.com/a/etc.vn/&faa=1', 'url': 'http://drive.etc.vn'}, {'last_scanned': '2023-06-12 11:34:43.120183', 'url': 'https://www.etc.vn'}, {'last_scanned': '2023-06-12 11:34:44.187766', 'url': 'https://access.etc.vn:8443'}, {'last_scanned': '2023-06-12 11:34:44.524882', 'url': 'http://access.etc.vn:8280'}, {'last_scanned': '2023-06-12 11:34:44.571350', 'url': 'https://changepass.etc.vn:8443'}, {'last_scanned': '2023-06-12 11:34:44.960748', 'url': 'http://changepass.etc.vn:8280'}, {'last_scanned': '2023-06-12 11:34:45.008098', 'url': 'https://doc.cs.etc.vn:8443'}, {'last_scanned': '2023-06-12 11:34:45.391851', 'url': 'http://doc.cs.etc.vn:8280'}, {'last_scanned': '2023-06-12 11:34:45.441406', 'url': 'http://egene.etc.vn:8080'}, {'last_scanned': '2023-06-12 11:34:45.638095', 'url': 'https://git.cs.etc.vn:8443'}, {'last_scanned': '2023-06-12 11:34:45.955691', 'url': 'http://git.cs.etc.vn:8280'}, {'last_scanned': '2023-06-12 11:34:46.017436', 'url': 'https://gps.cs.etc.vn:8443'}, {'last_scanned': '2023-06-12 11:34:46.367979', 'url': 'http://gps.cs.etc.vn:8280'}, {'last_scanned': '2023-06-12 11:34:46.414703', 'url': 'http://tfs.cs.etc.vn:8280'}, {'last_scanned': '2023-06-12 11:34:46.588871', 'url': 'https://tfs.cs.etc.vn:8443'}]",
-                "url_extraction": "http://www.etc.vn:80/robots.txt\nhttps://etc.vn/robots.txt\n",
-                "url_filter": "http://etc.vn:80/default.aspx?ReturnUrl=FUZZ\nhttp://www.etc.vn:80/customers/?lang=FUZZ\nhttp://www.etc.vn:80/products/?id=FUZZ\nhttp://www.etc.vn:80/?page_id=FUZZ\nFUZZ\nhttp://www.etc.vn:80/?web4vn=chitietbaiviet&id=FUZZ\nhttp://www.etc.vn:80/solutions/16/?lang=FUZZ\nhttp://www.etc.vn/feed/?lang=FUZZ\nhttp://tuyendung.etc.vn:80/join-talent-network/vi?url=FUZZ\nhttp://www.etc.vn:80/solutions/18/?lang=FUZZ\nhttp://www.etc.vn/?ev=FUZZ\nhttp://www.etc.vn:80/products/?lang=FUZZ\nhttp://www.etc.vn:80/default.aspx?ReturnUrl=FUZZ\nhttp://www.etc.vn:80/services/?lang=FUZZ\nhttp://www.etc.vn/?cat=FUZZ\nhttp://www.etc.vn:80/default.aspx?ReturnUrl=/?web4vn=FUZZ\nhttp://etc.vn:80/products/13/?id=FUZZ\nhttp://etc.vn:80/products/32/?lang=FUZZ\nhttp://etc.vn:80/default.aspx?web4vn=danhsachbaiviet&id=FUZZ\nhttp://etc.vn:80/default.aspx?web4vn=FUZZ\nhttp://www.etc.vn/boxed-wide-layout/?lang=FUZZ\nhttp://www.etc.vn:80/solutions/19/?lang=FUZZ\nhttp://www.etc.vn:80/?feed=rss2&page_id=FUZZ\nhttp://www.etc.vn:80/?ev=valium-online-pharmacy&1df=FUZZ\nhttp://www.etc.vn/?page_id=FUZZ\nhttp://www.etc.vn:80/?web4vn=danhsachbaiviet&id=FUZZ\nhttp://www.etc.vn:80/?p=FUZZ\nhttp://mail.etc.vn:80/ServiceLogin?hl=FUZZ\nhttp://www.etc.vn:80/introduce/12/?lang=FUZZ\nhttp://www.etc.vn/?fbclid=FUZZ\nhttp://tuyendung.etc.vn:80/vi/jobs/apply/?id=FUZZ\nhttp://www.etc.vn:80/?web4vn=FUZZ\nhttp://www.etc.vn/?ev=stromectol-uk-buy-online&a16=FUZZ\nhttp://etc.vn:80/?web4vn=chitietbaiviet&id=FUZZ\nhttp://www.etc.vn:80/en/?p=FUZZ\nhttp://www.etc.vn/doi-tac/?lang=FUZZ\nhttp://www.etc.vn:80/partners/?lang=FUZZ\nhttp://www.etc.vn:80/introduce/9/?lang=FUZZ\nhttp://www.etc.vn:80/solutions/17/?lang=FUZZ\nhttp://etc.vn:80/products/13/?lang=FUZZ\nhttp://tuyendung.etc.vn:80/?track-source=FUZZ\nhttp://www.etc.vn:80/contact/?lang=FUZZ\nhttp://www.etc.vn/?ev=buy-generic-spiriva-inhaler-usa&851=FUZZ\nhttp://www.etc.vn:80/introduce/11/?lang=FUZZ\nhttp://www.etc.vn/en/?fbclid=FUZZ\nhttp://www.etc.vn:80/?ev=FUZZ\nhttp://www.etc.vn:80/?lang=FUZZ\nhttp://www.etc.vn:80/solutions/?lang=FUZZ\nhttp://www.etc.vn:80/?cat=FUZZ\nhttp://etc.vn:80/wp-login.php?redirect_to=FUZZ\nhttp://www.etc.vn/xmlrpc.php?lang=FUZZ\nhttp://www.etc.vn:80/default.aspx?ReturnUrl=/?lang=FUZZ\nhttp://www.etc.vn/home-version-3/feed/?lang=FUZZ\nhttp://etc.vn:80/?web4vn=FUZZ\nhttp://etc.vn:80/wp-login.php?redirect_to=http://etc.vn/wp-admin/&reauth=FUZZ\nhttp://www.etc.vn:80/?web4vn=lienhe&lang=FUZZ\nhttp://www.etc.vn:80/?feed=FUZZ\nhttp://www.etc.vn:80/introduce/10/?lang=FUZZ\nhttp://etc.vn:80/products/14/?lang=FUZZ\nhttp://tuyendung.etc.vn:80/index/login?url=FUZZ\nhttp://www.etc.vn/?lang=FUZZ\nhttp://www.etc.vn:80/solutions/23/?lang=FUZZ\nhttp://www.etc.vn:80/products/31/?lang=FUZZ\nhttp://etc.vn:80/default.aspx?ReturnUrl=/?web4vn=FUZZ\nhttp://www.etc.vn:80/contact/26/?lang=FUZZ\nhttp://www.etc.vn:80/solutions/20/?lang=FUZZ\nhttp://www.etc.vn/?p=FUZZ\n",
-                "js_analysis": "[ + ] URL: https://www.etc.vn/resources/core/plugins/simple-slider/js/simple-slider.js?v=1.0.1\n[ + ] URL: https://www.etc.vn/resources/company/js/scrollspy.js?v=20230109.1002\n[ + ] URL: https://www.etc.vn/resources/core/plugins/language/js/language-public.js?v=1.0.0\n[ + ] URL: https://www.etc.vn/resources/company/js/wow.min.js?v=20230109.1002\n[ + ] URL: https://www.etc.vn/resources/company/js/morphing.js?v=20230109.1002\n[ + ] URL: https://www.etc.vn/resources/company/js/script.js?v=20230109.1002\n[ + ] URL: https://www.etc.vn/resources/company/js/jquery.sticky-kit.js?v=20230109.1002\n[ + ] URL: https://www.etc.vn/resources/company/js/bootstrap.min.js?v=20230109.1002\nauthorization_api\t->\tApiKeydownHandler\n[ + ] URL: https://www.etc.vn/resources/company/js/fancybox.js?v=20230109.1002\n[ + ] URL: https://www.etc.vn/resources/company/js/slick.min.js?v=20230109.1002\n[ + ] URL: https://www.etc.vn/resources/core/plugins/simple-slider/libraries/owl-carousel/owl.carousel.js?v=1.0.1\n[ + ] URL: https://www.etc.vn/resources/company/js/jquery.js?v=20230109.1002\npossible_Creds\t->\tpassword:!0,image:!0})d.pseudos[b]=ma(b);for(b\n",
-                "fuzzing": "200 56972 https://www.etc.vn/\n",
-                "created_at": "2023-06-12T11:18:31.048659+07:00",
-                "modified_at": "2023-06-12T12:11:32.362066+07:00",
-                "status": 3,
-                "prober_time": {
-                    "status": 3,
-                    "end_time": "2023-06-12 11:34:37",
-                    "start_time": "2023-06-12 11:19:46"
-                },
-                "cms_time": {
-                    "status": 3,
-                    "end_time": "2023-06-12 11:34:46",
-                    "start_time": "2023-06-12 11:34:37"
-                },
-                "url_extraction_time": {
-                    "status": 3,
-                    "end_time": "2023-06-12 11:38:27",
-                    "start_time": "2023-06-12 11:34:37"
-                },
-                "url_filter_time": {
-                    "status": 3,
-                    "end_time": "2023-06-12 12:11:32",
-                    "start_time": "2023-06-12 11:38:27"
-                },
-                "js_analysis_time": {
-                    "status": 3,
-                    "end_time": "2023-06-12 11:20:39",
-                    "start_time": "2023-06-12 11:20:35"
-                },
-                "fuzzing_time": {
-                    "status": 3,
-                    "end_time": "2023-06-12 12:00:49",
-                    "start_time": "2023-06-12 11:34:37"
-                }
-            }
+            "data": "false"
         }
     ],
     "data_recon": [{
@@ -1151,7 +2498,7 @@
                 {
                     "name": "wafw00f",
                     "title": "WAF checker",
-                    "active": true
+                    "active": false
                 },
                 {
                     "name": "port_scanner",
@@ -1162,36 +2509,36 @@
         },
         {
             "title": "Webs",
-            "active": true,
+            "active": false,
             "children": [{
                     "name": "prober",
                     "title": "Web Prober",
-                    "active": true
+                    "active": false
                 },
                 {
                     "name": "cms",
                     "title": "CMS Scanner",
-                    "active": true
+                    "active": false
                 },
                 {
                     "name": "url_extraction",
                     "title": "Url extraction",
-                    "active": true
+                    "active": false
                 },
                 {
                     "name": "url_filter",
                     "title": "URL patterns Search and filtering",
-                    "active": true
+                    "active": false
                 },
                 {
                     "name": "js_analysis",
                     "title": "Javascript analysis",
-                    "active": true
+                    "active": false
                 },
                 {
                     "name": "fuzzing",
                     "title": "Fuzzing",
-                    "active": true
+                    "active": false
                 }
             ]
         }
