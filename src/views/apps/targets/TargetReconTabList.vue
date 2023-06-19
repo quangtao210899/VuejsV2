@@ -956,14 +956,14 @@
                             <template v-if="Object.values(subdomain_result).length > 0">
                                 <el-table :data="subdomain_result" height="500" style="width: 100%"
                                     class-name="my-custom-table">
-                                    <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="name"
+                                    <el-table-column min-width="95" label-class-name="border border-0 fs-7" prop="name"
                                         label="Subdomain">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal">
                                                 {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center"
-                                        label="Endpoints" min-width="80">
+                                        label="Endpoints" min-width="90">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal badge cursor-pointer"
                                                 @click="modelEndpoints(scope.row.enpoint_data)"
@@ -972,7 +972,7 @@
                                         </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="" label="Directory"
-                                        align="center" min-width="80">
+                                        align="center" min-width="90">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal badge cursor-pointer"
                                                 @click="modelDirectory(scope.row.directory_data)"
@@ -1132,51 +1132,78 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogDirectoryVisible" title="directory_data" width="500">
-        <pre>{{ directory_data }}</pre>
+    <el-dialog v-model="dialogDirectoryVisible" title="directory_data" width="800" :close="closeDialog()">
+        <el-table :data="directory_data" style="width: 100%" height="400" class-name="my-custom-table">
+            <el-table-column min-width="40" label-class-name="border border-0 fs-7" label="STT" >
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ scope.row.index }}</span> </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="name" label="Thư mục">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="content_type"
+                label="Content Type" align="center">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.content_type == '') ? '--' : scope.row.content_type }}</span> </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="status" label="Status" align="right">
+                <template #default="scope">
+                    <span class="badge fs-7 fst-normal"
+                        :class="(scope.row.status == '200') ? 'badge-light-success' : 'badge-light-danger'">
+                        {{ (scope.row.status == '') ? '--' : scope.row.status }}
+                    </span>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div v-if="totalRecordsDirectory > pageSizeDirectory" class="d-flex justify-content-center mx-auto w-100 my-5">
+            <el-pagination @current-change="handleCurrentChangeDirectory" background :current-page="currentPageDirectory"
+                :page-size="pageSizeDirectory" :total="totalRecordsDirectory" layout="prev, pager, next"></el-pagination>
+        </div>
     </el-dialog>
 
     <!-- modoal  -->
     <el-dialog v-model="dialogEndpointsVisible" title="enpoint_data" width="800">
-        <el-table :data="enpoint_data" style="width: 100%" class-name="my-custom-table">
-            <el-table-column min-width="30" label-class-name="border border-0 fs-7"
-                label="STT">
+        <el-table :data="enpoint_data" style="width: 100%" height="400" class-name="my-custom-table">
+            <el-table-column min-width="40" label-class-name="border border-0 fs-7" label="STT">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
-                        {{ scope.$index + 1 }}</span> </template>
+                        {{ scope.row.index }}</span> </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="url"
-                label="URL">
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="url" label="URL">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
-                        {{ (scope.row.url == '') ? '--' : scope.row.url }}</span> </template>
+                    <span class="fs-7 fst-normal" v-if="scope.row.url != '' || scope.row.url != null">                    
+                        <el-link class="fs-7" :underline="false" :href="scope.row.url" target="_blank">{{ scope.row.url }}</el-link>
+                    </span>
+                    <span v-else>--</span> 
+
+                </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7"
-                label="Parameter">
+            <el-table-column min-width="60" label-class-name="border border-0 fs-7" label="Parameter" align="center">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">--</span></template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="title"
-                label="Title">
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="title" label="Title">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
                         {{ (scope.row.title == '') ? '--' : scope.row.title }}</span> </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="status_code"
-                label="Status">
+            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="status_code" label="Status" align="right">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
-                        {{ (scope.row.status_code == '') ? '--' : scope.row.status_code }}</span> </template>
+                    <span class="badge fs-7 fst-normal"
+                        :class="(scope.row.status_code == '200') ? 'badge-light-success' : 'badge-light-danger'">
+                        {{ (scope.row.status == '') ? '--' : scope.row.status_code }}
+                    </span>
+                </template>
             </el-table-column>
         </el-table>
-        <!-- <el-pagination
-        @current-change="handleCurrentChangeEndpoint"
-        :current-page="currentPage"
-        :page-size="pageSize"
-        :total="totalRecords"
-        layout="prev, pager, next"
-        ></el-pagination> -->
-
+        <div v-if="totalRecords > pageSize" class="d-flex justify-content-center mx-auto w-100 my-5">
+            <el-pagination @current-change="handleCurrentChangeEndpoint" background :current-page="currentPage"
+                :page-size="pageSize" :total="totalRecords" layout="prev, pager, next"></el-pagination>
+        </div>
     </el-dialog>
 </template>
   
@@ -1727,61 +1754,89 @@ export default defineComponent({
 
         const dialogDirectoryVisible = ref(false)
         const dialogEndpointsVisible = ref(false)
-        const directory_data = ref<any>({})
-        const enpoint_data = ref<any>({})
+        const enpoint_data_full = ref<any>([])
+        const enpoint_data = ref<any>([])
         const currentPage = ref(1); // Trang hiện tại
-        const pageSize = ref(10); // Số lượng hàng mỗi trang
+        const pageSize = ref(5); // Số lượng hàng mỗi trang
+        const pageSizeDirectory = ref(5); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
-        const pagedTableData = ref([]); // Tính toán dữ liệu bảng dựa trên trang hiện tại và kích thước trang
 
+        // sử lý enpoint
         const modelEndpoints = (data: any) => {
             dialogEndpointsVisible.value = true
-            fetchData(data, currentPage.value, pageSize.value)
+            enpoint_data_full.value = data
+            fetchData(currentPage.value, pageSize.value)
         };
 
         // Lắng nghe sự thay đổi của currentPage và pageSize
-        // watch([currentPage, pageSize], ([newCurrentPage, newPageSize]) => {
-        //     fetchData(enpoint_data, newCurrentPage, newPageSize);
-        // });
-        
-        const fetchData = (data: any, currentPage: number, pageSize: number) => {
-            enpoint_data.value = data.slice(10);
-            // currentPage.value = currentPage;
-            // totalRecords.value = enpoint_data.length;
-            // console.log(enpoint_data.value)
-            console.log(data)
-            console.log(currentPage)
-            console.log(pageSize)
-        };
+        watch([currentPage, pageSize], ([newCurrentPage, newPageSize]) => {
+            fetchData(newCurrentPage, newPageSize);
+        });
 
-        // Cập nhật dữ liệu bảng dựa trên trang hiện tại và kích thước trang
-        // const updatePagedTableData = () =>{
-        //     const start = (currentPage.value - 1) * pageSize.value;
-        //     const end = start + pageSize.value;
-        //     pagedTableData.value = enpoint_data.value.slice(start, end);
-        // }
+        const fetchData = (currentPages: number, pageSizes: number) => {
+            const start = (currentPages - 1) * pageSizes;
+            const end = start + pageSizes;
+            enpoint_data.value = enpoint_data_full.value.slice(start, end).map((item: any, index: number) => {
+                return {
+                    ...item,
+                    index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
+                };
+            });
+            currentPage.value = currentPages;
+            totalRecords.value = Object.keys(enpoint_data_full.value).length;
+        };
 
         // Xử lý sự kiện thay đổi trang
-        // const handleCurrentChangeEndpoint = (newPage: number) =>{
-        //     currentPage.value = newPage;
-        // }
+        const handleCurrentChangeEndpoint = (newPage: number) => {
+            currentPage.value = newPage;
+        }
 
-        // Theo dõi thay đổi của dữ liệu bảng và cập nhật dữ liệu bảng phụ thuộc vào trang hiện tại và kích thước trang
-        // watch(enpoint_data, () => {
-        //     updatePagedTableData();
-        // });
-
-
-
-
+        // sử lý directory
+        const directory_data = ref<any>([])
+        const directory_data_full = ref<any>([])
+        const currentPageDirectory = ref(1); // Trang hiện tại
+        const totalRecordsDirectory = ref(0); // Tổng số bản ghi
         const modelDirectory = (data: any) => {
             dialogDirectoryVisible.value = true
-            directory_data.value = data
-            console.log(directory_data.value )
-
+            directory_data_full.value = data
+            fetchDataDirectory(currentPageDirectory.value, pageSizeDirectory.value)
         };
 
-        
+        // Lắng nghe sự thay đổi của currentPage và pageSize
+        watch([currentPageDirectory, pageSizeDirectory], ([newCurrentPage, newPageSize]) => {
+            fetchDataDirectory(newCurrentPage, newPageSize);
+        });
+
+        const fetchDataDirectory = (currentPages: number, pageSizes: number) => {
+            const start = (currentPages - 1) * pageSizes;
+            const end = start + pageSizes;
+            const indexedData = Object.entries(directory_data_full.value).map(([key, value], index: any) => {
+                return Object.assign(
+                    {
+                        url: key,
+                        index: index + 1
+                    }, value
+                );
+            });
+            directory_data.value = indexedData.slice(start, end)
+            currentPageDirectory.value = currentPages;
+            totalRecordsDirectory.value = Object.keys(directory_data_full.value).length;
+        };
+
+        // Xử lý sự kiện thay đổi trang
+        const handleCurrentChangeDirectory = (newPage: number) => {
+            currentPageDirectory.value = newPage;
+        }
+
+        const closeDialog = () => {
+            currentPageDirectory.value = 1
+            currentPage.value = 1
+        };
+
+        // test
+        const textTable = (data: any) => {
+            console.log(data)
+        };
 
         return {
             activities,
@@ -1883,11 +1938,18 @@ export default defineComponent({
             modelEndpoints,
             directory_data,
             enpoint_data,
-            // handleCurrentChangeEndpoint,
+            handleCurrentChangeEndpoint,
+            handleCurrentChangeDirectory,
             currentPage,
-            pagedTableData,
             totalRecords,
             pageSize,
+            textTable,
+            // Directory
+            directory_data_full,
+            currentPageDirectory,
+            totalRecordsDirectory,
+            pageSizeDirectory,
+            closeDialog,
         };
     },
 });
