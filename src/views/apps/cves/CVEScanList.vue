@@ -117,9 +117,20 @@
                                                 <div class="text-gray-800 col-8">{{ (detailData.status == '2' ||
                                                     detailData.status == '1') ? "--:--" : detailData.modified_at }}</div>
                                             </div>
-                                            <div class="row mb-4" v-if="detailData.status == '4' && detailData.description">
-                                                <div class="text-gray-400 col-4">Mô tả:</div>
-                                                <div class="col-8 text-danger">{{ detailData.description }}</div>
+                                            <div class="row mb-4" v-if="detailData.description">
+                                                <div class="text-gray-400 col-4">Mô tả lỗi:</div>
+                                                <div class="col-8 text-danger">
+                                                    <span v-for ="text in detailData.description.split('\n')" class="p-0">
+                                                        {{ text }} 
+                                                        <br/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4" v-if="detailData.status=='2' && detailData.progress">
+                                                <div class="text-gray-400 col-4">Progress:</div>
+                                                <div class="col-8">
+                                                    {{ detailData.progress }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -266,6 +277,7 @@ export default defineComponent({
             status: '',
             statusName: '',
             description: "",
+            progress: "",
         });
 
         const getIdFromUrl = () => {
@@ -424,6 +436,7 @@ export default defineComponent({
                 detailData.created_at = detail.created_at
                 detailData.modified_at = detail.modified_at
                 detailData.description = detail.description
+                detailData.progress = detail.progress
                 const modal = new Modal(
                     document.getElementById("kt_modal_detail") as Element
                 );
