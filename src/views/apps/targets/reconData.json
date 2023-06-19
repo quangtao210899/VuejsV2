@@ -641,61 +641,6 @@
                     },
                     "enpoint": 170,
                     "enpoint_data": [{
-                            "url": "https://www.etc.vn/vi/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu",
-                            "title": "Redirecting to http://www.etc.vn/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu",
-                            "status_code": "302"
-                        },
-                        {
-                            "url": "https://www.etc.vn/vi/service/giai-phap-nghiep-vu-hai-quan",
-                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-hai-quan",
-                            "status_code": "302"
-                        },
-                        {
-                            "url": "https://www.etc.vn/vi/lien-he",
-                            "title": "Redirecting to http://www.etc.vn/lien-he",
-                            "status_code": "302"
-                        },
-                        {
-                            "url": "https://www.etc.vn/vi/service/he-thong-soi-chieu-va-phan-tich-hinh-anh",
-                            "title": "Redirecting to http://www.etc.vn/service/he-thong-soi-chieu-va-phan-tich-hinh-anh",
-                            "status_code": "302"
-                        },
-                        {
-                            "url": "https://www.etc.vn/vi/service/dich-vu-quan-tri-va-van-hanh-he-thong",
-                            "title": "Redirecting to http://www.etc.vn/service/dich-vu-quan-tri-va-van-hanh-he-thong",
-                            "status_code": "302"
-                        },
-                        {
-                            "url": "https://www.etc.vn/vi/service/he-thong-fod-va-chong-xam-nhap-duong-bang",
-                            "title": "Redirecting to http://www.etc.vn/service/he-thong-fod-va-chong-xam-nhap-duong-bang",
-                            "status_code": "302"
-                        },
-                        {
-                            "url": "https://www.etc.vn/en/ve-chung-toi",
-                            "title": "Redirecting to https://www.etc.vn/en/about-us",
-                            "status_code": "302"
-                        },
-                        {
-                            "url": "https://www.etc.vn/vi/service/erp-cho-cac-doanh-nghiep-smb",
-                            "title": "Redirecting to http://www.etc.vn/service/erp-cho-cac-doanh-nghiep-smb",
-                            "status_code": "302"
-                        },
-                        {
-                            "url": "https://www.etc.vn/vi",
-                            "title": "Redirecting to http://www.etc.vn/",
-                            "status_code": "302"
-                        },
-                        {
-                            "url": "https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-y-te",
-                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-bo-y-te",
-                            "status_code": "302"
-                        },
-                        {
-                            "url": "https://www.etc.vn/vi/itera",
-                            "title": "Redirecting to http://www.etc.vn/itera",
-                            "status_code": "302"
-                        },
-                        {
                             "url": "https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-cong-an",
                             "title": "Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-bo-cong-an",
                             "status_code": "302"
