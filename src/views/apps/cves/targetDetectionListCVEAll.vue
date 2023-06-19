@@ -47,9 +47,15 @@
                 <template v-slot:ip="{ row: customer }">{{ customer.ip }}</template>
                 <template v-slot:port="{ row: customer }">{{ customer.port ?? '--' }}</template>
                 <template v-slot:hostnames="{ row: customer }">
-                    <span v-for="(value, index) in customer.hostnames" :key="index" :class="`badge badge-primary`">
-                        <a :href="`https://${value}`" target="_blank" class="text-white">{{ value }}</a>
-                    </span>
+                    <template v-if="customer.hostnames.length">
+                        <span v-for="(value, index) in customer.hostnames" :key="index" :class="`badge badge-success`"
+                            class="me-1">
+                            {{ value }}
+                        </span>
+                    </template>
+                    <template v-else>
+                        <span>--:--</span>
+                    </template>
                 </template>
                 <template v-slot:country="{ row: customer }">
                     {{ customer.country ? customer.country : '--:--' }}
@@ -100,8 +106,17 @@
                                             </div>
                                             <div class="row fs-6 mb-3">
                                                 <div class="col-3 text-gray-400">Hostnames:</div>
-                                                <div class="col-9 text-gray-800"><span>{{ detailData.hostnames[0] ?? ''
-                                                }}</span></div>
+                                                <div class="col-9 text-gray-800">
+                                                    <template v-if="detailData.hostnames.length">
+                                                        <span v-for="(value, index) in detailData.hostnames" :key="index"
+                                                            :class="`badge badge-success`" class="me-1">
+                                                            {{ value }}
+                                                        </span>
+                                                    </template>
+                                                    <template v-else>
+                                                        <span>--:--</span>
+                                                    </template>
+                                                </div>
                                             </div>
                                             <div class="row fs-6 mb-3">
                                                 <div class="col-3 text-gray-400">Quốc gia:</div>
@@ -598,4 +613,5 @@ export default defineComponent({
 .override-styles {
     z-index: 99999 !important;
     pointer-events: initial;
-}</style>
+}
+</style>
