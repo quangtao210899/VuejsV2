@@ -1073,21 +1073,37 @@
                                     <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="left"
                                         label="Bản ghi DNS" min-width="150">
                                         <template #default="scope">
-                                            <template v-if="Object.keys(scope.row.dns_record).length === 0">
+
+                                            <li class="d-flex align-items-start mb-1">
+                                                <div>
+                                                    <span class="fw-bold text-capitalize">A: </span>
+                                                    <span class="fst-normal fs-7">
+                                                        {{  (typeof scope.row.dns_record['a'] !== "undefined") ? scope.row.dns_record['a'].join(' , ') : '--'}}
+                                                    </span>
+                                                </div>
+                                            </li>
+                                            <li  class="d-flex align-items-start mb-1">
+                                                <div>
+                                                    <span class="fw-bold text-capitalize">Cname: </span>
+                                                    <span class="fst-normal fs-7">
+                                                        {{  (typeof scope.row.dns_record['cname'] !== "undefined") ? scope.row.dns_record['cname'].join(' , ') : '--'}}
+                                                    </span>
+                                                </div>
+                                            </li>
+
+                                            <!-- <template v-if="Object.keys(scope.row.dns_record).length === 0">
                                                 <span>--</span>
                                             </template>
                                             <template v-else>
                                                 <template v-for="(items, index) in scope.row.dns_record" :key="index">
                                                     <li class="d-flex align-items-start mb-1">
-                                                        <!-- <span class="bullet bullet-dot bg-success me-3 mt-3"></span> -->
                                                         <div>
                                                             <span class="fw-bold text-capitalize">{{ index }}: </span>
                                                             <span class="fst-normal fs-7">{{ items.join(' , ') }}</span>
                                                         </div>
                                                     </li>
-                                                    <!-- <div :class="(index == scope.row.dns_record.length - 1 ) ? '312' : '123'" class="separator separator-dotted border-secondary my-1"></div> -->
                                                 </template>
-                                            </template>
+                                            </template> -->
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -1219,7 +1235,7 @@ import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import data from "@/views/apps/targets/reconData.json";
+// import data from "@/views/apps/targets/reconData.json";
 import { Refresh } from '@element-plus/icons-vue'
 
 // import dayjs from 'dayjs';
@@ -1358,7 +1374,7 @@ export default defineComponent({
             loading.value = true;
             setTimeout(() => loading.value = false, 500)
             return await ApiService.get(`recon/detail3/${scanID.value}`)
-                .then(({ data1 }) => {
+                .then(({ data }) => {
                     // console.log(data)
                     // console.log(data1)
 
