@@ -613,6 +613,46 @@
                             "status": "200",
                             "content_type": "text/html"
                         },
+                        "https://www.etc.vn/1": {
+                            "name": "/0",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/2": {
+                            "name": "/0",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/3": {
+                            "name": "/0",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/4": {
+                            "name": "/0",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/5": {
+                            "name": "/0",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/6": {
+                            "name": "/0",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/7": {
+                            "name": "/0",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/8": {
+                            "name": "/0",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
                         "https://www.etc.vn/en": {
                             "name": "/en",
                             "status": "200",
@@ -641,13 +681,13 @@
                     },
                     "enpoint": 170,
                     "enpoint_data": [{
-                            "url": "https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-cong-an",
+                            "url": "https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-cong-an123",
                             "title": "Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-bo-cong-an",
                             "status_code": "302"
                         },
                         {
-                            "url": "https://www.etc.vn/en/service/giai-phap-nghiep-vu-bo-cong-an",
-                            "title": "ETC",
+                            "url": "https://www.etc.vn/en/service/giai-phap-nghiep-vu-bo-cong-an123",
+                            "title": "ETC 312",
                             "status_code": "200"
                         },
                         {
@@ -662,7 +702,7 @@
                         },
                         {
                             "url": "https://www.etc.vn/en/service/trien-khai-giai-phap-tuong-lua-phong-chong-tan-cong-mang",
-                            "title": "ETC",
+                            "title": "ETC 312",
                             "status_code": "200"
                         },
                         {
@@ -671,17 +711,17 @@
                             "status_code": "200"
                         },
                         {
-                            "url": "https://www.etc.vn/en/service/quan-ly-kho-bai",
+                            "url": "https://www.etc.vn/en/service/quan-ly-kho-bai 321",
+                            "title": "ETC ",
+                            "status_code": "200"
+                        },
+                        {
+                            "url": "https://www.etc.vn/en/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay 312",
                             "title": "ETC",
                             "status_code": "200"
                         },
                         {
-                            "url": "https://www.etc.vn/en/service/may-phan-tich-va-phat-hien-ma-tuy-cam-tay",
-                            "title": "ETC",
-                            "status_code": "200"
-                        },
-                        {
-                            "url": "https://www.etc.vn/jobs?page=3",
+                            "url": "https://www.etc.vn/jobs?page=3 321",
                             "title": "Tuyển dụng",
                             "status_code": "200"
                         },
@@ -701,18 +741,18 @@
                             "status_code": "200"
                         },
                         {
-                            "url": "https://www.etc.vn/en/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may",
+                            "url": "https://www.etc.vn/en/service/trien-khai-giai-phap-ao-hoa-va-dien-toan-dam-may 321",
                             "title": "ETC",
                             "status_code": "200"
                         },
                         {
                             "url": "https://www.etc.vn/en/service/he-thong-thiet-bi-bay-khong-nguoi-lai-uas",
-                            "title": "ETC",
+                            "title": "ETC ",
                             "status_code": "200"
                         },
                         {
                             "url": "https://www.etc.vn/en/service/trien-khai-tich-hop-ha-tang-mang",
-                            "title": "ETC",
+                            "title": "ETC 321",
                             "status_code": "200"
                         },
                         {
@@ -722,7 +762,7 @@
                         },
                         {
                             "url": "https://www.etc.vn/en/service/he-thong-may-chu-luu-tru-sao-luu-du-lieu",
-                            "title": "ETC",
+                            "title": "ETC 321",
                             "status_code": "200"
                         },
                         {

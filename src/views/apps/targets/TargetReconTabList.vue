@@ -27,7 +27,8 @@
                         <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
                         <span class="text-danger">Tạm dừng</span>
                     </button>
-                    <button type="button" :disabled="(reconStatus != 3 || checkDisabled) ? true : false" @click="fileDownVisible = true"
+                    <button type="button" :disabled="(reconStatus != 3 || checkDisabled) ? true : false"
+                        @click="fileDownVisible = true"
                         class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
                         <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
                         Xuất kết quả
@@ -946,12 +947,12 @@
                                                 {{ scope.row.enpoint ?? '0' }}</span>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="directory" label="Directory"
-                                        align="center" min-width="90">
+                                    <el-table-column label-class-name="border border-0 fs-7" prop="directory"
+                                        label="Directory" align="center" min-width="90">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal badge cursor-pointer"
                                                 @click="modelDirectory(scope.row.directory_data)"
-                                                :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined ) ? 'danger' : 'primary'}`">
+                                                :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
                                                 {{ scope.row.directory ?? '0' }}</span>
                                         </template>
                                     </el-table-column>
@@ -983,11 +984,12 @@
                                                 {{ (scope.row.ip == '') ? '--' : scope.row.ip }}</span>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="portservice" label="Cổng dịch vụ"
-                                        align="start" min-width="200">
+                                    <el-table-column label-class-name="border border-0 fs-7" prop="portservice"
+                                        label="Cổng dịch vụ" align="start" min-width="200">
                                         <template #default="scope">
                                             <div>
-                                                <template v-if="scope.row.portservice == undefined || Object.keys(scope.row.portservice).length === 0">
+                                                <template
+                                                    v-if="scope.row.portservice == undefined || Object.keys(scope.row.portservice).length === 0">
                                                     <span class="text-danger">--</span>
                                                 </template>
                                                 <template v-else>
@@ -1024,7 +1026,8 @@
                                         label="Công nghệ sử dụng" min-width="200">
                                         <template #default="scope">
                                             <div>
-                                                <template v-if="scope.row.technology == undefined || Object.keys(scope.row.technology).length === 0">
+                                                <template
+                                                    v-if="scope.row.technology == undefined || Object.keys(scope.row.technology).length === 0">
                                                     <span class="text-danger">--</span>
                                                 </template>
                                                 <template v-else>
@@ -1051,15 +1054,17 @@
                                                 <div>
                                                     <span class="fw-bold text-capitalize">A: </span>
                                                     <span class="fst-normal fs-7">
-                                                        {{  (typeof scope.row.dns_record['a'] !== "undefined") ? scope.row.dns_record['a'].join(' , ') : '--'}}
+                                                        {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
+                                                            scope.row.dns_record['a'].join(' , ') : '--' }}
                                                     </span>
                                                 </div>
                                             </li>
-                                            <li  class="d-flex align-items-start mb-1">
+                                            <li class="d-flex align-items-start mb-1">
                                                 <div>
                                                     <span class="fw-bold text-capitalize">Cname: </span>
                                                     <span class="fst-normal fs-7">
-                                                        {{  (typeof scope.row.dns_record['cname'] !== "undefined") ? scope.row.dns_record['cname'].join(' , ') : '--'}}
+                                                        {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
+                                                            scope.row.dns_record['cname'].join(' , ') : '--' }}
                                                     </span>
                                                 </div>
                                             </li>
@@ -1107,9 +1112,16 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogDirectoryVisible" title="directory_data" width="800" :close="closeDialog()">
+    <el-dialog v-model="dialogDirectoryVisible" title="Directory Detail" width="1000" :close="closeDialog()">
+        <div>
+            <el-input v-model="searchDirectory" size="large" placeholder="Type to search" :prefix-icon="SearchIcon" />
+            <div class="my-5 text-primary">
+                <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
+                <span class="fw-bold">{{ totalRecordsDirectory }}</span>
+            </div>
+        </div>
         <el-table :data="directory_data" style="width: 100%" height="400" class-name="my-custom-table">
-            <el-table-column min-width="40" label-class-name="border border-0 fs-7" label="STT" >
+            <el-table-column min-width="40" label-class-name="border border-0 fs-7" label="STT">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
                         {{ scope.row.index }}</span> </template>
@@ -1119,13 +1131,14 @@
                     <span class="fs-7 fst-normal">
                         {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="content_type"
-                label="Content Type" align="center">
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="content_type" label="Content Type"
+                align="center">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
                         {{ (scope.row.content_type == '') ? '--' : scope.row.content_type }}</span> </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="status" label="Status" align="right">
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="status" label="Status"
+                align="right">
                 <template #default="scope">
                     <span class="badge fs-7 fst-normal"
                         :class="(scope.row.status == '200') ? 'badge-light-success' : 'badge-light-danger'">
@@ -1141,8 +1154,15 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogEndpointsVisible" title="enpoint_data" width="800">
-        <el-table :data="enpoint_data" style="width: 100%" height="400" class-name="my-custom-table">
+    <el-dialog v-model="dialogEndpointsVisible" title="Enpoint Detail" width="1000" custom-class="okokok">
+        <div>
+            <el-input v-model="searchEnpoint" size="large" placeholder="Type to search"  :prefix-icon="SearchIcon"/>
+            <div class="my-5 text-primary">
+                <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
+                <span class="fw-bold">{{ totalRecords }}</span>
+            </div>
+        </div>
+        <el-table :data="enpoint_data" style="width: 100%" height="400" class-name="my-custom-table" v-loading="loading">
             <el-table-column min-width="40" label-class-name="border border-0 fs-7" label="STT">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
@@ -1150,10 +1170,11 @@
             </el-table-column>
             <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="url" label="URL">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal" v-if="scope.row.url != '' || scope.row.url != null">                    
-                        <el-link class="fs-7" :underline="false" :href="scope.row.url" target="_blank">{{ scope.row.url }}</el-link>
+                    <span class="fs-7 fst-normal" v-if="scope.row.url != '' || scope.row.url != null">
+                        <el-link class="fs-7" :underline="false" :href="scope.row.url" target="_blank">{{ scope.row.url
+                        }}</el-link>
                     </span>
-                    <span v-else>--</span> 
+                    <span v-else>--</span>
 
                 </template>
             </el-table-column>
@@ -1166,7 +1187,8 @@
                     <span class="fs-7 fst-normal">
                         {{ (scope.row.title == '') ? '--' : scope.row.title }}</span> </template>
             </el-table-column>
-            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="status_code" label="Status" align="right">
+            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="status_code" label="Status"
+                align="right">
                 <template #default="scope">
                     <span class="badge fs-7 fst-normal"
                         :class="(scope.row.status_code == '200') ? 'badge-light-success' : 'badge-light-danger'">
@@ -1194,8 +1216,8 @@ import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-// import data from "@/views/apps/targets/reconData.json";
-import { Refresh } from '@element-plus/icons-vue'
+import data from "@/views/apps/targets/reconData.json";
+import { Refresh, Search } from '@element-plus/icons-vue'
 
 // import dayjs from 'dayjs';
 import axios from 'axios'
@@ -1244,7 +1266,8 @@ export default defineComponent({
         const route = useRoute();
         const scanID = ref<null | number | any>(route.params.id ?? '');
         const list = ref<getData | any>()
-        const RefreshIcon = ref(Refresh)
+            const RefreshIcon = ref(Refresh)
+            const SearchIcon = ref(Search)
         const loading = ref<boolean>(false)
         const apiData = ref<APIData>({
             title: '',
@@ -1333,7 +1356,7 @@ export default defineComponent({
             loading.value = true;
             setTimeout(() => loading.value = false, 500)
             return await ApiService.get(`recon/detail3/${scanID.value}`)
-                .then(({ data }) => {
+                .then(({ data1 }) => {
                     // console.log(data)
                     // console.log(data1)
 
@@ -1619,7 +1642,7 @@ export default defineComponent({
 
         watch((eventTime), () => {
             humanDiffTime();
-        } )
+        })
 
         const humanDiffTime = () => {
             checkDisabled.value = true
@@ -1720,6 +1743,7 @@ export default defineComponent({
         const pageSize = ref(5); // Số lượng hàng mỗi trang
         const pageSizeDirectory = ref(5); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
+        const searchEnpoint = ref('')
 
         // sử lý enpoint
         const modelEndpoints = (data: any) => {
@@ -1733,19 +1757,31 @@ export default defineComponent({
             fetchData(newCurrentPage, newPageSize);
         });
 
+        // search searchEnpoint
+        watch(searchEnpoint, debounce(() => fetchData(1, pageSize.value), 500));
+
         const fetchData = (currentPages: number, pageSizes: number) => {
+            loading.value = true;
+            setTimeout(() => loading.value = false, 500)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
-            if(enpoint_data_full.value != undefined || enpoint_data_full.value != ''){
-                enpoint_data.value = enpoint_data_full.value.slice(start, end).map((item: any, index: number) => {
+            const filterTableData = enpoint_data_full.value.filter(
+                (data: any) =>
+                    !searchEnpoint.value ||
+                    data.url.toLowerCase().includes(searchEnpoint.value.toLowerCase()) ||
+                    data.status_code.toLowerCase().includes(searchEnpoint.value.toLowerCase()) ||
+                    data.title.toLowerCase().includes(searchEnpoint.value.toLowerCase())
+            )
+            if (filterTableData != undefined || filterTableData != '') {
+                enpoint_data.value = filterTableData.slice(start, end).map((item: any, index: number) => {
                     return {
                         ...item,
                         index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
                     };
                 });
                 currentPage.value = currentPages;
-                totalRecords.value = Object.keys(enpoint_data_full.value).length;
-            }else{
+                totalRecords.value = Object.keys(filterTableData).length;
+            } else {
                 return;
             }
         };
@@ -1755,11 +1791,15 @@ export default defineComponent({
             currentPage.value = newPage;
         }
 
+
+
         // sử lý directory
         const directory_data = ref<any>([])
         const directory_data_full = ref<any>([])
         const currentPageDirectory = ref(1); // Trang hiện tại
         const totalRecordsDirectory = ref(0); // Tổng số bản ghi
+        const searchDirectory = ref('')
+
         const modelDirectory = (data: any) => {
             dialogDirectoryVisible.value = true
             directory_data_full.value = (data == undefined || data == '') ? [] : data
@@ -1771,20 +1811,34 @@ export default defineComponent({
             fetchDataDirectory(newCurrentPage, newPageSize);
         });
 
+        // search searchEnpoint
+        watch(searchDirectory, debounce(() => fetchDataDirectory(1, pageSize.value), 500));
+
+
         const fetchDataDirectory = (currentPages: number, pageSizes: number) => {
+            loading.value = true;
+            setTimeout(() => loading.value = false, 500)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
-            const indexedData = Object.entries(directory_data_full.value).map(([key, value], index: any) => {
-                return Object.assign(
-                    {
-                        url: key,
-                        index: index + 1
-                    }, value
-                );
-            });
-            directory_data.value = indexedData.slice(start, end)
-            currentPageDirectory.value = currentPages;
-            totalRecordsDirectory.value = Object.keys(directory_data_full.value).length;
+            const filterTableData = Object.values(directory_data_full.value).filter(
+                (data: any) =>
+                    !searchDirectory.value ||
+                    data.name.toLowerCase().includes(searchDirectory.value.toLowerCase())||
+                    data.content_type.toLowerCase().includes(searchDirectory.value.toLowerCase())||
+                    data.status.toLowerCase().includes(searchDirectory.value.toLowerCase())
+            )
+            if (filterTableData != undefined || filterTableData != '') {
+                directory_data.value = filterTableData.slice(start, end).map((item: any, index: number) => {
+                    return {
+                        ...item,
+                        index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
+                    };
+                });
+                currentPageDirectory.value = currentPages;
+                totalRecordsDirectory.value = Object.keys(filterTableData).length;
+            } else {
+                return;
+            }
         };
 
         // Xử lý sự kiện thay đổi trang
@@ -1796,6 +1850,8 @@ export default defineComponent({
             currentPageDirectory.value = 1
             currentPage.value = 1
         };
+
+
 
         // test
         const textTable = (data: any) => {
@@ -1883,6 +1939,7 @@ export default defineComponent({
             linkCheckIP,
             disabled,
             RefreshIcon,
+            SearchIcon,
             drawerTechnology,
             drawerTechnologys,
             detailTechnology,
@@ -1914,6 +1971,10 @@ export default defineComponent({
             totalRecordsDirectory,
             pageSizeDirectory,
             closeDialog,
+
+            // search
+            searchEnpoint,
+            searchDirectory,
         };
     },
 });
@@ -2009,6 +2070,5 @@ export default defineComponent({
     .height-repository {
         height: 700px;
     }
-}
-</style>
+}</style>
   
