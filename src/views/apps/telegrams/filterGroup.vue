@@ -36,8 +36,8 @@
 
         <el-form-item prop="assign">
 
-          <el-select v-model="data.type" placeholder="Chọn kiểu" name="type" as="select" height="40px"
-            class="input-group-lg">
+          <el-select v-model="data.type" placeholder="Chọn kiểu" name="type" as="select"  size="large"
+            class="input-group-lg w-100">
             <el-option value="">Chọn kiểu</el-option>
             <el-option label="DB Leak" value="1">DB Leak</el-option>
             <el-option label="Hacker News" value="2">Hacker News</el-option>
@@ -57,7 +57,7 @@
         <!--begin::Input-->
 
         <el-form-item prop="assign">
-          <el-select v-model="data.status" placeholder="Chọn trạng thái" name="status" as="select">
+          <el-select v-model="data.status" placeholder="Chọn trạng thái" name="status" as="select"  size="large" class="input-group-lg w-100">
             <el-option value="">Chọn trạng thái</el-option>
             <el-option label="Có thể đồng bộ" value="0">Có thể đồng bộ</el-option>
             <el-option label="không đồng bộ" value="1">không đồng bộ</el-option>
@@ -163,11 +163,5 @@ export default defineComponent({
   }
 });
 </script>
-
-<style scoped>
-.el-input.el-input--suffix {
-  height: 40px;
-}
-</style>
 
   

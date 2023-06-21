@@ -37,7 +37,7 @@
         <el-form-item prop="assign">
 
           <el-select v-model="data.product_type" placeholder="Chọn loại sản phẩm" name="product_type" as="select"
-            height="40px" class="input-group-lg">
+            height="40px" class="input-group-lg w-100" size="large">
             <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option>
             <el-option label="Microsoft" value="0">Microsoft</el-option>
             <el-option label="Oracle" value="1">Oracle</el-option>
@@ -106,7 +106,7 @@
         <!--begin::Input-->
 
         <el-form-item prop="assign">
-          <el-select v-model="data.vul_type" placeholder="Chọn loại lỗ hổng" name="vul_type" as="select">
+          <el-select v-model="data.vul_type" placeholder="Chọn loại lỗ hổng" name="vul_type" as="select" size="large" class="input-group-lg w-100">
             <el-option label="Chọn loại lỗ hổng" value="">Chọn loại lỗ hổng</el-option>
             <el-option label="DoS" value="0">DoS</el-option>
             <el-option label="Code Execution" value="1">Code Execution</el-option>

@@ -767,6 +767,7 @@ export default defineComponent({
 
         const handlePage = (page: number) => {
             currentPage.value = page ?? 1;
+            console.log(currentPage.value, 'handlePage')
             getData();
         };
 
@@ -782,6 +783,7 @@ export default defineComponent({
                 .then(({ data }) => {
 
                     if (filterSeverity.value != null && query.value != null) {
+                        currentPage.value = 1;
                         list.value = data.vulnerabilities.filter((vulnerability: detailData) => (vulnerability.vt_name.toLowerCase().indexOf(query.value.toLowerCase()) > -1 && vulnerability.severity == filterSeverity.value))
                     } else if (filterSeverity.value != null) {
                         list.value = data.vulnerabilities.filter((vulnerability: detailData) => (vulnerability.severity == filterSeverity.value))
@@ -790,6 +792,8 @@ export default defineComponent({
                     } else {
                         list.value = data.vulnerabilities;
                     }
+
+                    console.log(currentPage.value)
 
                     targetData.value.id = data.target.id
                     targetData.value.domain = data.target.domain
@@ -945,6 +949,7 @@ export default defineComponent({
             } else {
                 filterSeverity.value = data
             }
+            currentPage.value = 1;
             getData();
         };
 
@@ -1047,6 +1052,7 @@ export default defineComponent({
         // tạm dừng
         // false - tạm dừng
         // true - tiếp tục
+
         const checkDisabled = ref<boolean>(false);
         const handlePauser = async () => {
             checkDisabled.value = true
@@ -1218,6 +1224,9 @@ export default defineComponent({
             }
             return diffTime.value = hrs + 'h ' + min + 'm ' + sec + 's';
         };
+        watch((eventTime), () => {
+            humanDiffTime();
+        } )
 
         const humanDiffTime = () => {
             checkDisabled.value = true

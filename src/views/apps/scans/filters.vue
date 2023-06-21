@@ -22,7 +22,7 @@
         <!--begin::Input-->
         <div>
           <el-form-item prop="assign">
-            <el-select v-model="data.status" name="status" as="select" placeholder="Chọn trạng thái">
+            <el-select v-model="data.status" name="status" as="select" placeholder="Chọn trạng thái"  size="large" class="input-group-lg w-100">
               <el-option value="">Chọn trạng thái</el-option>
               <el-option label="open" value="open">open</el-option>
               <el-option label="re-open" value="re-open">re-open</el-option>
@@ -46,7 +46,7 @@
         <!--begin::Input-->
         <div>
           <el-form-item prop="assign">
-            <el-select v-model="data.severity" name="severity" as="select" placeholder="Chọn mức độ lỗ hổng">
+            <el-select v-model="data.severity" name="severity" as="select" placeholder="Chọn mức độ lỗ hổng"  size="large" class="input-group-lg w-100">
               <el-option value="">Chọn lỗ hổng</el-option>
               <el-option label="Info" value="0">Info</el-option>
               <el-option label="Low" value="1">Low</el-option>
@@ -71,12 +71,11 @@
 
         <div class="row">
           <div class="col-8 pe-0">
-            <el-input v-model="debouncedSearchIp" type="text" placeholder="Nhập IP" name="targetTitle"
-              class="h-35px"></el-input>
+            <el-input v-model="debouncedSearchIp" type="text" placeholder="Nhập IP" name="targetTitle" size="large"></el-input>
           </div>
           <div class="col-4 ">
             <el-form-item prop="assign">
-              <el-select v-model="data.typeIp" name="typeIp" as="select">
+              <el-select v-model="data.typeIp" name="typeIp" as="select"  size="large" class="input-group-lg w-100">
                 <el-option value="equal" label="Equal">Equal</el-option>
                 <el-option label="NContains" value="not_contains">NContains</el-option>
                 <el-option label="contains" value="contains">contains</el-option>
@@ -100,12 +99,11 @@
 
         <div class="row">
           <div class="col-8 pe-0">
-            <el-input v-model="debouncedSearchDomain" type="text" placeholder="Nhập Domain" name="targetTitle"
-              class="h-35px"></el-input>
+            <el-input v-model="debouncedSearchDomain" type="text" placeholder="Nhập Domain" name="targetTitle" size="large"></el-input>
           </div>
           <div class="col-4 ">
             <el-form-item prop="assign">
-              <el-select v-model="data.typeDomain" name="typeDomain" as="select">
+              <el-select v-model="data.typeDomain" name="typeDomain" as="select"  size="large" class="input-group-lg w-100">
                 <el-option value="equal" label="Equal">Equal</el-option>
                 <el-option label="NContains" value="not_contains">NContains</el-option>
                 <el-option label="contains" value="contains">contains</el-option>
@@ -222,8 +220,3 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.el-input.el-input--suffix {
-  height: 40px;
-}
-</style>
