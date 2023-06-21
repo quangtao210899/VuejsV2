@@ -126,7 +126,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="row mb-4" v-if="detailData.status=='2' && detailData.progress">
+                                            <div class="row mb-4">
                                                 <div class="text-gray-400 col-4">Progress:</div>
                                                 <div class="col-8">
                                                     {{ detailData.progress }}
