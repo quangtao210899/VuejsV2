@@ -21,6 +21,7 @@
     </TableContent>
     <TableFooter
       @page-change="pageChange"
+      :currentCheckPage="currentCheckPage"
       :current-page="currentPage"
       v-model:itemsPerPage="itemsInTable"
       :count="totalItems"
@@ -62,6 +63,7 @@ export default defineComponent({
     },
     emptyTableText: { type: String, required: false, default: "No data found" },
     currentPage: { type: Number, required: false, default: 1 },
+    currentCheckPage: { type: Boolean, required: false, default: false },
   },
   emits: [
     "page-change",
@@ -76,6 +78,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const currentPage = ref(props.currentPage);
+    const currentCheckPage = ref(props.currentCheckPage);
     const itemsInTable = ref<number>(props.itemsPerPage);
 
     watch(
@@ -85,6 +88,17 @@ export default defineComponent({
         emit("on-items-per-page-change", val);
       }
     );
+    // watch(props, (value) => {
+    //   console.log(value,'value')
+    //   console.log(currentPage.value,'currentPage')
+    // });
+
+    watch(
+      () => props.currentCheckPage,
+      () => {
+        pageChange(1)
+      }
+    );
 
     const pageChange = (page: number) => {
       currentPage.value = page;
@@ -92,11 +106,16 @@ export default defineComponent({
     };
 
     const dataToDisplay = computed(() => {
+
       if (props.data) {
         if (props.data.length <= itemsInTable.value) {
           return props.data;
         } else {
+
           let sliceFrom = (currentPage.value - 1) * itemsInTable.value;
+          // console.log(currentPage.value, 'currentPage')
+          // console.log(sliceFrom, 'sliceFrom')
+
           return props.data.slice(sliceFrom, sliceFrom + itemsInTable.value);
         }
       }
@@ -124,7 +143,7 @@ export default defineComponent({
     };
     const selectRow = ref<object>();
 
-    const customRowTable = (data) => {
+    const customRowTable = (data: any) => {
       selectRow.value = data
       emit("custom-row", selectRow.value);
       // console.log(data, 'data')
@@ -138,7 +157,8 @@ export default defineComponent({
       itemsInTable,
       totalItems,
       selectRow,
-      customRowTable,    
+      customRowTable,   
+      currentCheckPage, 
     };
   },
 });

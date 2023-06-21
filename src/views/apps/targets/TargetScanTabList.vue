@@ -294,8 +294,8 @@
                     <!-- <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }"> -->
                     <KTDatatable :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig"
                         :loading="loading" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
-                        @page-change="handlePage" :checkitemsPerPage="checkitemsPerPage"
-                        @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+                        @page-change="handlePage" :checkitemsPerPage="checkitemsPerPage" :currentCheckPage="currentCheckPage"
+                        @on-items-per-page-change="handlePerPage" @customRow="customRowTable" >
                         <template v-slot:severity="{ row: customer }">
                             <div class="text-center">
                                 <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
@@ -723,6 +723,7 @@ export default defineComponent({
         const severityInfo = ref<number>(0)
         const progress = ref<number>(0)
         const checkStatus = ref<boolean>(false)
+        const currentCheckPage = ref<boolean>(false)
         const checkStatusDisabled = ref<boolean>(false)
         const severityLow = ref<number>(0)
         const severityMedium = ref<number>(0)
@@ -766,12 +767,14 @@ export default defineComponent({
         };
 
         const handlePage = (page: number) => {
+            // console.log(currentPage.value, 'currentPage')
+            currentCheckPage.value = false;
             currentPage.value = page ?? 1;
-            console.log(currentPage.value, 'handlePage')
             getData();
         };
 
         const handlePerPage = (itemsPage: number) => {
+            currentCheckPage.value = false;
             itemsPerPage.value = itemsPage ?? 20;
             getData();
         };
@@ -783,7 +786,6 @@ export default defineComponent({
                 .then(({ data }) => {
 
                     if (filterSeverity.value != null && query.value != null) {
-                        currentPage.value = 1;
                         list.value = data.vulnerabilities.filter((vulnerability: detailData) => (vulnerability.vt_name.toLowerCase().indexOf(query.value.toLowerCase()) > -1 && vulnerability.severity == filterSeverity.value))
                     } else if (filterSeverity.value != null) {
                         list.value = data.vulnerabilities.filter((vulnerability: detailData) => (vulnerability.severity == filterSeverity.value))
@@ -793,13 +795,13 @@ export default defineComponent({
                         list.value = data.vulnerabilities;
                     }
 
-                    console.log(currentPage.value)
-
                     targetData.value.id = data.target.id
                     targetData.value.domain = data.target.domain
                     targetData.value.ip = data.target.ip
                     targetData.value.name = data.target.name
-                    totalPage.value = data.count
+                    totalPage.value = Object.keys(list.value).length
+                    // console.log(currentPage.value)
+                    // console.log(totalPage.value)
 
                     // time'..
                     countRequest.value = new Intl.NumberFormat("en-US").format(data.web_scan_status.request_count ?? 0);
@@ -949,9 +951,14 @@ export default defineComponent({
             } else {
                 filterSeverity.value = data
             }
-            currentPage.value = 1;
+            currentCheckPage.value = true;
             getData();
         };
+
+        // watch( list, () => {
+        // console.log(currentPage.value, 'currentPage.value')
+        //     currentPage.value = 1;
+        // })
 
         const getSeverity = (severity: number | string) => {
             if (severity == 0 || severity == 'Info') {
@@ -1306,7 +1313,7 @@ export default defineComponent({
             currentPage,
             handlePage,
             handlePerPage,
-
+            currentCheckPage,
             // search query 
             query,
 
@@ -1367,10 +1374,6 @@ export default defineComponent({
 .hand-height-4 {
     height: calc(100% - 70px) !important;
 }
-
-/* .el-select .el-input__wrapper {
-    height: 35px !important;
-} */
 
 /* cursor: col-resize; */
 .drag-handle {
