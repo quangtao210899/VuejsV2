@@ -902,7 +902,7 @@ export default defineComponent({
 }
 
 .el-select .el-input__wrapper {
-  height: 35px !important;
+  height: 40px !important;
 }
 
 /* cursor: col-resize; */

@@ -1125,7 +1125,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .el-select .el-input__wrapper {
     height: 40px !important;
 }</style>

@@ -35,7 +35,7 @@
 
                 <el-form-item prop="assign">
 
-                    <el-select v-model="data.status" placeholder="Chọn trạng thái" name="status" as="select" height="40px"
+                    <el-select v-model="data.status" placeholder="Chọn trạng thái" name="status" as="select"  size="large" 
                         class="input-group-lg w-100">
                         <el-option value="">Chọn trạng thái</el-option>
                         <el-option label="Chưa thực hiện" value="1">Chưa thực hiện</el-option>
@@ -140,8 +140,3 @@ export default defineComponent({
     },
 });
 </script>
-<style scoped>
-.el-input.el-input--suffix {
-  height: 40px;
-}
-</style>

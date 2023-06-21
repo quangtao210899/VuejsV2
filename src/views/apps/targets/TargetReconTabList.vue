@@ -16,7 +16,7 @@
                             </button>
                         </template>
                     </el-popconfirm>
-                    <button v-if="scanStatus == 5" type="button" @click="handlePauser"
+                    <button v-if="reconStatus == 5" type="button" @click="handlePauser"
                         :disabled="(checkDisabled || checkStatus)"
                         class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
                         <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
@@ -27,7 +27,7 @@
                         <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
                         <span class="text-danger">Tạm dừng</span>
                     </button>
-                    <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
+                    <button type="button" :disabled="(reconStatus != 3 || checkDisabled) ? true : false" @click="fileDownVisible = true"
                         class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
                         <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
                         Xuất kết quả
@@ -179,7 +179,7 @@
                                         <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về Domain</span>
                                     </div>
                                 </template>
-                                <div class="h-100">
+                                <div class="h-500px">
                                     <template v-if="domain_info_status == 3">
                                         <template v-if="domain_info == '' || Object.keys(domain_info).length == 0">
                                             <div
@@ -212,35 +212,10 @@
                                                         </template>
                                                         <template v-else>
                                                             <!--begin::Table container-->
-                                                            <!-- <div class="w-100">
-                                                    <el-table :data="items" height="400" style="width: 100%"
-                                                        class-name="my-custom-table">
-                                                        <el-table-column :show-header="false"
-                                                            label-class-name="border border-0 m-0 p-0"
-                                                            prop="name" width="80" />
-                                                        <el-table-column :show-header="false"
-                                                            label-class-name="border border-0 m-0 p-0"
-                                                            prop="address" />
-                                                    </el-table>
-                                                </div> -->
-                                                            <!--end::Table container-->
-
-                                                            <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-500px">
+                                                            <div class="table-responsive w-100 h-100">
                                                                 <!--begin::Table-->
                                                                 <table class="table table-row-dashed table-row-gray-300 ">
                                                                     <!--begin::Table head-->
-                                                                    <!-- <thead>
-                                                        <tr class="border-0">
-                                                            <th class="p-0"></th>
-                                                            <th class="p-0 min-w-150px"></th>
-                                                            <th class="p-0 min-w-200px"></th>
-                                                            <th class="p-0 min-w-150px"></th>
-                                                            <th class="p-0 min-w-100px text-end"></th>
-                                                        </tr>
-                                                        </thead> -->
-                                                                    <!--end::Table head-->
-
                                                                     <!--begin::Table body-->
                                                                     <tbody class="overflow-y-auto w-100">
                                                                         <tr v-for="(item, key) in items" :key="key">
@@ -304,7 +279,7 @@
                                         <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về IP</span>
                                     </div>
                                 </template>
-                                <div class="h-100">
+                                <div class="h-500px">
                                     <template v-if="ip_info_status == 3">
                                         <template v-if="ip_info == '' || Object.keys(ip_info).length == 0">
                                             <div
@@ -337,7 +312,7 @@
                                                         </template>
                                                         <template v-else>
                                                             <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-500px">
+                                                            <div class="table-responsive w-100 h-100">
                                                                 <!--begin::Table-->
                                                                 <table class="table table-row-dashed table-row-gray-300 ">
                                                                     <!--begin::Table body-->
@@ -967,17 +942,17 @@
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal badge cursor-pointer"
                                                 @click="modelEndpoints(scope.row.enpoint_data)"
-                                                :class="`badge-light-${(scope.row.enpoint == 0) ? 'danger' : 'primary'}`">
-                                                {{ scope.row.enpoint }}</span>
+                                                :class="`badge-light-${(scope.row.enpoint == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
+                                                {{ scope.row.enpoint ?? '0' }}</span>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="" label="Directory"
+                                    <el-table-column label-class-name="border border-0 fs-7" prop="directory" label="Directory"
                                         align="center" min-width="90">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal badge cursor-pointer"
                                                 @click="modelDirectory(scope.row.directory_data)"
-                                                :class="`badge-light-${(scope.row.directory == 0) ? 'danger' : 'primary'}`">
-                                                {{ scope.row.directory }}</span>
+                                                :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined ) ? 'danger' : 'primary'}`">
+                                                {{ scope.row.directory ?? '0' }}</span>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label-class-name="border border-0 fs-7" prop="url_checked"
@@ -1008,11 +983,11 @@
                                                 {{ (scope.row.ip == '') ? '--' : scope.row.ip }}</span>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="" label="Cổng dịch vụ"
+                                    <el-table-column label-class-name="border border-0 fs-7" prop="portservice" label="Cổng dịch vụ"
                                         align="start" min-width="200">
                                         <template #default="scope">
                                             <div>
-                                                <template v-if="Object.keys(scope.row.portservice).length === 0">
+                                                <template v-if="scope.row.portservice == undefined || Object.keys(scope.row.portservice).length === 0">
                                                     <span class="text-danger">--</span>
                                                 </template>
                                                 <template v-else>
@@ -1041,17 +1016,15 @@
                                                             </el-popover>
                                                         </template>
                                                     </span>
-
-
                                                 </template>
                                             </div>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="" align="start"
+                                    <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="start"
                                         label="Công nghệ sử dụng" min-width="200">
                                         <template #default="scope">
                                             <div>
-                                                <template v-if="Object.keys(scope.row.technology).length === 0">
+                                                <template v-if="scope.row.technology == undefined || Object.keys(scope.row.technology).length === 0">
                                                     <span class="text-danger">--</span>
                                                 </template>
                                                 <template v-else>
@@ -1090,20 +1063,6 @@
                                                     </span>
                                                 </div>
                                             </li>
-
-                                            <!-- <template v-if="Object.keys(scope.row.dns_record).length === 0">
-                                                <span>--</span>
-                                            </template>
-                                            <template v-else>
-                                                <template v-for="(items, index) in scope.row.dns_record" :key="index">
-                                                    <li class="d-flex align-items-start mb-1">
-                                                        <div>
-                                                            <span class="fw-bold text-capitalize">{{ index }}: </span>
-                                                            <span class="fst-normal fs-7">{{ items.join(' , ') }}</span>
-                                                        </div>
-                                                    </li>
-                                                </template>
-                                            </template> -->
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -1308,7 +1267,7 @@ export default defineComponent({
         const severityLow = ref<number>(0)
         const severityMedium = ref<number>(0)
         const severityHigh = ref<number>(0)
-        const scanStatus = ref<number>(0)
+        const reconStatus = ref<number>(0)
         const filterSeverity = ref<number | null>(null)
         const timeEnd = ref<number | any>(null)
         const timeStart = ref<number | any>(null)
@@ -1434,8 +1393,8 @@ export default defineComponent({
 
                     // subdomain_result
                     subdomain_result.value = data.recon[0].subdomain_result
-                    // humanDiffTime()
-                    // showLocaleTime()
+                    reconStatus.value = data.status
+                    humanDiffTime()
                     console.log(data)
 
                 })
@@ -1520,16 +1479,16 @@ export default defineComponent({
             setTimeout(() => {
                 checkDisabled.value = false;
             }, 500);
-            if (scanStatus.value == 3) {
+            if (reconStatus.value == 3) {
                 ElMessage({
                     message: 'Danh dách đã được quét thành công không thể tạm dừng',
                     type: 'success',
                     center: false,
                 })
-            } else if (scanStatus.value == 5) {
+            } else if (reconStatus.value == 5) {
                 // console.log('tiếp tục')
                 getResume()
-            } else if (scanStatus.value == 2) {
+            } else if (reconStatus.value == 2) {
                 // console.log('tạm dừng')
                 getPauser()
             } else {
@@ -1548,7 +1507,7 @@ export default defineComponent({
                     "action": 'continue'
                 }
             }
-            return ApiService.post(`recon/${scanID.value}/stop2`, formData)
+            return ApiService.post(`recon/${scanID.value}/restart2`, formData)
                 .then(({ data }) => {
                     getData()
                     ElMessage({
@@ -1588,21 +1547,6 @@ export default defineComponent({
                         center: false,
                     })
                 });
-        };
-
-        // thời gian tự động chạy
-        const timeAuto = ref<any>(null);
-
-        const showLocaleTime = async () => {
-            if (scanStatus.value == 5) {
-                clearInterval(timeAuto.value);
-                humanDiff();
-            } else if (scanStatus.value == 2) {
-                clearInterval(timeAuto.value);
-                timeAuto.value = setInterval(() => { humanDiff(); }, 1000);
-            } else {
-                return;
-            }
         };
 
         // tải về files
@@ -1660,7 +1604,7 @@ export default defineComponent({
         const eventTime = ref<number | any>('30000');
 
         const humanDiff = async () => {
-            let date1: any = (scanStatus.value == 2) ? new Date() : new Date(timeEnd.value);
+            let date1: any = (reconStatus.value == 2) ? new Date() : new Date(timeEnd.value);
             let date2: any = new Date(timeStart.value);
             let diff = Math.max(date2, date1) - Math.min(date2, date1);
             let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
@@ -1673,31 +1617,31 @@ export default defineComponent({
             return diffTime.value = hrs + 'h ' + min + 'm ' + sec + 's';
         };
 
+        watch((eventTime), () => {
+            humanDiffTime();
+        } )
+
         const humanDiffTime = () => {
             checkDisabled.value = true
             setTimeout(() => {
                 checkDisabled.value = false;
             }, 500);
-            if (scanStatus.value == 5) {
-                clearInterval(time.value);
+            clearInterval(time.value);
+            if (reconStatus.value == 5) {
                 humanDiff();
-            } else if (scanStatus.value == 2) {
-                clearInterval(time.value);
+            } else if (reconStatus.value == 2) {
                 humanDiff();
                 time.value = setInterval(() => { getData(); humanDiff(); }, eventTime.value);
             } else {
                 return
             }
         };
-        // watch(eventTime, humanDiffTime);
 
         onMounted(() => {
             getData();
-            // humanDiffTime();
         });
 
         onBeforeUnmount(() => {
-            clearInterval(timeAuto);
             clearInterval(time);
         });
 
@@ -1780,7 +1724,7 @@ export default defineComponent({
         // sử lý enpoint
         const modelEndpoints = (data: any) => {
             dialogEndpointsVisible.value = true
-            enpoint_data_full.value = data
+            enpoint_data_full.value = (data == undefined || data == '') ? [] : data
             fetchData(currentPage.value, pageSize.value)
         };
 
@@ -1792,14 +1736,18 @@ export default defineComponent({
         const fetchData = (currentPages: number, pageSizes: number) => {
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
-            enpoint_data.value = enpoint_data_full.value.slice(start, end).map((item: any, index: number) => {
-                return {
-                    ...item,
-                    index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
-                };
-            });
-            currentPage.value = currentPages;
-            totalRecords.value = Object.keys(enpoint_data_full.value).length;
+            if(enpoint_data_full.value != undefined || enpoint_data_full.value != ''){
+                enpoint_data.value = enpoint_data_full.value.slice(start, end).map((item: any, index: number) => {
+                    return {
+                        ...item,
+                        index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
+                    };
+                });
+                currentPage.value = currentPages;
+                totalRecords.value = Object.keys(enpoint_data_full.value).length;
+            }else{
+                return;
+            }
         };
 
         // Xử lý sự kiện thay đổi trang
@@ -1814,7 +1762,7 @@ export default defineComponent({
         const totalRecordsDirectory = ref(0); // Tổng số bản ghi
         const modelDirectory = (data: any) => {
             dialogDirectoryVisible.value = true
-            directory_data_full.value = data
+            directory_data_full.value = (data == undefined || data == '') ? [] : data
             fetchDataDirectory(currentPageDirectory.value, pageSizeDirectory.value)
         };
 
@@ -1907,7 +1855,7 @@ export default defineComponent({
             // tạm dừng
             handlePauser,
             checkDisabled,
-            scanStatus,
+            reconStatus,
 
             // hủy 
             confirmEvent,
