@@ -354,9 +354,6 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 // import data from "@/views/apps/targets/reconData.json";
 import { Refresh, Search } from '@element-plus/icons-vue'
 
-// import dayjs from 'dayjs';
-// import axios from 'axios'
-
 interface Targets {
     name: string;
     domain: string;
