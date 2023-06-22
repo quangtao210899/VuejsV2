@@ -47,7 +47,7 @@
             <el-input v-model="searchSubdomain" size="large" placeholder="Title to search" :prefix-icon="SearchIcon" />
         </div>
         <el-table :data="subdomain_result" height="580" style="width: 100%" class-name="my-custom-table"
-            table-layout="fixed" v-loading="loading">
+            table-layout="fixed" v-loading="loadingSubdomain">
             <el-table-column min-width="100" label-class-name="border border-0 fs-7" prop="name" label="Subdomain">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
@@ -378,6 +378,7 @@ export default defineComponent({
         const RefreshIcon = ref(Refresh)
         const SearchIcon = ref(Search)
         const loading = ref<boolean>(false)
+        const loadingSubdomain = ref<boolean>(false)
         const reconStatus = ref<number>(0)
         const timeEnd = ref<number | any>(null)
         const timeStart = ref<number | any>(null)
@@ -537,8 +538,8 @@ export default defineComponent({
         watch(searchSubdomain, debounce(() => fetchDataSubdomain(1, pageSizeSubdomain.value), 500));
 
         const fetchDataSubdomain = (currentPages: number, pageSizes: number) => {
-            loading.value = true
-            setTimeout(() => loading.value = false, 500)
+            loadingSubdomain.value = true
+            setTimeout(() => loadingSubdomain.value = false, 500)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             const filterTableData = (searchSubdomain != null || searchSubdomain != '') ? subdomain_result_full.value.filter(
@@ -718,6 +719,7 @@ export default defineComponent({
             totalSubdomain,
             pageSizeSubdomain,
             currentPageSubdomain,
+            loadingSubdomain,
         };
     },
 });
