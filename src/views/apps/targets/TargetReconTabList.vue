@@ -1778,7 +1778,7 @@ export default defineComponent({
         const enpoint_data = ref<any>([])
         const currentPageEndpoints = ref(1); // Trang hiện tại
         const pageSizeEndpoints = ref(5); // Số lượng hàng mỗi trang
-        const pageSizeDirectory = ref(2); // Số lượng hàng mỗi trang
+        const pageSizeDirectory = ref(10); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
         const searchEnpoint = ref('')
 
@@ -1856,7 +1856,7 @@ export default defineComponent({
         watch(searchDirectory, debounce(() => {
             loading.value = true
             setTimeout(() => loading.value = false, 500)
-            fetchDataDirectory(1, pageSizeEndpoints.value)
+            fetchDataDirectory(1, pageSizeDirectory.value)
         }, 500));
 
         const fetchDataDirectory = (currentPages: number, pageSizes: number) => {

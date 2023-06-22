@@ -597,7 +597,47 @@
                             "status": "200",
                             "content_type": "text/html"
                         },
-                        "https://www.etc.vn/en": {
+                        "https://www.etc.vn/en12": {
+                            "name": "/en",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/en9": {
+                            "name": "/en",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/en8": {
+                            "name": "/en",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/en7": {
+                            "name": "/en",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/en4": {
+                            "name": "/en",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/en233": {
+                            "name": "/en",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/en23": {
+                            "name": "/en",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/en3": {
+                            "name": "/en",
+                            "status": "200",
+                            "content_type": "text/html"
+                        },
+                        "https://www.etc.vn/en2": {
                             "name": "/en",
                             "status": "200",
                             "content_type": "text/html"
@@ -627,6 +667,121 @@
                     "enpoint_data": [{
                             "url": "https://www.etc.vn/vi/service/giai-phap-nghiep-vu-bo-y-te",
                             "title": "Redirecting to http://www.etc.vn/service/giai-phap-nghiep-vu-bo-y-te",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "status_code": "302",
+                            "params": []
+                        },
+                        {
+                            "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
+                            "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
                             "status_code": "302",
                             "params": []
                         },
