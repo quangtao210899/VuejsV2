@@ -43,8 +43,7 @@
 
     <!--begin::Card-->
     <div class="">
-        <template v-if="Object.values(subdomain_result).length > 0">
-            <div class="rounded-top py-3 px-2 bg-white">
+        <div class="rounded-top py-3 px-2 bg-white">
                 <el-input v-model="searchSubdomain" size="large" placeholder="Title to search" :prefix-icon="SearchIcon" />
             </div>
             <el-table :data="subdomain_result" height="580" style="width: 100%" class-name="my-custom-table"
@@ -206,43 +205,44 @@
                     <template #default="scope">
                         <span class="fs-7 fst-normal">--</span>
                     </template>
-                </el-table-column> 
-                <el-table-column label-class-name="border border-0 fs-7" prop="waf" label="WAF" align="center" min-width="150">
+                </el-table-column>
+                <el-table-column label-class-name="border border-0 fs-7" prop="waf" label="WAF" align="center"
+                    min-width="150">
                     <template #default="scope">
                         <div class="d-flex flex-column">
-                            <li v-for="(val, key) in scope.row.waf" :key="key" class="d-flex align-items-top py-2 fs-7 text-start">
-                                <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' || val == null) ? '--' : val }}.
+                            <li v-for="(val, key) in scope.row.waf" :key="key"
+                                class="d-flex align-items-top py-2 fs-7 text-start">
+                                <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
+                                    val == null) ? '--' : val }}.
                             </li>
                         </div>
-                        
+
                     </template>
                 </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="cdn" label="CDN" align="center" min-width="150">
+                <el-table-column label-class-name="border border-0 fs-7" prop="cdn" label="CDN" align="center"
+                    min-width="150">
                     <template #default="scope">
                         <div class="d-flex flex-column">
-                            <li v-for="(val, key) in scope.row.cdn" :key="key" class="d-flex align-items-top py-2 fs-7 text-start">
-                                <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' || val == null) ? '--' : val }}.
+                            <li v-for="(val, key) in scope.row.cdn" :key="key"
+                                class="d-flex align-items-top py-2 fs-7 text-start">
+                                <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
+                                    val == null) ? '--' : val }}.
                             </li>
                         </div>
                     </template>
                 </el-table-column>
             </el-table>
             <div class="d-flex justify-content-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-                <el-pagination v-if="totalSubdomain > pageSizeSubdomain" @current-change="handleCurrentChangeSubdomain" @size-change="handleSizeChangeSubdomain"
-                    background v-model:current-page="currentPageSubdomain" v-model:page-size="pageSizeSubdomain" :total="totalSubdomain"
-                    layout="total, sizes, prev, pager, next, jumper" :disabled="disabled" :page-sizes="[10, 20, 30, 40]"></el-pagination>
+                <el-pagination  background
+                    v-model:current-page="currentPageSubdomain" v-model:page-size="pageSizeSubdomain"
+                    :total="totalSubdomain" layout="total, sizes, prev, pager, next, jumper" :disabled="disabled"
+                    :page-sizes="[10, 20, 30, 40, 50]"></el-pagination>
             </div>
-        </template>
-        <template v-else>
-            <div class="mt-5 m-3">
-                <el-skeleton :rows="10" animated />
-            </div>
-        </template>
     </div>
     <!--end::Card-->
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogDirectoryVisible" title="Directory Detail" width="1000" :close="closeDialog()">
+    <el-dialog v-model="dialogDirectoryVisible" title="Directory Detail" width="1000">
         <div>
             <el-input v-model="searchDirectory" size="large" placeholder="Type to search" :prefix-icon="SearchIcon" />
             <div class="my-5 text-primary">
@@ -278,8 +278,9 @@
             </el-table-column>
         </el-table>
         <div v-if="totalRecordsDirectory > pageSizeDirectory" class="d-flex justify-content-center mx-auto w-100 my-5">
-            <el-pagination @current-change="handleCurrentChangeDirectory" background :current-page="currentPageDirectory"
-                :page-size="pageSizeDirectory" :total="totalRecordsDirectory" layout="prev, pager, next"></el-pagination>
+            <el-pagination @current-change="handleCurrentChangeDirectory" background
+                v-model:current-page="currentPageDirectory" v-model:page-size="pageSizeDirectory"
+                :total="totalRecordsDirectory" layout="prev, pager, next"></el-pagination>
         </div>
     </el-dialog>
 
@@ -308,9 +309,18 @@
 
                 </template>
             </el-table-column>
-            <el-table-column min-width="60" label-class-name="border border-0 fs-7" label="Parameter" align="center">
+            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="params" label="Parameter"
+                align="center">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">--</span></template>
+
+                    <template v-if="Object.keys(scope.row.params).length == 0">
+                        <span class="badge badge-light-danger fs-7">--</span>
+                    </template>
+                    <template v-else>
+                        <span v-for="(value, index) in scope.row.params" :index="index"
+                            class="badge badge-light-primary fs-7 my-1 ms-1">{{ value }}</span>
+                    </template>
+                </template>
             </el-table-column>
             <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="title" label="Title">
                 <template #default="scope">
@@ -327,9 +337,10 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div v-if="totalRecords > pageSize" class="d-flex justify-content-center mx-auto w-100 my-5">
-            <el-pagination @current-change="handleCurrentChangeEndpoint" background :current-page="currentPage"
-                :page-size="pageSize" :total="totalRecords" layout="prev, pager, next"></el-pagination>
+        <div v-if="totalRecords > pageSizeEndpoints" class="d-flex justify-content-center mx-auto w-100 my-5">
+            <el-pagination @current-change="handleCurrentChangeEndpoint" background
+                v-model:current-page="currentPageEndpoints" v-model:page-size="pageSizeEndpoints" :total="totalRecords"
+                layout="prev, pager, next"></el-pagination>
         </div>
     </el-dialog>
 </template>
@@ -404,7 +415,7 @@ export default defineComponent({
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                 });
-        }
+        };
 
         const notification = (values: string, icon: string, more: string) => {
             Swal.fire({
@@ -520,7 +531,7 @@ export default defineComponent({
             return expandedPortservice.value.includes(rowIndex);
         };
 
-        // sử lý phân trang
+        // sử lý phân trang subdomains
         const currentPageSubdomain = ref(1); // Trang hiện tại
         const pageSizeSubdomain = ref(10); // Số lượng hàng mỗi trang
         const totalSubdomain = ref(0); // Tổng số bản ghi
@@ -531,38 +542,24 @@ export default defineComponent({
             fetchDataSubdomain(newCurrentPage, newPageSize);
         });
 
-        // search searchEnpoint
+        // search search
         watch(searchSubdomain, debounce(() => fetchDataSubdomain(1, pageSizeSubdomain.value), 500));
 
         const fetchDataSubdomain = (currentPages: number, pageSizes: number) => {
-            loading.value = true;
+            loading.value = true
             setTimeout(() => loading.value = false, 500)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
-            const filterTableData = subdomain_result_full.value.filter(
+            const filterTableData = (searchSubdomain != null || searchSubdomain != '') ? subdomain_result_full.value.filter(
                 (data: any) =>
                     !searchSubdomain.value ||
                     data.name.toLowerCase().includes(searchSubdomain.value.toLowerCase()) ||
                     data.title.toLowerCase().includes(searchSubdomain.value.toLowerCase()) ||
                     data.ip.toLowerCase().includes(searchSubdomain.value.toLowerCase())
-            )
-            if (filterTableData != undefined || filterTableData != '') {
-                subdomain_result.value = filterTableData.slice(start, end)
-                currentPageSubdomain.value = currentPages;
-                totalSubdomain.value = Object.keys(filterTableData).length;
-            } else {
-                return;
-            }
+            ) : subdomain_result_full.value
+            subdomain_result.value = filterTableData.slice(start, end)
+            totalSubdomain.value = Object.keys(filterTableData).length;
         };
-
-        // Xử lý sự kiện thay đổi trang
-        const handleCurrentChangeSubdomain = (newPage: number) => {
-            currentPageSubdomain.value = newPage;
-        }
-
-        const handleSizeChangeSubdomain = (newSize: number) => {
-            pageSizeSubdomain.value = newSize;
-        }
 
         // modoal subdomains
         // detail subdmains
@@ -571,8 +568,8 @@ export default defineComponent({
         const dialogEndpointsVisible = ref(false)
         const enpoint_data_full = ref<any>([])
         const enpoint_data = ref<any>([])
-        const currentPage = ref(1); // Trang hiện tại
-        const pageSize = ref(5); // Số lượng hàng mỗi trang
+        const currentPageEndpoints = ref(1); // Trang hiện tại
+        const pageSizeEndpoints = ref(5); // Số lượng hàng mỗi trang
         const pageSizeDirectory = ref(5); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
         const searchEnpoint = ref('')
@@ -581,49 +578,47 @@ export default defineComponent({
         const modelEndpoints = (data: any) => {
             dialogEndpointsVisible.value = true
             enpoint_data_full.value = (data == undefined || data == '') ? [] : data
-            fetchData(currentPage.value, pageSize.value)
+            fetchDataEndpoints(currentPageEndpoints.value, pageSizeEndpoints.value)
         };
 
         // Lắng nghe sự thay đổi của currentPage và pageSize
-        watch([currentPage, pageSize], ([newCurrentPage, newPageSize]) => {
-            fetchData(newCurrentPage, newPageSize);
+        watch([currentPageEndpoints, pageSizeEndpoints], ([newCurrentPage, newPageSize]) => {
+            fetchDataEndpoints(newCurrentPage, newPageSize);
         });
 
         // search searchEnpoint
-        watch(searchEnpoint, debounce(() => fetchData(1, pageSize.value), 500));
-
-        const fetchData = (currentPages: number, pageSizes: number) => {
-            loading.value = true;
+        watch(searchEnpoint, debounce(() => {
+            loading.value = true
             setTimeout(() => loading.value = false, 500)
+            searchEnpoint.value = ''
+            fetchDataEndpoints(1, pageSizeEndpoints.value)
+        }, 500));
+        watch([dialogEndpointsVisible, dialogDirectoryVisible], () => { currentPageEndpoints.value = 1; currentPageDirectory.value = 1 });
+
+        const fetchDataEndpoints = (currentPages: number, pageSizes: number) => {
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
-            const filterTableData = enpoint_data_full.value.filter(
+            const filterTableData = (searchEnpoint != null || searchEnpoint != '') ? enpoint_data_full.value.filter(
                 (data: any) =>
                     !searchEnpoint.value ||
                     data.url.toLowerCase().includes(searchEnpoint.value.toLowerCase()) ||
                     data.status_code.toLowerCase().includes(searchEnpoint.value.toLowerCase()) ||
                     data.title.toLowerCase().includes(searchEnpoint.value.toLowerCase())
-            )
-            if (filterTableData != undefined || filterTableData != '') {
-                enpoint_data.value = filterTableData.slice(start, end).map((item: any, index: number) => {
-                    return {
-                        ...item,
-                        index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
-                    };
-                });
-                currentPage.value = currentPages;
-                totalRecords.value = Object.keys(filterTableData).length;
-            } else {
-                return;
-            }
+            ) : enpoint_data_full.value
+            enpoint_data.value = filterTableData.slice(start, end).map((item: any, index: number) => {
+                return {
+                    ...item,
+                    index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
+                };
+            });
+            totalRecords.value = Object.keys(filterTableData).length;
         };
 
         // Xử lý sự kiện thay đổi trang
-        const handleCurrentChangeEndpoint = (newPage: number) => {
-            currentPage.value = newPage;
-        }
-
-
+        const handleCurrentChangeEndpoint = () => {
+            loading.value = true;
+            setTimeout(() => loading.value = false, 500)
+        };
 
         // sử lý directory
         const directory_data = ref<any>([])
@@ -644,63 +639,44 @@ export default defineComponent({
         });
 
         // search searchEnpoint
-        watch(searchDirectory, debounce(() => fetchDataDirectory(1, pageSize.value), 500));
-
+        watch(searchDirectory, debounce(() => {
+            loading.value = true
+            setTimeout(() => loading.value = false, 500)
+            searchDirectory.value = ''
+            fetchDataDirectory(1, pageSizeEndpoints.value)
+        }, 500));
 
         const fetchDataDirectory = (currentPages: number, pageSizes: number) => {
-            loading.value = true;
-            setTimeout(() => loading.value = false, 500)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
-            const filterTableData = Object.values(directory_data_full.value).filter(
+            const filterTableData = (searchDirectory != null || searchDirectory != '') ? Object.values(directory_data_full.value).filter(
                 (data: any) =>
                     !searchDirectory.value ||
                     data.name.toLowerCase().includes(searchDirectory.value.toLowerCase()) ||
                     data.content_type.toLowerCase().includes(searchDirectory.value.toLowerCase()) ||
                     data.status.toLowerCase().includes(searchDirectory.value.toLowerCase())
-            )
-            if (filterTableData != undefined || filterTableData != '') {
-                directory_data.value = filterTableData.slice(start, end).map((item: any, index: number) => {
-                    return {
-                        ...item,
-                        index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
-                    };
-                });
-                currentPageDirectory.value = currentPages;
-                totalRecordsDirectory.value = Object.keys(filterTableData).length;
-            } else {
-                return;
-            }
+            ) : Object.values(directory_data_full.value);
+            directory_data.value = filterTableData.slice(start, end).map((item: any, index: number) => {
+                return {
+                    ...item,
+                    index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
+                };
+            });
+            totalRecordsDirectory.value = Object.keys(filterTableData).length;
         };
 
         // Xử lý sự kiện thay đổi trang
-        const handleCurrentChangeDirectory = (newPage: number) => {
-            currentPageDirectory.value = newPage;
+        const handleCurrentChangeDirectory = () => {
+            loading.value = true;
+            setTimeout(() => loading.value = false, 500)
         }
-
-        const closeDialog = () => {
-            currentPageDirectory.value = 1
-            currentPage.value = 1
-        };
-
-
-
-        // test
-        const textTable = (data: any) => {
-            console.log(data)
-        };
 
         return {
             scanID,
             getData,
             list,
             getAssetPath,
-
-            // filter
             loading,
-
-
-            // reloadData
             reloadData,
             diffTime,
             eventTime,
@@ -708,9 +684,6 @@ export default defineComponent({
             // tạm dừng
             checkDisabled,
             reconStatus,
-
-
-            // 
             subdomain_result,
             disabled,
             RefreshIcon,
@@ -732,16 +705,15 @@ export default defineComponent({
             enpoint_data,
             handleCurrentChangeEndpoint,
             handleCurrentChangeDirectory,
-            currentPage,
+            currentPageEndpoints,
             totalRecords,
-            pageSize,
-            textTable,
+            pageSizeEndpoints,
+
             // Directory
             directory_data_full,
             currentPageDirectory,
             totalRecordsDirectory,
             pageSizeDirectory,
-            closeDialog,
 
             // search
             searchEnpoint,
@@ -752,8 +724,6 @@ export default defineComponent({
             totalSubdomain,
             pageSizeSubdomain,
             currentPageSubdomain,
-            handleCurrentChangeSubdomain,
-            handleSizeChangeSubdomain,
         };
     },
 });
