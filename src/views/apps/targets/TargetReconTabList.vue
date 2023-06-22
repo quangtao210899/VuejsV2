@@ -1138,7 +1138,7 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogDirectoryVisible" title="Directory Detail" width="1000" :close="closeDialog()">
+    <el-dialog v-model="dialogDirectoryVisible" title="Directory Detail" width="1000">
         <div>
             <el-input v-model="searchDirectory" size="large" placeholder="Type to search" :prefix-icon="SearchIcon" />
             <div class="my-5 text-primary">
@@ -1174,8 +1174,8 @@
             </el-table-column>
         </el-table>
         <div v-if="totalRecordsDirectory > pageSizeDirectory" class="d-flex justify-content-center mx-auto w-100 my-5">
-            <el-pagination @current-change="handleCurrentChangeDirectory" background :current-page="currentPageDirectory"
-                :page-size="pageSizeDirectory" :total="totalRecordsDirectory" layout="prev, pager, next"></el-pagination>
+            <el-pagination @current-change="handleCurrentChangeDirectory" background v-model:current-page="currentPageDirectory"
+            v-model:page-size="pageSizeDirectory" :total="totalRecordsDirectory" layout="prev, pager, next"></el-pagination>
         </div>
     </el-dialog>
 
@@ -1232,9 +1232,9 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div v-if="totalRecords > pageSize" class="d-flex justify-content-center mx-auto w-100 my-5">
-            <el-pagination @current-change="handleCurrentChangeEndpoint" background :current-page="currentPage"
-                :page-size="pageSize" :total="totalRecords" layout="prev, pager, next"></el-pagination>
+        <div v-if="totalRecords > pageSizeEndpoints" class="d-flex justify-content-center mx-auto w-100 my-5">
+            <el-pagination @current-change="handleCurrentChangeEndpoint" background v-model:current-page="currentPageEndpoints"
+            v-model:page-size="pageSizeEndpoints" :total="totalRecords" layout="prev, pager, next"></el-pagination>
         </div>
     </el-dialog>
 </template>
@@ -1774,9 +1774,9 @@ export default defineComponent({
         const dialogEndpointsVisible = ref(false)
         const enpoint_data_full = ref<any>([])
         const enpoint_data = ref<any>([])
-        const currentPage = ref(1); // Trang hiện tại
-        const pageSize = ref(5); // Số lượng hàng mỗi trang
-        const pageSizeDirectory = ref(10); // Số lượng hàng mỗi trang
+        const currentPageEndpoints = ref(1); // Trang hiện tại
+        const pageSizeEndpoints = ref(5); // Số lượng hàng mỗi trang
+        const pageSizeDirectory = ref(2); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
         const searchEnpoint = ref('')
 
@@ -1784,49 +1784,49 @@ export default defineComponent({
         const modelEndpoints = (data: any) => {
             dialogEndpointsVisible.value = true
             enpoint_data_full.value = (data == undefined || data == '') ? [] : data
-            fetchData(currentPage.value, pageSize.value)
+            fetchDataEndpoints(currentPageEndpoints.value, pageSizeEndpoints.value)
         };
 
         // Lắng nghe sự thay đổi của currentPage và pageSize
-        watch([currentPage, pageSize], ([newCurrentPage, newPageSize]) => {
-            fetchData(newCurrentPage, newPageSize);
+        watch([currentPageEndpoints, pageSizeEndpoints], ([newCurrentPage, newPageSize]) => {
+            fetchDataEndpoints(newCurrentPage, newPageSize);
         });
 
         // search searchEnpoint
-        watch(searchEnpoint, debounce(() => fetchData(1, pageSize.value), 500));
+        watch(searchEnpoint, debounce(() => {
+            loading.value = true
+            setTimeout(() => loading.value = false, 500)
+            searchEnpoint.value = ''
+            fetchDataEndpoints(1, pageSizeEndpoints.value)
+        }, 500));
 
-        const fetchData = (currentPages: number, pageSizes: number) => {
-            loading.value = true;
-            setTimeout(() => loading.value = false, 200)
+        // chayj khi ddongs moadld
+        watch([dialogEndpointsVisible, dialogDirectoryVisible], () => { currentPageEndpoints.value = 1; currentPageDirectory.value = 1 });
+
+        const fetchDataEndpoints = (currentPages: number, pageSizes: number) => {
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
-            const filterTableData = enpoint_data_full.value.filter(
+            const filterTableData = (searchEnpoint != null || searchEnpoint != '') ? enpoint_data_full.value.filter(
                 (data: any) =>
                     !searchEnpoint.value ||
                     data.url.toLowerCase().includes(searchEnpoint.value.toLowerCase()) ||
                     data.status_code.toLowerCase().includes(searchEnpoint.value.toLowerCase()) ||
                     data.title.toLowerCase().includes(searchEnpoint.value.toLowerCase())
-            )
-            if (filterTableData != undefined || filterTableData != '') {
-                enpoint_data.value = filterTableData.slice(start, end).map((item: any, index: number) => {
-                    return {
-                        ...item,
-                        index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
-                    };
-                });
-                currentPage.value = currentPages;
-                totalRecords.value = Object.keys(filterTableData).length;
-            } else {
-                return;
-            }
+            ) : enpoint_data_full.value
+            enpoint_data.value = filterTableData.slice(start, end).map((item: any, index: number) => {
+                return {
+                    ...item,
+                    index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
+                };
+            });
+            totalRecords.value = Object.keys(filterTableData).length;
         };
 
         // Xử lý sự kiện thay đổi trang
-        const handleCurrentChangeEndpoint = (newPage: number) => {
-            currentPage.value = newPage;
-        }
-
-
+        const handleCurrentChangeEndpoint = () => {
+            loading.value = true;
+            setTimeout(() => loading.value = false, 500)
+        };
 
         // sử lý directory
         const directory_data = ref<any>([])
@@ -1847,51 +1847,37 @@ export default defineComponent({
         });
 
         // search searchEnpoint
-        watch(searchDirectory, debounce(() => fetchDataDirectory(1, pageSize.value), 500));
-
+        watch(searchDirectory, debounce(() => {
+            loading.value = true
+            setTimeout(() => loading.value = false, 500)
+            searchDirectory.value = ''
+            fetchDataDirectory(1, pageSizeEndpoints.value)
+        }, 500));
 
         const fetchDataDirectory = (currentPages: number, pageSizes: number) => {
-            loading.value = true;
-            setTimeout(() => loading.value = false, 200)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
-            const filterTableData = Object.values(directory_data_full.value).filter(
+            const filterTableData = (searchDirectory != null || searchDirectory != '') ? Object.values(directory_data_full.value).filter(
                 (data: any) =>
                     !searchDirectory.value ||
                     data.name.toLowerCase().includes(searchDirectory.value.toLowerCase()) ||
                     data.content_type.toLowerCase().includes(searchDirectory.value.toLowerCase()) ||
                     data.status.toLowerCase().includes(searchDirectory.value.toLowerCase())
-            )
-            if (filterTableData != undefined || filterTableData != '') {
-                directory_data.value = filterTableData.slice(start, end).map((item: any, index: number) => {
-                    return {
-                        ...item,
-                        index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
-                    };
-                });
-                currentPageDirectory.value = currentPages;
-                totalRecordsDirectory.value = Object.keys(filterTableData).length;
-            } else {
-                return;
-            }
+            ) : Object.values(directory_data_full.value);
+            directory_data.value = filterTableData.slice(start, end).map((item: any, index: number) => {
+                return {
+                    ...item,
+                    index: ((currentPages * pageSizes) - pageSizes) + (index + 1)
+                };
+            });
+            totalRecordsDirectory.value = Object.keys(filterTableData).length;
         };
 
         // Xử lý sự kiện thay đổi trang
-        const handleCurrentChangeDirectory = (newPage: number) => {
-            currentPageDirectory.value = newPage;
+        const handleCurrentChangeDirectory = () => {
+            loading.value = true;
+            setTimeout(() => loading.value = false, 500)
         }
-
-        const closeDialog = () => {
-            currentPageDirectory.value = 1
-            currentPage.value = 1
-        };
-
-
-
-        // test
-        const textTable = (data: any) => {
-            console.log(data)
-        };
 
         return {
             activities,
@@ -1997,16 +1983,14 @@ export default defineComponent({
             enpoint_data,
             handleCurrentChangeEndpoint,
             handleCurrentChangeDirectory,
-            currentPage,
+            pageSizeEndpoints,
             totalRecords,
-            pageSize,
-            textTable,
+            currentPageEndpoints,
             // Directory
             directory_data_full,
             currentPageDirectory,
             totalRecordsDirectory,
             pageSizeDirectory,
-            closeDialog,
 
             // search
             searchEnpoint,
