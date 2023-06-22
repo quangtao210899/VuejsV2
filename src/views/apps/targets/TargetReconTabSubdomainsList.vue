@@ -44,200 +44,194 @@
     <!--begin::Card-->
     <div class="">
         <div class="rounded-top py-3 px-2 bg-white">
-                <el-input v-model="searchSubdomain" size="large" placeholder="Title to search" :prefix-icon="SearchIcon" />
-            </div>
-            <el-table :data="subdomain_result" height="580" style="width: 100%" class-name="my-custom-table"
-                table-layout="fixed" v-loading="loading">
-                <el-table-column min-width="100" label-class-name="border border-0 fs-7" prop="name" label="Subdomain">
-                    <template #default="scope">
-                        <span class="fs-7 fst-normal">
-                            {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center" label="Endpoints"
-                    min-width="90">
-                    <template #default="scope">
-                        <span class="fs-7 fst-normal badge cursor-pointer" @click="modelEndpoints(scope.row.enpoint_data)"
-                            :class="`badge-light-${(scope.row.enpoint == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
-                            {{ scope.row.enpoint ?? '0' }}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="directory" label="Directory" align="center"
-                    min-width="90">
-                    <template #default="scope">
-                        <span class="fs-7 fst-normal badge cursor-pointer" @click="modelDirectory(scope.row.directory_data)"
-                            :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
-                            {{ scope.row.directory ?? '0' }}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="url_checked" align="center"
-                    label="URL Checked">
-                    <template #default="scope">
-                        <span class="fs-7 fst-normal">
-                            {{ (scope.row.url_checked == '') ? '--' : scope.row.url_checked }}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Status" align="center">
-                    <template #default="scope">
-                        <span class="fs-7 fst-normal">
-                            {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Title" align="center">
-                    <template #default="scope">
-                        <span class="fs-7 fst-normal">
-                            {{ (scope.row.title == '') ? '--' : scope.row.title }}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP" align="center">
-                    <template #default="scope">
-                        <span class="fs-7 fst-normal">
-                            {{ (scope.row.ip == '') ? '--' : scope.row.ip }}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="portservice" label="Cổng dịch vụ"
-                    align="start" min-width="200">
-                    <template #default="scope">
-                        <div>
-                            <template
-                                v-if="scope.row.portservice == undefined || Object.keys(scope.row.portservice).length === 0">
-                                <span class="badge badge-light-danger">--</span>
+            <el-input v-model="searchSubdomain" size="large" placeholder="Title to search" :prefix-icon="SearchIcon" />
+        </div>
+        <el-table :data="subdomain_result" height="580" style="width: 100%" class-name="my-custom-table"
+            table-layout="fixed" v-loading="loading">
+            <el-table-column min-width="100" label-class-name="border border-0 fs-7" prop="name" label="Subdomain">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center" label="Endpoints"
+                min-width="90">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal badge cursor-pointer" @click="modelEndpoints(scope.row.enpoint_data)"
+                        :class="`badge-light-${(scope.row.enpoint == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
+                        {{ scope.row.enpoint ?? '0' }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="directory" label="Directory" align="center"
+                min-width="90">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal badge cursor-pointer" @click="modelDirectory(scope.row.directory_data)"
+                        :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
+                        {{ scope.row.directory ?? '0' }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="url_checked" align="center" label="URL Checked">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.url_checked == '') ? '--' : scope.row.url_checked }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Status" align="center">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Title" align="center">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.title == '') ? '--' : scope.row.title }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP" align="center">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.ip == '') ? '--' : scope.row.ip }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="portservice" label="Cổng dịch vụ" align="start"
+                min-width="200">
+                <template #default="scope">
+                    <div>
+                        <template
+                            v-if="scope.row.portservice == undefined || Object.keys(scope.row.portservice).length === 0">
+                            <span class="badge badge-light-danger">--</span>
+                        </template>
+                        <template v-else>
+                            <template v-for="(items, key) in scope.row.portservice" :key="key">
+                                <span v-if="key < 3 || expandedPortservice.includes(scope.$index)"
+                                    class="badge badge-light-primary ms-1">{{ items }}</span>
                             </template>
-                            <template v-else>
-                                <template v-for="(items, key) in scope.row.portservice" :key="key">
-                                    <span v-if="key < 3 || expandedPortservice.includes(scope.$index)"
-                                        class="badge badge-light-primary ms-1">{{ items }}</span>
+                            <span v-if="Object.keys(scope.row.portservice).length > 3"
+                                @click="handlePortserviceMore(scope.$index)" class="badge badge-light ms-1 cursor-pointer">
+                                <template v-if="isRowExpandedPortservice(scope.$index)">Ẩn</template>
+                                <template v-else>
+                                    <el-popover placement="right" width="280" trigger="hover" hide-after="100">
+                                        <template #reference>
+                                            <span>Thêm</span>
+                                        </template>
+                                        <div>
+                                            <span v-for="(el, elIndex) in scope.row.portservice.slice(3)" :key="elIndex"
+                                                class="badge badge-light-primary ms-1 mb-1">
+                                                {{ el }}
+                                            </span>
+                                        </div>
+                                    </el-popover>
                                 </template>
-                                <span v-if="Object.keys(scope.row.portservice).length > 3"
-                                    @click="handlePortserviceMore(scope.$index)"
-                                    class="badge badge-light ms-1 cursor-pointer">
-                                    <template v-if="isRowExpandedPortservice(scope.$index)">Ẩn</template>
-                                    <template v-else>
-                                        <el-popover placement="right" width="280" trigger="hover" hide-after="100">
-                                            <template #reference>
-                                                <span>Thêm</span>
-                                            </template>
-                                            <div>
-                                                <span v-for="(el, elIndex) in scope.row.portservice.slice(3)" :key="elIndex"
-                                                    class="badge badge-light-primary ms-1 mb-1">
-                                                    {{ el }}
-                                                </span>
-                                            </div>
-                                        </el-popover>
-                                    </template>
-                                </span>
+                            </span>
+                        </template>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="start"
+                label="Công nghệ sử dụng" min-width="200">
+                <template #default="scope">
+                    <div>
+                        <template
+                            v-if="scope.row.technology == undefined || Object.keys(scope.row.technology).length === 0">
+                            <span class="badge badge-light-danger">--</span>
+                        </template>
+                        <template v-else>
+                            <template v-for="(items, key) in scope.row.technology" :key="key">
+                                <span v-if="key < 3 || expandedRowsTeachnology.includes(scope.$index)"
+                                    class="badge badge-light-primary ms-1">{{ items }}</span>
                             </template>
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="start"
-                    label="Công nghệ sử dụng" min-width="200">
-                    <template #default="scope">
-                        <div>
-                            <template
-                                v-if="scope.row.technology == undefined || Object.keys(scope.row.technology).length === 0">
-                                <span class="badge badge-light-danger">--</span>
-                            </template>
-                            <template v-else>
-                                <template v-for="(items, key) in scope.row.technology" :key="key">
-                                    <span v-if="key < 3 || expandedRowsTeachnology.includes(scope.$index)"
-                                        class="badge badge-light-primary ms-1">{{ items }}</span>
+                            <span v-if="Object.keys(scope.row.technology).length > 3"
+                                @click="handleTechnologyMore(scope.$index)" class="badge badge-light ms-1 cursor-pointer">
+                                <template v-if="isRowExpandedTechnology(scope.$index)">Ẩn</template>
+                                <template v-else>
+                                    <el-popover placement="right" width="280" trigger="hover" hide-after="100">
+                                        <template #reference>
+                                            <span>Thêm</span>
+                                        </template>
+                                        <div>
+                                            <span v-for="(el, elIndex) in scope.row.technology.slice(3)" :key="elIndex"
+                                                class="badge badge-light-primary ms-1 mb-1">
+                                                {{ el }}
+                                            </span>
+                                        </div>
+                                    </el-popover>
                                 </template>
-                                <span v-if="Object.keys(scope.row.technology).length > 3"
-                                    @click="handleTechnologyMore(scope.$index)"
-                                    class="badge badge-light ms-1 cursor-pointer">
-                                    <template v-if="isRowExpandedTechnology(scope.$index)">Ẩn</template>
-                                    <template v-else>
-                                        <el-popover placement="right" width="280" trigger="hover" hide-after="100">
-                                            <template #reference>
-                                                <span>Thêm</span>
-                                            </template>
-                                            <div>
-                                                <span v-for="(el, elIndex) in scope.row.technology.slice(3)" :key="elIndex"
-                                                    class="badge badge-light-primary ms-1 mb-1">
-                                                    {{ el }}
-                                                </span>
-                                            </div>
-                                        </el-popover>
-                                    </template>
-                                </span>
-                            </template>
+                            </span>
+                        </template>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="right" label="Bản ghi DNS"
+                min-width="150">
+                <template #default="scope">
+                    <li class="d-flex align-items-start mb-1">
+                        <div>
+                            <span class="fw-bold text-capitalize fs-7">A : </span>
+                            <span class="fst-normal fs-7">
+                                {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
+                                    scope.row.dns_record['a'].join(' , ') : '--' }}
+                            </span>
                         </div>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="right" label="Bản ghi DNS"
-                    min-width="150">
-                    <template #default="scope">
-                        <li class="d-flex align-items-start mb-1">
-                            <div>
-                                <span class="fw-bold text-capitalize fs-7">A : </span>
-                                <span class="fst-normal fs-7">
-                                    {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
-                                        scope.row.dns_record['a'].join(' , ') : '--' }}
-                                </span>
-                            </div>
-                        </li>
-                        <li class="d-flex align-items-start mb-1">
-                            <div>
-                                <span class="fw-bold text-capitalize fs-7">Cname : </span>
-                                <span class="fst-normal fs-7">
-                                    {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
-                                        scope.row.dns_record['cname'].join(' , ') : '--' }}
-                                </span>
-                            </div>
-                        </li>
-                        <li class="d-flex align-items-start mb-1">
-                            <div>
-                                <span class="fw-bold text-capitalize fs-7">MX : </span>
-                                <span class="fst-normal fs-7">
-                                    {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
-                                        scope.row.dns_record['mx'].join(' , ') : '--' }}
-                                </span>
-                            </div>
-                        </li>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" label="Cloud" align="center">
-                    <template #default="scope">
-                        <span class="fs-7 fst-normal">--</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" label="CMS" align="center">
-                    <template #default="scope">
-                        <span class="fs-7 fst-normal">--</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="waf" label="WAF" align="center"
-                    min-width="150">
-                    <template #default="scope">
-                        <div class="d-flex flex-column">
-                            <li v-for="(val, key) in scope.row.waf" :key="key"
-                                class="d-flex align-items-top py-2 fs-7 text-start">
-                                <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
-                                    val == null) ? '--' : val }}.
-                            </li>
+                    </li>
+                    <li class="d-flex align-items-start mb-1">
+                        <div>
+                            <span class="fw-bold text-capitalize fs-7">Cname : </span>
+                            <span class="fst-normal fs-7">
+                                {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
+                                    scope.row.dns_record['cname'].join(' , ') : '--' }}
+                            </span>
                         </div>
+                    </li>
+                    <li class="d-flex align-items-start mb-1">
+                        <div>
+                            <span class="fw-bold text-capitalize fs-7">MX : </span>
+                            <span class="fst-normal fs-7">
+                                {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
+                                    scope.row.dns_record['mx'].join(' , ') : '--' }}
+                            </span>
+                        </div>
+                    </li>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" label="Cloud" align="center">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">--</span>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" label="CMS" align="center">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">--</span>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="waf" label="WAF" align="center" min-width="150">
+                <template #default="scope">
+                    <div class="d-flex flex-column">
+                        <li v-for="(val, key) in scope.row.waf" :key="key"
+                            class="d-flex align-items-top py-2 fs-7 text-start">
+                            <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
+                                val == null) ? '--' : val }}.
+                        </li>
+                    </div>
 
-                    </template>
-                </el-table-column>
-                <el-table-column label-class-name="border border-0 fs-7" prop="cdn" label="CDN" align="center"
-                    min-width="150">
-                    <template #default="scope">
-                        <div class="d-flex flex-column">
-                            <li v-for="(val, key) in scope.row.cdn" :key="key"
-                                class="d-flex align-items-top py-2 fs-7 text-start">
-                                <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
-                                    val == null) ? '--' : val }}.
-                            </li>
-                        </div>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="d-flex justify-content-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-                <el-pagination  background
-                    v-model:current-page="currentPageSubdomain" v-model:page-size="pageSizeSubdomain"
-                    :total="totalSubdomain" layout="total, sizes, prev, pager, next, jumper" :disabled="disabled"
-                    :page-sizes="[10, 20, 30, 40, 50]"></el-pagination>
-            </div>
+                </template>
+            </el-table-column>
+            <el-table-column label-class-name="border border-0 fs-7" prop="cdn" label="CDN" align="center" min-width="150">
+                <template #default="scope">
+                    <div class="d-flex flex-column">
+                        <li v-for="(val, key) in scope.row.cdn" :key="key"
+                            class="d-flex align-items-top py-2 fs-7 text-start">
+                            <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
+                                val == null) ? '--' : val }}.
+                        </li>
+                    </div>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="d-flex justify-content-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+            <el-pagination background v-model:current-page="currentPageSubdomain" v-model:page-size="pageSizeSubdomain"
+                :total="totalSubdomain" layout="total, sizes, prev, pager, next, jumper" :disabled="disabled"
+                :page-sizes="[10, 20, 30, 40, 50]"></el-pagination>
+        </div>
     </div>
     <!--end::Card-->
 
@@ -590,10 +584,14 @@ export default defineComponent({
         watch(searchEnpoint, debounce(() => {
             loading.value = true
             setTimeout(() => loading.value = false, 500)
-            searchEnpoint.value = ''
             fetchDataEndpoints(1, pageSizeEndpoints.value)
         }, 500));
-        watch([dialogEndpointsVisible, dialogDirectoryVisible], () => { currentPageEndpoints.value = 1; currentPageDirectory.value = 1 });
+        watch([dialogEndpointsVisible, dialogDirectoryVisible], () => {
+            searchDirectory.value = '';
+            searchEnpoint.value = '';
+            currentPageEndpoints.value = 1;
+            currentPageDirectory.value = 1
+        });
 
         const fetchDataEndpoints = (currentPages: number, pageSizes: number) => {
             const start = (currentPages - 1) * pageSizes;
@@ -642,7 +640,6 @@ export default defineComponent({
         watch(searchDirectory, debounce(() => {
             loading.value = true
             setTimeout(() => loading.value = false, 500)
-            searchDirectory.value = ''
             fetchDataDirectory(1, pageSizeEndpoints.value)
         }, 500));
 

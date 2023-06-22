@@ -1174,8 +1174,9 @@
             </el-table-column>
         </el-table>
         <div v-if="totalRecordsDirectory > pageSizeDirectory" class="d-flex justify-content-center mx-auto w-100 my-5">
-            <el-pagination @current-change="handleCurrentChangeDirectory" background v-model:current-page="currentPageDirectory"
-            v-model:page-size="pageSizeDirectory" :total="totalRecordsDirectory" layout="prev, pager, next"></el-pagination>
+            <el-pagination @current-change="handleCurrentChangeDirectory" background
+                v-model:current-page="currentPageDirectory" v-model:page-size="pageSizeDirectory"
+                :total="totalRecordsDirectory" layout="prev, pager, next"></el-pagination>
         </div>
     </el-dialog>
 
@@ -1233,8 +1234,9 @@
             </el-table-column>
         </el-table>
         <div v-if="totalRecords > pageSizeEndpoints" class="d-flex justify-content-center mx-auto w-100 my-5">
-            <el-pagination @current-change="handleCurrentChangeEndpoint" background v-model:current-page="currentPageEndpoints"
-            v-model:page-size="pageSizeEndpoints" :total="totalRecords" layout="prev, pager, next"></el-pagination>
+            <el-pagination @current-change="handleCurrentChangeEndpoint" background
+                v-model:current-page="currentPageEndpoints" v-model:page-size="pageSizeEndpoints" :total="totalRecords"
+                layout="prev, pager, next"></el-pagination>
         </div>
     </el-dialog>
 </template>
@@ -1796,12 +1798,16 @@ export default defineComponent({
         watch(searchEnpoint, debounce(() => {
             loading.value = true
             setTimeout(() => loading.value = false, 500)
-            searchEnpoint.value = ''
             fetchDataEndpoints(1, pageSizeEndpoints.value)
         }, 500));
 
         // chayj khi ddongs moadld
-        watch([dialogEndpointsVisible, dialogDirectoryVisible], () => { currentPageEndpoints.value = 1; currentPageDirectory.value = 1 });
+        watch([dialogEndpointsVisible, dialogDirectoryVisible], () => {
+            searchDirectory.value = '';
+            searchEnpoint.value = '';
+            currentPageEndpoints.value = 1;
+            currentPageDirectory.value = 1
+        });
 
         const fetchDataEndpoints = (currentPages: number, pageSizes: number) => {
             const start = (currentPages - 1) * pageSizes;
@@ -1850,7 +1856,6 @@ export default defineComponent({
         watch(searchDirectory, debounce(() => {
             loading.value = true
             setTimeout(() => loading.value = false, 500)
-            searchDirectory.value = ''
             fetchDataDirectory(1, pageSizeEndpoints.value)
         }, 500));
 
