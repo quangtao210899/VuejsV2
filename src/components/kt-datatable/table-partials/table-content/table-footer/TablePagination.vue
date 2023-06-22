@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="(checkitemsPerPage) ? 'col-12 justify-content-md-start' : 'col-sm-12 col-md-7 justify-content-md-end'"
+    :class="(checkitemsPerPage) ? 'col-12 justify-content-md-start' : 'col-sm-12 col-md-10 justify-content-md-end'"
     class=" d-flex align-items-center justify-content-center"
   >
     <div class="dataTables_paginate paging_simple_numbers">

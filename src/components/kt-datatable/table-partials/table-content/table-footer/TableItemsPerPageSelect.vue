@@ -1,6 +1,6 @@
 <template>
   <div
-    class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start"
+    class="col-sm-12 col-md-2 d-flex align-items-center justify-content-center justify-content-md-start"
   >
     <label for="items-per-page">
       <select
