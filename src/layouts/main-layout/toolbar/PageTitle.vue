@@ -85,6 +85,9 @@ export default defineComponent({
       else if(route.name=='target-recon-tab'){
         linkToBack.value = `/target-recons/${route.params['idRecon']}`
       } 
+      else if (route.name == 'target-recon-tab-subdomains') {
+        linkToBack.value = `/target-recons/${route.params['idRecon']}`
+      }
       else if (route.name=='targetDetectionListCVE') {
         linkToBack.value = `/cve/${route.params['idCVE']}/scan`
       } else if (route.name=='targetDetectionListCVEAll') {
