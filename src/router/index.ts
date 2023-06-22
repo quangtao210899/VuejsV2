@@ -47,6 +47,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-recon-detail/:idRecon/:id/subdomains",
+        name: "target-recon-tab-subdomains",
+        component: () => import("@/views/apps/targets/TargetReconTabSubdomainsList.vue"),
+        meta: {
+          pageTitle: "Chi tiết Subdomains Recon",
+          breadcrumbs: ["Target","Recon","Subdomains"],
+          links: ["/target-list",''],
+        },
+      },
+      {
         path: "/target-scans/:id",
         name: "target-scan",
         component: () => import("@/views/apps/targets/TargetScanList.vue"),

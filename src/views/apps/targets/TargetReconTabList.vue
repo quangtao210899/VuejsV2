@@ -213,7 +213,7 @@
                                                         </template>
                                                         <template v-else>
                                                             <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-100">
+                                                            <div class="table-responsive w-100 h-500px">
                                                                 <!--begin::Table-->
                                                                 <table class="table table-row-dashed table-row-gray-300 ">
                                                                     <!--begin::Table head-->
@@ -313,7 +313,7 @@
                                                         </template>
                                                         <template v-else>
                                                             <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-100">
+                                                            <div class="table-responsive w-100 h-500px">
                                                                 <!--begin::Table-->
                                                                 <table class="table table-row-dashed table-row-gray-300 ">
                                                                     <!--begin::Table body-->
@@ -924,15 +924,16 @@
                         <template #header>
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Subdomains</span>
-                                <router-link class="btn btn-sm btn-light text-hover-primary text-primary" to="#"
-                                    active-class="active">View all</router-link>
+                                <router-link class="btn btn-sm btn-light text-hover-primary text-primary"
+                                    :to="`/target-recon-detail/${idRecon}/${scanID}/subdomains`" active-class="active">View
+                                    all</router-link>
                             </div>
                         </template>
                         <div class="h-500px">
                             <template v-if="Object.values(subdomain_result).length > 0">
                                 <el-table :data="subdomain_result" height="500" style="width: 100%"
                                     class-name="my-custom-table">
-                                    <el-table-column min-width="95" label-class-name="border border-0 fs-7" prop="name"
+                                    <el-table-column min-width="120" label-class-name="border border-0 fs-7" prop="name"
                                         label="Subdomain">
                                         <template #default="scope">
                                             <span class="fs-7 fst-normal">
@@ -1039,7 +1040,23 @@
                                                     <span v-if="Object.keys(scope.row.technology).length > 3"
                                                         @click="handleTechnologyMore(scope.$index)"
                                                         class="badge badge-light ms-1 cursor-pointer">
-                                                        {{ isRowExpandedTechnology(scope.$index) ? "Ẩn" : "Thêm.." }}
+                                                        <template v-if="isRowExpandedTechnology(scope.$index)">Ẩn</template>
+                                                        <template v-else>
+                                                            <el-popover placement="right" width="280" trigger="hover"
+                                                                hide-after="100">
+                                                                <template #reference>
+                                                                    <span>Thêm</span>
+                                                                </template>
+                                                                <div>
+                                                                    <span
+                                                                        v-for="(el, elIndex) in scope.row.technology.slice(3)"
+                                                                        :key="elIndex"
+                                                                        class="badge badge-light-primary ms-1 mb-1">
+                                                                        {{ el }}
+                                                                    </span>
+                                                                </div>
+                                                            </el-popover>
+                                                        </template>
                                                     </span>
                                                 </template>
 
@@ -1052,7 +1069,7 @@
 
                                             <li class="d-flex align-items-start mb-1">
                                                 <div>
-                                                    <span class="fw-bold text-capitalize">A: </span>
+                                                    <span class="fw-bold text-capitalize fs-7">A: </span>
                                                     <span class="fst-normal fs-7">
                                                         {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
                                                             scope.row.dns_record['a'].join(' , ') : '--' }}
@@ -1061,10 +1078,19 @@
                                             </li>
                                             <li class="d-flex align-items-start mb-1">
                                                 <div>
-                                                    <span class="fw-bold text-capitalize">Cname: </span>
+                                                    <span class="fw-bold text-capitalize fs-7">Cname: </span>
                                                     <span class="fst-normal fs-7">
                                                         {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
                                                             scope.row.dns_record['cname'].join(' , ') : '--' }}
+                                                    </span>
+                                                </div>
+                                            </li>
+                                            <li class="d-flex align-items-start mb-1">
+                                                <div>
+                                                    <span class="fw-bold text-capitalize fs-7">MX: </span>
+                                                    <span class="fst-normal fs-7">
+                                                        {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
+                                                            scope.row.dns_record['mx'].join(' , ') : '--' }}
                                                     </span>
                                                 </div>
                                             </li>
@@ -1116,7 +1142,7 @@
         <div>
             <el-input v-model="searchDirectory" size="large" placeholder="Type to search" :prefix-icon="SearchIcon" />
             <div class="my-5 text-primary">
-                <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
+                <span class="fs-7 text-gray-600">Tổng Directory: </span>
                 <span class="fw-bold">{{ totalRecordsDirectory }}</span>
             </div>
         </div>
@@ -1154,9 +1180,9 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogEndpointsVisible" title="Enpoint Detail" width="1000" custom-class="okokok">
+    <el-dialog v-model="dialogEndpointsVisible" title="Enpoint Detail" width="1000">
         <div>
-            <el-input v-model="searchEnpoint" size="large" placeholder="Type to search"  :prefix-icon="SearchIcon"/>
+            <el-input v-model="searchEnpoint" size="large" placeholder="Type to search" :prefix-icon="SearchIcon" />
             <div class="my-5 text-primary">
                 <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
                 <span class="fw-bold">{{ totalRecords }}</span>
@@ -1178,9 +1204,18 @@
 
                 </template>
             </el-table-column>
-            <el-table-column min-width="60" label-class-name="border border-0 fs-7" label="Parameter" align="center">
+            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="params" label="Parameter"
+                align="center">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">--</span></template>
+
+                    <template v-if="Object.keys(scope.row.params).length == 0">
+                        <span class="badge badge-light-danger fs-7">--</span>
+                    </template>
+                    <template v-else>
+                        <span v-for="(value, index) in scope.row.params" :index="index"
+                            class="badge badge-light-primary fs-7 my-1 ms-1">{{ value }}</span>
+                    </template>
+                </template>
             </el-table-column>
             <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="title" label="Title">
                 <template #default="scope">
@@ -1216,7 +1251,7 @@ import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import data from "@/views/apps/targets/reconData.json";
+// import data from "@/views/apps/targets/reconData.json";
 import { Refresh, Search } from '@element-plus/icons-vue'
 
 // import dayjs from 'dayjs';
@@ -1265,9 +1300,10 @@ export default defineComponent({
     setup() {
         const route = useRoute();
         const scanID = ref<null | number | any>(route.params.id ?? '');
+        const idRecon = ref<null | number | any>(route.params.idRecon ?? '');
         const list = ref<getData | any>()
-            const RefreshIcon = ref(Refresh)
-            const SearchIcon = ref(Search)
+        const RefreshIcon = ref(Refresh)
+        const SearchIcon = ref(Search)
         const loading = ref<boolean>(false)
         const apiData = ref<APIData>({
             title: '',
@@ -1356,10 +1392,9 @@ export default defineComponent({
             loading.value = true;
             setTimeout(() => loading.value = false, 500)
             return await ApiService.get(`recon/detail3/${scanID.value}`)
-                .then(({ data1 }) => {
+                .then(({ data }) => {
                     // console.log(data)
                     // console.log(data1)
-
                     list.value = data
                     targets.value = data.target
                     account.value = data.recon[0].account
@@ -1741,7 +1776,7 @@ export default defineComponent({
         const enpoint_data = ref<any>([])
         const currentPage = ref(1); // Trang hiện tại
         const pageSize = ref(5); // Số lượng hàng mỗi trang
-        const pageSizeDirectory = ref(5); // Số lượng hàng mỗi trang
+        const pageSizeDirectory = ref(10); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
         const searchEnpoint = ref('')
 
@@ -1762,7 +1797,7 @@ export default defineComponent({
 
         const fetchData = (currentPages: number, pageSizes: number) => {
             loading.value = true;
-            setTimeout(() => loading.value = false, 500)
+            setTimeout(() => loading.value = false, 200)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             const filterTableData = enpoint_data_full.value.filter(
@@ -1817,14 +1852,14 @@ export default defineComponent({
 
         const fetchDataDirectory = (currentPages: number, pageSizes: number) => {
             loading.value = true;
-            setTimeout(() => loading.value = false, 500)
+            setTimeout(() => loading.value = false, 200)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             const filterTableData = Object.values(directory_data_full.value).filter(
                 (data: any) =>
                     !searchDirectory.value ||
-                    data.name.toLowerCase().includes(searchDirectory.value.toLowerCase())||
-                    data.content_type.toLowerCase().includes(searchDirectory.value.toLowerCase())||
+                    data.name.toLowerCase().includes(searchDirectory.value.toLowerCase()) ||
+                    data.content_type.toLowerCase().includes(searchDirectory.value.toLowerCase()) ||
                     data.status.toLowerCase().includes(searchDirectory.value.toLowerCase())
             )
             if (filterTableData != undefined || filterTableData != '') {
@@ -1861,6 +1896,7 @@ export default defineComponent({
         return {
             activities,
             scanID,
+            idRecon,
             getData,
             list,
             getAssetPath,
@@ -2070,5 +2106,6 @@ export default defineComponent({
     .height-repository {
         height: 700px;
     }
-}</style>
+}
+</style>
   
