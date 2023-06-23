@@ -112,14 +112,14 @@
                             data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
                             <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="username">
                                     <span
                                         v-bind:class="{ 'required': nameType != 'Chỉnh sửa thông tin người dùng' }">Email</span>
                                 </label>
                                 <Field type="text" class="form-control form-control-solid"
                                     :disabled="nameType == 'Chỉnh sửa thông tin người dùng'"
                                     :style="{ cursor: nameType == 'Chỉnh sửa thông tin người dùng' ? 'not-allowed' : '', 'background-color': nameType == 'Chỉnh sửa thông tin người dùng' ? '#eee' : '' }"
-                                    :placeholder="editEmail" name="username" v-model="apiData.username" />
+                                    :placeholder="editEmail" autocomplete="username" id="username" name="username" v-model="apiData.username" />
                                 <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'"
                                     class="fv-plugins-message-container">
                                     <div class="fv-help-block">
@@ -129,11 +129,11 @@
                                 </div>
                             </div>
                             <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="first_name">
                                     <span class="required">Họ Tên</span>
                                 </label>
                                 <Field type="text" class="form-control form-control-solid" placeholder="Nhập họ tên"
-                                    name="first_name" v-model="apiData.first_name" />
+                                    id="first_name" autocomplete="first_name" name="first_name" v-model="apiData.first_name" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="first_name" />
@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                             <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
-                                <label class="form-label fw-semibold fs-6 mb-2 required">
+                                <label class="form-label fw-semibold fs-6 mb-2 required" for="password">
                                     Mật khẩu mới
                                 </label>
                                 <!--end::Label-->
@@ -170,7 +170,7 @@
                             </div>
 
                             <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
-                                <label class="form-label fw-semibold fs-6 mb-2 required">Nhập lại mật khẩu</label>
+                                <label class="form-label fw-semibold fs-6 mb-2 required" for="password_confirm" >Nhập lại mật khẩu</label>
 
                                 <div class="position-relative mb-3">
                                     <Field :type="!eyeButtonRef2 ? 'password' : 'text'"

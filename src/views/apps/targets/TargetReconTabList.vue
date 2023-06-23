@@ -447,7 +447,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch vụ</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (port_service_status == 3) ? Object.keys(port_service).length : 0 }}</span>
+                                    {{ (port_service_status == 3  && Array.isArray(port_service)) ? Object.keys(port_service).length : 0 }}</span>
                             </div>
                         </template>
                         <div class="h-500px">
@@ -538,7 +538,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Email liên quan</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (related_email_status == 3) ? Object.keys(related_email).length : 0 }}
+                                    {{ (related_email_status == 3 && Array.isArray(related_email)) ? Object.keys(related_email).length : 0 }}
                                 </span>
                             </div>
                         </template>
@@ -658,7 +658,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Tên miền liên quan đến mục tiêu</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (related_domain_status == 3) ? Object.keys(related_domain).length : 0 }}
+                                    {{ (related_domain_status == 3  && Array.isArray(related_domain)) ? Object.keys(related_domain).length : 0 }}
                                 </span>
                             </div>
                         </template>
@@ -744,7 +744,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Công nghệ sử dụng</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (technology_status == 3) ? Object.keys(technology).length : 0 }}
+                                    {{ (technology_status == 3  && Array.isArray(technology)) ? Object.keys(technology).length : 0 }}
                                 </span>
                             </div>
                         </template>

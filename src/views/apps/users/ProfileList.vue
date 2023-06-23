@@ -123,7 +123,7 @@
                   <tr>
                     <td>Họ tên</td>
                     <td>
-                      <input v-model="editData.first_name" type="text"
+                      <input v-model="editData.first_name" type="text" name="name" autocomplete="name"
                         :class="(Object.keys(errors.first_name).length == 0) ? 'text-hover-primary' : 'text-danger'"
                         class="form-control form-control-flush" @active="123" placeholder="Example input" />
                     </td>
@@ -176,7 +176,7 @@
 
               <!--begin::Input group--->
               <div class="fv-row mb-10 fv-plugins-icon-container">
-                <label class="required form-label fs-6 mb-2">Mật khẩu cũ</label>
+                <label class="required form-label fs-6 mb-2" for="currentpassword">Mật khẩu cũ</label>
                 <Field type="password" class="form-control form-control-solid h-35px" placeholder=""
                   name="currentpassword" autocomplete="off" id="currentpassword"
                   v-model="dataPasswordChange.currentpassword" />
@@ -196,7 +196,7 @@
                 <!--begin::Wrapper-->
                 <div class="mb-1">
                   <!--begin::Label-->
-                  <label class="form-label fw-semibold fs-6 mb-2">
+                  <label class="form-label fw-semibold fs-6 mb-2" for="newpassword">
                     Mật khẩu mới
                   </label>
                   <!--end::Label-->
@@ -244,7 +244,7 @@
 
               <!--begin::Input group--->
               <div class="fv-row mb-10 fv-plugins-icon-container">
-                <label class="form-label fw-semibold fs-6 mb-2">Nhập lại mật khẩu</label>
+                <label class="form-label fw-semibold fs-6 mb-2" for="confirmpassword">Nhập lại mật khẩu</label>
 
                 <div class="position-relative mb-3">
                   <Field :type="!eyeButtonRef2 ? 'password' : 'text'" class="form-control form-control-solid h-35px"

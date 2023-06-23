@@ -16,13 +16,13 @@
 
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Tìm kiếm:</label>
+        <label class="form-label fw-semobold" for="search">Tìm kiếm:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
         <div class="d-flex align-items-center position-relative my-1">
           <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
-          <input type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
+          <input type="text" id="search" name="search" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
             class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm theo nội dung" />
         </div>
       </div>

@@ -16,13 +16,13 @@
       <!--begin::Input group-->
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Trạng thái:</label>
+        <label class="form-label fw-semobold" for="status">Trạng thái:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
         <div>
           <el-form-item prop="assign">
-            <el-select v-model="data.status" name="status" as="select" placeholder="Chọn trạng thái"  size="large" class="input-group-lg w-100">
+            <el-select v-model="data.status" id="status" name="status" as="select" placeholder="Chọn trạng thái"  size="large" class="input-group-lg w-100">
               <el-option value="">Chọn trạng thái</el-option>
               <el-option label="open" value="open">open</el-option>
               <el-option label="re-open" value="re-open">re-open</el-option>
@@ -40,13 +40,13 @@
       <!--begin::Input group-->
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Mức độ lỗ hổng:</label>
+        <label class="form-label fw-semobold" for="severity">Mức độ lỗ hổng:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
         <div>
           <el-form-item prop="assign">
-            <el-select v-model="data.severity" name="severity" as="select" placeholder="Chọn mức độ lỗ hổng"  size="large" class="input-group-lg w-100">
+            <el-select v-model="data.severity" id="severity" name="severity" as="select" placeholder="Chọn mức độ lỗ hổng"  size="large" class="input-group-lg w-100">
               <el-option value="">Chọn lỗ hổng</el-option>
               <el-option label="Info" value="0">Info</el-option>
               <el-option label="Low" value="1">Low</el-option>
@@ -64,22 +64,21 @@
       <!--begin::Input group-->
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">IP:</label>
+        <label class="form-label fw-semobold" for="typeIp">IP:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
 
         <div class="row">
           <div class="col-8 pe-0">
-            <el-input v-model="debouncedSearchIp" type="text" placeholder="Nhập IP" name="targetTitle" size="large"></el-input>
+            <el-input  v-model="debouncedSearchIp" type="text" placeholder="Nhập IP" id="typeIp" name="typeIp" size="large"></el-input>
           </div>
           <div class="col-4 ">
             <el-form-item prop="assign">
-              <el-select v-model="data.typeIp" name="typeIp" as="select"  size="large" class="input-group-lg w-100">
+              <el-select v-model="data.typeIp"  name="typeIp" as="select"  size="large" class="input-group-lg w-100">
                 <el-option value="equal" label="Equal">Equal</el-option>
                 <el-option label="NContains" value="not_contains">NContains</el-option>
                 <el-option label="contains" value="contains">contains</el-option>
-
               </el-select>
             </el-form-item>
           </div>
@@ -92,14 +91,14 @@
       <!--begin::Input group-->
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Domain:</label>
+        <label class="form-label fw-semobold" for="typeDomain">Domain:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
 
         <div class="row">
           <div class="col-8 pe-0">
-            <el-input v-model="debouncedSearchDomain" type="text" placeholder="Nhập Domain" name="targetTitle" size="large"></el-input>
+            <el-input v-model="debouncedSearchDomain" type="text" placeholder="Nhập Domain" id="typeDomain" name="typeDomain" size="large"></el-input>
           </div>
           <div class="col-4 ">
             <el-form-item prop="assign">

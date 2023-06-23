@@ -16,13 +16,13 @@
 
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Tìm kiếm:</label>
+        <label class="form-label fw-semobold" for="search">Tìm kiếm:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
         <div class="d-flex align-items-center position-relative my-1 ">
           <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
-          <input type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
+          <input id="search" name="search" type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
             class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm theo tên group" />
         </div>
 
@@ -31,12 +31,12 @@
       <!--begin::Input group-->
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Tìm kiếm theo kiểu:</label>
+        <label class="form-label fw-semobold" for="type">Tìm kiếm theo kiểu:</label>
         <!--end::Label-->
 
         <el-form-item prop="assign">
 
-          <el-select v-model="data.type" placeholder="Chọn kiểu" name="type" as="select"  size="large"
+          <el-select v-model="data.type" placeholder="Chọn kiểu" id="type" name="type" as="select"  size="large"
             class="input-group-lg w-100">
             <el-option value="">Chọn kiểu</el-option>
             <el-option label="DB Leak" value="1">DB Leak</el-option>
@@ -51,13 +51,13 @@
       <!--begin::Input group-->
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Tìm kiếm theo trạng thái:</label>
+        <label class="form-label fw-semobold" for="status">Tìm kiếm theo trạng thái:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
 
         <el-form-item prop="assign">
-          <el-select v-model="data.status" placeholder="Chọn trạng thái" name="status" as="select"  size="large" class="input-group-lg w-100">
+          <el-select v-model="data.status" placeholder="Chọn trạng thái" id="status" name="status" as="select"  size="large" class="input-group-lg w-100">
             <el-option value="">Chọn trạng thái</el-option>
             <el-option label="Có thể đồng bộ" value="0">Có thể đồng bộ</el-option>
             <el-option label="không đồng bộ" value="1">không đồng bộ</el-option>

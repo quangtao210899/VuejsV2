@@ -16,13 +16,13 @@
             <!--begin::Input group-->
             <div class="mb-7">
                 <!--begin::Label-->
-                <label class="form-label fw-semobold">Tìm kiếm:</label>
+                <label class="form-label fw-semobold" for="search">Tìm kiếm:</label>
                 <!--end::Label-->
 
                 <!--begin::Input-->
                 <div class="d-flex align-items-center position-relative my-1">
                     <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
-                    <input type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
+                    <input id="search" type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
                         class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm mục tiêu" />
                 </div>
                 <!--end::Input-->
@@ -30,12 +30,11 @@
             <!--end::Input group-->
             <div class="mb-7">
                 <!--begin::Label-->
-                <label class="form-label fw-semobold">Tìm kiếm theo nhóm mục tiêu:</label>
+                <label class="form-label fw-semobold" for="targetGroup">Tìm kiếm theo nhóm mục tiêu:</label>
                 <!--end::Label-->
 
                 <el-form-item prop="assign">
-
-                    <el-select v-model="data.type" placeholder="Chọn nhóm mục tiêu" name="type" as="select" height="40px" 
+                    <el-select id="targetGroup" v-model="data.type" placeholder="Chọn nhóm mục tiêu" name="type" as="select" height="40px" 
                         class="input-group-lg w-100" size="large">
                         <el-option value="">Chọn nhóm mục tiêu</el-option>
                         <el-option :label="item.title" :value="item.id" v-for="item in dataGroup">{{ item.title

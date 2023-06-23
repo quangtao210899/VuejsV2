@@ -128,8 +128,8 @@
               </el-affix>
             </div>
           </div>
-          <div class="row">
-            <div class="w-200px">
+          <div class="d-flex flex-wrap">
+            <div class="w-200px me-2 my-1">
               <el-select name="severity" as="select" v-model="detailData.severity"
                 :class="getSeverity(detailData.severity).class" @change="handleChangeUpdate('Mức độ')">
                 <el-option label="Info" value="0" key="0">Info</el-option>
@@ -138,7 +138,7 @@
                 <el-option label="High" value="3" key="3">High</el-option>
               </el-select>
             </div>
-            <div class="w-200px">
+            <div class="w-200px my-1">
               <el-select name="status" as="select" v-model="detailData.status" @change="handleChangeUpdate('Trạng Thái')">
                 <el-option label="open" value="open" key="open">open</el-option>
                 <el-option label="re-open" value="re-open" key="re-open">re-open</el-option>
@@ -149,16 +149,16 @@
           </div>
           <div class="bg-light my-3 py-2 px-4 lh-lg rounded-2 me-2">
             <div class="row">
-              <div class="col-12 col-xl-6 col-xxl-4">
-                <label class="text-black-50" for="IP">IP : </label>
-                <span class="ps-1"> {{ detailData.ip }}</span>
+              <div class="col-12 col-xl-6 col-xxl-4 my-1">
+                <span class="text-black-50" >IP : </span>
+                <span class="ps-1" > {{ detailData.ip }}</span>
               </div>
-              <div class="col-12 col-xl-6 col-xxl-4">
-                <label class="text-black-50" for="Host name">Host name : </label>
+              <div class="col-12 col-xl-6 col-xxl-4 my-1">
+                <span class="text-black-50">Host name : </span>
                 <span class="ps-1"> {{ detailData.hostname }}</span>
               </div>
-              <div class="col-12 col-xl-6 col-xxl-4">
-                <label class="text-black-50" for="Date">Date : </label>
+              <div class="col-12 col-xl-6 col-xxl-4 my-1">
+                <span class="text-black-50">Date : </span>
                 <span class="ps-1"> {{ detailData.last_seen }}</span>
               </div>
             </div>
@@ -169,7 +169,7 @@
               v-if="(detailData.url != null && detailData.url != '') || (detailData.parameter != null && detailData.parameter != '')">
               <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
               <div v-if="detailData.url != null && detailData.url != ''">
-                <label style="width: 100px;" for="Host name">URL : </label>
+                <span class="w-100" >URL : </span>
                 <span class="ps-1">
                   <a target="_blank" :href="`${detailData.url}`" class="text-primary">
                     <KTIcon icon-name="link" icon-class="bi bi-link-45deg" :style="{ fontSize: '16px' }" />
@@ -178,7 +178,7 @@
                 </span>
               </div>
               <div v-if="detailData.parameter != null && detailData.parameter != ''">
-                <label style="width: 100px;" for="Host name">Parameter : </label>
+                <span class="w-100">Parameter : </span>
                 <span class="ps-1"> {{ detailData.parameter }}</span>
               </div>
             </div>
@@ -199,8 +199,7 @@
               <div>
                 <li class="d-flex align-items-center py-2">
                   <span class="bullet bg-warning me-5"></span>
-                  <label for="Host name">Base Score: </label>
-                  <strong class="ps-2"> {{ detailData.cvss_score }}</strong>
+                  <span >Base Score:<strong class="ps-2"> {{ detailData.cvss_score }}</strong></span>
                 </li>
               </div>
             </div>

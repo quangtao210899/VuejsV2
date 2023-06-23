@@ -146,13 +146,13 @@
                             data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
                             <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                <label for="name" class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                     <span class="required">Tên mục tiêu</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
                                         title="Bắt buộc phải nhập"></i>
                                 </label>
-                                <Field type="text" class="form-control form-control-solid" placeholder="Nhập tên mục tiêu"
-                                    name="name" v-model="apiData.name" />
+                                <Field autocomplete="name" type="text" class="form-control form-control-solid" placeholder="Nhập tên mục tiêu"
+                                    name="name" id="name" v-model="apiData.name" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="name" />
@@ -161,11 +161,11 @@
                                 </div>
                             </div>
                             <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                <label for="domain" class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                     <span>Domain</span>
                                 </label>
                                 <Field type="text" class="form-control form-control-solid"
-                                    placeholder="Nhập domain của mục tiêu" name="domain" v-model="apiData.domain" />
+                                    placeholder="Nhập domain của mục tiêu" id="domain" name="domain" v-model="apiData.domain" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="domain" />
@@ -174,11 +174,11 @@
                                 </div>
                             </div>
                             <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                <label for="ip" class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                     <span>IP</span>
                                 </label>
                                 <Field type="text" class="form-control form-control-solid"
-                                    placeholder="Nhập ip của mục tiêu" name="ip" v-model="apiData.ip" />
+                                    placeholder="Nhập ip của mục tiêu" id="ip" name="ip" v-model="apiData.ip" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="ip" />
@@ -187,13 +187,13 @@
                                 </div>
                             </div>
                             <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                <label for="group" class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                     <span class="required">Nhóm mục tiêu</span>
                                     <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
                                         title="Bắt buộc phải nhập"></i>
                                 </label>
                                 <el-form-item prop="assign">
-                                    <el-select v-model.lazy="apiData.group" placeholder="Chọn nhóm mục tiêu" name="group"
+                                    <el-select v-model.lazy="apiData.group" placeholder="Chọn nhóm mục tiêu" id="group" name="group"
                                         as="select" height="40px" class="input-group-lg">
                                         <el-option value="" disabled>Chọn nhóm mục tiêu</el-option>
                                         <el-option :label="item.title" :value="item.id" v-for="item in data_group">{{
