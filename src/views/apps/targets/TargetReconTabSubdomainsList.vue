@@ -46,8 +46,8 @@
         <div class="rounded-top py-3 px-2 bg-white">
             <el-input v-model="searchSubdomain" size="large" placeholder="Title to search" :prefix-icon="SearchIcon" />
         </div>
-        <el-table :data="subdomain_result" height="580" style="width: 100%" class-name="my-custom-table"
-            table-layout="fixed" v-loading="loading">
+        <el-table :data="subdomain_result" style="width: 100%" :height="heightTable" class-name="my-custom-table"
+            table-layout="fixed" v-loading="loadingSubdomain">
             <el-table-column min-width="100" label-class-name="border border-0 fs-7" prop="name" label="Subdomain">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
@@ -94,7 +94,7 @@
                 </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="portservice" label="Cổng dịch vụ" align="start"
-                min-width="200">
+                min-width="250">
                 <template #default="scope">
                     <div>
                         <template
@@ -128,7 +128,7 @@
                 </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="start"
-                label="Công nghệ sử dụng" min-width="200">
+                label="Công nghệ sử dụng" min-width="250">
                 <template #default="scope">
                     <div>
                         <template
@@ -229,8 +229,8 @@
         </el-table>
         <div class="d-flex justify-content-center mx-auto w-100 py-5 bg-white rounded-bottom ">
             <el-pagination background v-model:current-page="currentPageSubdomain" v-model:page-size="pageSizeSubdomain"
-                :total="totalSubdomain" layout="total, sizes, prev, pager, next, jumper" :disabled="disabled"
-                :page-sizes="[10, 20, 30, 40, 50]"></el-pagination>
+                :total="totalSubdomain" :layout="(checkPaginationTable) ? 'prev, pager, next' : 'total, sizes, prev, pager, next, jumper'" :disabled="disabled"
+                :page-sizes="(checkPaginationTable) ? [] : [10, 20, 30, 40, 50]"></el-pagination>
         </div>
     </div>
     <!--end::Card-->
@@ -341,7 +341,7 @@
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, onBeforeUnmount, watch } from "vue";
+import { defineComponent, ref, onMounted, onBeforeUnmount, watch , onUnmounted } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
@@ -378,6 +378,7 @@ export default defineComponent({
         const RefreshIcon = ref(Refresh)
         const SearchIcon = ref(Search)
         const loading = ref<boolean>(false)
+        const loadingSubdomain = ref<boolean>(false)
         const reconStatus = ref<number>(0)
         const timeEnd = ref<number | any>(null)
         const timeStart = ref<number | any>(null)
@@ -482,10 +483,6 @@ export default defineComponent({
             }
         };
 
-        onMounted(() => {
-            getData();
-        });
-
         onBeforeUnmount(() => {
             clearInterval(time);
         });
@@ -537,8 +534,8 @@ export default defineComponent({
         watch(searchSubdomain, debounce(() => fetchDataSubdomain(1, pageSizeSubdomain.value), 500));
 
         const fetchDataSubdomain = (currentPages: number, pageSizes: number) => {
-            loading.value = true
-            setTimeout(() => loading.value = false, 500)
+            loadingSubdomain.value = true
+            setTimeout(() => loadingSubdomain.value = false, 500)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             const filterTableData = (searchSubdomain != null || searchSubdomain != '') ? subdomain_result_full.value.filter(
@@ -665,6 +662,44 @@ export default defineComponent({
             setTimeout(() => loading.value = false, 500)
         }
 
+        // tính toán chiều cao table
+        const heightTable = ref(0)
+        const checkPaginationTable = ref(false)
+        const handleResize = () => {
+            const windowWidth = window.innerWidth;
+
+            if (windowWidth >= 1400) {
+                heightTable.value = window.innerHeight - 357;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 1200) {
+                heightTable.value = window.innerHeight - 357;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 992) {
+                heightTable.value = window.innerHeight - 357;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 768) {
+                heightTable.value = window.innerHeight - 327;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 576) {
+                heightTable.value = window.innerHeight - 347;
+                checkPaginationTable.value = false
+            } else {
+                // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
+                heightTable.value = window.innerHeight - 347;
+                checkPaginationTable.value = true
+            }
+        };
+
+        onMounted(() => {
+            getData();
+            handleResize();
+            window.addEventListener('resize', handleResize);
+        });
+
+        onUnmounted(() => {
+            window.removeEventListener('resize', handleResize);
+        });
+
         return {
             scanID,
             getData,
@@ -718,8 +753,54 @@ export default defineComponent({
             totalSubdomain,
             pageSizeSubdomain,
             currentPageSubdomain,
+            loadingSubdomain,
+            heightTable,
+            checkPaginationTable,
         };
     },
 });
 </script>
+
+<style>
+.h-570px {
+    height: 100;
+    max-height: calc(100% - 100px) !important;
+}
+
+/* // Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    .h-570px {
+        height: 590px;
+    }
+
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .h-570px {
+        height: 610px;
+    }
+}
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .h-570px {
+        height: 580px;
+    }
+}
+
+/* // X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .h-570px {
+        height: 580px;
+    }
+}
+
+/* // XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+    .h-570px {
+        height: 570px;
+    }
+}
+</style>
   
