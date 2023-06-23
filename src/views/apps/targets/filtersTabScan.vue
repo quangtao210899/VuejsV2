@@ -33,7 +33,7 @@
             <div class="col-12 mb-3">
               <div class="row">
                 <!--begin::Label-->
-                <label class="w-60px fw-semobold text-muted">ID </label>
+                <span class="w-60px fw-semobold text-muted">ID </span>
                 <!--end::Label-->
 
                 <!--begin::Col-->
@@ -46,7 +46,7 @@
             <div class="col-12 mb-3">
               <div class="row">
                 <!--begin::Label-->
-                <label class="w-60px fw-semobold text-muted">Tên</label>
+                <span class="w-60px fw-semobold text-muted">Tên</span>
                 <!--end::Label-->
 
                 <!--begin::Col-->
@@ -59,7 +59,7 @@
             <div class="col-12 mb-3">
               <div class="row">
                 <!--begin::Label-->
-                <label class="w-60px fw-semobold text-muted">IP</label>
+                <span class="w-60px fw-semobold text-muted" >IP</span>
                 <!--end::Label-->
                 <!--begin::Col-->
                 <div class="col">
@@ -71,7 +71,7 @@
             <div class="col-12">
               <div class="d-flex w-100">
                 <!--begin::Label-->
-                <label class="w-60px fw-semobold text-muted">Domain</label>
+                <span class="w-60px fw-semobold text-muted">Domain</span>
                 <!--end::Label-->
 
                 <!--begin::Col-->

@@ -6,6 +6,8 @@
           class="form-check form-check-sm form-check-custom form-check-solid me-3"
         >
           <input
+            id="checkbox"
+            name="checkbox"
             class="form-check-input ms-2 border border-secondary"
             type="checkbox"
             v-model="checked"

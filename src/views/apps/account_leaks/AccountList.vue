@@ -94,13 +94,13 @@
               <!--begin::Input group-->
               <div class="mb-10" v-if="typeModal == 'edit'">
                 <!--begin::Label-->
-                <label class="form-label fw-semobold">Tình trạng:</label>
+                <label class="form-label fw-semobold" for="is_ok">Tình trạng:</label>
                 <!--end::Label-->
 
                 <!--begin::Switch-->
                 <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
                   <label class="form-check-label">
-                    <el-switch v-model="apiData.is_ok" class="ml-2"
+                    <el-switch v-model="apiData.is_ok" class="ml-2" name="is_ok"
                       style="--el-switch-on-color: #13ce66; --el-switch-off-color: #f1416C" />
                     <span class="form-check-label user-select-none">
                       {{ apiData.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra"}}
@@ -112,11 +112,11 @@
               <!--end::Input group-->
               <div class="mb-5 fv-row row">
                 <div class="col-4">
-                  <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                  <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="username">
                     <span class="required">Username</span>
                   </label>
                   <Field type="text" class="form-control form-control-solid" placeholder="Nhập username"
-                    @keydown="removeErrorMsgText" name="username" v-model="apiData.username" />
+                    @keydown="removeErrorMsgText" id="username" name="username" autocomplete="username" v-model="apiData.username" />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
                       <ErrorMessage name="username" />
@@ -127,11 +127,11 @@
                   </div>
                 </div>
                 <div class="col-4">
-                  <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                  <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="email">
                     <span>Email</span>
                   </label>
                   <Field type="text" class="form-control form-control-solid" placeholder="Nhập email"
-                    @keydown="removeErrorMsgText" name="email" v-model="apiData.email" />
+                    @keydown="removeErrorMsgText" id="email" name="email" autocomplete="email" v-model="apiData.email" />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
                       <ErrorMessage name="email" />
@@ -143,8 +143,8 @@
                 </div>
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
-                <label class="fs-6 fw-semobold mb-2 required">Password Hash</label>
-                <Field as="textarea" class="form-control form-control-solid" rows="3" name="password_hash"
+                <label class="fs-6 fw-semobold mb-2 required" for="password_hash">Password Hash</label>
+                <Field as="textarea" class="form-control form-control-solid" rows="3" id="password_hash" name="password_hash"
                   placeholder="Nhập password hash" v-model="apiData.password_hash" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -153,9 +153,9 @@
                 </div>
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
-                <label class="fs-6 fw-semobold mb-2">Password Crack</label>
+                <label class="fs-6 fw-semobold mb-2" for="password_crack">Password Crack</label>
                 <Field type="text" class="form-control form-control-solid" placeholder="Nhập password crack"
-                  @keydown="removeErrorMsgText" name="password_crack" v-model="apiData.password_crack" />
+                  @keydown="removeErrorMsgText" id="password_crack" name="password_crack" v-model="apiData.password_crack" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="password_crack" />
@@ -166,9 +166,9 @@
                 </div>
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
-                <label class="fs-6 fw-semobold mb-2">Nguồn dữ liệu</label>
+                <label class="fs-6 fw-semobold mb-2" for="source_data">Nguồn dữ liệu</label>
                 <Field type="text" class="form-control form-control-solid" placeholder="Mua dữ liệu"
-                  @keydown="removeErrorMsgText" name="source_data" v-model="apiData.source_data" />
+                  @keydown="removeErrorMsgText" id="source_data" name="source_data" v-model="apiData.source_data" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="source_data" />
@@ -180,11 +180,11 @@
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
                 <div class="col-4">
-                  <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                  <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="product_text">
                     <span class="required">Quốc gia</span>
                   </label>
                   <el-form-item prop="assign">
-                    <el-select filterable="true" placeholder="Chọn kiểu" as="select" height="40px" name="product_text"
+                    <el-select filterable="true" placeholder="Chọn kiểu" as="select" height="40px" id="product_text" name="product_text"
                       class="input-group-lg" v-model="apiData.country_id">
                       <el-option label="Chọn quốc gia" value="" disabled>Chọn quốc gia</el-option>
                       <el-option label="Khác" value="0"></el-option>

@@ -166,9 +166,9 @@
                             data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
                             data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
-                            <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                            <span class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                 <h4>Bạn có chắc muốn scan CVE không</h4>
-                            </label>
+                            </span>
 
                         </div>
                     </div>

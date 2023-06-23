@@ -127,9 +127,9 @@
                             data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
                             <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                <span class="d-flex align-items-center fs-6 fw-semobold mb-2" for="type">
                                     <span class="required"><b>Tốc độ scan</b></span>
-                                </label>
+                                </span>
                                 <div class="d-flex align-items-center" style="padding-left: 20px;">
                                     <label class="form-check form-check-custom form-check-solid me-10">
                                         <input
@@ -176,7 +176,7 @@
                             </div>
                             <div class="d-flex flex-stack mb-8">
                                 <div class="me-5">
-                                    <label class="fs-6 fw-semobold"><b>Proxy</b></label>
+                                    <span class="fs-6 fw-semobold" for="proxyCheck"><b>Proxy</b></span>
                                 </div>
                                 <label class="form-check form-switch form-check-custom form-check-solid">
                                     <input
@@ -190,10 +190,10 @@
                             </div>
                             <div style="padding-left: 20px;" v-if="scanFormState.proxyCheck">
                                 <div class="mb-5 fv-row">
-                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="proxyScheme">
                                         <span>Giao thức</span>
                                     </label>
-                                    <el-select v-model="scanFormState.proxyScheme" name="proxyScheme" as="select" placeholder="Chọn giao thức">
+                                    <el-select v-model="scanFormState.proxyScheme" id="proxyScheme" name="proxyScheme" as="select" placeholder="Chọn giao thức">
                                         <el-option value="">Chọn trạng thái</el-option>
                                         <el-option label="HTTP" value="HTTP">HTTP</el-option>
                                         <el-option label="SOCKS5" value="SOCKS5">SOCKS5</el-option>
@@ -207,11 +207,11 @@
                                 </div>
                                 <div class="mb-5 fv-row row">
                                     <div class="col-6">
-                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="proxyAdress">
                                             <span>Địa chỉ</span>
                                         </label>
                                         <Field type="text" class="form-control form-control-solid"
-                                            placeholder="example.com" name="proxyAdress" v-model="scanFormState.proxyAdress" />
+                                            placeholder="example.com" id="proxyAdress" name="proxyAdress" v-model="scanFormState.proxyAdress" />
                                         <div class="fv-plugins-message-container">
                                             <div class="fv-help-block">
                                                 <ErrorMessage name="proxyAdress" />
@@ -220,11 +220,11 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="proxyPort">
                                             <span>Cổng dịch vụ</span>
                                         </label>
                                         <Field type="text" class="form-control form-control-solid"
-                                            placeholder="80" name="proxyPort" v-model="scanFormState.proxyPort" />
+                                            placeholder="80" id="proxyPort" name="proxyPort" v-model="scanFormState.proxyPort" />
                                         <div class="fv-plugins-message-container">
                                             <div class="fv-help-block">
                                                 <ErrorMessage name="proxyPort" />
@@ -237,6 +237,7 @@
                                     <div class="form-check form-check-custom form-check-solid" name="proxyAuthenticationCheck">
                                         <label class="d-flex align-items-center fs-6 fw-semobold" for="is_staff">Proxy yêu cầu xác thực</label>
                                         <input 
+                                            name="is_staff" id="is_staff"
                                             class="form-check-input" style="margin-left: 20px;" 
                                             type="checkbox" value="1" 
                                             v-model="scanFormState.proxyAuthenticationCheck"
@@ -246,11 +247,11 @@
                                 <div v-if="scanFormState.proxyAuthenticationCheck">
                                     <div class="mb-5 fv-row row">
                                         <div class="col-6">
-                                            <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                            <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="proxyUsername">
                                                 <span>Tên đăng nhập</span>
                                             </label>
                                             <Field type="text" class="form-control form-control-solid"
-                                                name="proxyUsername" v-model="scanFormState.proxyUsername" />
+                                                name="proxyUsername" id="proxyUsername" v-model="scanFormState.proxyUsername" />
                                             <div class="fv-plugins-message-container">
                                                 <div class="fv-help-block">
                                                     <ErrorMessage name="proxyUsername" />
@@ -259,7 +260,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                            <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="proxyUserPassword">
                                                 <span>Mật khẩu</span>
                                             </label>
                                             <div class="position-relative mb-3">
@@ -285,14 +286,14 @@
                             </div>
                             <div class="d-flex flex-stack mb-8">
                                 <div class="me-5">
-                                    <label class="fs-6 fw-semobold"><b>Sử dụng Header tùy chọn</b></label>
+                                    <label class="fs-6 fw-semobold" for="headerOption"><b>Sử dụng Header tùy chọn</b></label>
                                 </div>
                                 <label class="form-check form-switch form-check-custom form-check-solid">
                                     <input
                                         @click="clearHeaderOptions"
                                         class="form-check-input"
                                         type="checkbox"
-                                        name="headerOption"
+                                        name="headerOption" id="headerOption"
                                         v-model="scanFormState.headerOptionCheck"
                                     />
                                     <span class="form-check-label fw-semobold text-gray-400">Allowed</span>
@@ -321,7 +322,7 @@
                             </div>
                             <div class="d-flex flex-stack mb-8">
                                 <div class="me-5">
-                                    <label class="fs-6 fw-semobold"><b>Quét bằng Nmap</b></label>
+                                    <span class="fs-6 fw-semobold"><b>Quét bằng Nmap</b></span>
                                 </div>
                                 <label class="form-check form-switch form-check-custom form-check-solid">
                                     <input
@@ -335,7 +336,7 @@
                             </div>
                             <div class="d-flex flex-stack mb-8">
                                 <div class="me-5">
-                                    <label class="fs-6 fw-semobold"><b>Quét bằng Nuclei</b></label>
+                                    <span class="fs-6 fw-semobold"><b>Quét bằng Nuclei</b></span>
                                 </div>
                                 <label class="form-check form-switch form-check-custom form-check-solid">
                                     <input

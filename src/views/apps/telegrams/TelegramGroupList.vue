@@ -176,13 +176,13 @@
               <!--begin::Input group-->
               <div class="mb-5 fv-row">
                 <!--begin::Label-->
-                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                <label for="name" class="d-flex align-items-center fs-6 fw-semobold mb-2">
                   <span class="required">Tên nhóm Telegram</span>
                   <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Bắt buộc phải nhập"></i>
                 </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <Field type="text" class="form-control form-control-solid" placeholder="Nhập nhóm mục tiêu" name="name"
+                <Field type="text" class="form-control form-control-solid" autocomplete="name" placeholder="Nhập nhóm mục tiêu" id="name" name="name"
                   v-model="apiData.name" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -198,7 +198,7 @@
               <div class="d-flex flex-stack mb-8">
                 <!--begin::Label-->
                 <div class="me-5">
-                  <label class="fs-6 fw-semobold">Trạng thái</label>
+                  <label class="fs-6 fw-semobold" for="status">Trạng thái</label>
 
                   <div class="fs-7 fw-semobold text-gray-400">
                     Bật trạng thái để có thể đồng bộ hóa Telegram
@@ -207,9 +207,9 @@
                 <!--end::Label-->
 
                 <!--begin::Switch-->
-                <label class="form-check form-switch form-check-custom form-check-solid">
+                <label class="form-check form-switch form-check-custom form-check-solid" for="status">
 
-                  <input class="form-check-input" type="checkbox" :checked="apiData.status" v-model="apiData.status" />
+                  <input id="status" name="status" class="form-check-input" type="checkbox" :checked="apiData.status" v-model="apiData.status" />
                   <span class="form-check-label fw-semobold text-gray-400">
                     Allowed
                   </span>
@@ -223,7 +223,7 @@
                 <div class="d-flex flex-stack">
                   <!--begin::Label-->
                   <div class="fw-semobold me-5">
-                    <label class="fs-6">Kiểu nhóm</label>
+                    <label class="fs-6" for="type">Kiểu nhóm</label>
 
                     <div class="fs-7 text-gray-400">
                       Chọn kiểu cho nhóm Telegram
@@ -234,7 +234,7 @@
                   <!--begin::radio-->
                   <div class="d-flex align-items-center">
                     <!--begin::radio-->
-                    <label class="form-check form-check-custom form-check-solid me-10">
+                    <label class="form-check form-check-custom form-check-solid me-10" >
                       <input class="form-check-input h-20px w-20px" type="radio" name="type" value="1"
                         v-model="apiData.type" checked />
 
@@ -243,7 +243,7 @@
                     <!--end::radio-->
 
                     <!--begin::radio-->
-                    <label class="form-check form-check-custom form-check-solid">
+                    <label class="form-check form-check-custom form-check-solid" >
                       <input v-model="apiData.type" class="form-check-input h-20px w-20px" type="radio" name="type"
                         value="2" />
 
@@ -318,13 +318,13 @@
             <div class="me-n7 pe-7" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto">
               <!--begin::Input group-->
               <div class="row g-9 mb-3">
-                <label class="required fs-6 fw-semobold">Lần chạy kế tiếp</label>
+                <label class="required fs-6 fw-semobold" for="next_run">Lần chạy kế tiếp</label>
                 <!--begin::Col-->
                 <div class="col-md-6 fv-row mt-2">
 
                   <el-form-item prop="next_run">
                     <el-date-picker v-model="setingData.next_run" disabled type="date" placeholder="Select a date"
-                      :teleported="false" popper-class="override-styles" name="next_run" />
+                      :teleported="false" popper-class="override-styles" id="next_run" name="next_run" />
                   </el-form-item>
                 </div>
                 <!--end::Col-->
@@ -348,13 +348,13 @@
               <!--begin::Input group-->
               <div class="d-flex flex-column fv-row">
                 <!--begin::Label-->
-                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                <label for="timehour" class="d-flex align-items-center fs-6 fw-semobold mb-2">
                   <span class="required">Thời gian giữa các lần chạy (giờ)</span>
                   <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
                     title="Specify a target name for future usage and reference"></i>
                 </label>
                 <!--end::Label-->
-                <el-input-number v-model="setingData.hour" :min="1" :max="24" />
+                <el-input-number id="timehour" name="timehour" v-model="setingData.hour" :min="1" :max="24" />
               </div>
               <!--end::Input group-->
             </div>

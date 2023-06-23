@@ -135,13 +135,13 @@
               <!--begin::Input group-->
               <div class="mb-5 fv-row">
                 <!--begin::Label-->
-                <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                <label for="title" class="d-flex align-items-center fs-6 fw-semobold mb-2">
                   <span class="required">Tên nhóm mục tiêu</span>
                   <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Bắt buộc phải nhập"></i>
                 </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <Field type="text" class="form-control form-control-solid" placeholder="Nhập nhóm mục tiêu" name="title"
+                <Field type="text" class="form-control form-control-solid" placeholder="Nhập nhóm mục tiêu" id="title" name="title"
                   v-model="apiData.title" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -156,11 +156,11 @@
               <!--begin::Input group-->
               <div class="d-flex flex-column mb-5 fv-row">
                 <!--begin::Label-->
-                <label class="fs-6 fw-semobold mb-2">Mô tả nhóm mục tiêu</label>
+                <label for="description" class="fs-6 fw-semobold mb-2">Mô tả nhóm mục tiêu</label>
                 <!--end::Label-->
 
                 <!--begin::Input-->
-                <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
+                <Field as="textarea" class="form-control form-control-solid" rows="5" id="description" name="description"
                   placeholder="Nhập mô tả nhóm mục tiêu" v-model="apiData.description" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
@@ -315,13 +315,11 @@
                     </table>
                     <!--end::Details-->
                     <!--begin::Label-->
-                    <label class="fs-6 fw-semobold mb-2 text-gray-400">Mô tả:</label>
+                    <label for="description" class="fs-6 fw-semobold mb-2 text-gray-400">Mô tả:</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
-                      v-model="detailData.description" disabled v-if="detailData.description" />
-                    <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
-                      v-model="detailData.description" disabled v-else placeholder="Chưa có mô tả" />
+                    <Field as="textarea" class="form-control form-control-solid" rows="5" id="description" name="description"
+                      v-model="detailData.description" disabled  :placeholder="(detailData.description) ? '' : 'Chưa có mô tả'" />
                     <div class="fv-plugins-message-container">
                       <div class="fv-help-block">
                         <ErrorMessage name="description" />

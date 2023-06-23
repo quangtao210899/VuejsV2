@@ -97,11 +97,11 @@
                             data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
                             <div class="mb-5 fv-row row">
                                 <div class="col-4">
-                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="code">
                                         <span class="required">Mã CVE</span>
                                     </label>
                                     <Field type="text" class="form-control form-control-solid" placeholder="CVE-YYYY-xxxxxx"
-                                        @keydown="removeErrorMsgText" style="height: 40px;" name="code"
+                                        @keydown="removeErrorMsgText" style="height: 40px;" id="code" name="code"
                                         v-model="apiData.code" />
                                     <div class="fv-plugins-message-container">
                                         <div class="fv-help-block">
@@ -112,11 +112,11 @@
                                 </div>
 
                                 <div class="col-4">
-                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="product_type">
                                         <span class="required">Loại sản phẩm</span>
                                     </label>
                                     <el-form-item prop="assign">
-                                        <el-select name="product_type" placeholder="Select" @change="removeErrorMsgOption"
+                                        <el-select id="product_type" name="product_type" placeholder="Select" @change="removeErrorMsgOption"
                                             v-model="apiData.product_type">
                                             <!-- <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option> -->
                                             <el-option v-for="item in dataProduct" :key="item.value" :label="item.label"
@@ -132,7 +132,7 @@
                                     </el-form-item>
                                 </div>
                                 <div class="col-4">
-                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2">
+                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="vul_type">
                                         <span class="required">Loại lỗ hổng</span>
                                     </label>
                                     <el-form-item prop="assign">
@@ -160,8 +160,8 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-column mb-5 fv-row">
-                                <label class="fs-6 fw-semobold mb-2">Mô tả</label>
-                                <Field as="textarea" class="form-control form-control-solid" rows="5" name="description"
+                                <label class="fs-6 fw-semobold mb-2" for="description">Mô tả</label>
+                                <Field as="textarea" class="form-control form-control-solid" rows="5" id="description" name="description"
                                     placeholder="Mô tả về CVE" v-model="apiData.description" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
@@ -170,8 +170,8 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-column mb-5 fv-row">
-                                <label class="fs-6 fw-semobold mb-2 required">Phiên bản ảnh hưởng</label>
-                                <Field as="textarea" class="form-control form-control-solid" rows="5" name="version"
+                                <label class="fs-6 fw-semobold mb-2 required" for="version">Phiên bản ảnh hưởng</label>
+                                <Field as="textarea" class="form-control form-control-solid" rows="5" id="version" name="version"
                                     placeholder="Phiên bản sản phẩm bị ảnh hưởng bởi CVE" v-model="apiData.version" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
@@ -182,11 +182,11 @@
                             </div>
                             <div class="d-flex flex-column mb-5 fv-row">
                                 <!--begin::Label-->
-                                <label class="fs-6 fw-semobold mb-2 required">Shodan Dock</label>
+                                <label class="fs-6 fw-semobold mb-2 required" for="shodan_dock">Shodan Dock</label>
                                 <!--end::Label-->
 
                                 <!--begin::Input-->
-                                <Field as="textarea" class="form-control form-control-solid" rows="5" name="shodan_dock"
+                                <Field as="textarea" class="form-control form-control-solid" rows="5" id="shodan_dock" name="shodan_dock"
                                     placeholder="Câu query shodan để tìm kiếm mục tiêu trên diện rộng. Cú pháp theo cú pháp tìm kiếm của shodan. Query phân cách bởi dấu ;"
                                     v-model="apiData.shodan_dock" />
                                 <div class="fv-plugins-message-container">
@@ -199,11 +199,11 @@
                             </div>
                             <div class="d-flex flex-column mb-5 fv-row">
                                 <!--begin::Label-->
-                                <label class="fs-6 fw-semobold mb-2">POC</label>
+                                <label class="fs-6 fw-semobold mb-2" for="poc">POC</label>
                                 <!--end::Label-->
 
                                 <!--begin::Input-->
-                                <Field as="textarea" class="form-control form-control-solid" rows="5" name="poc"
+                                <Field as="textarea" class="form-control form-control-solid" rows="5" id="poc" name="poc"
                                     placeholder="Thông tin POC, cách khai thác" v-model="apiData.poc" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">

@@ -15,24 +15,24 @@
     <div class="px-7 py-5">
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Tìm kiếm:</label>
+        <label class="form-label fw-semobold" for="search">Tìm kiếm:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
         <div class="d-flex align-items-center position-relative my-1">
           <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
-          <input type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
+          <input id="search" name="search"  type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
             class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm theo username và email" />
         </div>
       </div>
 
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Tìm kiếm theo nhóm quốc gia:</label>
+        <label class="form-label fw-semobold" for="type">Tìm kiếm theo nhóm quốc gia:</label>
         <!--end::Label-->
 
         <el-form-item prop="assign">
-          <el-select v-model="data.type" placeholder="Tìm kiếm theo quốc gia" name="type" as="select"  size="large" class="input-group-lg w-100" filterable="true">
+          <el-select v-model="data.type" placeholder="Tìm kiếm theo quốc gia" id="type" name="type" as="select"  size="large" class="input-group-lg w-100" filterable="true">
             <el-option value="">Chọn nhóm quốc gia</el-option>
             <el-option value="0" label="Khác">Khác</el-option>
             <el-option :label="item.name" :value="item.id" v-for="item in countryList">{{ item.name

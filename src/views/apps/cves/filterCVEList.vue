@@ -16,13 +16,13 @@
 
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Tìm kiếm:</label>
+        <label class="form-label fw-semobold" for="search">Tìm kiếm:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
         <div class="d-flex align-items-center position-relative my-1 ">
           <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
-          <input type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
+          <input id="search" name="search" type="text" data-kt-subscription-table-filter="search" v-model="debouncedSearchTerm"
             class="form-control form-control-solid w-100 ps-14" placeholder="Tìm kiếm theo mã CVE" />
         </div>
 
@@ -31,12 +31,12 @@
       <!--begin::Input group-->
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Tìm kiếm theo loại sản phẩm:</label>
+        <label class="form-label fw-semobold" for="product_type">Tìm kiếm theo loại sản phẩm:</label>
         <!--end::Label-->
 
         <el-form-item prop="assign">
 
-          <el-select v-model="data.product_type" placeholder="Chọn loại sản phẩm" name="product_type" as="select"
+          <el-select v-model="data.product_type" placeholder="Chọn loại sản phẩm" id="product_type" name="product_type" as="select"
             height="40px" class="input-group-lg w-100" size="large">
             <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option>
             <el-option label="Microsoft" value="0">Microsoft</el-option>
@@ -100,13 +100,13 @@
       <!--begin::Input group-->
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold">Tìm kiếm theo loại lỗ hổng:</label>
+        <label class="form-label fw-semobold" for="vul_type">Tìm kiếm theo loại lỗ hổng:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
 
         <el-form-item prop="assign">
-          <el-select v-model="data.vul_type" placeholder="Chọn loại lỗ hổng" name="vul_type" as="select" size="large" class="input-group-lg w-100">
+          <el-select v-model="data.vul_type" placeholder="Chọn loại lỗ hổng" id="vul_type" name="vul_type" as="select" size="large" class="input-group-lg w-100">
             <el-option label="Chọn loại lỗ hổng" value="">Chọn loại lỗ hổng</el-option>
             <el-option label="DoS" value="0">DoS</el-option>
             <el-option label="Code Execution" value="1">Code Execution</el-option>
@@ -115,8 +115,7 @@
             <el-option label="Sql Injection" value="4">Sql Injection</el-option>
             <el-option label="XSS" value="5">XSS</el-option>
             <el-option label="Directory Traversal" value="6">Directory Traversal</el-option>
-            <el-option label="Http Response Splitting" value="7">Http Response Splitting
-            </el-option>
+            <el-option label="Http Response Splitting" value="7">Http Response Splitting</el-option>
             <el-option label="Bypass something" value="8">Bypass something</el-option>
             <el-option label="Gain Information" value="9">Gain Information</el-option>
             <el-option label="Gain Privileges" value="10">Gain Privileges</el-option>

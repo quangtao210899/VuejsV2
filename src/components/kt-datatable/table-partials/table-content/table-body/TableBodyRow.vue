@@ -4,7 +4,7 @@
       <tr class="bg-hover-light" :class="(clickOnRow && closeOnRow && isClicked && indexTable == i) ? 'text-primary bg-light' : ''">
         <td v-if="checkboxEnabled">
           <div class="form-check form-check-sm form-check-custom form-check-solid ms-2 cursor-pointer">
-            <input class="form-check-input border border-secondary" type="checkbox" :value="row[checkboxLabel]" v-model="selectedItems"
+            <input :id="row[checkboxLabel]" :name="row[checkboxLabel]" class="form-check-input border border-secondary" type="checkbox" :value="row[checkboxLabel]" v-model="selectedItems"
               @change="onChange" />
           </div>
         </td>

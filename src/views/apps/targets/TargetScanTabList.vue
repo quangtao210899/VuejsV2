@@ -49,8 +49,8 @@
                                 <div class="col-3">
                                     <div class="row">
                                         <!--begin::Label-->
-                                        <label class="w-60px fw-semobold text-muted">ID:</label>
-                                        <!--end::Label-->
+                                        <span class="w-60px fw-semobold text-muted">ID:</span>
+                                        <!--end::span-->
 
                                         <!--begin::Col-->
                                         <div class="col">
@@ -61,9 +61,9 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="w-60px fw-semobold text-muted">Tên:</label>
-                                        <!--end::Label-->
+                                        <!--begin::span-->
+                                        <span class="w-60px fw-semobold text-muted">Tên:</span>
+                                        <!--end::span-->
 
                                         <!--begin::Col-->
                                         <div class="col">
@@ -74,9 +74,9 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="w-60px fw-semobold text-muted">IP:</label>
-                                        <!--end::Label-->
+                                        <!--begin::span-->
+                                        <span class="w-60px fw-semobold text-muted">IP:</span>
+                                        <!--end::span-->
                                         <!--begin::Col-->
                                         <div class="col">
                                             <span class="fw-bold fs-6 text-dark">{{ targetData.ip }}</span>
@@ -86,8 +86,8 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="row">
-                                        <!--begin::Label-->
-                                        <label class="w-80px fw-semobold text-muted">Domain:</label>
+                                        <!--begin::span-->
+                                        <span class="w-80px fw-semobold text-muted">Domain:</span>
                                         <!--end::Label-->
 
                                         <!--begin::Col-->
@@ -206,6 +206,7 @@
                         <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-5" />
                         <input type="text" data-kt-subscription-table-filter="search" v-model="query"
                             :class="classDetail ? 'w-150px' : 'w-100'"
+                            name="query"
                             class="form-control h-35px ps-14 btn-active-color-primary" placeholder="Tìm kiếm theo tên" />
                     </div>
                 </div>
