@@ -14,6 +14,13 @@
                             </button>
                         </el-tooltip>
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
+                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xuất kết quả" placement="top">
+                            <button type="button" @click="fileDownVisible = true"
+                                class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                                <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
+                                Xuất kết quả
+                            </button>
+                        </el-tooltip>
 
                         <!-- <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                             data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
@@ -146,6 +153,31 @@
         <!--end::Modal dialog-->
     </div>
 
+    <!-- // modoal  -->
+    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file">
+        <div class="card h-100 bg-secondary">
+            <!--begin::Card body-->
+            <div class="card-body d-flex justify-content-center text-center flex-column p-8">
+                <!--begin::Name-->
+                <div class="symbol symbol-60px mb-5">
+                    <i class="fa-solid fa-file-excel fs-4x text-primary"></i>
+                </div>
+                <!--end::Image-->
+
+                <!--begin::Title-->
+                <div class="fs-5 fw-bold mb-2 text-dark"> {{ `Scan_${getIdFromUrl()}_report.xlsx` }} </div>
+                <!--end::Name-->
+            </div>
+            <!--end::Card body-->
+        </div>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="fileDownVisible = false">Hủy bỏ</el-button>
+                <el-button type="primary" @click="downloadAcunetix">Tải về</el-button>
+            </span>
+        </template>
+    </el-dialog>
+
     <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered mw-650px">
             <div class="modal-content">
@@ -230,10 +262,12 @@ import { vue3Debounce } from 'vue-debounce';
 import Fillter from "@/views/apps/targets/filterTargetDectionListCVE.vue";
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
-
+import { ElMessage } from 'element-plus'
 import { Modal } from "bootstrap";
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
+
+import axios from 'axios'
 import { string } from "yup";
 dayjs.locale('vi');
 
@@ -314,6 +348,35 @@ export default defineComponent({
             return 'Nhanh'
         };
 
+        // tải về files
+        const fileDownVisible = ref(false)
+        const downloadAcunetix = async () => {
+            axios({
+                url: `/cve/scan-export/${getIdFromUrl()}`, //your url
+                method: 'GET',
+                responseType: 'blob', // important
+            }).then((response) => {
+                // const href = URL.createObjectURL(response.data);
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `Scan_${getIdFromUrl()}_report.xlsx`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                fileDownVisible.value = false;
+            }).catch(async error => {
+                // xử lý hiển thị lỗi 
+                const reponse_message = JSON.parse(await error.response.data.text()).detail ?? "Có lỗi xảy ra"
+                ElMessage({
+                    message: reponse_message,
+                    type: 'success',
+                    center: false,
+                })
+                fileDownVisible.value = false;
+            })
+        };
         const discardButtonRef = ref<HTMLElement | null>(null);
         const ModalDetail = ref<null | HTMLElement>(null);
         const loading = ref<boolean>(false)
@@ -617,6 +680,10 @@ export default defineComponent({
             headerInputValue,
             CVEScanId,
             disabled,
+
+            // tải về
+            fileDownVisible,
+            downloadAcunetix,
         };
     },
 });
