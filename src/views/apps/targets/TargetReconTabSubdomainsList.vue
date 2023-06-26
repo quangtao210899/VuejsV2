@@ -446,6 +446,7 @@ export default defineComponent({
         // tính thời gian
         const diffTime = ref<string | any>(0);
         const time = ref<any>(null);
+        let intervalId : any;
         const eventTime = ref<number | any>('30000');
         const checkDisabled = ref<boolean>(false);
 
@@ -468,23 +469,22 @@ export default defineComponent({
         })
 
         const humanDiffTime = () => {
-            checkDisabled.value = true
-            setTimeout(() => {
-                checkDisabled.value = false;
-            }, 500);
-            clearInterval(time.value);
-            if (reconStatus.value == 5) {
-                humanDiff();
-            } else if (reconStatus.value == 2) {
-                humanDiff();
-                time.value = setInterval(() => { getData(); humanDiff(); }, eventTime.value);
+            clearInterval(intervalId);
+            if (reconStatus.value == 2 || reconStatus.value == 1) {
+                intervalId = setInterval(() => {
+                    getData();
+                }, eventTime.value);
             } else {
-                return
+                return;
             }
         };
 
+        const stopTimer = () => {
+            clearInterval(intervalId);
+        };
+
         onBeforeUnmount(() => {
-            clearInterval(time);
+            stopTimer();
         });
 
         // xem thêm Teachnology

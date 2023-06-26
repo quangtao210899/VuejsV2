@@ -182,8 +182,8 @@
                 </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <Field type="text" class="form-control form-control-solid" autocomplete="name" placeholder="Nhập nhóm mục tiêu" id="name" name="name"
-                  v-model="apiData.name" />
+                <Field type="text" class="form-control form-control-solid" autocomplete="name"
+                  placeholder="Nhập nhóm mục tiêu" id="name" name="name" v-model="apiData.name" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="name" />
@@ -209,7 +209,8 @@
                 <!--begin::Switch-->
                 <label class="form-check form-switch form-check-custom form-check-solid" for="status">
 
-                  <input id="status" name="status" class="form-check-input" type="checkbox" :checked="apiData.status" v-model="apiData.status" />
+                  <input id="status" name="status" class="form-check-input" type="checkbox" :checked="apiData.status"
+                    v-model="apiData.status" />
                   <span class="form-check-label fw-semobold text-gray-400">
                     Allowed
                   </span>
@@ -234,7 +235,7 @@
                   <!--begin::radio-->
                   <div class="d-flex align-items-center">
                     <!--begin::radio-->
-                    <label class="form-check form-check-custom form-check-solid me-10" >
+                    <label class="form-check form-check-custom form-check-solid me-10">
                       <input class="form-check-input h-20px w-20px" type="radio" name="type" value="1"
                         v-model="apiData.type" checked />
 
@@ -243,7 +244,7 @@
                     <!--end::radio-->
 
                     <!--begin::radio-->
-                    <label class="form-check form-check-custom form-check-solid" >
+                    <label class="form-check form-check-custom form-check-solid">
                       <input v-model="apiData.type" class="form-check-input h-20px w-20px" type="radio" name="type"
                         value="2" />
 
@@ -521,7 +522,7 @@
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, watch, shallowRef } from "vue";
+import { defineComponent, ref, onMounted, reactive, onBeforeUnmount, shallowRef } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
@@ -666,6 +667,27 @@ export default defineComponent({
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         });
     }
+
+    // tính thời gian
+    const eventTime = ref<number | any>('30000');
+    let intervalId: any;
+    const startTimer = () => {
+      intervalId = setInterval(() => {
+        getData();
+      }, eventTime.value);
+    };
+
+    const stopTimer = () => {
+      clearInterval(intervalId);
+    };
+
+    onMounted(() => {
+      startTimer();
+    });
+
+    onBeforeUnmount(() => {
+      stopTimer();
+    });
 
     // sắp sếp
     const sortId = ref<string>('');
