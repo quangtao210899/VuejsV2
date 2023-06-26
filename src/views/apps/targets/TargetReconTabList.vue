@@ -1662,6 +1662,7 @@ export default defineComponent({
         const diffTime = ref<string | any>(0);
         const time = ref<any>(null);
         const eventTime = ref<number | any>('30000');
+        let intervalId : any;
 
         const humanDiff = async () => {
             let date1: any = (reconStatus.value == 2) ? new Date() : new Date(timeEnd.value);
@@ -1682,27 +1683,25 @@ export default defineComponent({
         })
 
         const humanDiffTime = () => {
-            checkDisabled.value = true
-            setTimeout(() => {
-                checkDisabled.value = false;
-            }, 500);
-            clearInterval(time.value);
-            if (reconStatus.value == 5) {
-                humanDiff();
-            } else if (reconStatus.value == 2) {
-                humanDiff();
-                time.value = setInterval(() => { getData(); humanDiff(); }, eventTime.value);
+            clearInterval(intervalId);
+            if (reconStatus.value == 2 || reconStatus.value == 1) {
+                intervalId = setInterval(() => {
+                    getData();
+                }, eventTime.value);
             } else {
-                return
+                return;
             }
         };
+        const stopTimer = () => {
+            clearInterval(intervalId);
+        };
+
+        onBeforeUnmount(() => {
+            stopTimer();
+        });
 
         onMounted(() => {
             getData();
-        });
-
-        onBeforeUnmount(() => {
-            clearInterval(time);
         });
 
         const checkArray = (data: any) => {

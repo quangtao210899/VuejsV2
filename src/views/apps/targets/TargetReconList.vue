@@ -124,7 +124,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h3 class="modal-title">Xác nhận xóa scan</h3>
+                    <h3 class="modal-title">Xác nhận xóa Recon</h3>
 
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
                         aria-label="Close">
@@ -218,7 +218,7 @@
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive } from "vue";
+import { defineComponent, ref, onMounted, reactive, onBeforeUnmount } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import ApiService from "@/core/services/ApiService";
@@ -885,7 +885,7 @@ export default defineComponent({
         const route = useRoute();
         const reconID = ref<null | number | any>(route.params.id ?? '');
 
-        const getData = () => {
+        const getData = async  () => {
             loading.value = true;
             // let target_id = getIdFromUrl()
 
@@ -900,9 +900,30 @@ export default defineComponent({
                 });
         }
 
+        // tính thời gian
+        const eventTime = ref<number | any>('30000');
+        let intervalId : any;
+        const startTimer = () => {
+            intervalId = setInterval(() => {
+                getData();
+            }, eventTime.value);
+        };
+
+        const stopTimer = () => {
+            clearInterval(intervalId);
+        };
+
+        onMounted(() => {
+            startTimer();
+        });
+
+        onBeforeUnmount(() => {
+            stopTimer();
+        });
+
         const selectedIds = ref<Array<number>>([]);
         const deleteFewSubscriptions = () => {
-            deleteSubscription(selectedIds.value);
+            deleteSubscription(selectedIds.value); 
         };
         const disabled = ref<boolean>(false);
 

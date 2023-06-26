@@ -16,7 +16,8 @@
                             </button>
                         </template>
                     </el-popconfirm>
-                    <button v-if="scanStatus == 5" type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
+                    <button v-if="scanStatus == 5" type="button" @click="handlePauser"
+                        :disabled="(checkDisabled || checkStatus)"
                         class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
                         <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
                         <span class="text-primary"> Tiếp tục</span>
@@ -205,29 +206,28 @@
                     <div class="d-flex align-items-center position-relative">
                         <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-5" />
                         <input type="text" data-kt-subscription-table-filter="search" v-model="query"
-                            :class="classDetail ? 'w-150px' : 'w-100'"
-                            name="query"
+                            :class="classDetail ? 'w-150px' : 'w-100'" name="query"
                             class="form-control h-35px ps-14 btn-active-color-primary" placeholder="Tìm kiếm theo tên" />
                     </div>
                 </div>
                 <div class="col d-flex flex-row">
                     <button type="button" class="btn btn-icon btn-sm fw-bold bg-success h-35px w-35px text-white"
-                        @click.passive="handleSeverity(0)"  :disabled="checkDisabled">
+                        @click.passive="handleSeverity(0)" :disabled="checkDisabled">
                         {{ severityInfo }}
                     </button>
                     <button type="button" class="btn btn-icon btn-sm fw-bold bg-primary h-35px w-35px text-white ms-2"
-                        @click.passive="handleSeverity(1)"  :disabled="checkDisabled">
+                        @click.passive="handleSeverity(1)" :disabled="checkDisabled">
                         {{ severityLow }}
                     </button>
                     <button type="button" class="btn btn-icon btn-sm fw-bold bg-warning h-35px w-35px text-white ms-2"
-                        @click.passive="handleSeverity(2)"  :disabled="checkDisabled">
+                        @click.passive="handleSeverity(2)" :disabled="checkDisabled">
                         {{ severityMedium }}
                     </button>
                     <button type="button" class="btn btn-icon btn-sm fw-bold bg-danger h-35px w-35px text-white ms-2"
-                        @click.passive="handleSeverity(3)"  :disabled="checkDisabled">
+                        @click.passive="handleSeverity(3)" :disabled="checkDisabled">
                         {{ severityHigh }}
                     </button>
-                    <button @click.passive="handleSeverity(4)" type="button"  :disabled="checkDisabled"
+                    <button @click.passive="handleSeverity(4)" type="button" :disabled="checkDisabled"
                         class="btn btn-icon btn-sm fw-bold btn-outline btn-outline-dashed btn-outline-info h-35px w-35px text-info ms-2">
                         All
                     </button>
@@ -270,7 +270,7 @@
                 <!--begin::Actions-->
                 <div class="">
                     <!--begin::Select-->
-                    <el-select v-model="eventTime" clearable  class="w-150px">
+                    <el-select v-model="eventTime" clearable class="w-150px">
                         <el-option value="300000" key="300000" label="5 phút" />
                         <el-option value="60000" key="60000" label="1 phút" />
                         <el-option value="30000" key="30000" label="30 giây" />
@@ -295,8 +295,9 @@
                     <!-- <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }"> -->
                     <KTDatatable :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig"
                         :loading="loading" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
-                        @page-change="handlePage" :checkitemsPerPage="checkitemsPerPage" :currentCheckPage="currentCheckPage"
-                        @on-items-per-page-change="handlePerPage" @customRow="customRowTable" >
+                        @page-change="handlePage" :checkitemsPerPage="checkitemsPerPage"
+                        :currentCheckPage="currentCheckPage" @on-items-per-page-change="handlePerPage"
+                        @customRow="customRowTable">
                         <template v-slot:severity="{ row: customer }">
                             <div class="text-center">
                                 <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
@@ -1137,20 +1138,7 @@ export default defineComponent({
                 });
         };
 
-        // thời gian tự động chạy
-        const timeAuto = ref<any>(null);
 
-        const showLocaleTime = async () => {
-            if (scanStatus.value == 5) {
-                clearInterval(timeAuto.value);
-                humanDiff();
-            } else if (scanStatus.value == 2) {
-                clearInterval(timeAuto.value);
-                timeAuto.value = setInterval(() => { humanDiff(); }, 1000);
-            }else {
-                return;
-            }
-        };
 
         // tải về files
         const fileDownVisible = ref(false)
@@ -1218,9 +1206,10 @@ export default defineComponent({
         const diffTime = ref<string | any>(0);
         const time = ref<any>(null);
         const eventTime = ref<number | any>('30000');
+        let intervalId : any;
 
         const humanDiff = async () => {
-            let date1: any = (scanStatus.value == 2) ? new Date() : new Date(timeEnd.value);
+            let date1: any = (scanStatus.value == 2 ) ? new Date() : new Date(timeEnd.value);
             let date2: any = new Date(timeStart.value);
             let diff = Math.max(date2, date1) - Math.min(date2, date1);
             let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
@@ -1234,25 +1223,31 @@ export default defineComponent({
         };
         watch((eventTime), () => {
             humanDiffTime();
-        } )
+        })
 
         const humanDiffTime = () => {
-            checkDisabled.value = true
-            setTimeout(() => {
-                checkDisabled.value = false;
-            }, 500);
-            if (scanStatus.value == 5) {
-                clearInterval(time.value);
-                humanDiff();
-            } else if (scanStatus.value == 2){
-                clearInterval(time.value);
-                humanDiff();
-                time.value = setInterval(() => { getData(); humanDiff(); }, eventTime.value);
-            } else{
-                return
+            clearInterval(intervalId);
+            humanDiff();
+            if (scanStatus.value == 2 || scanStatus.value == 1) {
+                intervalId = setInterval(() => {
+                    getData();
+                }, eventTime.value);
+            } else {
+                return;
             }
         };
-        // watch(eventTime, humanDiffTime);
+
+        // thời gian tự động chạy
+        let intervalIdAuto : any;
+
+        const showLocaleTime = async () => {
+            clearInterval(intervalIdAuto);
+            if (scanStatus.value == 2) {
+                intervalIdAuto = setInterval(() => { humanDiff(); }, 1000);
+            } else {
+                return;
+            }
+        };
 
         // Tính toán chiều rộng nội dung
         const contentWidth = ref(0);
@@ -1267,8 +1262,8 @@ export default defineComponent({
         });
 
         onBeforeUnmount(() => {
-            clearInterval(timeAuto);
-            clearInterval(time);
+            clearInterval(intervalIdAuto);
+            clearInterval(intervalId);
         });
 
 
