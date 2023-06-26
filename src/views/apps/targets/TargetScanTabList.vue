@@ -782,6 +782,8 @@ export default defineComponent({
         };
 
         const getData = async () => {
+            loading.value = true;
+
             return ApiService.get(`/scan/detail/${scanID.value}`)
                 .then(({ data }) => {
 
@@ -834,7 +836,7 @@ export default defineComponent({
                 })
                 .finally(() => {
                     loading.value = false
-                })
+                });
         }
         const debounceSearch = debounce(getData, 1000);
         watch(query, debounceSearch);

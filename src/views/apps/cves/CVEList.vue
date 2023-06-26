@@ -837,6 +837,7 @@ export default defineComponent({
         };
 
         const getData = async  () => {
+            loading.value = true;
             return ApiService.get(`cve/index?code=${query.value}&product_type=${filterProductType.value}&vul_type=${filterVulType.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
@@ -847,7 +848,7 @@ export default defineComponent({
                 })
                 .finally(() => {
                     loading.value = false
-                })
+                });
         }
 
         const selectedIds = ref<Array<number>>([]);

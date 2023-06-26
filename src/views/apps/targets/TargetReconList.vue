@@ -886,6 +886,7 @@ export default defineComponent({
         const reconID = ref<null | number | any>(route.params.id ?? '');
 
         const getData = async  () => {
+            loading.value = true;
             return ApiService.get(`/recon/${reconID.value}/target?search_recon=${query.value}&search_status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
@@ -896,7 +897,7 @@ export default defineComponent({
                 })
                 .finally(() => {
                     loading.value = false
-                })
+                });
         }
 
         // tính thời gian

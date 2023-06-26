@@ -188,6 +188,8 @@ export default defineComponent({
     const LatestVulnerabilities = ref<Array<string | any>>([]);
 
     const getData = async () => {
+      loading.value = true;
+
       return ApiService.get('/dashboard')
         .then(({ data }) => {
           // target
@@ -245,7 +247,7 @@ export default defineComponent({
         })
         .finally(() => {
             loading.value = false
-        })
+        });
     };
 
     const notification = (values: string, icon: string, more: string) => {

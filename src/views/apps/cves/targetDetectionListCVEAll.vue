@@ -404,6 +404,7 @@ export default defineComponent({
         };
 
         const getData = async () => {
+            loading.value = true;
             return ApiService.get(`/cve/${getIdFromUrl()}/scan/detail?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
@@ -414,7 +415,7 @@ export default defineComponent({
                 })
                 .finally(() => {
                     loading.value = false
-                })
+                });
         }
 
                 // tính thời gian

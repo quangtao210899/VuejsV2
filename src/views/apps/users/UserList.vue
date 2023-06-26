@@ -524,6 +524,8 @@ export default defineComponent({
         };
 
         const getData = () => {
+            loading.value = true;
+
             return ApiService.get(`user?query=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&orderingID=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
@@ -534,7 +536,7 @@ export default defineComponent({
                 })
                 .finally(() => {
                     loading.value = false
-                })
+                });
         }
 
         const selectedIds = ref<Array<number>>([]);

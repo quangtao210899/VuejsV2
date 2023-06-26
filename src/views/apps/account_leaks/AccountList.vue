@@ -610,6 +610,7 @@ const handlePerPage = (itemsPage: number) => {
 };
 
 const getData = () => {
+  loading.value = true;
   return ApiService.get(
     `account-leak/index?search=${query.value}&country_id=${search_country.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`,
   )
@@ -622,7 +623,7 @@ const getData = () => {
     })
     .finally(() => {
         loading.value = false
-    })
+    });
 };
 
 const selectedIds = ref<Array<number>>([]);
