@@ -1391,8 +1391,6 @@ export default defineComponent({
         };
 
         const getData = async () => {
-            loading.value = true;
-            setTimeout(() => loading.value = false, 500)
             return await ApiService.get(`recon/detail3/${scanID.value}`)
                 .then(({ data }) => {
                     // console.log(data)
@@ -1460,7 +1458,10 @@ export default defineComponent({
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                });
+                })
+                .finally(() => {
+                    loading.value = false
+                })
         }
 
         const notification = (values: string, icon: string, more: string) => {

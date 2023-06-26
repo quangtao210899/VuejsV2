@@ -782,8 +782,6 @@ export default defineComponent({
         };
 
         const getData = async () => {
-            loading.value = true;
-            setTimeout(() => loading.value = false, 500)
             return ApiService.get(`/scan/detail/${scanID.value}`)
                 .then(({ data }) => {
 
@@ -833,7 +831,10 @@ export default defineComponent({
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                });
+                })
+                .finally(() => {
+                    loading.value = false
+                })
         }
         const debounceSearch = debounce(getData, 1000);
         watch(query, debounceSearch);

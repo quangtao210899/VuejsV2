@@ -679,10 +679,7 @@ export default defineComponent({
         };
 
         const getData = async () => {
-            loading.value = true;
             let target_id = getIdFromUrl()
-            
-            setTimeout(() => loading.value = false, 500)
             return ApiService.get(`/scan/${target_id}/target?search_scan=${query.value}&search_status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
@@ -690,7 +687,10 @@ export default defineComponent({
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                });
+                })
+                .finally(() => {
+                    loading.value = false
+                })
         }
 
         // tính thời gian
