@@ -120,9 +120,9 @@
                                             <div class="row mb-4" v-if="detailData.description">
                                                 <div class="text-gray-400 col-4">Mô tả lỗi:</div>
                                                 <div class="col-8 text-danger">
-                                                    <span v-for ="text in detailData.description.split('\n')" class="p-0">
-                                                        {{ text }} 
-                                                        <br/>
+                                                    <span v-for="text in detailData.description.split('\n')" class="p-0">
+                                                        {{ text }}
+                                                        <br />
                                                     </span>
                                                 </div>
                                             </div>
@@ -206,7 +206,7 @@
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive } from "vue";
+import { defineComponent, ref, onMounted, reactive, onBeforeUnmount } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import ApiService from "@/core/services/ApiService";
@@ -378,7 +378,7 @@ export default defineComponent({
             getData();
         };
 
-        const getData = () => {
+        const getData = async () => {
             loading.value = true;
             setTimeout(() => loading.value = false, 500)
 
@@ -391,6 +391,27 @@ export default defineComponent({
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                 });
         }
+
+        // tính thời gian
+        const eventTime = ref<number | any>('30000');
+        let intervalId: any;
+        const startTimer = () => {
+            intervalId = setInterval(() => {
+                getData();
+            }, eventTime.value);
+        };
+
+        const stopTimer = () => {
+            clearInterval(intervalId);
+        };
+
+        onMounted(() => {
+            startTimer();
+        });
+
+        onBeforeUnmount(() => {
+            stopTimer();
+        });
 
         const selectedIds = ref<Array<number>>([]);
         const deleteFewSubscriptions = () => {
@@ -587,4 +608,5 @@ export default defineComponent({
 .override-styles {
     z-index: 99999 !important;
     pointer-events: initial;
-}</style>
+}
+</style>

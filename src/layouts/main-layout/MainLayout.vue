@@ -94,14 +94,21 @@ export default defineComponent({
 
 <style>
 .hand-height{
-  height: calc(100vh - 90px) !important;
+  height: calc(100vh - 70px) !important;
   width: -webkit-fill-available;
   position: absolute;
 }
 
+/* .hand-height {
+    height: 100% !important;
+    width: -webkit-fill-available;
+    position: absolute;
+    display: contents;
+} */
+
 .hand-content {
   display: block;
-  height: calc(100% - 81px) !important;
+  height: calc(100% - 80px) !important;
   margin-bottom: unset !important;
   padding-bottom: unset !important;
 }

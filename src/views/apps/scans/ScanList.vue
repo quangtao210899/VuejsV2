@@ -150,8 +150,8 @@
           <div class="bg-light my-3 py-2 px-4 lh-lg rounded-2 me-2">
             <div class="row">
               <div class="col-12 col-xl-6 col-xxl-4 my-1">
-                <span class="text-black-50" >IP : </span>
-                <span class="ps-1" > {{ detailData.ip }}</span>
+                <span class="text-black-50">IP : </span>
+                <span class="ps-1"> {{ detailData.ip }}</span>
               </div>
               <div class="col-12 col-xl-6 col-xxl-4 my-1">
                 <span class="text-black-50">Host name : </span>
@@ -169,7 +169,7 @@
               v-if="(detailData.url != null && detailData.url != '') || (detailData.parameter != null && detailData.parameter != '')">
               <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
               <div v-if="detailData.url != null && detailData.url != ''">
-                <span class="w-100" >URL : </span>
+                <span class="w-100">URL : </span>
                 <span class="ps-1">
                   <a target="_blank" :href="`${detailData.url}`" class="text-primary">
                     <KTIcon icon-name="link" icon-class="bi bi-link-45deg" :style="{ fontSize: '16px' }" />
@@ -199,7 +199,7 @@
               <div>
                 <li class="d-flex align-items-center py-2">
                   <span class="bullet bg-warning me-5"></span>
-                  <span >Base Score:<strong class="ps-2"> {{ detailData.cvss_score }}</strong></span>
+                  <span>Base Score:<strong class="ps-2"> {{ detailData.cvss_score }}</strong></span>
                 </li>
               </div>
             </div>
@@ -416,7 +416,7 @@
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive } from "vue";
+import { defineComponent, ref, onMounted, reactive, onBeforeUnmount } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
@@ -549,7 +549,7 @@ export default defineComponent({
       getData();
     };
 
-    const getData = () => {
+    const getData = async () => {
       loading.value = true;
       setTimeout(() => loading.value = false, 500)
       return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}`)
@@ -562,6 +562,28 @@ export default defineComponent({
         });
     }
 
+    // tính thời gian
+    const eventTime = ref<number | any>('30000');
+    let intervalId: any;
+    const startTimer = () => {
+      intervalId = setInterval(() => {
+        getData();
+      }, eventTime.value);
+    };
+
+    const stopTimer = () => {
+      clearInterval(intervalId);
+    };
+
+    onMounted(() => {
+      startTimer();
+    });
+
+    onBeforeUnmount(() => {
+      stopTimer();
+    });
+
+    // selectedIds
     const selectedIds = ref<Array<number>>([]);
     const deleteFewSubscriptions = () => {
       deleteSubscription(selectedIds.value);
@@ -638,9 +660,9 @@ export default defineComponent({
 
     const updateData = async () => {
       disabled.value = true
-        setTimeout(() => {
-          disabled.value = false
-        }, 1000);
+      setTimeout(() => {
+        disabled.value = false
+      }, 1000);
       let form_data = {
         severity: detailData.severity,
         status: detailData.status
