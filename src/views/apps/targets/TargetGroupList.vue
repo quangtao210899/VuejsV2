@@ -492,9 +492,7 @@ export default defineComponent({
       getData();
     };
 
-    const getData = () => {
-      loading.value = true;
-      setTimeout(() => loading.value = false, 500)
+    const getData = async () => {
       return ApiService.get(`targetgroup/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&orderingTarget=${orderingTarget.value}&orderingID=${orderingID.value}&orderingServer=${orderingServer.value}&orderingflaw=${orderingflaw.value}`)
         .then(({ data }) => {
           list.value = data.results
@@ -502,7 +500,10 @@ export default defineComponent({
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-        });
+        })
+        .finally(() => {
+          loading.value = false
+      })
     }
 
     const selectedIds = ref<Array<number>>([]);

@@ -610,8 +610,6 @@ const handlePerPage = (itemsPage: number) => {
 };
 
 const getData = () => {
-  loading.value = true;
-  setTimeout(() => (loading.value = false), 500);
   return ApiService.get(
     `account-leak/index?search=${query.value}&country_id=${search_country.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`,
   )
@@ -621,7 +619,10 @@ const getData = () => {
     })
     .catch(({ response }) => {
       notification(response.data.detail, "error", "Có lỗi xảy ra");
-    });
+    })
+    .finally(() => {
+        loading.value = false
+    })
 };
 
 const selectedIds = ref<Array<number>>([]);

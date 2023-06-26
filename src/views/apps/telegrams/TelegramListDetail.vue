@@ -320,9 +320,7 @@ export default defineComponent({
       getData();
     };
 
-    const getData = () => {
-      loading.value = true;
-      setTimeout(() => loading.value = false, 500)
+    const getData = async () => {
       return ApiService.get(`/telegram/index?group=${ID}&page=${currentPage.value}&page_size=${itemsPerPage.value}&search=${query.value}`)
         .then(({ data }) => {
           list.value = data.results
@@ -330,7 +328,10 @@ export default defineComponent({
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-        });
+        })
+        .finally(() => {
+          loading.value = false
+      })
     }
 
             // tính thời gian

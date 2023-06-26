@@ -379,9 +379,6 @@ export default defineComponent({
         };
 
         const getData = async () => {
-            loading.value = true;
-            setTimeout(() => loading.value = false, 500)
-
             return ApiService.get(`/cve/${getIdFromUrl()}/scan?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
@@ -389,7 +386,10 @@ export default defineComponent({
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                });
+                })
+                .finally(() => {
+                    loading.value = false
+                })
         }
 
         // tính thời gian

@@ -349,9 +349,6 @@ export default defineComponent({
 
     // getdata
     const getData = () => {
-
-      loading.value = true;
-      setTimeout(() => loading.value = false, 500)
       return ApiService.get(`/account`)
         .then(({ data }) => {
           list.value = {
@@ -367,7 +364,10 @@ export default defineComponent({
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-        });
+        })
+        .finally(() => {
+          loading.value = false
+        })
     }
 
     // thồng báo
