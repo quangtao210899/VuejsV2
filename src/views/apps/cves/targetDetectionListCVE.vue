@@ -8,7 +8,7 @@
                             popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
                             <template #reference>
                                 <button type="button" :class="`bg-${getStatus(info.status).color}`"
-                                    class="btn btn-sm fw-bold btn-color-gray-700 btn-active-color-primary text-white me-2">
+                                    class="btn btn-sm fw-bold btn-color-gray-700 btn-active-color-primary text-white">
                                     <i class="fa-solid fa-circle-info fs-5 text-white"></i>
                                     Thông tin
                                 </button>
@@ -50,16 +50,29 @@
                                     <div class="row my-4">
                                         <span class="fw-bold col-5  d-inline-block">Trạng thái: </span>
                                         <span class="col-7">
-                                            <span :class="`badge badge-light-${getStatus(info.status).color}`">{{ getStatus(info.status).title }}</span>
+                                            <span :class="`badge badge-light-${getStatus(info.status).color}`">{{
+                                                getStatus(info.status).title }}</span>
                                         </span>
                                     </div>
                                 </div>
                             </template>
                         </el-popover>
 
+                        <button v-if="statusCVE == 5" type="button" @click="handlePauser" :disabled="disabled"
+                            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                            <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
+                            <span class="text-primary"> Tiếp tục</span>
+                        </button>
+                        <button v-else type="button" @click="handleRestart"
+                            :disabled="(disabled || statusCVE != 2) ? true : false"
+                            class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                            <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
+                            <span class="text-danger">Tạm dừng</span>
+                        </button>
+
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
                             <button type="button"
-                                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary ms-2"
                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
                                 data-kt-menu-flip="top-end">
                                 <KTIcon icon-name="filter" icon-class="fs-2" />
@@ -69,7 +82,7 @@
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xuất kết quả" placement="top">
                             <button type="button" @click="fileDownVisible = true"
-                                class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary text-white">
+                                class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary text-white ms-2">
                                 <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
                                 Xuất kết quả
                             </button>
@@ -321,6 +334,7 @@ import { ElMessage } from 'element-plus'
 import { Modal } from "bootstrap";
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
+import { ElNotification } from 'element-plus'
 
 import axios from 'axios'
 dayjs.locale('vi');
@@ -507,7 +521,7 @@ export default defineComponent({
             itemsPerPage.value = itemsPage ?? 20;
             getData();
         };
-        const statusCVE = ref<number>(0);
+        const statusCVE = ref<number | null>(null);
 
         const getData = async () => {
             loading.value = true;
@@ -529,7 +543,7 @@ export default defineComponent({
                     //     description.value = data.description
                     //     notification(data.description, 'error','')
                     // }
-                    console.log(info)
+                    console.log(statusCVE.value)
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -543,14 +557,11 @@ export default defineComponent({
         const eventTime = ref<number | any>('30000');
         let intervalId: any;
         const startTimer = () => {
-            if(statusCVE.value != 3){
-                console.log('123')
+            if (statusCVE.value == 2) {
                 intervalId = setInterval(() => {
                     getData();
                 }, eventTime.value);
-            }else{
-                console.log('312')
-
+            } else {
                 clearInterval(intervalId);
             }
 
@@ -683,6 +694,47 @@ export default defineComponent({
             }
         };
 
+        // tạm dùng
+        const handlePauser = async () => {
+            return ApiService.post(`cve/${getIdFromUrl()}/scan/stop`, {})
+                .then(({ data }) => {
+                    let detail = (data == 'Dừng CVEScan thành công') ? true : false
+                    ElNotification({
+                        title: 'Info',
+                        message: data.detail ?? 'Dừng CVEScan thành công',
+                        type: detail ? 'success' : 'info',
+                    })
+                    getData();
+                })
+                .catch((response) => {
+                    ElNotification({
+                        title: 'Error',
+                        message: response?.data?.detail ?? 'Tạm dừng thành công',
+                        type: 'error',
+                    })
+                });
+        };
+
+        // tiếp tục
+        const handleRestart = async () => {
+            return ApiService.post(`cve/${getIdFromUrl()}/scan/restart`, {})
+                .then(({ data }) => {
+                    let detail = (data == 'Tiếp tục CVEScan thành công') ? true : false
+                    ElNotification({
+                        title: 'Info',
+                        message: data.detail ?? 'Tiếp tục CVEScan thành công',
+                        type: detail ? 'success' : 'info',
+                    })
+                    getData();
+                })
+                .catch((response) => {
+                    ElNotification({
+                        title: 'Error',
+                        message: response?.data?.detail ?? 'Tạm dừng thành công',
+                        type: 'error',
+                    })
+                });
+        };
 
         // end validate
 
@@ -785,6 +837,11 @@ export default defineComponent({
             // tải về
             fileDownVisible,
             downloadAcunetix,
+
+            // tạm dung, tiếp tục 
+            statusCVE,
+            handlePauser,
+            handleRestart,
         };
     },
 });
