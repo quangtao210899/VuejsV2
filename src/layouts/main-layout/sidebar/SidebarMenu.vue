@@ -239,7 +239,6 @@ export default defineComponent({
       if (menuItem == '/telegram-list' && routeName == 'telegram-type') {
         return true;
       }
-      console.log(routeName)
       if (menuItem == '/target-list' && ['target-scan','target-recon','target-scanstab','target-recon-tab','target-recon-tab-subdomains'].includes(routeName) ) {
         return true;
       }
