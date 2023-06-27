@@ -406,7 +406,10 @@ export default defineComponent({
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                });
+                })
+                .finally(() => {
+                    loading.value = false
+                })
         };
 
         const notification = (values: string, icon: string, more: string) => {

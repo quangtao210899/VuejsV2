@@ -302,8 +302,6 @@ export default defineComponent({
     };
 
     const getData = async () => {
-      loading.value = true;
-      setTimeout(() => loading.value = false, 500)
       await ApiService.get(`/telegram/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
         .then(({ data }) => {
           list.value = data.results
@@ -311,7 +309,10 @@ export default defineComponent({
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-        });
+        })
+        .finally(() => {
+            loading.value = false
+        })
     }
 
     // tính thời gian
