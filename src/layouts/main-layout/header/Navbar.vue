@@ -7,21 +7,21 @@
     </div>
     <!--end::Search-->
     <!--begin::Activities-->
-    <div class="app-navbar-item ms-1 ms-md-3">
+    <!-- <div class="app-navbar-item ms-1 ms-md-3"> -->
       <!--begin::Drawer toggle-->
-      <div
+      <!-- <div
         class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px"
         id="kt_activities_toggle"
       >
         <KTIcon icon-name="chart-simple" icon-class="fs-2 fs-md-1" />
-      </div>
+      </div> -->
       <!--end::Drawer toggle-->
-    </div>
+    <!-- </div> -->
     <!--end::Activities-->
     <!--begin::Notifications-->
-    <div class="app-navbar-item ms-1 ms-md-3">
+    <!-- <div class="app-navbar-item ms-1 ms-md-3"> -->
       <!--begin::Menu- wrapper-->
-      <div
+      <!-- <div
         class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px"
         data-kt-menu-trigger="click"
         data-kt-menu-attach="parent"
@@ -29,14 +29,14 @@
       >
         <KTIcon icon-name="element-plus" icon-class="fs-2 fs-md-1" />
       </div>
-      <KTNotificationMenu />
+      <KTNotificationMenu /> -->
       <!--end::Menu wrapper-->
-    </div>
+    <!-- </div> -->
     <!--end::Notifications-->
     <!--begin::Chat-->
-    <div class="app-navbar-item ms-1 ms-md-3">
+    <!-- <div class="app-navbar-item ms-1 ms-md-3"> -->
       <!--begin::Menu wrapper-->
-      <div
+      <!-- <div
         class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px position-relative"
         id="kt_drawer_chat_toggle"
       >
@@ -44,14 +44,14 @@
         <span
           class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"
         ></span>
-      </div>
+      </div> -->
       <!--end::Menu wrapper-->
-    </div>
+    <!-- </div> -->
     <!--end::Chat-->
     <!--begin::Quick links-->
-    <div class="app-navbar-item ms-1 ms-md-3">
+    <!-- <div class="app-navbar-item ms-1 ms-md-3"> -->
       <!--begin::Menu wrapper-->
-      <div
+      <!-- <div
         class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px"
         data-kt-menu-trigger="click"
         data-kt-menu-attach="parent"
@@ -59,9 +59,9 @@
       >
         <KTIcon icon-name="element-11" icon-class="fs-2 fs-md-1" />
       </div>
-      <KTQuickLinksMenu />
+      <KTQuickLinksMenu /> -->
       <!--end::Menu wrapper-->
-    </div>
+    <!-- </div> -->
     <!--end::Quick links-->
     <!--begin::Theme mode-->
     <div class="app-navbar-item ms-1 ms-md-3">
