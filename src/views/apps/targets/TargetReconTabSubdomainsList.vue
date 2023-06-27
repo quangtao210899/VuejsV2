@@ -394,6 +394,8 @@ export default defineComponent({
         const disabled = ref<boolean>(false);
 
         const getData = async () => {
+            loading.value = true;
+
             return await ApiService.get(`recon/detail3/${scanID.value}`)
                 .then(({ data }) => {
                     targets.value = data.target
@@ -409,7 +411,7 @@ export default defineComponent({
                 })
                 .finally(() => {
                     loading.value = false
-                })
+                });
         };
 
         const notification = (values: string, icon: string, more: string) => {

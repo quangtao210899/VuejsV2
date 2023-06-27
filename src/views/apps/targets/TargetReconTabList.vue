@@ -184,7 +184,7 @@
                                     <template v-if="domain_info_status == 3">
                                         <template v-if="domain_info == '' || Object.keys(domain_info).length == 0">
                                             <div
-                                                class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                                 <div class="text-center mb-5">
                                                     <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                 </div>
@@ -203,7 +203,7 @@
                                                     <div class="">
                                                         <template v-if="items == '' || items == null">
                                                             <div
-                                                                class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                                class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                                                 <div class="text-center mb-5">
                                                                     <i
                                                                         class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
@@ -284,7 +284,7 @@
                                     <template v-if="ip_info_status == 3">
                                         <template v-if="ip_info == '' || Object.keys(ip_info).length == 0">
                                             <div
-                                                class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                                 <div class="text-center mb-5">
                                                     <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                 </div>
@@ -303,7 +303,7 @@
                                                     <div class="">
                                                         <template v-if="items == '' || items == null">
                                                             <div
-                                                                class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                                class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                                                 <div class="text-center mb-5">
                                                                     <i
                                                                         class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
@@ -453,7 +453,7 @@
                         <div class="h-500px">
                             <template v-if="port_service_status == 3">
                                 <template v-if="port_service == '' || Object.keys(port_service).length == 0">
-                                    <div class="w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                         <div class="text-center mb-5">
                                             <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                         </div>
@@ -545,7 +545,7 @@
                         <div class="h-500px">
                             <template v-if="related_email_status == 3">
                                 <template v-if="related_email == '' || Object.keys(related_email).length == 0">
-                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                         <div class="text-center mb-5">
                                             <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                         </div>
@@ -665,7 +665,7 @@
                         <div class="h-500px">
                             <template v-if="related_domain_status == 3">
                                 <template v-if="related_domain == '' || Object.keys(related_domain).length == 0">
-                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                         <div class="text-center mb-5">
                                             <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
 
@@ -751,7 +751,7 @@
                         <div class="h-500px">
                             <template v-if="technology_status == 3">
                                 <template v-if="technology == '' || Object.keys(technology).length == 0">
-                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                         <div class="text-center mb-5">
                                             <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                         </div>
@@ -829,7 +829,7 @@
                             <template v-if="metadata_status == 3 || metadata_status == '3'">
                                 <template
                                     v-if="metadata == '' || Object.values(metadata.authors).length == 0 && Object.values(metadata.software).length == 0">
-                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                         <div class="text-center mb-5">
                                             <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                         </div>
@@ -848,7 +848,7 @@
                                             <div class="h-100">
                                                 <template v-if="items == '' || items == null">
                                                     <div
-                                                        class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                        class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                                         <div class="text-center mb-5">
                                                             <i
                                                                 class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
@@ -1391,6 +1391,8 @@ export default defineComponent({
         };
 
         const getData = async () => {
+            loading.value = true;
+
             return await ApiService.get(`recon/detail3/${scanID.value}`)
                 .then(({ data }) => {
                     // console.log(data)
@@ -1461,7 +1463,7 @@ export default defineComponent({
                 })
                 .finally(() => {
                     loading.value = false
-                })
+                });
         }
 
         const notification = (values: string, icon: string, more: string) => {

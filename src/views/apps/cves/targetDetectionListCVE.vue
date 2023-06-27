@@ -4,6 +4,59 @@
             <div class="card-toolbar">
                 <div v-show="selectedIds.length === 0">
                     <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
+                        <el-popover :width="400"
+                            popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
+                            <template #reference>
+                                <button type="button" :class="`bg-${getStatus(info.status).color}`"
+                                    class="btn btn-sm fw-bold btn-color-gray-700 btn-active-color-primary text-white me-2">
+                                    <i class="fa-solid fa-circle-info fs-5 text-white"></i>
+                                    Thông tin
+                                </button>
+                            </template>
+                            <template #default>
+                                <div class=" w-100 mb-4 ">
+                                    <div class="text-center mt-5">
+                                        <el-progress type="dashboard" striped-flow striped :stroke-width="12" width="170"
+                                            :percentage="info.progress"
+                                            :status="(info.status == '2') ? '' : getStatusProgress(info.status).color">
+                                            <template #default="{ percentage }">
+                                                <span class="d-block fs-2">{{ percentage ?? 0 }}%</span><br>
+                                                <span class="d-block fs-6">Progressing</span>
+                                            </template>
+                                        </el-progress>
+                                    </div>
+                                    <div class="my-2 text-center pb-5">
+                                        <span class="fw-bold d-inline-block text-center fs-5">
+                                            <span class="badge badge-light-primary">Mã CVE :</span>
+                                            {{ info.cve_code }}
+                                        </span>
+                                    </div>
+                                    <div class="row my-4">
+                                        <span class=" col-5 fw-bold d-inline-block">Người Scan: </span>
+                                        <span class="col-7">{{ info.username }}</span>
+                                    </div>
+                                    <div class="row my-4">
+                                        <span class="fw-bold col-5  d-inline-block">Shodan Dock: </span>
+                                        <span class="col-7">{{ info.shodan_dock }}</span>
+                                    </div>
+                                    <div class="row my-4">
+                                        <span class="fw-bold col-5  d-inline-block">Thời gian bắt đầu: </span>
+                                        <span class="col-7">{{ info.created_at }}</span>
+                                    </div>
+                                    <div class="row my-4">
+                                        <span class="fw-bold col-5  d-inline-block">Thời gian kết thúc: </span>
+                                        <span class="col-7">{{ info.modified_at }}</span>
+                                    </div>
+                                    <div class="row my-4">
+                                        <span class="fw-bold col-5  d-inline-block">Trạng thái: </span>
+                                        <span class="col-7">
+                                            <span :class="`badge badge-light-${getStatus(info.status).color}`">{{ getStatus(info.status).title }}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </template>
+                        </el-popover>
+
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
                             <button type="button"
                                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
@@ -16,7 +69,7 @@
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xuất kết quả" placement="top">
                             <button type="button" @click="fileDownVisible = true"
-                                class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                                class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary text-white">
                                 <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
                                 Xuất kết quả
                             </button>
@@ -54,7 +107,8 @@
                 <template v-slot:port="{ row: customer }">{{ customer.port ?? '--' }}</template>
                 <template v-slot:hostnames="{ row: customer }">
                     <template v-if="customer.hostnames.length">
-                        <span v-for="(value, index) in customer.hostnames" :key="index" :class="`badge badge-success`" class="me-1">
+                        <span v-for="(value, index) in customer.hostnames" :key="index" :class="`badge badge-success`"
+                            class="mx-1 my-1">
                             {{ value }}
                         </span>
                     </template>
@@ -113,7 +167,8 @@
                                                 <div class="col-3 text-gray-400">Hostnames:</div>
                                                 <div class="col-9 text-gray-800">
                                                     <template v-if="detailData.hostnames.length">
-                                                        <span v-for="(value, index) in detailData.hostnames" :key="index" :class="`badge badge-success`" class="me-1">
+                                                        <span v-for="(value, index) in detailData.hostnames" :key="index"
+                                                            :class="`badge badge-success`" class="me-1">
                                                             {{ value }}
                                                         </span>
                                                     </template>
@@ -154,7 +209,7 @@
     </div>
 
     <!-- // modoal  -->
-    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file">
+    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file" width="500">
         <div class="card h-100 bg-secondary">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
@@ -268,7 +323,6 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 
 import axios from 'axios'
-import { string } from "yup";
 dayjs.locale('vi');
 
 interface APIData {
@@ -318,6 +372,19 @@ export default defineComponent({
             user: '',
             detail: '',
         });
+
+        const info = reactive({
+            status: "",
+            created_at: "",
+            modified_at: '',
+            username: '',
+            shodan_dock: '',
+            description: '',
+            cve_code: '',
+            progress: '',
+            previous: ''
+        });
+
         const detailData = reactive({
             id: '',
             cve_id: "",
@@ -409,19 +476,6 @@ export default defineComponent({
             },
         ]);
 
-        const getStatus = (status: number | string) => {
-            if (status == 1) {
-                return { color: 'default' };
-            } else if (status == 2) {
-                return { color: 'primary' };
-            } else if (status == 3) {
-                return { color: 'success' };
-            } else if (status == 4) {
-                return { color: 'danger' };
-            }
-            return { color: 'warning' };
-        };
-
         // const handleClick = (data: object | any, type: String) => {
         //     typeModal.value = type
         //     // errors.name = ''
@@ -453,45 +507,64 @@ export default defineComponent({
             itemsPerPage.value = itemsPage ?? 20;
             getData();
         };
+        const statusCVE = ref<number>(0);
 
         const getData = async () => {
+            loading.value = true;
             return ApiService.get(`/cve/scan-detail/${getIdFromUrl()}?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
                     totalPage.value = data.count
+                    info.status = data.status
+                    info.created_at = data.created_at
+                    info.modified_at = data.modified_at
+                    info.username = data.username
+                    info.shodan_dock = data.shodan_dock
+                    info.description = data.description
+                    info.cve_code = data.cve_code
+                    info.progress = data.progress
+                    statusCVE.value = data.status
+                    startTimer()
                     // if(!description.value && data.description){
                     //     description.value = data.description
                     //     notification(data.description, 'error','')
                     // }
+                    console.log(info)
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                 })
                 .finally(() => {
                     loading.value = false
-                })
+                });
         }
 
-                // tính thời gian
-                const eventTime = ref<number | any>('30000');
+        // tính thời gian
+        const eventTime = ref<number | any>('30000');
         let intervalId: any;
         const startTimer = () => {
-            intervalId = setInterval(() => {
-                getData();
-            }, eventTime.value);
+            if(statusCVE.value != 3){
+                console.log('123')
+                intervalId = setInterval(() => {
+                    getData();
+                }, eventTime.value);
+            }else{
+                console.log('312')
+
+                clearInterval(intervalId);
+            }
+
         };
 
         const stopTimer = () => {
             clearInterval(intervalId);
         };
 
-        onMounted(() => {
-            startTimer();
-        });
-
         onBeforeUnmount(() => {
             stopTimer();
         });
+
+        //
 
         const selectedIds = ref<Array<number>>([]);
         const deleteFewSubscriptions = () => {
@@ -625,6 +698,32 @@ export default defineComponent({
 
         };
 
+        const getStatusProgress = (status: number | string) => {
+            if (status == 1) {
+                return { color: 'default' };
+            } else if (status == 2) {
+                return { color: 'primary' };
+            } else if (status == 3) {
+                return { color: 'success' };
+            } else if (status == 4) {
+                return { color: 'exception' };
+            }
+            return { color: 'warning' };
+        };
+
+        const getStatus = (status: number | string) => {
+            if (status == 1) {
+                return { title: 'Chưa thực hiện', color: 'default' };
+            } else if (status == 2) {
+                return { title: 'Đang thực hiện', color: 'primary' };
+            } else if (status == 3) {
+                return { title: 'Đã thực hiện', color: 'success' };
+            } else if (status == 4) {
+                return { title: 'Lỗi', color: 'danger' };
+            }
+            return { color: 'warning' };
+        };
+
         onMounted(() => {
             getData();
         });
@@ -639,6 +738,8 @@ export default defineComponent({
             deleteFewSubscriptions,
             deleteSubscription,
             getAssetPath,
+            getStatusProgress,
+            info,
 
             // validate
             // crud
@@ -689,7 +790,9 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">.override-styles {
+<style lang="scss">
+.override-styles {
     z-index: 99999 !important;
     pointer-events: initial;
-}</style>
+}
+</style>

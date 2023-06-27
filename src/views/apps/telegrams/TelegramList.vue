@@ -302,6 +302,7 @@ export default defineComponent({
     };
 
     const getData = async () => {
+      loading.value = true;
       await ApiService.get(`/telegram/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
         .then(({ data }) => {
           list.value = data.results
@@ -312,7 +313,7 @@ export default defineComponent({
         })
         .finally(() => {
             loading.value = false
-        })
+        });
     }
 
     // tính thời gian

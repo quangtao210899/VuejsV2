@@ -550,6 +550,7 @@ export default defineComponent({
     };
 
     const getData = async () => {
+      loading.value = true;
       return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}`)
         .then(({ data }) => {
           list.value = data.results
@@ -560,7 +561,7 @@ export default defineComponent({
         })
         .finally(() => {
             loading.value = false
-        })
+        });
     }
 
     // tính thời gian

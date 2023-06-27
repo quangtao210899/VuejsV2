@@ -155,7 +155,7 @@
         <!--end::Modal dialog-->
     </div>
 
-    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file">
+    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file" width="500">
         <div class="card h-100 bg-secondary">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
@@ -464,6 +464,7 @@ export default defineComponent({
             })
         };
         const getData = async () => {
+            loading.value = true;
             return ApiService.get(`/cve/${getIdFromUrl()}/scan/detail?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
@@ -474,7 +475,7 @@ export default defineComponent({
                 })
                 .finally(() => {
                     loading.value = false
-                })
+                });
         }
 
                 // tính thời gian

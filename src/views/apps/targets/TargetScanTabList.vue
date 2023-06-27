@@ -610,7 +610,7 @@
 
 
     <!-- // modoal  -->
-    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file">
+    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file" width="500">
         <div class="card h-100 bg-secondary">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
@@ -782,6 +782,8 @@ export default defineComponent({
         };
 
         const getData = async () => {
+            loading.value = true;
+
             return ApiService.get(`/scan/detail/${scanID.value}`)
                 .then(({ data }) => {
 
@@ -834,7 +836,7 @@ export default defineComponent({
                 })
                 .finally(() => {
                     loading.value = false
-                })
+                });
         }
         const debounceSearch = debounce(getData, 1000);
         watch(query, debounceSearch);

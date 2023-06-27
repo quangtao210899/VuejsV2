@@ -541,7 +541,7 @@ export default defineComponent({
         };
 
         const getData = async () => {
-            // loading.value = true;
+            loading.value = true;
             // setTimeout(() => loading.value = false, 500)
             return ApiService.get(`targets?search_target=${query.value}&search_target_group=${search_group.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
@@ -556,13 +556,17 @@ export default defineComponent({
                 })
         }
 
-        const getDataGroup = () => {
+        const getDataGroup = async () => {
+            loading.value = true;
             return ApiService.get(`targetgroup/list/`)
                 .then(({ data }) => {
                     data_group.value = data
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+                })
+                .finally(() => {
+                    loading.value = false
                 });
         }
 

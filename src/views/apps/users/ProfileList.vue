@@ -349,6 +349,8 @@ export default defineComponent({
 
     // getdata
     const getData = () => {
+      loading.value = true;
+
       return ApiService.get(`/account`)
         .then(({ data }) => {
           list.value = {
@@ -367,7 +369,7 @@ export default defineComponent({
         })
         .finally(() => {
           loading.value = false
-        })
+        });
     }
 
     // thồng báo
