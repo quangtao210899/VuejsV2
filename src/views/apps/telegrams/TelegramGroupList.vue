@@ -116,10 +116,12 @@
           </template>
           <template v-slot:actions="{ row: customer }">
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng bộ" placement="top">
-              <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1"
+              <!-- <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1"
                 :disabled="disabledButton" ref="submitButtonRef" @click="handleSyncItem(customer)">
                 <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
-              </button>
+              </button> -->
+              <el-button class="me-1 btn-sm btn btn-icon btn-bg-light btn-active-color-success" type="primary" :icon="RefreshIcon" @click="handleSyncItem(customer)" 
+              :loading="((disabledButton && idSync == customer.id) || idSyncALL) ? true: false" :loading-icon="RefreshIcon"></el-button>
             </el-tooltip>
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết tin nhắn" placement="top">
               <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
@@ -542,6 +544,7 @@ import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import * as Yup from "yup";
 import { useToast } from 'vue-toast-notification';
 import { useRouter, useRoute } from 'vue-router';
+import { Refresh } from '@element-plus/icons-vue'
 
 // import useCurrencyInput from "vue-currency-input";
 
@@ -572,6 +575,8 @@ export default defineComponent({
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
+    const RefreshIcon = ref(Refresh)
+
     const route = useRoute();
     const filterType = ref<null | string | any>('');
     const filterStatus = ref<String | null>('');
@@ -845,6 +850,7 @@ export default defineComponent({
 
     // sync
     const idSync = ref<number>(0);
+    const idSyncALL = ref<boolean>(false);
     const disabledButton = ref<boolean>(false);
     const toastr = useToast();
 
@@ -879,8 +885,11 @@ export default defineComponent({
           confirmButton: "btn btn-sm btn-primary",
           cancelButton: "btn btn-sm btn-danger ",
         },
-      }).then((result: any) => {
+      })
+      .then((result: any) => {
         if (result.isConfirmed) {
+          idSyncALL.value = true;
+          setTimeout(() => {idSyncALL.value = false;}, 500)
           getSyncAll();
         }
       });
@@ -1162,6 +1171,9 @@ export default defineComponent({
       // formattedValue,
       // inputRef,
       disabled,
+      RefreshIcon,
+      idSync,
+      idSyncALL,
     };
   },
 });

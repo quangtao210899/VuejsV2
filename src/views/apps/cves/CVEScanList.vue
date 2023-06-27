@@ -73,6 +73,13 @@
                 <template v-slot:modified_at="{ row: customer }">
                     {{ (customer.status == '2' || customer.status == '1') ? "--:--" : customer.modified_at }}
                 </template>
+                <template v-slot:progress="{ row: customer }">
+                    <div class="w-150px m-0 p-0">
+                        <el-progress :percentage="customer.progress ?? 0" :stroke-width="8"
+                            :status="(customer.status == '2') ? '' : getStatusProgress(customer.status).color"
+                            :striped-flow="(customer.status == '2') ? true : false" striped :duration="15" />
+                    </div>
+                </template>
                 <template v-slot:actions="{ row: customer }">
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết" placement="top">
                         <router-link :to="`/cve/${getIdFromUrl()}/scan-detail/${customer.id}`"
@@ -89,7 +96,7 @@
     <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
         <div class="modal-dialog modal-dialog-centered mw-700px">
             <div class="modal-content">
-                <div class="modal-body">
+                <div class="">
                     <div class="card card-flush pt-3 mb-5 mb-xl-10">
                         <div class="card-header">
                             <div class="card-title">
@@ -99,39 +106,58 @@
                         </div>
                         <div class="card-body py-0">
                             <div class="mb-10">
-                                <h5>Thông tin chi tiết:</h5>
+                                <h5 class="fw-normal">Thông tin chi tiết</h5>
                                 <div class="d-flex flex-wrap py-5">
                                     <div class="flex-equal me-5">
-                                        <div class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-                                            <div class="row mb-4 ">
-                                                <div class="text-gray-400 col-4">Trạng thái:</div>
-                                                <span :class="`badge badge-${getStatus(detailData.status).color} col-2`"
-                                                    style="margin-left:10px;">{{ detailData.statusName }}</span>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-4">Thời gian bắt đầu:</div>
-                                                <div class="text-gray-800 col-8">{{ detailData.created_at }}</div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-4">Thời gian kết thúc:</div>
-                                                <div class="text-gray-800 col-8">{{ (detailData.status == '2' ||
-                                                    detailData.status == '1') ? "--:--" : detailData.modified_at }}</div>
-                                            </div>
-                                            <div class="row mb-4" v-if="detailData.description">
-                                                <div class="text-gray-400 col-4">Mô tả lỗi:</div>
-                                                <div class="col-8 text-danger">
-                                                    <span v-for="text in detailData.description.split('\n')" class="p-0">
-                                                        {{ text }}
-                                                        <br />
+                                        <div class="table row fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
+                                            <div class=" col-4 mb-4 text-center">
+                                                <div class="w-100">
+                                                    <el-progress type="dashboard" striped-flow striped :stroke-width="8"
+                                                        :percentage="detailData.progress"
+                                                        :status="(detailData.status == '2') ? '' : getStatusProgress(detailData.status).color">
+                                                        <template #default="{ percentage }">
+                                                            <span class="d-block fs-2">{{ percentage ?? 0 }}%</span><br>
+                                                            <span class="d-block fs-6">Progressing</span>
+                                                        </template>
+                                                    </el-progress>
+                                                </div>
+                                                <span class="fd-inline-block text-center fs-7 w-100">
+                                                        <span class="badge badge-light-primary">Note : </span>
+                                                        Tiến trình CVE
                                                     </span>
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="row  ">
+                                                    <div class="text-gray-400 col-5">Trạng thái:</div>
+                                                    <div class="text-gray-800 col-7">
+                                                        <span
+                                                            :class="`badge badge-${getStatus(detailData.status).color} bg-${getStatus(detailData.status).color} d-flex justify-content-center text-center py-2 w-100px`">
+                                                            {{ detailData.statusName }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row ">
+                                                    <div class="text-gray-400 col-5">Thời gian bắt đầu:</div>
+                                                    <div class="text-gray-800 col-7">{{ detailData.created_at }}</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="text-gray-400 col-5">Thời gian kết thúc:</div>
+                                                    <div class="text-gray-800 col-7">{{ (detailData.status == '2' ||
+                                                        detailData.status == '1') ? "--:--" : detailData.modified_at }}
+                                                    </div>
+                                                </div>
+                                                <div class="row" v-if="detailData.description">
+                                                    <div class="text-gray-400 col-5">Mô tả lỗi:</div>
+                                                    <div class="col-7 text-danger">
+                                                        <span v-for="text in detailData.description.split('\n')"
+                                                            class="p-0">
+                                                            {{ text }}
+                                                            <br />
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-4">Progress:</div>
-                                                <div class="col-8">
-                                                    {{ detailData.progress }}
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -323,6 +349,10 @@ export default defineComponent({
                 columnLabel: "modified_at",
             },
             {
+                columnName: "Tiến trình",
+                columnLabel: "progress",
+            },
+            {
                 columnName: "Trạng thái",
                 columnLabel: "status_name",
             },
@@ -342,6 +372,19 @@ export default defineComponent({
                 return { color: 'success' };
             } else if (status == 4) {
                 return { color: 'danger' };
+            }
+            return { color: 'warning' };
+        };
+
+        const getStatusProgress = (status: number | string) => {
+            if (status == 1) {
+                return { color: 'default' };
+            } else if (status == 2) {
+                return { color: 'primary' };
+            } else if (status == 3) {
+                return { color: 'success' };
+            } else if (status == 4) {
+                return { color: 'exception' };
             }
             return { color: 'warning' };
         };
@@ -459,6 +502,7 @@ export default defineComponent({
                 detailData.modified_at = detail.modified_at
                 detailData.description = detail.description
                 detailData.progress = detail.progress
+                console.log(detailData)
                 const modal = new Modal(
                     document.getElementById("kt_modal_detail") as Element
                 );
@@ -594,6 +638,7 @@ export default defineComponent({
             loading,
 
             getStatus,
+            getStatusProgress,
 
             //SCAN
             getScanSpeedName,
