@@ -108,7 +108,7 @@
                 <template v-slot:hostnames="{ row: customer }">
                     <template v-if="customer.hostnames.length">
                         <span v-for="(value, index) in customer.hostnames" :key="index" :class="`badge badge-success`"
-                            class="me-1">
+                            class="mx-1 my-1">
                             {{ value }}
                         </span>
                     </template>
@@ -507,6 +507,7 @@ export default defineComponent({
             itemsPerPage.value = itemsPage ?? 20;
             getData();
         };
+        const statusCVE = ref<number>(0);
 
         const getData = async () => {
             loading.value = true;
@@ -522,6 +523,8 @@ export default defineComponent({
                     info.description = data.description
                     info.cve_code = data.cve_code
                     info.progress = data.progress
+                    statusCVE.value = data.status
+                    startTimer()
                     // if(!description.value && data.description){
                     //     description.value = data.description
                     //     notification(data.description, 'error','')
@@ -540,12 +543,15 @@ export default defineComponent({
         const eventTime = ref<number | any>('30000');
         let intervalId: any;
         const startTimer = () => {
-            if(info.status == '3'){
-                return clearInterval(intervalId);
-            }else{
-                return intervalId = setInterval(() => {
+            if(statusCVE.value != 3){
+                console.log('123')
+                intervalId = setInterval(() => {
                     getData();
                 }, eventTime.value);
+            }else{
+                console.log('312')
+
+                clearInterval(intervalId);
             }
 
         };
@@ -553,10 +559,6 @@ export default defineComponent({
         const stopTimer = () => {
             clearInterval(intervalId);
         };
-
-        onMounted(() => {
-            startTimer();
-        });
 
         onBeforeUnmount(() => {
             stopTimer();

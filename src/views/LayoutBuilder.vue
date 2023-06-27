@@ -1,6 +1,7 @@
 <template>
-  <!--begin::Layout Builder Notice-->
-  <div class="card mb-10">
+<div class="overflow-auto h-100">
+    <!--begin::Layout Builder Notice-->
+    <div class="card mb-10">
     <div class="card-body d-flex align-items-center py-8">
       <!--begin::Icon-->
       <div
@@ -962,6 +963,7 @@
       <CodeHighlighter lang="json">{{ config }}</CodeHighlighter>
     </div>
   </div>
+</div>
 </template>
 
 <script lang="ts">

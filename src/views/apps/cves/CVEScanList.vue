@@ -77,7 +77,7 @@
                     <div class="w-150px m-0 p-0">
                         <el-progress :percentage="customer.progress ?? 0" :stroke-width="8"
                             :status="(customer.status == '2') ? '' : getStatusProgress(customer.status).color"
-                            :striped-flow="(customer.status == '2') ? true : false" striped :duration="15" />
+                            :striped-flow="(customer.status == '2') ? true : false" striped :duration="5" />
                     </div>
                 </template>
                 <template v-slot:actions="{ row: customer }">
