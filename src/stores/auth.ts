@@ -46,38 +46,69 @@ export const useAuthStore = defineStore("auth", () => {
     newCredentials["password"] = credentials.password
     return ApiService.post("api/token/", newCredentials)
     .then(({ data }) => {
-      connectSocket(host)
+        connectSocket(host)
         setAuth(data);
+        ApiService.post("manage",{}).then()
       })
       .catch(({ response }) => {
         setError(response.data);
       });
   }
 
-  function connectSocket(host: string) {
-    if (connection) {
+  function connectSocket(host: string, reconnect: boolean = false) {
+    if (connection && !reconnect) {
       return
     }
-    console.log("Starting Connection to Websocket", host)
-    connection = new WebSocket("ws://" + host + '/ws/notification/')
-
-    connection.onopen = function () {
-      console.log("Successly connected to the echo WebSocket Server")
-    }
-
-    connection.onclose = function (e) {
-      console.log('WebSocket closed unexpectedly', e);
-    };
-
-    connection.onmessage = function (event) {
-      var data = JSON.parse(event.data);
-      var message = data['message'];
-      var status = data['status'];
-      if (status) {
-        toastr.info(message, { position: 'top', queue: true });
-      } else {
-        toastr.error(message, { position: 'top', queue: true });
+    if (!reconnect){      
+      console.log("Starting Connection to Websocket", host)
+      connection = new WebSocket("ws://" + host + '/ws/notification/')
+      
+      connection.onopen = function () {
+        console.log("Successly connected to the echo WebSocket Server")
       }
+      
+      connection.onclose = function (e) {
+        console.log('WebSocket closed unexpectedly', e);
+        connectSocket(host, true)
+      };
+      
+      connection.onmessage = function (event) {
+        var data = JSON.parse(event.data);
+        var message = data['message'];
+        var status = data['status'];
+        if (status) {
+          toastr.info(message, { position: 'top', queue: true });
+        } else {
+          toastr.error(message, { position: 'top', queue: true });
+        }
+      }
+    }
+    else {
+      const timeoutId = setTimeout(() => {
+        console.log("Reconnect to Websocket", host)
+        connection = new WebSocket("ws://" + host + '/ws/notification/')
+
+        connection.onopen = function () {
+          console.log("Successly reconnected to the echo WebSocket Server")
+        }
+
+        connection.onclose = function (e) {
+          console.log('WebSocket closed unexpectedly', e);
+          connectSocket(host, true)
+        };
+
+        connection.onmessage = function (event) {
+          var data = JSON.parse(event.data);
+          var message = data['message'];
+          var status = data['status'];
+          if (status) {
+            toastr.info(message, { position: 'top', queue: true });
+          } else {
+            toastr.error(message, { position: 'top', queue: true });
+          }
+        }
+        clearTimeout(timeoutId);
+      }, 5000);    
     }
   }
   function logout() {
