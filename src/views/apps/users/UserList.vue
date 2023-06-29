@@ -2,7 +2,7 @@
     <!--begin::Card-->
     <div class="card h-100 d-block">
         <!--begin::Card header-->
-        <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
+        <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -80px;">
             <!--begin::Card toolbar-->
             <div class="card-toolbar">
                 <!--begin::Toolbar-->
@@ -52,7 +52,7 @@
         <!--end::Card header-->
 
         <!--begin::Card body-->
-        <div class="card-body overflow-y-auto overflow-x-hidden h-100 p-0 m-0 ">
+        <div class="card-body overflow-y-auto overflow-x-auto h-100 p-0 m-0 ">
             <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
                 :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"

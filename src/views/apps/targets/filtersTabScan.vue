@@ -1,9 +1,9 @@
 <template>
   <!--begin::Menu 1-->
-  <div class="menu menu-sub menu-sub-dropdown w-250px w-md-450px" data-kt-menu="true">
+  <div class="menu menu-sub menu-sub-dropdown w-350px w-md-450px" data-kt-menu="true">
     <!--begin::Header-->
     <div class="px-7 py-5">
-      <div class="fs-5 text-dark fw-bold">Filter Options</div>
+      <div class="fs-5 text-dark fw-bold">Thông tin</div>
     </div>
     <!--end::Header-->
 

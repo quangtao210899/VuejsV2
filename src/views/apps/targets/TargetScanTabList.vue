@@ -1,294 +1,279 @@
 <template>
-    <!--begin::Navbar-->
-    <div class="card " :class="classDetail ? '' : 'mb-3 mb-xxl-8'">
-        <!--begin::Card header-->
-        <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
-            <!--begin::Card toolbar-->
-            <div class="card-toolbar">
-                <div class="d-flex justify-content-end ">
-                    <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
-                        icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
-                        @cancel="cancelEvent">
-                        <template #reference>
-                            <button type="button" :disabled="checkDisabled"
-                                class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
-                                <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy bỏ
-                            </button>
-                        </template>
-                    </el-popconfirm>
-                    <button v-if="scanStatus == 5" type="button" @click="handlePauser"
-                        :disabled="(checkDisabled || checkStatus)"
-                        class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
-                        <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
-                        <span class="text-primary"> Tiếp tục</span>
-                    </button>
-                    <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
-                        class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
-                        <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
-                        <span class="text-danger">Tạm dừng</span>
-                    </button>
-                    <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
-                        class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
-                        <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
-                        Xuất kết quả
-                    </button>
-                </div>
-            </div>
-            <!--end::Card toolbar-->
-        </div>
-        <!--end::Card header-->
-        <div class="card-body pt-2 pb-0 shadow-hvover" :class="!classDetail ? ' d-block' : 'd-none'">
-            <!--begin::Details-->
-            <div class="d-flex flex-wrap flex-sm-nowrap">
-                <!--begin::Info-->
-                <div class="flex-grow-1">
-                    <!--begin::Title-->
-                    <div class="d-flex justify-content-between align-items-start flex-wrap">
-                        <!--begin::Card body-->
-                        <div class="card-body py-4 px-0">
-                            <div class="row w-100">
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::Label-->
-                                        <span class="w-60px fw-semobold text-muted">ID:</span>
-                                        <!--end::span-->
-
-                                        <!--begin::Col-->
-                                        <div class="col">
-                                            <span class="fw-bold fs-6 text-dark">{{ targetData.id }}</span>
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::span-->
-                                        <span class="w-60px fw-semobold text-muted">Tên:</span>
-                                        <!--end::span-->
-
-                                        <!--begin::Col-->
-                                        <div class="col">
-                                            <span class="fw-bold fs-6 text-dark">{{ targetData.name }}</span>
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::span-->
-                                        <span class="w-60px fw-semobold text-muted">IP:</span>
-                                        <!--end::span-->
-                                        <!--begin::Col-->
-                                        <div class="col">
-                                            <span class="fw-bold fs-6 text-dark">{{ targetData.ip }}</span>
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="row">
-                                        <!--begin::span-->
-                                        <span class="w-80px fw-semobold text-muted">Domain:</span>
-                                        <!--end::Label-->
-
-                                        <!--begin::Col-->
-                                        <div class="col">
-                                            <span class="fw-bold fs-6 text-dark">{{ targetData.domain }}</span>
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                </div>
-                            </div>
-                            <!--begin::Row-->
-                            <div class="row">
-                                <div class=" col-3 p-2">
-                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                        <!--begin::Number-->
-                                        <div class="d-flex align-items-center">
-                                            <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
-                                            <div class="fs-2 fw-bold">{{ diffTime }}</div>
-                                        </div>
-                                        <!--end::Number-->
-
-                                        <!--begin::Label-->
-                                        <div class="fw-semobold fs-6 text-gray-400">Thời Gian</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Stat-->
-                                </div>
-                                <div class="col-3 p-2">
-                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                        <!--begin::Number-->
-                                        <div class="d-flex align-items-center">
-                                            <KTIcon icon-name="arrow-up-down" icon-class="fs-3 text-success me-2" />
-                                            <div class="fs-2 fw-bold">{{ countRequest }}</div>
-                                        </div>
-                                        <!--end::Number-->
-
-                                        <!--begin::Label-->
-                                        <div class="fw-semobold fs-6 text-gray-400">Yêu cầu</div>
-                                        <!--end::Label-->
-                                    </div>
-
-                                </div>
-                                <div class="col-3 p-2">
-                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                        <!--begin::Number-->
-                                        <div class="d-flex align-items-center">
-                                            <KTIcon icon-name="watch" icon-class="fs-3 text-success me-2" />
-                                            <div class="fs-2 fw-bold">{{ averageResponseTime }}</div>
-                                        </div>
-                                        <!--end::Number-->
-
-                                        <!--begin::Label-->
-                                        <div class="fw-semobold fs-6 text-gray-400">Average Response Time</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Stat-->
-
-                                </div>
-                                <div class="col-3 p-2">
-                                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                        <!--begin::Number-->
-                                        <div class="d-flex align-items-center">
-                                            <KTIcon icon-name="pointers" icon-class="fs-3 text-success me-2" />
-                                            <div class="fs-2 fw-bold">{{ locations }}</div>
-                                        </div>
-                                        <!--end::Number-->
-
-                                        <!--begin::Label-->
-                                        <div class="fw-semobold fs-6 text-gray-400">Đường dẫn</div>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Stat-->
-
-                                </div>
-                            </div>
-                            <!--end::Row-->
-
-                            <div class="mt-5 mb-2 w-100">
-                                <span class="fw-semobold text-muted">Tiến trình</span>
-                                <el-progress :percentage="progress" status="success" />
-                            </div>
-                        </div>
-                        <!--end::Card body-->
-                    </div>
-                    <!--end::Title-->
-                </div>
-                <!--end::Info-->
-            </div>
-            <!--end::Details-->
-        </div>
-    </div>
-    <!--end::Navbar-->
-    <div class="row mb-3 h-50px align-items-center"
-        :class="classDetail ? 'shadow-hvover bg-white rounded-3 mx-0 my-2' : ''">
-        <div class="col-8 py-2 d-flex justify-content-start ">
-            <div class="row">
-                <div class="col" :class="classDetail ? ' d-block ' : 'd-none'">
-                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin tiến trình"
-                        placement="top">
-                        <button type="button"
-                            class="btn btn-sm fw-bold bg-secondary btn-color-gray-700 h-35px w-150px btn-active-color-primary me-2"
-                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
-                            data-kt-menu-flip="top-start">
-                            <KTIcon icon-name="information-3" icon-class="fs-2" />
-                            Information
+    <div id="layouthetder" ref="divRef">
+        <!--begin::Navbar-->
+        <div class="card " :class="classDetail ? '' : 'mb-3'">
+            <!--begin::Card header-->
+            <div class=" border-0 ps-2 pt-3 pt-sm-12 pt-md-12 pt-lg-6 position-sm-absolute end-0 pe-1 me-2 me-md-0 me-sm-0"
+                style="top: -80px">
+                <!--begin::Card toolbar-->
+                <div class="w-100 ">
+                    <div class="d-flex justify-content-end pb-md-0 pb-2">
+                        <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
+                            icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
+                            @cancel="cancelEvent">
+                            <template #reference>
+                                <button type="button" :disabled="checkDisabled"
+                                    class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
+                                    <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy bỏ
+                                </button>
+                            </template>
+                        </el-popconfirm>
+                        <button v-if="scanStatus == 5" type="button" @click="handlePauser"
+                            :disabled="(checkDisabled || checkStatus)"
+                            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                            <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
+                            <span class="text-primary"> Tiếp tục</span>
                         </button>
-                        <!-- </div> -->
-                    </el-tooltip>
-                    <filtersTabScan @filterData="handleFilter" :targetData="targetData" :diffTime="diffTime"
-                        :countRequest="countRequest" :averageResponseTime="averageResponseTime" :locations="locations"
-                        :progress="progress" :scanStatus="scanStatus">
-                    </filtersTabScan>
-                </div>
-                <div class="col">
-                    <div class="d-flex align-items-center position-relative">
-                        <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-5" />
-                        <input type="text" data-kt-subscription-table-filter="search" v-model="query"
-                            :class="classDetail ? 'w-150px' : 'w-100'" name="query"
-                            class="form-control h-35px ps-14 btn-active-color-primary" placeholder="Tìm kiếm theo tên" />
+                        <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
+                            class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                            <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
+                            <span class="text-danger">Tạm dừng</span>
+                        </button>
+                        <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
+                            class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                            <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
+                            Xuất kết quả
+                        </button>
                     </div>
                 </div>
-                <div class="col d-flex flex-row">
-                    <button type="button" class="btn btn-icon btn-sm fw-bold bg-success h-35px w-35px text-white"
-                        @click.passive="handleSeverity(0)" :disabled="checkDisabled">
-                        {{ severityInfo }}
-                    </button>
-                    <button type="button" class="btn btn-icon btn-sm fw-bold bg-primary h-35px w-35px text-white ms-2"
-                        @click.passive="handleSeverity(1)" :disabled="checkDisabled">
-                        {{ severityLow }}
-                    </button>
-                    <button type="button" class="btn btn-icon btn-sm fw-bold bg-warning h-35px w-35px text-white ms-2"
-                        @click.passive="handleSeverity(2)" :disabled="checkDisabled">
-                        {{ severityMedium }}
-                    </button>
-                    <button type="button" class="btn btn-icon btn-sm fw-bold bg-danger h-35px w-35px text-white ms-2"
-                        @click.passive="handleSeverity(3)" :disabled="checkDisabled">
-                        {{ severityHigh }}
-                    </button>
-                    <button @click.passive="handleSeverity(4)" type="button" :disabled="checkDisabled"
-                        class="btn btn-icon btn-sm fw-bold btn-outline btn-outline-dashed btn-outline-info h-35px w-35px text-info ms-2">
-                        All
-                    </button>
+                <!--end::Card toolbar-->
+            </div>
+            <!--end::Card header-->
+            <div class="card-body pt-2 pb-0 shadow-hvover" :class="!classDetail ? ' d-none d-md-block' : 'd-none'">
+                <!--begin::Details-->
+                <div class="d-flex flex-wrap flex-sm-nowrap">
+                    <!--begin::Info-->
+                    <div class="flex-grow-1">
+                        <!--begin::Title-->
+                        <div class="d-flex justify-content-between align-items-start flex-wrap">
+                            <!--begin::Card body-->
+                            <div class="card-body py-4 px-0">
+                                <div class="row w-100">
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <!--begin::Label-->
+                                            <span class="w-60px fw-semobold text-muted">ID:</span>
+                                            <!--end::span-->
+
+                                            <!--begin::Col-->
+                                            <div class="col">
+                                                <span class="fw-bold fs-6 text-dark">{{ targetData.id }}</span>
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <!--begin::span-->
+                                            <span class="w-60px fw-semobold text-muted">Tên:</span>
+                                            <!--end::span-->
+
+                                            <!--begin::Col-->
+                                            <div class="col">
+                                                <span class="fw-bold fs-6 text-dark">{{ targetData.name }}</span>
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <!--begin::span-->
+                                            <span class="w-60px fw-semobold text-muted">IP:</span>
+                                            <!--end::span-->
+                                            <!--begin::Col-->
+                                            <div class="col">
+                                                <span class="fw-bold fs-6 text-dark">{{ targetData.ip }}</span>
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <!--begin::span-->
+                                            <span class="w-80px fw-semobold text-muted">Domain:</span>
+                                            <!--end::Label-->
+
+                                            <!--begin::Col-->
+                                            <div class="col">
+                                                <span class="fw-bold fs-6 text-dark">{{ targetData.domain }}</span>
+                                            </div>
+                                            <!--end::Col-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--begin::Row-->
+                                <div class="row">
+                                    <div class=" col-3 p-2">
+                                        <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                            <!--begin::Number-->
+                                            <div class="d-flex align-items-center">
+                                                <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
+                                                <div class="fs-2 fw-bold">{{ diffTime }}</div>
+                                            </div>
+                                            <!--end::Number-->
+
+                                            <!--begin::Label-->
+                                            <div class="fw-semobold fs-6 text-gray-400">Thời Gian</div>
+                                            <!--end::Label-->
+                                        </div>
+                                        <!--end::Stat-->
+                                    </div>
+                                    <div class="col-3 p-2">
+                                        <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                            <!--begin::Number-->
+                                            <div class="d-flex align-items-center">
+                                                <KTIcon icon-name="arrow-up-down" icon-class="fs-3 text-success me-2" />
+                                                <div class="fs-2 fw-bold">{{ countRequest }}</div>
+                                            </div>
+                                            <!--end::Number-->
+
+                                            <!--begin::Label-->
+                                            <div class="fw-semobold fs-6 text-gray-400">Yêu cầu</div>
+                                            <!--end::Label-->
+                                        </div>
+
+                                    </div>
+                                    <div class="col-3 p-2">
+                                        <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                            <!--begin::Number-->
+                                            <div class="d-flex align-items-center">
+                                                <KTIcon icon-name="watch" icon-class="fs-3 text-success me-2" />
+                                                <div class="fs-2 fw-bold">{{ averageResponseTime }}</div>
+                                            </div>
+                                            <!--end::Number-->
+
+                                            <!--begin::Label-->
+                                            <div class="fw-semobold fs-6 text-gray-400">Average Response Time</div>
+                                            <!--end::Label-->
+                                        </div>
+                                        <!--end::Stat-->
+
+                                    </div>
+                                    <div class="col-3 p-2">
+                                        <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                            <!--begin::Number-->
+                                            <div class="d-flex align-items-center">
+                                                <KTIcon icon-name="pointers" icon-class="fs-3 text-success me-2" />
+                                                <div class="fs-2 fw-bold">{{ locations }}</div>
+                                            </div>
+                                            <!--end::Number-->
+
+                                            <!--begin::Label-->
+                                            <div class="fw-semobold fs-6 text-gray-400">Đường dẫn</div>
+                                            <!--end::Label-->
+                                        </div>
+                                        <!--end::Stat-->
+
+                                    </div>
+                                </div>
+                                <!--end::Row-->
+
+                                <div class="mt-5 mb-2 w-100">
+                                    <span class="fw-semobold text-muted">Tiến trình</span>
+                                    <el-progress :percentage="progress" status="success" />
+                                </div>
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                        <!--end::Title-->
+                    </div>
+                    <!--end::Info-->
                 </div>
+                <!--end::Details-->
             </div>
         </div>
-        <div class="col-4 text-end ms-auto py-2">
-            <div class="d-flex justify-content-end">
-                <!--begin::Tab nav-->
-                <!-- <ul class="nav nav-pills me-6 mb-2 mb-sm-0" role="tablist">
-                    <li class="nav-item m-0" role="presentation">
-                        <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary me-3 active"
-                            data-bs-toggle="tab" href="#kt_project_users_card_pane" aria-selected="true" role="tab">
-                            <i class="ki-duotone ki-element-plus fs-2"><span class="path1"></span><span
-                                    class="path2"></span><span class="path3"></span><span class="path4"></span><span
-                                    class="path5"></span></i> </a>
-                    </li>
-
-                    <li class="nav-item m-0" role="presentation">
-                        <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary" data-bs-toggle="tab"
-                            href="#kt_project_users_table_pane" aria-selected="false" role="tab" tabindex="-1">
-                            <i class="ki-duotone ki-row-horizontal fs-2"><span class="path1"></span><span
-                                    class="path2"></span></i> </a>
-                    </li>
-                </ul> -->
-                <!--end::Tab nav-->
-
-                <!--begin::Actions-->
-                <div class=" mx-2">
-                    <!--begin::Select-->
-                    <button type="button" @click="reloadData" :disabled="checkDisabled"
-                        class="btn btn-icon btn-sm w-100px h-30px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
-                        <KTIcon icon-name="arrows-loop" icon-class="fs-2 text-white" />
-                        Tải lại
-                    </button>
-                    <!--end::Select-->
+        <!--end::Navbar-->
+        <div class="row mb-3 align-items-center"
+            :class="(classDetail || widthLayout <= 768) ? 'shadow-hvover bg-white rounded-3 mx-0 my-2' : ''">
+            <div class="col-12 col-md-6 py-2">
+                <div class="d-flex flex-row justify-content-end justify-content-md-start">
+                    <div class="col">
+                        <div class="d-flex align-items-center position-relative me-2">
+                            <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-5" />
+                            <input type="text" data-kt-subscription-table-filter="search" v-model="query" name="query"
+                                class="form-control h-35px ps-14 btn-active-color-primary"
+                                placeholder="Tìm kiếm theo tên" />
+                        </div>
+                    </div>
+                    <div class="col d-flex flex-row justify-content-end justify-content-md-start">
+                        <button type="button" class="btn btn-icon btn-sm fw-bold bg-success h-35px w-35px text-white"
+                            @click.passive="handleSeverity(0)" :disabled="checkDisabled">
+                            {{ severityInfo }}
+                        </button>
+                        <button type="button" class="btn btn-icon btn-sm fw-bold bg-primary h-35px w-35px text-white ms-2"
+                            @click.passive="handleSeverity(1)" :disabled="checkDisabled">
+                            {{ severityLow }}
+                        </button>
+                        <button type="button" class="btn btn-icon btn-sm fw-bold bg-warning h-35px w-35px text-white ms-2"
+                            @click.passive="handleSeverity(2)" :disabled="checkDisabled">
+                            {{ severityMedium }}
+                        </button>
+                        <button type="button" class="btn btn-icon btn-sm fw-bold bg-danger h-35px w-35px text-white ms-2"
+                            @click.passive="handleSeverity(3)" :disabled="checkDisabled">
+                            {{ severityHigh }}
+                        </button>
+                        <button @click.passive="handleSeverity(4)" type="button" :disabled="checkDisabled"
+                            class="btn btn-icon btn-sm fw-bold btn-outline btn-outline-dashed btn-outline-info h-35px w-35px text-info ms-2">
+                            All
+                        </button>
+                    </div>
                 </div>
-                <!--end::Actions-->
+            </div>
+            <div class="col-12 col-md-6 text-end ms-auto py-2">
+                <div class="d-flex justify-content-end">
+                    <div
+                        :class="`text-start me-0 d-${(classDetail || widthLayout <= 768) ? 'block' : 'none'} d-md-${(classDetail || widthLayout <= 768) ? 'block' : 'none'}`">
+                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin tiến trình"
+                            placement="top">
+                            <button type="button"
+                                class="btn btn-sm fw-bold bg-secondary btn-color-gray-700 h-30px w-100px btn-active-color-primary"
+                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+                                data-kt-menu-flip="top-start">
+                                <KTIcon icon-name="information-3" icon-class="fs-2" />
+                                Info
+                            </button>
+                            <!-- </div> -->
+                        </el-tooltip>
+                        <filtersTabScan @filterData="handleFilter" :targetData="targetData" :diffTime="diffTime"
+                            :countRequest="countRequest" :averageResponseTime="averageResponseTime" :locations="locations"
+                            :progress="progress" :scanStatus="scanStatus">
+                        </filtersTabScan>
+                    </div>
+                    <!--begin::Actions-->
+                    <div class=" mx-2">
+                        <!--begin::Select-->
+                        <button type="button" @click="reloadData" :disabled="checkDisabled"
+                            class="btn btn-icon btn-sm w-100px h-30px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary text-white">
+                            <KTIcon icon-name="arrows-loop" icon-class="fs-2 text-white" />
+                            Tải lại
+                        </button>
+                        <!--end::Select-->
+                    </div>
+                    <!--end::Actions-->
 
-                <!--begin::Actions-->
-                <div class="">
-                    <!--begin::Select-->
-                    <el-select v-model="eventTime" clearable class="w-150px">
-                        <el-option value="300000" key="300000" label="5 phút" />
-                        <el-option value="60000" key="60000" label="1 phút" />
-                        <el-option value="30000" key="30000" label="30 giây" />
-                        <el-option value="15000" key="15000" label="15 giây" />
-                        <el-option value="5000" key="5000" label="5 giây" />
-                    </el-select>
-                    <!--end::Select-->
+                    <!--begin::Actions-->
+                    <div class="">
+                        <!--begin::Select-->
+                        <el-select v-model="eventTime" clearable class="w-150px">
+                            <el-option value="300000" key="300000" label="5 phút" />
+                            <el-option value="60000" key="60000" label="1 phút" />
+                            <el-option value="30000" key="30000" label="30 giây" />
+                            <el-option value="15000" key="15000" label="15 giây" />
+                            <el-option value="5000" key="5000" label="5 giây" />
+                        </el-select>
+                        <!--end::Select-->
+                    </div>
+                    <!--end::Actions-->
                 </div>
-                <!--end::Actions-->
             </div>
         </div>
     </div>
 
     <!--begin::Card-->
     <div class="card h-100 d-block">
-        <div class="d-flex shadow-hvover" :class="classDetail ? 'hand-height-4 pe-1' : 'hand-height-3'">
+        <div class="d-flex shadow-hvover" :style="{ height: heightTable + 'px' }">
             <!--begin::Card body-->
-            <div class="card-body overflow-y-auto overflow-x-hidden h-100 m-0 p-0" ref="container"
+            <div class="card-body overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container"
                 @mousedown="handleMouseDown" :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
                 :class="classDetail ? 'border-end' : 'col-12'">
                 <div class="w-100">
@@ -637,7 +622,7 @@
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, watch, onBeforeUnmount } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, nextTick, onUnmounted } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -1209,10 +1194,10 @@ export default defineComponent({
         const diffTime = ref<string | any>(0);
         const time = ref<any>(null);
         const eventTime = ref<number | any>('30000');
-        let intervalId : any;
+        let intervalId: any;
 
         const humanDiff = async () => {
-            let date1: any = (scanStatus.value == 2 ) ? new Date() : new Date(timeEnd.value);
+            let date1: any = (scanStatus.value == 2) ? new Date() : new Date(timeEnd.value);
             let date2: any = new Date(timeStart.value);
             let diff = Math.max(date2, date1) - Math.min(date2, date1);
             let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
@@ -1241,7 +1226,7 @@ export default defineComponent({
         };
 
         // thời gian tự động chạy
-        let intervalIdAuto : any;
+        let intervalIdAuto: any;
 
         const showLocaleTime = async () => {
             clearInterval(intervalIdAuto);
@@ -1252,6 +1237,71 @@ export default defineComponent({
             }
         };
 
+        // tính chiều cao của header
+        const divHeight = ref<number>(0); // Sử dụng kiểu dữ liệu number hoặc null cho divHeight
+        const divRef = ref<null | HTMLElement>(null);
+
+        const handleHeightheader = () => {
+            const divElement = document.querySelector('#layouthetder') as HTMLElement;
+            if (divElement) {
+                divHeight.value = divElement.offsetHeight;
+            }
+            console.log(divHeight.value, 'divHeight')
+        };
+
+          // Sử dụng nextTick để đảm bảo rằng kích thước đã được cập nhật
+        nextTick(() => {
+            watch(classDetail, () => {
+                handleHeightheader();
+                handleResize();
+            });
+        });
+
+        // tính toán chiều cao table
+        const heightTable = ref(0)
+        const widthLayout = ref(0)
+        const checkPaginationTable = ref(false)
+        const handleResize = () => {
+            widthLayout.value = window.innerWidth;
+            const windowWidth = window.innerWidth;
+            if (windowWidth >= 1400) {
+                heightTable.value = window.innerHeight - (divHeight.value + 165);
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 1200) {
+                heightTable.value = window.innerHeight - (divHeight.value + 165);
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 992) {
+                heightTable.value = window.innerHeight - (divHeight.value + 165);
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 768) {
+                heightTable.value = window.innerHeight - (divHeight.value + 150);
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 576) {
+                heightTable.value = window.innerHeight - (divHeight.value + 150);
+                checkPaginationTable.value = false
+            } else {
+                // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
+                heightTable.value = window.innerHeight - (divHeight.value + 150);
+                checkPaginationTable.value = true
+            }
+
+        };
+
+
+
+        onMounted(() => {
+            getData();
+            handleHeightheader();
+            handleResize();
+            window.addEventListener('resize', handleResize);
+            window.addEventListener('resize', handleHeightheader);
+        });
+
+        onUnmounted(() => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', handleHeightheader);
+        });
+
         // Tính toán chiều rộng nội dung
         const contentWidth = ref(0);
         onMounted(() => {
@@ -1259,12 +1309,7 @@ export default defineComponent({
             contentWidth.value = container.value.scrollWidth;
         });
 
-        onMounted(() => {
-            getData();
-            // humanDiffTime();
-        });
-
-        onBeforeUnmount(() => {
+        onUnmounted(() => {
             clearInterval(intervalIdAuto);
             clearInterval(intervalId);
         });
@@ -1356,6 +1401,9 @@ export default defineComponent({
             // hủy 
             confirmEvent,
             cancelEvent,
+            widthLayout,
+            heightTable,
+            divRef,
         };
     },
 });

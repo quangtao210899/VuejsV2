@@ -2,7 +2,7 @@
     <!--begin::Card-->
     <div class="card h-100 d-block">
         <!--begin::Card header-->
-        <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
+        <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1 " style="top: -80px;">
             <!--begin::Card title-->
             <!-- <div class="card-title"> -->
             <!--begin::Search-->
@@ -68,7 +68,7 @@
         <!--end::Card header-->
 
         <!--begin::Card body-->
-        <div class="card-body pt-0 h-100 p-0 m-0 overflow-y-auto overflow-x-hidden">
+        <div class="card-body pt-0 h-100 p-0 m-0 overflow-y-auto overflow-x-auto">
             <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
                 :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
@@ -89,18 +89,18 @@
                 <template v-slot:actions="{ row: customer }">
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Recon" placement="top">
                         <router-link :to="`/target-recons/${customer.id}`"
-                            class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
+                            class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
                             <i class="fas fa-mail-bulk"></i>
                         </router-link>
                     </el-tooltip>
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan" placement="top">
                         <router-link :to="`/target-scans/${customer.id}`"
-                            class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1">
+                            class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
                             <KTIcon icon-name="search-list" icon-class="fs-3" />
                         </router-link>
                     </el-tooltip>
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
-                        <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
+                        <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1"
                             data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
                             @click="handleClick(customer, 'edit')" title="Sửa">
                             <KTIcon icon-name="pencil" icon-class="fs-3" />

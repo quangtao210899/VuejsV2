@@ -2,7 +2,7 @@
   <!--begin::Card-->
   <div class="card h-100 d-block">
     <!--begin::Card header-->
-    <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
+    <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -80px;">
       <!--begin::Card title-->
       <!-- <h3 class="card-title align-items-start flex-column">
         <span class="card-label fw-bold fs-3 mb-1">Danh sách quản lý lỗ hổng</span>
@@ -64,7 +64,7 @@
 
     <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'pe-1' : ''">
       <!--begin::Card body-->
-      <div class="card-body overflow-y-auto overflow-x-hidden h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
+      <div class="card-body overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
         :class="classDetail ? ' border-end' : 'col-12 '">
         <div class="w-100">
