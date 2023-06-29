@@ -1,6 +1,6 @@
 <template>
     <div class="card h-100 d-block">
-        <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
+        <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -80px;">
             <div class="card-toolbar">
                 <div v-show="selectedIds.length === 0">
                     <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-body pt-0  overflow-y-auto overflow-x-hidden h-100 p-0 m-0 ">
+        <div class="card-body pt-0  overflow-y-auto overflow-x-auto h-100 p-0 m-0 ">
             <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
                 :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
@@ -57,12 +57,12 @@
                 <template v-slot:actions="{ row: customer }">
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết" placement="top">
                         <router-link :to="`/target-recon-detail/${reconID}/${customer.id}/detail`"
-                            class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                            class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 mb-1">
                             <KTIcon icon-name="eye" icon-class="fs-3" />
                         </router-link>
                     </el-tooltip>
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
-                        <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
+                        <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 mb-1"
                             data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
                             @click="handleClick(customer, 'edit')">
                             <KTIcon icon-name="pencil" icon-class="fs-3" />

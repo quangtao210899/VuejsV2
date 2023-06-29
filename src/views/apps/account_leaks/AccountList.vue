@@ -1,11 +1,11 @@
 <template>
   <div class="card h-100 d-block">
-    <div class="card-header border-0 pt-6 position-absolute end-0 pe-1" style="top: -80px">
+    <div class="card-header border-0 pt-2 pt-sm-10 pt-md-10 position-sm-absolute justify-content-end end-0 pe-1 me-2 me-md-0 me-sm-0" style="top: -80px">
       <div class="card-toolbar">
         <div v-show="selectedIds.length === 0">
           <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
-              <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+              <button type="button" class="btn btn-sm fw-bold bg-light bg-md-body btn-color-gray-700 btn-active-color-primary me-2 btn-outline btn-outline-dashed btn-outline-default"
                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
                 <KTIcon icon-name="filter" icon-class="fs-2" />
                 Filter
@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <div class="card-body overflow-y-auto overflow-x-hidden h-100 p-0 m-0">
+    <div class="card-body overflow-y-auto overflow-x-auto h-100 p-0 m-0">
       <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="accountLeakList" :header="headerConfig"
         :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
         :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
