@@ -61,7 +61,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
     if (!reconnect){      
       console.log("Starting Connection to Websocket", host)
-      connection = new WebSocket("ws://" + host + '/ws/notification/')
+      connection = new WebSocket("ws://" + host + '/backend/ws/notification/')
       
       connection.onopen = function () {
         console.log("Successly connected to the echo WebSocket Server")
