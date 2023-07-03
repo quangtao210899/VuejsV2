@@ -164,7 +164,14 @@
                                 <label for="domain" class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                     <span>Domain</span>
                                 </label>
-                                <Field type="text" class="form-control form-control-solid" @blur="getAutofill(apiData.domain)"
+                                <Field type="text" class="form-control form-control-solid" 
+                                    @blur="getAutofill(apiData.domain)
+                                            .then(ip => {
+                                                apiData.ip = ip
+                                            })
+                                            .catch(error => {
+                                                console.error(error);
+                                            });"
                                     placeholder="Nhập domain của mục tiêu" id="domain" name="domain" v-model="apiData.domain" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
@@ -517,13 +524,14 @@ export default defineComponent({
         };
 
         const getAutofill = async (domain) => {
-            return ApiService.get(`targets/ip?domain=${domain}`)
-                .then(({ data }) => {
-                    apiData.value.ip = data.ip
-                })
-                .catch(({ response }) => {
-                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                })
+            try {
+                const response = await ApiService.get(`targets/ip?domain=${domain}`);
+                const { data } = response;
+                return data.ip;
+            } catch (error: any) {
+                notification(error?.response?.data?.detail, 'error', 'Có lỗi xảy ra');
+                throw error;
+            }
         }
 
         const resetForm = () => {
@@ -674,8 +682,9 @@ export default defineComponent({
                 return;
             }
 
-            if (!apiData.value.ip) {
-                getAutofill(apiData.value.domain)
+            if (!apiData.value.ip.trim()) {
+                const ip = await getAutofill(apiData.value.domain);
+                apiData.value.ip = ip;
             }
 
             let formData = {
