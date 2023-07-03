@@ -1395,8 +1395,6 @@ export default defineComponent({
 
             return await ApiService.get(`recon/detail3/${scanID.value}`)
                 .then(({ data }) => {
-                    // console.log(data)
-                    // console.log(data1)
                     list.value = data
                     targets.value = data.target
                     account.value = data.recon[0].account
@@ -1410,9 +1408,6 @@ export default defineComponent({
                     process.value = [parseFloat(totalCount.toFixed(1))]
                     activities.value = (data.recon[0].activity !== undefined) ? data.recon[0].activity.task_done : {}
 
-                    // console.log(activity.value, '123')
-                    // console.log(process.value)
-                    // console.log(activities.value, '321')
 
                     // if (totalCount == 100) {
                     // } else {
@@ -1426,6 +1421,7 @@ export default defineComponent({
 
                     // IP
                     ip_info.value = (data.recon[0].ip_info !== undefined) ? data.recon[0].ip_info.message : {};
+                    console.log(ip_info.value, 222);
                     ip_info_status.value = (data.recon[0].ip_info !== undefined) ? data.recon[0].ip_info.status : {};
                     linkCheckIP.value = (ip_info_status.value == 4) ? checkLink(ip_info.value) : ''
 
@@ -1549,10 +1545,8 @@ export default defineComponent({
                     center: false,
                 })
             } else if (reconStatus.value == 5) {
-                // console.log('tiếp tục')
                 getResume()
             } else if (reconStatus.value == 2) {
-                // console.log('tạm dừng')
                 getPauser()
             } else {
                 ElMessage({
