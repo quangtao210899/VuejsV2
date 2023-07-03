@@ -2,13 +2,9 @@
   <!--begin::Card-->
   <div class="card h-100 d-block">
     <!--begin::Card header-->
-    <div class="card-header border-0 pt-6 position-absolute end-0 pe-1 " style="top: -80px;">
+    <div class="card-header border-0 pt-2 pt-sm-10 pt-md-10 position-sm-absolute justify-content-end end-0 pe-1 me-2 me-md-0 me-sm-0" style="top: -80px">
       <!--begin::Card title-->
-      <!-- <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold fs-3 mb-1">Danh sách quản lý lỗ hổng</span>
 
-        <span class="text-muted fw-semobold fs-7">Tổng có {{ totalPage }} lỗ hổng</span>
-      </h3> -->
       <!--begin::Card title-->
 
       <!--begin::Card toolbar-->
@@ -16,13 +12,6 @@
         <!--begin::Toolbar-->
         <div v-show="selectedIds.length === 0">
           <div class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
-            <!--begin::Export-->
-            <!-- <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
-              data-bs-target="#kt_subscriptions_export_modal">
-              <KTIcon icon-name="exit-up" icon-class="fs-2" />
-              Export
-            </button> -->
-            <!--end::Export-->
             <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
               <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
@@ -92,9 +81,9 @@
     </div>
     <!--end::Card header-->
 
-    <div class="hand-height-2 shadow-hvover">
+    <div class="h-100  shadow-hvover">
       <!--begin::Card body-->
-      <div class="card-body overflow-y-auto overflow-x-hidden h-100 p-0 m-0 ">
+      <div class="card-body overflow-y-auto overflow-x-auto h-100 p-0 m-0 ">
         <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
           :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
           :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
@@ -573,7 +562,7 @@ export default defineComponent({
     const loading = ref<boolean>(false)
     const totalPage = ref<number>(0);
     const currentPage = ref<number>(1);
-    const itemsPerPage = ref<number>(20);
+    const itemsPerPage = ref<number>(10);
     const query = ref<String>('');
     const RefreshIcon = ref(Refresh)
 

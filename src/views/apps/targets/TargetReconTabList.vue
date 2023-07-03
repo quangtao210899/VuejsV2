@@ -81,7 +81,7 @@
     <!--begin::Card-->
     <div class="">
         <el-scrollbar class="rounded-3 height-repository" :noresize="true" min-size="10" :native="true"
-            wrap-class="w-100 overflow-x-hidden pe-1">
+            wrap-class="w-100 overflow-x-auto pe-1">
             <el-row :gutter="10">
                 <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8" class="mb-3 mx-0">
                     <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 5px' }">

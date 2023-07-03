@@ -48,6 +48,7 @@ export const useAuthStore = defineStore("auth", () => {
     .then(({ data }) => {
         connectSocket(host)
         setAuth(data);
+        ApiService.setHeader();
         ApiService.post("manage",{}).then()
       })
       .catch(({ response }) => {
@@ -61,7 +62,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
     if (!reconnect){      
       console.log("Starting Connection to Websocket", host)
-      connection = new WebSocket("ws://" + host + '/ws/notification/')
+      connection = new WebSocket("ws://" + host + '/backend/ws/notification/')
       
       connection.onopen = function () {
         console.log("Successly connected to the echo WebSocket Server")
@@ -69,7 +70,9 @@ export const useAuthStore = defineStore("auth", () => {
       
       connection.onclose = function (e) {
         console.log('WebSocket closed unexpectedly', e);
-        connectSocket(host, true)
+        if (isAuthenticated.value) {
+          connectSocket(host, true)
+        }
       };
       
       connection.onmessage = function (event) {
@@ -86,7 +89,7 @@ export const useAuthStore = defineStore("auth", () => {
     else {
       const timeoutId = setTimeout(() => {
         console.log("Reconnect to Websocket", host)
-        connection = new WebSocket("ws://" + host + '/ws/notification/')
+        connection = new WebSocket("ws://" + host + '/backend/ws/notification/')
 
         connection.onopen = function () {
           console.log("Successly reconnected to the echo WebSocket Server")
@@ -94,7 +97,9 @@ export const useAuthStore = defineStore("auth", () => {
 
         connection.onclose = function (e) {
           console.log('WebSocket closed unexpectedly', e);
-          connectSocket(host, true)
+          if (isAuthenticated.value){
+            connectSocket(host, true)
+          }
         };
 
         connection.onmessage = function (event) {
