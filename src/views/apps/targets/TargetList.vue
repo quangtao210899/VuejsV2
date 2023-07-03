@@ -164,7 +164,7 @@
                                 <label for="domain" class="d-flex align-items-center fs-6 fw-semobold mb-2">
                                     <span>Domain</span>
                                 </label>
-                                <Field type="text" class="form-control form-control-solid" @blur="getAutofill"
+                                <Field type="text" class="form-control form-control-solid" @blur="getAutofill(apiData.domain)"
                                     placeholder="Nhập domain của mục tiêu" id="domain" name="domain" v-model="apiData.domain" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
@@ -516,10 +516,8 @@ export default defineComponent({
             }
         };
 
-        const getAutofill = async () => {
-            // setTimeout(() => loading.value = false, 500)
-            
-            return ApiService.get(`targets/ip?domain=${apiData.value.domain}`)
+        const getAutofill = async (domain) => {
+            return ApiService.get(`targets/ip?domain=${domain}`)
                 .then(({ data }) => {
                     apiData.value.ip = data.ip
                 })
@@ -675,6 +673,11 @@ export default defineComponent({
             if (!submitButtonRef.value) {
                 return;
             }
+
+            if (!apiData.value.ip) {
+                getAutofill(apiData.value.domain)
+            }
+
             let formData = {
                 'name': apiData.value.name,
                 'ip': apiData.value.ip ?? "",
