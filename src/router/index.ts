@@ -127,6 +127,26 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: "/vpn",
+    redirect: "/vpn",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },    
+    children: [
+      {
+        path: "/vpn",
+        name: "vpn",
+        component: () => import("@/views/apps/vpn/VpnList.vue"),
+        meta: {
+          pageTitle: "Quản lý vpn",
+          breadcrumbs: ["vpn"],
+        },
+      },
+      
+    ],
+  },
+  {
     path: "/telegram",
     redirect: "/telegram",
     component: () => import("@/layouts/main-layout/MainLayout.vue"),
