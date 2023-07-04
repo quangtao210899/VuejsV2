@@ -206,11 +206,16 @@
             <el-table-column label-class-name="border border-0 fs-7" prop="waf" label="WAF" align="center" min-width="150">
                 <template #default="scope">
                     <div class="d-flex flex-column">
-                        <li v-for="(val, key) in scope.row.waf" :key="key"
-                            class="d-flex align-items-top py-2 fs-7 text-start">
-                            <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
-                                val == null) ? '--' : val }}.
-                        </li>
+                        <template v-if="scope.row.waf.length">                        
+                            <li v-for="(val, key) in scope.row.waf" :key="key"
+                                class="d-flex align-items-top py-2 fs-7 text-start">
+                                <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
+                                    val == null) ? '--' : val }}
+                            </li>
+                        </template>
+                        <template v-else>
+                            <span>--</span>
+                        </template>
                     </div>
 
                 </template>
@@ -218,11 +223,16 @@
             <el-table-column label-class-name="border border-0 fs-7" prop="cdn" label="CDN" align="center" min-width="150">
                 <template #default="scope">
                     <div class="d-flex flex-column">
-                        <li v-for="(val, key) in scope.row.cdn" :key="key"
-                            class="d-flex align-items-top py-2 fs-7 text-start">
-                            <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
-                                val == null) ? '--' : val }}.
-                        </li>
+                        <template v-if="scope.row.cdn.length">
+                                <li v-for="(val, key) in scope.row.cdn" :key="key"
+                                    class="d-flex align-items-top py-2 fs-7 text-start">
+                                    <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
+                                        val == null) ? '--' : val }}
+                                </li>
+                        </template>
+                        <template v-else>
+                            <span>--</span>
+                        </template>
                     </div>
                 </template>
             </el-table-column>
