@@ -1,0 +1,449 @@
+[{
+        "title": "Albania",
+        "markerLatLng": [
+            41.327953,
+            19.819025
+        ],
+        "status": 3
+    },
+    {
+        "title": "Croatia",
+        "markerLatLng": [
+            42.640278,
+            18.108334
+        ],
+        "status": 3
+    },
+    {
+        "title": "Iceland",
+        "markerLatLng": [
+            64.128288, -21.827774
+        ],
+        "status": 3
+    },
+    {
+        "title": "Netherlands",
+        "markerLatLng": [
+            51.926517,
+            4.462456
+        ],
+        "status": 3
+    },
+    {
+        "title": "South Korea",
+        "markerLatLng": [
+            35.866669,
+            128.600006
+        ],
+        "status": 3
+    },
+    {
+        "title": "Argentina",
+        "markerLatLng": [-34.920345, -57.969559],
+        "status": 3
+    },
+    {
+        "title": "Cyprus",
+        "markerLatLng": [-6.200000,
+            33.022617
+        ],
+        "status": 3
+    },
+    {
+        "title": "Indonesia",
+        "markerLatLng": [-6.200000,
+            106.816666
+        ],
+        "status": 3
+    },
+    {
+        "title": "New Zealand",
+        "markerLatLng": [-37.683334,
+            176.166672
+        ],
+        "status": 3
+    },
+    {
+        "title": "Spain",
+        "markerLatLng": [
+            39.856667, -4.024444
+        ],
+        "status": 3
+    },
+    {
+        "title": "Australia",
+        "markerLatLng": [-31.083332,
+            150.916672
+        ],
+        "status": 3
+    },
+    {
+        "title": "Czech Republic",
+        "markerLatLng": [
+            50.073658,
+            14.418540
+        ],
+        "status": 3
+    },
+    {
+        "title": "North Macedonia",
+        "markerLatLng": [
+            41.177834,
+            20.678326
+        ],
+        "status": 3
+    },
+    {
+        "title": "Ireland",
+        "markerLatLng": [
+            20.678326, -6.304864
+        ],
+        "status": 3
+    },
+    {
+        "title": "Sweden",
+        "markerLatLng": [
+            65.584816,
+            22.156704
+        ],
+        "status": 3
+    },
+    {
+        "title": "Austria",
+        "markerLatLng": [
+            46.635700,
+            14.311817
+        ],
+        "status": 3
+    },
+    {
+        "title": "Denmark",
+        "markerLatLng": [
+            56.460449,
+            10.036367
+        ],
+        "status": 3
+    },
+    {
+        "title": "Israel",
+        "markerLatLng": [
+            32.184448,
+            34.870766
+        ],
+        "status": 3
+    },
+    {
+        "title": "Norway",
+        "markerLatLng": [
+            59.284073,
+            11.109403
+        ],
+        "status": 3
+    },
+    {
+        "title": "Switzerland",
+        "markerLatLng": [
+            46.003677,
+            8.951052
+        ],
+        "status": 3
+    },
+    {
+        "title": "Estonia",
+        "markerLatLng": [
+            58.378025,
+            26.728493
+        ],
+        "status": 3
+    },
+    {
+        "title": "Belgium",
+        "markerLatLng": [
+            51.049999,
+            3.733333
+        ],
+        "status": 3
+    },
+    {
+        "title": "Italy",
+        "markerLatLng": [
+            43.750000,
+            11.166667
+        ],
+        "status": 3
+    },
+    {
+        "title": "Poland",
+        "markerLatLng": [
+            50.012100,
+            20.985842
+        ],
+        "status": 3
+    },
+    {
+        "title": "Taiwan",
+        "markerLatLng": [
+            22.633333,
+            120.266670
+        ],
+        "status": 3
+    },
+    {
+        "title": "Bosnia And Herzegovina",
+        "markerLatLng": [
+            43.856430,
+            18.413029
+        ],
+        "status": 3
+    },
+    {
+        "title": "Finland",
+        "markerLatLng": [
+            62.791668,
+            22.841667
+        ],
+        "status": 3
+    },
+    {
+        "title": "Japan",
+        "markerLatLng": [
+            35.183334,
+            136.899994
+        ],
+        "status": 3
+    },
+    {
+        "title": "Portugal",
+        "markerLatLng": [
+            41.545448, -8.426507
+        ],
+        "status": 3
+    },
+    {
+        "title": "Thailand",
+        "markerLatLng": [
+            7.878978,
+            98.398392
+        ],
+        "status": 3
+    },
+    {
+        "title": "Brazil",
+        "markerLatLng": [-17.221666, -46.875000],
+        "status": 3
+    },
+    {
+        "title": "France",
+        "markerLatLng": [
+            45.650002,
+            0.160000
+        ],
+        "status": 3
+    },
+    {
+        "title": "Latvia",
+        "markerLatLng": [
+            56.946285,
+            24.105078
+        ],
+        "status": 3
+    },
+    {
+        "title": "Romania",
+        "markerLatLng": [
+            46.568825,
+            26.916025
+        ],
+        "status": 3
+    },
+    {
+        "title": "Turkey",
+        "markerLatLng": [
+            38.630554,
+            27.422222
+        ],
+        "status": 3
+    },
+    {
+        "title": "Georgia",
+        "markerLatLng": [
+            41.716667,
+            44.783333
+        ],
+        "status": 3
+    },
+    {
+        "title": "Bulgaria",
+        "markerLatLng": [
+            43.283333,
+            26.933332
+        ],
+        "status": 3
+    },
+    {
+        "title": "Lithuania",
+        "markerLatLng": [
+            54.687157,
+            25.279652
+        ],
+        "status": 3
+    },
+    {
+        "title": "Serbia",
+        "markerLatLng": [
+            42.545033,
+            21.900270
+        ],
+        "status": 3
+    },
+    {
+        "title": "Ukraine",
+        "markerLatLng": [
+            48.002777,
+            37.805279
+        ],
+        "status": 3
+    },
+    {
+        "title": "Canada",
+        "markerLatLng": [
+            51.213890, -102.462776
+        ],
+        "status": 3
+    },
+    {
+        "title": "Germany",
+        "markerLatLng": [
+            52.150002,
+            10.333333
+        ],
+        "status": 3
+    },
+    {
+        "title": "Luxembourg",
+        "markerLatLng": [
+            49.611622,
+            6.131935
+        ],
+        "status": 3
+    },
+    {
+        "title": "Singapore",
+        "markerLatLng": [
+            1.290270,
+            103.851959
+        ],
+        "status": 3
+    },
+    {
+        "title": "United Kingdom",
+        "markerLatLng": [
+            53.958332, -1.080278
+        ],
+        "status": 3
+    },
+    {
+        "title": "Chile",
+        "markerLatLng": [-33.047237, -71.612686],
+        "status": 3
+    },
+    {
+        "title": "Greece",
+        "markerLatLng": [
+            39.366669,
+            22.933332
+        ],
+        "status": 3
+    },
+    {
+        "title": "Malaysia",
+        "markerLatLng": [
+            2.287778,
+            111.830833
+        ],
+        "status": 3
+    },
+    {
+        "title": "Slovakia",
+        "markerLatLng": [
+            49.001831,
+            21.239311
+        ],
+        "status": 3
+    },
+    {
+        "title": "United States",
+        "markerLatLng": [
+            42.536457, -70.985786
+        ],
+        "status": 3
+    },
+    {
+        "title": "Hong Kong",
+        "markerLatLng": [
+            22.316668,
+            114.183334
+        ],
+        "status": 3
+    },
+    {
+        "title": "Colombia",
+        "markerLatLng": [
+            10.963889, -74.796387
+        ],
+        "status": 3
+    },
+    {
+        "title": "Mexico",
+        "markerLatLng": [
+            32.663334, -115.467781
+        ],
+        "status": 3
+    },
+    {
+        "title": "Slovenia",
+        "markerLatLng": [
+            45.801083,
+            15.171009
+        ],
+        "status": 3
+    },
+    {
+        "title": "Vietnam",
+        "markerLatLng": [
+            21.028511,
+            105.804817
+        ],
+        "status": 3
+    },
+    {
+        "title": "Costa Rica",
+        "markerLatLng": [
+            10.630573, -85.439346
+        ],
+        "status": 3
+    },
+    {
+        "title": "Hungary",
+        "markerLatLng": [
+            47.497913,
+            19.040236
+        ],
+        "status": 3
+    },
+    {
+        "title": "Moldova",
+        "markerLatLng": [
+            47.003670,
+            28.907089
+        ],
+        "status": 3
+    },
+    {
+        "title": "South Africa",
+        "markerLatLng": [-26.358055,
+            27.398056
+        ],
+        "status": 3
+    }
+]
