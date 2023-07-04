@@ -86,6 +86,18 @@ const MainMenuConfig: Array<MenuItem> = [
     ],
   },
   {
+    heading: "VPN",
+    route: "/vpn",
+    pages: [
+      {
+        heading: "Quản lý VPN",
+        route: "/vpn",
+        keenthemesIcon: "bi bi-bug-fill",
+        bootstrapIcon: "bi bi-bug-fill",
+      },
+    ],
+  },
+  {
     heading: "Cves",
     route: "/cve",
     pages: [
