@@ -31,7 +31,7 @@
         <div class="pb-5 border-top pt-5">
           <div class="mx-5">
             <el-select v-model="infoCountry" @change="changeCountry" value-key="id" placeholder="Select" class="w-100"
-            :disabled="(infoStatus == 0  || loading  || connecting ) ? true : false">
+            :disabled="(loading  || connecting ) ? true : false">
               <el-option v-for="(item, key) in dataMap" :key="key" :label="item.title" :value="item.title" />
             </el-select>
           </div>
