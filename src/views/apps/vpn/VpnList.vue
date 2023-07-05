@@ -69,7 +69,14 @@ export default {
     const getDataMap = () => {
       // Khởi tạo bản đồ Leaflet và gắn nó vào DOM element container
       // map.value = L.map(mapContainer.value,{crs: L.CRS.EPSG4326}).setView([21.028511, 105.804817], 5);
-      map.value = L.map(mapContainer.value,{ zoomControl: false, crs: L.CRS.EPSG4326 }).setView([21.028511, 105.804817], 5);
+      const mapOptions = {
+        zoomControl: false,
+        center: [0, 0],
+        zoom: 1,
+        continuousWorld: true,
+        worldCopyJump: false
+      };
+      map.value = L.map(mapContainer.value,mapOptions).setView([21.028511, 105.804817], 5);
       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
         {
           attribution: 'ETC',
