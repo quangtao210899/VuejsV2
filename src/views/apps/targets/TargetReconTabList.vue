@@ -919,7 +919,7 @@
                             </div>
                         </template>
                         <div class="h-500px">
-                            <template v-if="webdata_status == 3 || webdata_status == '3'">
+                            <template v-if="webdata_status == 1 || webdata_status == '1'">
                                 <template v-if="webdata_result == '' || Object.values(webdata_result.fuzzing.message).length == 0 &&
                                     Object.values(webdata_result.js_analysis.message).length == 0 &&
                                     Object.values(webdata_result.subdomains_takeover.message).length == 0 &&
@@ -1024,22 +1024,6 @@
                                         </el-tab-pane>
                                     </el-tabs>
                                 </template>
-                            </template>
-                            <template v-else-if="metadata_status == 4">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
-                                    </div>
-                                    <div class="" v-html="metadata"></div>
-                                </div>
-                            </template>
-                            <template v-else-if="metadata_status == 0">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
-                                    </div>
-                                    <div class="text-center">{{ metadata }}</div>
-                                </div>
                             </template>
                             <template v-else>
                                 <div class="mt-5 m-3">
