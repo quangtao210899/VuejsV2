@@ -1,7 +1,7 @@
 <template>
   <div class="position-relative w-100 h-100">
 
-    <div ref="mapContainer" class="h-100 w-100"></div>
+    <div ref="mapContainer" id="mapContainer" class="h-100 w-100"></div>
     <div class="position-absolute top-0 start-0 z-index-1">
       <div class="w-300px bg-white rounded-3 m-2 shadow-map">
         <div class="p-5">
@@ -58,51 +58,107 @@ export default {
 
   setup() {
     // Khởi tạo một tham chiếu đến DOM element container để chứa bản đồ
-    const mapContainer = ref<null | HTMLElement>(null);
+    const mapContainer = ref<string | HTMLElement | any>(null);
     const map = ref<any>(null)
     const country = ref('Vietnam');
+    const countryLoading = ref<string>('');
     const loading = ref<boolean>(false)
     const iconUrl = ref<string | undefined>(undefined)
     const markers = ref<any>([]);
     const connecting = ref<boolean>(false)
 
-    const getDataMap = () => {
-      // Khởi tạo bản đồ Leaflet và gắn nó vào DOM element container
-      // map.value = L.map(mapContainer.value,{crs: L.CRS.EPSG4326}).setView([21.028511, 105.804817], 5);
-      map.value = L.map(mapContainer.value,{ zoomControl: false, crs: L.CRS.EPSG4326 }).setView([21.028511, 105.804817], 5);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        {
-          attribution: 'ETC',
-          maxZoom: 8
-        }
-      ).addTo(map.value);
-      L.control.zoom({ position: 'bottomright' }).addTo(map.value);
-      //use a mix of renderers
-      var customPane = map.value.createPane("customPane");
-      // var canvasRenderer = L.canvas({ pane: "customPane" });
-      customPane.style.zIndex = 1; // put just behind the standard overlay pane which is at 400
-      const customIcon = L.icon({
-        iconUrl: '/media/icons/duotune/vpn/123.png',
-        iconSize: [35, 35], // Kích thước biểu tượng
-        iconAnchor: [16, 16], // Vị trí neo của biểu tượng
-        className: 'hoverIcon' // Lớp (class) cho biểu tượng
-      });
-      const customTooltip = {
-        permanent: false,
-        interactive: false,
-        direction: 'top',
-        className: 'py-2 px-6 fs-5 text-primary fw-bold',
-        offset: [0, -16],
-      };
+    // Hàm khởi tạo bản đồ
+    const initializeMap = () => {
+      map.value = L.map(mapContainer.value, {
+        zoomControl: false,
+        worldCopyJump: false
+      }).setView([21.028511, 105.804817], 4);
 
-      // tạo điểm
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        attribution: 'Map ETC',
+        maxZoom: 8,
+        minZoom: 2
+      }).addTo(map.value);
+
+      createMarkers();
+    };
+
+    // Hàm tạo các đánh dấu ban đầu trên bản đồ
+    const createMarkers = () => {
+      if (!map.value) {
+        console.error('Bản đồ chưa được khởi tạo.');
+        return;
+      }
+      const customIcon = L.icon({
+          iconUrl: '/media/icons/duotune/vpn/123.png',
+          iconSize: [35, 35], // Kích thước biểu tượng
+          iconAnchor: [16, 16], // Vị trí neo của biểu tượng
+          className: 'hoverIcon' // Lớp (class) cho biểu tượng
+        });
       dataMap.forEach((el, i) => {
         const customTooltipContent = (connecting.value) ? 'Connecting to ' + el.title + ' ...' : 'Connect to ' + el.title
-        const marker = L.marker(el.markerLatLng, { icon: customIcon }).addTo(map.value).bindTooltip(customTooltipContent, customTooltip);
+        const marker = L.marker({ lat: el.markerLatLng[0], lng: el.markerLatLng[1] }, { icon: customIcon })
+          .addTo(map.value)
+          .bindTooltip(customTooltipContent, {
+            permanent: false,
+            interactive: false,
+            direction: 'top',
+            className: 'py-2 px-6 fs-5 text-primary fw-bold',
+            offset: [0, -16] as [number, number],
+          });
         markers.value[i] = marker;
         marker.on('click', () => handleClickMap(el));
-      })
-    }
+      });
+    };
+
+    // Hàm callback để chỉnh sửa các đánh dấu trên bản đồ
+    const updateMarkers = (newloading: any, newconnecting: any) => {
+      if (!map.value) {
+        console.error('Bản đồ chưa được khởi tạo.');
+        return;
+      }
+      dataMap.forEach((el, i) => {
+        const customIcon = L.icon({
+          iconUrl: '/media/icons/duotune/vpn/development.png',
+          iconSize: [45, 45], // Kích thước biểu tượng
+          iconAnchor: [20, 20], // Vị trí neo của biểu tượng
+          className: 'hoverIcon2 opacityIcon rotate ' // Lớp (class) cho biểu tượng
+        });
+
+        const customIcon2 = L.icon({
+          iconUrl: '/media/icons/duotune/vpn/123.png',
+          iconSize: [35, 35], // Kích thước biểu tượng
+          iconAnchor: [16, 16], // Vị trí neo của biểu tượng
+          className: 'hoverIcon  ' // Lớp (class) cho biểu tượng
+        });
+
+        // Kiểm tra nếu đánh dấu đã tồn tại, thực hiện chỉnh sửa
+        if (markers.value[i]) {
+          newconnecting = true
+          if((newloading == true || newconnecting == true) && countryLoading.value == el.title){
+            console.log(newconnecting, newloading,  countryLoading.value, 2222);
+            const marker = markers.value[i];
+            marker.setIcon(customIcon);
+          }else{
+            console.log(newconnecting, newloading,  countryLoading.value, 3333);
+            const marker = markers.value[i];
+            marker.setIcon(customIcon2);
+          }
+
+          // marker.setLatLng(el.markerLatLng);
+          // marker.bindPopup(el.title);
+        }
+        // Ngược lại, tạo mới đánh dấu và thêm vào bản đồ
+        else {
+          console.log(2222);
+          // createMarkers()
+        }
+      });
+    };
+
+    watch([loading, connecting], ([newloading, newconnecting]) => {
+      // updateMarkers(newloading, newconnecting)
+    })
 
     const handleClickMap = (e: any) => {
       ElMessageBox.confirm(
@@ -157,8 +213,6 @@ export default {
       let form = {}
       return await ApiService.post(`nordvpn/status`, form)
         .then(({ data }) => {
-          console.log(data);
-
           ElNotification({
             title: 'Trạng thái Kết nối',
             message: data.detail ?? 'Có lỗi xảy ra',
@@ -180,6 +234,7 @@ export default {
     const connectNordvpn = async (country: string) => {
       loading.value = true;
       connecting.value = true;
+      countryLoading.value = country
       let form = { country: country }
       return await ApiService.post(`nordvpn/connect`, form)
         .then(({ data }) => {
@@ -252,7 +307,7 @@ export default {
     };
 
     onMounted(() => {
-      getDataMap();
+      initializeMap();
       getInfo();
       getStatus();
     });
@@ -284,11 +339,35 @@ export default {
 
 <style >
 /* Zoom In #1 */
-.hoverIcon {
+.hoverIcon, .hoverIcon2 {
   transition-duration: 0.1s;
-
 }
 
+.opacityIcon{
+  opacity: 0.7;
+}
+
+.hoverIcon2:hover {
+  margin-left: -25px  !important;
+  margin-top: -25px  !important;
+  height: 55px !important;
+  width: 55px !important;
+}
+.rotate {
+  transform: rotate(45deg);
+
+  height: 45px !important;
+  width: 45px !important;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(80deg);
+  }
+}
 .hoverIcon:hover {
   margin-left: -21px !important;
   margin-top: -21px !important;
