@@ -15,8 +15,13 @@
           <div class="d-flex justify-content-between align-items-center mb-5">
             <h3>{{ (infoStatus == 1) ? infoCountry : 'Connect to VPN' }}</h3>
             <el-tooltip :disabled="(infoStatus == 1 || loading == false || connecting == false) ? false : true"
-              class="box-item" effect="dark" :content="`IP: ${infoIp}`" placement="top" :auto-close="0">
-              <el-button :disabled="(infoStatus == 1) ? false : true" circle>IP</el-button>
+              class="box-item" effect="dark" placement="top" :auto-close="0">
+              <template #content>
+                 IP: {{ infoIp }}<br />
+                 Connect Time: {{ infoConnectTime }}<br/>
+                 Check Time: {{ infoCheckTime }}<br/>
+                 </template>
+              <el-button :disabled="(infoStatus == 1) ? false : true" circle class="h-25px w-25px"><i class="fa-solid fa-info"></i></el-button>
             </el-tooltip>
           </div>
           <div class="d-flex justify-content-between align-items-center">
@@ -188,12 +193,17 @@ export default {
     const infoCountry = ref<string>('')
     const infoStatus = ref<number>(0)
     const infoIp = ref<string>('')
+    const infoCheckTime = ref<string>('')
+    const infoConnectTime = ref<string>('')
     const getInfo = async () => {
       loading.value = true;
       return await ApiService.get(`nordvpn/info`)
         .then(({ data }) => {
+          console.log(data)
           infoCountry.value = (data.info == null) ? 'Vietnam' : data.info.country
           infoIp.value = (data.info == null) ? 'null' : data.info.ip
+          infoConnectTime.value = (data.info == null) ? 'null' : data.info.connect_time
+          infoCheckTime.value = (data.info == null) ? 'null' : data.info.check_time
           infoStatus.value = data.status
         })
         .catch(({ response }) => {
@@ -328,6 +338,8 @@ export default {
       infoIp,
       loading,
       connecting,
+      infoCheckTime,
+      infoConnectTime,
       getStatus,
       disConnectNordvpn,
       changeCountry,
