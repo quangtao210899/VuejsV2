@@ -66,7 +66,6 @@ export default {
     const iconUrl = ref<string | undefined>(undefined)
     const markers = ref<any>([]);
     const connecting = ref<boolean>(false)
-
     // Hàm khởi tạo bản đồ
     const initializeMap = () => {
       map.value = L.map(mapContainer.value, {
@@ -178,10 +177,10 @@ export default {
           connectNordvpn(e.title);
         })
         .catch(() => {
-          ElMessage({
-            type: 'info',
-            message: 'Disconnect',
-          })
+          // ElMessage({
+          //   type: 'info',
+          //   message: 'Disconnect',
+          // })
         })
     };
 
@@ -195,6 +194,15 @@ export default {
           infoCountry.value = (data.info == null) ? 'Vietnam' : data.info.country
           infoIp.value = (data.info == null) ? 'null' : data.info.ip
           infoStatus.value = data.status
+          if (data.info){
+            let country = data.info.country
+            dataMap.forEach(element => {
+              if (element['title']== country){
+                map.value.setView(element['markerLatLng'], 4);
+              }
+            });
+            console.log(dataMap, infoCountry)
+          }
         })
         .catch(({ response }) => {
           ElNotification({
