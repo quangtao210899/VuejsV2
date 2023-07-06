@@ -14,6 +14,8 @@
         :sort-label="sortLabel"
         :sort-order="sortOrder"
         :header="header"
+        :data="data"
+        :checkbox-label="checkboxLabel"
       />
       <TableBodyRow
         v-if="data.length !== 0"
@@ -44,11 +46,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch, computed } from "vue";
 import TableHeadRow from "@/components/kt-datatable/table-partials/table-content/table-head/TableHeadRow.vue";
 import TableBodyRow from "@/components/kt-datatable/table-partials/table-content/table-body/TableBodyRow.vue";
 import Loading from "@/components/kt-datatable/table-partials/Loading.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: "table-body",
@@ -76,6 +79,7 @@ export default defineComponent({
     Loading,
   },
   setup(props, { emit }) {
+    const store = useStore();
     const selectedItems = ref<Array<unknown>>([]);
     const allSelectedItems = ref<Array<unknown>>([]);
     const check = ref<boolean>(false);
@@ -100,11 +104,11 @@ export default defineComponent({
     const selectAll = (checked: any) => {
       check.value = checked;
       if (checked) {
-        selectedItems.value = [
+        store.commit('setSelectedItems', [
           ...new Set([...selectedItems.value, ...allSelectedItems.value]),
-        ];
+        ]);
       } else {
-        selectedItems.value = [];
+        store.commit('setSelectedItems', []);
       }
     };
 
@@ -115,6 +119,13 @@ export default defineComponent({
       value.forEach((item:any) => {
         if (!selectedItems.value.includes(item)) selectedItems.value.push(item);
       });
+      if (selectedItems.value.length < allSelectedItems.value.length) {
+        check.value = false
+      } else {
+        check.value = true
+      }
+
+      store.commit('setSelectedItems', selectedItems.value);
     };
 
     const onSort = (sort: Sort) => {
@@ -149,8 +160,8 @@ export default defineComponent({
     });
 
     return {
+      selectedItems: computed(() => store.state.selectedItems),
       onSort,
-      selectedItems,
       selectAll,
       itemsSelect,
       check,

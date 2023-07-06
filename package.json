@@ -54,6 +54,7 @@
         "vue-toast-notification": "3.0",
         "vue3-apexcharts": "^1.4.1",
         "vue3-select2-component": "^0.1.7",
+        "vuex": "^4.1.0",
         "yup": "^0.32.8"
     },
     "devDependencies": {
