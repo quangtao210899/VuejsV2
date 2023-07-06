@@ -6,14 +6,14 @@
       <div class="w-300px bg-white rounded-3 m-2 shadow-map">
         <div class="p-5">
           <div class="mb-3 fs-8"
-            :class="(connecting == true) ? 'CONNECTING...' : ((infoStatus == 1) ? 'text-success' : 'text-danger')">
+            :class="(connecting == true) ? 'Đang kết nối...' : ((infoStatus == 1) ? 'text-success' : 'text-danger')">
             <i class="fa-solid  me-1"
               :class="(infoStatus == 1) ? 'fa-lock-open text-success' : 'fa-lock text-danger'"></i>
-            <span class="fw-bold text-uppercase">{{ (connecting == true) ? 'CONNECTING...' : ((infoStatus == 1) ?
-              'CONNECT' : 'NOT CONNECTED') }} </span>
+            <span class="fw-bold text-uppercase">{{ (connecting == true) ? 'Đang kết nối...' : ((infoStatus == 1) ?
+              'Đã kết nối' : 'Không kết nối') }} </span>
           </div>
           <div class="d-flex justify-content-between align-items-center mb-5">
-            <h3>{{ (infoStatus == 1) ? infoCountry : 'Connect to VPN' }}</h3>
+            <h3>{{ (infoStatus == 1) ? infoCountry : 'Kết nối đến VPN' }}</h3>
             <el-tooltip :disabled="(infoStatus == 1 || loading == false || connecting == false) ? false : true"
               class="box-item" effect="dark" placement="top" :auto-close="0">
               <template #content>
@@ -26,7 +26,7 @@
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <el-button :disabled="(loading || connecting) ? true : false" type="primary" class="fs-6 px-14"
-              @click=randomCountry>Quick Connect</el-button>
+              @click=randomCountry>Kết nối nhanh</el-button>
             <el-button :disabled="(infoStatus == 0 || loading || connecting) ? true : false" @click="disConnectNordvpn"
               type="danger" link><i class="fa-solid fa-power-off fs-2 text-danger"></i></el-button>
             <el-button :disabled="(loading || connecting) ? true : false" @click="getStatus" type="primary" link>
@@ -100,7 +100,7 @@ export default {
           className: 'hoverIcon' // Lớp (class) cho biểu tượng
         });
       dataMap.forEach((el, i) => {
-        const customTooltipContent = (connecting.value) ? 'Connecting to ' + el.title + ' ...' : 'Connect to ' + el.title
+        const customTooltipContent = (connecting.value) ? 'Đang kết nối đến ' + el.title + ' ...' : 'Kết nối ' + el.title
         const marker = L.marker({ lat: el.markerLatLng[0], lng: el.markerLatLng[1] }, { icon: customIcon })
           .addTo(map.value)
           .bindTooltip(customTooltipContent, {
@@ -169,15 +169,15 @@ export default {
         'Bạn có chắc muốn kết nối với ' + e.title + ' không?',
         'Kết nối với quốc gia ' + e.title,
         {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
+          confirmButtonText: 'Đồng ý',
+          cancelButtonText: 'Quay lại',
           type: 'warning',
         }
       )
         .then(() => {
           ElMessage({
             type: 'success',
-            message: 'Connecting with the ' + e.title + '...',
+            message: 'Đang kết nối đến ' + e.title + '...',
           })
           connectNordvpn(e.title);
         })

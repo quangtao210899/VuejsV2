@@ -86,14 +86,14 @@ const MainMenuConfig: Array<MenuItem> = [
     ],
   },
   {
-    heading: "VPN",
+    heading: "Hỗ trợ vấn công",
     route: "/vpn",
     pages: [
       {
-        heading: "Quản lý VPN",
+        heading: "Kết nối VPN",
         route: "/vpn",
-        keenthemesIcon: "bi bi-bug-fill",
-        bootstrapIcon: "bi bi-bug-fill",
+        keenthemesIcon: "bi bi-shield-check",
+        bootstrapIcon: "bi bi-shield-check",
       },
     ],
   },
