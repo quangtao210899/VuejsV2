@@ -136,7 +136,7 @@
               <div class=" w-100 text-end ">
                 <!--begin::Button-->
                 <button @click="handleReset" :disabled="loading" class="btn btn-sm  btn-light me-3">
-                  Reset
+                  Đặt lại
                 </button>
                 <!--end::Button-->
 
@@ -144,11 +144,11 @@
                 <button @click="handleClick" :disabled="loading" :data-kt-indicator="loading ? 'on' : null"
                   class="btn btn-sm btn-primary" type="submit">
                   <span v-if="!loading" class="indicator-label">
-                    Submit
+                    Gửi
                     <KTIcon icon-name="arrow-right" icon-class="fs-3 ms-2 me-0" />
                   </span>
                   <span v-if="loading" class="indicator-progress">
-                    Please wait...
+                    Đang gửi...
                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                   </span>
                 </button>
@@ -270,9 +270,9 @@
               <div class="d-flex">
                 <button :disabled="loading" id="kt_password_submit" type="submit" ref="updatePasswordButton"
                   class="btn btn-primary me-2 px-6 btn-sm">
-                  <span class="indicator-label"> Update Password </span>
+                  <span class="indicator-label"> Cập nhật </span>
                   <span class="indicator-progress">
-                    Please wait...
+                    Đang cập nhật...
                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                   </span>
                 </button>
@@ -378,7 +378,7 @@ export default defineComponent({
         text: values ?? more,
         icon: icon,
         buttonsStyling: false,
-        confirmButtonText: "Ok, got it!",
+        confirmButtonText: "Đồng ý!",
         heightAuto: false,
         customClass: {
           confirmButton: "btn btn-primary",

@@ -61,13 +61,6 @@
                             <KTIcon icon-name="eye" icon-class="fs-3" />
                         </router-link>
                     </el-tooltip>
-                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
-                        <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 mb-1"
-                            data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
-                            @click="handleClick(customer, 'edit')">
-                            <KTIcon icon-name="pencil" icon-class="fs-3" />
-                        </button>
-                    </el-tooltip>
                 </template>
             </KTDatatable>
         </div>
@@ -103,13 +96,13 @@
                     <div class="modal-footer flex-center">
                         <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel" @click="resetData"
                             class="btn btn-sm  btn-light me-3">
-                            Discard
+                            Loại bỏ
                         </button>
                         <button ref="submitButtonRef" type="submit" @click="getCheckedKeys"
                             id="kt_modal_new_target_group_submit" class="btn btn-sm  btn-primary">
-                            <span class="indicator-label"> Submit </span>
+                            <span class="indicator-label"> Gửi </span>
                             <span class="indicator-progress">
-                                Please wait...
+                                Đang gửi...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
@@ -1041,7 +1034,7 @@ export default defineComponent({
                 text: values ?? more,
                 icon: icon,
                 buttonsStyling: false,
-                confirmButtonText: "Ok, got it!",
+                confirmButtonText: "Đồng ý!",
                 heightAuto: false,
                 customClass: {
                     confirmButton: "btn btn-primary",

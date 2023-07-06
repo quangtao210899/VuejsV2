@@ -25,7 +25,7 @@
                             </router-link>
                         </el-tooltip>
 
-                        <el-popconfirm width="300" confirm-button-text="Submit" icon-color="#626AEF"
+                        <el-popconfirm width="300" confirm-button-text="Đồng ý"  cancel-button-text="Không" icon-color="#626AEF"
                             title="Bạn có chắc muốn scan CVE không?" @confirm="submit">
                             <template #reference>
                                 <span>
@@ -188,9 +188,9 @@
                 <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit">
                     <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
                         class="btn btn-sm  btn-primary">
-                        <span class="indicator-label"> Submit </span>
+                        <span class="indicator-label"> Gửi </span>
                         <span class="indicator-progress">
-                            Please wait...
+                            Đang gửi...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                         </span>
                     </button>
@@ -527,7 +527,7 @@ export default defineComponent({
                 text: values ?? more,
                 icon: icon,
                 buttonsStyling: false,
-                confirmButtonText: "Ok, got it!",
+                confirmButtonText: "Đồng ý!",
                 heightAuto: false,
                 customClass: {
                     confirmButton: "btn btn-primary",

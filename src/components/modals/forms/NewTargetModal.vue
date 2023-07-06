@@ -389,7 +389,7 @@ export default defineComponent({
               text: "Form has been successfully submitted!",
               icon: "success",
               buttonsStyling: false,
-              confirmButtonText: "Ok, got it!",
+              confirmButtonText: "Đồng ý!",
               heightAuto: false,
               customClass: {
                 confirmButton: "btn btn-primary",
@@ -403,7 +403,7 @@ export default defineComponent({
             text: "Sorry, looks like there are some errors detected, please try again.",
             icon: "error",
             buttonsStyling: false,
-            confirmButtonText: "Ok, got it!",
+            confirmButtonText: "Đồng ý!",
             heightAuto: false,
             customClass: {
               confirmButton: "btn btn-primary",
