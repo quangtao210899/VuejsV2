@@ -16,6 +16,7 @@
         :header="header"
         :data="data"
         :checkbox-label="checkboxLabel"
+        :current-page="currentPage"
       />
       <TableBodyRow
         v-if="data.length !== 0"
@@ -65,6 +66,10 @@ export default defineComponent({
       required: false,
       default: "asc",
     },
+    currentPage: {
+      type: Number,
+      required: true,
+    },
     checkboxEnabled: { type: Boolean, required: false, default: false },
     checkboxLabel: { type: String, required: false, default: "id" },
     loading: { type: Boolean, required: false, default: false },
@@ -104,21 +109,58 @@ export default defineComponent({
     const selectAll = (checked: any) => {
       check.value = checked;
       if (checked) {
-        store.commit('setSelectedItems', [
-          ...new Set([...selectedItems.value, ...allSelectedItems.value]),
-        ]);
+        if (store.state.selectedItems.length == 0) {
+          store.commit('setSelectedItems', [
+            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
+          ]);
+        } else {
+          store.commit('addSelectedItem', [
+            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
+          ]);
+        }
       } else {
-        store.commit('setSelectedItems', []);
+        console.log();
+        
+        store.commit('removeSelectedItem', [
+            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
+          ]);
       }
+      selectedItems.value = store.state.selectedItems
+      console.log(store.state.selectedItems, selectedItems.value);
     };
+
+    const checkselectedItemsOfPage = ref<boolean>(false);
+
+    watch(
+      () => props.currentPage,
+      () => {
+        console.log(234234234234);
+        
+        checkselectedItemsOfPage.value = true
+      }
+    );
 
     //eslint-disable-next-line
     const itemsSelect = (value: any) => {
+      console.log(1231231233453456, value);
+      
       selectedItems.value = [];
+      let selectedItemsOfPage = []
       //eslint-disable-next-line
       value.forEach((item:any) => {
-        if (!selectedItems.value.includes(item)) selectedItems.value.push(item);
+        console.log(item, 345345);
+        
+        if (!selectedItems.value.includes(item)) {
+          selectedItems.value.push(item);
+        }
+        if (checkselectedItemsOfPage.value) {
+          selectedItemsOfPage = []
+        }
+        // if (!selectedItemsOfPage.value.includes(item)) {
+          // selectedItemsOfPage.push(item)
+        // }
       });
+      console.log(selectedItemsOfPage, 234234234);
       if (selectedItems.value.length < allSelectedItems.value.length) {
         check.value = false
       } else {
