@@ -1038,7 +1038,7 @@
                             </div>
                         </template>
                         <div class="h-500px">
-                            <template v-if="Object.values(subdomain_result).length > 0">
+                            <template v-if="subdomain_result.length > 0">
 
                                 <el-table :data="subdomain_result" height="500" style="width: 100%"
                                     class-name="my-custom-table">
@@ -1207,18 +1207,8 @@
                                     </el-table-column>
                                 </el-table>
                             </template>
-                            <template v-else-if="reconStatus == 3 || reconStatus == 4">
-                                <div class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="mb-5">
-                                        <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
-                                    </div>
-                                    <span>Không tìm thấy dữ liệu nào!</span>
-                                </div>
-                            </template>
                             <template v-else>
-                                <div class="mt-5 m-3">
-                                    <el-skeleton :rows="10" animated />
-                                </div>
+                                123
                             </template>
                         </div>
                     </el-card>
@@ -1573,7 +1563,7 @@ export default defineComponent({
                     reconStatus.value = data.status
                     checkStatus.value = (data.status == 3) ? true : false
                     humanDiffTime()
-                    console.log(port_service_status.value)
+                    console.log(Object.keys(subdomain_result.value))
                     console.log(data)
 
                 })
