@@ -17,11 +17,12 @@
             <el-tooltip :disabled="(infoStatus == 1 || loading == false || connecting == false) ? false : true"
               class="box-item" effect="dark" placement="top" :auto-close="0">
               <template #content>
-                 IP: {{ infoIp }}<br />
-                 Connect Time: {{ infoConnectTime }}<br/>
-                 Check Time: {{ infoCheckTime }}<br/>
-                 </template>
-              <el-button :disabled="(infoStatus == 1) ? false : true" circle class="h-25px w-25px"><i class="fa-solid fa-info"></i></el-button>
+                IP: {{ infoIp }}<br />
+                Connect Time: {{ infoConnectTime }}<br />
+                Check Time: {{ infoCheckTime }}<br />
+              </template>
+              <el-button :disabled="(infoStatus == 1) ? false : true" circle class="h-25px w-25px"><i
+                  class="fa-solid fa-info"></i></el-button>
             </el-tooltip>
           </div>
           <div class="d-flex justify-content-between align-items-center">
@@ -60,6 +61,7 @@ import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import ApiService from "@/core/services/ApiService";
 
 export default {
+  name: 'VpnComponent',
 
   setup() {
     // Khởi tạo một tham chiếu đến DOM element container để chứa bản đồ
@@ -71,6 +73,12 @@ export default {
     const iconUrl = ref<string | undefined>(undefined)
     const markers = ref<any>([]);
     const connecting = ref<boolean>(false)
+    const customIcon = L.icon({
+      iconUrl: '/media/icons/duotune/vpn/123.png',
+      iconSize: [35, 35], // Kích thước biểu tượng
+      iconAnchor: [16, 16], // Vị trí neo của biểu tượng
+      className: 'hoverIcon' // Lớp (class) cho biểu tượng
+    });
     // Hàm khởi tạo bản đồ
     const initializeMap = () => {
       map.value = L.map(mapContainer.value, {
@@ -93,12 +101,7 @@ export default {
         console.error('Bản đồ chưa được khởi tạo.');
         return;
       }
-      const customIcon = L.icon({
-          iconUrl: '/media/icons/duotune/vpn/123.png',
-          iconSize: [35, 35], // Kích thước biểu tượng
-          iconAnchor: [16, 16], // Vị trí neo của biểu tượng
-          className: 'hoverIcon' // Lớp (class) cho biểu tượng
-        });
+
       dataMap.forEach((el, i) => {
         const customTooltipContent = (connecting.value) ? 'Đang kết nối đến ' + el.title + ' ...' : 'Kết nối ' + el.title
         const marker = L.marker({ lat: el.markerLatLng[0], lng: el.markerLatLng[1] }, { icon: customIcon })
@@ -121,39 +124,70 @@ export default {
         console.error('Bản đồ chưa được khởi tạo.');
         return;
       }
+              
+      const customIconConnecting = L.divIcon({
+          className: customIcon.options.className,
+          html: `<div class="position-relative h-100 w-100">
+            <img class="h-100 w-100 z-index-1" src="/media/icons/duotune/vpn/123.png" alt="icon">
+            <div class="position-absolute start-0 h-100 w-100" style="top: 1.1px">
+              <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                <i class="fa-solid fa-circle-notch fa-spin text-primary fs-4 z-index-2"></i>
+              </div>
+            </div></div>`,
+          iconSize: customIcon.options.iconSize,
+          iconAnchor: customIcon.options.iconAnchor,
+        });
+
+        const customIconDisconnect= L.divIcon({
+          className: customIcon.options.className,
+          html: `<div class="position-relative h-100 w-100">
+            <img class="h-100 w-100 z-index-1" src="/media/icons/duotune/vpn/123.png" alt="icon">
+            <div class="position-absolute start-0 h-100 w-100" style="top: 1.1px">
+              <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                <i class="fa-solid fa-circle-xmark text-danger fs-3 z-index-2 rounded-circle bg-white"></i>
+              </div>
+            </div></div>`,
+          iconSize: customIcon.options.iconSize,
+          iconAnchor: customIcon.options.iconAnchor,
+        });
+
+        const customIconConnect= L.divIcon({
+          className: customIcon.options.className,
+          html: `<div class="position-relative h-100 w-100">
+            <img class="h-100 w-100 z-index-1" src="/media/icons/duotune/vpn/123.png" alt="icon">
+            <div class="position-absolute start-0 h-100 w-100" style="top: 1.1px">
+              <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                <i class="fa-solid fa-circle-check text-success fs-3 z-index-2 rounded-circle bg-white"></i>
+             </div>
+            </div></div>`,
+          iconSize: customIcon.options.iconSize,
+          iconAnchor: customIcon.options.iconAnchor,
+        });
+
       dataMap.forEach((el, i) => {
-        const customIcon = L.icon({
-          iconUrl: '/media/icons/duotune/vpn/development.png',
-          iconSize: [45, 45], // Kích thước biểu tượng
-          iconAnchor: [20, 20], // Vị trí neo của biểu tượng
-          className: 'hoverIcon2 opacityIcon rotate ' // Lớp (class) cho biểu tượng
-        });
-
-        const customIcon2 = L.icon({
-          iconUrl: '/media/icons/duotune/vpn/123.png',
-          iconSize: [35, 35], // Kích thước biểu tượng
-          iconAnchor: [16, 16], // Vị trí neo của biểu tượng
-          className: 'hoverIcon  ' // Lớp (class) cho biểu tượng
-        });
-
         // Kiểm tra nếu đánh dấu đã tồn tại, thực hiện chỉnh sửa
         if (markers.value[i]) {
-          newconnecting = true
-          if((newloading == true || newconnecting == true) && countryLoading.value == el.title){
-            console.log(newconnecting, newloading,  countryLoading.value, 2222);
-            const marker = markers.value[i];
-            marker.setIcon(customIcon);
-          }else{
-            console.log(newconnecting, newloading,  countryLoading.value, 3333);
-            const marker = markers.value[i];
-            marker.setIcon(customIcon2);
+          const marker = markers.value[i];
+          if (newloading == true || newconnecting == true ) {
+            if(countryLoading.value == el.title){
+              console.log(newconnecting, newloading, countryLoading.value, 2222);
+              marker.setIcon(customIconConnecting);
+            }
+            marker.off('click');
+          } else {
+            if(countryLoading.value == el.title && infoStatus.value == 0){
+              marker.setIcon(customIconDisconnect);
+            }else if(countryLoading.value == el.title && infoStatus.value == 1){
+              marker.setIcon(customIconConnect);
+            }else{
+              marker.setIcon(customIcon);
+            }
+            marker.on('click', () => handleClickMap(el));
           }
-
           // marker.setLatLng(el.markerLatLng);
           // marker.bindPopup(el.title);
-        }
-        // Ngược lại, tạo mới đánh dấu và thêm vào bản đồ
-        else {
+        }else{
+          // Ngược lại, tạo mới đánh dấu và thêm vào bản đồ
           console.log(2222);
           // createMarkers()
         }
@@ -161,7 +195,7 @@ export default {
     };
 
     watch([loading, connecting], ([newloading, newconnecting]) => {
-      // updateMarkers(newloading, newconnecting)
+      updateMarkers(newloading, newconnecting)
     })
 
     const handleClickMap = (e: any) => {
@@ -204,14 +238,14 @@ export default {
           infoConnectTime.value = (data.info == null) ? 'null' : data.info.connect_time
           infoCheckTime.value = (data.info == null) ? 'null' : data.info.check_time
           infoStatus.value = data.status
-          if (data.info){
+          if (data.info) {
             let country = data.info.country
             dataMap.forEach(element => {
-              if (element['title']== country){
+              if (element['title'] == country) {
                 map.value.setView(element['markerLatLng'], 4);
               }
             });
-            console.log(dataMap, infoCountry)
+            console.log(data)
           }
         })
         .catch(({ response }) => {
@@ -232,7 +266,7 @@ export default {
       return await ApiService.post(`nordvpn/status`, form)
         .then(({ data }) => {
           ElNotification({
-            title: 'Trạng thái Kết nối',
+            title: 'Trạng thái Kết nối ',
             message: data.detail ?? 'Có lỗi xảy ra',
             type: (infoStatus.value == 0) ? 'error' : 'success',
           })
@@ -256,7 +290,7 @@ export default {
       let form = { country: country }
       return await ApiService.post(`nordvpn/connect`, form)
         .then(({ data }) => {
-          ElNotification({
+          ElNotification({ 
             title: 'Trạng thái Kết nối',
             message: data.detail ?? 'Có lỗi xảy ra',
             type: 'success',
@@ -269,6 +303,7 @@ export default {
             message: response.data.detail ?? 'Có lỗi xảy ra',
             type: 'error',
           })
+          getInfo()
         })
         .finally(() => {
           loading.value = false
@@ -359,35 +394,18 @@ export default {
 
 <style >
 /* Zoom In #1 */
-.hoverIcon, .hoverIcon2 {
+.hoverIcon,
+.hoverIcon2 {
   transition-duration: 0.1s;
 }
 
-.opacityIcon{
-  opacity: 0.7;
-}
-
 .hoverIcon2:hover {
-  margin-left: -25px  !important;
-  margin-top: -25px  !important;
+  margin-left: -25px !important;
+  margin-top: -25px !important;
   height: 55px !important;
   width: 55px !important;
 }
-.rotate {
-  transform: rotate(45deg);
 
-  height: 45px !important;
-  width: 45px !important;
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(80deg);
-  }
-}
 .hoverIcon:hover {
   margin-left: -21px !important;
   margin-top: -21px !important;
@@ -397,5 +415,4 @@ export default {
 
 .shadow-map {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-}
-</style>
+}</style>
