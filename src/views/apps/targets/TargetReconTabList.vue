@@ -1025,11 +1025,11 @@
                                     </el-tabs>
                                 </template>
                             </template>
-                            <template v-else>
+                            <!-- <template v-else>
                                 <div class="mt-5 m-3">
                                     <el-skeleton :rows="7" animated />
                                 </div>
-                            </template>
+                            </template> -->
                         </div>
                     </el-card>
                 </el-col>
@@ -1368,7 +1368,7 @@ import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-// import data from "@/views/apps/targets/reconData.json";
+import data from "@/views/apps/targets/reconData.json";
 import { Refresh, Search } from '@element-plus/icons-vue'
 
 // import dayjs from 'dayjs';
@@ -1511,7 +1511,7 @@ export default defineComponent({
             loading.value = true;
 
             return await ApiService.get(`recon/detail3/${scanID.value}`)
-                .then(({ data }) => {
+                .then(({ data1 }) => {
                     list.value = data
                     targets.value = data.target
                     account.value = data.recon[0].account
