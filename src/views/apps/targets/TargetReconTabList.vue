@@ -197,7 +197,7 @@
                                                 <el-tab-pane v-for="(items, index) in domain_info" :key="index" class="">
                                                     <template #label>
                                                         <span class="custom-tabs-label text-capitalize">
-                                                            <span>{{ index }}</span>
+                                                            <span>{{ convertToString(index) }}</span>
                                                         </span>
                                                     </template>
                                                     <div class="">
@@ -297,7 +297,7 @@
                                                 <el-tab-pane v-for="(items, index) in ip_info" :key="index" class="">
                                                     <template #label>
                                                         <span class="custom-tabs-label text-capitalize">
-                                                            <span>{{ index }}</span><br>
+                                                            <span>{{ convertToString(index) }}</span><br>
                                                         </span>
                                                     </template>
                                                     <div class="">
@@ -447,7 +447,8 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch vụ</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (port_service_status == 3  && Array.isArray(port_service)) ? Object.keys(port_service).length : 0 }}</span>
+                                    {{ (port_service_status == 3 && Array.isArray(port_service)) ?
+                                        Object.keys(port_service).length : 0 }}</span>
                             </div>
                         </template>
                         <div class="h-500px">
@@ -538,7 +539,8 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Email liên quan</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (related_email_status == 3 && Array.isArray(related_email)) ? Object.keys(related_email).length : 0 }}
+                                    {{ (related_email_status == 3 && Array.isArray(related_email)) ?
+                                        Object.keys(related_email).length : 0 }}
                                 </span>
                             </div>
                         </template>
@@ -658,7 +660,8 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Tên miền liên quan đến mục tiêu</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (related_domain_status == 3  && Array.isArray(related_domain)) ? Object.keys(related_domain).length : 0 }}
+                                    {{ (related_domain_status == 3 && Array.isArray(related_domain)) ?
+                                        Object.keys(related_domain).length : 0 }}
                                 </span>
                             </div>
                         </template>
@@ -744,7 +747,8 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Công nghệ sử dụng</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (technology_status == 3  && Array.isArray(technology)) ? Object.keys(technology).length : 0 }}
+                                    {{ (technology_status == 3 && Array.isArray(technology)) ?
+                                        Object.keys(technology).length : 0 }}
                                 </span>
                             </div>
                         </template>
@@ -914,7 +918,118 @@
                                 <span class="card-label fw-bold text-gray-800 fs-5">Web Data</span>
                             </div>
                         </template>
-                        <div class="h-100">
+                        <div class="h-500px">
+                            <template v-if="webdata_status == 1 || webdata_status == '1'">
+                                <template v-if="webdata_result == '' || Object.values(webdata_result.fuzzing.message).length == 0 &&
+                                    Object.values(webdata_result.js_analysis.message).length == 0 &&
+                                    Object.values(webdata_result.subdomains_takeover.message).length == 0 &&
+                                    Object.values(webdata_result.url_extraction.message).length == 0">
+                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                        </div>
+                                        <span>Không tìm thấy dữ liệu nào!</span>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <el-tabs tab-position="left" type="border-card" :stretch="true"
+                                        class="demo-tabs2 padding-tabs border border-0 h-100" :lazy="true">
+                                        <el-tab-pane class="h-100" v-for="(items, index) in webdata_result" :key="index">
+                                            <template #label>
+                                                <span class="custom-tabs-label w-90px" style="white-space:pre-wrap">
+                                                    <span class="text-capitalize">{{ convertToString(index) }}</span>
+                                                </span>
+                                            </template>
+                                            <div class="h-100">
+                                                <template v-if="items.message == '' || items.message == null">
+                                                    <div
+                                                        class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                        <div class="text-center mb-5">
+                                                            <i
+                                                                class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                                        </div>
+                                                        <span>Không tìm thấy dữ liệu nào!</span>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    <template v-if="checkArray(items.message)">
+                                                        <!--begin::Table container-->
+                                                        <div class="table-responsive w-100 h-100 p-3">
+                                                            <!--begin::Table-->
+                                                            <table class="table table-row-dashed table-row-gray-300">
+                                                                <template v-if="index.toString() == 'js_analysis'">
+                                                                    <thead>
+                                                                        <tr
+                                                                            class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
+                                                                            <th class="py-2 px-0 text-start">Thông tin</th>
+                                                                            <th class="py-2 px-3 text-start ">Dữ liệu
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <!--begin::Table body-->
+                                                                    <tbody class="overflow-y-auto">
+                                                                        <tr v-for="(item, key) in items.message" :key="key">
+                                                                            <td class="text-start">
+                                                                                <span>{{ item[0] }}</span>
+                                                                            </td>
+                                                                            <td class="text-start">
+                                                                                <div class="flex justify-space-between mb-4 flex-wrap gap-4 w-200px">
+                                                                                    <el-button :disabled="disabled" class="m-0 me-2 border-0" circle >
+                                                                                        <i :disabled="disabled" class="fa-clipboard  fs-4 cursor-pointer" :class="(clipboard.includes(item[1]) ? 'fa-solid text-success' : ' fa-regular text-muted' )"
+                                                                                        @click="copyContent(item[1])"></i>
+                                                                                    </el-button>
+                                                                                    <span>{{ truncateText(item[1], 20) }}</span>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <!--end::Table body-->
+                                                                </template>
+                                                                <template v-else>
+                                                                    <!--begin::Table body-->
+                                                                    <tbody class="overflow-y-auto">
+                                                                        <tr v-for="(item, key) in items.message" :key="key">
+                                                                            <template v-if="checkArray(item)">
+                                                                                <td v-for="el in item" class="text-start">{{
+                                                                                    el
+                                                                                }}</td>
+                                                                            </template>
+                                                                            <template v-else>
+                                                                                <td class="text-start">
+                                                                                    <span>{{ item }}</span>
+                                                                                </td>
+                                                                            </template>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <!--end::Table body-->
+                                                                </template>
+
+                                                            </table>
+                                                            <!--end::Table-->
+                                                        </div>
+                                                        <!--end::Table container-->
+                                                    </template>
+                                                    <template v-else>
+                                                        <div
+                                                            class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                            <div class="mb-5">
+                                                                <i
+                                                                    class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                                            </div>
+                                                            <span>{{ items.message }}</span>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                        </el-tab-pane>
+                                    </el-tabs>
+                                </template>
+                            </template>
+                            <template v-else>
+                                <div class="mt-5 m-3">
+                                    <el-skeleton :rows="7" animated />
+                                </div>
+                            </template>
                         </div>
                     </el-card>
                 </el-col>
@@ -1382,6 +1497,8 @@ export default defineComponent({
         const technology_status = ref<number | any>(null);
         const metadata = ref<any>({});
         const metadata_status = ref<number | any>(null);
+        const webdata_result = ref<any>({});
+        const webdata_status = ref<number | any>(null);
         const linkCheck = ref<string>('')
         const linkCheckIP = ref<string>('')
         const disabled = ref<boolean>(false);
@@ -1408,7 +1525,6 @@ export default defineComponent({
                     process.value = [parseFloat(totalCount.toFixed(1))]
                     activities.value = (data.recon[0].activity !== undefined) ? data.recon[0].activity.task_done : {}
 
-
                     // if (totalCount == 100) {
                     // } else {
                     //     activities.value = { ...activities.value, load: 'Đang chạy...' }
@@ -1421,15 +1537,12 @@ export default defineComponent({
 
                     // IP
                     ip_info.value = (data.recon[0].ip_info !== undefined) ? data.recon[0].ip_info.message : {};
-                    console.log(ip_info.value, 222);
                     ip_info_status.value = (data.recon[0].ip_info !== undefined) ? data.recon[0].ip_info.status : {};
                     linkCheckIP.value = (ip_info_status.value == 4) ? checkLink(ip_info.value) : ''
-
 
                     // port_service
                     port_service.value = (data.recon[0].port_service !== undefined) ? data.recon[0].port_service.message : {};
                     port_service_status.value = (data.recon[0].port_service !== undefined) ? data.recon[0].port_service.status : {};
-
 
                     // related_email
                     related_email.value = (data.recon[0].related_email !== undefined) ? data.recon[0].related_email.message : {};
@@ -1449,8 +1562,16 @@ export default defineComponent({
 
                     // subdomain_result
                     subdomain_result.value = data.recon[0].subdomain_result
+
+                    // Web Data
+                    webdata_result.value = (data.recon[0].webdata !== undefined) ? data.recon[0].webdata.message : {};
+                    webdata_status.value = (data.recon[0].webdata !== undefined) ? data.recon[0].webdata.status : {};
+
+                    // check
                     reconStatus.value = data.status
+                    checkStatus.value = (data.status == 3) ? true : false
                     humanDiffTime()
+                    console.log(webdata_result.value)
                     console.log(data)
 
                 })
@@ -1467,7 +1588,7 @@ export default defineComponent({
                 text: values ?? more,
                 icon: icon,
                 buttonsStyling: false,
-                confirmButtonText: "Ok, got it!",
+                confirmButtonText: "Đồng ý!",
                 heightAuto: false,
                 customClass: {
                     confirmButton: "btn btn-primary",
@@ -1659,21 +1780,21 @@ export default defineComponent({
         const diffTime = ref<string | any>(0);
         const time = ref<any>(null);
         const eventTime = ref<number | any>('30000');
-        let intervalId : any;
+        let intervalId: any;
 
-        const humanDiff = async () => {
-            let date1: any = (reconStatus.value == 2) ? new Date() : new Date(timeEnd.value);
-            let date2: any = new Date(timeStart.value);
-            let diff = Math.max(date2, date1) - Math.min(date2, date1);
-            let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
-            let hrs = Math.floor(diff / HRS);
-            let min = Math.floor((diff % HRS) / MIN).toLocaleString('en-US', { minimumIntegerDigits: 1 });
-            let sec = Math.floor(((diff % MIN) / SEC)).toLocaleString('en-US', { minimumIntegerDigits: 2 });
-            if (hrs == 0) {
-                return diffTime.value = min + 'm ' + sec + 's';
-            }
-            return diffTime.value = hrs + 'h ' + min + 'm ' + sec + 's';
-        };
+        // const humanDiff = async () => {
+        //     let date1: any = (reconStatus.value == 2) ? new Date() : new Date(timeEnd.value);
+        //     let date2: any = new Date(timeStart.value);
+        //     let diff = Math.max(date2, date1) - Math.min(date2, date1);
+        //     let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
+        //     let hrs = Math.floor(diff / HRS);
+        //     let min = Math.floor((diff % HRS) / MIN).toLocaleString('en-US', { minimumIntegerDigits: 1 });
+        //     let sec = Math.floor(((diff % MIN) / SEC)).toLocaleString('en-US', { minimumIntegerDigits: 2 });
+        //     if (hrs == 0) {
+        //         return diffTime.value = min + 'm ' + sec + 's';
+        //     }
+        //     return diffTime.value = hrs + 'h ' + min + 'm ' + sec + 's';
+        // };
 
         watch((eventTime), () => {
             humanDiffTime();
@@ -1714,6 +1835,13 @@ export default defineComponent({
                 data = data.replace(/([A-Z])/g, ' $1').trim();
             }
             return data.charAt(0).toUpperCase() + data.slice(1);
+        };
+
+        const convertToString = (data: any) => {
+            if (data) {
+                return data.split('_').join(' ').toString();
+            }
+            return data
         };
 
         const checkLink = (data: any) => {
@@ -1880,6 +2008,44 @@ export default defineComponent({
             setTimeout(() => loading.value = false, 500)
         }
 
+        //  Cắt chuỗi 
+        const truncateText = (text: string, maxLength: number) => {
+            if (text.length > maxLength) {
+                return text.substring(0, maxLength) + ' ...';
+            }
+            return text;
+        };
+
+        // copy
+        const copyArray = ref(new Set());
+        const clipboard = ref([]);
+
+        const copyContent = (content: any) => {
+            disabled.value = true
+            setTimeout(() => {
+                disabled.value = false
+            }, 1000);
+            if (content) {
+                navigator.clipboard
+                    .writeText(content)
+                    .then(() => {
+                        ElMessage({
+                            message: 'Copy Thành Công',
+                            type: 'success',
+                            center: false,
+                        });
+                        clipboard.value = Array.from(copyArray.value.add(content))
+                    })
+                    .catch((error) => {
+                        ElMessage({
+                            message: 'Copy Thất Bại',
+                            type: 'error',
+                            center: false,
+                        });
+                    })
+            }
+        };
+
         return {
             activities,
             scanID,
@@ -1903,17 +2069,17 @@ export default defineComponent({
             endpoint,
             activity,
             process,
+            truncateText,
+            copyContent,
+            clipboard,
 
             // tải về
             fileDownVisible,
             downloadAcunetix,
 
-
             // crud
             apiData,
             handleClick,
-
-
 
             // sử lý dữ liệu
             getSeverity,
@@ -1959,6 +2125,8 @@ export default defineComponent({
             technology_status,
             metadata_status,
             subdomain_result,
+            webdata_status,
+            webdata_result,
             linkCheckIP,
             disabled,
             RefreshIcon,
@@ -1974,6 +2142,7 @@ export default defineComponent({
             handlePortserviceMore,
             isRowExpandedPortservice,
             expandedPortservice,
+            convertToString,
 
             // modoal
             dialogDirectoryVisible,
@@ -2031,6 +2200,7 @@ export default defineComponent({
 .demo-tabs2 .el-tabs__content,
 .demo-tabs .el-tabs__content {
     padding: 0px !important;
+    height: 100%;
 }
 
 .demo-tabs2 .el-tabs__nav,

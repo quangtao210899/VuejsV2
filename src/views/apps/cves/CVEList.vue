@@ -229,16 +229,16 @@
                         <!--begin::Button-->
                         <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
                             class="btn btn-sm  btn-light me-3">
-                            Discard
+                            Loại bỏ
                         </button>
                         <!--end::Button-->
 
                         <!--begin::Button-->
                         <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
                             class="btn btn-sm  btn-primary">
-                            <span class="indicator-label"> Submit </span>
+                            <span class="indicator-label"> Gửi </span>
                             <span class="indicator-progress">
-                                Please wait...
+                                Đang gửi...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
@@ -312,7 +312,7 @@
                             <div class="card-toolbar">
                                 <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
                                     data-bs-target="#kt_modal_new_target_group" @click="handleClick(detailData, 'edit')">
-                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Update
+                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Cập nhật
                                 </button>
                             </div>
                         </div>
@@ -948,7 +948,7 @@ export default defineComponent({
                 text: values ?? more,
                 icon: icon,
                 buttonsStyling: false,
-                confirmButtonText: "Ok, got it!",
+                confirmButtonText: "Đồng ý!",
                 heightAuto: false,
                 customClass: {
                     confirmButton: "btn btn-primary",

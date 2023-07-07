@@ -24,6 +24,37 @@
     "modified_at": "2023-06-21T15:18:19.186398+07:00",
     "status": 2,
     "recon": [{
+            "webdata": {
+                "status": 3,
+                "message": {
+                    "url_extraction": {
+                        "status": 3,
+                        "message": []
+                    },
+                    "js_analysis": {
+                        "status": 3,
+                        "message": []
+
+                    },
+                    "fuzzing": {
+                        "status": 3,
+                        "message": [
+                            "http://access.etc.vn:8083/",
+                            "http://doc.cs.etc.vn:8083/",
+                            "http://git.cs.etc.vn:8083/",
+                            "http://gps.cs.etc.vn:8083/",
+                            "http://itservicedesk.etc.vn:8083/",
+                            "http://svn.cs.etc.vn:8083/",
+                            "http://tfs.cs.etc.vn:8083/",
+                            "https://www.etc.vn/"
+                        ]
+                    },
+                    "subdomains_takeover": {
+                        "status": 0,
+                        "message": "Thông tin không được chọn khi recon."
+                    }
+                }
+            },
             "activity": {
                 "task_done": [{
                         "name": "Domain information",
@@ -730,7 +761,6 @@
                             "status_code": "302",
                             "params": []
                         },
-
                         {
                             "url": "https://www.etc.vn/vi/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
                             "title": "Redirecting to http://www.etc.vn/service/giai-phap-quan-ly-van-hanh-khai-thac-san-bay-cang-hang-khong",
@@ -1847,7 +1877,6 @@
                         "80/http-proxy",
                         "80/http-proxy",
                         "80/http-proxy"
-
                     ],
                     "portservice": [
                         "80/http-proxy",
@@ -1865,7 +1894,6 @@
                     "cdn": [
                         "BIG-IP AppSec Manager (F5 Networks)",
                         "BIG-IP AppSec Manager"
-
                     ]
                 },
                 {

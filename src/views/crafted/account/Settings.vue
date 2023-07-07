@@ -2393,7 +2393,7 @@ export default defineComponent({
           Swal.fire({
             text: "Email is successfully changed!",
             icon: "success",
-            confirmButtonText: "Ok",
+            confirmButtonText: "Đồng ý",
             buttonsStyling: false,
             heightAuto: false,
             customClass: {
@@ -2430,7 +2430,7 @@ export default defineComponent({
           Swal.fire({
             text: "Password is successfully changed!",
             icon: "success",
-            confirmButtonText: "Ok",
+            confirmButtonText: "Đồng ý",
             buttonsStyling: false,
             heightAuto: false,
             customClass: {

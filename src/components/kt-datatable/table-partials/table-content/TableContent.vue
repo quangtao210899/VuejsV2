@@ -114,13 +114,15 @@ export default defineComponent({
             ...new Set([...selectedItems.value, ...allSelectedItems.value]),
           ]);
         } else {
+          store.commit('removeSelectedItem', [
+            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
+          ]);
+          
           store.commit('addSelectedItem', [
             ...new Set([...selectedItems.value, ...allSelectedItems.value]),
           ]);
         }
       } else {
-        console.log();
-        
         store.commit('removeSelectedItem', [
             ...new Set([...selectedItems.value, ...allSelectedItems.value]),
           ]);
@@ -131,14 +133,14 @@ export default defineComponent({
 
     const checkselectedItemsOfPage = ref<boolean>(false);
 
-    watch(
-      () => props.currentPage,
-      () => {
-        console.log(234234234234);
+    // watch(
+    //   () => props.currentPage,
+    //   () => {
+    //     console.log(234234234234);
         
-        checkselectedItemsOfPage.value = true
-      }
-    );
+    //     checkselectedItemsOfPage.value = true
+    //   }
+    // );
 
     //eslint-disable-next-line
     const itemsSelect = (value: any) => {
