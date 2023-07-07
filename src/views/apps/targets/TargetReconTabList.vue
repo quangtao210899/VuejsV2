@@ -1038,7 +1038,7 @@
                             </div>
                         </template>
                         <div class="h-500px">
-                            <template v-if="Object.values(subdomain_result).length > 0">
+                            <template v-if="subdomain_result.length > 0">
 
                                 <el-table :data="subdomain_result" height="500" style="width: 100%"
                                     class-name="my-custom-table">
@@ -1210,7 +1210,7 @@
                             <template v-else-if="reconStatus == 3 || reconStatus == 4">
                                 <div class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                     <div class="mb-5">
-                                        <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                        <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                     </div>
                                     <span>Không tìm thấy dữ liệu nào!</span>
                                 </div>
