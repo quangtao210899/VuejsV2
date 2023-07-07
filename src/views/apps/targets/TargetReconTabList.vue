@@ -1207,6 +1207,14 @@
                                     </el-table-column>
                                 </el-table>
                             </template>
+                            <template v-else-if="reconStatus == 3 || reconStatus == 4">
+                                <div class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="mb-5">
+                                        <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                    </div>
+                                    <span>Không tìm thấy dữ liệu nào!</span>
+                                </div>
+                            </template>
                             <template v-else>
                                 123
                             </template>
