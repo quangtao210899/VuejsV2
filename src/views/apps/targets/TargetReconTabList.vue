@@ -1216,9 +1216,7 @@
                                 </div>
                             </template>
                             <template v-else>
-                                <div class="mt-5 m-3">
-                                    <el-skeleton :rows="10" animated />
-                                </div>
+                                123
                             </template>
                         </div>
                     </el-card>
@@ -1573,7 +1571,7 @@ export default defineComponent({
                     reconStatus.value = data.status
                     checkStatus.value = (data.status == 3) ? true : false
                     humanDiffTime()
-                    console.log(port_service_status.value)
+                    console.log(Object.keys(subdomain_result.value))
                     console.log(data)
 
                 })

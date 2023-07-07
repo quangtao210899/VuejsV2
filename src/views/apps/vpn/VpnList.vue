@@ -119,7 +119,7 @@ export default {
     };
 
     // Hàm callback để chỉnh sửa các đánh dấu trên bản đồ
-    const updateMarkers = (newloading: any, newconnecting: any) => {
+    const updateMarkers = (newloading: any, newconnecting: any, NewInfoStatus: any) => {
       if (!map.value) {
         console.error('Bản đồ chưa được khởi tạo.');
         return;
@@ -176,9 +176,9 @@ export default {
             }
             marker.off('click');
           } else {
-            if(countryLoading.value == el.title && infoStatus.value == 0){
+            if(countryLoading.value == el.title && NewInfoStatus == 0){
               marker.setIcon(customIconDisconnect);
-            }else if(countryLoading.value == el.title && infoStatus.value == 1){
+            }else if(countryLoading.value == el.title && NewInfoStatus == 1){
               marker.setIcon(customIconConnect);
             }else{
               marker.setIcon(customIcon);
@@ -194,9 +194,6 @@ export default {
       });
     };
 
-    watch([loading, connecting], ([newloading, newconnecting]) => {
-      updateMarkers(newloading, newconnecting)
-    })
 
     const handleClickMap = (e: any) => {
       ElMessageBox.confirm(
@@ -358,6 +355,10 @@ export default {
       infoStatus.value = 0;
       infoIp.value = '';
     };
+
+    watch([loading, connecting, infoStatus], ([newloading, newconnecting, NewInfoStatus]) => {
+      updateMarkers(newloading, newconnecting, NewInfoStatus)
+    })
 
     onMounted(() => {
       initializeMap();
