@@ -14,6 +14,9 @@
         :sort-label="sortLabel"
         :sort-order="sortOrder"
         :header="header"
+        :data="data"
+        :checkbox-label="checkboxLabel"
+        :current-page="currentPage"
       />
       <TableBodyRow
         v-if="data.length !== 0"
@@ -44,11 +47,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch, computed } from "vue";
 import TableHeadRow from "@/components/kt-datatable/table-partials/table-content/table-head/TableHeadRow.vue";
 import TableBodyRow from "@/components/kt-datatable/table-partials/table-content/table-body/TableBodyRow.vue";
 import Loading from "@/components/kt-datatable/table-partials/Loading.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: "table-body",
@@ -61,6 +65,10 @@ export default defineComponent({
       type: String as () => "asc" | "desc",
       required: false,
       default: "asc",
+    },
+    currentPage: {
+      type: Number,
+      required: true,
     },
     checkboxEnabled: { type: Boolean, required: false, default: false },
     checkboxLabel: { type: String, required: false, default: "id" },
@@ -76,6 +84,7 @@ export default defineComponent({
     Loading,
   },
   setup(props, { emit }) {
+    const store = useStore();
     const selectedItems = ref<Array<unknown>>([]);
     const allSelectedItems = ref<Array<unknown>>([]);
     const check = ref<boolean>(false);
@@ -100,21 +109,67 @@ export default defineComponent({
     const selectAll = (checked: any) => {
       check.value = checked;
       if (checked) {
-        selectedItems.value = [
-          ...new Set([...selectedItems.value, ...allSelectedItems.value]),
-        ];
+        if (store.state.selectedItems.length == 0) {
+          store.commit('setSelectedItems', [
+            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
+          ]);
+        } else {
+          store.commit('removeSelectedItem', [
+            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
+          ]);
+          
+          store.commit('addSelectedItem', [
+            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
+          ]);
+        }
       } else {
-        selectedItems.value = [];
+        store.commit('removeSelectedItem', [
+            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
+          ]);
       }
+      selectedItems.value = store.state.selectedItems
+      console.log(store.state.selectedItems, selectedItems.value);
     };
+
+    const checkselectedItemsOfPage = ref<boolean>(false);
+
+    // watch(
+    //   () => props.currentPage,
+    //   () => {
+    //     console.log(234234234234);
+        
+    //     checkselectedItemsOfPage.value = true
+    //   }
+    // );
 
     //eslint-disable-next-line
     const itemsSelect = (value: any) => {
+      console.log(1231231233453456, value);
+      
       selectedItems.value = [];
+      let selectedItemsOfPage = []
       //eslint-disable-next-line
       value.forEach((item:any) => {
-        if (!selectedItems.value.includes(item)) selectedItems.value.push(item);
+        console.log(item, 345345);
+        
+        if (!selectedItems.value.includes(item)) {
+          selectedItems.value.push(item);
+        }
+        if (checkselectedItemsOfPage.value) {
+          selectedItemsOfPage = []
+        }
+        // if (!selectedItemsOfPage.value.includes(item)) {
+          // selectedItemsOfPage.push(item)
+        // }
       });
+      console.log(selectedItemsOfPage, 234234234);
+      if (selectedItems.value.length < allSelectedItems.value.length) {
+        check.value = false
+      } else {
+        check.value = true
+      }
+
+      store.commit('setSelectedItems', selectedItems.value);
     };
 
     const onSort = (sort: Sort) => {
@@ -149,8 +204,8 @@ export default defineComponent({
     });
 
     return {
+      selectedItems: computed(() => store.state.selectedItems),
       onSort,
-      selectedItems,
       selectAll,
       itemsSelect,
       check,

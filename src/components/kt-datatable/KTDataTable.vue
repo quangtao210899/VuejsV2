@@ -14,6 +14,7 @@
       :loading="loading"
       :clickOnRow="clickOnRow"
       :closeOnRow="closeOnRow"
+      :current-page="currentPage"
     >
       <template v-for="(_, name) in $slots" v-slot:[name]="{ row: item }">
         <slot :name="name" :row="item" />
