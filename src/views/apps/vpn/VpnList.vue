@@ -125,7 +125,7 @@ export default {
         return;
       }
 
-      console.log(123)
+      console.log(newloading,newconnecting,NewInfoStatus  )
       const customIconConnecting = L.divIcon({
           className: customIcon.options.className,
           html: `<div class="position-relative h-100 w-100">
@@ -235,6 +235,7 @@ export default {
           infoConnectTime.value = (data.info == null) ? 'null' : data.info.connect_time
           infoCheckTime.value = (data.info == null) ? 'null' : data.info.check_time
           infoStatus.value = data.status
+          countryLoading.value = (data.status  == 1 && data.info.country !== null) ? data.info.country : null
           if (data.info) {
             let country = data.info.country
             dataMap.forEach(element => {
