@@ -142,7 +142,7 @@ export default {
         const customIconDisconnect= L.divIcon({
           className: customIcon.options.className,
           html: `<div class="position-relative h-100 w-100">
-            <img class="h-100 w-100 z-index-1" src="/media/icons/duotune/vpn/123.png" alt="icon">
+            <img class="h-100 w-100 z-index-1 opacity-50 bg-danger rounded-circle" src="/media/icons/duotune/vpn/123.png" alt="icon">
             <div class="position-absolute start-0 h-100 w-100" style="top: 1.1px">
               <div class="d-flex justify-content-center align-items-center h-100 w-100">
                 <i class="fa-solid fa-circle-xmark text-danger fs-3 z-index-2 rounded-circle bg-white"></i>
@@ -155,7 +155,7 @@ export default {
         const customIconConnect= L.divIcon({
           className: customIcon.options.className,
           html: `<div class="position-relative h-100 w-100">
-            <img class="h-100 w-100 z-index-1" src="/media/icons/duotune/vpn/123.png" alt="icon">
+            <img class="h-100 w-100 z-index-1 opacity-50 bg-success rounded-circle" src="/media/icons/duotune/vpn/123.png" alt="icon">
             <div class="position-absolute start-0 h-100 w-100" style="top: 1.1px">
               <div class="d-flex justify-content-center align-items-center h-100 w-100">
                 <i class="fa-solid fa-circle-check text-success fs-3 z-index-2 rounded-circle bg-white"></i>
