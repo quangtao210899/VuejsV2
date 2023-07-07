@@ -124,7 +124,8 @@ export default {
         console.error('Bản đồ chưa được khởi tạo.');
         return;
       }
-              
+
+      console.log(123)
       const customIconConnecting = L.divIcon({
           className: customIcon.options.className,
           html: `<div class="position-relative h-100 w-100">
@@ -187,9 +188,8 @@ export default {
           // marker.setLatLng(el.markerLatLng);
           // marker.bindPopup(el.title);
         }else{
-          // Ngược lại, tạo mới đánh dấu và thêm vào bản đồ
-          console.log(2222);
-          // createMarkers()
+          console.error(' lỗi');
+          return
         }
       });
     };
