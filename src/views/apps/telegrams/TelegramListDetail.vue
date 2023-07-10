@@ -100,7 +100,12 @@
           <template v-slot:text="{ row: customer }">
             <div><span>{{ truncateText(customer.text, 25) }}</span></div>
           </template>
-          <template v-slot:date="{ row: customer }">{{ customer.date }}</template>
+          <template v-slot:date="{ row: customer }">            
+            <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
+              <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+              {{ customer.date }}
+            </span>
+          </template>
         </KTDatatable>
       </div>
       <!--end::Card body-->

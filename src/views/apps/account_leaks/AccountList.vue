@@ -1,11 +1,14 @@
 <template>
   <div class="card h-100 d-block">
-    <div class="card-header border-0 pt-2 pt-sm-10 pt-md-10 position-sm-absolute justify-content-end end-0 pe-1 me-2 me-md-0 me-sm-0" style="top: -80px">
+    <div
+      class="card-header border-0 pt-2 pt-sm-10 pt-md-10 position-sm-absolute justify-content-end end-0 pe-1 me-2 me-md-0 me-sm-0"
+      style="top: -80px">
       <div class="card-toolbar">
         <div v-show="selectedIds.length === 0">
           <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
-              <button type="button" class="btn btn-sm fw-bold bg-light bg-md-body btn-color-gray-700 btn-active-color-primary me-2 btn-outline btn-outline-dashed btn-outline-default"
+              <button type="button"
+                class="btn btn-sm fw-bold bg-light bg-md-body btn-color-gray-700 btn-active-color-primary me-2 btn-outline btn-outline-dashed btn-outline-default"
                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
                 <KTIcon icon-name="filter" icon-class="fs-2" />
                 Filter
@@ -103,7 +106,7 @@
                     <el-switch v-model="apiData.is_ok" class="ml-2" name="is_ok"
                       style="--el-switch-on-color: #13ce66; --el-switch-off-color: #f1416C" />
                     <span class="form-check-label user-select-none">
-                      {{ apiData.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra"}}
+                      {{ apiData.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra" }}
                     </span>
                   </label>
                 </div>
@@ -116,7 +119,8 @@
                     <span class="required">Username</span>
                   </label>
                   <Field type="text" class="form-control form-control-solid" placeholder="Nhập username"
-                    @keydown="removeErrorMsgText" id="username" name="username" autocomplete="username" v-model="apiData.username" />
+                    @keydown="removeErrorMsgText" id="username" name="username" autocomplete="username"
+                    v-model="apiData.username" />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
                       <ErrorMessage name="username" />
@@ -144,8 +148,8 @@
               </div>
               <div class="d-flex flex-column mb-5 fv-row">
                 <label class="fs-6 fw-semobold mb-2 required" for="password_hash">Password Hash</label>
-                <Field as="textarea" class="form-control form-control-solid" rows="3" id="password_hash" name="password_hash"
-                  placeholder="Nhập password hash" v-model="apiData.password_hash" />
+                <Field as="textarea" class="form-control form-control-solid" rows="3" id="password_hash"
+                  name="password_hash" placeholder="Nhập password hash" v-model="apiData.password_hash" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="password_hash" />
@@ -155,7 +159,8 @@
               <div class="d-flex flex-column mb-5 fv-row">
                 <label class="fs-6 fw-semobold mb-2" for="password_crack">Password Crack</label>
                 <Field type="text" class="form-control form-control-solid" placeholder="Nhập password crack"
-                  @keydown="removeErrorMsgText" id="password_crack" name="password_crack" v-model="apiData.password_crack" />
+                  @keydown="removeErrorMsgText" id="password_crack" name="password_crack"
+                  v-model="apiData.password_crack" />
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="password_crack" />
@@ -184,8 +189,8 @@
                     <span class="required">Quốc gia</span>
                   </label>
                   <el-form-item prop="assign">
-                    <el-select filterable="true" placeholder="Chọn kiểu" as="select" height="40px" id="product_text" name="product_text"
-                      class="input-group-lg" v-model="apiData.country_id">
+                    <el-select filterable="true" placeholder="Chọn kiểu" as="select" height="40px" id="product_text"
+                      name="product_text" class="input-group-lg" v-model="apiData.country_id">
                       <el-option label="Chọn quốc gia" value="" disabled>Chọn quốc gia</el-option>
                       <el-option label="Khác" value="0"></el-option>
                       <el-option v-for="item in countryList" :key="item.id" :label="item.name" :value="item.id" />
@@ -410,6 +415,7 @@ import { ref, onMounted, reactive } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import ApiService from "@/core/services/ApiService";
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 // validate
 import { hideModal } from "@/core/helpers/dom";
@@ -622,7 +628,7 @@ const getData = () => {
       notification(response.data.detail, "error", "Có lỗi xảy ra");
     })
     .finally(() => {
-        loading.value = false
+      loading.value = false
     });
 };
 
@@ -739,29 +745,28 @@ const notification = (values: string, icon: string, more: string = '', hideImpor
 };
 
 const comfirmDownload = (values: string, icon: string) => {
-  Swal.fire({
-    text: values,
-    icon: icon,
-    buttonsStyling: false,
-    showCancelButton: true,
-    cancelButtonText: "Hủy bỏ",
-    confirmButtonText: "Tải file lỗi",
-    heightAuto: false,
-    customClass: {
-      cancelButton: "btn btn-sm btn-primary",
-      confirmButton: "btn btn-sm btn-danger",
-    },
-    reverseButtons: true,
-  }).then((result) => {
-    if (result.isConfirmed) {
+  ElMessageBox.confirm(
+    values,
+    icon,
+    {
+      confirmButtonText: 'Tải file lỗi',
+      cancelButtonText: 'Hủy bỏ',
+      type: 'error',
+    }
+  )
+    .then(() => {
       downloadFile()
-    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      if (importComponentRef.value) {
+        importComponentRef.value.closeModal()
+      }
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Hủy bỏ lệnh',
+      })
+    })
 
-    }
-    if (importComponentRef.value) {
-      importComponentRef.value.closeModal()
-    }
-  });
 };
 const downloadFile = async () => {
   try {
