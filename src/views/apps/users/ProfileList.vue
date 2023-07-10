@@ -301,7 +301,7 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import Fillter from "@/views/apps/telegrams/filterGroup.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import * as Yup from "yup";
-import { useToast } from 'vue-toast-notification';
+import { ElMessage } from 'element-plus'
 
 interface APIData {
   username: string;
@@ -390,7 +390,6 @@ export default defineComponent({
 
     // on click event
     const errors = ref<object | any>({ first_name: '' });
-    const toastr = useToast();
 
     const handleClick = () => {
       errors.value.first_name = '';
@@ -401,7 +400,10 @@ export default defineComponent({
       if (editData.value.first_name !== list.value.first_name && editData.value.first_name) {
         upadateAccount();
       } else {
-        return toastr.warning('Bạn chưa có thay đổi gì!', { position: 'top-right' });
+        ElMessage({
+          message: 'Bạn chưa có thay đổi gì!',
+          type: 'warning',
+        })
       }
     };
 
@@ -413,9 +415,15 @@ export default defineComponent({
       }, 1000);
       if (editData.value.first_name !== list.value.first_name) {
         editData.value = { ...list.value };
-        return toastr.info('Đã khôi phục lại tên!', { position: 'top-right' });
+        return ElMessage({
+          message: 'Đã khôi phục lại tên!',
+          type: 'info',
+        })
       } else {
-        return toastr.warning('Bạn chưa có thay đổi gì!', { position: 'top-right' });
+        return ElMessage({
+          message: 'Bạn chưa có thay đổi gì!',
+          type: 'warning',
+        })
       }
     };
 
@@ -436,7 +444,7 @@ export default defineComponent({
         .catch(({ response }) => {
           if (response.data) {
             errors.value.first_name = response.data.first_name;
-            toastr.error(response.data.first_name, { position: 'top-right' });
+            ElMessage.error(response.data.first_name ?? 'Có lỗi xảy ra')
           } else {
             notification(response.data.detail, 'error', 'Có lỗi xảy ra')
           }
@@ -481,7 +489,7 @@ export default defineComponent({
               erroPasswordChange.value.currentpassword = response.data.password ?? '';
               erroPasswordChange.value.newpassword = response.data.new_password ?? '';
               erroPasswordChange.value.confirmpassword = response.data.re_new_password ?? '';
-              toastr.error(response.data.detail, { position: 'top-right' });
+              ElMessage.error(response.data.detail ?? 'Có lỗi xảy ra')
             } else {
               notification(response.data.detail, 'error', 'Có lỗi xảy ra')
             }
