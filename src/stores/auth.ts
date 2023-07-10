@@ -2,7 +2,8 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import ApiService from "@/core/services/ApiService";
 import JwtService from "@/core/services/JwtService";
-import { useToast } from 'vue-toast-notification';
+import { ElMessage } from 'element-plus'
+
 export interface User {
   name: string;
   surname: string;
@@ -14,7 +15,6 @@ export interface User {
 export const useAuthStore = defineStore("auth", () => {
   const errors = ref({});
   var connection;
-  const toastr = useToast();
   const host = import.meta.env.VITE_APP_API_HOST
   const user = ref<User>({} as User);
   const isAuthenticated = ref(!!JwtService.getToken());
@@ -80,9 +80,10 @@ export const useAuthStore = defineStore("auth", () => {
         var message = data['message'];
         var status = data['status'];
         if (status) {
-          toastr.info(message, { position: 'top', queue: true });
+          ElMessage(message)
         } else {
-          toastr.error(message, { position: 'top', queue: true });
+          ElMessage.error(message)
+
         }
       }
     }
@@ -107,9 +108,9 @@ export const useAuthStore = defineStore("auth", () => {
           var message = data['message'];
           var status = data['status'];
           if (status) {
-            toastr.info(message, { position: 'top', queue: true });
+            ElMessage(message)
           } else {
-            toastr.error(message, { position: 'top', queue: true });
+            ElMessage.error(message)
           }
         }
         clearTimeout(timeoutId);

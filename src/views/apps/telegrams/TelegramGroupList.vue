@@ -2,7 +2,9 @@
   <!--begin::Card-->
   <div class="card h-100 d-block">
     <!--begin::Card header-->
-    <div class="card-header border-0 pt-2 pt-sm-10 pt-md-10 position-sm-absolute justify-content-end end-0 pe-1 me-2 me-md-0 me-sm-0" style="top: -80px">
+    <div
+      class="card-header border-0 pt-2 pt-sm-10 pt-md-10 position-sm-absolute justify-content-end end-0 pe-1 me-2 me-md-0 me-sm-0"
+      style="top: -80px">
       <!--begin::Card title-->
 
       <!--begin::Card title-->
@@ -92,7 +94,12 @@
           <template v-slot:name="{ row: customer }">
             <span class="text-dark text-hover-primary ">{{ customer.name ?? '--' }}</span>
           </template>
-          <template v-slot:date_update="{ row: customer }">{{ formatDate(customer.date_update) }}</template>
+          <template v-slot:date_update="{ row: customer }">
+            <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
+              <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+              {{ formatDate(customer.date_update) }}
+            </span>
+          </template>
           <template v-slot:total_message="{ row: customer }">
             <div class="badge badge-light">{{ customer.total_message ?? 0 }}</div>
           </template>
@@ -109,8 +116,10 @@
                 :disabled="disabledButton" ref="submitButtonRef" @click="handleSyncItem(customer)">
                 <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
               </button> -->
-              <el-button class="me-1 btn-sm btn btn-icon btn-bg-light btn-active-color-success" type="primary" :icon="RefreshIcon" @click="handleSyncItem(customer)" 
-              :loading="((disabledButton && idSync == customer.id) || idSyncALL) ? true: false" :loading-icon="RefreshIcon"></el-button>
+              <el-button class="me-1 btn-sm btn btn-icon btn-bg-light btn-active-color-success" type="primary"
+                :icon="RefreshIcon" @click="handleSyncItem(customer)"
+                :loading="((disabledButton && idSync == customer.id) || idSyncALL) ? true : false"
+                :loading-icon="RefreshIcon"></el-button>
             </el-tooltip>
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết tin nhắn" placement="top">
               <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
@@ -531,9 +540,9 @@ import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { Modal } from "bootstrap";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
 import * as Yup from "yup";
-import { useToast } from 'vue-toast-notification';
 import { useRouter, useRoute } from 'vue-router';
 import { Refresh } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 // import useCurrencyInput from "vue-currency-input";
 
@@ -661,7 +670,7 @@ export default defineComponent({
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         })
         .finally(() => {
-            loading.value = false
+          loading.value = false
         });
     }
 
@@ -841,7 +850,6 @@ export default defineComponent({
     const idSync = ref<number>(0);
     const idSyncALL = ref<boolean>(false);
     const disabledButton = ref<boolean>(false);
-    const toastr = useToast();
 
     const handleSyncItem = (data: object | any) => {
       if (data) {
@@ -863,46 +871,58 @@ export default defineComponent({
     };
 
     const handleSyncAll = () => {
-      Swal.fire({
-        text: 'Bạn có chắc muốn đồng bộ hóa tất cả nhóm Telegram không?',
-        icon: 'info',
-        buttonsStyling: false,
-        confirmButtonText: "Xác nhận",
-        cancelButtonText: "Hủy bỏ",
-        showCancelButton: true,
-        customClass: {
-          confirmButton: "btn btn-sm btn-primary",
-          cancelButton: "btn btn-sm btn-danger ",
-        },
-      })
-      .then((result: any) => {
-        if (result.isConfirmed) {
-          idSyncALL.value = true;
-          setTimeout(() => {idSyncALL.value = false;}, 500)
-          getSyncAll();
+      ElMessageBox.confirm(
+        'Bạn có chắc muốn đồng bộ hóa tất cả nhóm Telegram không?',
+        'Đồng bộ toàn bộ tin nhắn',
+        {
+          confirmButtonText: 'Xác nhận',
+          cancelButtonText: 'Hủy bỏ',
+          type: 'info',
         }
-      });
+      )
+        .then(() => {
+          setTimeout(() => { idSyncALL.value = false; }, 500)
+            getSyncAll();
+        })
+        .catch(() => {
+          ElMessage({
+            type: 'error',
+            message: 'Hủy bỏ lệnh',
+          })
+        })
     };
 
     const getSyncItem = async () => {
       return ApiService.post(`telegram/sync-data/${idSync.value}/group`, 0)
         .then(({ data }) => {
-          toastr.success(data.detail ?? 'Đang đồng bộ hóa tin nhắn', { position: 'top' });
+          ElMessage({
+            type: 'success',
+            message: data.detail ?? 'Đang đồng bộ hóa tin nhắn',
+          })
           getData();
         })
         .catch(({ response }) => {
-          toastr.error(response.data.detail ?? 'Có lỗi xảy ra', { position: 'top' });
+          ElMessage({
+            type: 'error',
+            message: response.data.detail ?? 'Có lỗi xảy ra',
+          })
         });
     };
 
     const getSyncAll = async () => {
       return ApiService.post('telegram/sync-data', '')
         .then(({ data }) => {
-          toastr.success(data.detail ?? 'Đang đồng bộ hóa tin nhắn', { position: 'top' });
+          ElMessage({
+            type: 'success',
+            message: data.detail ?? 'Đang đồng bộ hóa tin nhắn',
+          })
           getData();
         })
         .catch(({ response }) => {
-          toastr.error(response.data.detail ?? 'Có lỗi xảy ra', { position: 'top' });
+          ElMessage({
+            type: 'error',
+            message: response.data.detail ?? 'Có lỗi xảy ra'
+          })
         });
     };
 
@@ -966,7 +986,10 @@ export default defineComponent({
           getData();
         })
         .catch(({ response }) => {
-          toastr.error(response.data.detail ?? 'Có lỗi xảy ra', { position: 'top-right' });
+          ElMessage({
+            type: 'error',
+            message: response.data.detail ?? 'Có lỗi xảy ra',
+          })
         });
     };
 
@@ -1067,28 +1090,21 @@ export default defineComponent({
       }, 1000);
       return ApiService.put(`/telegram/group/${data.id}/update`, formData)
         .then(({ data }) => {
-          toastr.success(data.detail ?? 'Thay đổi trạng thái thành công', { position: 'top' });
+          ElMessage({
+            type: 'success',
+            message: data.detail ?? 'Đang đồng bộ hóa tin nhắn',
+          })
           getData();
         })
         .catch(({ response }) => {
-          toastr.error(response.data.detail ?? 'Có lỗi xảy ra', { position: 'top' });
+          ElMessage({
+            type: 'error',
+            message: response.data.detail ?? 'Có lỗi xảy ra',
+          })
         });
     };
 
     onMounted(() => {
-      window.addEventListener('touchstart', getSetting, { passive: false  });
-      window.addEventListener('touchstart', updateStatus, { passive: false  });
-      window.addEventListener('touchstart', getData, { passive: false  });
-      window.addEventListener('touchstart', submit, { passive: false  });
-      window.addEventListener('touchstart', updateSchedule, { passive: false  });
-      window.addEventListener('touchstart', handleSubmitSetting, { passive: false  });
-      window.addEventListener('touchstart', customRowTable, { passive: false  });
-      window.addEventListener('touchstart', handleSyncItem, { passive: false  });
-      window.addEventListener('touchstart', handleSyncAll, { passive: false  });
-      window.addEventListener('touchstart', getSyncItem, { passive: false  });
-      window.addEventListener('touchstart', getSyncAll, { passive: false  });
-      window.addEventListener('touchstart', deleteFewSubscriptions, { passive: false  });
-      window.addEventListener('touchstart', handleFilter, { passive: false  });
       getData();
       getSetting();
     });

@@ -134,7 +134,7 @@
                                 <!--end::Label-->
                                 <!--begin::Stat-->
                                 <div class="">
-                                    <div class="fs-2x fw-bold me-2">{{ services.total_open }}</div>
+                                    <div class="fs-2x fw-bold me-2">{{ services.total }}</div>
                                 </div>
                                 <div>
                                     <span class="badge badge-light-primary me-1">Open: {{ services.total_open }}</span>
@@ -447,7 +447,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch vụ</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (port_service_status == 3 && Array.isArray(port_service)) ?
+                                    {{ (port_service_status == 3 && checkArray(port_service) == true) ?
                                         Object.keys(port_service).length : 0 }}</span>
                             </div>
                         </template>
@@ -539,7 +539,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Email liên quan</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (related_email_status == 3 && Array.isArray(related_email)) ?
+                                    {{ (related_email_status == 3 && checkArray(related_email) == true) ?
                                         Object.keys(related_email).length : 0 }}
                                 </span>
                             </div>
@@ -660,7 +660,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Tên miền liên quan đến mục tiêu</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (related_domain_status == 3 && Array.isArray(related_domain)) ?
+                                    {{ (related_domain_status == 3 && checkArray(related_domain) == true) ?
                                         Object.keys(related_domain).length : 0 }}
                                 </span>
                             </div>
@@ -747,7 +747,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-gray-800 fs-5">Công nghệ sử dụng</span>
                                 <span class="badge badge-circle badge-success ms-2">
-                                    {{ (technology_status == 3 && Array.isArray(technology)) ?
+                                    {{ (technology_status == 3 && checkArray(technology) == true) ?
                                         Object.keys(technology).length : 0 }}
                                 </span>
                             </div>
@@ -920,114 +920,107 @@
                         </template>
                         <div class="h-500px">
                             <template v-if="webdata_status == 1 || webdata_status == '1'">
-                                <template v-if="webdata_result == '' || Object.values(webdata_result.fuzzing.message).length == 0 &&
-                                    Object.values(webdata_result.js_analysis.message).length == 0 &&
-                                    Object.values(webdata_result.subdomains_takeover.message).length == 0 &&
-                                    Object.values(webdata_result.url_extraction.message).length == 0">
-                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                        <div class="text-center mb-5">
-                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                        </div>
-                                        <span>Không tìm thấy dữ liệu nào!</span>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <el-tabs tab-position="left" type="border-card" :stretch="true"
-                                        class="demo-tabs2 padding-tabs border border-0 h-100" :lazy="true">
-                                        <el-tab-pane class="h-100" v-for="(items, index) in webdata_result" :key="index">
-                                            <template #label>
-                                                <span class="custom-tabs-label w-90px" style="white-space:pre-wrap">
-                                                    <span class="text-capitalize">{{ convertToString(index) }}</span>
-                                                </span>
-                                            </template>
-                                            <div class="h-100">
-                                                <template v-if="items.message == '' || items.message == null">
-                                                    <div
-                                                        class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                                        <div class="text-center mb-5">
-                                                            <i
-                                                                class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                                        </div>
-                                                        <span>Không tìm thấy dữ liệu nào!</span>
+                                <el-tabs tab-position="left" type="border-card" :stretch="true"
+                                    class="demo-tabs2 padding-tabs border border-0 h-100" :lazy="true">
+                                    <el-tab-pane class="h-100" v-for="(items, index) in webdata_result" :key="index">
+                                        <template #label>
+                                            <span class="custom-tabs-label w-90px" style="white-space:pre-wrap">
+                                                <span class="text-capitalize">{{ convertToString(index) }}</span>
+                                            </span>
+                                        </template>
+                                        <div class="h-100">
+                                            <template
+                                                v-if="(items.message == '' || items.message == null) && items.status == 3">
+                                                <div
+                                                    class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                    <div class="text-center mb-5">
+                                                        <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                     </div>
+                                                    <span>Không tìm thấy dữ liệu nào!</span>
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <template v-if="checkArray(items.message) && items.status == 3">
+                                                    <!--begin::Table container-->
+                                                    <div class="table-responsive w-100 h-100 p-3">
+                                                        <!--begin::Table-->
+                                                        <table class="table table-row-dashed table-row-gray-300">
+                                                            <template v-if="index.toString() == 'js_analysis'">
+                                                                <thead>
+                                                                    <tr
+                                                                        class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
+                                                                        <th class="py-2 px-0 text-start">Thông tin</th>
+                                                                        <th class="py-2 px-3 text-start ">Dữ liệu
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <!--begin::Table body-->
+                                                                <tbody class="overflow-y-auto">
+                                                                    <tr v-for="(item, key) in items.message" :key="key">
+                                                                        <td class="text-start">
+                                                                            <span>{{ item[0] }}</span>
+                                                                        </td>
+                                                                        <td class="text-start">
+                                                                            <div
+                                                                                class="flex justify-space-between mb-4 flex-wrap gap-4 w-200px">
+                                                                                <el-button :disabled="disabled"
+                                                                                    class="m-0 me-2 border-0" circle>
+                                                                                    <i :disabled="disabled"
+                                                                                        class="fa-clipboard  fs-4 cursor-pointer"
+                                                                                        :class="(clipboard.includes(item[1]) ? 'fa-solid text-success' : ' fa-regular text-muted')"
+                                                                                        @click="copyContent(item[1])"></i>
+                                                                                </el-button>
+                                                                                <span>{{ truncateText(item[1], 20) }}</span>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <!--end::Table body-->
+                                                            </template>
+                                                            <template v-else>
+                                                                <!--begin::Table body-->
+                                                                <tbody class="overflow-y-auto">
+                                                                    <tr v-for="(item, key) in items.message" :key="key">
+                                                                        <template v-if="checkArray(item)">
+                                                                            <td v-for="el in item" class="text-start">{{
+                                                                                el
+                                                                            }}</td>
+                                                                        </template>
+                                                                        <template v-else>
+                                                                            <td class="text-start">
+                                                                                <span>{{ item }}</span>
+                                                                            </td>
+                                                                        </template>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <!--end::Table body-->
+                                                            </template>
+                                                        </table>
+                                                        <!--end::Table-->
+                                                    </div>
+                                                    <!--end::Table container-->
                                                 </template>
                                                 <template v-else>
-                                                    <template v-if="checkArray(items.message)">
-                                                        <!--begin::Table container-->
-                                                        <div class="table-responsive w-100 h-100 p-3">
-                                                            <!--begin::Table-->
-                                                            <table class="table table-row-dashed table-row-gray-300">
-                                                                <template v-if="index.toString() == 'js_analysis'">
-                                                                    <thead>
-                                                                        <tr
-                                                                            class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                                            <th class="py-2 px-0 text-start">Thông tin</th>
-                                                                            <th class="py-2 px-3 text-start ">Dữ liệu
-                                                                            </th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <!--begin::Table body-->
-                                                                    <tbody class="overflow-y-auto">
-                                                                        <tr v-for="(item, key) in items.message" :key="key">
-                                                                            <td class="text-start">
-                                                                                <span>{{ item[0] }}</span>
-                                                                            </td>
-                                                                            <td class="text-start">
-                                                                                <div class="flex justify-space-between mb-4 flex-wrap gap-4 w-200px">
-                                                                                    <el-button :disabled="disabled" class="m-0 me-2 border-0" circle >
-                                                                                        <i :disabled="disabled" class="fa-clipboard  fs-4 cursor-pointer" :class="(clipboard.includes(item[1]) ? 'fa-solid text-success' : ' fa-regular text-muted' )"
-                                                                                        @click="copyContent(item[1])"></i>
-                                                                                    </el-button>
-                                                                                    <span>{{ truncateText(item[1], 20) }}</span>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <!--end::Table body-->
-                                                                </template>
-                                                                <template v-else>
-                                                                    <!--begin::Table body-->
-                                                                    <tbody class="overflow-y-auto">
-                                                                        <tr v-for="(item, key) in items.message" :key="key">
-                                                                            <template v-if="checkArray(item)">
-                                                                                <td v-for="el in item" class="text-start">{{
-                                                                                    el
-                                                                                }}</td>
-                                                                            </template>
-                                                                            <template v-else>
-                                                                                <td class="text-start">
-                                                                                    <span>{{ item }}</span>
-                                                                                </td>
-                                                                            </template>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <!--end::Table body-->
-                                                                </template>
-
-                                                            </table>
-                                                            <!--end::Table-->
+                                                    <div
+                                                        class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                        <div class="mb-5">
+                                                            <i
+                                                                class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
                                                         </div>
-                                                        <!--end::Table container-->
-                                                    </template>
-                                                    <template v-else>
-                                                        <div
-                                                            class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                                            <div class="mb-5">
-                                                                <i
-                                                                    class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
-                                                            </div>
-                                                            <span>{{ items.message }}</span>
-                                                        </div>
-                                                    </template>
+                                                        <span>{{ items.message }}</span>
+                                                    </div>
                                                 </template>
-                                            </div>
-                                        </el-tab-pane>
-                                    </el-tabs>
-                                </template>
+                                            </template>
+                                        </div>
+                                    </el-tab-pane>
+                                </el-tabs>
                             </template>
                             <template v-else>
-                                <div class="mt-5 m-3">
-                                    <el-skeleton :rows="7" animated />
+                                <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="text-center mb-5">
+                                        <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                    </div>
+                                    <span>{{ webdata_result ?? 'Thông tin không được chọn' }}</span>
                                 </div>
                             </template>
                         </div>
@@ -1045,7 +1038,8 @@
                             </div>
                         </template>
                         <div class="h-500px">
-                            <template v-if="Object.values(subdomain_result).length > 0">
+                            <template v-if="subdomain_result.length > 0">
+
                                 <el-table :data="subdomain_result" height="500" style="width: 100%"
                                     class-name="my-custom-table">
                                     <el-table-column min-width="120" label-class-name="border border-0 fs-7" prop="name"
@@ -1213,9 +1207,17 @@
                                     </el-table-column>
                                 </el-table>
                             </template>
+                            <template v-else-if="reconStatus == 3 || reconStatus == 4">
+                                <div class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                    <div class="mb-5">
+                                        <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                    </div>
+                                    <span>Không tìm thấy dữ liệu nào!</span>
+                                </div>
+                            </template>
                             <template v-else>
                                 <div class="mt-5 m-3">
-                                    <el-skeleton :rows="10" animated />
+                                    <el-skeleton :rows="12" animated />
                                 </div>
                             </template>
                         </div>
@@ -1571,7 +1573,7 @@ export default defineComponent({
                     reconStatus.value = data.status
                     checkStatus.value = (data.status == 3) ? true : false
                     humanDiffTime()
-                    console.log(webdata_result.value)
+                    console.log(Object.keys(subdomain_result.value))
                     console.log(data)
 
                 })
@@ -2018,7 +2020,7 @@ export default defineComponent({
 
         // copy
         const copyArray = ref(new Set());
-        const clipboard = ref([]);
+        const clipboard = ref<any>([]);
 
         const copyContent = (content: any) => {
             disabled.value = true

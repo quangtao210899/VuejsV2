@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import store from './store';
 import { createPinia } from "pinia";
 import { Tooltip } from "bootstrap";
 import App from "./App.vue";
@@ -24,6 +25,8 @@ app.use(VueCustomTooltip)
 app.use(createPinia());
 app.use(router);
 app.use(ElementPlus);
+
+app.use(store);
 
 ApiService.init(app);
 initApexCharts(app);

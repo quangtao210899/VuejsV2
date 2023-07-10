@@ -49,10 +49,16 @@
                         :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--'
                         }}</span></template>
                 <template v-slot:created_at="{ row: customer }">
-                    {{ customer.created_at }}
+                    <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
+                        <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+                        {{ customer.created_at }}
+                    </span>
                 </template>
                 <template v-slot:modified_at="{ row: customer }">
-                    {{ (customer.status == 2 || customer.status == 1) ? "--:--" : customer.modified_at }}
+                    <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
+                        <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+                        {{ (customer.status == 2 || customer.status == 1) ? "--:--" : customer.modified_at }}
+                    </span>
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết" placement="top">
@@ -227,8 +233,8 @@ import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
-import { useToast } from 'vue-toast-notification';
 import { useRoute } from 'vue-router';
+import { ElMessage } from 'element-plus'
 
 interface APIData {
     status: string;
@@ -281,7 +287,6 @@ export default defineComponent({
         const typeModal = ref<String>('');
         const id = ref<number>(0);
         const nameType = ref<string>('');
-        const toastr = useToast();
 
         const apiData = ref<APIData>({
             status: '',
@@ -996,8 +1001,10 @@ export default defineComponent({
                 expandedKey: string[] = [];
             let selectedKey = getCheckedKeys()
             if (getCheckedKeys().length == 0) {
-                toastr.error('Bạn phải chọn ít nhất một recon', { position: 'top-right' });
-
+                ElMessage({
+                    type: 'error',
+                    message: 'Bạn phải chọn ít nhất một recon'
+                })
                 return true
             } else {
                 dataValidateTree.value.map(el => {
@@ -1018,7 +1025,10 @@ export default defineComponent({
                 if (errors.notifi_error_select.length) {
                     for (let i = 0; i < errors.notifi_error_select.length; i++) {
                         const error = errors.notifi_error_select[i];
-                        toastr.error(error, { position: 'top-right' });
+                        ElMessage({
+                            type: 'error',
+                            message: error ?? 'Có lỗi xảy ra'
+                        })
                     }
                     errors.notifi_error_select = []
 
