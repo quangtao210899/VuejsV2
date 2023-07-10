@@ -75,6 +75,7 @@ export default defineComponent({
     loading: { type: Boolean, required: false, default: false },
     clickOnRow: { type: Boolean, required: false, default: false },
     closeOnRow: { type: Boolean, required: false, default: false },
+    currentPage: { type: Number, required: false, default: 1 },
 
   },
   emits: ["on-sort", "on-items-select", "custom-row"],
@@ -89,11 +90,13 @@ export default defineComponent({
     const allSelectedItems = ref<Array<unknown>>([]);
     const check = ref<boolean>(false);
     const selectRow = ref<object>();
+    const selectPerPage = {};
+    let page = props.currentPage
 
     watch(
       () => props.data,
       () => {
-        selectedItems.value = [];
+        // selectedItems.value = [];
         allSelectedItems.value = [];
         check.value = false;
         // eslint-disable-next-line
@@ -107,7 +110,9 @@ export default defineComponent({
 
     // eslint-disable-next-line
     const selectAll = (checked: any) => {
+
       check.value = checked;
+      
       if (checked) {
         if (store.state.selectedItems.length == 0) {
           store.commit('setSelectedItems', [
@@ -147,29 +152,33 @@ export default defineComponent({
       console.log(1231231233453456, value);
       
       selectedItems.value = [];
-      let selectedItemsOfPage = []
-      //eslint-disable-next-line
-      value.forEach((item:any) => {
-        console.log(item, 345345);
-        
+      let currentPage = 0;
+      
+      if (currentPage != props.currentPage) {
+        currentPage = props.currentPage
+      }
+      let lastPage = 1;
+
+      
+      value.forEach((item: any) => {
         if (!selectedItems.value.includes(item)) {
           selectedItems.value.push(item);
         }
-        if (checkselectedItemsOfPage.value) {
-          selectedItemsOfPage = []
+
+        if (selectPerPage[currentPage] && !selectPerPage[currentPage].includes(item)) {
+          selectPerPage[currentPage].push(item);
+        } else {
+          selectPerPage[currentPage] = [item];
         }
-        // if (!selectedItemsOfPage.value.includes(item)) {
-          // selectedItemsOfPage.push(item)
-        // }
+
+        lastPage = currentPage;
       });
-      console.log(selectedItemsOfPage, 234234234);
+
       if (selectedItems.value.length < allSelectedItems.value.length) {
         check.value = false
       } else {
         check.value = true
       }
-
-      store.commit('setSelectedItems', selectedItems.value);
     };
 
     const onSort = (sort: Sort) => {
@@ -188,13 +197,12 @@ export default defineComponent({
     const customRowTable = (data) => {
       selectRow.value = data
       emit("custom-row", selectRow.value);
-      // console.log(data, 'data')
     };
 
     onMounted(() => {
-      selectedItems.value = [];
+      // selectedItems.value = [];
       allSelectedItems.value = [];
-      check.value = false;
+      // check.value = false;
       // eslint-disable-next-line
       props.data.forEach((item: any) => {
         if (item[props.checkboxLabel]) {
