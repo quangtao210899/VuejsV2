@@ -67,6 +67,7 @@ export default defineComponent({
     loading: { type: Boolean, required: false, default: false },
     clickOnRow: { type: Boolean, required: false, default: false },
     closeOnRow: { type: Boolean, required: false, default: false },
+    currentPage: { type: Number, required: false, default: 1 },
 
   },
   emits: ["on-sort", "on-items-select", "custom-row"],
@@ -80,11 +81,13 @@ export default defineComponent({
     const allSelectedItems = ref<Array<unknown>>([]);
     const check = ref<boolean>(false);
     const selectRow = ref<object>();
+    const selectPerPage = {};
+    let page = props.currentPage
 
     watch(
       () => props.data,
       () => {
-        selectedItems.value = [];
+        // selectedItems.value = [];
         allSelectedItems.value = [];
         check.value = false;
         // eslint-disable-next-line
@@ -98,7 +101,9 @@ export default defineComponent({
 
     // eslint-disable-next-line
     const selectAll = (checked: any) => {
+
       check.value = checked;
+      
       if (checked) {
         selectedItems.value = [
           ...new Set([...selectedItems.value, ...allSelectedItems.value]),
@@ -111,10 +116,33 @@ export default defineComponent({
     //eslint-disable-next-line
     const itemsSelect = (value: any) => {
       selectedItems.value = [];
-      //eslint-disable-next-line
-      value.forEach((item:any) => {
-        if (!selectedItems.value.includes(item)) selectedItems.value.push(item);
+      let currentPage = 0;
+      
+      if (currentPage != props.currentPage) {
+        currentPage = props.currentPage
+      }
+      let lastPage = 1;
+
+      
+      value.forEach((item: any) => {
+        if (!selectedItems.value.includes(item)) {
+          selectedItems.value.push(item);
+        }
+
+        if (selectPerPage[currentPage] && !selectPerPage[currentPage].includes(item)) {
+          selectPerPage[currentPage].push(item);
+        } else {
+          selectPerPage[currentPage] = [item];
+        }
+
+        lastPage = currentPage;
       });
+
+      if (selectedItems.value.length < allSelectedItems.value.length) {
+        check.value = false
+      } else {
+        check.value = true
+      }
     };
 
     const onSort = (sort: Sort) => {
@@ -133,13 +161,12 @@ export default defineComponent({
     const customRowTable = (data) => {
       selectRow.value = data
       emit("custom-row", selectRow.value);
-      // console.log(data, 'data')
     };
 
     onMounted(() => {
-      selectedItems.value = [];
+      // selectedItems.value = [];
       allSelectedItems.value = [];
-      check.value = false;
+      // check.value = false;
       // eslint-disable-next-line
       props.data.forEach((item: any) => {
         if (item[props.checkboxLabel]) {
