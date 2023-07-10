@@ -26,7 +26,7 @@
             <tr>
               <th class="p-0"></th>
               <th class="p-0"></th>
-              <th class="p-0 min-w-300px"></th>
+              <th class="p-0 "></th>
               <th class="p-0"></th>
             </tr>
           </thead>
@@ -47,10 +47,10 @@
                   </span>
                 </td>
                 <td class="text-end">
-                  <span class="badge badge-danger fw-semobold me-1" :style="{backgroundColor: '#28a745'}">info: {{ item.info }}</span>
-                  <span class="badge badge-danger fw-semobold me-1" :style="{backgroundColor: '#23b7e5'}">low: {{ item.low }}</span>
-                  <span class="badge badge-danger fw-semobold me-1" :style="{backgroundColor: '#fcba32'}">medium: {{ item.medium }}</span>
-                  <span class="badge badge-danger fw-semobold me-1" :style="{backgroundColor: '#e11f26'}">high: {{ item.high }}</span>
+                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#28a745'}">info: {{ item.info }}</span>
+                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#23b7e5'}">low: {{ item.low }}</span>
+                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#fcba32'}">medium: {{ item.medium }}</span>
+                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#e11f26'}">high: {{ item.high }}</span>
                 </td>
 
                 <td class="text-end">
