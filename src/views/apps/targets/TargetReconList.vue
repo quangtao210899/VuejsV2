@@ -227,8 +227,8 @@ import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { Modal } from "bootstrap";
-import { useToast } from 'vue-toast-notification';
 import { useRoute } from 'vue-router';
+import { ElMessage } from 'element-plus'
 
 interface APIData {
     status: string;
@@ -281,7 +281,6 @@ export default defineComponent({
         const typeModal = ref<String>('');
         const id = ref<number>(0);
         const nameType = ref<string>('');
-        const toastr = useToast();
 
         const apiData = ref<APIData>({
             status: '',
@@ -996,8 +995,10 @@ export default defineComponent({
                 expandedKey: string[] = [];
             let selectedKey = getCheckedKeys()
             if (getCheckedKeys().length == 0) {
-                toastr.error('Bạn phải chọn ít nhất một recon', { position: 'top-right' });
-
+                ElMessage({
+                    type: 'error',
+                    message: 'Bạn phải chọn ít nhất một recon'
+                })
                 return true
             } else {
                 dataValidateTree.value.map(el => {
@@ -1018,7 +1019,10 @@ export default defineComponent({
                 if (errors.notifi_error_select.length) {
                     for (let i = 0; i < errors.notifi_error_select.length; i++) {
                         const error = errors.notifi_error_select[i];
-                        toastr.error(error, { position: 'top-right' });
+                        ElMessage({
+                            type: 'error',
+                            message: error ?? 'Có lỗi xảy ra'
+                        })
                     }
                     errors.notifi_error_select = []
 
