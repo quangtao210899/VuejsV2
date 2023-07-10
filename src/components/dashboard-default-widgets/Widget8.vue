@@ -43,8 +43,8 @@
           <!--end::Badge-->
 
           <!--begin::Text-->
-          <div class="col-8 timeline-content fw-semobold text-gray-800 ps-3">
-            {{ item.text }}
+          <div class="col-8 timeline-content fw-semobold text-gray-800 ps-3 cursor-pointer text-break text-hover-primary" @click="visibleDrawer(item)">
+            {{ truncateText(item.text, 55) }}
           </div>
           <!--end::Text-->
         </div>
@@ -79,6 +79,39 @@
     <!--end: Card Body-->
   </div>
   <!--end: List Widget 5-->
+
+
+  <el-drawer v-model="visibleDBLeakData" :show-close="false" size="350">
+    <template #header="{ close, titleId, titleClass }">
+      <h4 class="fs-4" :id="titleId" :class="titleClass">Chi tiết DB Leak</h4>
+      <el-button type="danger" @click="close">
+        <el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
+        Đóng
+      </el-button>
+    </template>
+    <div class="row mb-5">
+      <div class="col-3"><span class="fw-bold text-gray-800 fs-7">Tên:</span></div>
+      <div class="col-9"><span class="text-break">{{ detailedDBLeakData.username ?? '--'}}</span></div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-3"><span class="fw-bold text-gray-800 fs-7">ID Người dùng:</span></div>
+      <div class="col-9"><span class="text-break">{{ detailedDBLeakData.message_id ?? '--' }}</span></div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-3"><span class="fw-bold text-gray-800 fs-7">Số Điện Thoại:</span></div>
+      <div class="col-9"><span class="text-break">{{ detailedDBLeakData.phone ?? '--' }}</span></div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-3"><span class="fw-bold text-gray-800 fs-7">Nội Dung:</span></div>
+      <div class="col-9"><span class="text-break">{{ detailedDBLeakData.text ?? '--'}}</span></div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-3"><span class="fw-bold text-gray-800 fs-7">Thời gian:</span></div>
+      <div class="col-9"><span class="text-break">{{ formatDate(detailedDBLeakData.date)}}</span></div>
+    </div>
+    
+  </el-drawer>
+
 </template>
 
 <script lang="ts">
@@ -87,6 +120,8 @@ import { defineComponent } from "vue";
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import viLocale from './vi.js';
+import { ref, reactive } from 'vue'
+import { CircleCloseFilled } from '@element-plus/icons-vue'
 
 dayjs.extend(relativeTime);
 dayjs.locale(viLocale);
@@ -106,6 +141,7 @@ export default defineComponent({
     DBLeakData: { type: Array as () => Array<ElementType>, required: true },
   },
   components: {
+    CircleCloseFilled,
   },
   setup() {
     const formatDate = (date : string) => {
@@ -115,9 +151,40 @@ export default defineComponent({
       return dayjs(date).fromNow()
     };
 
+    const visibleDBLeakData = ref(false)
+    const detailedDBLeakData = reactive({
+      id: '',
+      message_id: '',
+      phone: '',
+      text: '',
+      date: '',
+      username: ''
+    })
+    const visibleDrawer = (data : any) => {
+      visibleDBLeakData.value = true
+      detailedDBLeakData.username = data.username;
+      detailedDBLeakData.text = data.text;
+      detailedDBLeakData.phone = data.phone;
+      detailedDBLeakData.date = data.date;
+      detailedDBLeakData.message_id = data.message_id;
+      detailedDBLeakData.id = data.id;
+    }
+
+    // upadte status 
+    const truncateText = (text: string, maxLength: number) => {
+      if (text.length > maxLength) {
+        return text.substring(0, maxLength) + '...';
+      }
+      return text;
+    };
+
     return {
       getAssetPath,
       formatDate,
+      visibleDrawer,
+      visibleDBLeakData,
+      detailedDBLeakData,
+      truncateText,
     };
   },
 });

@@ -43,7 +43,8 @@
                   <div class="d-flex align-items-center">
                     <div class="symbol symbol-35px me-5">
                       <span :class="`bg-light-${checkSeverity(row.severity).color}`" class="symbol-label">
-                        <KTIcon icon-name="technology" :icon-class="`text-${checkSeverity(row.severity).color} fs-2x`" />
+                        <!-- <KTIcon icon-name="technology" :icon-class="`text-${checkSeverity(row.severity).color} fs-2x`" /> -->
+                        <i class="fa-solid fa-bug fa-shake fs-5" :class="`text-${checkSeverity(row.severity).color}`"></i>
                       </span>
                     </div>
 

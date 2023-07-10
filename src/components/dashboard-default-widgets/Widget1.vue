@@ -23,13 +23,13 @@
     <!--end::Header-->
 
     <!--begin::Card body-->
-    <div class="card-body d-flex align-items-end pt-0">
+    <!-- <div class="card-body d-flex align-items-end pt-0"> -->
       <!--begin::Progress-->
-      <div class="d-flex align-items-end flex-column mt-3 w-100">
+      <!-- <div class="d-flex align-items-end flex-column mt-3 w-100">
         <KTIcon icon-name="bi bi-life-preserver" icon-class="text-white  fs-3x" />
-      </div>
+      </div> -->
       <!--end::Progress-->
-    </div>
+    <!-- </div> -->
     <!--end::Card body-->
   </div>
 </template>

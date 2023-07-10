@@ -29,20 +29,10 @@
     <!--end::Header-->
 
     <!--begin::Card body-->
-    <div class="card-body d-flex align-items-end pt-0">
-      <!--begin::Title-->
-
-      <!-- <li class="d-flex align-items-center py-2 fw-bolder col-9 ">
-        <span class="bullet bullet-dot bg-success h-10px w-10px me-2"></span>
-        <span class="fs-6 text-gray-800 badge badge-light-success">
-          <span class="fs-3 text-success">{{ liveSubdomain }} </span>
-          - Subdomain live
-        </span>
-      </li> -->
-      <!-- <div class="d-flex align-items-end flex-column w-100">
-        <KTIcon icon-name="bi bi-life-preserver" icon-class="fs-3x" />
-      </div> -->
-      <!--end::Title-->
+    <div class="card-body d-flex align-items-end flex-column mt-0 pt-0 pb-0 mb-0">
+      <!--begin::Progress-->
+      <img src="/media/icons/duotune/vpn/subdomain.gif" alt="target" class="h-150px w-150px p-0 m-0" />
+      <!--end::Progress-->
     </div>
     <!--end::Card body-->
   </div>
