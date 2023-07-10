@@ -94,7 +94,12 @@
           <template v-slot:name="{ row: customer }">
             <span class="text-dark text-hover-primary ">{{ customer.name ?? '--' }}</span>
           </template>
-          <template v-slot:date_update="{ row: customer }">{{ formatDate(customer.date_update) }}</template>
+          <template v-slot:date_update="{ row: customer }">
+            <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
+              <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+              {{ formatDate(customer.date_update) }}
+            </span>
+          </template>
           <template v-slot:total_message="{ row: customer }">
             <div class="badge badge-light">{{ customer.total_message ?? 0 }}</div>
           </template>

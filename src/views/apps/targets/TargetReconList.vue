@@ -49,10 +49,16 @@
                         :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--'
                         }}</span></template>
                 <template v-slot:created_at="{ row: customer }">
-                    {{ customer.created_at }}
+                    <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
+                        <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+                        {{ customer.created_at }}
+                    </span>
                 </template>
                 <template v-slot:modified_at="{ row: customer }">
-                    {{ (customer.status == 2 || customer.status == 1) ? "--:--" : customer.modified_at }}
+                    <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
+                        <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+                        {{ (customer.status == 2 || customer.status == 1) ? "--:--" : customer.modified_at }}
+                    </span>
                 </template>
                 <template v-slot:actions="{ row: customer }">
                     <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết" placement="top">

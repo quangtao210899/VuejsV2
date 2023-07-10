@@ -1216,7 +1216,9 @@
                                 </div>
                             </template>
                             <template v-else>
-                                123
+                                <div class="mt-5 m-3">
+                                    <el-skeleton :rows="12" animated />
+                                </div>
                             </template>
                         </div>
                     </el-card>
