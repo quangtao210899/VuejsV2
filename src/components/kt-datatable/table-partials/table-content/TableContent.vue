@@ -14,9 +14,6 @@
         :sort-label="sortLabel"
         :sort-order="sortOrder"
         :header="header"
-        :data="data"
-        :checkbox-label="checkboxLabel"
-        :current-page="currentPage"
       />
       <TableBodyRow
         v-if="data.length !== 0"
@@ -47,12 +44,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch, computed } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import TableHeadRow from "@/components/kt-datatable/table-partials/table-content/table-head/TableHeadRow.vue";
 import TableBodyRow from "@/components/kt-datatable/table-partials/table-content/table-body/TableBodyRow.vue";
 import Loading from "@/components/kt-datatable/table-partials/Loading.vue";
 import type { Sort } from "@/components/kt-datatable/table-partials/models";
-import { useStore } from 'vuex';
 
 export default defineComponent({
   name: "table-body",
@@ -65,10 +61,6 @@ export default defineComponent({
       type: String as () => "asc" | "desc",
       required: false,
       default: "asc",
-    },
-    currentPage: {
-      type: Number,
-      required: true,
     },
     checkboxEnabled: { type: Boolean, required: false, default: false },
     checkboxLabel: { type: String, required: false, default: "id" },
@@ -85,7 +77,6 @@ export default defineComponent({
     Loading,
   },
   setup(props, { emit }) {
-    const store = useStore();
     const selectedItems = ref<Array<unknown>>([]);
     const allSelectedItems = ref<Array<unknown>>([]);
     const check = ref<boolean>(false);
@@ -112,52 +103,28 @@ export default defineComponent({
     const selectAll = (checked: any) => {
 
       check.value = checked;
+      console.log(check.value);
       
       if (checked) {
-        if (store.state.selectedItems.length == 0) {
-          store.commit('setSelectedItems', [
-            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
-          ]);
-        } else {
-          store.commit('removeSelectedItem', [
-            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
-          ]);
-          
-          store.commit('addSelectedItem', [
-            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
-          ]);
-        }
+        selectedItems.value = [
+          ...new Set([...selectedItems.value, ...allSelectedItems.value]),
+        ];
       } else {
-        store.commit('removeSelectedItem', [
-            ...new Set([...selectedItems.value, ...allSelectedItems.value]),
-          ]);
+        selectedItems.value = [];
       }
-      selectedItems.value = store.state.selectedItems
-      console.log(store.state.selectedItems, selectedItems.value);
     };
-
-    const checkselectedItemsOfPage = ref<boolean>(false);
-
-    // watch(
-    //   () => props.currentPage,
-    //   () => {
-    //     console.log(234234234234);
-        
-    //     checkselectedItemsOfPage.value = true
-    //   }
-    // );
 
     //eslint-disable-next-line
     const itemsSelect = (value: any) => {
-      console.log(1231231233453456, value);
-      
       selectedItems.value = [];
       let currentPage = 0;
+      console.log(currentPage);
       
       if (currentPage != props.currentPage) {
         currentPage = props.currentPage
       }
       let lastPage = 1;
+      console.log(currentPage);
 
       
       value.forEach((item: any) => {
@@ -173,6 +140,11 @@ export default defineComponent({
 
         lastPage = currentPage;
       });
+
+      console.log("Last page:", lastPage);
+      console.log("Current page:", currentPage);
+      console.log(selectPerPage);
+      
 
       if (selectedItems.value.length < allSelectedItems.value.length) {
         check.value = false
@@ -200,6 +172,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
+      console.log('vao mouneted')
       // selectedItems.value = [];
       allSelectedItems.value = [];
       // check.value = false;
@@ -212,8 +185,8 @@ export default defineComponent({
     });
 
     return {
-      selectedItems: computed(() => store.state.selectedItems),
       onSort,
+      selectedItems,
       selectAll,
       itemsSelect,
       check,
