@@ -116,4 +116,7 @@ export default defineComponent({
   /* height: calc(100% - 76px) !important; */
   height: 100%;
 }
+.custom-Message-box-class-text-primary .el-message-box__status.el-message-box-icon--info{
+  color: #2196F3 !important;
+}
 </style>

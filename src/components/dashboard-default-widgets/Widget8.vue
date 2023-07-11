@@ -44,7 +44,7 @@
 
           <!--begin::Text-->
           <div class="col-8 timeline-content fw-semobold text-gray-800 ps-3 cursor-pointer text-break text-hover-primary" @click="visibleDrawer(item)">
-            {{ truncateText(item.text, 55) }}
+            {{ truncateText(item.text, 80) }}
           </div>
           <!--end::Text-->
         </div>

@@ -50,9 +50,9 @@
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+              <button type="button" @click="deleteSelectd()"
                 class="btn btn-sm  btn-danger">
-                Delete Selected
+                Xóa mục đã chọn
               </button>
             </el-tooltip>
           </div>
@@ -204,43 +204,6 @@
     <!--end::Modal dialog-->
   </div>
 
-  <!-- modal delete  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered">
-      <!--begin::Modal content-->
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <h5 class="modal-title">Xác nhận xóa nhóm mục tiêu</h5>
-
-          <!--begin::Close-->
-          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-            <span class="svg-icon svg-icon-2x"></span>
-          </div>
-          <!--end::Close-->
-        </div>
-        <!--begin::Form-->
-        <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }}
-            </span> bản ghi này không?.</p>
-        </div>
-        <!--end::Form-->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm  btn-light" data-bs-dismiss="modal">
-            Hủy bỏ
-          </button>
-          <button type="button" class="btn btn-sm  btn-primary" :disabled="disabled"
-            @click.passive="deleteFewSubscriptions()">
-            Đồng ý
-          </button>
-        </div>
-      </div>
-      <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-  </div>
-
   <!-- modal detail  -->
   <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
     <!--begin::Modal dialog-->
@@ -366,7 +329,9 @@ import Fillter from "@/views/apps/targets/filters.vue";
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Delete } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 import { Modal } from "bootstrap";
 
 interface APIData {
@@ -508,11 +473,26 @@ export default defineComponent({
     }
 
     const selectedIds = ref<Array<number>>([]);
-    const deleteFewSubscriptions = () => {
-      deleteSubscription(selectedIds.value);
+      const deleteSelectd = () => {
+      ElMessageBox.confirm(
+        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
+        'Xác nhận xóa',
+        {
+          confirmButtonText: 'Đồng ý',
+          cancelButtonText: 'Hủy bỏ',
+          type: 'warning',
+          icon: markRaw(Delete)
+        }
+      )
+        .then(() => {
+          deleteSubscription(selectedIds.value);
+        })
+        .catch(() => {
+
+        })
     };
 
-    const ModalDelete = ref<null | HTMLElement>(null);
+    
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
         return ApiService.delete(`targetgroup/${ids}`)
@@ -587,7 +567,7 @@ export default defineComponent({
         },
       }).then(() => {
         hideModal(newTargetGroupModalRef.value);
-        hideModal(ModalDelete.value);
+        
         hideModal(ModalDetail.value);
       });
     }
@@ -686,8 +666,8 @@ export default defineComponent({
       sort,
       onItemSelect,
       selectedIds,
-      deleteFewSubscriptions,
-      deleteSubscription,
+      deleteSelectd,
+      
       getAssetPath,
 
       // validate
@@ -700,7 +680,7 @@ export default defineComponent({
       newTargetGroupModalRef,
       handleClick,
       errors,
-      ModalDelete,
+      
       discardButtonRef,
 
       // detials

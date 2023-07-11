@@ -53,8 +53,8 @@
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-                            <button  :disabled="disabled" type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" class="btn btn-danger btn-sm ">
-                                Delete Selected
+                            <button  :disabled="disabled" type="button" @click="deleteSelectd()" class="btn btn-danger btn-sm ">
+                                Xóa mục đã chọn
                             </button>
                         </el-tooltip>
                     </div>
@@ -370,36 +370,6 @@
         </div>
     </div>
 
-    <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h3 class="modal-title">Xác nhận xóa scan</h3>
-
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span class="svg-icon svg-icon-2x"></span>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <p style="font-size: 16px;">Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0"
-                            class="fw-bold" style="color:red;">{{ selectedIds.length
-                            }}</span> bản ghi này không?
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" :disabled="disabled" class="btn btn-sm  btn-light" data-bs-dismiss="modal">
-                        Hủy bỏ
-                    </button>
-                    <button type="button" :disabled="disabled" class="btn btn-sm  btn-primary" @click.passive="deleteFewSubscriptions()">
-                        Đồng ý
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
         <div class="modal-dialog modal-dialog-centered mw-650px">
             <div class="modal-content">
@@ -495,7 +465,9 @@ import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 import Fillter from "@/views/apps/targets/filterTargetScan.vue";
-
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Delete } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
@@ -716,11 +688,26 @@ export default defineComponent({
         });
 
         const selectedIds = ref<Array<number>>([]);
-        const deleteFewSubscriptions = () => {
-            deleteSubscription(selectedIds.value);
-        };
+            const deleteSelectd = () => {
+      ElMessageBox.confirm(
+        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
+        'Xác nhận xóa',
+        {
+          confirmButtonText: 'Đồng ý',
+          cancelButtonText: 'Hủy bỏ',
+          type: 'warning',
+          icon: markRaw(Delete)
+        }
+      )
+        .then(() => {
+          deleteSubscription(selectedIds.value);
+        })
+        .catch(() => {
 
-        const ModalDelete = ref<null | HTMLElement>(null);
+        })
+    };
+
+        
         const deleteSubscription = (ids: Array<number>) => {
             if (ids) {
                 disabled.value = true
@@ -828,7 +815,7 @@ export default defineComponent({
                 },
             }).then(() => {
                 hideModal(newTargetGroupModalRef.value);
-                hideModal(ModalDelete.value);
+                
                 hideModal(ModalDetail.value);
             });
         }
@@ -923,8 +910,8 @@ export default defineComponent({
             sort,
             onItemSelect,
             selectedIds,
-            deleteFewSubscriptions,
-            deleteSubscription,
+            deleteSelectd,
+            
             getAssetPath,
 
             // validate
@@ -942,7 +929,7 @@ export default defineComponent({
             newTargetGroupModalRef,
             handleClick,
             errors,
-            ModalDelete,
+            
             discardButtonRef,
             clearHeaderOptions,
             // detials

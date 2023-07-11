@@ -52,10 +52,10 @@
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
+              <button type="button" @click="deleteSelectd()"
                 class="btn btn-danger  btn-sm" :disabled="disabled">
                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
-                Delete Selected
+                Xóa mục đã chọn
               </button>
             </el-tooltip>
             <!-- <button type="button" class="btn btn-light-danger ms-2">
@@ -113,42 +113,6 @@
 
   </div>
   <!--end::Card-->
-
-  <!-- modal delete  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered">
-      <!--begin::Modal content-->
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <h5 class="modal-title">Xác nhận xóa recon</h5>
-
-          <!--begin::Close-->
-          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-            <span class="svg-icon svg-icon-2x"></span>
-          </div>
-          <!--end::Close-->
-        </div>
-        <!--begin::Form-->
-        <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }}
-            </span> bản ghi này không?.</p>
-        </div>
-        <!--end::Form-->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-            Hủy bỏ
-          </button>
-          <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
-            Đồng ý
-          </button>
-        </div>
-      </div>
-      <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-  </div>
 
   <!-- modal detail  -->
   <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
@@ -256,7 +220,9 @@ import Fillter from "@/views/apps/telegrams/filterDetail.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { Modal } from "bootstrap";
 import { useRoute } from 'vue-router';
-
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Delete } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 export default defineComponent({
   name: "kt-scans-list",
 
@@ -362,12 +328,27 @@ export default defineComponent({
         });
 
     const selectedIds = ref<Array<number>>([]);
-    const deleteFewSubscriptions = () => {
-      deleteSubscription(selectedIds.value);
+      const deleteSelectd = () => {
+      ElMessageBox.confirm(
+        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
+        'Xác nhận xóa',
+        {
+          confirmButtonText: 'Đồng ý',
+          cancelButtonText: 'Hủy bỏ',
+          type: 'warning',
+          icon: markRaw(Delete)
+        }
+      )
+        .then(() => {
+          deleteSubscription(selectedIds.value);
+        })
+        .catch(() => {
+
+        })
     };
     const disabled = ref<boolean>(false);
 
-    const ModalDelete = ref<null | HTMLElement>(null);
+    
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
         disabled.value = true
@@ -419,7 +400,7 @@ export default defineComponent({
           confirmButton: "btn btn-primary",
         },
       }).then(() => {
-        hideModal(ModalDelete.value);
+        
         // hideModal( ModalConfirm.value);
       });
     };
@@ -455,13 +436,13 @@ export default defineComponent({
       headerConfig,
       onItemSelect,
       selectedIds,
-      deleteFewSubscriptions,
-      deleteSubscription,
+      deleteSelectd,
+      
       getAssetPath,
       truncateText,
 
       // crud
-      ModalDelete,
+      
 
       // detials
       customRowTable,

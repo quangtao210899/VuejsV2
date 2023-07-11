@@ -67,7 +67,7 @@
             class="btn btn-danger"
             @click="deleteFewCustomers()"
           >
-            Delete Selected
+            Xóa mục đã chọn
           </button>
         </div>
         <!--end::Group actions-->
@@ -88,7 +88,7 @@
             class="btn btn-danger"
             data-kt-customer-table-select="delete_selected"
           >
-            Delete Selected
+            Xóa mục đã chọn
           </button>
         </div>
         <!--end::Group actions-->
