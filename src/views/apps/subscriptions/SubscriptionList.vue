@@ -405,7 +405,7 @@ export default defineComponent({
       onItemSelect,
       selectedIds,
       deleteSelectd,
-      
+      deleteSubscription,
       getAssetPath,
     };
   },
