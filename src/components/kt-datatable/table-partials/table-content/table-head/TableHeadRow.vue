@@ -8,7 +8,7 @@
           <input
             id="checkbox"
             name="checkbox"
-            class="form-check-input ms-2 border border-secondary"
+            class="form-check-input ms-2 border border-secondary cursor-pointer"
             type="checkbox"
             v-model="checked"
             @change="selectAll()"

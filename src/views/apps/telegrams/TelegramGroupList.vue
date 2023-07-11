@@ -66,10 +66,9 @@
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
-                class="btn btn-danger  btn-sm" :disabled="disabled">
+              <button type="button" @click="deleteSelectd()" class="btn btn-danger  btn-sm" :disabled="disabled">
                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
-                Delete Selected
+                Xóa mục đã chọn
               </button>
             </el-tooltip>
             <!-- <button type="button" class="btn btn-light-danger ms-2">
@@ -385,41 +384,6 @@
     <!--end::Modal dialog-->
   </div>
 
-  <!-- modal delete  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered">
-      <!--begin::Modal content-->
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <h5 class="modal-title">Xác nhận xóa nhóm</h5>
-
-          <!--begin::Close-->
-          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-            <span class="svg-icon svg-icon-2x"></span>
-          </div>
-          <!--end::Close-->
-        </div>
-        <!--begin::Form-->
-        <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa <span class="fw-bold">{{ selectedIds.length }} </span> bản ghi này không?.</p>
-        </div>
-        <!--end::Form-->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-            Hủy bỏ
-          </button>
-          <button type="button" class="btn btn-primary" @click="deleteFewSubscriptions()">
-            Đồng ý
-          </button>
-        </div>
-      </div>
-      <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-  </div>
-
   <!-- modal detail  -->
   <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
     <!--begin::Modal dialog-->
@@ -543,6 +507,8 @@ import * as Yup from "yup";
 import { useRouter, useRoute } from 'vue-router';
 import { Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { Delete } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 
 // import useCurrencyInput from "vue-currency-input";
 
@@ -720,12 +686,27 @@ export default defineComponent({
     const disabled = ref<boolean>(false);
 
     const selectedIds = ref<Array<number>>([]);
-    const deleteFewSubscriptions = () => {
-      deleteSubscription(selectedIds.value);
+    const deleteSelectd = () => {
+      ElMessageBox.confirm(
+        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
+        'Xác nhận xóa',
+        {
+          confirmButtonText: 'Đồng ý',
+          cancelButtonText: 'Hủy bỏ',
+          type: 'warning',
+          icon: markRaw(Delete)
+        }
+      )
+        .then(() => {
+          deleteSubscription(selectedIds.value);
+        })
+        .catch(() => {
+
+        })
     };
 
     // xóa
-    const ModalDelete = ref<null | HTMLElement>(null);
+    
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
         disabled.value = true
@@ -779,7 +760,7 @@ export default defineComponent({
           confirmButton: "btn btn-primary",
         },
       }).then(() => {
-        hideModal(ModalDelete.value);
+        
         hideModal(newTargetTelegramModalRef.value);
         hideModal(newTSetingModalRef.value);
       });
@@ -878,17 +859,19 @@ export default defineComponent({
           confirmButtonText: 'Xác nhận',
           cancelButtonText: 'Hủy bỏ',
           type: 'info',
+          customClass: 'custom-Message-box-class-text-primary',
+          draggable: true,
         }
       )
         .then(() => {
           setTimeout(() => { idSyncALL.value = false; }, 500)
-            getSyncAll();
+          getSyncAll();
         })
         .catch(() => {
-          ElMessage({
-            type: 'error',
-            message: 'Hủy bỏ lệnh',
-          })
+          // ElMessage({
+          //   type: 'error',
+          //   message: 'Hủy bỏ lệnh',
+          // })
         })
     };
 
@@ -1115,13 +1098,13 @@ export default defineComponent({
       headerConfig,
       onItemSelect,
       selectedIds,
-      deleteFewSubscriptions,
-      deleteSubscription,
+      deleteSelectd,
+      
       getAssetPath,
       sort,
 
       // crud
-      ModalDelete,
+      
       handleClick,
       nameType,
       apiData,

@@ -30,9 +30,9 @@
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-                            <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal"
-                                class="btn btn-danger btn-sm " :disabled="disabled">
-                                Delete Selected
+                            <button type="button" @click="deleteSelectd()" class="btn btn-danger btn-sm "
+                                :disabled="disabled">
+                                Xóa mục đã chọn
                             </button>
                         </el-tooltip>
                     </div>
@@ -116,8 +116,8 @@
                                         <span class="required">Loại sản phẩm</span>
                                     </label>
                                     <el-form-item prop="assign">
-                                        <el-select id="product_type" name="product_type" placeholder="Select" @change="removeErrorMsgOption"
-                                            v-model="apiData.product_type">
+                                        <el-select id="product_type" name="product_type" placeholder="Select"
+                                            @change="removeErrorMsgOption" v-model="apiData.product_type">
                                             <!-- <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option> -->
                                             <el-option v-for="item in dataProduct" :key="item.value" :label="item.label"
                                                 :value="item.value" />
@@ -161,8 +161,8 @@
                             </div>
                             <div class="d-flex flex-column mb-5 fv-row">
                                 <label class="fs-6 fw-semobold mb-2" for="description">Mô tả</label>
-                                <Field as="textarea" class="form-control form-control-solid" rows="5" id="description" name="description"
-                                    placeholder="Mô tả về CVE" v-model="apiData.description" />
+                                <Field as="textarea" class="form-control form-control-solid" rows="5" id="description"
+                                    name="description" placeholder="Mô tả về CVE" v-model="apiData.description" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="description" />
@@ -171,8 +171,9 @@
                             </div>
                             <div class="d-flex flex-column mb-5 fv-row">
                                 <label class="fs-6 fw-semobold mb-2 required" for="version">Phiên bản ảnh hưởng</label>
-                                <Field as="textarea" class="form-control form-control-solid" rows="5" id="version" name="version"
-                                    placeholder="Phiên bản sản phẩm bị ảnh hưởng bởi CVE" v-model="apiData.version" />
+                                <Field as="textarea" class="form-control form-control-solid" rows="5" id="version"
+                                    name="version" placeholder="Phiên bản sản phẩm bị ảnh hưởng bởi CVE"
+                                    v-model="apiData.version" />
                                 <div class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="version" />
@@ -186,7 +187,8 @@
                                 <!--end::Label-->
 
                                 <!--begin::Input-->
-                                <Field as="textarea" class="form-control form-control-solid" rows="5" id="shodan_dock" name="shodan_dock"
+                                <Field as="textarea" class="form-control form-control-solid" rows="5" id="shodan_dock"
+                                    name="shodan_dock"
                                     placeholder="Câu query shodan để tìm kiếm mục tiêu trên diện rộng. Cú pháp theo cú pháp tìm kiếm của shodan. Query phân cách bởi dấu ;"
                                     v-model="apiData.shodan_dock" />
                                 <div class="fv-plugins-message-container">
@@ -253,44 +255,6 @@
         <!--end::Modal dialog-->
     </div>
 
-    <!-- modal delete  -->
-    <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
-        <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered">
-            <!--begin::Modal content-->
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h3 class="modal-title">Xác nhận xóa CVE</h3>
-
-                    <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span class="svg-icon svg-icon-2x"></span>
-                    </div>
-                    <!--end::Close-->
-                </div>
-                <!--begin::Form-->
-                <div class="modal-body">
-                    <p style="font-size: 16px;">Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0"
-                            class="fw-bold" style="color:red;">{{ selectedIds.length
-                            }}</span> bản ghi này không?
-                    </p>
-                </div>
-                <!--end::Form-->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm  btn-light" data-bs-dismiss="modal">
-                        Hủy bỏ
-                    </button>
-                    <button type="button" class="btn btn-sm  btn-primary" @click.passive="deleteFewSubscriptions()">
-                        Đồng ý
-                    </button>
-                </div>
-            </div>
-            <!--end::Modal content-->
-        </div>
-        <!--end::Modal dialog-->
-    </div>
 
     <!-- modal detail  -->
     <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
@@ -401,7 +365,9 @@ import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from "vue-debounce";
 import Fillter from "@/views/apps/cves/filterCVEList.vue";
-
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Delete } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
@@ -836,7 +802,7 @@ export default defineComponent({
             getData();
         };
 
-        const getData = async  () => {
+        const getData = async () => {
             loading.value = true;
             return ApiService.get(`cve/index?code=${query.value}&product_type=${filterProductType.value}&vul_type=${filterVulType.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
@@ -852,8 +818,23 @@ export default defineComponent({
         }
 
         const selectedIds = ref<Array<number>>([]);
-        const deleteFewSubscriptions = () => {
-            deleteSubscription(selectedIds.value);
+        const deleteSelectd = () => {
+            ElMessageBox.confirm(
+                'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
+                'Xác nhận xóa',
+                {
+                    confirmButtonText: 'Đồng ý',
+                    cancelButtonText: 'Hủy bỏ',
+                    type: 'warning',
+                    icon: markRaw(Delete)
+                }
+            )
+                .then(() => {
+                    deleteSubscription(selectedIds.value);
+                })
+                .catch(() => {
+
+                })
         };
         const removeErrorMsgOption = () => {
             apiData.value.product_type !== '' ? errors.product_type = '' : ''
@@ -865,7 +846,7 @@ export default defineComponent({
         };
         const disabled = ref<boolean>(false);
 
-        const ModalDelete = ref<null | HTMLElement>(null);
+
         const deleteSubscription = (ids: Array<number>) => {
             let formData = {
                 'id': ids
@@ -955,7 +936,7 @@ export default defineComponent({
                 },
             }).then(() => {
                 hideModal(newTargetGroupModalRef.value);
-                hideModal(ModalDelete.value);
+
                 hideModal(ModalDetail.value);
             });
         }
@@ -1079,8 +1060,8 @@ export default defineComponent({
             sort,
             onItemSelect,
             selectedIds,
-            deleteFewSubscriptions,
-            deleteSubscription,
+            deleteSelectd,
+            
             getAssetPath,
             truncateText,
             // validate
@@ -1093,7 +1074,7 @@ export default defineComponent({
             newTargetGroupModalRef,
             handleClick,
             errors,
-            ModalDelete,
+
             discardButtonRef,
 
             // detials

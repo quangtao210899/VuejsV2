@@ -45,10 +45,9 @@
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-              <button type="button" data-bs-target="#kt_modal_delete" data-bs-toggle="modal" :disabled="disabled"
-                class="btn btn-danger  btn-sm">
+              <button type="button" @click="deleteSelectd()" :disabled="disabled" class="btn btn-danger  btn-sm">
                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
-                Delete Selected
+                Xóa mục đã chọn
               </button>
             </el-tooltip>
             <!-- <button type="button" class="btn btn-light-danger ms-2">
@@ -109,9 +108,6 @@
       <!--end::Card body-->
       <div v-if="classDetail" @mousedown="startDragging" class="drag-handle position-relative">
         <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
-          <el-button class="btn h-30px w-35px btn-sm btn-light btn-icon ">
-            <KTIcon icon-name="entrance-right" icon-class="text-info" :style="{ fontSize: '22px' }" />
-          </el-button>
         </div>
       </div>
       <!--begin::Card2 body-->
@@ -130,7 +126,7 @@
           </div>
           <div class="d-flex flex-wrap">
             <div class="w-200px me-2 my-1">
-              <el-select name="severity" as="select" v-model="detailData.severity"
+              <el-select name="severity" as="select" v-model="detailData.severity" class=""
                 :class="getSeverity(detailData.severity).class" @change="handleChangeUpdate('Mức độ')">
                 <el-option label="Info" value="0" key="0">Info</el-option>
                 <el-option label="Low" value="1" key="1">Low</el-option>
@@ -147,7 +143,7 @@
               </el-select>
             </div>
           </div>
-          <div class="bg-light my-3 py-2 px-4 lh-lg rounded-2 me-2">
+          <div class="bg-light my-5 py-2 px-4 lh-lg rounded-2 me-2 ">
             <div class="row">
               <div class="col-12 col-xl-6 col-xxl-4 my-1">
                 <span class="text-black-50">IP : </span>
@@ -376,42 +372,6 @@
 
   </div>
   <!--end::Card-->
-
-  <!-- modal delete  -->
-  <div class="modal fade" tabindex="-1" id="kt_modal_delete" ref="ModalDelete" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered">
-      <!--begin::Modal content-->
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <h5 class="modal-title">Xác nhận xóa recon</h5>
-
-          <!--begin::Close-->
-          <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-            <span class="svg-icon svg-icon-2x"></span>
-          </div>
-          <!--end::Close-->
-        </div>
-        <!--begin::Form-->
-        <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa <span v-if="selectedIds.length > 0" class="fw-bold">{{ selectedIds.length }}
-            </span> bản ghi này không?.</p>
-        </div>
-        <!--end::Form-->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-            Hủy bỏ
-          </button>
-          <button type="button" class="btn btn-primary" @click.passive="deleteFewSubscriptions()">
-            Đồng ý
-          </button>
-        </div>
-      </div>
-      <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-  </div>
 </template>
 
 <script lang="ts">
@@ -421,13 +381,14 @@ import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
 // validate
-import { hideModal } from "@/core/helpers/dom";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import Fillter from "@/views/apps/scans/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
-
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Delete } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 interface APIData {
   title: string;
   description: string;
@@ -560,7 +521,7 @@ export default defineComponent({
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         })
         .finally(() => {
-            loading.value = false
+          loading.value = false
         });
     }
 
@@ -587,11 +548,26 @@ export default defineComponent({
 
     // selectedIds
     const selectedIds = ref<Array<number>>([]);
-    const deleteFewSubscriptions = () => {
-      deleteSubscription(selectedIds.value);
+    const deleteSelectd = () => {
+      ElMessageBox.confirm(
+        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
+        'Xác nhận xóa',
+        {
+          confirmButtonText: 'Đồng ý',
+          cancelButtonText: 'Hủy bỏ',
+          type: 'warning',
+          icon: markRaw(Delete)
+        }
+      )
+        .then(() => {
+          deleteSubscription(selectedIds.value);
+        })
+        .catch(() => {
+
+        })
     };
     const disabled = ref<boolean>(false);
-    const ModalDelete = ref<null | HTMLElement>(null);
+
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
         let formData = { id: ids }
@@ -695,7 +671,6 @@ export default defineComponent({
           confirmButton: "btn btn-primary",
         },
       }).then(() => {
-        hideModal(ModalDelete.value);
       });
     };
 
@@ -826,8 +801,8 @@ export default defineComponent({
       headerConfig,
       onItemSelect,
       selectedIds,
-      deleteFewSubscriptions,
-      deleteSubscription,
+      deleteSelectd,
+      
       getAssetPath,
       closeOnRow,
       checkitemsPerPage,
@@ -836,7 +811,7 @@ export default defineComponent({
       // crud
       apiData,
       handleClick,
-      ModalDelete,
+
 
       // detials
       customRowTable,

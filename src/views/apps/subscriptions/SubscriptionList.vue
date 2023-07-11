@@ -63,9 +63,9 @@
           <button
             type="button"
             class="btn btn-danger"
-            @click.passive="deleteFewSubscriptions()"
+            @click.passive="deleteSelectd()"
           >
-            Delete Selected
+            Xóa mục đã chọn
           </button>
         </div>
         <!--end::Group actions-->
@@ -375,7 +375,7 @@ export default defineComponent({
     ]);
 
     const selectedIds = ref<Array<number>>([]);
-    const deleteFewSubscriptions = () => {
+    const deleteSelectd = () => {
       selectedIds.value.forEach((item) => {
         deleteSubscription(item);
       });
@@ -404,8 +404,8 @@ export default defineComponent({
       sort,
       onItemSelect,
       selectedIds,
-      deleteFewSubscriptions,
-      deleteSubscription,
+      deleteSelectd,
+      
       getAssetPath,
     };
   },
