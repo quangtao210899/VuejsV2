@@ -125,7 +125,7 @@ export default {
         return;
       }
 
-      console.log(newloading,newconnecting,NewInfoStatus  )
+      //console.log(newloading,newconnecting,NewInfoStatus  )
       const customIconConnecting = L.divIcon({
           className: customIcon.options.className,
           html: `<div class="position-relative h-100 w-100">
@@ -171,7 +171,7 @@ export default {
           const marker = markers.value[i];
           if (newloading == true || newconnecting == true ) {
             if(countryLoading.value == el.title){
-              console.log(newconnecting, newloading, countryLoading.value, 2222);
+              //console.log(newconnecting, newloading, countryLoading.value, 2222);
               marker.setIcon(customIconConnecting);
             }
             marker.off('click');
@@ -229,7 +229,7 @@ export default {
       loading.value = true;
       return await ApiService.get(`nordvpn/info`)
         .then(({ data }) => {
-          console.log(data)
+          //console.log(data)
           infoCountry.value = (data.info == null) ? 'Vietnam' : data.info.country
           infoIp.value = (data.info == null) ? 'null' : data.info.ip
           infoConnectTime.value = (data.info == null) ? 'null' : data.info.connect_time
@@ -243,7 +243,7 @@ export default {
                 map.value.setView(element['markerLatLng'], 4);
               }
             });
-            console.log(data)
+            //console.log(data)
           }
         })
         .catch(({ response }) => {
@@ -315,7 +315,7 @@ export default {
       let form = { country: infoCountry.value }
       return await ApiService.post(`nordvpn/disconnect`, form)
         .then(({ data }) => {
-          console.log(data);
+          //console.log(data);
           ElNotification({
             title: 'Trạng thái Kết nối',
             message: data.detail ?? 'Có lỗi xảy ra',

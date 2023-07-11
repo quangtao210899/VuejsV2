@@ -502,7 +502,7 @@ export default defineComponent({
                 detailData.modified_at = detail.modified_at
                 detailData.description = detail.description
                 detailData.progress = detail.progress
-                console.log(detailData)
+                // console.log(detailData)
                 const modal = new Modal(
                     document.getElementById("kt_modal_detail") as Element
                 );

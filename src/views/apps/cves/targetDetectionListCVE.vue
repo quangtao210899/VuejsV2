@@ -543,7 +543,7 @@ export default defineComponent({
                     //     description.value = data.description
                     //     notification(data.description, 'error','')
                     // }
-                    console.log(statusCVE.value)
+                    //console.log(statusCVE.value)
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
