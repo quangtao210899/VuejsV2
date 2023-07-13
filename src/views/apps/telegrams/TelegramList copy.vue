@@ -34,7 +34,8 @@
               <span class="me-2">{{ selectedIds.length }}</span>Selected
             </div>
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-              <button type="button" @click="deleteSelectd()" :disabled="disabled" class="btn btn-danger  btn-sm">
+              <button type="button" @click="deleteSelectd()" :disabled="disabled"
+                class="btn btn-danger  btn-sm">
                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
                 Xóa mục đã chọn
               </button>
@@ -50,31 +51,18 @@
     </div>
     <!--end::Card header-->
 
-    <!--begin::Card body-->
-    <div class="h-100 w-100 p-0 m-0">
-      <el-table ref="multipleTableRef" :data="list" style="width: 100%" class-name="my-custom-table rounded-top"
-        :height="heightTable" table-layout="fixed" v-loading="loading" @selection-change="handleSelectionChange"
-        highlight-current-row :row-key="getRowKey">
-        <template #empty>
-          <div class="flex items-center justify-center h-100%">
-            <el-empty />
-          </div>
-        </template>
-        <el-table-column label-class-name="border border-0 fs-7" type="selection" width="35" :reserve-selection="true" />
-
-        <el-table-column min-width="35" label-class-name="border border-0 fs-7" prop="id" label="ID">
-          <template #default="scope">
-            <span class="text-dark text-hover-primary fs-6 fw-bold">{{ scope.row.id ?? '--' }}</span>
+    <div class="hand-height-2 shadow-hvover">
+      <!--begin::Card body-->
+      <div class="card-body overflow-y-auto overflow-x-auto h-100 p-0 m-0">
+        <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
+          :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
+          @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
+          <template v-slot:id="{ row: customer }">{{ customer.id ?? '--' }}</template>
+          <template v-slot:group_name="{ row: customer }">
+            <span class="text-dark text-hover-primary fs-6 fw-bold">{{ customer.group_name ?? '--' }}</span>
           </template>
-        </el-table-column>
 
-        <el-table-column label-class-name="border border-0 fs-7" prop="group_name" label="GROUP">
-          <template #default="scope">
-            <span class="text-dark text-hover-primary fs-6 fw-bold">{{ scope.row.group_name ?? '--' }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column min-width="100" label-class-name="border border-0 fs-7" prop="username" label="TÊN">
-          <template #default="scope">
+          <template v-slot:username="{ row: customer }">
             <div class="d-flex align-items-center">
               <!--begin::Symbol-->
               <div class="symbol symbol-45px me-5">
@@ -85,71 +73,154 @@
               <!--end::Symbol-->
               <!--begin::Text-->
               <div class="d-flex flex-column">
-                <span class="text-dark text-hover-primary fs-6 fw-bold">{{ scope.row.username ?? '--' }}</span>
-                <span class="text-muted fw-semobold">{{ scope.row.phone ?? '--' }}</span>
+                <span class="text-dark text-hover-primary fs-6 fw-bold">{{ customer.username ?? '--' }}</span>
+                <span class="text-muted fw-semobold">{{ customer.phone ?? '--' }}</span>
               </div>
               <!--end::Text-->
             </div>
           </template>
-        </el-table-column>
-
-        <el-table-column min-width="150" label-class-name="border border-0 fs-7" prop="text" label="NỘI DUNG">
-          <template #default="scope">
-            <span class="fs-7 fst-normal">{{ truncateText(scope.row.text, 25) ?? '--'
-            }}</span>
+          <template v-slot:text="{ row: customer }">
+            <div><span>{{ truncateText(customer.text, 25) }}</span></div>
           </template>
-        </el-table-column>
-
-        <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="date" label="THỜI GIAN">
-          <template #default="scope">
+          <template v-slot:date="{ row: customer }">
             <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
               <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
-              {{ scope.row.date }}
+              {{ customer.date }}
             </span>
           </template>
-        </el-table-column>
-      </el-table>
-      <div class="d-flex justify-content-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-        <el-pagination background v-model:current-page="currentPage" v-model:page-size="itemsPerPage" :total="totalPage"
-          :layout="(checkPaginationTable) ? 'prev, pager, next' : 'total, sizes, prev, pager, next, jumper'"
-          :pager-count="(checkPaginationTable) ? 5 : 6" :disabled="disabled"
-          :page-sizes="(checkPaginationTable) ? [] : [10, 20, 30, 40, 50]"></el-pagination>
+        </KTDatatable>
       </div>
+      <!--end::Card body-->
     </div>
-    <!--end::Card body-->
+
   </div>
   <!--end::Card-->
+  
+  <!-- modal detail  -->
+  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-600px">
+      <!--begin::Modal content-->
+      <div class="modal-content">
+        <!--begin::Form-->
+        <div class="modal-body">
+          <!--begin::Card-->
+          <div class="card card-flush pt-3 mb-5 mb-xl-10">
+            <!--begin::Card header-->
+            <div class="card-header mb-5">
+              <!--begin::Card title-->
+              <div class="card-title">
+                <div class="d-flex align-items-center">
+                  <!--begin::Symbol-->
+                  <div class="symbol symbol-50px me-5">
+                    <span class="symbol-label bg-light-success">
+                      <KTIcon icon-name="user" icon-class="text-success fs-2x" />
+                    </span>
+                  </div>
+                  <!--end::Symbol-->
+                  <!--begin::Text-->
+                  <div class="d-flex flex-column">
+                    <span class="text-dark text-hover-primary fs-4 fw-bold">{{ detailData.username ?? '--' }}</span>
+                    <span class="text-muted fw-semobold">{{ detailData.phone ?? '--' }}</span>
+                  </div>
+                  <!--end::Text-->
+                </div>
+              </div>
+              <!--begin::Card toolbar-->
+
+              <!--end::Card toolbar-->
+            </div>
+            <!--end::Card header-->
+
+            <!--begin::Card body-->
+            <div class="card-body py-0">
+              <!--begin::Section-->
+              <div class="mb-10">
+                <!--begin::Title-->
+                <h6>Thông tin chi tiết:</h6>
+                <!--end::Title-->
+
+                <!--begin::Details-->
+                <div class="py-5">
+                  <!--begin::Row-->
+                  <div class="me-5">
+                    <!--begin::Details-->
+                    <div>
+                      <div class="row fs-6 mb-3">
+                        <div class="col-3 text-gray-400">Tên nhóm:</div>
+                        <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.group_name ?? '--' }}</span>
+                        </div>
+                      </div>
+                      <div class="row fs-6 mb-3">
+                        <div class="col-3 text-gray-400">Nội dung:</div>
+                        <div class="col-9 text-gray-800"><span>{{ detailData.text ?? '--' }}</span></div>
+                      </div>
+                      <div class="row fs-6">
+                        <div class="col-3 text-gray-400">Thời gian:</div>
+                        <div class="col-9 text-gray-800"><span>{{ detailData.date }}</span></div>
+                      </div>
+                    </div>
+                    <!--end::Details-->
+                  </div>
+                  <!--end::Row-->
+
+                </div>
+                <!--end::Row-->
+              </div>
+              <!--end::Section-->
+            </div>
+            <!--end::Card body-->
+          </div>
+          <!--end::Card-->
+        </div>
+        <!--end::Form-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm  btn-primary" data-bs-dismiss="modal">
+            Quay lại
+          </button>
+        </div>
+      </div>
+      <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, onUnmounted, watch } from "vue";
+import { getAssetPath } from "@/core/helpers/assets";
+import { defineComponent, ref, onMounted, reactive, onBeforeUnmount } from "vue";
+import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 
 // validate
+import { hideModal } from "@/core/helpers/dom";
+import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import Fillter from "@/views/apps/telegrams/filters.vue";
+import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { Modal } from "bootstrap";
 import { useRoute } from 'vue-router';
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
 import { markRaw } from 'vue'
-import { ElTable, ElTableColumn } from 'element-plus';
-
 export default defineComponent({
   name: "kt-scans-list",
 
   components: {
+    KTDatatable,
+    ErrorMessage,
+    Field,
+    VForm,
     Fillter,
-    ElTable,
-    ElTableColumn
+    CodeHighlighter,
   },
   directives: {
     debounce: vue3Debounce({ lock: true })
   },
   setup() {
     const route = useRoute();
-    const list = ref<any>([])
+    const list = ref<object | any>([])
     const loading = ref<boolean>(false)
     const totalPage = ref<number>(0);
     const currentPage = ref<number>(1);
@@ -164,7 +235,42 @@ export default defineComponent({
       text: '',
       date: '',
     });
-    const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+    const headerConfig = ref([
+      {
+        columnName: "ID",
+        columnLabel: "id",
+      },
+      {
+        columnName: "Group",
+        columnLabel: "group_name",
+        columnWidth: 150,
+      },
+      {
+        columnName: "Tên",
+        columnLabel: "username",
+        columnWidth: 200,
+      },
+      {
+        columnName: "Nội dung",
+        columnLabel: "text",
+        columnWidth: 200,
+      },
+      {
+        columnName: "Thời gian",
+        columnLabel: "date",
+      }
+    ]);
+
+
+    const handlePage = (page: number) => {
+      currentPage.value = page ?? 1;
+      getData();
+    };
+
+    const handlePerPage = (itemsPage: number) => {
+      itemsPerPage.value = itemsPage ?? 20;
+      getData();
+    };
 
     const getData = async () => {
       loading.value = true;
@@ -177,33 +283,33 @@ export default defineComponent({
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         })
         .finally(() => {
-          loading.value = false
+            loading.value = false
         });
     }
 
     // tính thời gian
-    // const eventTime = ref<number | any>('30000');
-    // let intervalId: any;
-    // const startTimer = () => {
-    //   intervalId = setInterval(() => {
-    //     getData();
-    //   }, eventTime.value);
-    // };
+    const eventTime = ref<number | any>('30000');
+    let intervalId: any;
+    const startTimer = () => {
+      intervalId = setInterval(() => {
+        getData();
+      }, eventTime.value);
+    };
 
-    // const stopTimer = () => {
-    //   clearInterval(intervalId);
-    // };
+    const stopTimer = () => {
+      clearInterval(intervalId);
+    };
 
-    // onMounted(() => {
-    //   startTimer();
-    // });
+    onMounted(() => {
+      startTimer();
+    });
 
-    // onBeforeUnmount(() => {
-    //   stopTimer();
-    // });
+    onBeforeUnmount(() => {
+      stopTimer();
+    });
 
-    const selectedIds = ref<any>([]);
-    const deleteSelectd = () => {
+    const selectedIds = ref<Array<number>>([]);
+      const deleteSelectd = () => {
       ElMessageBox.confirm(
         'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
         'Xác nhận xóa',
@@ -218,12 +324,14 @@ export default defineComponent({
           deleteSubscription(selectedIds.value);
         })
         .catch(() => {
+
         })
     };
     const disabled = ref<boolean>(false);
+
+    
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
-        console.log(ids)
         disabled.value = true
         setTimeout(() => {
           disabled.value = false
@@ -231,8 +339,7 @@ export default defineComponent({
         return ApiService.delete(`telegram/message/multi-delete?id=${ids}`)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
-            selectedIds.value = [];
-            multipleTableRef.value!.clearSelection()
+            selectedIds.value.length = 0;
             getData();
           })
           .catch(({ response }) => {
@@ -258,6 +365,11 @@ export default defineComponent({
       }
     };
 
+    const onItemSelect = (selectedItems: Array<number>) => {
+      selectedIds.value = selectedItems;
+
+    };
+
     const notification = (values: string, icon: string, more: string) => {
       Swal.fire({
         text: values ?? more,
@@ -269,7 +381,7 @@ export default defineComponent({
           confirmButton: "btn btn-primary",
         },
       }).then(() => {
-
+        
         // hideModal( ModalConfirm.value);
       });
     };
@@ -286,7 +398,7 @@ export default defineComponent({
 
     };
 
-    // truncateText
+    // upadte status 
     const truncateText = (text: string, maxLength: number) => {
       if (text.length > maxLength) {
         return text.substring(0, maxLength) + '...';
@@ -294,72 +406,22 @@ export default defineComponent({
       return text;
     };
 
-    // table
-    const handleSelectionChange = (val: any) => {
-      if (val) {
-        selectedIds.value = val.map((item: { id: number }) => item.id);
-      }
-      return;
-    }
-
-    const getRowKey = (row: any) => {
-      return row.id
-    }
-
-    // Lắng nghe sự thay đổi của currentPage và pageSize
-    watch(currentPage, (newCurrentPage) => {
-      currentPage.value = newCurrentPage ?? 1;
-      getData();
-    });
-
-    watch(itemsPerPage, (newPageSize) => {
-      itemsPerPage.value = newPageSize ?? 20;
-      getData();
-    });
-
-    // tính toán chiều cao table
-    const heightTable = ref(0)
-    const checkPaginationTable = ref(false)
-    const handleResize = () => {
-      const windowWidth = window.innerWidth;
-
-      if (windowWidth >= 1400) {
-        heightTable.value = window.innerHeight - 220;
-        checkPaginationTable.value = false
-      } else if (windowWidth >= 1200) {
-        heightTable.value = window.innerHeight - 220;
-        checkPaginationTable.value = false
-      } else if (windowWidth >= 992) {
-        heightTable.value = window.innerHeight - 220;
-        checkPaginationTable.value = false
-      } else if (windowWidth >= 768) {
-        heightTable.value = window.innerHeight - 200;
-        checkPaginationTable.value = false
-      } else if (windowWidth >= 576) {
-        heightTable.value = window.innerHeight - 200;
-        checkPaginationTable.value = true
-      } else {
-        // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-        heightTable.value = window.innerHeight - 200;
-        checkPaginationTable.value = true
-      }
-    };
-
     onMounted(() => {
       getData();
-      handleResize();
-      window.addEventListener('resize', handleResize);
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener('resize', handleResize);
     });
 
     return {
       getData,
       list,
+      headerConfig,
+      onItemSelect,
       selectedIds,
       deleteSelectd,
+      
+      getAssetPath,
+
+      // crud
+      
 
       // detials
       customRowTable,
@@ -368,9 +430,13 @@ export default defineComponent({
       itemsPerPage,
       totalPage,
       currentPage,
+      handlePage,
+      handlePerPage,
 
       // search query 
       query,
+
+      // sử lý dữ liệu
 
       // filter
       handleFilter,
@@ -381,21 +447,7 @@ export default defineComponent({
       detailData,
       truncateText,
       disabled,
-
-
-      // table
-      handleSelectionChange,
-      checkPaginationTable,
-      multipleTableRef,
-      getRowKey,
-      heightTable,
     };
   },
 });
 </script>
-
-<style >
-.my-custom-table td.el-table__cell {
-  border-bottom-style: dashed !important;
-}
-</style>
