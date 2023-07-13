@@ -194,7 +194,7 @@
                                         <template v-else>
                                             <el-tabs tab-position="left" type="border-card" :stretch="true"
                                                 class="demo-tabs2 padding-tabs border border-0 h-100" :lazy="true">
-                                                <el-tab-pane v-for="(items, index) in domain_info" :key="index" class="">
+                                                <el-tab-pane v-for="(items, index) in domain_info" :key="index" class="h-100">
                                                     <template #label>
                                                         <span class="custom-tabs-label text-capitalize">
                                                             <span>{{ convertToString(index) }}</span>
@@ -294,7 +294,7 @@
                                         <template v-else>
                                             <el-tabs tab-position="left" type="border-card" :stretch="true"
                                                 class="demo-tabs padding-tabs border border-0 h-100" :lazy="true">
-                                                <el-tab-pane v-for="(items, index) in ip_info" :key="index" class="">
+                                                <el-tab-pane v-for="(items, index) in ip_info" :key="index" class="h-100">
                                                     <template #label>
                                                         <span class="custom-tabs-label text-capitalize">
                                                             <span>{{ convertToString(index) }}</span><br>
@@ -843,7 +843,7 @@
                                 <template v-else>
                                     <el-tabs tab-position="left" type="border-card" :stretch="true"
                                         class="demo-tabs3 padding-tabs border border-0 h-100" :lazy="true">
-                                        <el-tab-pane v-for="(items, index) in metadata" :key="index" class="">
+                                        <el-tab-pane v-for="(items, index) in metadata" :key="index" class="h-100">
                                             <template #label>
                                                 <span class="custom-tabs-label">
                                                     <span>{{ index }}</span>

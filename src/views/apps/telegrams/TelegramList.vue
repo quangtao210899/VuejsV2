@@ -54,7 +54,7 @@
     <div class="h-100 w-100 p-0 m-0">
       <el-table ref="multipleTableRef" :data="list" style="width: 100%" class-name="my-custom-table rounded-top"
         :height="heightTable" table-layout="fixed" v-loading="loading" @selection-change="handleSelectionChange"
-        highlight-current-row :row-key="getRowKey">
+        highlight-current-row :row-key="getRowKey" @current-change="handleCurrentChange">
         <template #empty>
           <div class="flex items-center justify-center h-100%">
             <el-empty />
@@ -62,9 +62,9 @@
         </template>
         <el-table-column label-class-name="border border-0 fs-7" type="selection" width="35" :reserve-selection="true" />
 
-        <el-table-column min-width="35" label-class-name="border border-0 fs-7" prop="id" label="ID">
+        <el-table-column min-width="35" label-class-name="border border-0" prop="id" label="ID">
           <template #default="scope">
-            <span class="text-dark text-hover-primary fs-6 fw-bold">{{ scope.row.id ?? '--' }}</span>
+            <span class="fs-6 text-gray-600 fw-bold">{{ scope.row.id ?? '--' }}</span>
           </template>
         </el-table-column>
 
@@ -93,16 +93,16 @@
           </template>
         </el-table-column>
 
-        <el-table-column min-width="150" label-class-name="border border-0 fs-7" prop="text" label="NỘI DUNG">
+        <el-table-column min-width="150" label-class-name="border border-0" prop="text" label="NỘI DUNG">
           <template #default="scope">
-            <span class="fs-7 fst-normal">{{ truncateText(scope.row.text, 25) ?? '--'
+            <span class="fs-6 text-gray-600 fw-bold">{{ truncateText(scope.row.text, 25) ?? '--'
             }}</span>
           </template>
         </el-table-column>
 
         <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="date" label="THỜI GIAN">
           <template #default="scope">
-            <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
+            <span class="text-gray-600 d-flex justify-content-start align-items-center fs-7 fw-bold">
               <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
               {{ scope.row.date }}
             </span>
@@ -119,6 +119,79 @@
     <!--end::Card body-->
   </div>
   <!--end::Card-->
+
+  <el-dialog v-model="DialogVisibleDetail" :title="`Thông tin nhóm ${detailData.username}`" width="600" align-center>
+    <div class="modal-body">
+      <!--begin::Card-->
+      <div class="card card-flush pt-3 mb-5 mb-xl-10">
+        <!--begin::Card header-->
+        <div class="card-header mb-5">
+          <!--begin::Card title-->
+          <div class="card-title">
+            <div class="d-flex align-items-center">
+              <!--begin::Symbol-->
+              <div class="symbol symbol-50px me-5">
+                <span class="symbol-label bg-light-success">
+                  <KTIcon icon-name="user" icon-class="text-success fs-2x" />
+                </span>
+              </div>
+              <!--end::Symbol-->
+              <!--begin::Text-->
+              <div class="d-flex flex-column">
+                <span class="text-dark text-hover-primary fs-4 fw-bold">{{ detailData.username ?? '--' }}</span>
+                <span class="text-muted fw-semobold">{{ detailData.phone ?? '--' }}</span>
+              </div>
+              <!--end::Text-->
+            </div>
+          </div>
+          <!--begin::Card toolbar-->
+
+          <!--end::Card toolbar-->
+        </div>
+        <!--end::Card header-->
+
+        <!--begin::Card body-->
+        <div class="card-body py-0">
+          <!--begin::Section-->
+          <div class="mb-10">
+            <!--begin::Title-->
+            <h6>Thông tin chi tiết:</h6>
+            <!--end::Title-->
+
+            <!--begin::Details-->
+            <div class="py-5">
+              <!--begin::Row-->
+              <div class="me-5">
+                <!--begin::Details-->
+                <div>
+                  <div class="row fs-6 mb-3">
+                    <div class="col-3 text-gray-400">Tên nhóm:</div>
+                    <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.group_name ?? '--' }}</span>
+                    </div>
+                  </div>
+                  <div class="row fs-6 mb-3">
+                    <div class="col-3 text-gray-400">Nội dung:</div>
+                    <div class="col-9 text-gray-800"><span>{{ detailData.text ?? '--' }}</span></div>
+                  </div>
+                  <div class="row fs-6">
+                    <div class="col-3 text-gray-400">Thời gian:</div>
+                    <div class="col-9 text-gray-800"><span>{{ detailData.date }}</span></div>
+                  </div>
+                </div>
+                <!--end::Details-->
+              </div>
+              <!--end::Row-->
+
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Section-->
+        </div>
+        <!--end::Card body-->
+      </div>
+      <!--end::Card-->
+    </div>
+  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -241,23 +314,6 @@ export default defineComponent({
       }
     };
 
-    const customRowTable = (detail: any) => {
-      if (detail) {
-        detailData.id = detail.id
-        detailData.username = detail.username
-        detailData.date = detail.date
-        detailData.text = detail.text
-        detailData.phone = detail.phone
-        detailData.group_name = detail.group_name
-        const modal = new Modal(
-          document.getElementById("kt_modal_detail") as Element
-        );
-        modal.show();
-      } else {
-        notification('', 'error', 'Có lỗi xảy ra')
-      }
-    };
-
     const notification = (values: string, icon: string, more: string) => {
       Swal.fire({
         text: values ?? more,
@@ -345,6 +401,21 @@ export default defineComponent({
       }
     };
 
+    // handleCurrentChange
+    const DialogVisibleDetail = ref<boolean>(false)
+    const handleCurrentChange = (val: any) => {
+      if (val) {
+        DialogVisibleDetail.value = true
+        detailData.id = val.id
+        detailData.username = val.username
+        detailData.date = val.date
+        detailData.text = val.text
+        detailData.phone = val.phone
+        detailData.group_name = val.group_name
+      }
+      return
+    }
+
     onMounted(() => {
       getData();
       handleResize();
@@ -360,9 +431,6 @@ export default defineComponent({
       list,
       selectedIds,
       deleteSelectd,
-
-      // detials
-      customRowTable,
 
       // page 
       itemsPerPage,
@@ -389,6 +457,9 @@ export default defineComponent({
       multipleTableRef,
       getRowKey,
       heightTable,
+      handleCurrentChange,
+      DialogVisibleDetail,
+
     };
   },
 });
