@@ -553,7 +553,7 @@ export default defineComponent({
             setTimeout(() => loadingSubdomain.value = false, 500)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
-            const filterTableData = (searchSubdomain != null || searchSubdomain != '') ? subdomain_result_full.value.filter(
+            const filterTableData = (searchSubdomain.value != null || searchSubdomain.value != '') ? subdomain_result_full.value.filter(
                 (data: any) =>
                     !searchSubdomain.value ||
                     data.name.toLowerCase().includes(searchSubdomain.value.toLowerCase()) ||
