@@ -37,7 +37,7 @@
     <!--begin::Menu item-->
     <div class="menu-item px-5">
       <router-link to="/user-profile" class="menu-link px-5">
-        My Profile
+        Thông tin cá nhân
       </router-link>
     </div>
     <!--end::Menu item-->
