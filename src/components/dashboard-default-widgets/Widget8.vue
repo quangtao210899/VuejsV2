@@ -68,7 +68,6 @@
             <span class="fw-bold text-gray-800 ps-3 d-flex justify-content-end align-items-center text-hover-primary">
               <router-link class="me-3" :to="'/telegram-list/1'" active-class="active">Xem thêm</router-link>
             </span>
-            
           </div>
           <!--end::Content-->
         </div>
@@ -93,7 +92,7 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 0px; justify-content: center;">
-                    <button type="button" class="btn btn-sm btn-primary me-9" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-sm btn-light-primary me-9" data-bs-dismiss="modal">
                         Đóng
                     </button>
                 </div>
