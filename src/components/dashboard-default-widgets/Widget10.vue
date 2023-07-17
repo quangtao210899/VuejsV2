@@ -4,11 +4,10 @@
     <!--begin::Header-->
     <div class="card-header align-items-center border-0 mt-4">
       <h3 class="card-title align-items-start flex-column">
-        <span class="fw-bold mb-2 text-dark">Hacker News</span>
-        <span class="text-muted fw-semobold fs-7">Thông tin CVE, các kĩ thuật tấn công mới</span>
+        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin CVE, các kĩ thuật tấn công mới" placement="top">
+          <span class="fw-bold mb-2 text-dark">Hacker News</span>
+        </el-tooltip>
       </h3>
-
-
     </div>
     <!--end::Header-->
 
@@ -18,29 +17,15 @@
       <div class="timeline-label">
         <!--begin::Item-->
         <div v-for="item in HackerNews" :key="item.id" class="timeline-item">
-          <!--begin::Label-->
           <div class="timeline-label fw-bold text-gray-800 fs-7">{{ formatDate(item.date) }}</div>
-          <!--end::Label-->
 
-          <!--begin::Badge-->
           <div class="timeline-badge">
-            <i class="fa fa-genderless text-primary fs-1"></i>
+            <KTIcon icon-name="time" icon-class="fs-1 text-primary" />
           </div>
-          <!--end::Badge-->
-
-          <!--begin::Text-->
-          <div class="col-8 timeline-content fw-semobold text-gray-800 ps-3">
-
-            <div class="border border-gray-300 border-dashed rounded p-3 cursor-pointer text-hover-primary" @click="visibleDrawer(item)">
-              <span v-if="item.username != '' || item.username != null" class="fw-bold text-gray-800 fs-6 text-hover-primary">{{
-                item.username }}</span>
-                <br v-if="item.username != '' || item.username != null">
-              {{ truncateText(item.text, 80) }}
-            </div>
+          <div class="col-8 timeline-content fw-semobold text-gray-800 ps-3 cursor-pointer text-break text-hover-primary" @click="visibleDrawer(item)">
+            {{ truncateText(item.text, 80) }}
           </div>
-          <!--end::Text-->
         </div>
-        <!--end::Item-->
 
         <!--begin::Item-->
         <div class="timeline-item">
@@ -57,8 +42,7 @@
           <!--begin::Content-->
           <div class="timeline-content d-flex">
             <span class="fw-bold text-gray-800 ps-3">
-              <router-link :to="'/telegram-list/2'" active-class="active"><a-typography-link underline>View
-                  all</a-typography-link></router-link>
+              <router-link :to="'/telegram-list/2'" active-class="active"><a-typography-link underline>Xem thêm</a-typography-link></router-link>
             </span>
           </div>
           <!--end::Content-->
@@ -71,7 +55,7 @@
   </div>
   <!--end: List Widget 5-->
 
-  <el-drawer v-model="visibleDBLeakData" :show-close="false" size="350">
+  <!-- <el-drawer v-model="visibleDBLeakData" :show-close="false" size="350">
     <template #header="{ close, titleId, titleClass }">
       <h4 class="fs-4" :id="titleId" :class="titleClass">Chi tiết DB Leak</h4>
       <el-button type="danger" @click="close">
@@ -102,7 +86,34 @@
       <div class="col-9"><span class="text-break">{{ formatDate(detailedDBLeakData.date) }}</span></div>
     </div>
 
-  </el-drawer>
+  </el-drawer> -->
+
+  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="card card-flush pt-3 mb-5 mb-xl-10">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h1 class="fw-bold">Nội dung</h1>
+                            </div>
+                        </div>
+                        <div class="card-body py-0">
+                            <div class="mb-10">
+                                <h5>{{ detailedDBLeakData.text ?? '--' }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
+                        Quay lại
+                    </button>
+                </div>
+            </div>
+        </div>
+  </div>
+
 </template>
 
 <script lang="ts">
@@ -114,6 +125,7 @@ import dayjs from 'dayjs';
 import viLocale from './vi.js';
 import { ref, reactive } from 'vue'
 import { CircleCloseFilled } from '@element-plus/icons-vue'
+import { Modal } from "bootstrap";
 
 dayjs.extend(relativeTime);
 dayjs.locale(viLocale);
@@ -155,12 +167,11 @@ export default defineComponent({
     })
     const visibleDrawer = (data: any) => {
       visibleDBLeakData.value = true
-      detailedDBLeakData.username = data.username;
       detailedDBLeakData.text = data.text;
-      detailedDBLeakData.phone = data.phone;
-      detailedDBLeakData.date = data.date;
-      detailedDBLeakData.message_id = data.message_id;
-      detailedDBLeakData.id = data.id;
+      const modal = new Modal(
+          document.getElementById("kt_modal_detail") as Element
+      );
+      modal.show();
     }
 
     // upadte status 

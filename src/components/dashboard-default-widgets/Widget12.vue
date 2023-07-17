@@ -4,15 +4,15 @@
     <div class="card-header pt-7">
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold text-gray-800">Latest Vulnerabilities</span>
-
-        <span class="text-gray-400 mt-1 fw-semibold fs-6">Top 10 lỗ hổng bảo mật mới nhất</span>
+        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Top 10 lỗ hổng bảo mật mới nhất" placement="top">
+          <span class="fw-bold mb-2 text-dark">Latest Vulnerabilities</span>
+        </el-tooltip>
       </h3>
       <!--end::Title-->
 
       <!--begin::Toolbar-->
       <div class="card-toolbar">
-        <router-link class="btn btn-sm btn-light text-hover-primary" to="/scans" active-class="active">View all</router-link>
+        <router-link class="btn btn-sm btn-light text-hover-primary" to="/scans" active-class="active">Xem thêm</router-link>
       </div>
       <!--end::Toolbar-->
     </div>

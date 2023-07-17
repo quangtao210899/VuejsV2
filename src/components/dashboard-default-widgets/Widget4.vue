@@ -1,23 +1,14 @@
 <template>
   <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end"
    :class="className" :style="{ backgroundColor: bgColor, backgroundImage: `url('${bgImage}')` }">
-    <!--begin::Header-->
     <div class="card-header pt-5">
-      <!--begin::Title-->
       <div class="card-title d-flex flex-column">
-        <!--begin::Amount-->
-        <span class="fs-3x fw-bold text-white me-2 lh-1 ls-n2">{{ scan }}</span>
-        <!--end::Amount-->
-
-        <!--begin::Subtitle-->
         <span class="text-gray-400 pt-1 fw-semibold fs-6">{{
           description
         }}</span>
-        <!--end::Subtitle-->
+        <span class="fs-3x fw-bold text-white me-2 lh-1 ls-n2">{{ scan }}</span>
       </div>
-      <!--end::Title-->
     </div>
-    <!--end::Header-->
 
     <!--begin::Card body-->
     <div class="card-body pt-2 pb-4 d-flex flex-wrap align-items-end">

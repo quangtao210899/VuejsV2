@@ -1,22 +1,12 @@
 <template>
   <div class="card card-flush" :class="className">
-    <!--begin::Header-->
     <div class="card-header pt-5"> 
-      <!--begin::Title-->
       <div class="card-title d-flex flex-column">
-        <!--begin::Info-->
-        <div class="d-flex align-items-center">
-          <!--begin::Amount-->
-          <span class="fs-3x fw-bold text-dark me-2 lh-1 ls-n2">{{ services }}</span>
-          <!--end::Amount-->
-
-        </div>
-        <!--end::Info-->
-
-        <!--begin::Subtitle-->
         <span class="text-gray-400 pt-1 fw-semibold fs-6"
-          >{{ description }}</span
-        >
+        >{{ description }}</span>
+        <div class="d-flex align-items-center">
+          <span class="fs-3x fw-bold text-dark me-2 lh-1 ls-n2">{{ services }}</span>
+        </div>
         <!--end::Subtitle-->
       </div>
       <!--end::Title-->
