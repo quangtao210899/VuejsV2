@@ -12,7 +12,7 @@
 
       <!--begin::Toolbar-->
       <div class="card-toolbar">
-        <router-link class="btn btn-sm btn-light text-hover-primary" to="/scans" active-class="active">Xem thêm</router-link>
+        <router-link class="btn btn-sm btn-light text-hover-primary text-gray-500" style="font-size: 13px;" to="/scans" active-class="active">Xem thêm</router-link>
       </div>
       <!--end::Toolbar-->
     </div>
@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="d-flex justify-content-start flex-column">
-                      <span class="fw-bold mb-1 fs-6" :class="`text-${checkSeverity(row.severity).color}`">{{ row.vt_name
+                      <span class="fw-bold mb-1" :class="`text-${checkSeverity(row.severity).color}`">{{ row.vt_name
                       }}</span>
                       <span class="fw-semibold d-block fs-7" :class="`text-${checkSeverity(row.severity).color}`">
                         <span class="bullet bullet-vertical me-2"
@@ -61,24 +61,24 @@
                 </td>
 
                 <td class="text-end pe-12">
-                  <span class="badge py-2 px-4 fs-7"
+                  <span class="badge py-2 px-4" style="font-size: 13px;"
                     :class="`badge-light-${checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan['service'] : row.port_scan['type'])).color}`">
                     <KTIcon
                       :class="`me-1 text-${checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan['service'] : row.port_scan['type'])).color}`"
-                      icon-name="lock" icon-class="fs-5" />
+                      icon-name="lock" icon-class="" />
                     {{ checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan["service"] :
                       row.port_scan["type"])).title }}
                   </span>
                 </td>
 
                 <td class="text-end pe-0">
-                  <span href="#" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">{{ row.target__domain
+                  <span href="#" class="fw-bold text-hover-primary mb-1">{{ row.target__domain
                   }}</span>
                 </td>
 
                 <td class="text-end pe-0">
-                  <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-6">
-                    <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+                  <span class="text-gray-500 w-bold d-flex justify-content-end align-items-center">
+                    <KTIcon class="me-1" icon-name="calendar" icon-class="fs-4" />
                     {{ formatDate(row.last_seen) }}
                   </span>
                 </td>

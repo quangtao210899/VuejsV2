@@ -5,7 +5,7 @@
     <div class="card-header align-items-center border-0 mt-4">
       <h3 class="card-title align-items-start flex-column">
         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin mua bán dữ liệu đươc thu thập" placement="top">
-          <span class="fw-bold mb-2 text-dark">DB Leak</span>
+          <span class="fw-bold mb-2">DB Leak</span>
         </el-tooltip>
       </h3>
 
@@ -32,7 +32,7 @@
         <!--begin::Item-->
         <div v-for="item in DBLeakData" :key="item.id" class="timeline-item">
           <!--begin::Label-->
-          <div class="timeline-label fw-bold text-gray-800 fs-7">{{ formatDate(item.date) }}</div>
+          <div class="timeline-label fw-bold text-dark">{{ formatDate(item.date) }}</div>
           <!--end::Label-->
 
           <!--begin::Badge-->
@@ -44,7 +44,7 @@
           <!--end::Badge-->
 
           <!--begin::Text-->
-          <div class="col-8 timeline-content fw-semobold text-gray-800 ps-3 cursor-pointer text-break text-hover-primary" @click="visibleDrawer(item)">
+          <div class="col-8 timeline-content fw-semobold ps-3 cursor-pointer text-break text-hover-primary" @click="visibleDrawer(item)">
             {{ truncateText(item.text, 80) }}
           </div>
           <!--end::Text-->
@@ -81,15 +81,10 @@
   <!--end: List Widget 5-->
 
   <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_db_leak_detail">
-        <div class="modal-dialog modal-dialog-centered mw-650px">
+        <div class="modal-dialog modal-dialog-centered mw-550px">
             <div class="modal-content">
-                <div class="modal-body">
-                    <div class="card card-flush pt-3 mb-5 mb-xl-10">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <h1 class="fw-bold">Nội dung</h1>
-                            </div>
-                        </div>
+                <div class="modal-body" style="padding-bottom: 0px;">
+                    <div class="card card-flush">
                         <div class="card-body py-0">
                             <div class="mb-10">
                                 <span>{{ detailedDBLeakData.text ?? '--' }}</span>
@@ -97,9 +92,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
-                        Quay lại
+                <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+                    <button type="button" class="btn btn-sm btn-primary me-9" data-bs-dismiss="modal">
+                        Đóng
                     </button>
                 </div>
             </div>

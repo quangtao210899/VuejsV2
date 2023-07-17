@@ -15,7 +15,7 @@
   >
     <KTSidebarLogo :sidebar-ref="sidebarRef"></KTSidebarLogo>
     <KTSidebarMenu></KTSidebarMenu>
-    <KTSidebarFooter></KTSidebarFooter>
+    <!-- <KTSidebarFooter></KTSidebarFooter> -->
   </div>
   <!--end::sidebar-->
 </template>
