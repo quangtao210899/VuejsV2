@@ -14,10 +14,10 @@
       <!--begin::Toolbar-->
       <div class="card-toolbar">
         <!--begin::Menu-->
-        <button class="btn btn-icon btn-color-gray-400 btn-active-color-primary justify-content-end"
+        <!-- <button class="btn btn-icon btn-color-gray-400 btn-active-color-primary justify-content-end"
           data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
           <KTIcon icon-name="dots-square" icon-class="fs-1 text-gray-300 me-n1" />
-        </button>
+        </button> -->
         <!--end::Menu-->
       </div>
       <!--end::Toolbar-->
@@ -25,7 +25,7 @@
     <!--end::Header-->
 
     <!--begin::Body-->
-    <div class="card-body">
+    <div class="card-body pt-0">
       <!--begin::Chart-->
       <apexchart ref="chartRef" style="min-height: 700px;height: 100%;" height="100%" type="bar" :options="chart" :series="MostcommonPortData">
       </apexchart>
@@ -129,16 +129,16 @@ const chartOptions = (props: any): ApexOptions => {
       },
       labels: {
         style: {
-          colors: labelColor,
-          fontSize: "12px",
+          colors: '#181c32',
+          fontSize: "13px",
         },
       },
     },
     yaxis: {
       labels: {
         style: {
-          colors: labelColor,
-          fontSize: "12px",
+          colors: '#181c32',
+          fontSize: "13px",
         },
       },
     },

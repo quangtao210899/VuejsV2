@@ -158,7 +158,7 @@ export default defineComponent({
     // Nhóm mục tiêu
     const targetGroupLabels = ref<string[]>([]);
     const targetGroupData = ref<any>([]);
-    const targetGroupColor = ref(['rgb(249,249,249)', 'rgb(75, 192, 192)', 'rgb(255, 205, 86)', 'rgb(201, 203, 207)', 'rgb(54, 162, 235)']);
+    const targetGroupColor = ref(['#67b7dc', '#6771dc', '#8067dc', '#a367dc', '#c767dc', '#dc67ce', '#dc67ab', '#dc6788', '#dc6967', '#dcaf67']);
 
     // DB Leak
     const DBLeak = ref<Array<string | any>>([]);
@@ -221,7 +221,7 @@ export default defineComponent({
           // Most common Ports 
           MostcommonPorts.value.push({ name: "Tổng ", data: data.top_service.map((el: typeMostcommonPorts) => el.total_service) })
 
-          MostcommonPortColor.value.push('#f9f9f9', '#009ef7', '#dbdfe9', '#50cd89', '#7239ea', '#ffc700', '#f1416c', '#071437', '#36a2eb', '#ffcd56')
+          MostcommonPortColor.value.push('#67b7dc', '#6771dc', '#8067dc', '#a367dc', '#c767dc', '#dc67ce', '#dc67ab', '#dc6788', '#dc6967', '#dcaf67')
           MostcommonPortLabels.value.push(...data.top_service.map((el: typeMostcommonPorts) => ((el.port + "/" + el.service).length > 14) ? ([el.port, el.service]) : (el.port + "/" + el.service)))
 
           // Latest Most common Ports
