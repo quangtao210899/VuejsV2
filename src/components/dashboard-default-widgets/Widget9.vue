@@ -4,8 +4,9 @@
     <!--begin::Header-->
     <div class="card-header align-items-center border-0 mt-4">
       <h3 class="card-title align-items-start flex-column">
-        <span class="fw-bold mb-2 text-dark">Most Vulnerable</span>
-        <span class="text-muted fw-semobold fs-7">Thống kê lỗ hổng bảo mật theo mục tiêu</span>
+        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thống kê lỗ hổng bảo mật theo mục tiêu" placement="top">
+          <span class="fw-bold mb-2 text-dark">Most Vulnerable</span>
+        </el-tooltip>
       </h3>
 
       <div class="card-toolbar">
@@ -47,10 +48,10 @@
                   </span>
                 </td>
                 <td class="text-end align-top">
-                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#28a745'}">info: {{ item.info }}</span>
-                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#23b7e5'}">low: {{ item.low }}</span>
-                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#fcba32'}">medium: {{ item.medium }}</span>
-                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#e11f26'}">high: {{ item.high }}</span>
+                  <span class="badge badge-light-success fw-semobold me-1 mb-1">info: {{ item.info }}</span>
+                  <span class="badge badge-light-primary fw-semobold me-1 mb-1">low: {{ item.low }}</span>
+                  <span class="badge badge-light-warning fw-semobold me-1 mb-1">medium: {{ item.medium }}</span>
+                  <span class="badge badge-light-danger fw-semobold me-1 mb-1">high: {{ item.high }}</span>
                 </td>
 
                 <td class="text-end align-top">

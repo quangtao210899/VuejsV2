@@ -1,32 +1,19 @@
 <template>
   <div class="card card-flush" :class="className">
-    <!--begin::Header-->
     <div class="card-header pt-5">
-      <!--begin::Title-->
       <div class="card-title d-flex flex-column">
-        <!--begin::Info-->
+        <span class="text-gray-400 pt-1 fw-semibold fs-6">{{
+          description
+        }}</span>
         <div class="d-flex align-items-center">
-          <!--begin::Amount-->
           <span class="fs-3x fw-bold text-dark me-2 lh-1 ls-n2">{{ subdomain }}</span>
-          <!--end::Amount-->
-
-          <!--begin::Badge-->
           <span class="badge badge-light-success fs-base">
             <KTIcon icon-name="notification-bing" icon-class="fs-5 text-success ms-n1" />
             <span class="fs-5 text-success">{{ liveSubdomain }} Live</span> 
           </span>
-          <!--end::Badge-->
         </div>
-        <!--end::Badge-->
-        <!--begin::Subtitle-->
-        <span class="text-gray-400 pt-1 fw-semibold fs-6">{{
-          description
-        }}</span>
-        <!--end::Subtitle-->
       </div>
-      <!--end::Title-->
     </div>
-    <!--end::Header-->
 
     <!--begin::Card body-->
     <div class="card-body d-flex align-items-end flex-column mt-0 pt-0 pb-0 mb-0">
