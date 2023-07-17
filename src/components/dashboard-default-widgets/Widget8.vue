@@ -67,7 +67,6 @@
           <div class="timeline-content d-flex">
             <span class="fw-bold text-gray-800 ps-3 d-flex justify-content-end align-items-center text-hover-primary">
               <router-link class="me-3" :to="'/telegram-list/1'" active-class="active">Xem thêm</router-link>
-              <KTIcon icon-name="exit-right-corner" icon-class="fs-3" />
             </span>
             
           </div>
@@ -93,7 +92,7 @@
                         </div>
                         <div class="card-body py-0">
                             <div class="mb-10">
-                                <h5>{{ detailedDBLeakData.text ?? '--' }}</h5>
+                                <span>{{ detailedDBLeakData.text ?? '--' }}</span>
                             </div>
                         </div>
                     </div>

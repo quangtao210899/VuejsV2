@@ -100,7 +100,7 @@
                         </div>
                         <div class="card-body py-0">
                             <div class="mb-10">
-                                <h5>{{ detailedDBLeakData.text ?? '--' }}</h5>
+                                <span>{{ detailedDBLeakData.text ?? '--' }}</span>
                             </div>
                         </div>
                     </div>

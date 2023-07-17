@@ -18,7 +18,7 @@
     <!--begin::Card body-->
     <div class="card-body d-flex align-items-end flex-column mt-0 pt-0 pb-0 mb-0">
       <!--begin::Progress-->
-      <img src="/media/icons/duotune/vpn/subdomain.gif" alt="target" class="h-150px w-150px p-0 m-0" />
+      <!-- <img src="/media/icons/duotune/vpn/subdomain.gif" alt="target" class="h-150px w-150px p-0 m-0" /> -->
       <!--end::Progress-->
     </div>
     <!--end::Card body-->
