@@ -57,12 +57,10 @@
   <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
         <div class="modal-dialog modal-dialog-centered mw-550px">
             <div class="modal-content">
-                <div class="modal-body" style="padding-bottom: 0px;">
+                <div class="modal-body" style="padding: 27px 0px 0px 0px;">
                     <div class="card card-flush">
                         <div class="card-body py-0">
-                            <div class="mb-10">
-                                <span>{{ detailedDBLeakData.text ?? '--' }}</span>
-                            </div>
+                              <span>{{ detailedDBLeakData.text ?? '--' }}</span>
                         </div>
                     </div>
                 </div>
