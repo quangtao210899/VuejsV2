@@ -1,10 +1,10 @@
 <template>
   <!--begin::Footer-->
-  <div
+  <!-- <div
     class="app-sidebar-footer flex-column-auto pt-2 pb-6 px-6"
     id="kt_app_sidebar_footer"
-  >
-    <a
+  > -->
+    <!-- <a
       href="https://preview.keenthemes.com/metronic8/vue/docs/#/doc-overview"
       class="btn btn-flex flex-center btn-custom btn-primary overflow-hidden text-nowrap px-0 h-40px w-100"
       data-bs-toggle="tooltip"
@@ -14,8 +14,8 @@
     >
       <span class="btn-label">Docs &amp; Components</span>
       <KTIcon icon-name="document" icon-class="btn-icon fs-2 m-0" />
-    </a>
-  </div>
+    </a> -->
+  <!-- </div> -->
   <!--end::Footer-->
 </template>
 
