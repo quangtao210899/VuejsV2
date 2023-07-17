@@ -34,28 +34,22 @@
           <!--end::Table head-->
 
           <!--begin::Table body-->
+          <thead>
+              <tr>
+                  <th><b>Mục tiêu</b></th>
+                  <th><b>Vulns</b></th>
+              </tr>
+          </thead>
           <tbody>
             <template v-for="(item, index) in dataMostVulnerable" :key="index">
               <tr>
                 <td class="text-start align-top">
-                  <span class="fw-bold text-gray-800 fs-6">
-                    {{ 1+ index }}
-                  </span>
-                </td>
-                <td class="text-start align-top">
-                  <span class="text-muted fw-semobold ">
+                  <span class="fw-semobold ">
                     {{ item.name }}
                   </span>
                 </td>
-                <td class="text-end align-top">
-                  <span class="badge badge-light-success fw-semobold me-1 mb-1">info: {{ item.info }}</span>
-                  <span class="badge badge-light-primary fw-semobold me-1 mb-1">low: {{ item.low }}</span>
-                  <span class="badge badge-light-warning fw-semobold me-1 mb-1">medium: {{ item.medium }}</span>
-                  <span class="badge badge-light-danger fw-semobold me-1 mb-1">high: {{ item.high }}</span>
-                </td>
-
-                <td class="text-end align-top">
-                  <span class="badge badge-light-info">Tổng: {{ item.total }}</span>
+                <td class="align-top">
+                  <span>Tổng: {{ item.total }}</span>
                 </td>
               </tr>
             </template>
