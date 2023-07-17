@@ -6,7 +6,7 @@
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thống kê dựa trên kết quả Vuilnreability scan" placement="top">
-          <span class="card-label fw-bold">Vulmerabilities by serverity</span>
+          <span class="card-label fw-bold">Vulnerabilities by serverity</span>
         </el-tooltip>
       </h3>
       <!--end::Title-->

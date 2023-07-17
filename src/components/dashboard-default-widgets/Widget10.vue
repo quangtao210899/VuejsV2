@@ -42,7 +42,7 @@
           <!--begin::Content-->
           <div class="timeline-content d-flex">
             <span class="fw-bold text-gray-800 ps-3">
-              <router-link :to="'/telegram-list/2'" active-class="active"><a-typography-link underline>Xem thêm</a-typography-link></router-link>
+              <router-link :to="'/telegram-list/2'" active-class="active">Xem thêm</router-link>
             </span>
           </div>
           <!--end::Content-->
@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 0px; justify-content: center;">
-                    <button type="button" class="btn btn-sm btn-primary me-9" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-sm btn-light-primary me-9" data-bs-dismiss="modal">
                         Đóng
                     </button>
                 </div>

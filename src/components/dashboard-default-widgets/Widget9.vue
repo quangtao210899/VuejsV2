@@ -21,7 +21,7 @@
       <!--begin::Table container-->
       <div class="table-responsive ">
         <!--begin::Table-->
-        <table class="table align-middle gs-0 gy-5">
+        <table class="table align-middle table-row-dashed gs-0 gy-5">
           <!--begin::Table head-->
           <thead>
             <tr>

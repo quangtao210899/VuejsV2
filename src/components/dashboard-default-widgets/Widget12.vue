@@ -12,7 +12,7 @@
 
       <!--begin::Toolbar-->
       <div class="card-toolbar">
-        <router-link class="btn btn-sm btn-light text-hover-primary text-gray-500" style="font-size: 13px;" to="/scans" active-class="active">Xem thêm</router-link>
+        <router-link class="btn btn-sm btn-light-primary" style="font-size: 13px;" to="/scans" active-class="active">Xem thêm</router-link>
       </div>
       <!--end::Toolbar-->
     </div>

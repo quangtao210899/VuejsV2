@@ -150,7 +150,7 @@ export default defineComponent({
     const serviceLow = ref<number>(0);
     const serviceInfo = ref<number>(0);
 
-    // Vulmerabilities by serverity
+    // Vulnerabilities by serverity
     const vulnerableLabels = ref(['Info', 'Low', 'Medium', 'High']);
     const vulnerableData = ref<number[]>([]);
     const vulnerableColor = ref(['#50cd89', '#009ef7', '#ffc700', '#f1416c']);
@@ -202,7 +202,7 @@ export default defineComponent({
           serviceLow.value = data.total_scan_low;
           serviceInfo.value = data.total_scan_info;
 
-          // Vulmerabilities by serverity
+          // Vulnerabilities by serverity
           vulnerableData.value = [data.total_scan_info, data.total_scan_low, data.total_scan_medium, data.total_scan_high];
 
           // Nhóm mục tiêu
