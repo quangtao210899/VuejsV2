@@ -1573,8 +1573,8 @@ export default defineComponent({
                     reconStatus.value = data.status
                     checkStatus.value = (data.status == 3) ? true : false
                     humanDiffTime()
-                    console.log(Object.keys(subdomain_result.value))
-                    console.log(data)
+                    //console.log(Object.keys(subdomain_result.value))
+                    //console.log(data)
 
                 })
                 .catch(({ response }) => {

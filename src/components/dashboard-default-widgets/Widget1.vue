@@ -4,23 +4,16 @@
     :class="className"
     :style="{ backgroundColor: bgColor, backgroundImage: `url('${bgImage}')` }"
   >
-    <!--begin::Header-->
     <div class="card-header pt-5">
-      <!--begin::Title-->
       <div class="card-title d-flex flex-column">
-        <!--begin::Amount-->
-        <span class="fs-3x fw-bold text-white me-2 lh-1 ls-n2">{{ target }}</span>
-        <!--end::Amount-->
-
-        <!--begin::Subtitle-->
         <span class="text-white opacity-50 pt-1 fw-semibold fs-6">{{
           description
         }}</span>
-        <!--end::Subtitle-->
+        <router-link to="/target-list" class="link-primary fw-bold">
+          <span class="fs-3x fw-bold text-white me-2 lh-1 ls-n2">{{ target }}</span>
+        </router-link>
       </div>
-      <!--end::Title-->
     </div>
-    <!--end::Header-->
 
     <!--begin::Card body-->
     <!-- <div class="card-body d-flex align-items-end pt-0"> -->

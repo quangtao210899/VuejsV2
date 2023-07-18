@@ -1246,7 +1246,7 @@ export default defineComponent({
             if (divElement) {
                 divHeight.value = divElement.offsetHeight;
             }
-            console.log(divHeight.value, 'divHeight')
+            //console.log(divHeight.value, 'divHeight')
         };
 
           // Sử dụng nextTick để đảm bảo rằng kích thước đã được cập nhật

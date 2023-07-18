@@ -1,22 +1,12 @@
 <template>
   <div class="card card-flush" :class="className">
-    <!--begin::Header-->
     <div class="card-header pt-5"> 
-      <!--begin::Title-->
       <div class="card-title d-flex flex-column">
-        <!--begin::Info-->
+        <span class="text-gray-500 pt-1 fw-semibold fs-6"
+        >{{ description }}</span>
         <div class="d-flex align-items-center">
-          <!--begin::Amount-->
           <span class="fs-3x fw-bold text-dark me-2 lh-1 ls-n2">{{ services }}</span>
-          <!--end::Amount-->
-
         </div>
-        <!--end::Info-->
-
-        <!--begin::Subtitle-->
-        <span class="text-gray-400 pt-1 fw-semibold fs-6"
-          >{{ description }}</span
-        >
         <!--end::Subtitle-->
       </div>
       <!--end::Title-->
@@ -24,46 +14,14 @@
     <!--end::Header-->
 
     <!--begin::Card body-->
-    <div class="card-body pt-2 pb-4 d-flex flex-wrap align-items-end">
-
-      <!--begin::Labels-->
-      <div class="d-flex flex-column content-justify-center flex-row-fluid">
-        <!--begin::Label-->
-        <div class="d-flex fw-semibold align-items-center">
-          <!--begin::Bullet-->
-          <div class="bullet w-8px h-3px rounded-2 bg-primary me-3"></div>
-          <!--end::Bullet-->
-
-          <!--begin::Label-->
-          <div class="text-gray-500 me-4 w-100px">Open :</div>
-          <!--end::Label-->
-
-          <!--begin::Stats-->
-          <div class="fw-bolder text-gray-700 text-xxl-end"><span class="text-primary">{{ open }}</span></div>
-          <!--end::Stats-->
+    <br>
+    <div class="card-body pt-2 pb-4 flex-wrap align-items-end">
+      <div class="row">
+        <div class="col-12 d-flex fw-semibold align-items-center">
+          <div class="text-gray-500 me-4"><span class="text-primary">{{ open }}</span> Opened, <span class="text-danger">{{ closed }}</span> Closed</div>
         </div>
-        <!--end::Label-->
-
-        <!--begin::Label-->
-        <div class="d-flex fw-semibold align-items-center my-3">
-          <!--begin::Bullet-->
-          <div class="bullet w-8px h-3px rounded-2 bg-danger me-3"></div>
-          <!--end::Bullet-->
-
-          <!--begin::Label-->
-          <div class="text-gray-500 me-4 w-100px">Closed :</div>
-          <!--end::Label-->
-
-          <!--begin::Stats-->
-          <div class="fw-bolder text-gray-700 text-xxl-end"><span class="text-danger">{{ closed }}</span></div>
-
-          <!--end::Stats-->
-        </div>
-        <!--end::Label-->
       </div>
-      <!--end::Labels-->
     </div>
-    <!--end::Card body-->
   </div>
 </template>
 

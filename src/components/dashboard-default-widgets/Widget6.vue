@@ -5,9 +5,9 @@
     <div class="card-header pt-5">
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold text-gray-800">Nhóm mục tiêu</span>
-
-        <span class="text-gray-400 mt-1 fw-semibold fs-6">Hiển thị top 10 mục tiêu có số lượng mục tiêu lớn nhất</span>
+        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Top 10 nhóm mục tiêu có số lượng mục tiêu lớn nhất" placement="top">
+          <span class="card-label fw-bold">Nhóm mục tiêu</span>
+        </el-tooltip>
       </h3>
       <!--end::Title-->
 
@@ -100,6 +100,10 @@ const chartOptions = (props: any): ApexOptions => {
       show: true,
       fontSize: '13px',
       fontWeight: 400,
+      labels: {
+          colors: '#181c32',
+          useSeriesColors: false
+      },
       markers: {
           width: 20,
           height: 10,
@@ -114,7 +118,7 @@ const chartOptions = (props: any): ApexOptions => {
     labels: props.targetGroupLabels,
     tooltip: {
       style: {
-        fontSize: "12px",
+        fontSize: "13px",
       },
       y: {
         formatter: function (val) {

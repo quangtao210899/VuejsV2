@@ -60,10 +60,10 @@
       </template>
       <!--begin::Header wrapper-->
       <div
-        class="d-flex align-items-stretch justify-content-between flex-lg-grow-1"
+        class="d-flex align-items-stretch justify-content-between"
         id="kt_app_header_wrapper"
       >
-        <KTHeaderMenu />
+        <!-- <KTHeaderMenu /> -->
         <KTHeaderNavbar />
       </div>
       <!--end::Header wrapper-->

@@ -4,8 +4,9 @@
     <!--begin::Header-->
     <div class="card-header align-items-center border-0 mt-4">
       <h3 class="card-title align-items-start flex-column">
-        <span class="fw-bold mb-2 text-dark">DB Leak</span>
-        <span class="text-muted fw-semobold fs-7">Thông tin mua bán dữ liệu đươc thu thập</span>
+        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin mua bán dữ liệu đươc thu thập" placement="top">
+          <span class="fw-bold mb-2">DB Leak</span>
+        </el-tooltip>
       </h3>
 
       <div class="card-toolbar">
@@ -31,7 +32,7 @@
         <!--begin::Item-->
         <div v-for="item in DBLeakData" :key="item.id" class="timeline-item">
           <!--begin::Label-->
-          <div class="timeline-label fw-bold text-gray-800 fs-7">{{ formatDate(item.date) }}</div>
+          <div class="timeline-label fw-bold text-dark">{{ formatDate(item.date) }}</div>
           <!--end::Label-->
 
           <!--begin::Badge-->
@@ -43,7 +44,7 @@
           <!--end::Badge-->
 
           <!--begin::Text-->
-          <div class="col-8 timeline-content fw-semobold text-gray-800 ps-3 cursor-pointer text-break text-hover-primary" @click="visibleDrawer(item)">
+          <div class="col-8 timeline-content fw-semobold ps-3 cursor-pointer text-break text-hover-primary" @click="visibleDrawer(item)">
             {{ truncateText(item.text, 80) }}
           </div>
           <!--end::Text-->
@@ -65,10 +66,8 @@
           <!--begin::Content-->
           <div class="timeline-content d-flex">
             <span class="fw-bold text-gray-800 ps-3 d-flex justify-content-end align-items-center text-hover-primary">
-              <router-link class="me-3" :to="'/telegram-list/1'" active-class="active">View all</router-link>
-              <KTIcon icon-name="exit-right-corner" icon-class="fs-3" />
+              <router-link class="me-3" :to="'/telegram-list/1'" active-class="active">Xem thêm</router-link>
             </span>
-            
           </div>
           <!--end::Content-->
         </div>
@@ -80,37 +79,24 @@
   </div>
   <!--end: List Widget 5-->
 
-
-  <el-drawer v-model="visibleDBLeakData" :show-close="false" size="350">
-    <template #header="{ close, titleId, titleClass }">
-      <h4 class="fs-4" :id="titleId" :class="titleClass">Chi tiết DB Leak</h4>
-      <el-button type="danger" @click="close">
-        <el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
-        Đóng
-      </el-button>
-    </template>
-    <div class="row mb-5">
-      <div class="col-3"><span class="fw-bold text-gray-800 fs-7">Tên:</span></div>
-      <div class="col-9"><span class="text-break">{{ detailedDBLeakData.username ?? '--'}}</span></div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-3"><span class="fw-bold text-gray-800 fs-7">ID Người dùng:</span></div>
-      <div class="col-9"><span class="text-break">{{ detailedDBLeakData.message_id ?? '--' }}</span></div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-3"><span class="fw-bold text-gray-800 fs-7">Số Điện Thoại:</span></div>
-      <div class="col-9"><span class="text-break">{{ detailedDBLeakData.phone ?? '--' }}</span></div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-3"><span class="fw-bold text-gray-800 fs-7">Nội Dung:</span></div>
-      <div class="col-9"><span class="text-break">{{ detailedDBLeakData.text ?? '--'}}</span></div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-3"><span class="fw-bold text-gray-800 fs-7">Thời gian:</span></div>
-      <div class="col-9"><span class="text-break">{{ formatDate(detailedDBLeakData.date)}}</span></div>
-    </div>
-    
-  </el-drawer>
+  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_db_leak_detail">
+        <div class="modal-dialog modal-dialog-centered mw-550px">
+            <div class="modal-content">
+                <div class="modal-body" style="padding: 26px 0px 0px 0px;">
+                    <div class="card card-flush">
+                        <div class="card-body py-0">
+                              <span>{{ detailedDBLeakData.text ?? '--' }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+                    <button type="button" class="btn btn-sm btn-light-primary me-9" data-bs-dismiss="modal">
+                        Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+  </div>
 
 </template>
 
@@ -122,6 +108,7 @@ import dayjs from 'dayjs';
 import viLocale from './vi.js';
 import { ref, reactive } from 'vue'
 import { CircleCloseFilled } from '@element-plus/icons-vue'
+import { Modal } from "bootstrap";
 
 dayjs.extend(relativeTime);
 dayjs.locale(viLocale);
@@ -162,12 +149,11 @@ export default defineComponent({
     })
     const visibleDrawer = (data : any) => {
       visibleDBLeakData.value = true
-      detailedDBLeakData.username = data.username;
       detailedDBLeakData.text = data.text;
-      detailedDBLeakData.phone = data.phone;
-      detailedDBLeakData.date = data.date;
-      detailedDBLeakData.message_id = data.message_id;
-      detailedDBLeakData.id = data.id;
+      const modal = new Modal(
+          document.getElementById("kt_db_leak_detail") as Element
+      );
+      modal.show();
     }
 
     // upadte status 

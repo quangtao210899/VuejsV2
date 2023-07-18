@@ -37,7 +37,7 @@
     <!--begin::Menu item-->
     <div class="menu-item px-5">
       <router-link to="/user-profile" class="menu-link px-5">
-        My Profile
+        Thông tin cá nhân
       </router-link>
     </div>
     <!--end::Menu item-->
@@ -68,73 +68,7 @@
       </router-link> -->
 
       <!--begin::Menu sub-->
-      <div class="menu-sub menu-sub-dropdown w-175px py-4">
-        <!--begin::Menu item-->
-        <!-- <div class="menu-item px-3">
-          <router-link to="/pages/profile/overview" class="menu-link px-5">
-            Referrals
-          </router-link>
-        </div> -->
-        <!--end::Menu item-->
 
-        <!--begin::Menu item-->
-        <!-- <div class="menu-item px-3">
-          <router-link to="/pages/profile/overview" class="menu-link px-5">
-            Billing
-          </router-link>
-        </div> -->
-        <!--end::Menu item-->
-
-        <!--begin::Menu item-->
-        <!-- <div class="menu-item px-3">
-          <router-link to="/pages/profile/overview" class="menu-link px-5">
-            Payments
-          </router-link>
-        </div> -->
-        <!--end::Menu item-->
-
-        <!--begin::Menu item-->
-        <!-- <div class="menu-item px-3">
-          <router-link
-            to="/pages/profile/overview"
-            class="menu-link d-flex flex-stack px-5"
-          >
-            Statements
-
-            <i
-              class="fas fa-exclamation-circle ms-2 fs-7"
-              data-bs-toggle="tooltip"
-              title="View your statements"
-            ></i>
-          </router-link>
-        </div> -->
-        <!--end::Menu item-->
-
-        <!--begin::Menu separator-->
-        <!-- <div class="separator my-2"></div> -->
-        <!--end::Menu separator-->
-
-        <!--begin::Menu item-->
-        <!-- <div class="menu-item px-3">
-          <div class="menu-content px-3">
-            <label
-              class="form-check form-switch form-check-custom form-check-solid"
-            >
-              <input
-                class="form-check-input w-30px h-20px"
-                type="checkbox"
-                value="1"
-                checked
-                name="notifications"
-              />
-              <span class="form-check-label text-muted fs-7">
-                Notifications
-              </span>
-            </label>
-          </div>
-        </div> -->
-        <!--end::Menu item-->
-      </div>
       <!--end::Menu sub-->
     </div>
     <!--end::Menu item-->
@@ -160,7 +94,7 @@
     >
       <router-link to="#" class="menu-link px-5">
         <span class="menu-title position-relative">
-          Language
+          Ngôn ngữ
           <span
             class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0"
           >
@@ -281,16 +215,16 @@
     <!--end::Menu item-->
 
     <!--begin::Menu item-->
-    <div class="menu-item px-5 my-1">
+    <!-- <div class="menu-item px-5 my-1">
       <router-link to="/builder" class="menu-link px-5">
         Account Settings
       </router-link>
-    </div>
+    </div> -->
     <!--end::Menu item-->
 
     <!--begin::Menu item-->
     <div class="menu-item px-5">
-      <a @click.passive="signOut()" class="menu-link px-5"> Sign Out </a>
+      <a @click.passive="signOut()" class="menu-link px-5"> Đăng xuất </a>
     </div>
     <!--end::Menu item-->
   </div>

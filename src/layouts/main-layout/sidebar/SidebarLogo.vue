@@ -9,19 +9,19 @@
           (themeMode === 'dark' && layout === 'light-sidebar')
         "
         alt="Logo"
-        :src="getAssetPath('media/logos/default-dark.svg')"
-        class="h-25px app-sidebar-logo-default"
+        :src="getAssetPath('media/logos/Logo-full-color@4x-1-e1659552753965.png')"
+        class="h-60px app-sidebar-logo-default"
       />
       <img
         v-if="themeMode === 'light' && layout === 'light-sidebar'"
         alt="Logo"
-        :src="getAssetPath('media/logos/default.svg')"
-        class="h-25px app-sidebar-logo-default"
+        :src="getAssetPath('media/logos/Logo-full-color@4x-1-e1659552753965.png')"
+        class="h-60px app-sidebar-logo-default"
       />
       <img
         alt="Logo"
-        :src="getAssetPath('media/logos/default-small.svg')"
-        class="h-20px app-sidebar-logo-minimize"
+        :src="getAssetPath('media/logos/Logo-full-color@4x-1-e1659552753965.png')"
+        class="h-60px app-sidebar-logo-minimize"
       />
     </router-link>
     <!--end::Logo image-->

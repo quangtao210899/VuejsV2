@@ -5,9 +5,9 @@
     <div class="card-header pt-5">
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold text-gray-800">Vulmerabilities by serverity</span>
-
-        <span class="text-gray-400 mt-1 fw-semibold fs-6">Thống kê dựa trên kết quả Vuilnreability scan</span>
+        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thống kê dựa trên kết quả Vulnerability Scan" placement="top">
+          <span class="card-label fw-bold">Vulnerabilities by serverity</span>
+        </el-tooltip>
       </h3>
       <!--end::Title-->
 
@@ -91,6 +91,21 @@ const chartOptions = (props: any): ApexOptions => {
     },
     legend: {
       show: true,
+      fontSize: '13px',
+      fontWeight: 400,
+      labels: {
+          colors: '#181c32',
+          useSeriesColors: false
+      },
+      markers: {
+          width: 20,
+          height: 10,
+          radius: 1,
+      },
+      itemMargin: {
+          horizontal: 5,
+          vertical: 5
+      },
     },
     dataLabels: {
       enabled: true,
@@ -99,7 +114,7 @@ const chartOptions = (props: any): ApexOptions => {
     labels: props.vulnerableLabels,
     tooltip: {
       style: {
-        fontSize: "12px",
+        fontSize: "13px",
       },
       y: {
         formatter: function (val) {
@@ -107,6 +122,16 @@ const chartOptions = (props: any): ApexOptions => {
         },
       },
     },
+    responsive: [{
+      options: {
+        chart: {
+          width: 300
+        },
+        legend: {
+          position: 'top'
+        }
+      }
+    }],
   };
 };
 </script>

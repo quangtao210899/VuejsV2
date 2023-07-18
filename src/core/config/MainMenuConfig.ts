@@ -12,7 +12,7 @@ const accountLeakMenu = {
   route: "/account-leaks",
   pages: [
     {
-      heading: "Quản lý tài khoản rò rỉ",
+      heading: "Tài Khoản Rò Rỉ",
       route: "/account-leaks",
       keenthemesIcon: "bi bi-person-exclamation",
       bootstrapIcon: "bi bi-person-exclamation",
@@ -28,12 +28,6 @@ const MainMenuConfig: Array<MenuItem> = [
         keenthemesIcon: "element-11",
         bootstrapIcon: "bi-app-indicator",
       },
-      {
-        heading: "layoutBuilder",
-        route: "/builder",
-        keenthemesIcon: "switch",
-        bootstrapIcon: "bi-layers",
-      },
     ],
   },
   {
@@ -41,13 +35,13 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/target",
     pages: [
       {
-        heading: "Quản lý mục tiêu",
+        heading: "Mục Tiêu",
         route: "/target-list",
         keenthemesIcon: "bi bi-life-preserver",
         bootstrapIcon: "bi bi-life-preserver",
       },
       {
-        heading: "Quản lý nhóm mục tiêu",
+        heading: "Nhóm Mục Tiêu",
         route: "/target-group",
         keenthemesIcon: "bi bi-diagram-3",
         bootstrapIcon: "bi bi-diagram-3",
@@ -60,13 +54,13 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/telegram",
     pages: [
       {
-        heading: "Quản lý telegram",
+        heading: "Telegram",
         route: "/telegram-list",
         keenthemesIcon: "bi bi-telegram",
         bootstrapIcon: "bi bi-telegram",
       },
       {
-        heading: "Nhóm telegram",
+        heading: "Nhóm Telegram",
         route: "/telegram-group",
         keenthemesIcon: "people",
         bootstrapIcon: "people",
@@ -78,7 +72,7 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/scans",
     pages: [
       {
-        heading: "Quản lý lỗ hổng",
+        heading: "Lỗ Hổng Bảo Mật",
         route: "/scans",
         keenthemesIcon: "bi bi-bug-fill",
         bootstrapIcon: "bi bi-bug-fill",
@@ -90,7 +84,7 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/vpn",
     pages: [
       {
-        heading: "Kết nối VPN",
+        heading: "Kết Nối VPN",
         route: "/vpn",
         keenthemesIcon: "bi bi-shield-check",
         bootstrapIcon: "bi bi-shield-check",
@@ -102,7 +96,7 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/cve",
     pages: [
       {
-        heading: "Quản lý CVE",
+        heading: "CVE",
         route: "/cve",
         keenthemesIcon: "bi bi-wallet-fill",
         bootstrapIcon: "bi bi-wallet-fill",
@@ -114,13 +108,13 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/user",
     pages: [
       {
-        heading: "Quản lý Users",
+        heading: "Người Dùng",
         route: "/user-list",
         keenthemesIcon: "user",
         bootstrapIcon: "user",
       },
       {
-        heading: "Profile",
+        heading: "Thông Tin Cá Nhân",
         route: "/user-profile",
         keenthemesIcon: "profile-circle",
         bootstrapIcon: "profile-circle",

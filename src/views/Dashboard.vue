@@ -1,37 +1,27 @@
 <template>
   <div class=" overflow-auto h-100 w-100">
-    <!--begin::Row-->
-    <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-      <!--begin::Col-->
-      <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-md-5 mb-xl-10">
-        <Widget1 className="h-md-50 mb-5 mb-xl-10" description="Mục tiêu" :target="target" bgColor="#F1416C"
+    <div class="row g-5 g-xl-10">
+      <div class="col-6 col-md-3">
+        <Widget1 className="h-md-100 h-lg-75 mb-5 mb-xl-10" description="Mục tiêu" :target="target" bgColor="#F1416C"
           :bgImage="getAssetPath('media/patterns/vector-1.png')" />
-
-        <Widget2 className="h-md-50 mb-5 mb-xl-10" :icon="false" :subdomain="subdomain" :liveSubdomain="subdomainLive"
+      </div>
+      <div class="col-6 col-md-3">
+        <Widget2 className="h-md-100 h-lg-75 mb-5 mb-xl-10" :icon="false" :subdomain="subdomain" :liveSubdomain="subdomainLive"
           description="Subdomains" labelColor="dark" textColor="gray-300" />
       </div>
-      <!--end::Col-->
 
-      <!--begin::Col-->
-      <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-md-5 mb-xl-10">
-        <Widget3 className="h-md-50 mb-5 mb-xl-10" :open="serviceOpen" :closed="serviceClone" description="Services"
+      <div class="col-6 col-md-3">
+        <Widget3 className="h-md-100 h-lg-75 mb-5 mb-xl-10" :open="serviceOpen" :closed="serviceClone" description="Services"
           :services="service" />
+      </div>
 
-        <Widget4 bgColor="#0e367b" :bgImage="getAssetPath('media/patterns/pattern-2.jpg')" className="h-lg-50"
+      <div class="col-6 col-md-3">
+        <Widget4 bgColor="#0e367b" :bgImage="getAssetPath('media/patterns/pattern-2.jpg')" className="h-md-100 mb-5 mb-xl-10 h-lg-75"
           :scanHigh="serviceHigh" :scanMedium="serviceMedium" :scanLow="serviceLow" :scanInfo="serviceInfo"
           description="Lỗ Hổng Bảo Mật" :scan="scan" />
       </div>
-      <!--end::Col-->
-
-      <!--begin::Col-->
-      <div class="col-xxl-4 col-xl-4">
-        <Widget5 className="h-md-100" />
-      </div>
-      <!--end::Col-->
     </div>
-    <!--end::Row-->
 
-    <!--begin::Row-->
     <div class="row gx-5 gx-xl-10">
       <!--begin::Col-->
       <div class="col-xl-6 mb-5 mb-xl-10">
@@ -160,7 +150,7 @@ export default defineComponent({
     const serviceLow = ref<number>(0);
     const serviceInfo = ref<number>(0);
 
-    // Vulmerabilities by serverity
+    // Vulnerabilities by serverity
     const vulnerableLabels = ref(['Info', 'Low', 'Medium', 'High']);
     const vulnerableData = ref<number[]>([]);
     const vulnerableColor = ref(['#50cd89', '#009ef7', '#ffc700', '#f1416c']);
@@ -168,7 +158,7 @@ export default defineComponent({
     // Nhóm mục tiêu
     const targetGroupLabels = ref<string[]>([]);
     const targetGroupData = ref<any>([]);
-    const targetGroupColor = ref(['rgb(255, 99, 132)', 'rgb(75, 192, 192)', 'rgb(255, 205, 86)', 'rgb(201, 203, 207)', 'rgb(54, 162, 235)']);
+    const targetGroupColor = ref(['#67b7dc', '#6771dc', '#8067dc', '#a367dc', '#c767dc', '#dc67ce', '#dc67ab', '#dc6788', '#dc6967', '#dcaf67']);
 
     // DB Leak
     const DBLeak = ref<Array<string | any>>([]);
@@ -212,7 +202,7 @@ export default defineComponent({
           serviceLow.value = data.total_scan_low;
           serviceInfo.value = data.total_scan_info;
 
-          // Vulmerabilities by serverity
+          // Vulnerabilities by serverity
           vulnerableData.value = [data.total_scan_info, data.total_scan_low, data.total_scan_medium, data.total_scan_high];
 
           // Nhóm mục tiêu

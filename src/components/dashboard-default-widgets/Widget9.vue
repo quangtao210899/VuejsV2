@@ -4,8 +4,9 @@
     <!--begin::Header-->
     <div class="card-header align-items-center border-0 mt-4">
       <h3 class="card-title align-items-start flex-column">
-        <span class="fw-bold mb-2 text-dark">Most Vulnerable</span>
-        <span class="text-muted fw-semobold fs-7">Thống kê lỗ hổng bảo mật theo mục tiêu</span>
+        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thống kê lỗ hổng bảo mật theo mục tiêu" placement="top">
+          <span class="fw-bold mb-2">Most Vulnerable</span>
+        </el-tooltip>
       </h3>
 
       <div class="card-toolbar">
@@ -20,7 +21,7 @@
       <!--begin::Table container-->
       <div class="table-responsive ">
         <!--begin::Table-->
-        <table class="table align-middle gs-0 gy-5">
+        <table class="table align-middle table-row-dashed gs-0 gy-5">
           <!--begin::Table head-->
           <thead>
             <tr>
@@ -33,28 +34,22 @@
           <!--end::Table head-->
 
           <!--begin::Table body-->
+          <thead>
+              <tr>
+                  <th><b>Mục tiêu</b></th>
+                  <th><b>Vulns</b></th>
+              </tr>
+          </thead>
           <tbody>
             <template v-for="(item, index) in dataMostVulnerable" :key="index">
               <tr>
                 <td class="text-start align-top">
-                  <span class="fw-bold text-gray-800 fs-6">
-                    {{ 1+ index }}
-                  </span>
-                </td>
-                <td class="text-start align-top">
-                  <span class="text-muted fw-semobold ">
+                  <span class="fw-semobold ">
                     {{ item.name }}
                   </span>
                 </td>
-                <td class="text-end align-top">
-                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#28a745'}">info: {{ item.info }}</span>
-                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#23b7e5'}">low: {{ item.low }}</span>
-                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#fcba32'}">medium: {{ item.medium }}</span>
-                  <span class="badge badge-danger fw-semobold me-1 mb-1" :style="{backgroundColor: '#e11f26'}">high: {{ item.high }}</span>
-                </td>
-
-                <td class="text-end align-top">
-                  <span class="badge badge-light-info">Tổng: {{ item.total }}</span>
+                <td class="align-top">
+                  <span>{{ item.total }}</span>
                 </td>
               </tr>
             </template>

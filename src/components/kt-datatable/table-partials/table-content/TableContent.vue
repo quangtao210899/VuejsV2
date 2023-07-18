@@ -172,7 +172,6 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      console.log('vao mouneted')
       // selectedItems.value = [];
       allSelectedItems.value = [];
       // check.value = false;
