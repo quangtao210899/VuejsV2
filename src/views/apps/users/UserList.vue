@@ -114,12 +114,12 @@
                             <div class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="username">
                                     <span
-                                        v-bind:class="{ 'required': nameType != 'Chỉnh sửa thông tin người dùng' }">Email</span>
+                                        v-bind:class="{ 'required': nameType != 'Chỉnh sửa thông tin người dùng' }">Tên đăng nhập</span>
                                 </label>
                                 <Field type="text" class="form-control form-control-solid"
                                     :disabled="nameType == 'Chỉnh sửa thông tin người dùng'"
                                     :style="{ cursor: nameType == 'Chỉnh sửa thông tin người dùng' ? 'not-allowed' : '', 'background-color': nameType == 'Chỉnh sửa thông tin người dùng' ? '#eee' : '' }"
-                                    :placeholder="editEmail" autocomplete="username" id="username" name="username" v-model="apiData.username" />
+                                    placeholder="Nhập thông tin người dùng" autocomplete="username" id="username" name="username" v-model="apiData.username" />
                                 <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'"
                                     class="fv-plugins-message-container">
                                     <div class="fv-help-block">
@@ -142,8 +142,8 @@
                                 </div>
                             </div>
                             <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
-                                <label class="form-label fw-semibold fs-6 mb-2 required" for="password">
-                                    Mật khẩu mới
+                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="password">
+                                    <span class="required">Mật khẩu mới</span>
                                 </label>
                                 <!--end::Label-->
 
@@ -170,8 +170,9 @@
                             </div>
 
                             <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
-                                <label class="form-label fw-semibold fs-6 mb-2 required" for="password_confirm" >Nhập lại mật khẩu</label>
-
+                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="password_confirm">
+                                    <span class="required">Nhập lại mật khẩu</span>
+                                </label>
                                 <div class="position-relative mb-3">
                                     <Field :type="!eyeButtonRef2 ? 'password' : 'text'"
                                         class="form-control form-control-solid h-35px" name="password_confirm"
@@ -198,7 +199,8 @@
                                 <div class="form-check form-check-custom form-check-solid">
                                     <input class="form-check-input" type="checkbox" value="1" id="is_staff" name="is_staff"
                                         v-model="apiData.is_staff" :checked="apiData.is_staff">
-                                    <label class="form-check-label" for="is_staff">Quản trị viên</label>
+                                        
+                                    <label style="padding-left: 10px;" class="fs-6 fw-semobold" for="is_staff">Quản trị viên</label>
                                 </div>
                             </div>
 
@@ -224,7 +226,7 @@
 
                         <!--begin::Button-->
                         <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
-                            class="btn btn-sm  btn-primary">
+                            class="btn btn-sm  btn-light-primary">
                             <span class="indicator-label"> Gửi </span>
                             <span class="indicator-progress">
                                 Đang gửi...
@@ -425,7 +427,7 @@ export default defineComponent({
                 columnLabel: "first_name",
             },
             {
-                columnName: "Email",
+                columnName: "Tên người dùng",
                 columnLabel: "username",
             },
             {
@@ -457,7 +459,7 @@ export default defineComponent({
                 apiData.value.first_name = data.first_name;
                 apiData.value.username = data.username;
                 apiData.value.is_staff = data.is_staff;
-                editEmail.value = data.username ? data.username : 'Nhập email';
+                editEmail.value = data.username ? data.username : 'Nhập tên người dùng';
                 id.value = data.id;
             } else {
                 nameType.value = "Thêm mới người dùng"
@@ -581,8 +583,7 @@ export default defineComponent({
                 .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự')
                 .required('Vui lòng nhập tên'),
             username: Yup.string()
-                .required('Vui lòng nhập email')
-                .email('Địa chỉ email không chính xác'),
+                .required('Vui lòng nhập tên người dùng'),
             password: Yup.string()
                 .required('Vui lòng nhập mật khẩu')
                 .min(8, 'Mật khẩu nhập không được ít hơn 8 ký tự')

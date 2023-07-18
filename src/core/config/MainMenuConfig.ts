@@ -23,7 +23,7 @@ const MainMenuConfig: Array<MenuItem> = [
   {
     pages: [
       {
-        heading: "dashboard",
+        heading: "Trang Chủ",
         route: "/dashboard",
         keenthemesIcon: "element-11",
         bootstrapIcon: "bi-app-indicator",

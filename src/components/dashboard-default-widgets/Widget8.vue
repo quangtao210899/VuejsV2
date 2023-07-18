@@ -5,7 +5,7 @@
     <div class="card-header align-items-center border-0 mt-4">
       <h3 class="card-title align-items-start flex-column">
         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin mua bán dữ liệu đươc thu thập" placement="top">
-          <span class="fw-bold mb-2">DB Leak</span>
+          <span class="fw-bold mb-2">Dữ Liệu Dò Rỉ</span>
         </el-tooltip>
       </h3>
 
@@ -66,7 +66,7 @@
           <!--begin::Content-->
           <div class="timeline-content d-flex">
             <span class="fw-bold text-gray-800 ps-3 d-flex justify-content-end align-items-center text-hover-primary">
-              <router-link class="me-3" :to="'/telegram-list/1'" active-class="active">Xem thêm</router-link>
+              <router-link class="me-3" :to="'/telegram-list/1'" active-class="active">Xem Thêm</router-link>
             </span>
           </div>
           <!--end::Content-->

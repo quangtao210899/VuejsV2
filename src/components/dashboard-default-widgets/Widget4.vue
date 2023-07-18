@@ -3,7 +3,7 @@
    :class="className" :style="{ backgroundColor: bgColor, backgroundImage: `url('${bgImage}')` }">
     <div class="card-header pt-5">
       <div class="card-title d-flex flex-column">
-        <span class="text-gray-400 pt-1 fw-semibold fs-6">{{
+        <span class="text-gray-400 pt-1 fw-semibold" style="font-size: 17px;">{{
           description
         }}</span>
         <router-link to="/scans" class="link-primary fw-bold">
