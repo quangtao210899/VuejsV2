@@ -46,7 +46,7 @@
         <!--begin::Wrapper-->
         <div class="d-flex flex-stack mb-2">
           <!--begin::Label-->
-          <label class="form-label fw-bold text-dark fs-6 mb-0">Password</label>
+          <label class="form-label fw-bold text-dark fs-6 mb-0">Mật khẩu</label>
           <!--end::Label-->
 
           <!--begin::Link-->
@@ -87,6 +87,24 @@
     <!--end::Form-->
   </div>
   <!--end::Wrapper-->
+  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_db_leak_detail">
+        <div class="modal-dialog modal-dialog-centered mw-550px">
+            <div class="modal-content">
+                <div class="modal-body" style="padding: 26px 0px 0px 0px;">
+                    <div class="card card-flush">
+                        <div class="card-body py-0">
+                              {{ error }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+                    <button type="button" class="btn btn-sm btn-light-danger me-9" data-bs-dismiss="modal">
+                        Thử lại
+                    </button>
+                </div>
+            </div>
+        </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -97,6 +115,7 @@ import { useAuthStore, type User } from "@/stores/auth";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import * as Yup from "yup";
+import { Modal } from "bootstrap";
 
 export default defineComponent({
   name: "sign-in",
@@ -108,6 +127,7 @@ export default defineComponent({
   setup() {
     const store = useAuthStore();
     const router = useRouter();
+    const error = ref("");
 
     const submitButton = ref<HTMLButtonElement | null>(null);
 
@@ -132,35 +152,16 @@ export default defineComponent({
 
       // Send login request
       await store.login(values);
-      const error = Object.values(store.errors);
+      const errors = Object.values(store.errors);
 
-      if (error.length === 0) {
-        Swal.fire({
-          text: "You have successfully logged in!",
-          icon: "success",
-          buttonsStyling: false,
-          confirmButtonText: "Đồng ý!",
-          heightAuto: false,
-          customClass: {
-            confirmButton: "btn fw-semobold btn-light-primary",
-          },
-        }).then(() => {
-          // Go to page after successfully login
+      if (errors.length === 0) {
           router.push({ name: "dashboard" });
-        });
       } else {
-        Swal.fire({
-          text: error[0] as string,
-          icon: "error",
-          buttonsStyling: false,
-          confirmButtonText: "Thử lại!",
-          heightAuto: false,
-          customClass: {
-            confirmButton: "btn fw-semobold btn-light-danger",
-          },
-        }).then(() => {
-          store.errors = {};
-        });
+        error.value = errors[0] as string; 
+        const modal = new Modal(
+          document.getElementById("kt_db_leak_detail") as Element
+        );
+        modal.show();
       }
 
       //Deactivate indicator
@@ -174,6 +175,7 @@ export default defineComponent({
       login,
       submitButton,
       getAssetPath,
+      error,
     };
   },
 });
