@@ -2,9 +2,9 @@
     <KTToolbar :addNew="urlAddNew" @handle-search="handleFilter" v-model:idsDelete="selectedIds" @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
     <!--begin::Card-->
     <div class="app-container container-fluid">
-        <div class="card h-100 d-block">
+        <div class="card h-100 d-block px-5">
             <!--end::Card header-->
-            <div class="card-header flex-wrap border-0 pt-3 pb-0 px-5">
+            <div class="card-header flex-wrap border-0 pt-3 p-0">
                 <div class="card-title">
                     <h3 class="card-label">
                         Quản lý mục tiêu
@@ -14,8 +14,8 @@
             </div>
 
             <!--begin::Card body-->
-            <div class="h-100 w-100 p-0 m-0 px-5">
-                <el-table ref="multipleTableRef" :data="list" style="width: 100%" class-name="my-custom-table rounded-top"
+            <div class="h-100 w-100 p-0 m-0">
+                <el-table ref="multipleTableRef" :data="list" style="width: 100%" class-name="my-custom-table rounded-top cursor-pointer"
                     :height="heightTable" table-layout="fixed" v-loading="loading" @selection-change="handleSelectionChange"
                     highlight-current-row :row-key="getRowKey" @current-change="handleCurrentChange" 
                     :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
@@ -25,17 +25,17 @@
                         </div>
                     </template>
 
-                    <el-table-column label-class-name=" fs-7 fw-bold" type="selection" width="35"
+                    <el-table-column label-class-name=" fs-7 fw-bold " type="selection" width="35"
                         :reserve-selection="true" />
 
-                    <el-table-column min-width="40" sortable label-class-name=" fs-7 fw-bold" prop="id" label="ID">
+                    <el-table-column min-width="40" sortable label-class-name=" fs-7 fw-bold cursor-pointer" prop="id" label="ID">
                         <template #default="scope">
                             <span v-if="scope.row.id != ''" class="text-gray-600 text-hover-primary">{{ scope.row.id }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
 
-                    <el-table-column label-class-name=" fs-7 fw-bold" prop="name" label="TÊN MỤC TIÊU">
+                    <el-table-column label-class-name=" fs-7 fw-bold " prop="name" label="TÊN MỤC TIÊU">
                         <template #default="scope">
                             <span v-if="scope.row.name != ''" class="text-dark text-hover-primary">{{ scope.row.name}}</span>
                             <span v-else class="badge badge-light-danger">--</span>
@@ -96,6 +96,7 @@ import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { ElTable, ElTableColumn } from 'element-plus';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
     name: "kt-target-list",
@@ -117,21 +118,10 @@ export default defineComponent({
         const query = ref<string>('');
         const search_group = ref<string>('');
         const orderingID = ref<string>('id');
-        const detailData = reactive({
-            id: '',
-            name: '',
-            ip: '',
-            domain: '',
-            group_id: '',
-            group_title: '',
-            modified_at: '',
-            created_at: '',
-        });
         const loading = ref<boolean>(false)
 
         const getData = async () => {
             loading.value = true;
-            // setTimeout(() => loading.value = false, 500)
             return ApiService.get(`targets?search_target=${query.value}&search_target_group=${search_group.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
@@ -202,30 +192,23 @@ export default defineComponent({
 
         // xóa 
         const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+        const router = useRouter();
 
         // handleCurrentChange
-        const DialogVisibleDetail = ref<boolean>(false)
-        const handleCurrentChange = (val: any, index) => {
-            // console.log(val)
-            // if (val) {
-            //     DialogVisibleDetail.value = true
-            //     detailData.id = val.id
-            //     detailData.username = val.username
-            //     detailData.date = val.date
-            //     detailData.text = val.text
-            //     detailData.phone = val.phone
-            //     detailData.group_name = val.group_name
-            // }
-            return
+        const handleCurrentChange = (data: any) => {
+            console.log(data.id)
+            if(data){
+                return router.push({ name: 'target-detail', params: { id: data.id } });
+            }
+            return;
         }
 
         // table
         const handleSelectionChange = (val: any) => {
             if (val) {
                 selectedIds.value = val.map((item: { id: number }) => item.id);
-            }else{
-                selectedIds.value = [];
             }
+            return;
         }
 
         const getRowKey = (row: any) => {
@@ -297,7 +280,6 @@ export default defineComponent({
 
             // validate
             data_group,
-            detailData,
 
             // page 
             itemsPerPage,

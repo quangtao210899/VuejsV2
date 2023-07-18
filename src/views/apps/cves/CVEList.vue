@@ -1,4 +1,5 @@
 <template>
+    <div class="app-container container-fluid p-5">
     <div class="card h-100 d-block">
         <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -80px;">
             <div class="card-toolbar">
@@ -75,7 +76,7 @@
             </KTDatatable>
         </div>
     </div>
-
+</div>
 
     <!-- modal  -->
     <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">

@@ -1,5 +1,6 @@
 <template>
     <!--begin::Card-->
+    <div class="app-container container-fluid p-5">
     <div class="card h-100 d-block">
         <!--begin::Card header-->
         <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -80px;">
@@ -77,7 +78,7 @@
             </KTDatatable>
         </div>
         <!--end::Card body-->
-    </div>
+    </div></div>
     <!--end::Card-->
 
 

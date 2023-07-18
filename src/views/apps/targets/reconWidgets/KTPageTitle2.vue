@@ -47,16 +47,16 @@
 
         <!--begin::Search Form-->
         <div class="d-flex align-items-center">
-            <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
-                :disabled="disabled" />
-            <!-- <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
+            <!-- <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
+                :disabled="disabled" /> -->
+            <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                 <input type="text" class="form-control" placeholder="Tìm kiếm..." v-model="search">
                 <div class="input-group-append">
                     <span class="input-group-text">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
                 </div>
-            </div> -->
+            </div>
         </div>
         <!--end::Search Form-->
     </div>

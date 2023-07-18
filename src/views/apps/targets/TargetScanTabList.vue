@@ -270,6 +270,7 @@
     </div>
 
     <!--begin::Card-->
+    <div class="app-container container-fluid p-5">
     <div class="card h-100 d-block">
         <div class="d-flex shadow-hvover" :style="{ height: heightTable + 'px' }">
             <!--begin::Card body-->
@@ -590,7 +591,7 @@
             <!--end::Card2 body-->
         </div>
 
-    </div>
+    </div></div>
     <!--end::Card-->
 
 

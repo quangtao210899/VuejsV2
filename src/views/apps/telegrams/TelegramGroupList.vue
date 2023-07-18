@@ -1,5 +1,6 @@
 <template>
   <!--begin::Card-->
+  <div class="app-container container-fluid p-5">
   <div class="card h-100 d-block">
     <!--begin::Card header-->
     <div
@@ -140,6 +141,8 @@
     </div>
 
   </div>
+
+</div>
   <!--end::Card-->
 
   <!-- modal  -->

@@ -8,11 +8,11 @@
       <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
         <KTSidebar />
         <!--begin::Main-->
-        <div class="app-main flex-column flex-row-fluid overflow-hidden hand-height" id="kt_app_main">
+        <div class="app-main flex-column flex-row-fluid " id="kt_app_main">
           <!--begin::Content wrapper-->
           <div class="d-flex flex-column flex-column-fluid h-100">
             <!-- <KTToolbar /> -->
-            <div id="kt_app_content" class="app-content flex-column-fluid hand-content">
+            <div id="kt_app_content" class="app-content flex-column-fluid hand-content pb-0">
               <KTContent></KTContent>
             </div>
           </div>
