@@ -417,7 +417,7 @@ export default defineComponent({
         columnWidth: 100,
       },
       {
-        columnName: "Actions",
+        columnName: "Hành động",
         columnLabel: "actions",
         columnWidth: 50,
       },

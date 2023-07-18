@@ -49,7 +49,7 @@
                   </span>
                 </td>
                 <td class="align-top">
-                  <span>Tổng: {{ item.total }}</span>
+                  <span>{{ item.total }}</span>
                 </td>
               </tr>
             </template>
