@@ -117,7 +117,7 @@ export default defineComponent({
                 .required('Vui lòng nhập tên đăng nhập')
                 .label("Tên đăng nhập"),
       password: Yup.string()
-                .min(4)
+                .min(4, 'Mật khẩu phải có ít nhất 4 kí tự')
                 .required('Vui lòng nhập mật khẩu').label("Password"),
     });
 
