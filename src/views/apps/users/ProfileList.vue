@@ -72,13 +72,13 @@
           <!--begin:::Tab item-->
           <li class="nav-item">
             <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
-              href="#kt_customer_view_overview_tab">Bảo mật</a>
+              href="#kt_customer_view_overview_tab">Thông Tin</a>
           </li>
           <!--end:::Tab item-->
 
           <!--begin:::Tab item-->
           <li class="nav-item">
-            <a class="nav-link text-active-primary me-6" data-bs-toggle="tab" href="#kt_password_tab">Đổi mật khẩu</a>
+            <a class="nav-link text-active-primary me-6" data-bs-toggle="tab" href="#kt_password_tab">Đổi Mật Khẩu</a>
           </li>
           <!--end:::Tab item-->
         </ul>
@@ -112,7 +112,7 @@
               <table class="table align-middle table-row-dashed gy-5 " id="kt_table_users_login_session">
                 <tbody class="fs-6 fw-semibold text-gray-600">
                   <tr>
-                    <td>Username</td>
+                    <td>Tên Đăng Nhập</td>
                     <td>
                       <span class="ms-4">{{ editData.username }}</span>
                     </td>
@@ -121,11 +121,11 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Họ tên</td>
+                    <td>Họ Tên</td>
                     <td>
                       <input v-model="editData.first_name" type="text" name="name" autocomplete="name"
                         :class="(Object.keys(errors.first_name).length == 0) ? 'text-hover-primary' : 'text-danger'"
-                        class="form-control form-control-flush" @active="123" placeholder="Example input" />
+                        class="form-control form-control-flush" @active="123" placeholder="Nhập họ tên" />
                     </td>
                     <td class="text-end">
                       <i class="ki-duotone ki-pencil fs-3 me-2"><span class="path1"></span><span class="path2"></span></i>
@@ -136,7 +136,7 @@
               <div class=" w-100 text-end ">
                 <!--begin::Button-->
                 <button @click="handleReset" :disabled="loading" class="btn btn-sm  btn-light me-3">
-                  Đặt lại
+                  Đặt Lại
                 </button>
                 <!--end::Button-->
 
@@ -148,7 +148,7 @@
                     <KTIcon icon-name="arrow-right" icon-class="fs-3 ms-2 me-0" />
                   </span>
                   <span v-if="loading" class="indicator-progress">
-                    Đang gửi...
+                    Đang Gửi...
                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                   </span>
                 </button>
@@ -176,7 +176,7 @@
 
               <!--begin::Input group--->
               <div class="fv-row mb-10 fv-plugins-icon-container">
-                <label class="required form-label fs-6 mb-2" for="currentpassword">Mật khẩu cũ</label>
+                <label class="required form-label fs-6 mb-2" for="currentpassword">Mật Khẩu Cũ</label>
                 <Field type="password" class="form-control form-control-solid h-35px" placeholder=""
                   name="currentpassword" autocomplete="off" id="currentpassword"
                   v-model="dataPasswordChange.currentpassword" />
@@ -197,7 +197,7 @@
                 <div class="mb-1">
                   <!--begin::Label-->
                   <label class="form-label fw-semibold fs-6 mb-2" for="newpassword">
-                    Mật khẩu mới
+                    Mật Khẩu Mới
                   </label>
                   <!--end::Label-->
 
@@ -244,7 +244,7 @@
 
               <!--begin::Input group--->
               <div class="fv-row mb-10 fv-plugins-icon-container">
-                <label class="form-label fw-semibold fs-6 mb-2" for="confirmpassword">Nhập lại mật khẩu</label>
+                <label class="form-label fw-semibold fs-6 mb-2" for="confirmpassword">Nhập Lại Mật Khẩu</label>
 
                 <div class="position-relative mb-3">
                   <Field :type="!eyeButtonRef2 ? 'password' : 'text'" class="form-control form-control-solid h-35px"
@@ -270,9 +270,9 @@
               <div class="d-flex">
                 <button :disabled="loading" id="kt_password_submit" type="submit" ref="updatePasswordButton"
                   class="btn btn-primary me-2 px-6 btn-sm">
-                  <span class="indicator-label"> Cập nhật </span>
+                  <span class="indicator-label"> Cập Nhật </span>
                   <span class="indicator-progress">
-                    Đang cập nhật...
+                    Đang Cập Nhật...
                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                   </span>
                 </button>
@@ -372,20 +372,32 @@ export default defineComponent({
         });
     }
 
-    // thồng báo
+    // thông báo
     const notification = (values: string, icon: string, more: string) => {
-      Swal.fire({
-        text: values ?? more,
-        icon: icon,
-        buttonsStyling: false,
-        confirmButtonText: "Đồng ý!",
-        heightAuto: false,
-        customClass: {
-          confirmButton: "btn btn-primary",
-        },
-      }).then(() => {
-        // hideModal( newTSetingModalRef.value);
-      });
+      if(icon == "error"){
+        Swal.fire({
+          text: values ?? more,
+          icon: icon,
+          buttonsStyling: false,
+          confirmButtonText: "Thử Lại",
+          heightAuto: false,
+          customClass: {
+            confirmButton: "btn btn-light-danger",
+          },
+        })
+      }
+      else {
+        Swal.fire({
+          text: values ?? more,
+          icon: icon,
+          buttonsStyling: false,
+          confirmButtonText: "Đồng ý",
+          heightAuto: false,
+          customClass: {
+            confirmButton: "btn btn-light-primary",
+          },
+        })
+      }
     };
 
     // on click event
@@ -400,30 +412,34 @@ export default defineComponent({
       if (editData.value.first_name !== list.value.first_name && editData.value.first_name) {
         upadateAccount();
       } else {
-        ElMessage({
-          message: 'Bạn chưa có thay đổi gì!',
-          type: 'warning',
-        })
+        let message = ""
+        if(editData.value.first_name == list.value.first_name){
+          message = "Bạn chưa thay đổi gì"
+        }
+        else {
+          message = "Họ Tên không được để trống"
+        }
+        notification(message, 'error','')
       }
     };
 
     const handleReset = () => {
       errors.value.first_name = '';
-      loading.value = true;
-      setTimeout(() => {
-        loading.value = false;
-      }, 1000);
+      // loading.value = true;
+      // setTimeout(() => {
+      //   loading.value = false;
+      // }, 1000);
       if (editData.value.first_name !== list.value.first_name) {
         editData.value = { ...list.value };
-        return ElMessage({
-          message: 'Đã khôi phục lại tên!',
-          type: 'info',
-        })
+        // return ElMessage({
+        //   message: 'Đã khôi phục lại tên!',
+        //   type: 'info',
+        // })
       } else {
-        return ElMessage({
-          message: 'Bạn chưa có thay đổi gì!',
-          type: 'warning',
-        })
+        // return ElMessage({
+        //   message: 'Bạn chưa có thay đổi gì!',
+        //   type: 'warning',
+        // })
       }
     };
 
@@ -443,8 +459,8 @@ export default defineComponent({
         })
         .catch(({ response }) => {
           if (response.data) {
-            errors.value.first_name = response.data.first_name;
-            ElMessage.error(response.data.first_name ?? 'Có lỗi xảy ra')
+            errors.value.first_name = response.data.first_name[0];
+            notification(response.data.first_name, 'error', 'Có lỗi xảy ra')
           } else {
             notification(response.data.detail, 'error', 'Có lỗi xảy ra')
           }
@@ -489,7 +505,7 @@ export default defineComponent({
               erroPasswordChange.value.currentpassword = response.data.password ?? '';
               erroPasswordChange.value.newpassword = response.data.new_password ?? '';
               erroPasswordChange.value.confirmpassword = response.data.re_new_password ?? '';
-              ElMessage.error(response.data.detail ?? 'Có lỗi xảy ra')
+              notification(response.data.detail, 'error', 'Có lỗi xảy ra')
             } else {
               notification(response.data.detail, 'error', 'Có lỗi xảy ra')
             }
