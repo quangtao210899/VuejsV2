@@ -6,7 +6,7 @@
   >
     <div class="card-header pt-5">
       <div class="card-title d-flex flex-column">
-        <span class="text-white opacity-50 pt-1 fw-semibold fs-6">{{
+        <span class="text-white opacity-50 pt-1 fw-semibold" style="font-size: 17px;">{{
           description
         }}</span>
         <router-link to="/target-list" class="link-primary fw-bold">

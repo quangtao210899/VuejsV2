@@ -98,7 +98,7 @@
           <div class="card-header border-0">
             <!--begin::Card title-->
             <div class="card-title">
-              <h2>Profile</h2>
+              <h2>Thông Tin Cá Nhân</h2>
             </div>
             <!--end::Card title-->
           </div>
@@ -110,9 +110,9 @@
             <div class="table-responsive">
               <!--begin::Table-->
               <table class="table align-middle table-row-dashed gy-5 " id="kt_table_users_login_session">
-                <tbody class="fs-6 fw-semibold text-gray-600">
+                <tbody class="fw-semibold text-gray-500">
                   <tr>
-                    <td>Username</td>
+                    <td>Tên Đăng Nhập</td>
                     <td>
                       <span class="ms-4">{{ editData.username }}</span>
                     </td>
@@ -121,7 +121,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Họ tên</td>
+                    <td>Họ Tên</td>
                     <td>
                       <input v-model="editData.first_name" type="text" name="name" autocomplete="name"
                         :class="(Object.keys(errors.first_name).length == 0) ? 'text-hover-primary' : 'text-danger'"
@@ -142,7 +142,7 @@
 
                 <!--begin::Button-->
                 <button @click="handleClick" :disabled="loading" :data-kt-indicator="loading ? 'on' : null"
-                  class="btn btn-sm btn-primary" type="submit">
+                  class="btn btn-sm btn-light-primary" type="submit">
                   <span v-if="!loading" class="indicator-label">
                     Gửi
                     <KTIcon icon-name="arrow-right" icon-class="fs-3 ms-2 me-0" />
@@ -176,7 +176,7 @@
 
               <!--begin::Input group--->
               <div class="fv-row mb-10 fv-plugins-icon-container">
-                <label class="required form-label fs-6 mb-2" for="currentpassword">Mật khẩu cũ</label>
+                <label class="required form-label mb-2 text-dark" for="currentpassword">Mật khẩu cũ</label>
                 <Field type="password" class="form-control form-control-solid h-35px" placeholder=""
                   name="currentpassword" autocomplete="off" id="currentpassword"
                   v-model="dataPasswordChange.currentpassword" />
@@ -196,7 +196,7 @@
                 <!--begin::Wrapper-->
                 <div class="mb-1">
                   <!--begin::Label-->
-                  <label class="form-label fw-semibold fs-6 mb-2" for="newpassword">
+                  <label class="form-label fw-semibold mb-2 text-dark" for="newpassword">
                     Mật khẩu mới
                   </label>
                   <!--end::Label-->
@@ -244,7 +244,7 @@
 
               <!--begin::Input group--->
               <div class="fv-row mb-10 fv-plugins-icon-container">
-                <label class="form-label fw-semibold fs-6 mb-2" for="confirmpassword">Nhập lại mật khẩu</label>
+                <label class="form-label fw-semibold mb-2 text-dark" for="confirmpassword">Nhập lại mật khẩu</label>
 
                 <div class="position-relative mb-3">
                   <Field :type="!eyeButtonRef2 ? 'password' : 'text'" class="form-control form-control-solid h-35px"
@@ -269,7 +269,7 @@
               <!--begin::Actions-->
               <div class="d-flex">
                 <button :disabled="loading" id="kt_password_submit" type="submit" ref="updatePasswordButton"
-                  class="btn btn-primary me-2 px-6 btn-sm">
+                  class="btn btn-light-primary me-2 px-6 btn-sm">
                   <span class="indicator-label"> Cập nhật </span>
                   <span class="indicator-progress">
                     Đang cập nhật...

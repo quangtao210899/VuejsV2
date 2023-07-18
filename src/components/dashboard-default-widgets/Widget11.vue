@@ -6,7 +6,7 @@
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Top 10 cổng dịch vụ phổ biến nhất" placement="top">
-          <span class="fw-bold mb-2 text-dark">Most common Ports</span>
+          <span class="fw-bold mb-2 text-dark">Cổng Dịch Vụ Phổ Biến</span>
         </el-tooltip>
       </h3>
       <!--end::Title-->
@@ -101,7 +101,7 @@ const chartOptions = (props: any): ApexOptions => {
     },
     plotOptions: {
       bar: {
-        barHeight: '30px',
+        barHeight: '65%',
         distributed: true,
         horizontal: true,
         borderRadius: 6,
