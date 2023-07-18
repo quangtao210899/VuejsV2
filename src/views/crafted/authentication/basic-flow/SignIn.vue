@@ -3,7 +3,7 @@
   <div class="w-lg-500px p-10">
     <!--begin::Form-->
     <VForm class="form w-100" id="kt_login_signin_form" @submit="onSubmitLogin" :validation-schema="login"
-      :initial-values="{ email: 'admin@demo.com', password: 'admin' }">
+      :initial-values="{ username: 'admin', password: 'admin' }">
       <!--begin::Heading-->
       <div class="text-center mb-10">
         <!--begin::Title-->
@@ -26,16 +26,16 @@
       <!--begin::Input group-->
       <div class="fv-row mb-10">
         <!--begin::Label-->
-        <label class="form-label fs-6 fw-bold text-dark">Email</label>
+        <label class="form-label fs-6 fw-bold text-dark">Tên đăng nhập</label>
         <!--end::Label-->
 
         <!--begin::Input-->
-        <Field  class="form-control form-control-lg form-control-solid" type="text" name="email"
+        <Field  class="form-control form-control-lg form-control-solid" type="text" name="username"
           autocomplete="off" />
         <!--end::Input-->
         <div class="fv-plugins-message-container">
           <div class="fv-help-block">
-            <ErrorMessage name="email" />
+            <ErrorMessage name="username" />
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
         <!--begin::Wrapper-->
         <div class="d-flex flex-stack mb-2">
           <!--begin::Label-->
-          <label class="form-label fw-bold text-dark fs-6 mb-0">Mật khẩu</label>
+          <label class="form-label fw-bold text-dark fs-6 mb-0">Password</label>
           <!--end::Label-->
 
           <!--begin::Link-->
@@ -87,24 +87,6 @@
     <!--end::Form-->
   </div>
   <!--end::Wrapper-->
-  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_db_leak_detail">
-        <div class="modal-dialog modal-dialog-centered mw-550px">
-            <div class="modal-content">
-                <div class="modal-body" style="padding: 26px 0px 0px 0px;">
-                    <div class="card card-flush">
-                        <div class="card-body py-0">
-                              {{ error }}
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer" style="border-top: 0px; justify-content: center;">
-                    <button type="button" class="btn btn-sm btn-light-danger me-9" data-bs-dismiss="modal">
-                        Thử lại
-                    </button>
-                </div>
-            </div>
-        </div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -115,7 +97,6 @@ import { useAuthStore, type User } from "@/stores/auth";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import * as Yup from "yup";
-import { Modal } from "bootstrap";
 
 export default defineComponent({
   name: "sign-in",
@@ -127,18 +108,22 @@ export default defineComponent({
   setup() {
     const store = useAuthStore();
     const router = useRouter();
-    const error = ref("");
 
     const submitButton = ref<HTMLButtonElement | null>(null);
 
     //Create form validation object
     const login = Yup.object().shape({
-      email: Yup.string().email().required().label("Email"),
-      password: Yup.string().min(4).required().label("Password"),
+      username: Yup.string()
+                .required('Vui lòng nhập tên đăng nhập')
+                .label("Tên đăng nhập"),
+      password: Yup.string()
+                .min(4)
+                .required('Vui lòng nhập mật khẩu').label("Password"),
     });
 
     //Form submit function
     const onSubmitLogin = async (values: any) => {
+      
       values = values as User;
       // Clear existing errors
       store.logout();
@@ -151,17 +136,26 @@ export default defineComponent({
       }
 
       // Send login request
-      await store.login(values);
-      const errors = Object.values(store.errors);
+      console.log(values,12311233323);
 
-      if (errors.length === 0) {
+      await store.login(values);
+      const error = Object.values(store.errors);
+
+      if (error.length === 0) {
           router.push({ name: "dashboard" });
       } else {
-        error.value = errors[0] as string; 
-        const modal = new Modal(
-          document.getElementById("kt_db_leak_detail") as Element
-        );
-        modal.show();
+        Swal.fire({
+          text: error[0] as string,
+          icon: "error",
+          buttonsStyling: false,
+          confirmButtonText: "Thử lại!",
+          heightAuto: false,
+          customClass: {
+            confirmButton: "btn fw-semobold btn-light-danger",
+          },
+        }).then(() => {
+          store.errors = {};
+        });
       }
 
       //Deactivate indicator
@@ -175,7 +169,6 @@ export default defineComponent({
       login,
       submitButton,
       getAssetPath,
-      error,
     };
   },
 });

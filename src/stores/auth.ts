@@ -7,6 +7,7 @@ import { ElMessage } from 'element-plus'
 export interface User {
   name: string;
   surname: string;
+  username: string;
   email: string;
   password: string;
   access: string;
@@ -42,7 +43,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   function login(credentials: User) {
     let newCredentials = {}
-    newCredentials["username"] = credentials.email
+    newCredentials["username"] = credentials.username
     newCredentials["password"] = credentials.password
     return ApiService.post("api/token/", newCredentials)
     .then(({ data }) => {
