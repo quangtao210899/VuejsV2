@@ -20,7 +20,7 @@
                         </el-tooltip>
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top">
-                            <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-sm fw-bold btn-light-primary" data-bs-toggle="modal"
                                 data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                                 <KTIcon icon-name="plus" icon-class="fs-2" />
                                 Thêm
@@ -114,7 +114,7 @@
                             <div class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="username">
                                     <span
-                                        v-bind:class="{ 'required': nameType != 'Chỉnh sửa thông tin người dùng' }">Tên đăng nhập</span>
+                                        v-bind:class="{ 'required': nameType != 'Chỉnh sửa thông tin người dùng' }">Tên Đăng Nhập</span>
                                 </label>
                                 <Field type="text" class="form-control form-control-solid"
                                     :disabled="nameType == 'Chỉnh sửa thông tin người dùng'"
@@ -143,7 +143,7 @@
                             </div>
                             <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="password">
-                                    <span class="required">Mật khẩu mới</span>
+                                    <span class="required">Mật Khẩu Mới</span>
                                 </label>
                                 <!--end::Label-->
 
@@ -171,7 +171,7 @@
 
                             <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="password_confirm">
-                                    <span class="required">Nhập lại mật khẩu</span>
+                                    <span class="required">Nhập Lại Mật Khẩu</span>
                                 </label>
                                 <div class="position-relative mb-3">
                                     <Field :type="!eyeButtonRef2 ? 'password' : 'text'"
@@ -200,7 +200,7 @@
                                     <input class="form-check-input" type="checkbox" value="1" id="is_staff" name="is_staff"
                                         v-model="apiData.is_staff" :checked="apiData.is_staff">
                                         
-                                    <label style="padding-left: 10px;" class="fs-6 fw-semobold" for="is_staff">Quản trị viên</label>
+                                    <label style="padding-left: 10px;" class="fs-6 fw-semobold" for="is_staff">Quản Trị Viên</label>
                                 </div>
                             </div>
 
@@ -220,7 +220,7 @@
                         <!--begin::Button-->
                         <button ref="discardButtonRef" @click="removeTextModal" type="reset"
                             id="kt_modal_new_target_group_cancel" class="btn btn-sm  btn-light me-3">
-                            Loại bỏ
+                            Loại Bỏ
                         </button>
                         <!--end::Button-->
 
@@ -229,7 +229,7 @@
                             class="btn btn-sm  btn-light-primary">
                             <span class="indicator-label"> Gửi </span>
                             <span class="indicator-progress">
-                                Đang gửi...
+                                Đang Gửi...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
@@ -264,7 +264,7 @@
                             <div class="card-toolbar">
                                 <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
                                     data-bs-target="#kt_modal_new_target_group" @click="handleClick(detailData, 'edit')">
-                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Cập nhật
+                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Cập Nhật
                                 </button>
                             </div>
                             <!--end::Card toolbar-->
@@ -276,7 +276,7 @@
                             <!--begin::Section-->
                             <div class="mb-10">
                                 <!--begin::Title-->
-                                <h5>Thông tin chi tiết:</h5>
+                                <h5>Thông Tin Chi Tiết:</h5>
                                 <!--end::Title-->
                                 <!--begin::Details-->
                                 <div class="d-flex flex-wrap py-5">
@@ -286,26 +286,26 @@
                                         <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
                                             <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-400">Họ Tên:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.first_name }}
+                                                <td class="text-gray-500">Họ Tên:</td>
+                                                <td class="text-dark badge badge-light pe-2">{{ detailData.first_name }}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-gray-400">Phân quyền:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.is_staff ?
+                                                <td class="text-gray-500">Phân Quyền:</td>
+                                                <td class="text-dark badge badge-light pe-2">{{ detailData.is_staff ?
                                                     'Quản trị viên' : 'Người dùng' }}</td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-400">Ngày tạo:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.date_joined) }}</td>
+                                                <td class="text-gray-500">Ngày Tạo:</td>
+                                                <td class="text-dark">{{ formatDate(detailData.date_joined) }}</td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-400">Ngày cập nhật cuối:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.last_login) }}</td>
+                                                <td class="text-gray-500">Ngày Cập Nhật Cuối:</td>
+                                                <td class="text-dark">{{ formatDate(detailData.last_login) }}</td>
                                             </tr>
                                             <!--end::Row-->
                                         </table>
@@ -324,8 +324,8 @@
                 </div>
                 <!--end::Form-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
-                        Quay lại
+                    <button type="button" class="btn btn-sm  btn-light-primary me-9" data-bs-dismiss="modal">
+                        Quay Lại
                     </button>
                 </div>
             </div>
@@ -455,14 +455,14 @@ export default defineComponent({
             errors.is_staff = false
             errors.detail = ''
             if (Object.keys(data).length != 0 && type === 'edit') {
-                nameType.value = "Chỉnh sửa thông tin người dùng"
+                nameType.value = "Chỉnh Sửa Thông Tin Người Dùng"
                 apiData.value.first_name = data.first_name;
                 apiData.value.username = data.username;
                 apiData.value.is_staff = data.is_staff;
                 editEmail.value = data.username ? data.username : 'Nhập tên người dùng';
                 id.value = data.id;
             } else {
-                nameType.value = "Thêm mới người dùng"
+                nameType.value = "Thêm Mới Người Dùng"
                 if (discardButtonRef.value !== null) {
                     apiData.value.is_staff = false;
                     discardButtonRef.value.click();
@@ -601,7 +601,7 @@ export default defineComponent({
             first_name: Yup.string()
                 .matches(/^[a-zA-Z\sÀ-ỹ]+$/, 'Chỉ ký tự chữ được cho phép')
                 .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự')
-                .required('Vui lòng nhập tên'),
+                .required('Vui lòng nhập họ tên'),
         });
 
         const notification = (values: string, icon: string, more: string) => {
