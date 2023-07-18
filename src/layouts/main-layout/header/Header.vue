@@ -1,6 +1,6 @@
 <template>
   <!--begin::Header-->
-  <div id="kt_app_header" v-if="headerDisplay" class="app-header">
+  <div id="kt_app_header" v-if="headerDisplay" class="app-header border-bottom" style="box-shadow: none !important;">
     <!--begin::Header container-->
     <div
       class="app-container d-flex align-items-stretch justify-content-between"

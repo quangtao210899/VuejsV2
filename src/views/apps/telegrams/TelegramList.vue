@@ -120,10 +120,10 @@
   </div>
   <!--end::Card-->
 
-  <el-dialog v-model="DialogVisibleDetail" :title="`Thông tin nhóm ${detailData.username}`" width="600" align-center>
+  <el-dialog v-model="DialogVisibleDetail" title="Chi tiết tin nhắn" width="600" align-center modal-class="12345">
     <div class="modal-body">
       <!--begin::Card-->
-      <div class="card card-flush pt-3 mb-5 mb-xl-10">
+      <div class="card card-flush">
         <!--begin::Card header-->
         <div class="card-header mb-5">
           <!--begin::Card title-->
@@ -403,7 +403,8 @@ export default defineComponent({
 
     // handleCurrentChange
     const DialogVisibleDetail = ref<boolean>(false)
-    const handleCurrentChange = (val: any) => {
+    const handleCurrentChange = (val: any, index) => {
+      console.log(val)
       if (val) {
         DialogVisibleDetail.value = true
         detailData.id = val.id

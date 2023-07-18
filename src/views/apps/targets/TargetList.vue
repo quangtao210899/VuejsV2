@@ -1,397 +1,109 @@
 <template>
+    <KTToolbar :addNew="urlAddNew" @handle-search="handleFilter" v-model:idsDelete="selectedIds" @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
     <!--begin::Card-->
-    <div class="card h-100 d-block">
-        <!--begin::Card header-->
-        <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1 " style="top: -80px;">
-            <!--begin::Card title-->
-            <!-- <div class="card-title"> -->
-            <!--begin::Search-->
-            <!-- <div class="d-flex align-items-center position-relative my-1">
-          <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-6" />
-          <input type="text" data-kt-subscription-table-filter="search" :value="query" @input="setQuery"
-            class="form-control form-control-solid w-250px ps-14" placeholder="Search Subscriptions" v-debounce:1000ms="getData" />
-        </div> -->
-            <!--end::Search-->
-            <!-- </div> -->
-            <!--begin::Card title-->
-
-            <!--begin::Card toolbar-->
-            <div class="card-toolbar">
-                <!--begin::Toolbar-->
-                <div v-show="selectedIds.length === 0">
-                    <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
-                        <!--begin::Export-->
-                        <el-tooltip class="box-item" content="Tìm kiếm" placement="top">
-                            <button type="button"
-                                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
-                                data-kt-menu-flip="top-end">
-                                <KTIcon icon-name="filter" icon-class="fs-2" />
-                                Filter
-                            </button>
-                        </el-tooltip>
-                        <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
-
-                        <!--end::Export-->
-
-                        <!--begin::Add subscription-->
-                        <el-tooltip class="box-item" content="Thêm mới" placement="top">
-                            <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
-                                <KTIcon icon-name="plus" icon-class="fs-2" />
-                                Thêm
-                            </button>
-                        </el-tooltip>
-                        <!--end::Add subscription-->
-                    </div>
+    <div class="app-container container-fluid">
+        <div class="card h-100 d-block">
+            <!--end::Card header-->
+            <div class="card-header flex-wrap border-0 pt-3 pb-0 px-5">
+                <div class="card-title">
+                    <h3 class="card-label">
+                        Quản lý mục tiêu
+                        <span class="d-block text-muted pt-2 fs-7">Danh sách các mục tiêu target</span>
+                    </h3>
                 </div>
-                <!--end::Toolbar-->
-
-                <!--begin::Group actions-->
-                <div v-show="selectedIds.length !== 0">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="fw-bold me-5">
-                            <span class="me-2">{{ selectedIds.length }}</span>Selected
-                        </div>
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-                            <button type="button" @click="deleteSelectd()"
-                                class="btn btn-danger btn-sm ">
-                                Xóa mục đã chọn
-                            </button>
-                        </el-tooltip>
-                    </div>
-                </div>
-                <!--end::Group actions-->
             </div>
-            <!--end::Card toolbar-->
+
+            <!--begin::Card body-->
+            <div class="h-100 w-100 p-0 m-0 px-5">
+                <el-table ref="multipleTableRef" :data="list" style="width: 100%" class-name="my-custom-table rounded-top"
+                    :height="heightTable" table-layout="fixed" v-loading="loading" @selection-change="handleSelectionChange"
+                    highlight-current-row :row-key="getRowKey" @current-change="handleCurrentChange" 
+                    :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
+                    <template #empty>
+                        <div class="flex items-center justify-center h-100%">
+                            <el-empty />
+                        </div>
+                    </template>
+
+                    <el-table-column label-class-name=" fs-7 fw-bold" type="selection" width="35"
+                        :reserve-selection="true" />
+
+                    <el-table-column min-width="40" sortable label-class-name=" fs-7 fw-bold" prop="id" label="ID">
+                        <template #default="scope">
+                            <span v-if="scope.row.id != ''" class="text-gray-600 text-hover-primary">{{ scope.row.id }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column label-class-name=" fs-7 fw-bold" prop="name" label="TÊN MỤC TIÊU">
+                        <template #default="scope">
+                            <span v-if="scope.row.name != ''" class="text-dark text-hover-primary">{{ scope.row.name}}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="100" label-class-name=" fs-7 fw-bold" prop="ip" label="IP">
+                        <template #default="scope">
+                            <span v-if="scope.row.ip != ''" class="text-gray-600 text-hover-primary">{{ scope.row.ip }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column min-width="90" label-class-name=" fs-7 fw-bold" prop="domain" label="DOMAIN">
+                        <template #default="scope">
+                            <span v-if="scope.row.domain != ''" class="text-gray-600 text-hover-primary ">{{ scope.row.domain }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="90" label-class-name=" fs-7 fw-bold" prop="group"
+                        label="NHÓM MỤC TIÊU">
+                        <template #default="scope">
+                            <span v-if="scope.row.title != ''" class="text-gray-600 text-hover-primary">{{ scope.row.group.title }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="60" label-class-name=" fs-7 fw-bold" label="HÀNH ĐỘNG">
+                        <template #default="scope">
+                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
+                                <router-link :to="`/target-detail/${scope.row.id}`"
+                                    class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
+                                    <KTIcon icon-name="pencil" icon-class="fs-3" />
+                                </router-link>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="d-flex justify-content-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+                    <el-pagination v-if="list.length > 0" background v-model:current-page="currentPage" v-model:page-size="itemsPerPage"
+                        :total="totalPage"
+                        :layout="(checkPaginationTable) ? 'prev, pager, next' : 'total, sizes, prev, pager, next, jumper'"
+                        :pager-count="(checkPaginationTable) ? 5 : 6" :disabled="disabled"
+                        :page-sizes="(checkPaginationTable) ? [] : [10, 20, 30, 40, 50]"></el-pagination>
+                </div>
+            </div>
+            <!--end::Card body-->
         </div>
-        <!--end::Card header-->
-
-        <!--begin::Card body-->
-        <div class="card-body pt-0 h-100 p-0 m-0 overflow-y-auto overflow-x-auto">
-            <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
-                :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
-                :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
-                @customRow="customRowTable">
-
-                <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-                <template v-slot:name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{
-                    customer.name }}</span></template>
-                <template v-slot:ip="{ row: customer }">
-                    {{ customer.ip }}
-                </template>
-                <template v-slot:domain="{ row: customer }">
-                    {{ customer.domain }}
-                </template>
-                <template v-slot:group="{ row: customer }">
-                    {{ customer.group.title }}
-                </template>
-                <template v-slot:actions="{ row: customer }">
-                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Recon" placement="top">
-                        <router-link :to="`/target-recons/${customer.id}`"
-                            class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
-                            <i class="fas fa-mail-bulk"></i>
-                        </router-link>
-                    </el-tooltip>
-                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan" placement="top">
-                        <router-link :to="`/target-scans/${customer.id}`"
-                            class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
-                            <KTIcon icon-name="search-list" icon-class="fs-3" />
-                        </router-link>
-                    </el-tooltip>
-                    <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
-                        <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1"
-                            data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
-                            @click="handleClick(customer, 'edit')" title="Sửa">
-                            <KTIcon icon-name="pencil" icon-class="fs-3" />
-                        </button>
-                    </el-tooltip>
-                </template>
-
-            </KTDatatable>
-        </div>
-        <!--end::Card body-->
     </div>
+
     <!--end::Card-->
-
-
-    <!-- modal  -->
-    <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">
-        <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered mw-650px">
-            <!--begin::Modal content-->
-            <div class="modal-content">
-                <!--begin::Modal header-->
-                <div class="modal-header" id="kt_modal_new_target_group_header">
-                    <!--begin::Modal title-->
-                    <h2>{{ nameType }}</h2>
-                    <!--end::Modal title-->
-
-                    <!--begin::Close-->
-                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                        <KTIcon icon-name="cross" icon-class="fs-1" />
-                    </div>
-                    <!--end::Close-->
-                </div>
-                <!--end::Modal header-->
-
-                <!--begin::Form-->
-                <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
-                    :validation-schema="validationSchema">
-                    <!--begin::Modal body-->
-                    <div class="modal-body py-10 px-lg-17">
-                        <!--begin::Scroll-->
-                        <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
-                            data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-                            data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
-                            data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
-                            <div class="mb-5 fv-row">
-                                <label for="name" class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                    <span class="required">Tên mục tiêu</span>
-                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
-                                        title="Bắt buộc phải nhập"></i>
-                                </label>
-                                <Field autocomplete="name" type="text" class="form-control form-control-solid" placeholder="Nhập tên mục tiêu"
-                                    name="name" id="name" v-model="apiData.name" />
-                                <div class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="name" />
-                                        <span class="" v-if="errors.name">{{ errors.name[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-5 fv-row">
-                                <label for="domain" class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                    <span>Domain</span>
-                                </label>
-                                <Field type="text" class="form-control form-control-solid" 
-                                    @blur="getAutofill(apiData.domain)
-                                            .then(ip => {
-                                                apiData.ip = ip
-                                            })
-                                            .catch(error => {
-                                                console.error(error);
-                                            });"
-                                    placeholder="Nhập domain của mục tiêu" id="domain" name="domain" v-model="apiData.domain" />
-                                <div class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="domain" />
-                                        <span class="" v-if="errors.domain">{{ errors.domain[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-5 fv-row">
-                                <label for="ip" class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                    <span>IP</span>
-                                </label>
-                                <Field type="text" class="form-control form-control-solid"
-                                    placeholder="Nhập ip của mục tiêu" id="ip" name="ip" v-model="apiData.ip" />
-                                <div class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="ip" />
-                                        <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-5 fv-row">
-                                <label for="group" class="d-flex align-items-center fs-6 fw-semobold mb-2">
-                                    <span class="required">Nhóm mục tiêu</span>
-                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
-                                        title="Bắt buộc phải nhập"></i>
-                                </label>
-                                <el-form-item prop="assign">
-                                    <el-select v-model.lazy="apiData.group" placeholder="Chọn nhóm mục tiêu" id="group" name="group"
-                                        as="select" height="40px" class="input-group-lg">
-                                        <el-option value="" disabled>Chọn nhóm mục tiêu</el-option>
-                                        <el-option :label="item.title" :value="item.id" v-for="item in data_group">{{
-                                            item.title }}</el-option>
-                                    </el-select>
-                                </el-form-item>
-                                <!-- <Field type="text" class="form-control form-control-solid" placeholder="Chọn nhóm mục tiêu"
-                                    name="group" v-model="apiData.group" /> -->
-                                <!-- <div class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="group" />
-                                        <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
-                                    </div>
-                                </div> -->
-                            </div>
-                            <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                    <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] :
-                                        errors.detail }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Scroll-->
-                    </div>
-                    <!--end::Modal body-->
-
-                    <!--begin::Modal footer-->
-                    <div class="modal-footer flex-center">
-                        <!--begin::Button-->
-                        <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
-                            class="btn btn-sm  btn-light me-3" @click="resetForm">
-                            Loại bỏ
-                        </button>
-                        <!--end::Button-->
-
-                        <!--begin::Button-->
-                        <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
-                            class="btn btn-sm  btn-primary">
-                            <span class="indicator-label"> Gửi </span>
-                            <span class="indicator-progress">
-                                Đang gửi...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
-                        </button>
-                        <!--end::Button-->
-                    </div>
-                    <!--end::Modal footer-->
-                </VForm>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal content-->
-        </div>
-        <!--end::Modal dialog-->
-    </div>
-
-    <!-- modal detail  -->
-    <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-        <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered mw-650px">
-            <!--begin::Modal content-->
-            <div class="modal-content">
-                <!--begin::Form-->
-                <div class="modal-body">
-                    <!--begin::Card-->
-                    <div class="card card-flush pt-3 mb-5 mb-xl-10">
-                        <!--begin::Card header-->
-                        <div class="card-header">
-                            <!--begin::Card title-->
-                            <div class="card-title">
-                                <h1 class="fw-bold">{{ detailData.name }}</h1>
-                            </div>
-                            <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
-                                <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
-                                    data-bs-target="#kt_modal_new_target_group" @click="handleClick(detailData, 'edit')">
-                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Cập nhật
-                                </button>
-                            </div>
-                            <!--end::Card toolbar-->
-                        </div>
-                        <!--end::Card header-->
-
-                        <!--begin::Card body-->
-                        <div class="card-body py-0">
-                            <!--begin::Section-->
-                            <div class="mb-10">
-                                <!--begin::Title-->
-                                <h5>Thông tin chi tiết:</h5>
-                                <!--end::Title-->
-                                <!--begin::Details-->
-                                <div class="d-flex flex-wrap py-5">
-                                    <!--begin::Row-->
-                                    <div class="flex-equal me-5">
-                                        <!--begin::Details-->
-                                        <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-                                            <!--begin::Row-->
-                                            <tr>
-                                                <td class="text-gray-400">IP:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.ip }} </td>
-                                            </tr>
-                                            <!--end::Row-->
-
-                                            <!--begin::Row-->
-                                            <tr>
-                                                <td class="text-gray-400">Domain:</td>
-                                                <td class="text-gray-800  badge badge-light pe-2">{{ detailData.domain }}
-                                                </td>
-                                            </tr>
-                                            <!--end::Row-->
-                                            <!--begin::Row-->
-                                            <tr>
-                                                <td class="text-gray-400">Nhóm group:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.group_title
-                                                }}</td>
-                                            </tr>
-                                            <!--end::Row-->
-                                            <!--begin::Row-->
-                                            <tr>
-                                                <td class="text-gray-400">Ngày tạo:</td>
-                                                <td class="text-gray-800">{{ detailData.created_at }}</td>
-                                            </tr>
-                                            <!--end::Row-->
-                                            <!--begin::Row-->
-                                            <tr>
-                                                <td class="text-gray-400">Ngày cập nhật cuối:</td>
-                                                <td class="text-gray-800">{{ detailData.modified_at }}</td>
-                                            </tr>
-                                            <!--end::Row-->
-                                        </table>
-                                        <!--end::Details-->
-                                    </div>
-                                    <!--end::Row-->
-
-                                </div>
-                                <!--end::Row-->
-                            </div>
-                            <!--end::Section-->
-                        </div>
-                        <!--end::Card body-->
-                    </div>
-                    <!--end::Card-->
-                </div>
-                <!--end::Form-->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
-                        Quay lại
-                    </button>
-                </div>
-            </div>
-            <!--end::Modal content-->
-        </div>
-        <!--end::Modal dialog-->
-    </div>
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive } from "vue";
-import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
-import type { Sort } from "@/components/kt-datatable/table-partials/models";
+import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import ApiService from "@/core/services/ApiService";
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 
 // validate
-import { hideModal } from "@/core/helpers/dom";
-import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
-import Fillter from "@/views/apps/targets/filtersTarget.vue";
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
-import { markRaw } from 'vue'
-import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-
-import { Modal } from "bootstrap";
-
-interface APIData {
-    name: string;
-    ip: string;
-    domain: string;
-    group: string;
-}
+import { ElTable, ElTableColumn } from 'element-plus';
 
 export default defineComponent({
     name: "kt-target-list",
 
     components: {
-        KTDatatable,
-        ErrorMessage,
-        Field,
-        VForm,
-        Fillter,
+        ElTable,
+        ElTableColumn,
+        KTToolbar,
     },
     directives: {
         debounce: vue3Debounce({ lock: true })
@@ -400,28 +112,11 @@ export default defineComponent({
         const list = ref<object | any>([])
         const data_group = ref<object | any>([])
         const totalPage = ref<number>(0);
-        // const testPage = ref<number>(0);
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
-        const query = ref<String>('');
-        const search_group = ref<String>('');
-        const orderingID = ref<String>('');
-        const typeModal = ref<String>('');
-        const id = ref<number>(0);
-        const nameType = ref<string>('');
-        const apiData = ref<APIData>({
-            name: "",
-            ip: "",
-            domain: '',
-            group: '',
-        });
-        const errors = reactive({
-            name: '',
-            group: '',
-            ip: '',
-            domain: '',
-            detail: ''
-        });
+        const query = ref<string>('');
+        const search_group = ref<string>('');
+        const orderingID = ref<string>('id');
         const detailData = reactive({
             id: '',
             name: '',
@@ -432,94 +127,7 @@ export default defineComponent({
             modified_at: '',
             created_at: '',
         });
-        const discardButtonRef = ref<HTMLElement | null>(null);
-        const ModalDetail = ref<null | HTMLElement>(null);
         const loading = ref<boolean>(false)
-
-        const headerConfig = ref([
-            {
-                columnName: "ID",
-                columnLabel: "id",
-                sortEnabled: true,
-            },
-            {
-                columnName: "Tên mục tiêu",
-                columnLabel: "name",
-            },
-            {
-                columnName: "IP",
-                columnLabel: "ip",
-            },
-            {
-                columnName: "Domain",
-                columnLabel: "domain",
-            },
-            {
-                columnName: "Nhóm mục tiêu",
-                columnLabel: "group",
-            },
-            {
-                columnName: "Actions",
-                columnLabel: "actions",
-                columnWidth: 50,
-            },
-        ]);
-
-        const handleClick = (data: object | any, type: String) => {
-            typeModal.value = type
-            resetForm()
-            if (Object.keys(data).length != 0 && type === 'edit') {
-                nameType.value = "Chỉnh sửa mục tiêu"
-                apiData.value.name = data.name;
-                apiData.value.ip = data.ip;
-                apiData.value.domain = data.domain;
-                apiData.value.group = data.group_id ?? data.group.id;
-                id.value = data.id;
-            } else {
-                nameType.value = "Thêm mới mục tiêu"
-                apiData.value.group = ''
-                if (discardButtonRef.value !== null) {
-                    discardButtonRef.value.click();
-                }
-                // resetData();
-            }
-        };
-
-        const getAutofill = async (domain) => {
-            try {
-                const response = await ApiService.get(`targets/ip?domain=${domain}`);
-                const { data } = response;
-                return data.ip;
-            } catch (error: any) {
-                notification(error?.response?.data?.detail, 'error', 'Có lỗi xảy ra');
-                throw error;
-            }
-        }
-
-        const resetForm = () => {
-            apiData.value.group = ''
-            errors.name = ''
-            errors.domain = ''
-            errors.ip = ''
-            errors.group = ''
-            errors.detail = ''
-        }
-        // const resetData = () => {
-        //   apiData.value.title = '';
-        //   apiData.value.description = '';
-        //   id.value = 0;
-        // }
-
-        const handlePage = (page: number) => {
-            currentPage.value = page ?? 1;
-            getData();
-        };
-
-        const handlePerPage = (itemsPage: number) => {
-            currentPage.value = 1
-            itemsPerPage.value = itemsPage ?? 20;
-            getData();
-        };
 
         const getData = async () => {
             loading.value = true;
@@ -528,6 +136,7 @@ export default defineComponent({
                 .then(({ data }) => {
                     list.value = data.results
                     totalPage.value = data.count
+                    // console.log(data.results)
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -552,27 +161,7 @@ export default defineComponent({
         }
 
         const selectedIds = ref<Array<number>>([]);
-            const deleteSelectd = () => {
-      ElMessageBox.confirm(
-        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-        'Xác nhận xóa',
-        {
-          confirmButtonText: 'Đồng ý',
-          cancelButtonText: 'Hủy bỏ',
-          type: 'warning',
-          icon: markRaw(Delete)
-        }
-      )
-        .then(() => {
-          deleteSubscription(selectedIds.value);
-        })
-        .catch(() => {
-
-        })
-    };
         const disabled = ref<boolean>(false);
-
-        
         const deleteSubscription = (ids: Array<number>) => {
             if (ids) {
                 disabled.value = true
@@ -583,59 +172,14 @@ export default defineComponent({
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
                         currentPage.value = 1;
-                        selectedIds.value.length = 0;
-                        getData();
+                        selectedIds.value = [];
+                        multipleTableRef.value!.clearSelection()
                     })
                     .catch(({ response }) => {
                         notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                     });
             }
         };
-
-        const sort = (sort: Sort) => {
-            if (sort.label) {
-                orderingID.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}`;
-            }
-            getData();
-        };
-        const customRowTable = (detail: any) => {
-            if (detail) {
-                detailData.id = detail.id
-                detailData.name = detail.name
-                detailData.ip = detail.ip
-                detailData.domain = detail.domain
-                detailData.group_id = detail.group.id
-                detailData.group_title = detail.group.title
-                detailData.modified_at = detail.modified_at
-                detailData.created_at = detail.created_at
-                const modal = new Modal(
-                    document.getElementById("kt_modal_detail") as Element
-                );
-                modal.show();
-            } else {
-                notification('', 'error', 'Có lỗi xảy ra')
-            }
-        };
-
-        const onItemSelect = (selectedItems: Array<number>) => {
-            selectedIds.value = selectedItems;
-
-        };
-
-        // validate start
-        const submitButtonRef = ref<null | HTMLButtonElement>(null);
-        const modalRef = ref<null | HTMLElement>(null);
-        const newTargetGroupModalRef = ref<null | HTMLElement>(null);
-        const PatternTargetGroup = /^[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/
-
-        const validationSchema = Yup.object().shape({
-            name: Yup.string()
-                .required('Vui lòng nhập tên')
-                .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
-            // group: Yup.string()
-            //     // .matches(PatternTargetGroup, 'Tên nhóm không được chứa ký tự đặc biệt')
-            //     .required('Vui lòng chọn nhóm mục tiêu')
-        });
 
         const notification = (values: string, icon: string, more: string) => {
             Swal.fire({
@@ -647,150 +191,118 @@ export default defineComponent({
                 customClass: {
                     confirmButton: "btn btn-primary",
                 },
-            }).then(() => {
-                hideModal(newTargetGroupModalRef.value);
-                
-                hideModal(ModalDetail.value);
             });
         }
 
-        const submit = async () => {
-            if (!submitButtonRef.value) {
-                return;
-            }
-
-            if (!apiData.value.ip.trim()) {
-                const ip = await getAutofill(apiData.value.domain);
-                apiData.value.ip = ip;
-            }
-
-            let formData = {
-                'name': apiData.value.name,
-                'ip': apiData.value.ip ?? "",
-                'domain': apiData.value.domain ?? "",
-                'group': apiData.value.group
-            }
-
-            if (typeModal.value == 'add') {
-                return ApiService.post("/targets/", formData)
-                    .then(({ data }) => {
-                        if (submitButtonRef.value) {
-                            notification(data.detail, 'success', 'Thêm mới thành công')
-                            //Disable button
-                            submitButtonRef.value.disabled = true;
-                            // Activate indicator
-                            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-                            setTimeout(() => {
-                                if (submitButtonRef.value) {
-                                    submitButtonRef.value.disabled = false;
-                                    submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                                }
-
-                            }, 1000);
-                            getData();
-                        }
-                    })
-                    .catch(({ response }) => {
-                        if (response?.data) {
-                            errors.name = response.data.name;
-                            errors.ip = response.data.ip;
-                            errors.domain = response.data.domain;
-                            errors.group = response.data.group;
-                            errors.detail = response.data.detail;
-                        } else {
-                            notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
-                        }
-                    });
-            } else {
-                return ApiService.put(`/targets/${id.value}/`, formData)
-                    .then(({ data }) => {
-                        if (submitButtonRef.value) {
-                            notification(data.detail, 'success', 'Sửa mới thành công')
-                            //Disable button
-                            submitButtonRef.value.disabled = true;
-                            // Activate indicator
-                            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-                            setTimeout(() => {
-                                if (submitButtonRef.value) {
-                                    submitButtonRef.value.disabled = false;
-                                    submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                                }
-                            }, 1000);
-                            getData();
-                        }
-
-                    })
-                    .catch(({ response }) => {
-                        if (response.data) {
-                            errors.name = response.data.name;
-                            errors.ip = response.data.ip;
-                            errors.domain = response.data.domain;
-                            errors.group = response.data.group;
-                            errors.detail = response.data.detail;
-                        } else {
-                            notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                        }
-                    });
-            }
-
-        };
-        // end validate
-
-
         const handleFilter = (data: any) => {
-            if (data) {
-                query.value = data.query;
-                search_group.value = data.type;
-                currentPage.value = 1;
-                getData();
-            } else {
-                notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
-            }
-
+            query.value = data;
+            currentPage.value = 1;
+            getData();
         };
+
+        // xóa 
+        const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+
+        // handleCurrentChange
+        const DialogVisibleDetail = ref<boolean>(false)
+        const handleCurrentChange = (val: any, index) => {
+            // console.log(val)
+            // if (val) {
+            //     DialogVisibleDetail.value = true
+            //     detailData.id = val.id
+            //     detailData.username = val.username
+            //     detailData.date = val.date
+            //     detailData.text = val.text
+            //     detailData.phone = val.phone
+            //     detailData.group_name = val.group_name
+            // }
+            return
+        }
+
+        // table
+        const handleSelectionChange = (val: any) => {
+            if (val) {
+                selectedIds.value = val.map((item: { id: number }) => item.id);
+            }else{
+                selectedIds.value = [];
+            }
+        }
+
+        const getRowKey = (row: any) => {
+            return row.id
+        }
+
+        // Lắng nghe sự thay đổi của currentPage và pageSize
+        watch(currentPage, (newCurrentPage) => {
+            currentPage.value = newCurrentPage ?? 1;
+            getData();
+        });
+
+        watch(itemsPerPage, (newPageSize) => {
+            itemsPerPage.value = newPageSize ?? 20;
+            getData();
+        });
+
+        // tính toán chiều cao table
+        const heightTable = ref(0)
+        const checkPaginationTable = ref(false)
+        const handleResize = () => {
+            const windowWidth = window.innerWidth;
+
+            if (windowWidth >= 1400) {
+                heightTable.value = window.innerHeight - 290;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 1200) {
+                heightTable.value = window.innerHeight - 290;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 992) {
+                heightTable.value = window.innerHeight - 290;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 768) {
+                heightTable.value = window.innerHeight - 265;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 576) {
+                heightTable.value = window.innerHeight - 265;
+                checkPaginationTable.value = true
+            } else {
+                // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
+                heightTable.value = window.innerHeight - 265;
+                checkPaginationTable.value = true
+            }
+        };
+        // thêm mới
+        const urlAddNew = ref('urlAddNew')
+
+        const handleSortChange = (column: any) => {
+            orderingID.value = (column.order == 'ascending' && column.prop == 'id') ? '-id' : 'id'
+            getData()
+        }
 
         onMounted(() => {
             getData();
             getDataGroup();
+            handleResize();
+            window.addEventListener('resize', handleResize);
+        });
+
+        onUnmounted(() => {
+            window.removeEventListener('resize', handleResize);
         });
 
         return {
             getData,
             getDataGroup,
             list,
-            headerConfig,
-            sort,
-            onItemSelect,
             selectedIds,
-            deleteSelectd,
-            
-            getAssetPath,
 
             // validate
-            // crud
-            apiData,
             data_group,
-            validationSchema,
-            submit,
-            submitButtonRef,
-            modalRef,
-            newTargetGroupModalRef,
-            handleClick,
-            errors,
-            
-            discardButtonRef,
-
-            // detials
-            ModalDetail,
-            customRowTable,
             detailData,
 
             // page 
             itemsPerPage,
             totalPage,
             currentPage,
-            handlePage,
-            handlePerPage,
 
             // search query 
             query,
@@ -798,13 +310,25 @@ export default defineComponent({
             handleFilter,
 
             // edit 
-            nameType,
             loading,
-            resetForm,
             disabled,
 
-            getAutofill
+            //
+            handleResize,
+            checkPaginationTable,
+            heightTable,
+            handleSelectionChange,
+            getRowKey,
+            handleCurrentChange,
+            multipleTableRef,
+            urlAddNew,
+            handleSortChange,
+            deleteSubscription,
         };
     },
 });
 </script>
+<style >
+.my-custom-table td.el-table__cell {
+    border-bottom-style: dashed !important;
+}</style>

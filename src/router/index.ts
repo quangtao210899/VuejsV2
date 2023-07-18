@@ -27,6 +27,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-detail",
+        name: "target-detail",
+        component: () => import("@/views/apps/targets/TargetListDetail.vue"),
+        meta: {
+          pageTitle: "Chi tiết mục tiêu",
+          breadcrumbs: ["Target", "TargetDetail"],
+        },
+      },
+      {
         path: "/target-recons/:id",
         name: "target-recon",
         component: () => import("@/views/apps/targets/TargetReconList.vue"),

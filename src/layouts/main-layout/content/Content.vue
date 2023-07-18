@@ -1,14 +1,11 @@
 <template>
-  <div id="kt_app_content" class="app-content flex-column-fluid hand-content-children">
+  <div id="kt_app_content" class="app-content flex-column-fluid">
     <!--begin::Content container-->
-    <div
-      id="kt_app_content_container "
-      class="app-container h-100"
-      :class="{
-        'container-fluid': contentWidthFluid,
-        'container-xxl': !contentWidthFluid,
-      }"
-    >
+    <!-- <div id="kt_app_content_container" class="h-100 container-xxl" :class="{
+      'container-fluid': contentWidthFluid,
+      'container-xxl': !contentWidthFluid,
+    }"> -->
+        <div id="kt_app_content_container" class="h-100">
       <RouterView></RouterView>
     </div>
     <!--end::Content container-->
@@ -32,11 +29,3 @@ export default defineComponent({
   },
 });
 </script>
-<style>
-.hand-content-children {
-  display: block;
-  height: 100% !important;
-  margin-bottom: unset !important;
-  padding-bottom: unset !important;
-}
-</style>

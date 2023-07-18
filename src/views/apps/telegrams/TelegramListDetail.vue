@@ -32,7 +32,7 @@
               </button>
 
             </el-tooltip>
-            <Fillter @filterData="handleFilter"></Fillter>
+            <Fillter @filterData="handleFilter"></Fillter> 
             <!--begin::Add subscription-->
             <!--end::Add subscription-->
             <!-- 

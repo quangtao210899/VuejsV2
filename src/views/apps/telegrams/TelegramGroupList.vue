@@ -23,7 +23,7 @@
               </button>
               <!-- </div> -->
             </el-tooltip>
-            <Fillter @filterData="handleFilter"></Fillter>
+            <Fillter @filterData="handleFilter"></Fillter> 
             <!--begin::Add subscription-->
             <!--end::Add subscription-->
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Cấu hình thời gian lấy tin nhắn"
