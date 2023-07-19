@@ -319,11 +319,11 @@
                             <!--end::Section-->
                         </div>
                         <!--end::Card body-->
-                    </div>
+                    </div>Vui lòng nhập tên
                     <!--end::Card-->
                 </div>
                 <!--end::Form-->
-                <div class="modal-footer text-center">
+                <div class="modal-footer d-flex justify-content-center">
                     <button type="button" class="btn btn-sm  btn-light-primary me-9" data-bs-dismiss="modal">
                         Đóng
                     </button>
@@ -579,7 +579,7 @@ export default defineComponent({
 
         const validationSchema = Yup.object().shape({
             first_name: Yup.string()
-                .required('Vui lòng nhập tên')
+                .required('Vui lòng nhập họ tên')
                 .matches(/^[a-zA-Z\sÀ-ỹ]+$/, 'Chỉ ký tự chữ được cho phép')
                 .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự'),
             username: Yup.string()
