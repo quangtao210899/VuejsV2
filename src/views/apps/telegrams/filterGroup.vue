@@ -62,7 +62,7 @@
             <el-option label="Có thể đồng bộ" value="0">Có thể đồng bộ</el-option>
             <el-option label="không đồng bộ" value="1">không đồng bộ</el-option>
 
-          </el-select>
+          </el-select> 
         </el-form-item>
         <!--end::Input-->
 

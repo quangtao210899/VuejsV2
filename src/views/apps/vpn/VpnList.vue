@@ -13,7 +13,7 @@
               'Đã kết nối' : 'Không kết nối') }} </span>
           </div>
           <div class="d-flex justify-content-between align-items-center mb-5">
-            <h3>{{ (infoStatus == 1) ? infoCountry : 'Kết nối đến VPN' }}</h3>
+            <h3>{{ (infoStatus == 1) ? infoCountry : 'Kết Nối Đến VPN' }}</h3>
             <el-tooltip :disabled="(infoStatus == 1 || loading == false || connecting == false) ? false : true"
               class="box-item" effect="dark" placement="top" :auto-close="0">
               <template #content>
@@ -27,7 +27,7 @@
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <el-button :disabled="(loading || connecting) ? true : false" type="primary" class="fs-6 px-14"
-              @click=randomCountry>Kết nối nhanh</el-button>
+              @click=randomCountry>Kết Nối Nhanh</el-button>
             <el-button :disabled="(infoStatus == 0 || loading || connecting) ? true : false" @click="disConnectNordvpn"
               type="danger" link><i class="fa-solid fa-power-off fs-2 text-danger"></i></el-button>
             <el-button :disabled="(loading || connecting) ? true : false" @click="getStatus" type="primary" link>
@@ -57,9 +57,9 @@ import 'leaflet/dist/leaflet.css';
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import L from 'leaflet';
 import dataMap from "@/views/apps/vpn/dataMap.json";
-import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import ApiService from "@/core/services/ApiService";
-
+import Swal from "sweetalert2/dist/sweetalert2.js";
 export default {
   name: 'VpnComponent',
 
@@ -103,7 +103,7 @@ export default {
       }
 
       dataMap.forEach((el, i) => {
-        const customTooltipContent = (connecting.value) ? 'Đang kết nối đến ' + el.title + ' ...' : 'Kết nối ' + el.title
+        const customTooltipContent = (connecting.value) ? 'Đang Kết Nối Đến ' + el.title + ' ...' : 'Kết Nối ' + el.title
         const marker = L.marker({ lat: el.markerLatLng[0], lng: el.markerLatLng[1] }, { icon: customIcon })
           .addTo(map.value)
           .bindTooltip(customTooltipContent, {
@@ -198,17 +198,17 @@ export default {
     const handleClickMap = (e: any) => {
       ElMessageBox.confirm(
         'Bạn có chắc muốn kết nối với ' + e.title + ' không?',
-        'Kết nối với quốc gia ' + e.title,
+        'Kết Nối Với Quốc Gia ' + e.title,
         {
-          confirmButtonText: 'Đồng ý',
-          cancelButtonText: 'Quay lại',
+          confirmButtonText: 'Đồng Ý',
+          cancelButtonText: 'Quay Lại',
           type: 'warning',
         }
       )
         .then(() => {
           ElMessage({
             type: 'success',
-            message: 'Đang kết nối đến ' + e.title + '...',
+            message: 'Đang Kết Nối Đến ' + e.title + '...',
           })
           connectNordvpn(e.title);
         })
@@ -247,34 +247,28 @@ export default {
           }
         })
         .catch(({ response }) => {
-          ElNotification({
-            title: 'Lỗi',
-            message: (response == null || response == undefined) ? 'Có lỗi xảy ra' : 'Có lỗi xảy ra',
-            type: 'error',
-          })
+          notification('Có lỗi xảy ra', 'error', '')
         })
         .finally(() => {
           loading.value = false
         });
     };
 
-    const getStatus = async () => {
+    const getStatus = async (has_notify=true) => {
       loading.value = true;
       let form = {}
       return await ApiService.post(`nordvpn/status`, form)
         .then(({ data }) => {
-          ElNotification({
-            title: 'Trạng thái Kết nối ',
-            message: data.detail ?? 'Có lỗi xảy ra',
-            type: (infoStatus.value == 0) ? 'error' : 'success',
-          })
+          if(has_notify){
+            notification(data.detail, 'success', '')
+          }
+          getInfo()
         })
         .catch(({ response }) => {
-          ElNotification({
-            title: 'Trạng thái Kết nối',
-            message: response.detail ?? 'Có lỗi xảy ra',
-            type: 'error',
-          })
+          if (has_notify) {
+            notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+          }
+          getInfo()
         })
         .finally(() => {
           loading.value = false
@@ -288,19 +282,11 @@ export default {
       let form = { country: country }
       return await ApiService.post(`nordvpn/connect`, form)
         .then(({ data }) => {
-          ElNotification({ 
-            title: 'Trạng thái Kết nối',
-            message: data.detail ?? 'Có lỗi xảy ra',
-            type: 'success',
-          })
+          notification(data.detail , 'success', '')
           getInfo()
         })
         .catch(({ response }) => {
-          ElNotification({
-            title: 'Trạng thái Kết nối',
-            message: response.data.detail ?? 'Có lỗi xảy ra',
-            type: 'error',
-          })
+          notification(response.data.detail, 'error', 'Có lỗi xảy ra')
           getInfo()
         })
         .finally(() => {
@@ -308,7 +294,32 @@ export default {
           connecting.value = false;
         });
     };
-
+    const notification = (values: string, icon: string, more: string) => {
+      if (icon == "error") {
+        Swal.fire({
+          text: values ?? more,
+          icon: icon,
+          buttonsStyling: false,
+          confirmButtonText: "Thử Lại",
+          heightAuto: false,
+          customClass: {
+            confirmButton: "btn btn-light-danger",
+          },
+        })
+      }
+      else {
+        Swal.fire({
+          text: values ?? more,
+          icon: icon,
+          buttonsStyling: false,
+          confirmButtonText: "Đồng Ý",
+          heightAuto: false,
+          customClass: {
+            confirmButton: "btn btn-light-primary",
+          },
+        })
+      }
+    };
     const disConnectNordvpn = async () => {
       loading.value = true;
       connecting.value = true;
@@ -316,20 +327,13 @@ export default {
       return await ApiService.post(`nordvpn/disconnect`, form)
         .then(({ data }) => {
           //console.log(data);
-          ElNotification({
-            title: 'Trạng thái Kết nối',
-            message: data.detail ?? 'Có lỗi xảy ra',
-            type: 'success',
-          })
+          notification(data.detail, 'success', '')
           getInfo();
           resetDataInfo();
         })
         .catch(({ response }) => {
-          ElNotification({
-            title: 'Trạng thái Kết nối',
-            message: response.detail ?? 'Có lỗi xảy ra',
-            type: 'error',
-          })
+          notification(response.detail, 'success', 'Có lỗi xảy ra')
+          getInfo();
         })
         .finally(() => {
           loading.value = false
@@ -364,7 +368,7 @@ export default {
     onMounted(() => {
       initializeMap();
       getInfo();
-      getStatus();
+      getStatus(false);
     });
 
     onBeforeUnmount(() => {

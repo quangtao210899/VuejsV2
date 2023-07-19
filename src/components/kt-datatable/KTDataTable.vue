@@ -72,11 +72,11 @@ export default defineComponent({
     "on-items-select",
     "on-items-per-page-change",
     "custom-row"
-  ],
+  ], 
   components: {
     TableContent,
     TableFooter,
-  },
+  }, 
   setup(props, { emit }) {
     const currentPage = ref(props.currentPage);
     const currentCheckPage = ref(props.currentCheckPage);

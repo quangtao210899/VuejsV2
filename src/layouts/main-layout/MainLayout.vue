@@ -8,11 +8,11 @@
       <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
         <KTSidebar />
         <!--begin::Main-->
-        <div class="app-main flex-column flex-row-fluid overflow-hidden hand-height" id="kt_app_main">
+        <div class="app-main flex-column flex-row-fluid " id="kt_app_main">
           <!--begin::Content wrapper-->
           <div class="d-flex flex-column flex-column-fluid h-100">
-            <KTToolbar />
-            <div id="kt_app_content" class="app-content flex-column-fluid hand-content">
+            <!-- <KTToolbar /> -->
+            <div id="kt_app_content" class="app-content flex-column-fluid hand-content pb-0">
               <KTContent></KTContent>
             </div>
           </div>
@@ -95,28 +95,5 @@ export default defineComponent({
 <style>
 .hand-height{
   height: calc(100vh - 70px) !important;
-  width: -webkit-fill-available;
-  position: absolute;
-}
-
-/* .hand-height {
-    height: 100% !important;
-    width: -webkit-fill-available;
-    position: absolute;
-    display: contents;
-} */
-
-.hand-content {
-  display: block;
-  height: calc(100% - 80px) !important;
-  margin-bottom: unset !important;
-  padding-bottom: unset !important;
-}
-.hand-height-2{
-  /* height: calc(100% - 76px) !important; */
-  height: 100%;
-}
-.custom-Message-box-class-text-primary .el-message-box__status.el-message-box-icon--info{
-  color: #2196F3 !important;
 }
 </style>

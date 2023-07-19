@@ -1,42 +1,8 @@
 <template>
+        <KTToolbar addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
+        @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
+    <div class="app-container container-fluid p-0">
     <div class="card h-100 d-block">
-        <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -80px;">
-            <div class="card-toolbar">
-                <div v-show="selectedIds.length === 0">
-                    <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
-                            <button type="button"
-                                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
-                                data-kt-menu-flip="top-end">
-                                <KTIcon icon-name="filter" icon-class="fs-2" />
-                                Filter
-                            </button>
-                        </el-tooltip>
-                        <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top">
-                            <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
-                                <KTIcon icon-name="plus" icon-class="fs-2" />
-                                Thêm
-                            </button>
-                        </el-tooltip>
-                    </div>
-                </div>
-                <div v-show="selectedIds.length !== 0">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="fw-bold me-5">
-                            <span class="me-2">{{ selectedIds.length }}</span>Selected
-                        </div>
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-                            <button type="button" @click="deleteSelectd()" class="btn btn-danger btn-sm ">
-                                Xóa mục đã chọn
-                            </button>
-                        </el-tooltip>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="card-body pt-0  overflow-y-auto overflow-x-auto h-100 p-0 m-0 ">
             <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
                 :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
@@ -70,7 +36,7 @@
             </KTDatatable>
         </div>
     </div>
-
+</div>
     <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered mw-650px">
             <div class="modal-content">
@@ -196,6 +162,7 @@ import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 import { ElTree } from 'element-plus'
 import Fillter from "@/views/apps/targets/filterTargetScan.vue";
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 
 import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -237,6 +204,7 @@ export default defineComponent({
         Field,
         VForm,
         Fillter,
+        KTToolbar,
     },
     directives: {
         debounce: vue3Debounce({ lock: true })
@@ -1197,6 +1165,7 @@ export default defineComponent({
             dataValidateTree,
             resetData,
             disabled,
+            deleteSubscription,
         };
     },
 });

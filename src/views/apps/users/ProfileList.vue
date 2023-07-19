@@ -1,6 +1,6 @@
 <template>
   <!--begin::Navbar-->
-  <div class="card mb-5 mb-xxl-8">
+  <div class="card mb-5 mb-xxl-8 mt-3 mx-3">
     <div class="card-body pt-9 pb-0">
       <!--begin::Details-->
       <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
@@ -89,7 +89,7 @@
   </div>
   <!--end::Navbar-->
   <!--begin:::Tab content-->
-  <div class="tab-content" id="myTabContent">
+  <div class="tab-content mx-3" id="myTabContent">
     <!--begin:::Tab pane-->
     <div class="tab-pane fade show active" id="kt_customer_view_overview_tab" role="tabpanel">
       <div>
@@ -301,7 +301,6 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import Fillter from "@/views/apps/telegrams/filterGroup.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import * as Yup from "yup";
-import { ElMessage } from 'element-plus'
 
 interface APIData {
   username: string;
@@ -391,7 +390,7 @@ export default defineComponent({
           text: values ?? more,
           icon: icon,
           buttonsStyling: false,
-          confirmButtonText: "Đồng ý",
+          confirmButtonText: "Đồng Ý",
           heightAuto: false,
           customClass: {
             confirmButton: "btn btn-light-primary",

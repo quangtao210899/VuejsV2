@@ -1,5 +1,5 @@
 <template>
-  <div class=" overflow-auto h-100 w-100">
+  <div class=" overflow-auto p-5 h-100 w-100">
     <div class="row g-5 g-xl-10">
       <div class="col-6 col-md-3">
         <Widget1 className="h-md-100 h-lg-75 mb-5 mb-xl-10" description="Mục Tiêu" :target="target" bgColor="#F1416C"
