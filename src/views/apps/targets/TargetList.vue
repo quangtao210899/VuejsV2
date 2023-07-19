@@ -56,8 +56,9 @@
 
                     <el-table-column min-width="90" label-class-name=" fs-7 fw-bold" prop="domain" label="DOMAIN">
                         <template #default="scope">
-                            <span v-if="scope.row.domain != ''" class="text-gray-600 text-hover-primary ">{{
-                                scope.row.domain }}</span>
+                            <span v-if="scope.row.domain != ''" class="text-gray-600 text-hover-primary ">
+                            <i class="fa-solid fa-link fs-7"></i>
+                            {{scope.row.domain }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
@@ -136,7 +137,7 @@ export default defineComponent({
         const itemsPerPage = ref<number>(20);
         const query = ref<string>('');
         const search_group = ref<string>('');
-        const orderingID = ref<string>('id');
+        const orderingID = ref<string>('-id');
         const loading = ref<boolean>(false)
 
         const getData = async () => {
