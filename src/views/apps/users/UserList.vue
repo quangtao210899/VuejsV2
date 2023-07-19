@@ -20,7 +20,7 @@
                         </el-tooltip>
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top">
-                            <button type="button" class="btn btn-sm fw-bold btn-light-primary" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
                                 <KTIcon icon-name="plus" icon-class="fs-2" />
                                 Thêm
@@ -103,7 +103,7 @@
 
                 <!--begin::Form-->
                 <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
-                    :validation-schema="nameType == 'Chỉnh sửa thông tin người dùng' ? validationSchemaUpdate : validationSchema">
+                    :validation-schema="nameType == 'Chỉnh Sửa Thông Tin Người Dùng' ? validationSchemaUpdate : validationSchema">
                     <!--begin::Modal body-->
                     <div class="modal-body py-10 px-lg-17">
                         <!--begin::Scroll-->
@@ -114,13 +114,13 @@
                             <div class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="username">
                                     <span
-                                        v-bind:class="{ 'required': nameType != 'Chỉnh sửa thông tin người dùng' }">Tên Đăng Nhập</span>
+                                        v-bind:class="{ 'required': nameType != 'Chỉnh Sửa Thông Tin Người Dùng' }">Tên Đăng Nhập</span>
                                 </label>
                                 <Field type="text" class="form-control form-control-solid"
-                                    :disabled="nameType == 'Chỉnh sửa thông tin người dùng'"
-                                    :style="{ cursor: nameType == 'Chỉnh sửa thông tin người dùng' ? 'not-allowed' : '', 'background-color': nameType == 'Chỉnh sửa thông tin người dùng' ? '#eee' : '' }"
-                                    placeholder="Nhập thông tin người dùng" autocomplete="username" id="username" name="username" v-model="apiData.username" />
-                                <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'"
+                                    :disabled="nameType == 'Chỉnh Sửa Thông Tin Người Dùng'"
+                                    :style="{ cursor: nameType == 'Chỉnh Sửa Thông Tin Người Dùng' ? 'not-allowed' : '', 'background-color': nameType == 'Chỉnh Sửa Thông Tin Người Dùng' ? '#eee' : '' }"
+                                    placeholder="Nhập tên đăng nhập" autocomplete="username" id="username" name="username" v-model="apiData.username" />
+                                <div v-if="nameType != 'Chỉnh Sửa Thông Tin Người Dùng'"
                                     class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="username" />
@@ -141,7 +141,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
+                            <div v-if="nameType != 'Chỉnh Sửa Thông Tin Người Dùng'" class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="password">
                                     <span class="required">Mật Khẩu Mới</span>
                                 </label>
@@ -169,7 +169,7 @@
                                 </div>
                             </div>
 
-                            <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
+                            <div v-if="nameType != 'Chỉnh Sửa Thông Tin Người Dùng'" class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="password_confirm">
                                     <span class="required">Nhập Lại Mật Khẩu</span>
                                 </label>
@@ -323,9 +323,9 @@
                     <!--end::Card-->
                 </div>
                 <!--end::Form-->
-                <div class="modal-footer">
+                <div class="modal-footer text-center">
                     <button type="button" class="btn btn-sm  btn-light-primary me-9" data-bs-dismiss="modal">
-                        Quay Lại
+                        Đóng
                     </button>
                 </div>
             </div>
@@ -579,11 +579,11 @@ export default defineComponent({
 
         const validationSchema = Yup.object().shape({
             first_name: Yup.string()
+                .required('Vui lòng nhập tên')
                 .matches(/^[a-zA-Z\sÀ-ỹ]+$/, 'Chỉ ký tự chữ được cho phép')
-                .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự')
-                .required('Vui lòng nhập tên'),
+                .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự'),
             username: Yup.string()
-                .required('Vui lòng nhập tên người dùng'),
+                .required('Vui lòng nhập tên đăng nhập'),
             password: Yup.string()
                 .required('Vui lòng nhập mật khẩu')
                 .min(8, 'Mật khẩu nhập không được ít hơn 8 ký tự')
@@ -593,15 +593,15 @@ export default defineComponent({
                     'Mật khẩu phải chứa ít nhất 1 chữ cái, chữ hoa, ký tự đặc biệt'
                 ),
             password_confirm: Yup.string()
+                .required('Vui lòng nhập mật khẩu xác nhận')
                 .oneOf([Yup.ref('password'), null], 'Mật khẩu xác nhận không khớp')
-                .required('Vui lòng nhập mật khẩu xác nhận'),
         });
 
         const validationSchemaUpdate = Yup.object().shape({
             first_name: Yup.string()
+                .required('Vui lòng nhập họ tên')
                 .matches(/^[a-zA-Z\sÀ-ỹ]+$/, 'Chỉ ký tự chữ được cho phép')
                 .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự')
-                .required('Vui lòng nhập họ tên'),
         });
 
         const notification = (values: string, icon: string, more: string) => {
