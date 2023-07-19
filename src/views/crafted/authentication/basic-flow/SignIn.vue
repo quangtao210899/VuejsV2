@@ -46,7 +46,7 @@
         <!--begin::Wrapper-->
         <div class="d-flex flex-stack mb-2">
           <!--begin::Label-->
-          <label class="form-label fw-bold text-dark mb-0" style="font-size: 15px;">Password</label>
+          <label class="form-label fw-bold text-dark mb-0" style="font-size: 15px;">Mật Khẩu</label>
           <!--end::Label-->
 
           <!--begin::Link-->
