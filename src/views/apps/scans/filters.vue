@@ -3,7 +3,7 @@
   <div class="menu menu-sub menu-sub-dropdown w-250px w-md-350px" data-kt-menu="true">
     <!--begin::Header-->
     <div class="px-7 py-5">
-      <div class="fs-5 text-dark fw-bold">Filter Options</div>
+      <div class="fs-5 text-dark fw-bold">Bộ Lọc</div>
     </div>
     <!--end::Header-->
 
@@ -16,7 +16,7 @@
       <!--begin::Input group-->
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold" for="status">Trạng thái:</label>
+        <label class="form-label fw-semobold" for="status">Trạng Thái:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
@@ -40,7 +40,7 @@
       <!--begin::Input group-->
       <div class="mb-7">
         <!--begin::Label-->
-        <label class="form-label fw-semobold" for="severity">Mức độ lỗ hổng:</label>
+        <label class="form-label fw-semobold" for="severity">Mức Độ Lỗ Hổng:</label>
         <!--end::Label-->
 
         <!--begin::Input-->
@@ -120,11 +120,11 @@
       <!--begin::Actions-->
       <div class="d-flex justify-content-end">
         <button @click="reset" type="reset" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-info  me-2">
-          Reset
+          Đặt Lại
         </button>
 
-        <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">
-          Apply
+        <button type="submit" class="btn btn-sm btn-light-primary" data-kt-menu-dismiss="true">
+          Áp Dụng
         </button>
       </div>
       <!--end::Actions-->
