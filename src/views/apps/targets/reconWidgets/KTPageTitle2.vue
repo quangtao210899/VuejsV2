@@ -42,14 +42,14 @@
         <!--end::Title-->
 
         <!--begin::Separator-->
-        <div class="bg-gray-300 h-25px w-1px me-6 ms-3 d-block"></div>
+        <div  v-if="checkSearch" class="bg-gray-300 h-25px w-1px me-6 ms-3 d-block"></div>
         <!--end::Separator-->
 
         <!--begin::Search Form-->
         <div class="d-flex align-items-center">
             <!-- <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
                 :disabled="disabled" /> -->
-            <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
+            <div v-if="checkSearch" class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                 <input type="text" class="form-control" placeholder="Tìm kiếm..." v-model="search">
                 <div class="input-group-append">
                     <span class="input-group-text">
@@ -80,6 +80,7 @@ export default defineComponent({
     props: {
         disabled: { type: Boolean, required: false, default: false },
         search: { type: String, required: false, default: '' },
+        checkSearch: { type: Boolean, required: false, default: true}
     },
     emits: ['handle-search'],
 

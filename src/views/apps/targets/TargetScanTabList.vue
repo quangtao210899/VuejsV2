@@ -1,7 +1,7 @@
 <template>
-    <div id="layouthetder" ref="divRef">
+    <div id="layouthetder" ref="divRef" class="pt-3 px-5">
         <!--begin::Navbar-->
-        <div class="card " :class="classDetail ? '' : 'mb-3'">
+        <div class="card" :class="classDetail ? '' : 'mb-3'">
             <!--begin::Card header-->
             <div class=" border-0 ps-2 pt-3 pt-sm-12 pt-md-12 pt-lg-6 position-sm-absolute end-0 pe-1 me-2 me-md-0 me-sm-0"
                 style="top: -80px">
@@ -270,7 +270,7 @@
     </div>
 
     <!--begin::Card-->
-    <div class="app-container container-fluid p-5">
+    <div class="app-container container-fluid p-0" >
     <div class="card h-100 d-block">
         <div class="d-flex shadow-hvover" :style="{ height: heightTable + 'px' }">
             <!--begin::Card body-->
@@ -1266,23 +1266,23 @@ export default defineComponent({
             widthLayout.value = window.innerWidth;
             const windowWidth = window.innerWidth;
             if (windowWidth >= 1400) {
-                heightTable.value = window.innerHeight - (divHeight.value + 165);
+                heightTable.value = window.innerHeight - (divHeight.value + 100);
                 checkPaginationTable.value = false
             } else if (windowWidth >= 1200) {
-                heightTable.value = window.innerHeight - (divHeight.value + 165);
+                heightTable.value = window.innerHeight - (divHeight.value + 100);
                 checkPaginationTable.value = false
             } else if (windowWidth >= 992) {
-                heightTable.value = window.innerHeight - (divHeight.value + 165);
+                heightTable.value = window.innerHeight - (divHeight.value + 100);
                 checkPaginationTable.value = false
             } else if (windowWidth >= 768) {
-                heightTable.value = window.innerHeight - (divHeight.value + 150);
+                heightTable.value = window.innerHeight - (divHeight.value + 100);
                 checkPaginationTable.value = false
             } else if (windowWidth >= 576) {
-                heightTable.value = window.innerHeight - (divHeight.value + 150);
+                heightTable.value = window.innerHeight - (divHeight.value + 100);
                 checkPaginationTable.value = false
             } else {
                 // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-                heightTable.value = window.innerHeight - (divHeight.value + 150);
+                heightTable.value = window.innerHeight - (divHeight.value + 100);
                 checkPaginationTable.value = true
             }
 

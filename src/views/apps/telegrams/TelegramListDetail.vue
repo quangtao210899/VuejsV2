@@ -1,10 +1,10 @@
 <template>
   <!--begin::Card-->
-  <div class="app-container container-fluid p-5">
+  <div class="app-container container-fluid p-5 mt-10">
   
   <div class="card h-100 d-block">
     <!--begin::Card header-->
-    <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -80px;">
+    <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -70px;">
       <!--begin::Card title-->
       <!-- <h3 class="card-title align-items-start flex-column">
         <span class="card-label fw-bold fs-3 mb-1">Danh sách quản lý lỗ hổng</span>

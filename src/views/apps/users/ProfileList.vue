@@ -1,6 +1,6 @@
 <template>
   <!--begin::Navbar-->
-  <div class="card mb-5 mb-xxl-8">
+  <div class="card mb-5 mb-xxl-8 mt-3 mx-3">
     <div class="card-body pt-9 pb-0">
       <!--begin::Details-->
       <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
@@ -89,7 +89,7 @@
   </div>
   <!--end::Navbar-->
   <!--begin:::Tab content-->
-  <div class="tab-content" id="myTabContent">
+  <div class="tab-content mx-3" id="myTabContent">
     <!--begin:::Tab pane-->
     <div class="tab-pane fade show active" id="kt_customer_view_overview_tab" role="tabpanel">
       <div>

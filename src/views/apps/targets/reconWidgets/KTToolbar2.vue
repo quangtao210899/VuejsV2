@@ -1,21 +1,31 @@
 <template>
     <div class="py-3 mb-5 bg-body" id="kt_subheader" style="box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);">
         <div id="kt_app_toolbar_container"
-            class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap" :class="{
+            class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap h-30px" :class="{
                 'container-fluid': toolbarWidthFluid,
                 'container-xxl': !toolbarWidthFluid,
             }">
             <!--begin::Details-->
-            <KTPageTitle @handle-search="handleSearch" :disabled="disabled" />
+            <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch" :disabled="disabled" :check-search="checkSearch" />
             <!--end::Details-->
 
             <!--begin::Toolbar-->
             <div class="d-flex align-items-center py-1">
+                <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formBack"
+                    class="btn btn-light font-weight-bold py-2 px-5 ">
+                    Quay Lại
+                </router-link>
+
+                <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formSubmit"
+                    class="btn btn-primary font-weight-bold py-2 px-5 ms-2">
+                    {{ (typeText == 'Thêm mới') ? 'Gửi' : typeText }}
+                </router-link>
+
                 <!--begin::Button-->
                 <template v-if="idsDelete.length == 0">
                     <router-link v-if="addNew != ''" :to="addNew" :disabled="disabled"
                         class="btn btn-light-primary font-weight-bold py-2 px-5 ml-2">
-                        Thêm Mới
+                        Thêm
                     </router-link>
                 </template>
                 <template v-else>
@@ -57,14 +67,26 @@ export default defineComponent({
         addNew: { type: String, required: false, default: '' },
         disabled: { type: Boolean, required: false, default: false },
         idsDelete: { type: Array, required: false, default: [] },
+        checkSearch: { type: Boolean, required: false, default: false },
+        checkBack: { type: Boolean, required: false, default: false },
+        checkSubmit: { type: Boolean, required: false, default: false },
+        typeText: { type: String, required: false, default: 'Gửi' },
     },
     emits: [
         "handle-delete-selectd",
-        "handle-search"
+        "handle-search",
+        "form-back",
+        "form-submit"
     ],
     setup(props, { emit }) {
         const handleSearch = (search: any) => {
             emit("handle-search", search);
+        }
+        const formBack = (back: any) => {
+            emit("form-back", back);
+        }
+        const formSubmit = (submit: any) => {
+            emit("form-submit", submit);
         }
         const deleteSelectd = () => {
             ElMessageBox.confirm(
@@ -89,6 +111,8 @@ export default defineComponent({
             toolbarWidthFluid,
             deleteSelectd,
             handleSearch,
+            formBack,
+            formSubmit,
         };
     },
 });

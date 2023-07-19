@@ -37,6 +37,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-form/:id",
+        name: "target-form",
+        component: () => import("@/views/apps/targets/TargetForm.vue"),
+        meta: {
+          pageTitle: "Chi tiết mục tiêu",
+          breadcrumbs: ["Target", "TargetForm"],
+          links: ["/target-list"],
+        },
+      },
+      {
         path: "/target-recons/:id",
         name: "target-recon",
         component: () => import("@/views/apps/targets/TargetReconList.vue"),

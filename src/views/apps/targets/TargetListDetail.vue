@@ -219,13 +219,13 @@ export default defineComponent({
 
         // xóa 
         const multipleTableRef = ref<InstanceType<typeof ElTable>>()
-        const router = useRouter();
+        // const router = useRouter();
 
         // handleCurrentChange
         const handleCurrentChange = (data: any) => {
             console.log(data.id)
             if(data){
-                return router.push({ name: 'target-detail', params: { id: data.id } });
+                // return router.push({ name: 'target-detail', params: { id: data.id } });
             }
             return;
         }

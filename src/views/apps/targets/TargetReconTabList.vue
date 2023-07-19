@@ -1,936 +1,189 @@
 <template>
     <!--begin::Navbar-->
-    <div class="mb-3 me-2 position-relative position-repository bg-white rounded-3">
-        <!--begin::Card header-->
-        <div class="card-header border-0 p-0 position-absolute end-0 pe-1 position-sm-top">
-            <!--begin::Card toolbar-->
-            <div class="card-toolbar">
-                <div class="d-flex justify-content-end w-100">
-                    <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
-                        icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
-                        @cancel="cancelEvent">
-                        <template #reference>
-                            <button type="button" :disabled="checkDisabled"
-                                class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
-                                <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy bỏ
-                            </button>
-                        </template>
-                    </el-popconfirm>
-                    <button v-if="reconStatus == 5" type="button" @click="handlePauser"
-                        :disabled="(checkDisabled || checkStatus)"
-                        class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
-                        <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
-                        <span class="text-primary"> Tiếp tục</span>
-                    </button>
-                    <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
-                        class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
-                        <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
-                        <span class="text-danger">Tạm dừng</span>
-                    </button>
-                    <button type="button" :disabled="(reconStatus != 3 || checkDisabled) ? true : false"
-                        @click="fileDownVisible = true"
-                        class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
-                        <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
-                        Xuất kết quả
-                    </button>
-                </div>
-            </div>
-            <!--end::Card toolbar-->
-        </div>
-        <!--end::Card header-->
-        <div class="row px-2 h-md-50px align-items-center ">
-            <div class="col-sm-12 col-md-8 py-2">
-                <div class="row">
-                    <div class="col-6">
-                        <div>
-                            <span class="w-70px">Mục tiêu : </span>
-                            <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div>
-                            <span class="w-70px">Nhóm mục tiêu : </span>
-                            <span class="fw-bold">{{ targets.group.title }}</span>
-                        </div>
+    <div class="px-3 pt-5 h-100">
+        <div class="mb-3 me-2 position-relative position-repository bg-white rounded-3 ">
+            <!--begin::Card header-->
+            <div class="card-header border-0 p-0 position-absolute end-0 pe-1 position-sm-top">
+                <!--begin::Card toolbar-->
+                <div class="card-toolbar">
+                    <div class="d-flex justify-content-end w-100">
+                        <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
+                            icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
+                            @cancel="cancelEvent">
+                            <template #reference>
+                                <button type="button" :disabled="checkDisabled"
+                                    class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
+                                    <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy bỏ
+                                </button>
+                            </template>
+                        </el-popconfirm>
+                        <button v-if="reconStatus == 5" type="button" @click="handlePauser"
+                            :disabled="(checkDisabled || checkStatus)"
+                            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                            <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
+                            <span class="text-primary"> Tiếp tục</span>
+                        </button>
+                        <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
+                            class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                            <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
+                            <span class="text-danger">Tạm dừng</span>
+                        </button>
+                        <button type="button" :disabled="(reconStatus != 3 || checkDisabled) ? true : false"
+                            @click="fileDownVisible = true"
+                            class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                            <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
+                            Xuất kết quả
+                        </button>
                     </div>
                 </div>
+                <!--end::Card toolbar-->
             </div>
-            <div class="col-sm-12 col-md-4 text-end ms-auto py-2">
-                <div class="d-flex justify-content-sm-start justify-content-md-end">
+            <!--end::Card header-->
+            <div class="row px-2 h-md-50px align-items-center ">
+                <div class="col-sm-12 col-md-8 py-2">
+                    <div class="row">
+                        <div class="col-6">
+                            <div>
+                                <span class="w-70px">Mục tiêu : </span>
+                                <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <span class="w-70px">Nhóm mục tiêu : </span>
+                                <span class="fw-bold">{{ targets.group.title }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 text-end ms-auto py-2">
+                    <div class="d-flex justify-content-sm-start justify-content-md-end">
 
-                    <!--begin::Select-->
-                    <el-button class="me-2" type="primary" :icon="RefreshIcon" @click="reloadData" :loading="disabled"
-                        :loading-icon="RefreshIcon">Tải lại</el-button>
-                    <!--end::Select-->
+                        <!--begin::Select-->
+                        <el-button class="me-2" type="primary" :icon="RefreshIcon" @click="reloadData" :loading="disabled"
+                            :loading-icon="RefreshIcon">Tải lại</el-button>
+                        <!--end::Select-->
 
-                    <!--begin::Select-->
-                    <el-select v-model="eventTime" class="d-block w-150px" as="select">
-                        <el-option value="300000" key="300000" label="5 phút" />
-                        <el-option value="60000" key="60000" label="1 phút" />
-                        <el-option value="30000" key="30000" label="30 giây" />
-                        <el-option value="15000" key="15000" label="15 giây" />
-                        <el-option value="5000" key="5000" label="5 giây" />
-                    </el-select>
-                    <!--end::Select-->
+                        <!--begin::Select-->
+                        <el-select v-model="eventTime" class="d-block w-150px" as="select">
+                            <el-option value="300000" key="300000" label="5 phút" />
+                            <el-option value="60000" key="60000" label="1 phút" />
+                            <el-option value="30000" key="30000" label="30 giây" />
+                            <el-option value="15000" key="15000" label="15 giây" />
+                            <el-option value="5000" key="5000" label="5 giây" />
+                        </el-select>
+                        <!--end::Select-->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--end::Navbar-->
+        <!--end::Navbar-->
 
-    <!--begin::Card-->
-    <div class="">
-        <el-scrollbar class="rounded-3 height-repository" :noresize="true" min-size="10" :native="true"
-            wrap-class="w-100 overflow-x-auto pe-1">
-            <el-row :gutter="10">
-                <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8" class="mb-3 mx-0">
-                    <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 5px' }">
-                        <reconActivity :activitieLine="activities" :activity="activity" chartHeight="300"
-                            :process="process"></reconActivity>
-                    </el-card>
-                </el-col>
-                <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16" class="d-grid">
-                    <el-row :gutter="10">
-                        <el-col :span="6" class="mb-3 mx-0">
-                            <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 10px' }">
-                                <!--begin::Label-->
-                                <div class="fs-7 text-muted fw-semobold">Subdomains</div>
-                                <!--end::Label-->
-                                <!--begin::Stat-->
-                                <div class="d-flex align-items-start flex-wrap">
-                                    <div class="fs-2x fw-bold me-2">{{ subdomain.total_subdomain }}</div>
-                                    <!--begin::Badge-->
-                                    <span class="badge badge-light-success fs-base">
-                                        <KTIcon icon-name="notification-bing" icon-class="fs-5 text-success ms-n1" />
-                                        <span class="fs-7 text-success">{{ subdomain.total_subdomain_live }} Alive</span>
-                                    </span>
-                                    <!--end::Badge-->
-                                </div>
-
-                            </el-card>
-                        </el-col>
-                        <el-col :span="6" class="mb-3 mx-0">
-                            <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
-                                <!--begin::Label-->
-                                <div class="fs-7 text-muted fw-semobold">Endpoints</div>
-                                <!--end::Label-->
-                                <!--begin::Stat-->
-                                <div class="d-flex align-items-start flex-wrap">
-                                    <div class="fs-2x fw-bold me-2">{{ endpoint.message.total_endpoint }}</div>
-                                    <!--begin::Badge-->
-                                    <span class="badge badge-light-success fs-base">
-                                        <KTIcon icon-name="notification-bing" icon-class="fs-5 text-success ms-n1" />
-                                        <span class="fs-7 text-success">{{ endpoint.message.total_endpoint_live }}
-                                            Alive</span>
-                                    </span>
-                                    <!--end::Badge-->
-                                </div>
-                            </el-card>
-                        </el-col>
-                        <el-col :span="6" class="mb-3 mx-0">
-                            <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
-                                <!--begin::Label-->
-                                <div class="fs-7 text-muted fw-semobold">Services</div>
-                                <!--end::Label-->
-                                <!--begin::Stat-->
-                                <div class="">
-                                    <div class="fs-2x fw-bold me-2">{{ services.total }}</div>
-                                </div>
-                                <div>
-                                    <span class="badge badge-light-primary me-1">Open: {{ services.total_open }}</span>
-                                    <span class="badge badge-light-danger">Closed: {{ services.total_close }}</span>
-                                </div>
-                            </el-card>
-                        </el-col>
-                        <el-col :span="6" class="mb-3 mx-0">
-                            <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
-                                <!--begin::Label-->
-                                <div class="fs-7 text-muted fw-semobold">Tài khoản</div>
-                                <!--end::Label-->
-                                <!--begin::Stat-->
-
-                                <!--begin::Stats-->
-                                <div class="d-flex flex-wrap">
+        <!--begin::Card-->
+        <div class="">
+            <el-scrollbar class="rounded-3 height-repository" :noresize="true" min-size="10" :native="true"
+                wrap-class="w-100 overflow-x-auto pe-1">
+                <el-row :gutter="10">
+                    <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8" class="mb-3 mx-0">
+                        <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 5px' }">
+                            <reconActivity :activitieLine="activities" :activity="activity" chartHeight="300"
+                                :process="process"></reconActivity>
+                        </el-card>
+                    </el-col>
+                    <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16" class="d-grid">
+                        <el-row :gutter="10">
+                            <el-col :span="6" class="mb-3 mx-0">
+                                <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 10px' }">
+                                    <!--begin::Label-->
+                                    <div class="fs-7 text-muted fw-semobold">Subdomains</div>
+                                    <!--end::Label-->
                                     <!--begin::Stat-->
-                                    <div
-                                        class="border border-gray-300 border-dashed rounded min-w-80px py-1 px-2 me-2 mb-2 ">
-                                        <div class="fw-semobold fs-7 text-gray-800"><span class="text-info fw-bold fs-6">{{
-                                            account.email }} </span> Địa chỉ Email</div>
+                                    <div class="d-flex align-items-start flex-wrap">
+                                        <div class="fs-2x fw-bold me-2">{{ subdomain.total_subdomain }}</div>
+                                        <!--begin::Badge-->
+                                        <span class="badge badge-light-success fs-base">
+                                            <KTIcon icon-name="notification-bing" icon-class="fs-5 text-success ms-n1" />
+                                            <span class="fs-7 text-success">{{ subdomain.total_subdomain_live }} Alive</span>
+                                        </span>
+                                        <!--end::Badge-->
                                     </div>
-                                    <!--end::Stat-->
 
+                                </el-card>
+                            </el-col>
+                            <el-col :span="6" class="mb-3 mx-0">
+                                <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
+                                    <!--begin::Label-->
+                                    <div class="fs-7 text-muted fw-semobold">Endpoints</div>
+                                    <!--end::Label-->
                                     <!--begin::Stat-->
-                                    <div
-                                        class="border border-gray-300 border-dashed rounded min-w-80px py-1 px-2 me-2 mb-2">
-                                        <div class="fw-semobold fs-7 text-gray-800"><span class="text-info fw-bold fs-6">{{
-                                            account.credentials }} </span> Credentials</div>
+                                    <div class="d-flex align-items-start flex-wrap">
+                                        <div class="fs-2x fw-bold me-2">{{ endpoint.message.total_endpoint }}</div>
+                                        <!--begin::Badge-->
+                                        <span class="badge badge-light-success fs-base">
+                                            <KTIcon icon-name="notification-bing" icon-class="fs-5 text-success ms-n1" />
+                                            <span class="fs-7 text-success">{{ endpoint.message.total_endpoint_live }}
+                                                Alive</span>
+                                        </span>
+                                        <!--end::Badge-->
                                     </div>
-                                    <!--end::Stat-->
-                                </div>
-                                <!--end::Stats-->
-                            </el-card>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="10">
-                        <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb-3 mx-0">
-                            <el-card shadow="hover" class="box-card rounded-3 h-100 "
-                                :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
-                                <template #header>
-                                    <div class="card-header">
-                                        <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về Domain</span>
+                                </el-card>
+                            </el-col>
+                            <el-col :span="6" class="mb-3 mx-0">
+                                <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
+                                    <!--begin::Label-->
+                                    <div class="fs-7 text-muted fw-semobold">Services</div>
+                                    <!--end::Label-->
+                                    <!--begin::Stat-->
+                                    <div class="">
+                                        <div class="fs-2x fw-bold me-2">{{ services.total }}</div>
                                     </div>
-                                </template>
-                                <div class="h-500px">
-                                    <template v-if="domain_info_status == 3">
-                                        <template v-if="domain_info == '' || Object.keys(domain_info).length == 0">
-                                            <div
-                                                class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                                <div class="text-center mb-5">
-                                                    <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                                </div>
-                                                <span>Không tìm thấy dữ liệu nào!</span>
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <el-tabs tab-position="left" type="border-card" :stretch="true"
-                                                class="demo-tabs2 padding-tabs border border-0 h-100" :lazy="true">
-                                                <el-tab-pane v-for="(items, index) in domain_info" :key="index" class="h-100">
-                                                    <template #label>
-                                                        <span class="custom-tabs-label text-capitalize">
-                                                            <span>{{ convertToString(index) }}</span>
-                                                        </span>
-                                                    </template>
-                                                    <div class="">
-                                                        <template v-if="items == '' || items == null">
-                                                            <div
-                                                                class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                                                <div class="text-center mb-5">
-                                                                    <i
-                                                                        class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                                                </div>
-                                                                <span>Không tìm thấy dữ liệu nào!</span>
-                                                            </div>
-                                                        </template>
-                                                        <template v-else>
-                                                            <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-500px">
-                                                                <!--begin::Table-->
-                                                                <table class="table table-row-dashed table-row-gray-300 ">
-                                                                    <!--begin::Table head-->
-                                                                    <!--begin::Table body-->
-                                                                    <tbody class="overflow-y-auto w-100">
-                                                                        <tr v-for="(item, key) in items" :key="key">
-                                                                            <td class="text-start"><span>{{ key }}</span>
-                                                                            </td>
-                                                                            <td class="text-start">
-                                                                                <template v-if="checkArray(item) == true">
-                                                                                    <template v-for="el in item">
-                                                                                        <span
-                                                                                            class="badge badge-light-primary me-2 my-1">{{
-                                                                                                el }}</span>
-                                                                                    </template>
-                                                                                </template>
-                                                                                <template v-else>
-                                                                                    <span>{{ item }}</span>
-                                                                                </template>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <!--end::Table body-->
-                                                                </table>
-                                                                <!--end::Table-->
-                                                            </div>
-                                                            <!--end::Table container-->
-                                                        </template>
+                                    <div>
+                                        <span class="badge badge-light-primary me-1">Open: {{ services.total_open }}</span>
+                                        <span class="badge badge-light-danger">Closed: {{ services.total_close }}</span>
+                                    </div>
+                                </el-card>
+                            </el-col>
+                            <el-col :span="6" class="mb-3 mx-0">
+                                <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
+                                    <!--begin::Label-->
+                                    <div class="fs-7 text-muted fw-semobold">Tài khoản</div>
+                                    <!--end::Label-->
+                                    <!--begin::Stat-->
 
-                                                    </div>
-                                                </el-tab-pane>
-                                            </el-tabs>
-                                        </template>
-                                    </template>
-                                    <template v-else-if="domain_info_status == 4">
-                                        <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
-                                            <div class="text-center mb-5">
-                                                <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
-                                            </div>
-                                            <div class="" v-html="linkCheck"></div>
+                                    <!--begin::Stats-->
+                                    <div class="d-flex flex-wrap">
+                                        <!--begin::Stat-->
+                                        <div
+                                            class="border border-gray-300 border-dashed rounded min-w-80px py-1 px-2 me-2 mb-2 ">
+                                            <div class="fw-semobold fs-7 text-gray-800"><span class="text-info fw-bold fs-6">{{
+                                                account.email }} </span> Địa chỉ Email</div>
+                                        </div>
+                                        <!--end::Stat-->
+
+                                        <!--begin::Stat-->
+                                        <div
+                                            class="border border-gray-300 border-dashed rounded min-w-80px py-1 px-2 me-2 mb-2">
+                                            <div class="fw-semobold fs-7 text-gray-800"><span class="text-info fw-bold fs-6">{{
+                                                account.credentials }} </span> Credentials</div>
+                                        </div>
+                                        <!--end::Stat-->
+                                    </div>
+                                    <!--end::Stats-->
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                        <el-row :gutter="10">
+                            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb-3 mx-0">
+                                <el-card shadow="hover" class="box-card rounded-3 h-100 "
+                                    :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
+                                    <template #header>
+                                        <div class="card-header">
+                                            <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về Domain</span>
                                         </div>
                                     </template>
-                                    <template v-else-if="domain_info_status == 0">
-                                        <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
-                                            <div class="text-center mb-5">
-                                                <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
-                                            </div>
-                                            <div class="text-center">{{ domain_info }}</div>
-                                        </div>
-                                    </template>
-                                    <template v-else>
-                                        <div class="mt-5 m-3">
-                                            <el-skeleton :rows="7" animated />
-                                        </div>
-                                    </template>
-                                </div>
-                            </el-card>
-                        </el-col>
-                        <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb-3 mx-0">
-                            <el-card shadow="hover" class="box-card rounded-3 h-100 "
-                                :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
-                                <template #header>
-                                    <div class="card-header">
-                                        <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về IP</span>
-                                    </div>
-                                </template>
-                                <div class="h-500px">
-                                    <template v-if="ip_info_status == 3">
-                                        <template v-if="ip_info == '' || Object.keys(ip_info).length == 0">
-                                            <div
-                                                class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                                <div class="text-center mb-5">
-                                                    <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                                </div>
-                                                <span>Không tìm thấy dữ liệu nào!</span>
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <el-tabs tab-position="left" type="border-card" :stretch="true"
-                                                class="demo-tabs padding-tabs border border-0 h-100" :lazy="true">
-                                                <el-tab-pane v-for="(items, index) in ip_info" :key="index" class="h-100">
-                                                    <template #label>
-                                                        <span class="custom-tabs-label text-capitalize">
-                                                            <span>{{ convertToString(index) }}</span><br>
-                                                        </span>
-                                                    </template>
-                                                    <div class="">
-                                                        <template v-if="items == '' || items == null">
-                                                            <div
-                                                                class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                                                <div class="text-center mb-5">
-                                                                    <i
-                                                                        class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                                                </div>
-                                                                <span>Không tìm thấy dữ liệu nào!</span>
-                                                            </div>
-                                                        </template>
-                                                        <template v-else>
-                                                            <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-500px">
-                                                                <!--begin::Table-->
-                                                                <table class="table table-row-dashed table-row-gray-300 ">
-                                                                    <!--begin::Table body-->
-                                                                    <tbody class="overflow-y-auto w-100">
-                                                                        <tr v-for="(item, key) in items" :key="key">
-                                                                            <td class="text-start"><span>{{ checkString(key)
-                                                                            }}</span>
-                                                                            </td>
-                                                                            <td v-if="checkArray(item) == true"
-                                                                                class="text-start">
-                                                                                <div class="d-flex flex-column">
-                                                                                    <template v-for="(el, i) in item"
-                                                                                        :key="i">
-                                                                                        <template
-                                                                                            v-if="checkArray(el) == true">
-                                                                                            <li v-for="(e, j) in el"
-                                                                                                :key="j"
-                                                                                                class="d-flex align-items-center py-2">
-                                                                                                <template
-                                                                                                    v-if="checkArray(e) == true">
-                                                                                                    <span
-                                                                                                        class="bullet bullet-dot bg-success me-5"></span>
-                                                                                                    <div
-                                                                                                        class="d-flex align-items-start">
-                                                                                                        <span>{{ j }} :
-                                                                                                        </span>
-                                                                                                        <div>
-                                                                                                            <span
-                                                                                                                v-for="q in e"
-                                                                                                                :key="q"
-                                                                                                                :class="(q == '' || q == null) ? 'text-danger' : ''"
-                                                                                                                class="badge badge-light-primary ms-2">
-                                                                                                                {{ (q == ''
-                                                                                                                    || q
-                                                                                                                    ==
-                                                                                                                    null) ?
-                                                                                                                    ' None...' :
-                                                                                                                    q }}
-                                                                                                            </span>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </template>
-                                                                                                <template v-else>
-                                                                                                    <div>
-                                                                                                        <span
-                                                                                                            class="bullet bullet-dot bg-success me-5"></span>
-                                                                                                        {{ j }} :
-                                                                                                        <span
-                                                                                                            :class="(e == '' || e == null) ? 'text-danger' : ''">
-                                                                                                            {{ (e == '' || e
-                                                                                                                == null) ?
-                                                                                                                'None...' : e }}
-                                                                                                        </span>
-                                                                                                    </div>
-
-                                                                                                </template>
-                                                                                            </li>
-                                                                                        </template>
-                                                                                        <template v-else>
-                                                                                            <li
-                                                                                                class="d-flex align-items-center py-2">
-                                                                                                <span
-                                                                                                    :class="(el == '' || el == null) ? 'text-danger' : ''"
-                                                                                                    class="bullet bullet-dot bg-success me-5">
-                                                                                                </span>
-                                                                                                {{ i }} :
-                                                                                                <span class="ms-1"
-                                                                                                    :class="(el == '' || el == null) ? 'text-danger' : ''">
-                                                                                                    {{ (el == '' || el ==
-                                                                                                        null) ? 'None...' : el
-                                                                                                    }}
-                                                                                                </span>
-                                                                                            </li>
-                                                                                        </template>
-                                                                                    </template>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td v-else class="text-start">
-                                                                                <span
-                                                                                    :class="(item == '' || item == null) ? 'text-danger' : ''">
-                                                                                    {{ (item == '' || item == null) ?
-                                                                                        'None...' :
-                                                                                        item
-                                                                                    }}</span>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <!--end::Table body-->
-                                                                </table>
-                                                                <!--end::Table-->
-                                                            </div>
-                                                            <!--end::Table container-->
-                                                        </template>
-                                                    </div>
-                                                </el-tab-pane>
-                                            </el-tabs>
-                                        </template>
-                                    </template>
-                                    <template v-else-if="ip_info_status == 4">
-                                        <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
-                                            <div class="text-center mb-5">
-                                                <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
-                                            </div>
-                                            <div class="" v-html="linkCheckIP"></div>
-                                        </div>
-                                    </template>
-                                    <template v-else-if="ip_info_status == 0">
-                                        <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
-                                            <div class="text-center mb-5">
-                                                <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
-                                            </div>
-                                            <div class="text-center">{{ ip_info }}</div>
-                                        </div>
-                                    </template>
-                                    <template v-else>
-                                        <div class="mt-5 m-3">
-                                            <el-skeleton :rows="7" animated />
-                                        </div>
-                                    </template>
-
-                                </div>
-                            </el-card>
-                        </el-col>
-                    </el-row>
-                </el-col>
-            </el-row>
-            <el-row :gutter="10">
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
-                    <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
-                        <template #header>
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch vụ</span>
-                                <span class="badge badge-circle badge-success ms-2">
-                                    {{ (port_service_status == 3 && checkArray(port_service) == true) ?
-                                        Object.keys(port_service).length : 0 }}</span>
-                            </div>
-                        </template>
-                        <div class="h-500px">
-                            <template v-if="port_service_status == 3">
-                                <template v-if="port_service == '' || Object.keys(port_service).length == 0">
-                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                        <div class="text-center mb-5">
-                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                        </div>
-                                        <span>Không tìm thấy dữ liệu nào!</span>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="p-5">
-                                        <!-- <el-popover v-for="(item, key) in port_service" :key="key" 
-                                        :placement="(key == 0) ? 'bottom-start' : 'bottom'" :width="300" trigger="click">
-                                            <template #reference>
-                                                <span  class="badge badge-primary fs-7 me-2 my-1 cursor-pointer">{{ item }}</span>
-                                            </template>
-                                            <div>123</div>
-                                        </el-popover>
-                                        <br> -->
-                                        <el-popover v-for="(item, key) in port_service" :key="key" placement="bottom"
-                                            :width="250" trigger="click">
-                                            <template #reference>
-                                                <el-tag :key="key" :type="(item.status == false) ? 'danger' : 'primary'"
-                                                    class="mx-1 my-1 cursor-pointer" effect="dark" round>
-                                                    {{ key }}
-                                                </el-tag>
-                                            </template>
-                                            <!--begin::Table container-->
-                                            <div class="mh-300px overflow-y-auto">
-                                                <div class="pb-2 mt-2">
-                                                    <h4 class="fs-4">Details for Post: {{ key.toString().split("/")[0] }}
-                                                    </h4>
-                                                    <span class="fs-7">Total
-                                                        <span class="fw-bold text-dark">{{ Object.keys(item.ips).length
-                                                        }}</span>
-                                                        IP Addresses have Port
-                                                        <span class="fw-bold text-dark">{{ key.toString().split("/")[0]
-                                                        }}</span></span>
-                                                </div>
-                                                <div class="d-flex flex-column my-3 ms-2">
-                                                    <li v-for="(i, key) in  item.ips" :key="key"
-                                                        class="d-flex align-items-center py-2">
-                                                        <span :class="`bg-${(i == true) ? 'primary' : 'danger'}`"
-                                                            class="bullet bullet-dot me-5 h-7px w-7px"></span>
-                                                        <!-- <span :class="`fs-7 badge badge-light-${(item.status == false) ? 'danger' : 'primary'}`">
-                                                        {{ i }}</span> -->
-                                                        <span class="fs-6">{{ key }}</span>
-                                                    </li>
-                                                </div>
-                                            </div>
-                                            <!--end::Table container-->
-                                        </el-popover>
-
-                                    </div>
-                                </template>
-                            </template>
-                            <template v-else-if="port_service_status == 4">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
-                                    </div>
-                                    <div class="" v-html="port_service"></div>
-                                </div>
-                            </template>
-                            <template v-else-if="port_service_status == 0">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
-                                    </div>
-                                    <div class="text-center">{{ port_service }}</div>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div class="mt-5 m-3">
-                                    <el-skeleton :rows="7" animated />
-                                </div>
-                            </template>
-                        </div>
-                    </el-card>
-                </el-col>
-
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
-                    <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
-                        <template #header>
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <span class="card-label fw-bold text-gray-800 fs-5">Email liên quan</span>
-                                <span class="badge badge-circle badge-success ms-2">
-                                    {{ (related_email_status == 3 && checkArray(related_email) == true) ?
-                                        Object.keys(related_email).length : 0 }}
-                                </span>
-                            </div>
-                        </template>
-                        <div class="h-500px">
-                            <template v-if="related_email_status == 3">
-                                <template v-if="related_email == '' || Object.keys(related_email).length == 0">
-                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                        <div class="text-center mb-5">
-                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                        </div>
-                                        <span>Không tìm thấy dữ liệu nào!</span>
-                                    </div>
-                                </template>
-                                <template v-else-if="!Array.isArray(related_email)">
-                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                        <div class="text-center mb-5">
-                                            <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
-                                        </div>
-                                        <span>{{ related_email }}</span>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <!--begin::Table container-->
-                                    <div class="table-responsive w-100 h-100 p-3">
-                                        <!--begin::Table-->
-                                        <table class="table table-row-dashed table-row-gray-300">
-                                            <!--begin::Table head-->
-                                            <thead>
-                                                <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                    <th class="py-2 px-0 text-start">Email</th>
-                                                    <th class="py-2 px-3 text-center">Password</th>
-                                                    <th class="py-2 px-3 text-end">Password Crack</th>
-                                                </tr>
-                                            </thead>
-                                            <!--end::Table head-->
-
-                                            <!--begin::Table body-->
-                                            <tbody class="overflow-y-auto w-100 ">
-                                                <tr v-for="(item, key) in related_email" :key="key">
-                                                    <td class="text-start"><span>
-                                                            <span>{{ (item.email == '') ? 'None...' : item.email }}</span>
-                                                        </span></td>
-                                                    <td class="text-center ">
-                                                        <template
-                                                            v-if="checkArray(item.password_crack) || item.password_crack != ''">
-                                                            <template v-if="checkArray(item.password_crack)">
-                                                                <span class="badge badge-light text-dark ms-1 mb-1"
-                                                                    v-for="i in item.password_crack">
-                                                                    {{ (i == '') ? 'None...' : i }}</span>
-                                                            </template>
-                                                            <template v-else>
-                                                                <span class="badge badge-light text-dark">
-                                                                    {{ item.password_crack }}
-                                                                </span>
-                                                            </template>
-                                                        </template>
-                                                        <template v-else>
-                                                            <span class="badge badge-light-danger ">--</span>
-                                                        </template>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <template
-                                                            v-if="checkArray(item.password_hash) || item.password_hash != ''">
-                                                            <template v-if="checkArray(item.password_hash)">
-                                                                <span class="badge badge-light text-dark ms-1 mb-1"
-                                                                    v-for="i in item.password_hash">
-                                                                    {{ (i == '') ? 'None...' : i }}</span>
-                                                            </template>
-                                                            <template v-else>
-                                                                <span class="badge badge-light text-dark">
-                                                                    {{ item.password_hash }}
-                                                                </span>
-                                                            </template>
-                                                        </template>
-                                                        <template v-else>
-                                                            <span class="badge badge-light-danger ">--</span>
-                                                        </template>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <!--end::Table body-->
-                                        </table>
-                                        <!--end::Table-->
-                                    </div>
-                                    <!--end::Table container-->
-                                </template>
-
-                            </template>
-                            <template v-else-if="related_email_status == 4">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
-                                    </div>
-                                    <div class="" v-html="related_email"></div>
-                                </div>
-                            </template>
-                            <template v-else-if="related_email_status == 0">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
-                                    </div>
-                                    <div class="text-center">{{ related_email }}</div>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div class="mt-5 m-3">
-                                    <el-skeleton :rows="7" animated />
-                                </div>
-                            </template>
-                        </div>
-                    </el-card>
-                </el-col>
-
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
-                    <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
-                        <template #header>
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <span class="card-label fw-bold text-gray-800 fs-5">Tên miền liên quan đến mục tiêu</span>
-                                <span class="badge badge-circle badge-success ms-2">
-                                    {{ (related_domain_status == 3 && checkArray(related_domain) == true) ?
-                                        Object.keys(related_domain).length : 0 }}
-                                </span>
-                            </div>
-                        </template>
-                        <div class="h-500px">
-                            <template v-if="related_domain_status == 3">
-                                <template v-if="related_domain == '' || Object.keys(related_domain).length == 0">
-                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                        <div class="text-center mb-5">
-                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-
-                                        </div>
-                                        <span>Không tìm thấy dữ liệu nào!</span>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <!--begin::Table container-->
-                                    <div class="table-responsive w-100 h-100 p-3">
-                                        <!--begin::Table-->
-                                        <table class="table table-row-dashed table-row-gray-300">
-                                            <!--begin::Table head-->
-                                            <thead>
-                                                <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                    <th class="py-2 px-0 text-start">Tên miền</th>
-                                                    <th class="py-2 px-3 text-start">Giao thức</th>
-                                                    <th class="py-2 px-3 text-end">Cùng dải mạng?</th>
-                                                </tr>
-                                            </thead>
-                                            <!--end::Table head-->
-
-                                            <!--begin::Table body-->
-                                            <tbody class="overflow-y-auto w-100 ">
-                                                <tr v-for="(item, key) in related_domain" :key="key">
-                                                    <td class="text-start"><span>{{ key }}</span></td>
-                                                    <td class="text-start">
-                                                        <span :class="`text-${(item.type == '') ? 'danger' : 'dark'}`">
-                                                            {{ (item.type == '') ? '--' : item.type }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="text-end">
-                                                        <span class="badge"
-                                                            :class="`badge-light-${(item.status == true) ? 'primary' : 'danger'}`">
-                                                            {{ item.status }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <!--end::Table body-->
-                                        </table>
-                                        <!--end::Table-->
-                                    </div>
-                                    <!--end::Table container-->
-                                </template>
-
-                            </template>
-                            <template v-else-if="related_domain_status == 4">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
-                                    </div>
-                                    <div class="" v-html="related_domain"></div>
-                                </div>
-                            </template>
-                            <template v-else-if="related_domain_status == 0">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
-                                    </div>
-                                    <div class="text-center">{{ related_domain }}</div>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div class="mt-5 m-3">
-                                    <el-skeleton :rows="7" animated />
-                                </div>
-                            </template>
-                        </div>
-                    </el-card>
-                </el-col>
-
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
-                    <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
-                        <template #header>
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <span class="card-label fw-bold text-gray-800 fs-5">Công nghệ sử dụng</span>
-                                <span class="badge badge-circle badge-success ms-2">
-                                    {{ (technology_status == 3 && checkArray(technology) == true) ?
-                                        Object.keys(technology).length : 0 }}
-                                </span>
-                            </div>
-                        </template>
-                        <div class="h-500px">
-                            <template v-if="technology_status == 3">
-                                <template v-if="technology == '' || Object.keys(technology).length == 0">
-                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                        <div class="text-center mb-5">
-                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                        </div>
-                                        <span>Không tìm thấy dữ liệu nào!</span>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="p-5">
-                                        <el-popover v-for="(item, key) in technology" :key="key" placement="top-start"
-                                            width="auto" trigger="hover" hide-after="100">
-                                            <template #reference>
-                                                <span @click="drawerTechnologys(item, key)"
-                                                    class="badge badge-light-primary fs-7 me-2 my-1 cursor-pointer">{{ key
-                                                    }}</span>
-                                            </template>
-                                            <div>
-                                                <span>Total number of subdomains: <span class="fw-bold fs-6 text-primary">{{
-                                                    Object.keys(item).length }}</span></span>
-                                            </div>
-                                        </el-popover>
-                                        <el-drawer v-model="drawerTechnology" title="I am the title" :with-header="false">
-                                            <div>
-                                                <h4>{{ detailTechnologyTitle }}</h4>
-                                                <span class="fs-7 mb-5 ">There Are
-                                                    <span class="fw-bold text-dark ">{{ Object.keys(detailTechnology).length
-                                                    }}</span>
-                                                    Technologies Used In Total
-                                                </span>
-                                            </div>
-                                            <div class="d-flex flex-column ms-2 my-5">
-                                                <li class="d-flex align-items-center py-2" v-for="el in detailTechnology"
-                                                    :key="el">
-                                                    <span class="bullet bullet-dot bg-success me-5 h-7px w-7px"></span> {{
-                                                        el }}
-                                                </li>
-                                            </div>
-                                        </el-drawer>
-                                    </div>
-                                </template>
-                            </template>
-                            <template v-else-if="technology_status == 4">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
-                                    </div>
-                                    <div class="" v-html="technology"></div>
-                                </div>
-                            </template>
-                            <template v-else-if="technology_status == 0">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
-                                    </div>
-                                    <div class="text-center">{{ technology }}</div>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div class="mt-5 m-3">
-                                    <el-skeleton :rows="7" animated />
-                                </div>
-                            </template>
-                        </div>
-                    </el-card>
-                </el-col>
-
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
-                    <el-card shadow="hover" class="box-card rounded-3 h-100 "
-                        :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
-                        <template #header>
-                            <div class="card-header">
-                                <span class="card-label fw-bold text-gray-800 fs-5">Metadata</span>
-                            </div>
-                        </template>
-                        <div class="h-500px">
-                            <template v-if="metadata_status == 3 || metadata_status == '3'">
-                                <template
-                                    v-if="metadata == '' || Object.values(metadata.authors).length == 0 && Object.values(metadata.software).length == 0">
-                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                        <div class="text-center mb-5">
-                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                        </div>
-                                        <span>Không tìm thấy dữ liệu nào!</span>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <el-tabs tab-position="left" type="border-card" :stretch="true"
-                                        class="demo-tabs3 padding-tabs border border-0 h-100" :lazy="true">
-                                        <el-tab-pane v-for="(items, index) in metadata" :key="index" class="h-100">
-                                            <template #label>
-                                                <span class="custom-tabs-label">
-                                                    <span>{{ index }}</span>
-                                                </span>
-                                            </template>
-                                            <div class="h-100">
-                                                <template v-if="items == '' || items == null">
-                                                    <div
-                                                        class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                                        <div class="text-center mb-5">
-                                                            <i
-                                                                class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
-                                                        </div>
-                                                        <span>Không tìm thấy dữ liệu nào!</span>
-                                                    </div>
-                                                </template>
-                                                <template v-else>
-                                                    <!--begin::Table container-->
-                                                    <div class="table-responsive w-100 ">
-                                                        <!--begin::Table-->
-                                                        <table class="table table-row-dashed table-row-gray-300 ">
-                                                            <!--begin::Table body-->
-                                                            <tbody class="overflow-y-auto w-100">
-                                                                <tr v-for="(item, key) in items" :key="key">
-                                                                    <td class="text-start">
-                                                                        <span>{{ item }}</span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                            <!--end::Table body-->
-                                                        </table>
-                                                        <!--end::Table-->
-                                                    </div>
-                                                    <!--end::Table container-->
-                                                </template>
-
-                                            </div>
-                                        </el-tab-pane>
-                                    </el-tabs>
-                                </template>
-                            </template>
-                            <template v-else-if="metadata_status == 4">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
-                                    </div>
-                                    <div class="" v-html="metadata"></div>
-                                </div>
-                            </template>
-                            <template v-else-if="metadata_status == 0">
-                                <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
-                                    </div>
-                                    <div class="text-center">{{ metadata }}</div>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div class="mt-5 m-3">
-                                    <el-skeleton :rows="7" animated />
-                                </div>
-                            </template>
-                        </div>
-                    </el-card>
-                </el-col>
-
-                <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
-                    <el-card shadow="hover" class="box-card rounded-3 h-100 "
-                        :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
-                        <template #header>
-                            <div class="card-header">
-                                <span class="card-label fw-bold text-gray-800 fs-5">Web Data</span>
-                            </div>
-                        </template>
-                        <div class="h-500px">
-                            <template v-if="webdata_status == 1 || webdata_status == '1'">
-                                <el-tabs tab-position="left" type="border-card" :stretch="true"
-                                    class="demo-tabs2 padding-tabs border border-0 h-100" :lazy="true">
-                                    <el-tab-pane class="h-100" v-for="(items, index) in webdata_result" :key="index">
-                                        <template #label>
-                                            <span class="custom-tabs-label w-90px" style="white-space:pre-wrap">
-                                                <span class="text-capitalize">{{ convertToString(index) }}</span>
-                                            </span>
-                                        </template>
-                                        <div class="h-100">
-                                            <template
-                                                v-if="(items.message == '' || items.message == null) && items.status == 3">
+                                    <div class="h-500px">
+                                        <template v-if="domain_info_status == 3">
+                                            <template v-if="domain_info == '' || Object.keys(domain_info).length == 0">
                                                 <div
                                                     class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                                     <div class="text-center mb-5">
@@ -940,295 +193,1043 @@
                                                 </div>
                                             </template>
                                             <template v-else>
-                                                <template v-if="checkArray(items.message) && items.status == 3">
-                                                    <!--begin::Table container-->
-                                                    <div class="table-responsive w-100 h-100 p-3">
-                                                        <!--begin::Table-->
-                                                        <table class="table table-row-dashed table-row-gray-300">
-                                                            <template v-if="index.toString() == 'js_analysis'">
-                                                                <thead>
-                                                                    <tr
-                                                                        class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                                        <th class="py-2 px-0 text-start">Thông tin</th>
-                                                                        <th class="py-2 px-3 text-start ">Dữ liệu
-                                                                        </th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <!--begin::Table body-->
-                                                                <tbody class="overflow-y-auto">
-                                                                    <tr v-for="(item, key) in items.message" :key="key">
-                                                                        <td class="text-start">
-                                                                            <span>{{ item[0] }}</span>
-                                                                        </td>
-                                                                        <td class="text-start">
-                                                                            <div
-                                                                                class="flex justify-space-between mb-4 flex-wrap gap-4 w-200px">
-                                                                                <el-button :disabled="disabled"
-                                                                                    class="m-0 me-2 border-0" circle>
-                                                                                    <i :disabled="disabled"
-                                                                                        class="fa-clipboard  fs-4 cursor-pointer"
-                                                                                        :class="(clipboard.includes(item[1]) ? 'fa-solid text-success' : ' fa-regular text-muted')"
-                                                                                        @click="copyContent(item[1])"></i>
-                                                                                </el-button>
-                                                                                <span>{{ truncateText(item[1], 20) }}</span>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                <!--end::Table body-->
+                                                <el-tabs tab-position="left" type="border-card" :stretch="true"
+                                                    class="demo-tabs2 padding-tabs border border-0 h-100" :lazy="true">
+                                                    <el-tab-pane v-for="(items, index) in domain_info" :key="index" class="h-100">
+                                                        <template #label>
+                                                            <span class="custom-tabs-label text-capitalize">
+                                                                <span>{{ convertToString(index) }}</span>
+                                                            </span>
+                                                        </template>
+                                                        <div class="">
+                                                            <template v-if="items == '' || items == null">
+                                                                <div
+                                                                    class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                                    <div class="text-center mb-5">
+                                                                        <i
+                                                                            class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                                                    </div>
+                                                                    <span>Không tìm thấy dữ liệu nào!</span>
+                                                                </div>
                                                             </template>
                                                             <template v-else>
+                                                                <!--begin::Table container-->
+                                                                <div class="table-responsive w-100 h-500px">
+                                                                    <!--begin::Table-->
+                                                                    <table class="table table-row-dashed table-row-gray-300 ">
+                                                                        <!--begin::Table head-->
+                                                                        <!--begin::Table body-->
+                                                                        <tbody class="overflow-y-auto w-100">
+                                                                            <tr v-for="(item, key) in items" :key="key">
+                                                                                <td class="text-start"><span>{{ key }}</span>
+                                                                                </td>
+                                                                                <td class="text-start">
+                                                                                    <template v-if="checkArray(item) == true">
+                                                                                        <template v-for="el in item">
+                                                                                            <span
+                                                                                                class="badge badge-light-primary me-2 my-1">{{
+                                                                                                    el }}</span>
+                                                                                        </template>
+                                                                                    </template>
+                                                                                    <template v-else>
+                                                                                        <span>{{ item }}</span>
+                                                                                    </template>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                        <!--end::Table body-->
+                                                                    </table>
+                                                                    <!--end::Table-->
+                                                                </div>
+                                                                <!--end::Table container-->
+                                                            </template>
+
+                                                        </div>
+                                                    </el-tab-pane>
+                                                </el-tabs>
+                                            </template>
+                                        </template>
+                                        <template v-else-if="domain_info_status == 4">
+                                            <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
+                                                <div class="text-center mb-5">
+                                                    <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                                </div>
+                                                <div class="" v-html="linkCheck"></div>
+                                            </div>
+                                        </template>
+                                        <template v-else-if="domain_info_status == 0">
+                                            <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
+                                                <div class="text-center mb-5">
+                                                    <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                                </div>
+                                                <div class="text-center">{{ domain_info }}</div>
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <div class="mt-5 m-3">
+                                                <el-skeleton :rows="7" animated />
+                                            </div>
+                                        </template>
+                                    </div>
+                                </el-card>
+                            </el-col>
+                            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb-3 mx-0">
+                                <el-card shadow="hover" class="box-card rounded-3 h-100 "
+                                    :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
+                                    <template #header>
+                                        <div class="card-header">
+                                            <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về IP</span>
+                                        </div>
+                                    </template>
+                                    <div class="h-500px">
+                                        <template v-if="ip_info_status == 3">
+                                            <template v-if="ip_info == '' || Object.keys(ip_info).length == 0">
+                                                <div
+                                                    class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                    <div class="text-center mb-5">
+                                                        <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                                    </div>
+                                                    <span>Không tìm thấy dữ liệu nào!</span>
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <el-tabs tab-position="left" type="border-card" :stretch="true"
+                                                    class="demo-tabs padding-tabs border border-0 h-100" :lazy="true">
+                                                    <el-tab-pane v-for="(items, index) in ip_info" :key="index" class="h-100">
+                                                        <template #label>
+                                                            <span class="custom-tabs-label text-capitalize">
+                                                                <span>{{ convertToString(index) }}</span><br>
+                                                            </span>
+                                                        </template>
+                                                        <div class="">
+                                                            <template v-if="items == '' || items == null">
+                                                                <div
+                                                                    class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                                    <div class="text-center mb-5">
+                                                                        <i
+                                                                            class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                                                    </div>
+                                                                    <span>Không tìm thấy dữ liệu nào!</span>
+                                                                </div>
+                                                            </template>
+                                                            <template v-else>
+                                                                <!--begin::Table container-->
+                                                                <div class="table-responsive w-100 h-500px">
+                                                                    <!--begin::Table-->
+                                                                    <table class="table table-row-dashed table-row-gray-300 ">
+                                                                        <!--begin::Table body-->
+                                                                        <tbody class="overflow-y-auto w-100">
+                                                                            <tr v-for="(item, key) in items" :key="key">
+                                                                                <td class="text-start"><span>{{ checkString(key)
+                                                                                }}</span>
+                                                                                </td>
+                                                                                <td v-if="checkArray(item) == true"
+                                                                                    class="text-start">
+                                                                                    <div class="d-flex flex-column">
+                                                                                        <template v-for="(el, i) in item"
+                                                                                            :key="i">
+                                                                                            <template
+                                                                                                v-if="checkArray(el) == true">
+                                                                                                <li v-for="(e, j) in el"
+                                                                                                    :key="j"
+                                                                                                    class="d-flex align-items-center py-2">
+                                                                                                    <template
+                                                                                                        v-if="checkArray(e) == true">
+                                                                                                        <span
+                                                                                                            class="bullet bullet-dot bg-success me-5"></span>
+                                                                                                        <div
+                                                                                                            class="d-flex align-items-start">
+                                                                                                            <span>{{ j }} :
+                                                                                                            </span>
+                                                                                                            <div>
+                                                                                                                <span
+                                                                                                                    v-for="q in e"
+                                                                                                                    :key="q"
+                                                                                                                    :class="(q == '' || q == null) ? 'text-danger' : ''"
+                                                                                                                    class="badge badge-light-primary ms-2">
+                                                                                                                    {{ (q == ''
+                                                                                                                        || q
+                                                                                                                        ==
+                                                                                                                        null) ?
+                                                                                                                        ' None...' :
+                                                                                                                        q }}
+                                                                                                                </span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </template>
+                                                                                                    <template v-else>
+                                                                                                        <div>
+                                                                                                            <span
+                                                                                                                class="bullet bullet-dot bg-success me-5"></span>
+                                                                                                            {{ j }} :
+                                                                                                            <span
+                                                                                                                :class="(e == '' || e == null) ? 'text-danger' : ''">
+                                                                                                                {{ (e == '' || e
+                                                                                                                    == null) ?
+                                                                                                                    'None...' : e }}
+                                                                                                            </span>
+                                                                                                        </div>
+
+                                                                                                    </template>
+                                                                                                </li>
+                                                                                            </template>
+                                                                                            <template v-else>
+                                                                                                <li
+                                                                                                    class="d-flex align-items-center py-2">
+                                                                                                    <span
+                                                                                                        :class="(el == '' || el == null) ? 'text-danger' : ''"
+                                                                                                        class="bullet bullet-dot bg-success me-5">
+                                                                                                    </span>
+                                                                                                    {{ i }} :
+                                                                                                    <span class="ms-1"
+                                                                                                        :class="(el == '' || el == null) ? 'text-danger' : ''">
+                                                                                                        {{ (el == '' || el ==
+                                                                                                            null) ? 'None...' : el
+                                                                                                        }}
+                                                                                                    </span>
+                                                                                                </li>
+                                                                                            </template>
+                                                                                        </template>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td v-else class="text-start">
+                                                                                    <span
+                                                                                        :class="(item == '' || item == null) ? 'text-danger' : ''">
+                                                                                        {{ (item == '' || item == null) ?
+                                                                                            'None...' :
+                                                                                            item
+                                                                                        }}</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                        <!--end::Table body-->
+                                                                    </table>
+                                                                    <!--end::Table-->
+                                                                </div>
+                                                                <!--end::Table container-->
+                                                            </template>
+                                                        </div>
+                                                    </el-tab-pane>
+                                                </el-tabs>
+                                            </template>
+                                        </template>
+                                        <template v-else-if="ip_info_status == 4">
+                                            <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
+                                                <div class="text-center mb-5">
+                                                    <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
+                                                </div>
+                                                <div class="" v-html="linkCheckIP"></div>
+                                            </div>
+                                        </template>
+                                        <template v-else-if="ip_info_status == 0">
+                                            <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center">
+                                                <div class="text-center mb-5">
+                                                    <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                                </div>
+                                                <div class="text-center">{{ ip_info }}</div>
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <div class="mt-5 m-3">
+                                                <el-skeleton :rows="7" animated />
+                                            </div>
+                                        </template>
+
+                                    </div>
+                                </el-card>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="10">
+                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
+                        <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
+                            <template #header>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch vụ</span>
+                                    <span class="badge badge-circle badge-success ms-2">
+                                        {{ (port_service_status == 3 && checkArray(port_service) == true) ?
+                                            Object.keys(port_service).length : 0 }}</span>
+                                </div>
+                            </template>
+                            <div class="h-500px">
+                                <template v-if="port_service_status == 3">
+                                    <template v-if="port_service == '' || Object.keys(port_service).length == 0">
+                                        <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                            <div class="text-center mb-5">
+                                                <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                            </div>
+                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <div class="p-5">
+                                            <!-- <el-popover v-for="(item, key) in port_service" :key="key" 
+                                            :placement="(key == 0) ? 'bottom-start' : 'bottom'" :width="300" trigger="click">
+                                                <template #reference>
+                                                    <span  class="badge badge-primary fs-7 me-2 my-1 cursor-pointer">{{ item }}</span>
+                                                </template>
+                                                <div>123</div>
+                                            </el-popover>
+                                            <br> -->
+                                            <el-popover v-for="(item, key) in port_service" :key="key" placement="bottom"
+                                                :width="250" trigger="click">
+                                                <template #reference>
+                                                    <el-tag :key="key" :type="(item.status == false) ? 'danger' : 'primary'"
+                                                        class="mx-1 my-1 cursor-pointer" effect="dark" round>
+                                                        {{ key }}
+                                                    </el-tag>
+                                                </template>
+                                                <!--begin::Table container-->
+                                                <div class="mh-300px overflow-y-auto">
+                                                    <div class="pb-2 mt-2">
+                                                        <h4 class="fs-4">Details for Post: {{ key.toString().split("/")[0] }}
+                                                        </h4>
+                                                        <span class="fs-7">Total
+                                                            <span class="fw-bold text-dark">{{ Object.keys(item.ips).length
+                                                            }}</span>
+                                                            IP Addresses have Port
+                                                            <span class="fw-bold text-dark">{{ key.toString().split("/")[0]
+                                                            }}</span></span>
+                                                    </div>
+                                                    <div class="d-flex flex-column my-3 ms-2">
+                                                        <li v-for="(i, key) in  item.ips" :key="key"
+                                                            class="d-flex align-items-center py-2">
+                                                            <span :class="`bg-${(i == true) ? 'primary' : 'danger'}`"
+                                                                class="bullet bullet-dot me-5 h-7px w-7px"></span>
+                                                            <!-- <span :class="`fs-7 badge badge-light-${(item.status == false) ? 'danger' : 'primary'}`">
+                                                            {{ i }}</span> -->
+                                                            <span class="fs-6">{{ key }}</span>
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                                <!--end::Table container-->
+                                            </el-popover>
+
+                                        </div>
+                                    </template>
+                                </template>
+                                <template v-else-if="port_service_status == 4">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                        </div>
+                                        <div class="" v-html="port_service"></div>
+                                    </div>
+                                </template>
+                                <template v-else-if="port_service_status == 0">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                        </div>
+                                        <div class="text-center">{{ port_service }}</div>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="mt-5 m-3">
+                                        <el-skeleton :rows="7" animated />
+                                    </div>
+                                </template>
+                            </div>
+                        </el-card>
+                    </el-col>
+
+                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
+                        <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
+                            <template #header>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Email liên quan</span>
+                                    <span class="badge badge-circle badge-success ms-2">
+                                        {{ (related_email_status == 3 && checkArray(related_email) == true) ?
+                                            Object.keys(related_email).length : 0 }}
+                                    </span>
+                                </div>
+                            </template>
+                            <div class="h-500px">
+                                <template v-if="related_email_status == 3">
+                                    <template v-if="related_email == '' || Object.keys(related_email).length == 0">
+                                        <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                            <div class="text-center mb-5">
+                                                <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                            </div>
+                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                        </div>
+                                    </template>
+                                    <template v-else-if="!Array.isArray(related_email)">
+                                        <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                            <div class="text-center mb-5">
+                                                <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                            </div>
+                                            <span>{{ related_email }}</span>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <!--begin::Table container-->
+                                        <div class="table-responsive w-100 h-100 p-3">
+                                            <!--begin::Table-->
+                                            <table class="table table-row-dashed table-row-gray-300">
+                                                <!--begin::Table head-->
+                                                <thead>
+                                                    <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
+                                                        <th class="py-2 px-0 text-start">Email</th>
+                                                        <th class="py-2 px-3 text-center">Password</th>
+                                                        <th class="py-2 px-3 text-end">Password Crack</th>
+                                                    </tr>
+                                                </thead>
+                                                <!--end::Table head-->
+
+                                                <!--begin::Table body-->
+                                                <tbody class="overflow-y-auto w-100 ">
+                                                    <tr v-for="(item, key) in related_email" :key="key">
+                                                        <td class="text-start"><span>
+                                                                <span>{{ (item.email == '') ? 'None...' : item.email }}</span>
+                                                            </span></td>
+                                                        <td class="text-center ">
+                                                            <template
+                                                                v-if="checkArray(item.password_crack) || item.password_crack != ''">
+                                                                <template v-if="checkArray(item.password_crack)">
+                                                                    <span class="badge badge-light text-dark ms-1 mb-1"
+                                                                        v-for="i in item.password_crack">
+                                                                        {{ (i == '') ? 'None...' : i }}</span>
+                                                                </template>
+                                                                <template v-else>
+                                                                    <span class="badge badge-light text-dark">
+                                                                        {{ item.password_crack }}
+                                                                    </span>
+                                                                </template>
+                                                            </template>
+                                                            <template v-else>
+                                                                <span class="badge badge-light-danger ">--</span>
+                                                            </template>
+                                                        </td>
+                                                        <td class="text-end">
+                                                            <template
+                                                                v-if="checkArray(item.password_hash) || item.password_hash != ''">
+                                                                <template v-if="checkArray(item.password_hash)">
+                                                                    <span class="badge badge-light text-dark ms-1 mb-1"
+                                                                        v-for="i in item.password_hash">
+                                                                        {{ (i == '') ? 'None...' : i }}</span>
+                                                                </template>
+                                                                <template v-else>
+                                                                    <span class="badge badge-light text-dark">
+                                                                        {{ item.password_hash }}
+                                                                    </span>
+                                                                </template>
+                                                            </template>
+                                                            <template v-else>
+                                                                <span class="badge badge-light-danger ">--</span>
+                                                            </template>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <!--end::Table body-->
+                                            </table>
+                                            <!--end::Table-->
+                                        </div>
+                                        <!--end::Table container-->
+                                    </template>
+
+                                </template>
+                                <template v-else-if="related_email_status == 4">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
+                                        </div>
+                                        <div class="" v-html="related_email"></div>
+                                    </div>
+                                </template>
+                                <template v-else-if="related_email_status == 0">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                        </div>
+                                        <div class="text-center">{{ related_email }}</div>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="mt-5 m-3">
+                                        <el-skeleton :rows="7" animated />
+                                    </div>
+                                </template>
+                            </div>
+                        </el-card>
+                    </el-col>
+
+                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
+                        <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
+                            <template #header>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Tên miền liên quan đến mục tiêu</span>
+                                    <span class="badge badge-circle badge-success ms-2">
+                                        {{ (related_domain_status == 3 && checkArray(related_domain) == true) ?
+                                            Object.keys(related_domain).length : 0 }}
+                                    </span>
+                                </div>
+                            </template>
+                            <div class="h-500px">
+                                <template v-if="related_domain_status == 3">
+                                    <template v-if="related_domain == '' || Object.keys(related_domain).length == 0">
+                                        <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                            <div class="text-center mb-5">
+                                                <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+
+                                            </div>
+                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <!--begin::Table container-->
+                                        <div class="table-responsive w-100 h-100 p-3">
+                                            <!--begin::Table-->
+                                            <table class="table table-row-dashed table-row-gray-300">
+                                                <!--begin::Table head-->
+                                                <thead>
+                                                    <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
+                                                        <th class="py-2 px-0 text-start">Tên miền</th>
+                                                        <th class="py-2 px-3 text-start">Giao thức</th>
+                                                        <th class="py-2 px-3 text-end">Cùng dải mạng?</th>
+                                                    </tr>
+                                                </thead>
+                                                <!--end::Table head-->
+
+                                                <!--begin::Table body-->
+                                                <tbody class="overflow-y-auto w-100 ">
+                                                    <tr v-for="(item, key) in related_domain" :key="key">
+                                                        <td class="text-start"><span>{{ key }}</span></td>
+                                                        <td class="text-start">
+                                                            <span :class="`text-${(item.type == '') ? 'danger' : 'dark'}`">
+                                                                {{ (item.type == '') ? '--' : item.type }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-end">
+                                                            <span class="badge"
+                                                                :class="`badge-light-${(item.status == true) ? 'primary' : 'danger'}`">
+                                                                {{ item.status }}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <!--end::Table body-->
+                                            </table>
+                                            <!--end::Table-->
+                                        </div>
+                                        <!--end::Table container-->
+                                    </template>
+
+                                </template>
+                                <template v-else-if="related_domain_status == 4">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
+                                        </div>
+                                        <div class="" v-html="related_domain"></div>
+                                    </div>
+                                </template>
+                                <template v-else-if="related_domain_status == 0">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                        </div>
+                                        <div class="text-center">{{ related_domain }}</div>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="mt-5 m-3">
+                                        <el-skeleton :rows="7" animated />
+                                    </div>
+                                </template>
+                            </div>
+                        </el-card>
+                    </el-col>
+
+                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
+                        <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
+                            <template #header>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Công nghệ sử dụng</span>
+                                    <span class="badge badge-circle badge-success ms-2">
+                                        {{ (technology_status == 3 && checkArray(technology) == true) ?
+                                            Object.keys(technology).length : 0 }}
+                                    </span>
+                                </div>
+                            </template>
+                            <div class="h-500px">
+                                <template v-if="technology_status == 3">
+                                    <template v-if="technology == '' || Object.keys(technology).length == 0">
+                                        <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                            <div class="text-center mb-5">
+                                                <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                            </div>
+                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <div class="p-5">
+                                            <el-popover v-for="(item, key) in technology" :key="key" placement="top-start"
+                                                width="auto" trigger="hover" hide-after="100">
+                                                <template #reference>
+                                                    <span @click="drawerTechnologys(item, key)"
+                                                        class="badge badge-light-primary fs-7 me-2 my-1 cursor-pointer">{{ key
+                                                        }}</span>
+                                                </template>
+                                                <div>
+                                                    <span>Total number of subdomains: <span class="fw-bold fs-6 text-primary">{{
+                                                        Object.keys(item).length }}</span></span>
+                                                </div>
+                                            </el-popover>
+                                            <el-drawer v-model="drawerTechnology" title="I am the title" :with-header="false">
+                                                <div>
+                                                    <h4>{{ detailTechnologyTitle }}</h4>
+                                                    <span class="fs-7 mb-5 ">There Are
+                                                        <span class="fw-bold text-dark ">{{ Object.keys(detailTechnology).length
+                                                        }}</span>
+                                                        Technologies Used In Total
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex flex-column ms-2 my-5">
+                                                    <li class="d-flex align-items-center py-2" v-for="el in detailTechnology"
+                                                        :key="el">
+                                                        <span class="bullet bullet-dot bg-success me-5 h-7px w-7px"></span> {{
+                                                            el }}
+                                                    </li>
+                                                </div>
+                                            </el-drawer>
+                                        </div>
+                                    </template>
+                                </template>
+                                <template v-else-if="technology_status == 4">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
+                                        </div>
+                                        <div class="" v-html="technology"></div>
+                                    </div>
+                                </template>
+                                <template v-else-if="technology_status == 0">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                        </div>
+                                        <div class="text-center">{{ technology }}</div>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="mt-5 m-3">
+                                        <el-skeleton :rows="7" animated />
+                                    </div>
+                                </template>
+                            </div>
+                        </el-card>
+                    </el-col>
+
+                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
+                        <el-card shadow="hover" class="box-card rounded-3 h-100 "
+                            :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
+                            <template #header>
+                                <div class="card-header">
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Metadata</span>
+                                </div>
+                            </template>
+                            <div class="h-500px">
+                                <template v-if="metadata_status == 3 || metadata_status == '3'">
+                                    <template
+                                        v-if="metadata == '' || Object.values(metadata.authors).length == 0 && Object.values(metadata.software).length == 0">
+                                        <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                            <div class="text-center mb-5">
+                                                <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                            </div>
+                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <el-tabs tab-position="left" type="border-card" :stretch="true"
+                                            class="demo-tabs3 padding-tabs border border-0 h-100" :lazy="true">
+                                            <el-tab-pane v-for="(items, index) in metadata" :key="index" class="h-100">
+                                                <template #label>
+                                                    <span class="custom-tabs-label">
+                                                        <span>{{ index }}</span>
+                                                    </span>
+                                                </template>
+                                                <div class="h-100">
+                                                    <template v-if="items == '' || items == null">
+                                                        <div
+                                                            class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                            <div class="text-center mb-5">
+                                                                <i
+                                                                    class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                                            </div>
+                                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                                        </div>
+                                                    </template>
+                                                    <template v-else>
+                                                        <!--begin::Table container-->
+                                                        <div class="table-responsive w-100 ">
+                                                            <!--begin::Table-->
+                                                            <table class="table table-row-dashed table-row-gray-300 ">
                                                                 <!--begin::Table body-->
-                                                                <tbody class="overflow-y-auto">
-                                                                    <tr v-for="(item, key) in items.message" :key="key">
-                                                                        <template v-if="checkArray(item)">
-                                                                            <td v-for="el in item" class="text-start">{{
-                                                                                el
-                                                                            }}</td>
-                                                                        </template>
-                                                                        <template v-else>
-                                                                            <td class="text-start">
-                                                                                <span>{{ item }}</span>
-                                                                            </td>
-                                                                        </template>
+                                                                <tbody class="overflow-y-auto w-100">
+                                                                    <tr v-for="(item, key) in items" :key="key">
+                                                                        <td class="text-start">
+                                                                            <span>{{ item }}</span>
+                                                                        </td>
                                                                     </tr>
                                                                 </tbody>
                                                                 <!--end::Table body-->
-                                                            </template>
-                                                        </table>
-                                                        <!--end::Table-->
-                                                    </div>
-                                                    <!--end::Table container-->
-                                                </template>
-                                                <template v-else>
-                                                    <div
-                                                        class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                                        <div class="mb-5">
-                                                            <i
-                                                                class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                                            </table>
+                                                            <!--end::Table-->
                                                         </div>
-                                                        <span>{{ items.message }}</span>
+                                                        <!--end::Table container-->
+                                                    </template>
+
+                                                </div>
+                                            </el-tab-pane>
+                                        </el-tabs>
+                                    </template>
+                                </template>
+                                <template v-else-if="metadata_status == 4">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <KTIcon icon-name="information-3" icon-class="fs-3x text-warning" />
+                                        </div>
+                                        <div class="" v-html="metadata"></div>
+                                    </div>
+                                </template>
+                                <template v-else-if="metadata_status == 0">
+                                    <div class="p-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
+                                        </div>
+                                        <div class="text-center">{{ metadata }}</div>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="mt-5 m-3">
+                                        <el-skeleton :rows="7" animated />
+                                    </div>
+                                </template>
+                            </div>
+                        </el-card>
+                    </el-col>
+
+                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
+                        <el-card shadow="hover" class="box-card rounded-3 h-100 "
+                            :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
+                            <template #header>
+                                <div class="card-header">
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Web Data</span>
+                                </div>
+                            </template>
+                            <div class="h-500px">
+                                <template v-if="webdata_status == 1 || webdata_status == '1'">
+                                    <el-tabs tab-position="left" type="border-card" :stretch="true"
+                                        class="demo-tabs2 padding-tabs border border-0 h-100" :lazy="true">
+                                        <el-tab-pane class="h-100" v-for="(items, index) in webdata_result" :key="index">
+                                            <template #label>
+                                                <span class="custom-tabs-label w-90px" style="white-space:pre-wrap">
+                                                    <span class="text-capitalize">{{ convertToString(index) }}</span>
+                                                </span>
+                                            </template>
+                                            <div class="h-100">
+                                                <template
+                                                    v-if="(items.message == '' || items.message == null) && items.status == 3">
+                                                    <div
+                                                        class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                        <div class="text-center mb-5">
+                                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                                        </div>
+                                                        <span>Không tìm thấy dữ liệu nào!</span>
                                                     </div>
                                                 </template>
-                                            </template>
+                                                <template v-else>
+                                                    <template v-if="checkArray(items.message) && items.status == 3">
+                                                        <!--begin::Table container-->
+                                                        <div class="table-responsive w-100 h-100 p-3">
+                                                            <!--begin::Table-->
+                                                            <table class="table table-row-dashed table-row-gray-300">
+                                                                <template v-if="index.toString() == 'js_analysis'">
+                                                                    <thead>
+                                                                        <tr
+                                                                            class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
+                                                                            <th class="py-2 px-0 text-start">Thông tin</th>
+                                                                            <th class="py-2 px-3 text-start ">Dữ liệu
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <!--begin::Table body-->
+                                                                    <tbody class="overflow-y-auto">
+                                                                        <tr v-for="(item, key) in items.message" :key="key">
+                                                                            <td class="text-start">
+                                                                                <span>{{ item[0] }}</span>
+                                                                            </td>
+                                                                            <td class="text-start">
+                                                                                <div
+                                                                                    class="flex justify-space-between mb-4 flex-wrap gap-4 w-200px">
+                                                                                    <el-button :disabled="disabled"
+                                                                                        class="m-0 me-2 border-0" circle>
+                                                                                        <i :disabled="disabled"
+                                                                                            class="fa-clipboard  fs-4 cursor-pointer"
+                                                                                            :class="(clipboard.includes(item[1]) ? 'fa-solid text-success' : ' fa-regular text-muted')"
+                                                                                            @click="copyContent(item[1])"></i>
+                                                                                    </el-button>
+                                                                                    <span>{{ truncateText(item[1], 20) }}</span>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <!--end::Table body-->
+                                                                </template>
+                                                                <template v-else>
+                                                                    <!--begin::Table body-->
+                                                                    <tbody class="overflow-y-auto">
+                                                                        <tr v-for="(item, key) in items.message" :key="key">
+                                                                            <template v-if="checkArray(item)">
+                                                                                <td v-for="el in item" class="text-start">{{
+                                                                                    el
+                                                                                }}</td>
+                                                                            </template>
+                                                                            <template v-else>
+                                                                                <td class="text-start">
+                                                                                    <span>{{ item }}</span>
+                                                                                </td>
+                                                                            </template>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <!--end::Table body-->
+                                                                </template>
+                                                            </table>
+                                                            <!--end::Table-->
+                                                        </div>
+                                                        <!--end::Table container-->
+                                                    </template>
+                                                    <template v-else>
+                                                        <div
+                                                            class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                                            <div class="mb-5">
+                                                                <i
+                                                                    class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                                            </div>
+                                                            <span>{{ items.message }}</span>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                        </el-tab-pane>
+                                    </el-tabs>
+                                </template>
+                                <template v-else>
+                                    <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="text-center mb-5">
+                                            <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
                                         </div>
-                                    </el-tab-pane>
-                                </el-tabs>
-                            </template>
-                            <template v-else>
-                                <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="text-center mb-5">
-                                        <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                        <span>{{ webdata_result ?? 'Thông tin không được chọn' }}</span>
                                     </div>
-                                    <span>{{ webdata_result ?? 'Thông tin không được chọn' }}</span>
-                                </div>
-                            </template>
-                        </div>
-                    </el-card>
-                </el-col>
-
-                <el-col :span="24" class="mb-3 mx-0">
-                    <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
-                        <template #header>
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <span class="card-label fw-bold text-gray-800 fs-5">Subdomains</span>
-                                <router-link class="btn btn-sm btn-light text-hover-primary text-primary"
-                                    :to="`/target-recon-detail/${idRecon}/${scanID}/subdomains`" active-class="active">View
-                                    all</router-link>
+                                </template>
                             </div>
-                        </template>
-                        <div class="h-500px">
-                            <template v-if="subdomain_result.length > 0">
+                        </el-card>
+                    </el-col>
 
-                                <el-table :data="subdomain_result" height="500" style="width: 100%"
-                                    class-name="my-custom-table">
-                                    <el-table-column min-width="120" label-class-name="border border-0 fs-7" prop="name"
-                                        label="Subdomain">
-                                        <template #default="scope">
-                                            <span class="fs-7 fst-normal">
-                                                {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
-                                    </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center"
-                                        label="Endpoints" min-width="90">
-                                        <template #default="scope">
-                                            <span class="fs-7 fst-normal badge cursor-pointer"
-                                                @click="modelEndpoints(scope.row.enpoint_data)"
-                                                :class="`badge-light-${(scope.row.enpoint == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
-                                                {{ scope.row.enpoint ?? '0' }}</span>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="directory"
-                                        label="Directory" align="center" min-width="90">
-                                        <template #default="scope">
-                                            <span class="fs-7 fst-normal badge cursor-pointer"
-                                                @click="modelDirectory(scope.row.directory_data)"
-                                                :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
-                                                {{ scope.row.directory ?? '0' }}</span>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="url_checked"
-                                        align="center" label="URL Checked">
-                                        <template #default="scope">
-                                            <span class="fs-7 fst-normal">
-                                                {{ (scope.row.url_checked == '') ? '--' : scope.row.url_checked }}</span>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Status"
-                                        align="center">
-                                        <template #default="scope">
-                                            <span class="fs-7 fst-normal">
-                                                {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Title"
-                                        align="center">
-                                        <template #default="scope">
-                                            <span class="fs-7 fst-normal">
-                                                {{ (scope.row.title == '') ? '--' : scope.row.title }}</span>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP"
-                                        align="center">
-                                        <template #default="scope">
-                                            <span class="fs-7 fst-normal">
-                                                {{ (scope.row.ip == '') ? '--' : scope.row.ip }}</span>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="portservice"
-                                        label="Cổng dịch vụ" align="start" min-width="200">
-                                        <template #default="scope">
-                                            <div>
-                                                <template
-                                                    v-if="scope.row.portservice == undefined || Object.keys(scope.row.portservice).length === 0">
-                                                    <span class="text-danger">--</span>
-                                                </template>
-                                                <template v-else>
-                                                    <template v-for="(items, key) in scope.row.portservice" :key="key">
-                                                        <span v-if="key < 3 || expandedPortservice.includes(scope.$index)"
-                                                            class="badge badge-light-primary ms-1">{{ items }}</span>
-                                                    </template>
-                                                    <span v-if="Object.keys(scope.row.portservice).length > 3"
-                                                        @click="handlePortserviceMore(scope.$index)"
-                                                        class="badge badge-light ms-1 cursor-pointer">
-                                                        <template
-                                                            v-if="isRowExpandedPortservice(scope.$index)">Ẩn</template>
-                                                        <template v-else>
-                                                            <el-popover placement="right" width="200" trigger="hover"
-                                                                hide-after="100">
-                                                                <template #reference>
-                                                                    <span>Thêm</span>
-                                                                </template>
-                                                                <div>
-                                                                    <span
-                                                                        v-for="(el, elIndex) in scope.row.portservice.slice(3)"
-                                                                        :key="elIndex"
-                                                                        class="badge badge-light-primary ms-1 mb-1">{{ el
-                                                                        }}</span>
-                                                                </div>
-                                                            </el-popover>
-                                                        </template>
-                                                    </span>
-                                                </template>
-                                            </div>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="start"
-                                        label="Công nghệ sử dụng" min-width="200">
-                                        <template #default="scope">
-                                            <div>
-                                                <template
-                                                    v-if="scope.row.technology == undefined || Object.keys(scope.row.technology).length === 0">
-                                                    <span class="text-danger">--</span>
-                                                </template>
-                                                <template v-else>
-                                                    <template v-for="(items, key) in scope.row.technology" :key="key">
-                                                        <span
-                                                            v-if="key < 3 || expandedRowsTeachnology.includes(scope.$index)"
-                                                            class="badge badge-light-primary ms-1">{{ items }}</span>
-                                                    </template>
-                                                    <span v-if="Object.keys(scope.row.technology).length > 3"
-                                                        @click="handleTechnologyMore(scope.$index)"
-                                                        class="badge badge-light ms-1 cursor-pointer">
-                                                        <template v-if="isRowExpandedTechnology(scope.$index)">Ẩn</template>
-                                                        <template v-else>
-                                                            <el-popover placement="right" width="280" trigger="hover"
-                                                                hide-after="100">
-                                                                <template #reference>
-                                                                    <span>Thêm</span>
-                                                                </template>
-                                                                <div>
-                                                                    <span
-                                                                        v-for="(el, elIndex) in scope.row.technology.slice(3)"
-                                                                        :key="elIndex"
-                                                                        class="badge badge-light-primary ms-1 mb-1">
-                                                                        {{ el }}
-                                                                    </span>
-                                                                </div>
-                                                            </el-popover>
-                                                        </template>
-                                                    </span>
-                                                </template>
-
-                                            </div>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="left"
-                                        label="Bản ghi DNS" min-width="150">
-                                        <template #default="scope">
-
-                                            <li class="d-flex align-items-start mb-1">
-                                                <div>
-                                                    <span class="fw-bold text-capitalize fs-7">A: </span>
-                                                    <span class="fst-normal fs-7">
-                                                        {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
-                                                            scope.row.dns_record['a'].join(' , ') : '--' }}
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex align-items-start mb-1">
-                                                <div>
-                                                    <span class="fw-bold text-capitalize fs-7">Cname: </span>
-                                                    <span class="fst-normal fs-7">
-                                                        {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
-                                                            scope.row.dns_record['cname'].join(' , ') : '--' }}
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex align-items-start mb-1">
-                                                <div>
-                                                    <span class="fw-bold text-capitalize fs-7">MX: </span>
-                                                    <span class="fst-normal fs-7">
-                                                        {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
-                                                            scope.row.dns_record['mx'].join(' , ') : '--' }}
-                                                    </span>
-                                                </div>
-                                            </li>
-                                        </template>
-                                    </el-table-column>
-                                </el-table>
+                    <el-col :span="24" class="mb-3 mx-0">
+                        <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
+                            <template #header>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Subdomains</span>
+                                    <router-link class="btn btn-sm btn-light text-hover-primary text-primary"
+                                        :to="`/target-recon-detail/${idRecon}/${scanID}/subdomains`" active-class="active">View
+                                        all</router-link>
+                                </div>
                             </template>
-                            <template v-else-if="reconStatus == 3 || reconStatus == 4">
-                                <div class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                    <div class="mb-5">
-                                        <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                            <div class="h-500px">
+                                <template v-if="subdomain_result.length > 0">
+
+                                    <el-table :data="subdomain_result" height="500" style="width: 100%"
+                                        class-name="my-custom-table">
+                                        <el-table-column min-width="120" label-class-name="border border-0 fs-7" prop="name"
+                                            label="Subdomain">
+                                            <template #default="scope">
+                                                <span class="fs-7 fst-normal">
+                                                    {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
+                                        </el-table-column>
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center"
+                                            label="Endpoints" min-width="90">
+                                            <template #default="scope">
+                                                <span class="fs-7 fst-normal badge cursor-pointer"
+                                                    @click="modelEndpoints(scope.row.enpoint_data)"
+                                                    :class="`badge-light-${(scope.row.enpoint == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
+                                                    {{ scope.row.enpoint ?? '0' }}</span>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="directory"
+                                            label="Directory" align="center" min-width="90">
+                                            <template #default="scope">
+                                                <span class="fs-7 fst-normal badge cursor-pointer"
+                                                    @click="modelDirectory(scope.row.directory_data)"
+                                                    :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
+                                                    {{ scope.row.directory ?? '0' }}</span>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="url_checked"
+                                            align="center" label="URL Checked">
+                                            <template #default="scope">
+                                                <span class="fs-7 fst-normal">
+                                                    {{ (scope.row.url_checked == '') ? '--' : scope.row.url_checked }}</span>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Status"
+                                            align="center">
+                                            <template #default="scope">
+                                                <span class="fs-7 fst-normal">
+                                                    {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Title"
+                                            align="center">
+                                            <template #default="scope">
+                                                <span class="fs-7 fst-normal">
+                                                    {{ (scope.row.title == '') ? '--' : scope.row.title }}</span>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP"
+                                            align="center">
+                                            <template #default="scope">
+                                                <span class="fs-7 fst-normal">
+                                                    {{ (scope.row.ip == '') ? '--' : scope.row.ip }}</span>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="portservice"
+                                            label="Cổng dịch vụ" align="start" min-width="200">
+                                            <template #default="scope">
+                                                <div>
+                                                    <template
+                                                        v-if="scope.row.portservice == undefined || Object.keys(scope.row.portservice).length === 0">
+                                                        <span class="text-danger">--</span>
+                                                    </template>
+                                                    <template v-else>
+                                                        <template v-for="(items, key) in scope.row.portservice" :key="key">
+                                                            <span v-if="key < 3 || expandedPortservice.includes(scope.$index)"
+                                                                class="badge badge-light-primary ms-1">{{ items }}</span>
+                                                        </template>
+                                                        <span v-if="Object.keys(scope.row.portservice).length > 3"
+                                                            @click="handlePortserviceMore(scope.$index)"
+                                                            class="badge badge-light ms-1 cursor-pointer">
+                                                            <template
+                                                                v-if="isRowExpandedPortservice(scope.$index)">Ẩn</template>
+                                                            <template v-else>
+                                                                <el-popover placement="right" width="200" trigger="hover"
+                                                                    hide-after="100">
+                                                                    <template #reference>
+                                                                        <span>Thêm</span>
+                                                                    </template>
+                                                                    <div>
+                                                                        <span
+                                                                            v-for="(el, elIndex) in scope.row.portservice.slice(3)"
+                                                                            :key="elIndex"
+                                                                            class="badge badge-light-primary ms-1 mb-1">{{ el
+                                                                            }}</span>
+                                                                    </div>
+                                                                </el-popover>
+                                                            </template>
+                                                        </span>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="start"
+                                            label="Công nghệ sử dụng" min-width="200">
+                                            <template #default="scope">
+                                                <div>
+                                                    <template
+                                                        v-if="scope.row.technology == undefined || Object.keys(scope.row.technology).length === 0">
+                                                        <span class="text-danger">--</span>
+                                                    </template>
+                                                    <template v-else>
+                                                        <template v-for="(items, key) in scope.row.technology" :key="key">
+                                                            <span
+                                                                v-if="key < 3 || expandedRowsTeachnology.includes(scope.$index)"
+                                                                class="badge badge-light-primary ms-1">{{ items }}</span>
+                                                        </template>
+                                                        <span v-if="Object.keys(scope.row.technology).length > 3"
+                                                            @click="handleTechnologyMore(scope.$index)"
+                                                            class="badge badge-light ms-1 cursor-pointer">
+                                                            <template v-if="isRowExpandedTechnology(scope.$index)">Ẩn</template>
+                                                            <template v-else>
+                                                                <el-popover placement="right" width="280" trigger="hover"
+                                                                    hide-after="100">
+                                                                    <template #reference>
+                                                                        <span>Thêm</span>
+                                                                    </template>
+                                                                    <div>
+                                                                        <span
+                                                                            v-for="(el, elIndex) in scope.row.technology.slice(3)"
+                                                                            :key="elIndex"
+                                                                            class="badge badge-light-primary ms-1 mb-1">
+                                                                            {{ el }}
+                                                                        </span>
+                                                                    </div>
+                                                                </el-popover>
+                                                            </template>
+                                                        </span>
+                                                    </template>
+
+                                                </div>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="left"
+                                            label="Bản ghi DNS" min-width="150">
+                                            <template #default="scope">
+
+                                                <li class="d-flex align-items-start mb-1">
+                                                    <div>
+                                                        <span class="fw-bold text-capitalize fs-7">A: </span>
+                                                        <span class="fst-normal fs-7">
+                                                            {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
+                                                                scope.row.dns_record['a'].join(' , ') : '--' }}
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                                <li class="d-flex align-items-start mb-1">
+                                                    <div>
+                                                        <span class="fw-bold text-capitalize fs-7">Cname: </span>
+                                                        <span class="fst-normal fs-7">
+                                                            {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
+                                                                scope.row.dns_record['cname'].join(' , ') : '--' }}
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                                <li class="d-flex align-items-start mb-1">
+                                                    <div>
+                                                        <span class="fw-bold text-capitalize fs-7">MX: </span>
+                                                        <span class="fst-normal fs-7">
+                                                            {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
+                                                                scope.row.dns_record['mx'].join(' , ') : '--' }}
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </template>
+                                        </el-table-column>
+                                    </el-table>
+                                </template>
+                                <template v-else-if="reconStatus == 3 || reconStatus == 4">
+                                    <div class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
+                                        <div class="mb-5">
+                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                        </div>
+                                        <span>Không tìm thấy dữ liệu nào!</span>
                                     </div>
-                                    <span>Không tìm thấy dữ liệu nào!</span>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div class="mt-5 m-3">
-                                    <el-skeleton :rows="12" animated />
-                                </div>
-                            </template>
-                        </div>
-                    </el-card>
-                </el-col>
+                                </template>
+                                <template v-else>
+                                    <div class="mt-5 m-3">
+                                        <el-skeleton :rows="12" animated />
+                                    </div>
+                                </template>
+                            </div>
+                        </el-card>
+                    </el-col>
 
-            </el-row>
-        </el-scrollbar>
+                </el-row>
+            </el-scrollbar>
+        </div>
+        <!--end::Card-->
     </div>
-    <!--end::Card-->
-
     <!-- // modoal  -->
     <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file" width="500">
         <div class="card h-100 bg-secondary ">
@@ -2240,7 +2241,7 @@ export default defineComponent({
     }
 
     .height-repository {
-        height: 700px;
+        height: 780px;
     }
 }
 
@@ -2251,7 +2252,7 @@ export default defineComponent({
     }
 
     .height-repository {
-        height: 730px;
+        height: 780px;
     }
 }
 
@@ -2261,7 +2262,7 @@ export default defineComponent({
     }
 
     .height-repository {
-        height: 700px;
+        height: 780px;
     }
 }
 </style>

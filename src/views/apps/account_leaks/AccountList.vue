@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container container-fluid p-5">
+  <div class="app-container container-fluid p-5 mt-10">
   <div class="card h-100 d-block">
     <div
       class="card-header border-0 pt-2 pt-sm-10 pt-md-10 position-sm-absolute justify-content-end end-0 pe-1 me-2 me-md-0 me-sm-0"

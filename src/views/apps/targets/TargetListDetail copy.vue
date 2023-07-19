@@ -345,7 +345,7 @@ import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 
 // validate
 import { hideModal } from "@/core/helpers/dom";
-import { ErrorMessage, Field, Form as VForm } from "vee-validate";
+import { ErrorMessage, Field, Form as VForm } from "vee-validate"; 
 import { vue3Debounce } from 'vue-debounce';
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
@@ -881,6 +881,7 @@ export default defineComponent({
             getRowKey,
             handleCurrentChange,
             multipleTableRef,
+            urlAddNew,
         };
     },
 });
