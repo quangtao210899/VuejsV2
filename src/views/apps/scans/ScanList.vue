@@ -117,7 +117,7 @@
         <div class="ms-3 pb-10 affix-container">
           <div class="card-title py-5 ">
             <h2 class="fw-bold pe-15 mt-5 fs-1">{{ detailData.vt_name }}</h2>
-            <div class="position-absolute translate-middle-y" :style="{ top: '50px', right: '10px' }">
+            <div class="position-absolute translate-middle-y" :style="{ top: '-130px', right: '10px' }">
               <el-affix target=".affix-container" :offset="170">
                 <button @click="handleCloseDetail" type="button" class="btn zindex-fixed btn-icon " :disabled="disabled">
                   <KTIcon icon-name="abstract-11" icon-class="text-dark" :style="{ fontSize: '22px' }" />

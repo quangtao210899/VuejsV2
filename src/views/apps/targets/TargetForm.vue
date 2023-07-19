@@ -21,7 +21,7 @@
                     <el-form-item label="Tên mục tiêu" prop="name" class="pb-3 position-relative text-capitalize">
                         <el-input v-model="ruleForm.name"  placeholder="Nhập tên mục tiêu"/>
                         <div class="fv-plugins-message-container">
-                            <div class="fv-help-block  position-absolute start-0" style="top: 25px;">
+                            <div class="fv-help-block  position-absolute start-0 fs-7" style="top: 25px;">
                                 <span class="" v-if="errors.name">{{ errors.name[0] }}</span>
                             </div>
                         </div>
@@ -164,6 +164,13 @@ export default defineComponent({
                 }
             });
         }
+        const resetForm = () => {
+            errors.name = ''
+            errors.domain = ''
+            errors.ip = ''
+            errors.group = ''
+            errors.detail = ''
+        }
 
         onMounted(() => {
             getData();
@@ -219,18 +226,18 @@ export default defineComponent({
 
         const rules = reactive<FormRules>({
             name: [
-                { required: true, message: 'Tên mục tiêu không được để trống', trigger: 'change' },
-                { min: 3, max: 50, message: 'kí tự trong khoảng từ 3 đến 50 kí tự', trigger: 'change' },
-                { validator: validateName, trigger: 'change' },
+                { required: true, message: 'Tên mục tiêu không được để trống', trigger: 'blur' },
+                { min: 3, max: 50, message: 'kí tự trong khoảng từ 3 đến 50 kí tự', trigger: 'blur' },
+                { validator: validateName, trigger: 'blur' },
             ],
             ip: [
-                { validator: isValidIPAddress, trigger: 'change' },
+                { validator: isValidIPAddress, trigger: 'blur' },
             ],
             domain: [
-                { validator: isValidDomain, trigger: 'change' },
+                { validator: isValidDomain, trigger: 'blur' },
             ],
             group: [
-                { required: true, message: 'Tên nhóm không được để trống', trigger: 'change' },
+                { required: true, message: 'Tên nhóm không được để trống', trigger: 'blur' },
             ]
         })
 
@@ -255,6 +262,7 @@ export default defineComponent({
         }
 
         const addFormSubmit = async (formData: RuleForm) => {
+            resetForm();
             return ApiService.post("/targets/", formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Thêm mới thành công')
@@ -275,6 +283,7 @@ export default defineComponent({
         }
 
         const editFormSubmit = async (formData: RuleForm) => {
+            resetForm();
             return ApiService.put(`/targets/${ID.value}/`, formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Sửa mới thành công')
