@@ -57,7 +57,7 @@ import 'leaflet/dist/leaflet.css';
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import L from 'leaflet';
 import dataMap from "@/views/apps/vpn/dataMap.json";
-import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import ApiService from "@/core/services/ApiService";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 export default {
@@ -247,34 +247,28 @@ export default {
           }
         })
         .catch(({ response }) => {
-          ElNotification({
-            title: 'Lỗi',
-            message: (response == null || response == undefined) ? 'Có lỗi xảy ra' : 'Có lỗi xảy ra',
-            type: 'error',
-          })
+          notification('Có lỗi xảy ra', 'error', '')
         })
         .finally(() => {
           loading.value = false
         });
     };
 
-    const getStatus = async () => {
+    const getStatus = async (has_notify=true) => {
       loading.value = true;
       let form = {}
       return await ApiService.post(`nordvpn/status`, form)
         .then(({ data }) => {
-          ElNotification({
-            title: 'Trạng Thái Kết Nối',
-            message: data.detail ?? 'Có lỗi xảy ra',
-            type: (infoStatus.value == 0) ? 'error' : 'success',
-          })
+          if(has_notify){
+            notification(data.detail, 'success', '')
+          }
+          getInfo()
         })
         .catch(({ response }) => {
-          ElNotification({
-            title: 'Trạng Thái Kết Nối',
-            message: response.detail ?? 'Có lỗi xảy ra',
-            type: 'error',
-          })
+          if (has_notify) {
+            notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+          }
+          getInfo()
         })
         .finally(() => {
           loading.value = false
@@ -318,7 +312,7 @@ export default {
           text: values ?? more,
           icon: icon,
           buttonsStyling: false,
-          confirmButtonText: "Đồng ý",
+          confirmButtonText: "Đồng Ý",
           heightAuto: false,
           customClass: {
             confirmButton: "btn btn-light-primary",
@@ -374,7 +368,7 @@ export default {
     onMounted(() => {
       initializeMap();
       getInfo();
-      getStatus();
+      getStatus(false);
     });
 
     onBeforeUnmount(() => {

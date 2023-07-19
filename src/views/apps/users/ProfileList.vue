@@ -390,7 +390,7 @@ export default defineComponent({
           text: values ?? more,
           icon: icon,
           buttonsStyling: false,
-          confirmButtonText: "Đồng ý",
+          confirmButtonText: "Đồng Ý",
           heightAuto: false,
           customClass: {
             confirmButton: "btn btn-light-primary",
