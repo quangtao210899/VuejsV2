@@ -122,7 +122,7 @@ const chartOptions = (props: any): ApexOptions => {
       },
       y: {
         formatter: function (val) {
-          return val;
+          return "" + val;
         },
       },
     },
