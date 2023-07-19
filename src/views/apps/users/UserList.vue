@@ -319,7 +319,7 @@
                             <!--end::Section-->
                         </div>
                         <!--end::Card body-->
-                    </div>Vui lòng nhập tên
+                    </div>
                     <!--end::Card-->
                 </div>
                 <!--end::Form-->
