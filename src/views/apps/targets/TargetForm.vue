@@ -19,7 +19,7 @@
                     class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10" :size="formSize" status-icon
                     label-position="left">
                     <el-form-item label="Tên mục tiêu" prop="name" class="pb-3 position-relative text-capitalize">
-                        <el-input v-model="ruleForm.name" />
+                        <el-input v-model="ruleForm.name"  placeholder="Nhập tên mục tiêu"/>
                         <div class="fv-plugins-message-container">
                             <div class="fv-help-block  position-absolute start-0" style="top: 25px;">
                                 <span class="" v-if="errors.name">{{ errors.name[0] }}</span>
@@ -27,7 +27,7 @@
                         </div>
                     </el-form-item>
                     <el-form-item label="Domain" prop="domain" class="pb-3 position-relative text-capitalize">
-                        <el-input v-model="ruleForm.domain" />
+                        <el-input v-model="ruleForm.domain" placeholder="Nhập domain mục tiêu" />
                         <div class="fv-plugins-message-container">
                             <div class="fv-help-block  position-absolute start-0" style="top: 25px;">
                                 <span class="" v-if="errors.domain">{{ errors.domain[0] }}</span>
@@ -35,7 +35,7 @@
                         </div>
                     </el-form-item>
                     <el-form-item label="IP" prop="ip" class="pb-3 position-relative text-capitalize">
-                        <el-input v-model="ruleForm.ip" />
+                        <el-input v-model="ruleForm.ip" placeholder="Nhập ip mục tiêu"/>
                         <div class="fv-plugins-message-container">
                             <div class="fv-help-block  position-absolute start-0" style="top: 25px;">
                                 <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
@@ -108,7 +108,7 @@ export default defineComponent({
     setup() {
         const route = useRoute();
         const ID = ref<any>((route.params.id == 'null' ? null : route.params.id));
-        const type = ref<string>((ID.value == null ? 'Thêm mới' : 'Chỉnh sửa'))
+        const type = ref<string>((ID.value == null ? 'Thêm Mới' : 'Chỉnh Sửa'))
         const list = ref<object | any>([])
         const data_group = ref<object | any>([])
         const loading = ref<boolean>(false)
