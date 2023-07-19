@@ -30,7 +30,7 @@
                     <el-table-column label-class-name=" fs-7 fw-bold " type="selection" width="35"
                         :reserve-selection="true" />
 
-                    <el-table-column min-width="40" sortable label-class-name=" fs-7 fw-bold cursor-pointer" prop="id"
+                    <el-table-column min-width="40" label-class-name=" fs-7 fw-bold cursor-pointer" prop="id"
                         label="ID">
                         <template #default="scope">
                             <span v-if="scope.row.id != ''" class="text-gray-600 text-hover-primary">{{ scope.row.id
