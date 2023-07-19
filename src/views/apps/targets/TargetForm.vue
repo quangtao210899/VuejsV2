@@ -16,43 +16,35 @@
             <!--begin::Card body-->
             <div class="h-100 w-100 p-0 m-0">
                 <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="auto"
-                    class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10" :size="formSize" status-icon
+                    class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" :size="formSize" status-icon
                     label-position="left">
-                    <el-form-item label="Tên mục tiêu" prop="name" class="pb-3 position-relative text-capitalize">
-                        <el-input v-model="ruleForm.name"  placeholder="Nhập tên mục tiêu"/>
-                        <div class="fv-plugins-message-container">
-                            <div class="fv-help-block  position-absolute start-0" style="top: 25px;">
-                                <span class="" v-if="errors.name">{{ errors.name[0] }}</span>
-                            </div>
+                    <el-form-item label="Tên mục tiêu" prop="name" class="pb-3 position-relative ">
+                        <el-input v-model="ruleForm.name"  placeholder="Nhập tên mục tiêu" :class="(errors.name) ? 'el-error-ruleForm' : ''" />
+                        <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
+                            <span class="" v-if="errors.name">{{ errors.name[0] }}</span>
                         </div>
                     </el-form-item>
                     <el-form-item label="Domain" prop="domain" class="pb-3 position-relative text-capitalize">
                         <el-input v-model="ruleForm.domain" placeholder="Nhập domain mục tiêu" @blur="getAutofill(ruleForm.domain)
                                     .then(ip => {
                                         ruleForm.ip = ip
-                                    });"/>
-                        <div class="fv-plugins-message-container">
-                            <div class="fv-help-block  position-absolute start-0" style="top: 25px;">
-                                <span class="" v-if="errors.domain">{{ errors.domain[0] }}</span>
-                            </div>
+                                    });" :class="(errors.domain) ? 'el-error-ruleForm' : ''"/>
+                        <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
+                            <span class="" v-if="errors.domain">{{ errors.domain[0] }}</span>
                         </div>
                     </el-form-item>
                     <el-form-item label="IP" prop="ip" class="pb-3 position-relative text-capitalize">
-                        <el-input v-model="ruleForm.ip" placeholder="Nhập ip mục tiêu"/>
-                        <div class="fv-plugins-message-container">
-                            <div class="fv-help-block  position-absolute start-0" style="top: 25px;">
-                                <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
-                            </div>
+                        <el-input v-model="ruleForm.ip" placeholder="Nhập ip mục tiêu" :class="(errors.ip) ? 'el-error-ruleForm' : ''"/>
+                        <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
+                            <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
                         </div>
                     </el-form-item>
                     <el-form-item label="Nhóm mục tiêu" prop="group" class="pb-3 position-relative text-capitalize w-400px">
-                        <el-select v-model="ruleForm.group" placeholder="Chọn nhóm mục tiêu">
+                        <el-select v-model="ruleForm.group" placeholder="Chọn nhóm mục tiêu" :class="(errors.group) ? 'el-error-ruleForm' : ''">
                             <el-option v-for=" val  in  data_group " :key="val.id" :label="val.title" :value="val.id" />
                         </el-select>
-                        <div class="fv-plugins-message-container">
-                            <div class="fv-help-block  position-absolute start-0" style="top: 25px;">
-                                <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
-                            </div>
+                        <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
+                            <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
                         </div>
                     </el-form-item>
                     <div class="fv-plugins-message-container">
@@ -178,6 +170,13 @@ export default defineComponent({
                 }
             });
         }
+        const resetForm = () => {
+            errors.name = ''
+            errors.domain = ''
+            errors.ip = ''
+            errors.group = ''
+            errors.detail = ''
+        }
 
         onMounted(() => {
             getData();
@@ -233,24 +232,25 @@ export default defineComponent({
 
         const rules = reactive<FormRules>({
             name: [
-                { required: true, message: 'Tên mục tiêu không được để trống', trigger: 'change' },
-                { min: 3, max: 50, message: 'kí tự trong khoảng từ 3 đến 50 kí tự', trigger: 'change' },
-                { validator: validateName, trigger: 'change' },
+                { required: true, message: 'Tên mục tiêu không được để trống', trigger: 'blur' },
+                { min: 3, max: 50, message: 'kí tự trong khoảng từ 3 đến 50 kí tự', trigger: 'blur' },
+                { validator: validateName, trigger: 'blur' },
             ],
             ip: [
-                { validator: isValidIPAddress, trigger: 'change' },
+                { validator: isValidIPAddress, trigger: 'blur' },
             ],
             domain: [
-                { validator: isValidDomain, trigger: 'change' },
+                { validator: isValidDomain, trigger: 'blur' },
             ],
             group: [
-                { required: true, message: 'Tên nhóm không được để trống', trigger: 'change' },
+                { required: true, message: 'Tên nhóm không được để trống', trigger: 'blur' },
             ]
         })
 
         const formSubmit = async (formEl: FormInstance | undefined) => {
             // console.log(rules)
             if (!formEl) return
+            resetForm();
             await formEl.validate((valid, fields) => {
                 if (valid) {
                     if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
@@ -271,7 +271,6 @@ export default defineComponent({
         const addFormSubmit = async (formData: RuleForm) => {
             const ip = await getAutofill(ruleForm.domain);
             ruleForm.ip = ip;
-
             return ApiService.post("/targets/", formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Thêm mới thành công')
@@ -336,6 +335,14 @@ export default defineComponent({
 
 .demo-ruleForm .el-form-item__label {
     flex-direction: row-reverse !important
+}
+
+.demo-ruleForm .el-form-item__error {
+    text-transform: initial !important
+}
+
+.el-error-ruleForm .el-input__wrapper{
+    box-shadow: 0 0 0 1px var(--el-color-danger) inset !important;
 }
 
 .el-form-item--default .el-form-item__error {
