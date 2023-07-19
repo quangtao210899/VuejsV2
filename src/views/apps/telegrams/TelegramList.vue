@@ -1,8 +1,9 @@
 <template>
   <!--begin::Card-->
+  <div class="app-container container-fluid p-5 mt-10">
   <div class="card h-100 d-block">
     <!--begin::Card header-->
-    <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -80px;">
+    <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -70px;">
       <!--begin::Card title-->
       <!-- <h3 class="card-title align-items-start flex-column">
         <span class="card-label fw-bold fs-3 mb-1">Danh sách quản lý lỗ hổng</span>
@@ -117,13 +118,13 @@
       </div>
     </div>
     <!--end::Card body-->
-  </div>
+  </div></div>
   <!--end::Card-->
 
-  <el-dialog v-model="DialogVisibleDetail" :title="`Thông tin nhóm ${detailData.username}`" width="600" align-center>
+  <el-dialog v-model="DialogVisibleDetail" title="Chi tiết tin nhắn" width="600" align-center modal-class="12345">
     <div class="modal-body">
       <!--begin::Card-->
-      <div class="card card-flush pt-3 mb-5 mb-xl-10">
+      <div class="card card-flush">
         <!--begin::Card header-->
         <div class="card-header mb-5">
           <!--begin::Card title-->
@@ -403,7 +404,8 @@ export default defineComponent({
 
     // handleCurrentChange
     const DialogVisibleDetail = ref<boolean>(false)
-    const handleCurrentChange = (val: any) => {
+    const handleCurrentChange = (val: any, index) => {
+      console.log(val)
       if (val) {
         DialogVisibleDetail.value = true
         detailData.id = val.id

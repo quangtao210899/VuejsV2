@@ -1,5 +1,6 @@
 <template>
   <!--begin::Card-->
+  <div class="app-container container-fluid p-5 mt-10">
   <div class="card h-100 d-block">
     <!--begin::Card header-->
     <div
@@ -23,7 +24,7 @@
               </button>
               <!-- </div> -->
             </el-tooltip>
-            <Fillter @filterData="handleFilter"></Fillter>
+            <Fillter @filterData="handleFilter"></Fillter> 
             <!--begin::Add subscription-->
             <!--end::Add subscription-->
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Cấu hình thời gian lấy tin nhắn"
@@ -140,6 +141,8 @@
     </div>
 
   </div>
+
+</div>
   <!--end::Card-->
 
   <!-- modal  -->
