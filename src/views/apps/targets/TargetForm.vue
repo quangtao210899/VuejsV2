@@ -27,7 +27,10 @@
                         </div>
                     </el-form-item>
                     <el-form-item label="Domain" prop="domain" class="pb-3 position-relative text-capitalize">
-                        <el-input v-model="ruleForm.domain" placeholder="Nhập domain mục tiêu" />
+                        <el-input v-model="ruleForm.domain" placeholder="Nhập domain mục tiêu" @blur="getAutofill(ruleForm.domain)
+                                    .then(ip => {
+                                        ruleForm.ip = ip
+                                    });"/>
                         <div class="fv-plugins-message-container">
                             <div class="fv-help-block  position-absolute start-0" style="top: 25px;">
                                 <span class="" v-if="errors.domain">{{ errors.domain[0] }}</span>
@@ -132,6 +135,17 @@ export default defineComponent({
                     })
             }
             return;
+        }
+
+        const getAutofill = async (domain) => {
+            try {
+                const response = await ApiService.get(`targets/ip?domain=${domain}`);
+                const { data } = response;
+                return data.ip;
+            } catch (error: any) {
+                notification(error?.response?.data?.detail, 'error', 'Có lỗi xảy ra');
+                throw error;
+            }
         }
 
         const getDataGroup = async () => {
@@ -255,6 +269,10 @@ export default defineComponent({
         }
 
         const addFormSubmit = async (formData: RuleForm) => {
+            if (!ruleForm.ip.trim()) {
+                const ip = await getAutofill(ruleForm.domain);
+                ruleForm.ip = ip;
+            }
             return ApiService.post("/targets/", formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Thêm mới thành công')
@@ -304,6 +322,7 @@ export default defineComponent({
             formBack,
             formSubmit,
             errors,
+            getAutofill,
         };
     },
 });
