@@ -13,7 +13,7 @@
               'Đã kết nối' : 'Không kết nối') }} </span>
           </div>
           <div class="d-flex justify-content-between align-items-center mb-5">
-            <h3>{{ (infoStatus == 1) ? infoCountry : 'Kết nối đến VPN' }}</h3>
+            <h3>{{ (infoStatus == 1) ? infoCountry : 'Kết Nối Đến VPN' }}</h3>
             <el-tooltip :disabled="(infoStatus == 1 || loading == false || connecting == false) ? false : true"
               class="box-item" effect="dark" placement="top" :auto-close="0">
               <template #content>
@@ -27,7 +27,7 @@
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <el-button :disabled="(loading || connecting) ? true : false" type="primary" class="fs-6 px-14"
-              @click=randomCountry>Kết nối nhanh</el-button>
+              @click=randomCountry>Kết Nối Nhanh</el-button>
             <el-button :disabled="(infoStatus == 0 || loading || connecting) ? true : false" @click="disConnectNordvpn"
               type="danger" link><i class="fa-solid fa-power-off fs-2 text-danger"></i></el-button>
             <el-button :disabled="(loading || connecting) ? true : false" @click="getStatus" type="primary" link>
@@ -103,7 +103,7 @@ export default {
       }
 
       dataMap.forEach((el, i) => {
-        const customTooltipContent = (connecting.value) ? 'Đang kết nối đến ' + el.title + ' ...' : 'Kết nối ' + el.title
+        const customTooltipContent = (connecting.value) ? 'Đang Kết Nối Đến ' + el.title + ' ...' : 'Kết Nối ' + el.title
         const marker = L.marker({ lat: el.markerLatLng[0], lng: el.markerLatLng[1] }, { icon: customIcon })
           .addTo(map.value)
           .bindTooltip(customTooltipContent, {
@@ -198,17 +198,17 @@ export default {
     const handleClickMap = (e: any) => {
       ElMessageBox.confirm(
         'Bạn có chắc muốn kết nối với ' + e.title + ' không?',
-        'Kết nối với quốc gia ' + e.title,
+        'Kết Nối Với Quốc Gia ' + e.title,
         {
-          confirmButtonText: 'Đồng ý',
-          cancelButtonText: 'Quay lại',
+          confirmButtonText: 'Đồng Ý',
+          cancelButtonText: 'Quay Lại',
           type: 'warning',
         }
       )
         .then(() => {
           ElMessage({
             type: 'success',
-            message: 'Đang kết nối đến ' + e.title + '...',
+            message: 'Đang Kết Nối Đến ' + e.title + '...',
           })
           connectNordvpn(e.title);
         })
@@ -264,14 +264,14 @@ export default {
       return await ApiService.post(`nordvpn/status`, form)
         .then(({ data }) => {
           ElNotification({
-            title: 'Trạng thái Kết nối ',
+            title: 'Trạng Thái Kết Nối',
             message: data.detail ?? 'Có lỗi xảy ra',
             type: (infoStatus.value == 0) ? 'error' : 'success',
           })
         })
         .catch(({ response }) => {
           ElNotification({
-            title: 'Trạng thái Kết nối',
+            title: 'Trạng Thái Kết Nối',
             message: response.detail ?? 'Có lỗi xảy ra',
             type: 'error',
           })
@@ -289,7 +289,7 @@ export default {
       return await ApiService.post(`nordvpn/connect`, form)
         .then(({ data }) => {
           ElNotification({ 
-            title: 'Trạng thái Kết nối',
+            title: 'Trạng Thái Kết Nối',
             message: data.detail ?? 'Có lỗi xảy ra',
             type: 'success',
           })
@@ -297,7 +297,7 @@ export default {
         })
         .catch(({ response }) => {
           ElNotification({
-            title: 'Trạng thái Kết nối',
+            title: 'Trạng Thái Kết Nối',
             message: response.data.detail ?? 'Có lỗi xảy ra',
             type: 'error',
           })
@@ -317,7 +317,7 @@ export default {
         .then(({ data }) => {
           //console.log(data);
           ElNotification({
-            title: 'Trạng thái Kết nối',
+            title: 'Trạng Thái Kết Nối',
             message: data.detail ?? 'Có lỗi xảy ra',
             type: 'success',
           })
@@ -326,7 +326,7 @@ export default {
         })
         .catch(({ response }) => {
           ElNotification({
-            title: 'Trạng thái Kết nối',
+            title: 'Trạng Thái Kết Nối',
             message: response.detail ?? 'Có lỗi xảy ra',
             type: 'error',
           })
