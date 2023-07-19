@@ -114,7 +114,7 @@
 
                                 <div class="col-4">
                                     <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="product_type">
-                                        <span class="required">Loại sản phẩm</span>
+                                        <span class="required">Loại Sản Phẩm</span>
                                     </label>
                                     <el-form-item prop="assign">
                                         <el-select id="product_type" name="product_type" placeholder="Select"
@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="vul_type">
-                                        <span class="required">Loại lỗ hổng</span>
+                                        <span class="required">Loại Lỗ Hổng</span>
                                     </label>
                                     <el-form-item prop="assign">
                                         <el-select name="vul_type" placeholder="Select" @change="removeErrorMsgOption"
@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-column mb-5 fv-row">
-                                <label class="fs-6 fw-semobold mb-2" for="description">Mô tả</label>
+                                <label class="fs-6 fw-semobold mb-2" for="description">Mô Tả</label>
                                 <Field as="textarea" class="form-control form-control-solid" rows="5" id="description"
                                     name="description" placeholder="Mô tả về CVE" v-model="apiData.description" />
                                 <div class="fv-plugins-message-container">
@@ -171,7 +171,7 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-column mb-5 fv-row">
-                                <label class="fs-6 fw-semobold mb-2 required" for="version">Phiên bản ảnh hưởng</label>
+                                <label class="fs-6 fw-semobold mb-2 required" for="version">Phiên Bản Ảnh Hưởng</label>
                                 <Field as="textarea" class="form-control form-control-solid" rows="5" id="version"
                                     name="version" placeholder="Phiên bản sản phẩm bị ảnh hưởng bởi CVE"
                                     v-model="apiData.version" />
@@ -232,16 +232,16 @@
                         <!--begin::Button-->
                         <button ref="discardButtonRef" type="reset" id="kt_modal_new_target_group_cancel"
                             class="btn btn-sm  btn-light me-3">
-                            Loại bỏ
+                            Loại Bỏ
                         </button>
                         <!--end::Button-->
 
                         <!--begin::Button-->
                         <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
-                            class="btn btn-sm  btn-primary">
+                            class="btn btn-sm  btn-light-primary">
                             <span class="indicator-label"> Gửi </span>
                             <span class="indicator-progress">
-                                Đang gửi...
+                                Đang Gửi...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
@@ -277,7 +277,7 @@
                             <div class="card-toolbar">
                                 <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
                                     data-bs-target="#kt_modal_new_target_group" @click="handleClick(detailData, 'edit')">
-                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Cập nhật
+                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Cập Nhật
                                 </button>
                             </div>
                         </div>
@@ -290,18 +290,18 @@
                                         <!--begin::Details-->
                                         <div>
                                             <div class="row fs-6 mb-3">
-                                                <div class="col-3 text-gray-400">Loại sản phẩm:</div>
+                                                <div class="col-3 text-gray-400">Loại Sản Phẩm:</div>
                                                 <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{
                                                     detailData.product_text ? detailData.product_text : '--:--'
                                                 }}</span></div>
                                             </div>
                                             <div class="row fs-6 mb-3">
-                                                <div class="col-3 text-gray-400">Loại lỗ hổng:</div>
+                                                <div class="col-3 text-gray-400">Loại Lỗ Hổng:</div>
                                                 <div class="col-9 text-gray-800"><span>{{ detailData.vul_text ?
                                                     detailData.vul_text : '--:--' }}</span></div>
                                             </div>
                                             <div class="row fs-6 mb-3">
-                                                <div class="col-3 text-gray-400">Mô tả:</div>
+                                                <div class="col-3 text-gray-400">Mô Tả:</div>
                                                 <div class="col-9 text-gray-800"><span>{{ detailData.description ?
                                                     detailData.description : '--:--' }}</span></div>
                                             </div>
@@ -311,7 +311,7 @@
                                                     detailData.version : '--:--' }}</span></div>
                                             </div>
                                             <div class="row fs-6 mb-3">
-                                                <div class="col-3 text-gray-400">Shodan dock:</div>
+                                                <div class="col-3 text-gray-400">Shodan Dock:</div>
                                                 <div class="col-9 text-gray-800"><span>{{ detailData.shodan_dock ?
                                                     detailData.shodan_dock : '--:--' }}</span></div>
                                             </div>
@@ -321,12 +321,12 @@
                                                     '--:--' }}</span></div>
                                             </div>
                                             <div class="row fs-6 mb-3">
-                                                <div class="col-3 text-gray-400">Ngày tạo:</div>
+                                                <div class="col-3 text-gray-400">Ngày Tạo:</div>
                                                 <div class="col-9 text-gray-800"><span>{{ detailData.created_at }}</span>
                                                 </div>
                                             </div>
                                             <div class="row fs-6">
-                                                <div class="col-3 text-gray-400">Ngày cập nhập:</div>
+                                                <div class="col-3 text-gray-400">Ngày Cập Nhập:</div>
                                                 <div class="col-9 text-gray-800"><span>{{ detailData.modified_at }}</span>
                                                 </div>
                                             </div>
@@ -342,9 +342,9 @@
                     </div>
                 </div>
                 <!--end::Form-->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
-                        Quay lại
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-sm  btn-light-primary me-9" data-bs-dismiss="modal">
+                        Đóng
                     </button>
                 </div>
             </div>
@@ -769,7 +769,7 @@ export default defineComponent({
                 id.value = data.id;
 
             } else {
-                nameType.value = "Thêm mới CVE"
+                nameType.value = "Thêm Mới CVE"
                 apiData.value.vul_type = '';
                 apiData.value.product_type = '';
                 if (discardButtonRef.value !== null) {
