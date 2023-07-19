@@ -269,10 +269,9 @@ export default defineComponent({
         }
 
         const addFormSubmit = async (formData: RuleForm) => {
-            if (!ruleForm.ip.trim()) {
-                const ip = await getAutofill(ruleForm.domain);
-                ruleForm.ip = ip;
-            }
+            const ip = await getAutofill(ruleForm.domain);
+            ruleForm.ip = ip;
+
             return ApiService.post("/targets/", formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Thêm mới thành công')
@@ -293,6 +292,9 @@ export default defineComponent({
         }
 
         const editFormSubmit = async (formData: RuleForm) => {
+            const ip = await getAutofill(ruleForm.domain);
+            ruleForm.ip = ip;
+
             return ApiService.put(`/targets/${ID.value}/`, formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Sửa mới thành công')
@@ -334,5 +336,9 @@ export default defineComponent({
 
 .demo-ruleForm .el-form-item__label {
     flex-direction: row-reverse !important
+}
+
+.el-form-item--default .el-form-item__error {
+    padding-top: 4px;
 }
 </style>
