@@ -6,7 +6,7 @@
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thống kê dựa trên kết quả Vulnerability Scan" placement="top">
-          <span class="card-label fw-bold">Vulnerabilities by serverity</span>
+          <span class="card-label fw-bold">Thống Kê Theo Mức Độ Nghiêm Trọng</span>
         </el-tooltip>
       </h3>
       <!--end::Title-->
@@ -118,7 +118,7 @@ const chartOptions = (props: any): ApexOptions => {
       },
       y: {
         formatter: function (val) {
-          return   "Tổng có: " + val;
+          return "" + val;
         },
       },
     },

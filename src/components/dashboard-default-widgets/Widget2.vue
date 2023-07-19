@@ -2,7 +2,7 @@
   <div class="card card-flush" :class="className">
     <div class="card-header pt-5">
       <div class="card-title d-flex flex-column">
-        <span class="text-gray-500 pt-1 fw-semibold fs-6">{{
+        <span class="text-gray-500 pt-1 fw-semibold" style="font-size: 17px;">{{
           description
         }}</span>
         <div class="d-flex align-items-center">

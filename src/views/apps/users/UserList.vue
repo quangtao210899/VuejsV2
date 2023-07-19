@@ -104,7 +104,7 @@
 
                 <!--begin::Form-->
                 <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
-                    :validation-schema="nameType == 'Chỉnh sửa thông tin người dùng' ? validationSchemaUpdate : validationSchema">
+                    :validation-schema="nameType == 'Chỉnh Sửa Thông Tin Người Dùng' ? validationSchemaUpdate : validationSchema">
                     <!--begin::Modal body-->
                     <div class="modal-body py-10 px-lg-17">
                         <!--begin::Scroll-->
@@ -115,13 +115,13 @@
                             <div class="mb-5 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="username">
                                     <span
-                                        v-bind:class="{ 'required': nameType != 'Chỉnh sửa thông tin người dùng' }">Email</span>
+                                        v-bind:class="{ 'required': nameType != 'Chỉnh Sửa Thông Tin Người Dùng' }">Tên Đăng Nhập</span>
                                 </label>
                                 <Field type="text" class="form-control form-control-solid"
-                                    :disabled="nameType == 'Chỉnh sửa thông tin người dùng'"
-                                    :style="{ cursor: nameType == 'Chỉnh sửa thông tin người dùng' ? 'not-allowed' : '', 'background-color': nameType == 'Chỉnh sửa thông tin người dùng' ? '#eee' : '' }"
-                                    :placeholder="editEmail" autocomplete="username" id="username" name="username" v-model="apiData.username" />
-                                <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'"
+                                    :disabled="nameType == 'Chỉnh Sửa Thông Tin Người Dùng'"
+                                    :style="{ cursor: nameType == 'Chỉnh Sửa Thông Tin Người Dùng' ? 'not-allowed' : '', 'background-color': nameType == 'Chỉnh Sửa Thông Tin Người Dùng' ? '#eee' : '' }"
+                                    placeholder="Nhập tên đăng nhập" autocomplete="username" id="username" name="username" v-model="apiData.username" />
+                                <div v-if="nameType != 'Chỉnh Sửa Thông Tin Người Dùng'"
                                     class="fv-plugins-message-container">
                                     <div class="fv-help-block">
                                         <ErrorMessage name="username" />
@@ -142,9 +142,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
-                                <label class="form-label fw-semibold fs-6 mb-2 required" for="password">
-                                    Mật khẩu mới
+                            <div v-if="nameType != 'Chỉnh Sửa Thông Tin Người Dùng'" class="mb-5 fv-row">
+                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="password">
+                                    <span class="required">Mật Khẩu Mới</span>
                                 </label>
                                 <!--end::Label-->
 
@@ -170,9 +170,10 @@
                                 </div>
                             </div>
 
-                            <div v-if="nameType != 'Chỉnh sửa thông tin người dùng'" class="mb-5 fv-row">
-                                <label class="form-label fw-semibold fs-6 mb-2 required" for="password_confirm" >Nhập lại mật khẩu</label>
-
+                            <div v-if="nameType != 'Chỉnh Sửa Thông Tin Người Dùng'" class="mb-5 fv-row">
+                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="password_confirm">
+                                    <span class="required">Nhập Lại Mật Khẩu</span>
+                                </label>
                                 <div class="position-relative mb-3">
                                     <Field :type="!eyeButtonRef2 ? 'password' : 'text'"
                                         class="form-control form-control-solid h-35px" name="password_confirm"
@@ -199,7 +200,8 @@
                                 <div class="form-check form-check-custom form-check-solid">
                                     <input class="form-check-input" type="checkbox" value="1" id="is_staff" name="is_staff"
                                         v-model="apiData.is_staff" :checked="apiData.is_staff">
-                                    <label class="form-check-label" for="is_staff">Quản trị viên</label>
+                                        
+                                    <label style="padding-left: 10px;" class="fs-6 fw-semobold" for="is_staff">Quản Trị Viên</label>
                                 </div>
                             </div>
 
@@ -219,16 +221,16 @@
                         <!--begin::Button-->
                         <button ref="discardButtonRef" @click="removeTextModal" type="reset"
                             id="kt_modal_new_target_group_cancel" class="btn btn-sm  btn-light me-3">
-                            Loại bỏ
+                            Loại Bỏ
                         </button>
                         <!--end::Button-->
 
                         <!--begin::Button-->
                         <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
-                            class="btn btn-sm  btn-primary">
+                            class="btn btn-sm  btn-light-primary">
                             <span class="indicator-label"> Gửi </span>
                             <span class="indicator-progress">
-                                Đang gửi...
+                                Đang Gửi...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
@@ -263,7 +265,7 @@
                             <div class="card-toolbar">
                                 <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
                                     data-bs-target="#kt_modal_new_target_group" @click="handleClick(detailData, 'edit')">
-                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Cập nhật
+                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Cập Nhật
                                 </button>
                             </div>
                             <!--end::Card toolbar-->
@@ -275,7 +277,7 @@
                             <!--begin::Section-->
                             <div class="mb-10">
                                 <!--begin::Title-->
-                                <h5>Thông tin chi tiết:</h5>
+                                <h5>Thông Tin Chi Tiết:</h5>
                                 <!--end::Title-->
                                 <!--begin::Details-->
                                 <div class="d-flex flex-wrap py-5">
@@ -285,26 +287,26 @@
                                         <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
                                             <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-400">Họ Tên:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.first_name }}
+                                                <td class="text-gray-500">Họ Tên:</td>
+                                                <td class="text-dark badge badge-light pe-2">{{ detailData.first_name }}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-gray-400">Phân quyền:</td>
-                                                <td class="text-gray-800 badge badge-light pe-2">{{ detailData.is_staff ?
+                                                <td class="text-gray-500">Phân Quyền:</td>
+                                                <td class="text-dark badge badge-light pe-2">{{ detailData.is_staff ?
                                                     'Quản trị viên' : 'Người dùng' }}</td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-400">Ngày tạo:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.date_joined) }}</td>
+                                                <td class="text-gray-500">Ngày Tạo:</td>
+                                                <td class="text-dark">{{ formatDate(detailData.date_joined) }}</td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-400">Ngày cập nhật cuối:</td>
-                                                <td class="text-gray-800">{{ formatDate(detailData.last_login) }}</td>
+                                                <td class="text-gray-500">Ngày Cập Nhật Cuối:</td>
+                                                <td class="text-dark">{{ formatDate(detailData.last_login) }}</td>
                                             </tr>
                                             <!--end::Row-->
                                         </table>
@@ -322,9 +324,9 @@
                     <!--end::Card-->
                 </div>
                 <!--end::Form-->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
-                        Quay lại
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-sm  btn-light-primary me-9" data-bs-dismiss="modal">
+                        Đóng
                     </button>
                 </div>
             </div>
@@ -426,7 +428,7 @@ export default defineComponent({
                 columnLabel: "first_name",
             },
             {
-                columnName: "Email",
+                columnName: "Tên người dùng",
                 columnLabel: "username",
             },
             {
@@ -454,14 +456,14 @@ export default defineComponent({
             errors.is_staff = false
             errors.detail = ''
             if (Object.keys(data).length != 0 && type === 'edit') {
-                nameType.value = "Chỉnh sửa thông tin người dùng"
+                nameType.value = "Chỉnh Sửa Thông Tin Người Dùng"
                 apiData.value.first_name = data.first_name;
                 apiData.value.username = data.username;
                 apiData.value.is_staff = data.is_staff;
-                editEmail.value = data.username ? data.username : 'Nhập email';
+                editEmail.value = data.username ? data.username : 'Nhập tên người dùng';
                 id.value = data.id;
             } else {
-                nameType.value = "Thêm mới người dùng"
+                nameType.value = "Thêm Mới Người Dùng"
                 if (discardButtonRef.value !== null) {
                     apiData.value.is_staff = false;
                     discardButtonRef.value.click();
@@ -578,12 +580,11 @@ export default defineComponent({
 
         const validationSchema = Yup.object().shape({
             first_name: Yup.string()
+                .required('Vui lòng nhập họ tên')
                 .matches(/^[a-zA-Z\sÀ-ỹ]+$/, 'Chỉ ký tự chữ được cho phép')
-                .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự')
-                .required('Vui lòng nhập tên'),
+                .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự'),
             username: Yup.string()
-                .required('Vui lòng nhập email')
-                .email('Địa chỉ email không chính xác'),
+                .required('Vui lòng nhập tên đăng nhập'),
             password: Yup.string()
                 .required('Vui lòng nhập mật khẩu')
                 .min(8, 'Mật khẩu nhập không được ít hơn 8 ký tự')
@@ -593,15 +594,15 @@ export default defineComponent({
                     'Mật khẩu phải chứa ít nhất 1 chữ cái, chữ hoa, ký tự đặc biệt'
                 ),
             password_confirm: Yup.string()
+                .required('Vui lòng nhập mật khẩu xác nhận')
                 .oneOf([Yup.ref('password'), null], 'Mật khẩu xác nhận không khớp')
-                .required('Vui lòng nhập mật khẩu xác nhận'),
         });
 
         const validationSchemaUpdate = Yup.object().shape({
             first_name: Yup.string()
+                .required('Vui lòng nhập họ tên')
                 .matches(/^[a-zA-Z\sÀ-ỹ]+$/, 'Chỉ ký tự chữ được cho phép')
                 .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự')
-                .required('Vui lòng nhập tên'),
         });
 
         const notification = (values: string, icon: string, more: string) => {

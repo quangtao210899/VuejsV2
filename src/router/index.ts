@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "target-list",
         component: () => import("@/views/apps/targets/TargetList.vue"),
         meta: {
-          pageTitle: "Quản lý mục tiêu",
+          pageTitle: "Danh Sách Mục Tiêu",
           breadcrumbs: ["Target"],
         },
       },
@@ -51,7 +51,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "target-recon",
         component: () => import("@/views/apps/targets/TargetReconList.vue"),
         meta: {
-          pageTitle: "Quản lý danh sách recon",
+          pageTitle: "Danh Sách Recon",
           breadcrumbs: ["Target","Recon"],
           links: ["/target-list"],
         },
@@ -81,7 +81,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "target-scan",
         component: () => import("@/views/apps/targets/TargetScanList.vue"),
         meta: {
-          pageTitle: "Quản lý danh sách quét",
+          pageTitle: "Danh Sách Quét",
           breadcrumbs: ["Target","Scan"],
           links: ["/target-list"],
         },
@@ -101,7 +101,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "target-group",
         component: () => import("@/views/apps/targets/TargetGroupList.vue"),
         meta: {
-          pageTitle: "Quản lý nhóm mục tiêu",
+          pageTitle: "Danh Sách Nhóm Mục Tiêu",
           breadcrumbs: [ "TargetGroup"],
         },
       },
@@ -139,7 +139,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "scans",
         component: () => import("@/views/apps/scans/ScanList.vue"),
         meta: {
-          pageTitle: "Quản lý lỗ hổng",
+          pageTitle: "Danh Sách Lỗ Hổng",
           breadcrumbs: ["Scans"],
         },
       },
@@ -159,7 +159,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "vpn",
         component: () => import("@/views/apps/vpn/VpnList.vue"),
         meta: {
-          pageTitle: "Quản lý vpn",
+          pageTitle: "VPN",
           breadcrumbs: ["vpn"],
         },
       },
@@ -179,7 +179,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "telegram",
         component: () => import("@/views/apps/telegrams/TelegramList.vue"),
         meta: {
-          pageTitle: "Quản lý Telegarm",
+          pageTitle: "Telegarm",
           breadcrumbs: ["Telegram"],
         },
       },
@@ -198,7 +198,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "telegram-group",
         component: () => import("@/views/apps/telegrams/TelegramGroupList.vue"),
         meta: {
-          pageTitle: "Quản lý nhóm Telegarm",
+          pageTitle: "Nhóm Telegarm",
           breadcrumbs: ["TelegramGroup"],
         },
       },
@@ -207,7 +207,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "telegram-type",
         component: () => import("@/views/apps/telegrams/TelegramList.vue"),
         meta: {
-          pageTitle: "Quản lý Telegarm",
+          pageTitle: "Telegarm",
           breadcrumbs: ["Telegram"],
         },
       },
@@ -226,7 +226,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "scanCVE",
         component: () => import("@/views/apps/cves/CVEList.vue"),
         meta: {
-          pageTitle: "Quản lý CVE",
+          pageTitle: "CVE",
           breadcrumbs: ["CVE"],
         },
       },
@@ -280,7 +280,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "user",
         component: () => import("@/views/apps/users/UserList.vue"),
         meta: {
-          pageTitle: "Quản lý Người Dùng",
+          pageTitle: "Người Dùng",
           breadcrumbs: ["User List"],
         },
       },
@@ -289,7 +289,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "user-profile",
         component: () => import("@/views/apps/users/ProfileList.vue"),
         meta: {
-          pageTitle: "Profile",
+          pageTitle: "Thông Tin Cá Nhân",
           breadcrumbs: ["Profile"],
         },
       }

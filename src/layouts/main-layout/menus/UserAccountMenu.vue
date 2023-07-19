@@ -37,7 +37,7 @@
     <!--begin::Menu item-->
     <div class="menu-item px-5">
       <router-link to="/user-profile" class="menu-link px-5">
-        Thông tin cá nhân
+        Thông Tin Cá Nhân
       </router-link>
     </div>
     <!--end::Menu item-->
@@ -94,7 +94,7 @@
     >
       <router-link to="#" class="menu-link px-5">
         <span class="menu-title position-relative">
-          Ngôn ngữ
+          Ngôn Ngữ
           <span
             class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0"
           >
@@ -224,7 +224,7 @@
 
     <!--begin::Menu item-->
     <div class="menu-item px-5">
-      <a @click.passive="signOut()" class="menu-link px-5"> Đăng xuất </a>
+      <a @click.passive="signOut()" class="menu-link px-5"> Đăng Xuất </a>
     </div>
     <!--end::Menu item-->
   </div>

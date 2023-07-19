@@ -7,7 +7,7 @@
       <!--begin::Heading-->
       <div class="text-center mb-10">
         <!--begin::Title-->
-        <h1 class="text-dark mb-3">Đăng nhập</h1>
+        <h1 class="text-dark mb-3" style="font-size: 26px;">Đăng Nhập</h1>
         <!--end::Title-->
 
         <!--begin::Link-->
@@ -26,7 +26,7 @@
       <!--begin::Input group-->
       <div class="fv-row mb-10">
         <!--begin::Label-->
-        <label class="form-label fs-6 fw-bold text-dark">Tên đăng nhập</label>
+        <label class="form-label fw-bold text-dark" style="font-size: 15px;">Tên Đăng Nhập</label>
         <!--end::Label-->
 
         <!--begin::Input-->
@@ -46,7 +46,7 @@
         <!--begin::Wrapper-->
         <div class="d-flex flex-stack mb-2">
           <!--begin::Label-->
-          <label class="form-label fw-bold text-dark fs-6 mb-0">Password</label>
+          <label class="form-label fw-bold text-dark mb-0" style="font-size: 15px;">Mật Khẩu</label>
           <!--end::Label-->
 
           <!--begin::Link-->
@@ -74,7 +74,7 @@
         <!--begin::Submit button-->
         <button tabindex="3" type="submit" ref="submitButton" id="kt_sign_in_submit"
           class="btn btn-lg btn-primary w-100 mb-5">
-          <span class="indicator-label"> Đăng nhập </span>
+          <span class="indicator-label"> Đăng Nhập </span>
 
           <span class="indicator-progress">
             Vui lòng đợi...
@@ -148,7 +148,7 @@ export default defineComponent({
           text: error[0] as string,
           icon: "error",
           buttonsStyling: false,
-          confirmButtonText: "Thử lại!",
+          confirmButtonText: "Thử Lại",
           heightAuto: false,
           customClass: {
             confirmButton: "btn fw-semobold btn-light-danger",

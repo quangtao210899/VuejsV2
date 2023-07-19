@@ -5,14 +5,14 @@
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Top 10 lỗ hổng bảo mật mới nhất" placement="top">
-          <span class="fw-bold mb-2 text-dark">Latest Vulnerabilities</span>
+          <span class="fw-bold mb-2 text-dark">Lỗ Hổng Bảo Mật Mới Nhất</span>
         </el-tooltip>
       </h3>
       <!--end::Title-->
 
       <!--begin::Toolbar-->
       <div class="card-toolbar">
-        <router-link class="btn btn-sm btn-light-primary" style="font-size: 13px;" to="/scans" active-class="active">Xem thêm</router-link>
+        <router-link class="btn btn-sm btn-light-primary" style="font-size: 13px;" to="/scans" active-class="active">Xem Thêm</router-link>
       </div>
       <!--end::Toolbar-->
     </div>
@@ -61,11 +61,11 @@
                 </td>
 
                 <td class="text-end pe-12">
-                  <span class="badge py-2 px-4" style="font-size: 13px;"
-                    :class="`badge-light-${checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan['service'] : row.port_scan['type'])).color}`">
+                  <span class="badge badge-light-primary py-2 px-4" style="font-size: 13px;"
+                    >
                     <KTIcon
-                      :class="`me-1 text-${checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan['service'] : row.port_scan['type'])).color}`"
-                      icon-name="lock" icon-class="" />
+                      class="me-1 text-primary"
+                      icon-name="lock" />
                     {{ checkDomain(row.schema ?? (row.nmap_scan_id ? row.port_scan["service"] :
                       row.port_scan["type"])).title }}
                   </span>

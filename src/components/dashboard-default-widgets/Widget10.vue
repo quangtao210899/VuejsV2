@@ -5,7 +5,7 @@
     <div class="card-header align-items-center border-0 mt-4">
       <h3 class="card-title align-items-start flex-column">
         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin CVE, các kĩ thuật tấn công mới" placement="top">
-          <span class="fw-bold mb-2">Hacker News</span>
+          <span class="fw-bold mb-2">Tin Tức An Toàn Thông Tin</span>
         </el-tooltip>
       </h3>
     </div>
@@ -42,7 +42,7 @@
           <!--begin::Content-->
           <div class="timeline-content d-flex">
             <span class="fw-bold text-gray-800 ps-3">
-              <router-link :to="'/telegram-list/2'" active-class="active">Xem thêm</router-link>
+              <router-link :to="'/telegram-list/2'" active-class="active">Xem Thêm</router-link>
             </span>
           </div>
           <!--end::Content-->
