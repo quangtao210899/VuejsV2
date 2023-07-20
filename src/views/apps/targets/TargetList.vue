@@ -37,7 +37,7 @@
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="100" label-class-name="fs-13px fw-bold text-dark"  prop="ip" label="IP" >
+                    <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark"  prop="ip" label="IP" >
                         <template #default="scope">
                             <span v-if="scope.row.ip != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.ip
                             }}</span>
@@ -45,7 +45,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column min-width="90" label-class-name="fs-13px text-dark fw-bold" prop="domain" label="DOMAIN" >
+                    <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="domain" label="DOMAIN" >
                         <template #default="scope">
                             <span v-if="scope.row.domain != ''" class="fs-13px text-gray-700 text-hover-primary">
                                 <i class="fa-solid fa-link fs-7"></i>
