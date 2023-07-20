@@ -103,7 +103,7 @@ export default defineComponent({
     setup() {
         const route = useRoute();
         const ID = ref<any>((route.params.id == 'add' ? null : route.params.id));
-        const type = ref<string>((ID.value == null ? 'Đồng Ý' : 'Đồng Ý'))
+        const type = ref<string>((ID.value == null ? 'Thêm Mới' : 'Chỉnh Sửa'))
         const list = ref<object | any>([])
         const data_group = ref<object | any>([])
         const loading = ref<boolean>(false)
