@@ -19,13 +19,13 @@
                     class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" :size="formSize" status-icon
                     label-position="left">
                     <el-form-item label="Tên mục tiêu" prop="name" class="pb-3 position-relative ">
-                        <el-input v-model="ruleForm.name"  placeholder="Nhập tên mục tiêu" :class="(errors.name) ? 'el-error-ruleForm' : ''" />
+                        <el-input v-model="ruleForm.name" size="large" placeholder="Nhập tên mục tiêu" :class="(errors.name) ? 'el-error-ruleForm' : ''" />
                         <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
                             <span class="" v-if="errors.name">{{ errors.name[0] }}</span>
                         </div>
                     </el-form-item>
                     <el-form-item label="Domain" prop="domain" class="pb-3 position-relative text-capitalize">
-                        <el-input v-model="ruleForm.domain" placeholder="Nhập domain mục tiêu" @blur="getAutofill(ruleForm.domain)
+                        <el-input v-model="ruleForm.domain" size="large" v placeholder="Nhập domain mục tiêu" @blur="getAutofill(ruleForm.domain)
                                     .then(ip => {
                                         ruleForm.ip = ip
                                     });" :class="(errors.domain) ? 'el-error-ruleForm' : ''"/>
@@ -34,13 +34,13 @@
                         </div>
                     </el-form-item>
                     <el-form-item label="IP" prop="ip" class="pb-3 position-relative text-capitalize">
-                        <el-input v-model="ruleForm.ip" placeholder="Nhập ip mục tiêu" :class="(errors.ip) ? 'el-error-ruleForm' : ''"/>
+                        <el-input v-model="ruleForm.ip" size="large" placeholder="Nhập ip mục tiêu" :class="(errors.ip) ? 'el-error-ruleForm' : ''"/>
                         <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
                             <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
                         </div>
                     </el-form-item>
                     <el-form-item label="Nhóm mục tiêu" prop="group" class="pb-3 position-relative text-capitalize w-400px">
-                        <el-select v-model="ruleForm.group" placeholder="Chọn nhóm mục tiêu" :class="(errors.group) ? 'el-error-ruleForm' : ''">
+                        <el-select v-model="ruleForm.group" size="large" placeholder="Chọn nhóm mục tiêu" :class="(errors.group) ? 'el-error-ruleForm' : ''">
                             <el-option v-for=" val  in  data_group " :key="val.id" :label="val.title" :value="val.id" />
                         </el-select>
                         <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
@@ -102,7 +102,7 @@ export default defineComponent({
     },
     setup() {
         const route = useRoute();
-        const ID = ref<any>((route.params.id == 'null' ? null : route.params.id));
+        const ID = ref<any>((route.params.id == 'add' ? null : route.params.id));
         const type = ref<string>((ID.value == null ? 'Thêm Mới' : 'Chỉnh Sửa'))
         const list = ref<object | any>([])
         const data_group = ref<object | any>([])
@@ -328,12 +328,13 @@ export default defineComponent({
     },
 });
 </script>
-<style >
+<style scoped>
 .my-custom-table td.el-table__cell {
     border-bottom-style: dashed !important;
 }
 
 .demo-ruleForm .el-form-item__label {
+    display: inline-flex;
     flex-direction: row-reverse !important
 }
 
@@ -347,5 +348,8 @@ export default defineComponent({
 
 .el-form-item--default .el-form-item__error {
     padding-top: 4px;
+}
+.el-input__wrapper{
+    background: #f9f9f9 ;
 }
 </style>

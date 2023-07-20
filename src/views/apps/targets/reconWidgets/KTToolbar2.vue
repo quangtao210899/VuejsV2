@@ -1,12 +1,14 @@
 <template>
-    <div class="py-3 mb-5 bg-body" id="kt_subheader" style="box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);">
+    <div class="py-2 bg-body position-fixed" id="kt_subheader" 
+    style="box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05) !important;width: -webkit-fill-available;;z-index:99">
         <div id="kt_app_toolbar_container"
-            class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap h-30px" :class="{
+            class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap " :class="{
                 'container-fluid': toolbarWidthFluid,
                 'container-xxl': !toolbarWidthFluid,
             }">
+            
             <!--begin::Details-->
-            <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch" :disabled="disabled" :check-search="checkSearch" />
+            <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch" :typeText="typeText" :disabled="disabled" :check-search="checkSearch" />
             <!--end::Details-->
 
             <!--begin::Toolbar-->
@@ -31,13 +33,13 @@
                 <template v-else>
                     <div class="d-flex justify-content-end align-items-center">
                         <div class="fw-bold me-5">
-                            <span class="me-2">{{ idsDelete.length }}</span>Chọn
+                            Đã Chọn <span class="me-1">{{ idsDelete.length }}</span>
                         </div>
                         <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
                             <button type="button" @click="deleteSelectd()" :disabled="disabled"
                                 class="btn btn-light-danger  btn-sm">
                                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
-                                Xóa mục đã chọn
+                                Xóa
                             </button>
                         </el-tooltip>
                     </div>
@@ -70,7 +72,7 @@ export default defineComponent({
         checkSearch: { type: Boolean, required: false, default: false },
         checkBack: { type: Boolean, required: false, default: false },
         checkSubmit: { type: Boolean, required: false, default: false },
-        typeText: { type: String, required: false, default: 'Gửi' },
+        typeText: { type: String, required: false, default: '' },
     },
     emits: [
         "handle-delete-selectd",
