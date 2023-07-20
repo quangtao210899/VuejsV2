@@ -19,48 +19,48 @@
                         </div>
                     </template>
 
-                    <el-table-column label-class-name=" fs-7 fw-bold " type="selection" width="35"
+                    <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35"
                         :reserve-selection="true" />
 
-                    <el-table-column width="60" label-class-name=" fs-7 fw-bold cursor-pointer" prop="id" label="ID" >
+                    <el-table-column width="60" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID" >
                         <template #default="scope">
-                            <span v-if="scope.row.id != ''" class="text-gray-600 text-hover-primary">{{ scope.row.id
+                            <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
                             }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
 
-                    <el-table-column label-class-name="fs-7 fw-bold" min-width="120" prop="name" label="TÊN MỤC TIÊU"  >
+                    <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="120" prop="name" label="TÊN MỤC TIÊU"  >
                         <template #default="scope">
-                            <span v-if="scope.row.name != ''" class="text-dark text-hover-primary">{{
+                            <span v-if="scope.row.name != ''" class="fs-13px text-gray-700 text-hover-primary">{{
                                 scope.row.name }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="100" label-class-name=" fs-7 fw-bold"  prop="ip" label="IP" >
+                    <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark"  prop="ip" label="IP" >
                         <template #default="scope">
-                            <span v-if="scope.row.ip != ''" class="text-gray-600 text-hover-primary">{{ scope.row.ip
+                            <span v-if="scope.row.ip != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.ip
                             }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
 
-                    <el-table-column min-width="90" label-class-name=" fs-7 fw-bold" prop="domain" label="DOMAIN" >
+                    <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="domain" label="DOMAIN" >
                         <template #default="scope">
-                            <span v-if="scope.row.domain != ''" class="text-gray-600 text-hover-primary ">
+                            <span v-if="scope.row.domain != ''" class="fs-13px text-gray-700 text-hover-primary">
                                 <i class="fa-solid fa-link fs-7"></i>
                                 {{ scope.row.domain }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="120" label-class-name=" fs-7 fw-bold" prop="group" label="NHÓM MỤC TIÊU" >
+                    <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="group" label="NHÓM MỤC TIÊU" >
                         <template #default="scope">
-                            <span v-if="scope.row.title != ''" class="text-gray-600 text-hover-primary">{{
+                            <span v-if="scope.row.title != ''" class="fs-13px text-gray-700 text-hover-primary">{{
                                 scope.row.group.title }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column width="150" label-class-name=" fs-7 fw-bold" label="HÀNH ĐỘNG" align="center">
+                    <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
                         <template #default="scope">
                             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Recon" placement="top">
                                 <router-link :to="`/target-recons/${scope.row.id}`" v-on:click.stop
@@ -85,7 +85,7 @@
                 </el-table>
                 <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
                     <div >
-                        <span class="text-capitalize">Tổng Số Mục Tiêu: {{ totalPage }}</span>
+                        <span class="text-capitalize fs-13px">Tổng Số Mục Tiêu: {{ totalPage }}</span>
                     </div>
                     <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
                         v-model:page-size="itemsPerPage" :total="totalPage"
@@ -327,8 +327,3 @@ export default defineComponent({
     },
 });
 </script>
-<style >
-.my-custom-table td.el-table__cell {
-    border-bottom-style: dashed !important;
-}
-</style>

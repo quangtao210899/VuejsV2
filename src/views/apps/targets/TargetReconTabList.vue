@@ -1034,7 +1034,7 @@
                                 <template v-else>
                                     <div class="px-5 w-100 h-100 d-flex flex-column justify-content-center text-center">
                                         <div class="text-center mb-5">
-                                            <i class="fa-regular fa-circle-question fa-bounce fs-3x text-warning"></i>
+                                            <i class="fa-regular fa-circle-xmark fa-bounce fs-3x text-warning"></i>
                                         </div>
                                         <span>{{ webdata_result ?? 'Thông tin không được chọn' }}</span>
                                     </div>
