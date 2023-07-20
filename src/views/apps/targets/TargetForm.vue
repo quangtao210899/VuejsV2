@@ -4,7 +4,7 @@
     <!--begin::Card-->
     <div class="app-container container-fluid pt-10">
         <div class="card d-block px-5 pb-20 mt-10 pt-10">
-            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="auto" :label-position="labelPosition" 
+            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" :label-width="'auto'" :label-position="labelPosition" 
                 class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right"
                 >
                 <el-form-item label="Tên mục tiêu" prop="name" class="pb-3 text-capitalize fs-6" tabindex="0" :error="(errors.name) ? errors.name[0] : ''">
@@ -347,12 +347,13 @@ export default defineComponent({
 .demo-ruleForm .el-form-item__error {
     text-transform: initial !important;
     line-height: 18px !important;
-    color:#f1416c !important ;
+    color:#f1416c !important;
 }
 
 /* .demo-ruleForm .el-error-ruleForm .el-input__wrapper {
     box-shadow: 0 0 0 1px var(--el-color-danger) inset !important;
 } */
+
 .el-form-item__label{
     font-size: 1.075rem !important;
     font-weight: 500;
@@ -371,7 +372,6 @@ export default defineComponent({
 .demo-ruleForm .el-form-item--default .el-form-item__error {
     padding-top: 4px;
 }
-
 
 .demo-ruleForm .el-input__wrapper {
     background: #f9f9f9 ;
