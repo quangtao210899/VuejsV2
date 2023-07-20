@@ -20,7 +20,7 @@
 
                 <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formSubmit"
                     class="btn btn-primary font-weight-bold py-2 px-5 ms-2">
-                    {{ typeText }}
+                    Đồng Ý
                 </router-link>
 
                 <!--begin::Button-->
