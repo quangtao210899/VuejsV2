@@ -3,7 +3,7 @@
 
     <div ref="mapContainer" id="mapContainer" class="h-100 w-100"></div>
     <div class="position-absolute top-0 start-0 z-index-1">
-      <div class="w-300px bg-white rounded-3 m-2 shadow-map">
+      <div class="w-300px bg-white rounded-3 ms-6 my-3 shadow-map">
         <div class="p-5">
           <div class="mb-3 fs-8"
             :class="(connecting == true) ? 'Đang kết nối...' : ((infoStatus == 1) ? 'text-success' : 'text-danger')">
