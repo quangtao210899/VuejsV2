@@ -31,20 +31,21 @@
                     </div> -->
                 </el-form-item>
                 <el-form-item label="Nhóm mục tiêu" prop="group" class="pb-3 position-relative text-capitalize w-100" :error="(errors.group) ? errors.group[0] : ''">
-                    <el-select v-model="ruleForm.group" size="large" placeholder="Chọn nhóm mục tiêu" class="w-100"
+                    <el-select v-model="ruleForm.group" size="large" placeholder="Chọn nhóm mục tiêu" class="w-100" filterable
                         :class="(errors.group) ? 'el-error-ruleForm' : ''">
                         <el-option v-for=" val  in  data_group " :key="val.id" :label="val.title" :value="val.id" />
                     </el-select>
                     <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
                         <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
                     </div> -->
-                </el-form-item>
-                <div class="fv-plugins-message-container">
-                    <div class="fv-help-block">
-                        <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] :
-                            errors.detail }}</span>
-                    </div>
+                    <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                            <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] :
+                                errors.detail }}</span>
+                        </div>
                 </div>
+                </el-form-item>
+                
             </el-form>
         </div>
     </div>
