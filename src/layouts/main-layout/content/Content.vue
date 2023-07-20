@@ -29,3 +29,8 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+.fs-13px{
+    font-size: 13px !important;
+}
+</style>

@@ -53,7 +53,7 @@
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold" prop="group" label="NHÓM MỤC TIÊU" >
+                    <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="group" label="NHÓM MỤC TIÊU" >
                         <template #default="scope">
                             <span v-if="scope.row.title != ''" class="fs-13px text-gray-700 text-hover-primary">{{
                                 scope.row.group.title }}</span>
@@ -327,12 +327,3 @@ export default defineComponent({
     },
 });
 </script>
-<style >
-.my-custom-table td.el-table__cell {
-    border-bottom-style: dashed !important;
-}
-
-.fs-13px{
-    font-size: 13px !important;
-}
-</style>
