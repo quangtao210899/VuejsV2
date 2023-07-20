@@ -7,14 +7,14 @@
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="auto" :label-position="labelPosition" 
                 class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right"
                 >
-                <el-form-item label="Tên mục tiêu" prop="name" class="pb-3 position-relative fs-7" :error="(errors.name) ? errors.name[0] : ''">
-                    <el-input v-model="ruleForm.name" size="large" placeholder="Nhập tên mục tiêu"
+                <el-form-item label="Tên mục tiêu" prop="name" class="pb-3 text-capitalize fs-6" tabindex="0" :error="(errors.name) ? errors.name[0] : ''">
+                    <el-input v-model="ruleForm.name" size="large" placeholder="Nhập tên mục tiêu" :autofocus="true"
                         :class="(errors.name) ? 'el-error-ruleForm' : ''" />
                     <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
                         <span class="" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div> -->
                 </el-form-item>
-                <el-form-item label="Domain" prop="domain" class="pb-3 position-relative text-capitalize" :error="(errors.domain) ? errors.domain[0] : ''">
+                <el-form-item label="Domain" prop="domain" class="pb-3 text-capitalize fs-6" :error="(errors.domain) ? errors.domain[0] : ''">
                     <el-input v-model="ruleForm.domain" size="large" v placeholder="Nhập domain mục tiêu" @blur="getAutofill(ruleForm.domain)
                         .then(ip => {
                             ruleForm.ip = ip
@@ -23,14 +23,14 @@
                         <span class="" v-if="errors.domain">{{ errors.domain[0] }}</span>
                     </div> -->
                 </el-form-item>
-                <el-form-item label="IP" prop="ip" class="pb-3 position-relative text-capitalize" :error="(errors.ip) ? errors.ip[0] : ''">
+                <el-form-item label="IP" prop="ip" class="pb-3 text-capitalize fs-6" :error="(errors.ip) ? errors.ip[0] : ''">
                     <el-input v-model="ruleForm.ip" size="large" placeholder="Nhập ip mục tiêu"
                         :class="(errors.ip) ? 'el-error-ruleForm' : ''" />
                     <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
                         <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
                     </div> -->
                 </el-form-item>
-                <el-form-item label="Nhóm mục tiêu" prop="group" class="pb-3 position-relative text-capitalize w-100" :error="(errors.group) ? errors.group[0] : ''">
+                <el-form-item label="Nhóm mục tiêu" prop="group" class="pb-3 text-capitalize w-100 fs-6" :error="(errors.group) ? errors.group[0] : ''">
                     <el-select v-model="ruleForm.group" size="large" placeholder="Chọn nhóm mục tiêu" class="w-100" filterable
                         :class="(errors.group) ? 'el-error-ruleForm' : ''">
                         <el-option v-for=" val  in  data_group " :key="val.id" :label="val.title" :value="val.id" />
@@ -345,21 +345,43 @@ export default defineComponent({
 </script>
 <style>
 .demo-ruleForm .el-form-item__error {
-    text-transform: initial !important
+    text-transform: initial !important;
+    line-height: 18px !important;
+    color:#f1416c !important ;
 }
 
 /* .demo-ruleForm .el-error-ruleForm .el-input__wrapper {
     box-shadow: 0 0 0 1px var(--el-color-danger) inset !important;
 } */
+.el-form-item__label{
+    font-size: 1.075rem !important;
+    font-weight: 500;
+    color: #252f4a !important;
+}
 
 .demo-ruleForm .el-input__wrapper {
     box-shadow: none !important;
+    
+}
+.demo-ruleForm .el-input__wrapper.is-focus{
+    background-color: #f1f1f2 !important;
+    color: #4b5675 !important;
 }
 
 .demo-ruleForm .el-form-item--default .el-form-item__error {
     padding-top: 4px;
 }
 
+
 .demo-ruleForm .el-input__wrapper {
-    background: #f9f9f9;
-}</style>
+    background: #f9f9f9 ;
+    border-radius: 10px !important;
+
+}
+.demo-ruleForm .el-input__wrapper input {
+    font-weight: 500 !important;
+    color: #252f4a !important;
+    font-size: 13px !important;
+    line-height: 21px !important;
+}
+</style>
