@@ -6,7 +6,7 @@
             :class="`page-title d-flex flex-${pageTitleDirection} justify-content-center flex-wrap me-3`">
             <template v-if="pageTitle">
                 <!--begin::Title-->
-                <!-- <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0" :class="(pageTitleDirection == 'row') ? 'me-5' : ''">
+                <!-- <h1 class="page-heading d-flex text-dark fw-bold fs-5 flex-column justify-content-center my-0" :class="(pageTitleDirection == 'row') ? 'me-5' : ''">
                     {{ pageTitle }}
                 </h1> -->
                 <!--end::Title-->
@@ -16,7 +16,7 @@
                     class="breadcrumb breadcrumb-dot fw-semibold fs-7 my-0 pt-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <router-link to="/" class="text-hover-danger text-primary fw-bold">Home</router-link>
+                        <router-link to="/" class="text-hover-danger text-primary fw-bold">Trang Chủ</router-link>
                     </li>
                     <!--end::Item-->
                     <template v-for="(item, i) in breadcrumbs" :key="i">
@@ -32,7 +32,11 @@
                                 {{ item }}
                             </template>
                         </li>
-                        <li class="breadcrumb-item text-muted" v-else>{{ item }}</li>
+                        <li class="breadcrumb-item text-muted" v-else>
+                            <!-- {{ (typeText) ? typeText : item  }} -->
+                            {{ (item == 'addForm') ? typeText : ((item == 'detail') ? 'Chi Tiết' : item) }}
+                            
+                        </li>
                     </template>
                 </ul>
                 <!--end::Breadcrumb-->
@@ -80,7 +84,8 @@ export default defineComponent({
     props: {
         disabled: { type: Boolean, required: false, default: false },
         search: { type: String, required: false, default: '' },
-        checkSearch: { type: Boolean, required: false, default: true}
+        checkSearch: { type: Boolean, required: false, default: true},
+        typeText: { type: String, required: false, default: '' },
     },
     emits: ['handle-search'],
 

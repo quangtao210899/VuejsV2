@@ -1,23 +1,15 @@
 <template>
-    <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
+    <div ref="refGetTheHeight">
+        <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
         @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
+    </div>
     <!--begin::Card-->
-    <div class="app-container container-fluid">
-        <div class="card h-100 d-block px-5">
-            <!--end::Card header-->
-            <div class="card-header flex-wrap border-0 pt-3 p-0">
-                <div class="card-title">
-                    <h3 class="card-label">
-                        Quản lý mục tiêu
-                        <span class="d-block text-muted pt-2 fs-7">Danh sách các mục tiêu target</span>
-                    </h3>
-                </div>
-            </div>
-
+    <el-scrollbar :height="heightTable">
+    <div class="app-container container-fluid overflow-auto pt-10" >
+        <div class="mt-10 p-5 bg-body rounded-3">
             <!--begin::Card body-->
-            <div class="h-100 w-100 p-0 m-0">
-                <el-table ref="multipleTableRef" :data="list" style="width: 100%"
-                    class-name="my-custom-table rounded-top cursor-pointer" :height="heightTable" table-layout="fixed"
+            <el-table ref="multipleTableRef" :data="list" style="width: 100%"
+                    class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed"
                     v-loading="loading" @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
                     @current-change="handleCurrentChange" :default-sort="{ prop: 'id', order: 'descending' }"
                     @sort-change="handleSortChange">
@@ -30,8 +22,7 @@
                     <el-table-column label-class-name=" fs-7 fw-bold " type="selection" width="35"
                         :reserve-selection="true" />
 
-                    <el-table-column min-width="40" label-class-name=" fs-7 fw-bold cursor-pointer" prop="id"
-                        label="ID">
+                    <el-table-column width="60" label-class-name=" fs-7 fw-bold cursor-pointer" prop="id" label="ID" >
                         <template #default="scope">
                             <span v-if="scope.row.id != ''" class="text-gray-600 text-hover-primary">{{ scope.row.id
                             }}</span>
@@ -39,14 +30,14 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column label-class-name=" fs-7 fw-bold " prop="name" label="TÊN MỤC TIÊU">
+                    <el-table-column label-class-name="fs-7 fw-bold" min-width="120" prop="name" label="TÊN MỤC TIÊU"  >
                         <template #default="scope">
                             <span v-if="scope.row.name != ''" class="text-dark text-hover-primary">{{
                                 scope.row.name }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="100" label-class-name=" fs-7 fw-bold" prop="ip" label="IP">
+                    <el-table-column min-width="100" label-class-name=" fs-7 fw-bold"  prop="ip" label="IP" >
                         <template #default="scope">
                             <span v-if="scope.row.ip != ''" class="text-gray-600 text-hover-primary">{{ scope.row.ip
                             }}</span>
@@ -54,36 +45,36 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column min-width="90" label-class-name=" fs-7 fw-bold" prop="domain" label="DOMAIN">
+                    <el-table-column min-width="90" label-class-name=" fs-7 fw-bold" prop="domain" label="DOMAIN" >
                         <template #default="scope">
                             <span v-if="scope.row.domain != ''" class="text-gray-600 text-hover-primary ">
-                            <i class="fa-solid fa-link fs-7"></i>
-                            {{scope.row.domain }}</span>
+                                <i class="fa-solid fa-link fs-7"></i>
+                                {{ scope.row.domain }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="90" label-class-name=" fs-7 fw-bold" prop="group" label="NHÓM MỤC TIÊU">
+                    <el-table-column min-width="120" label-class-name=" fs-7 fw-bold" prop="group" label="NHÓM MỤC TIÊU" >
                         <template #default="scope">
                             <span v-if="scope.row.title != ''" class="text-gray-600 text-hover-primary">{{
                                 scope.row.group.title }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="90" label-class-name=" fs-7 fw-bold" label="HÀNH ĐỘNG" >
+                    <el-table-column width="150" label-class-name=" fs-7 fw-bold" label="HÀNH ĐỘNG" align="center">
                         <template #default="scope">
-                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Recon" placement="top" >
+                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Recon" placement="top">
                                 <router-link :to="`/target-recons/${scope.row.id}`" v-on:click.stop
                                     class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 my-1">
                                     <i class="fas fa-mail-bulk"></i>
                                 </router-link>
                             </el-tooltip>
-                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan" placement="top" >
+                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan" placement="top">
                                 <router-link :to="`/target-scans/${scope.row.id}`" v-on:click.stop
                                     class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1 my-1">
                                     <KTIcon icon-name="search-list" icon-class="fs-3" />
                                 </router-link>
                             </el-tooltip>
-                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh Sửa" placement="top" >
+                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh Sửa" placement="top">
                                 <router-link :to="`/target-form/${scope.row.id}`" v-on:click.stop
                                     class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
                                     <KTIcon icon-name="pencil" icon-class="fs-3" />
@@ -92,17 +83,19 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <div class="d-flex justify-content-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-                    <el-pagination v-if="list.length > 0" background v-model:current-page="currentPage"
+                <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+                    <div >
+                        <span class="text-capitalize">Tổng Số Mục Tiêu: {{ totalPage }}</span>
+                    </div>
+                    <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
                         v-model:page-size="itemsPerPage" :total="totalPage"
-                        :layout="(checkPaginationTable) ? 'prev, pager, next' : 'total, sizes, prev, pager, next, jumper'"
-                        :pager-count="(checkPaginationTable) ? 5 : 6" :disabled="disabled"
-                        :page-sizes="(checkPaginationTable) ? [] : [10, 20, 30, 40, 50]"></el-pagination>
+                        layout="prev, pager, next" :disabled="disabled" ></el-pagination>
+                        <div></div>
                 </div>
-            </div>
             <!--end::Card body-->
         </div>
     </div>
+    </el-scrollbar>
 
     <!--end::Card-->
 </template>
@@ -115,7 +108,7 @@ import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 // validate
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import { ElTable, ElTableColumn } from 'element-plus';
+import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -125,6 +118,7 @@ export default defineComponent({
         ElTable,
         ElTableColumn,
         KTToolbar,
+        ElPagination,
     },
     directives: {
         debounce: vue3Debounce({ lock: true })
@@ -248,33 +242,37 @@ export default defineComponent({
 
         // tính toán chiều cao table
         const heightTable = ref(0)
-        const checkPaginationTable = ref(false)
         const handleResize = () => {
             const windowWidth = window.innerWidth;
-
             if (windowWidth >= 1400) {
-                heightTable.value = window.innerHeight - 290;
-                checkPaginationTable.value = false
+                heightTable.value = window.innerHeight - 80;
             } else if (windowWidth >= 1200) {
-                heightTable.value = window.innerHeight - 290;
-                checkPaginationTable.value = false
+                heightTable.value = window.innerHeight - 80;
             } else if (windowWidth >= 992) {
-                heightTable.value = window.innerHeight - 290;
-                checkPaginationTable.value = false
+                heightTable.value = window.innerHeight - 80;
             } else if (windowWidth >= 768) {
-                heightTable.value = window.innerHeight - 265;
-                checkPaginationTable.value = false
+                heightTable.value = window.innerHeight -75;
             } else if (windowWidth >= 576) {
-                heightTable.value = window.innerHeight - 265;
-                checkPaginationTable.value = true
+                heightTable.value = window.innerHeight - 75;
             } else {
                 // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-                heightTable.value = window.innerHeight - 265;
-                checkPaginationTable.value = true
+                heightTable.value = window.innerHeight - 70;
             }
         };
         // thêm mới
-        const urlAddNew = ref('target-form/null')
+        const urlAddNew = ref('target-form/add')
+
+        // update the height
+        const refGetTheHeight = ref<any>(null); // Ref to hold the div element
+        const divHeight = ref(300); // Reactive variable to store the height with an initial value
+
+        // Function to update the height
+        function updateDivHeight() {
+            if (refGetTheHeight.value) {
+                divHeight.value = refGetTheHeight.value.clientHeight;
+            }
+        }
+
 
         const handleSortChange = (column: any) => {
             orderingID.value = (column.order == 'ascending' && column.prop == 'id') ? '-id' : 'id'
@@ -317,7 +315,6 @@ export default defineComponent({
 
             //
             handleResize,
-            checkPaginationTable,
             heightTable,
             handleSelectionChange,
             getRowKey,
@@ -330,6 +327,8 @@ export default defineComponent({
     },
 });
 </script>
-<style >.my-custom-table td.el-table__cell {
+<style >
+.my-custom-table td.el-table__cell {
     border-bottom-style: dashed !important;
-}</style>
+}
+</style>

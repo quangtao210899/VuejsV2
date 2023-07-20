@@ -5,7 +5,7 @@
       'container-fluid': contentWidthFluid,
       'container-xxl': !contentWidthFluid,
     }"> -->
-        <div id="kt_app_content_containern " class="h-100">
+        <div id="kt_app_content_containern " class="h-100 position-relative">
       <RouterView></RouterView>
     </div>
     <!--end::Content container-->

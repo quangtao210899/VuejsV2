@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetList.vue"),
         meta: {
           pageTitle: "Danh Sách Mục Tiêu",
-          breadcrumbs: ["Target"],
+          breadcrumbs: ["Mục Tiêu"],
         },
       },
       {
@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetListDetail.vue"),
         meta: {
           pageTitle: "Chi tiết mục tiêu",
-          breadcrumbs: ["Target", "TargetDetail"],
+          breadcrumbs: ["Mục Tiêu", "detail"],
           links: ["/target-list"],
         },
       },
@@ -42,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetForm.vue"),
         meta: {
           pageTitle: "Chi tiết mục tiêu",
-          breadcrumbs: ["Target", "TargetForm"],
+          breadcrumbs: ["Mục Tiêu", "addForm"],
           links: ["/target-list"],
         },
       },
