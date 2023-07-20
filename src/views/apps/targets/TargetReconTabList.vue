@@ -44,13 +44,13 @@
                     <div class="row">
                         <div class="col-6">
                             <div>
-                                <span class="w-70px">Mục tiêu : </span>
+                                <span class="w-70px">Mục Tiêu: </span>
                                 <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div>
-                                <span class="w-70px">Nhóm mục tiêu : </span>
+                                <span class="w-70px">Nhóm Mục Tiêu: </span>
                                 <span class="fw-bold">{{ targets.group.title }}</span>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
 
                         <!--begin::Select-->
                         <el-button class="me-2" type="primary" :icon="RefreshIcon" @click="reloadData" :loading="disabled"
-                            :loading-icon="RefreshIcon">Tải lại</el-button>
+                            :loading-icon="RefreshIcon">Tải Lại</el-button>
                         <!--end::Select-->
 
                         <!--begin::Select-->
@@ -85,7 +85,7 @@
                 wrap-class="w-100 overflow-x-auto pe-1">
                 <el-row :gutter="10">
                     <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8" class="mb-3 mx-0">
-                        <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 5px' }">
+                        <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 20px' }">
                             <reconActivity :activitieLine="activities" :activity="activity" chartHeight="300"
                                 :process="process"></reconActivity>
                         </el-card>
@@ -93,77 +93,80 @@
                     <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16" class="d-grid">
                         <el-row :gutter="10">
                             <el-col :span="6" class="mb-3 mx-0">
-                                <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 10px' }">
+                                <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 20px' }">
                                     <!--begin::Label-->
-                                    <div class="fs-7 text-muted fw-semobold">Subdomains</div>
+                                    <div class="fs-5 text-muted fw-semobold">Subdomains</div>
                                     <!--end::Label-->
                                     <!--begin::Stat-->
                                     <div class="d-flex align-items-start flex-wrap">
-                                        <div class="fs-2x fw-bold me-2">{{ subdomain.total_subdomain }}</div>
-                                        <!--begin::Badge-->
-                                        <span class="badge badge-light-success fs-base">
-                                            <KTIcon icon-name="notification-bing" icon-class="fs-5 text-success ms-n1" />
-                                            <span class="fs-7 text-success">{{ subdomain.total_subdomain_live }} Alive</span>
-                                        </span>
-                                        <!--end::Badge-->
+                                        <div class="fs-2x fw-bold me-2 text-dark">{{ subdomain.total_subdomain }}</div>
                                     </div>
-
-                                </el-card>
-                            </el-col>
-                            <el-col :span="6" class="mb-3 mx-0">
-                                <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
-                                    <!--begin::Label-->
-                                    <div class="fs-7 text-muted fw-semobold">Endpoints</div>
-                                    <!--end::Label-->
-                                    <!--begin::Stat-->
-                                    <div class="d-flex align-items-start flex-wrap">
-                                        <div class="fs-2x fw-bold me-2">{{ endpoint.message.total_endpoint }}</div>
-                                        <!--begin::Badge-->
-                                        <span class="badge badge-light-success fs-base">
-                                            <KTIcon icon-name="notification-bing" icon-class="fs-5 text-success ms-n1" />
-                                            <span class="fs-7 text-success">{{ endpoint.message.total_endpoint_live }}
-                                                Alive</span>
-                                        </span>
-                                        <!--end::Badge-->
+                                    <div class="card-body pt-5 flex-wrap align-items-end">
+                                        <div class="row">
+                                            <div class="col-12 d-flex fw-semibold align-items-center">
+                                            <div class="text-gray-500 me-4"><span class="text-success">{{ subdomain.total_subdomain_live }}</span> Alive</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </el-card>
                             </el-col>
                             <el-col :span="6" class="mb-3 mx-0">
-                                <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
+                                <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 20px' }">
                                     <!--begin::Label-->
-                                    <div class="fs-7 text-muted fw-semobold">Services</div>
+                                    <div class="fs-5 text-muted fw-semobold">Endpoints</div>
+                                    <!--end::Label-->
+                                    <!--begin::Stat-->
+                                    <div class="d-flex align-items-start flex-wrap">
+                                        <div class="fs-2x fw-bold me-2 text-dark">{{ endpoint.message.total_endpoint }}</div>
+                                    </div>
+                                    <div class="card-body pt-5 flex-wrap align-items-end">
+                                        <div class="row">
+                                            <div class="col-12 d-flex fw-semibold align-items-center">
+                                            <div class="text-gray-500 me-4"><span class="text-success">{{ endpoint.message.total_endpoint_live }}</span> Alive</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </el-card>
+                            </el-col>
+                            <el-col :span="6" class="mb-3 mx-0">
+                                <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 20px' }">
+                                    <!--begin::Label-->
+                                    <div class="fs-5 text-muted fw-semobold">Dịch Vụ</div>
                                     <!--end::Label-->
                                     <!--begin::Stat-->
                                     <div class="">
-                                        <div class="fs-2x fw-bold me-2">{{ services.total }}</div>
+                                        <div class="fs-2x fw-bold me-2 text-dark">{{ services.total }}</div>
                                     </div>
-                                    <div>
-                                        <span class="badge badge-light-primary me-1">Open: {{ services.total_open }}</span>
-                                        <span class="badge badge-light-danger">Closed: {{ services.total_close }}</span>
+                                    <div class="card-body pt-5 flex-wrap align-items-end">
+                                        <div class="row">
+                                            <div class="col-12 d-flex fw-semibold align-items-center">
+                                            <div class="text-gray-500 me-4"><span class="text-primary">{{ services.total_open }}</span> Open, <span class="text-danger">{{ services.total_close }}</span> Closed</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </el-card>
                             </el-col>
                             <el-col :span="6" class="mb-3 mx-0">
-                                <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 10px' }">
+                                <el-card shadow="hover" class="box-card h-100 rounded-3" :body-style="{ padding: '20px 20px' }">
                                     <!--begin::Label-->
-                                    <div class="fs-7 text-muted fw-semobold">Tài khoản</div>
+                                    <div class="fs-5 text-muted fw-semobold">Tài Khoản</div>
                                     <!--end::Label-->
                                     <!--begin::Stat-->
 
                                     <!--begin::Stats-->
-                                    <div class="d-flex flex-wrap">
+                                    <div class="d-flex flex-wrap mt-1">
                                         <!--begin::Stat-->
                                         <div
-                                            class="border border-gray-300 border-dashed rounded min-w-80px py-1 px-2 me-2 mb-2 ">
-                                            <div class="fw-semobold fs-7 text-gray-800"><span class="text-info fw-bold fs-6">{{
-                                                account.email }} </span> Địa chỉ Email</div>
+                                            class="min-w-80px py-1 px-2 me-2 mb-2 ">
+                                            <div class="fw-semobold fs-7 text-dark"><span class="text-primary fs-6">{{
+                                                account.email }} </span> Địa Chỉ Email</div>
                                         </div>
                                         <!--end::Stat-->
 
                                         <!--begin::Stat-->
                                         <div
-                                            class="border border-gray-300 border-dashed rounded min-w-80px py-1 px-2 me-2 mb-2">
-                                            <div class="fw-semobold fs-7 text-gray-800"><span class="text-info fw-bold fs-6">{{
+                                            class="min-w-80px py-1 px-2 me-2 mb-2">
+                                            <div class="fw-semobold fs-7 text-dark"><span class="text-primary fs-6">{{
                                                 account.credentials }} </span> Credentials</div>
                                         </div>
                                         <!--end::Stat-->
@@ -178,7 +181,7 @@
                                     :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
                                     <template #header>
                                         <div class="card-header">
-                                            <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về Domain</span>
+                                            <span class="card-label fw-bold text-gray-800 fs-5">Thông Tin Về Domain</span>
                                         </div>
                                     </template>
                                     <div class="h-500px">
@@ -278,7 +281,7 @@
                                     :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
                                     <template #header>
                                         <div class="card-header">
-                                            <span class="card-label fw-bold text-gray-800 fs-5">Thông tin về IP</span>
+                                            <span class="card-label fw-bold text-gray-800 fs-5">Thông Tin Về IP</span>
                                         </div>
                                     </template>
                                     <div class="h-500px">
@@ -336,7 +339,7 @@
                                                                                                     <template
                                                                                                         v-if="checkArray(e) == true">
                                                                                                         <span
-                                                                                                            class="bullet bullet-dot bg-success me-5"></span>
+                                                                                                            class="bullet bullet-dot bg-primary me-5"></span>
                                                                                                         <div
                                                                                                             class="d-flex align-items-start">
                                                                                                             <span>{{ j }} :
@@ -351,7 +354,7 @@
                                                                                                                         || q
                                                                                                                         ==
                                                                                                                         null) ?
-                                                                                                                        ' None...' :
+                                                                                                                        ' --' :
                                                                                                                         q }}
                                                                                                                 </span>
                                                                                                             </div>
@@ -360,13 +363,13 @@
                                                                                                     <template v-else>
                                                                                                         <div>
                                                                                                             <span
-                                                                                                                class="bullet bullet-dot bg-success me-5"></span>
+                                                                                                                class="bullet bullet-dot bg-primary me-5"></span>
                                                                                                             {{ j }} :
                                                                                                             <span
                                                                                                                 :class="(e == '' || e == null) ? 'text-danger' : ''">
                                                                                                                 {{ (e == '' || e
                                                                                                                     == null) ?
-                                                                                                                    'None...' : e }}
+                                                                                                                    '--' : e }}
                                                                                                             </span>
                                                                                                         </div>
 
@@ -378,13 +381,13 @@
                                                                                                     class="d-flex align-items-center py-2">
                                                                                                     <span
                                                                                                         :class="(el == '' || el == null) ? 'text-danger' : ''"
-                                                                                                        class="bullet bullet-dot bg-success me-5">
+                                                                                                        class="bullet bullet-dot bg-primary me-5">
                                                                                                     </span>
                                                                                                     {{ i }} :
                                                                                                     <span class="ms-1"
                                                                                                         :class="(el == '' || el == null) ? 'text-danger' : ''">
                                                                                                         {{ (el == '' || el ==
-                                                                                                            null) ? 'None...' : el
+                                                                                                            null) ? '--' : el
                                                                                                         }}
                                                                                                     </span>
                                                                                                 </li>
@@ -396,7 +399,7 @@
                                                                                     <span
                                                                                         :class="(item == '' || item == null) ? 'text-danger' : ''">
                                                                                         {{ (item == '' || item == null) ?
-                                                                                            'None...' :
+                                                                                            '--' :
                                                                                             item
                                                                                         }}</span>
                                                                                 </td>
@@ -445,11 +448,11 @@
                     <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
                         <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                             <template #header>
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch vụ</span>
-                                    <span class="badge badge-circle badge-success ms-2">
+                                <div class="card-header d-flex align-items-center">
+                                    <span class="badge badge-circle badge-primary me-2">
                                         {{ (port_service_status == 3 && checkArray(port_service) == true) ?
                                             Object.keys(port_service).length : 0 }}</span>
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch Vụ</span>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -472,40 +475,47 @@
                                                 <div>123</div>
                                             </el-popover>
                                             <br> -->
-                                            <el-popover v-for="(item, key) in port_service" :key="key" placement="bottom"
-                                                :width="250" trigger="click">
-                                                <template #reference>
-                                                    <el-tag :key="key" :type="(item.status == false) ? 'danger' : 'primary'"
-                                                        class="mx-1 my-1 cursor-pointer" effect="dark" round>
-                                                        {{ key }}
-                                                    </el-tag>
-                                                </template>
-                                                <!--begin::Table container-->
-                                                <div class="mh-300px overflow-y-auto">
-                                                    <div class="pb-2 mt-2">
-                                                        <h4 class="fs-4">Details for Post: {{ key.toString().split("/")[0] }}
-                                                        </h4>
-                                                        <span class="fs-7">Total
-                                                            <span class="fw-bold text-dark">{{ Object.keys(item.ips).length
-                                                            }}</span>
-                                                            IP Addresses have Port
-                                                            <span class="fw-bold text-dark">{{ key.toString().split("/")[0]
-                                                            }}</span></span>
-                                                    </div>
-                                                    <div class="d-flex flex-column my-3 ms-2">
-                                                        <li v-for="(i, key) in  item.ips" :key="key"
-                                                            class="d-flex align-items-center py-2">
-                                                            <span :class="`bg-${(i == true) ? 'primary' : 'danger'}`"
-                                                                class="bullet bullet-dot me-5 h-7px w-7px"></span>
-                                                            <!-- <span :class="`fs-7 badge badge-light-${(item.status == false) ? 'danger' : 'primary'}`">
-                                                            {{ i }}</span> -->
-                                                            <span class="fs-6">{{ key }}</span>
-                                                        </li>
+                                            <span v-for="(item, key) in port_service">
+                                                <span @click="drawerPorts(item, key)" 
+                                                    :class="`badge badge-light-${(item.status == false) ? 'danger' : 'primary'} fs-7 me-2 my-1 cursor-pointer`">
+                                                    {{ key }}
+                                                </span>
+                                                <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="port_detail">
+                                                    <div class="modal-dialog modal-dialog-centered mw-550px">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body" style="padding: 26px 0px 0px 0px;">
+                                                                <div class="card card-flush">
+                                                                    <div class="card-body py-0">
+                                                                        <div class="pb-2 mt-2">
+                                                                            <h4 class="fs-4">Chi tiết của cổng {{ key.toString().split("/")[0] }}
+                                                                            </h4>
+                                                                            <span class="fs-7">Có
+                                                                                <span class="fw-bold text-dark">{{ Object.keys(item.ips).length
+                                                                                }}</span>
+                                                                                địa chỉ IP có cổng
+                                                                                <span class="fw-bold text-dark">{{ key.toString().split("/")[0]
+                                                                                }}</span></span>
+                                                                        </div>
+                                                                        <div class="d-flex flex-column my-3 ms-2">
+                                                                            <li v-for="(i, key) in  item.ips" :key="key"
+                                                                                class="d-flex align-items-center py-2">
+                                                                                <span
+                                                                                    class="bg-primary bullet bullet-dot me-5 h-7px w-7px"></span>
+                                                                                <span class="fs-6">{{ key }}</span>
+                                                                            </li>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+                                                                <button type="button" class="btn btn-sm btn-light-primary me-9" data-bs-dismiss="modal">
+                                                                    Đóng
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <!--end::Table container-->
-                                            </el-popover>
-
+                                            </span>
                                         </div>
                                     </template>
                                 </template>
@@ -537,12 +547,12 @@
                     <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
                         <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                             <template #header>
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Email liên quan</span>
-                                    <span class="badge badge-circle badge-success ms-2">
+                                <div class="card-header d-flex align-items-center">
+                                    <span class="badge badge-circle badge-primary me-2">
                                         {{ (related_email_status == 3 && checkArray(related_email) == true) ?
                                             Object.keys(related_email).length : 0 }}
                                     </span>
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Email Liên Quan</span>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -582,7 +592,7 @@
                                                 <tbody class="overflow-y-auto w-100 ">
                                                     <tr v-for="(item, key) in related_email" :key="key">
                                                         <td class="text-start"><span>
-                                                                <span>{{ (item.email == '') ? 'None...' : item.email }}</span>
+                                                                <span>{{ (item.email == '') ? '--' : item.email }}</span>
                                                             </span></td>
                                                         <td class="text-center ">
                                                             <template
@@ -590,7 +600,7 @@
                                                                 <template v-if="checkArray(item.password_crack)">
                                                                     <span class="badge badge-light text-dark ms-1 mb-1"
                                                                         v-for="i in item.password_crack">
-                                                                        {{ (i == '') ? 'None...' : i }}</span>
+                                                                        {{ (i == '') ? '--' : i }}</span>
                                                                 </template>
                                                                 <template v-else>
                                                                     <span class="badge badge-light text-dark">
@@ -608,7 +618,7 @@
                                                                 <template v-if="checkArray(item.password_hash)">
                                                                     <span class="badge badge-light text-dark ms-1 mb-1"
                                                                         v-for="i in item.password_hash">
-                                                                        {{ (i == '') ? 'None...' : i }}</span>
+                                                                        {{ (i == '') ? '--' : i }}</span>
                                                                 </template>
                                                                 <template v-else>
                                                                     <span class="badge badge-light text-dark">
@@ -658,12 +668,12 @@
                     <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
                         <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                             <template #header>
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Tên miền liên quan đến mục tiêu</span>
-                                    <span class="badge badge-circle badge-success ms-2">
+                                <div class="card-header d-flex align-items-center">
+                                    <span class="badge badge-circle badge-primary me-2">
                                         {{ (related_domain_status == 3 && checkArray(related_domain) == true) ?
                                             Object.keys(related_domain).length : 0 }}
                                     </span>
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Tên Miền Liên Quan Đến Mục Tiêu</span>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -685,9 +695,9 @@
                                                 <!--begin::Table head-->
                                                 <thead>
                                                     <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                        <th class="py-2 px-0 text-start">Tên miền</th>
-                                                        <th class="py-2 px-3 text-start">Giao thức</th>
-                                                        <th class="py-2 px-3 text-end">Cùng dải mạng?</th>
+                                                        <th class="py-2 px-0 text-start">Tên Miền</th>
+                                                        <th class="py-2 px-3 text-start">Giao Thức</th>
+                                                        <th class="py-2 px-3 text-end">Cùng Dải Mạng?</th>
                                                     </tr>
                                                 </thead>
                                                 <!--end::Table head-->
@@ -745,12 +755,12 @@
                     <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
                         <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                             <template #header>
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Công nghệ sử dụng</span>
-                                    <span class="badge badge-circle badge-success ms-2">
+                                <div class="card-header d-flex align-items-center">
+                                    <span class="badge badge-circle badge-primary me-2">
                                         {{ (technology_status == 3 && checkArray(technology) == true) ?
                                             Object.keys(technology).length : 0 }}
                                     </span>
+                                    <span class="card-label fw-bold text-gray-800 fs-5">Công Nghệ Sử Dụng</span>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -765,35 +775,40 @@
                                     </template>
                                     <template v-else>
                                         <div class="p-5">
-                                            <el-popover v-for="(item, key) in technology" :key="key" placement="top-start"
-                                                width="auto" trigger="hover" hide-after="100">
-                                                <template #reference>
-                                                    <span @click="drawerTechnologys(item, key)"
-                                                        class="badge badge-light-primary fs-7 me-2 my-1 cursor-pointer">{{ key
-                                                        }}</span>
-                                                </template>
-                                                <div>
-                                                    <span>Total number of subdomains: <span class="fw-bold fs-6 text-primary">{{
-                                                        Object.keys(item).length }}</span></span>
+                                            <span v-for="(item, key) in technology" :key="key">
+                                                <span @click="drawerTechnologys(item, key)"
+                                                    class="badge badge-light-primary fs-7 me-2 my-1 cursor-pointer">{{ key
+                                                    }}</span>
+                                            </span>
+                                            <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="technology_detail">
+                                                <div class="modal-dialog modal-dialog-centered mw-550px">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body" style="padding: 26px 0px 0px 0px;">
+                                                            <div class="card card-flush">
+                                                                <div class="card-body py-0">
+                                                                    <h4>{{ detailTechnologyTitle }}</h4>
+                                                                    <span class="fs-7 mb-5 ">Tổng cộng có
+                                                                        <span class="fw-bold text-dark ">{{ Object.keys(detailTechnology).length
+                                                                        }}</span>
+                                                                        Công nghệ được sử dụng
+                                                                    </span>
+                                                                    <div class="d-flex flex-column ms-2 my-5">
+                                                                        <li class="d-flex align-items-center py-2" v-for="el in detailTechnology"
+                                                                            :key="el">
+                                                                            <span class="bullet bullet-dot bg-primary me-5 h-7px w-7px"></span> {{ el }}
+                                                                        </li>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+                                                            <button type="button" class="btn btn-sm btn-light-primary me-9" data-bs-dismiss="modal">
+                                                                Đóng
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </el-popover>
-                                            <el-drawer v-model="drawerTechnology" title="I am the title" :with-header="false">
-                                                <div>
-                                                    <h4>{{ detailTechnologyTitle }}</h4>
-                                                    <span class="fs-7 mb-5 ">There Are
-                                                        <span class="fw-bold text-dark ">{{ Object.keys(detailTechnology).length
-                                                        }}</span>
-                                                        Technologies Used In Total
-                                                    </span>
-                                                </div>
-                                                <div class="d-flex flex-column ms-2 my-5">
-                                                    <li class="d-flex align-items-center py-2" v-for="el in detailTechnology"
-                                                        :key="el">
-                                                        <span class="bullet bullet-dot bg-success me-5 h-7px w-7px"></span> {{
-                                                            el }}
-                                                    </li>
-                                                </div>
-                                            </el-drawer>
+                                            </div>
                                         </div>
                                     </template>
                                 </template>
@@ -1033,9 +1048,8 @@
                             <template #header>
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <span class="card-label fw-bold text-gray-800 fs-5">Subdomains</span>
-                                    <router-link class="btn btn-sm btn-light text-hover-primary text-primary"
-                                        :to="`/target-recon-detail/${idRecon}/${scanID}/subdomains`" active-class="active">View
-                                        all</router-link>
+                                    <router-link class="btn btn-sm btn-light-primary"
+                                        :to="`/target-recon-detail/${idRecon}/${scanID}/subdomains`" active-class="active">Xem Thêm</router-link>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -1044,7 +1058,7 @@
                                     <el-table :data="subdomain_result" height="500" style="width: 100%"
                                         class-name="my-custom-table">
                                         <el-table-column min-width="120" label-class-name="border border-0 fs-7" prop="name"
-                                            label="Subdomain">
+                                            label="Subdomains">
                                             <template #default="scope">
                                                 <span class="fs-7 fst-normal">
                                                     {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
@@ -1059,7 +1073,7 @@
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="directory"
-                                            label="Directory" align="center" min-width="90">
+                                            label="Thư Mục" align="center" min-width="90">
                                             <template #default="scope">
                                                 <span class="fs-7 fst-normal badge cursor-pointer"
                                                     @click="modelDirectory(scope.row.directory_data)"
@@ -1074,14 +1088,14 @@
                                                     {{ (scope.row.url_checked == '') ? '--' : scope.row.url_checked }}</span>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Status"
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Trạng Thái"
                                             align="center">
                                             <template #default="scope">
                                                 <span class="fs-7 fst-normal">
                                                     {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Title"
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề"
                                             align="center">
                                             <template #default="scope">
                                                 <span class="fs-7 fst-normal">
@@ -1096,7 +1110,7 @@
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="portservice"
-                                            label="Cổng dịch vụ" align="start" min-width="200">
+                                            label="Cổng Dịch Vụ" align="start" min-width="200">
                                             <template #default="scope">
                                                 <div>
                                                     <template
@@ -1134,7 +1148,7 @@
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="start"
-                                            label="Công nghệ sử dụng" min-width="200">
+                                            label="Công Nghệ Sử Dụng" min-width="200">
                                             <template #default="scope">
                                                 <div>
                                                     <template
@@ -1169,41 +1183,44 @@
                                                             </template>
                                                         </span>
                                                     </template>
-
                                                 </div>
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="left"
-                                            label="Bản ghi DNS" min-width="150">
+                                            label="Bản Ghi DNS" min-width="150">
                                             <template #default="scope">
-
-                                                <li class="d-flex align-items-start mb-1">
-                                                    <div>
-                                                        <span class="fw-bold text-capitalize fs-7">A: </span>
-                                                        <span class="fst-normal fs-7">
-                                                            {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
-                                                                scope.row.dns_record['a'].join(' , ') : '--' }}
-                                                        </span>
-                                                    </div>
-                                                </li>
-                                                <li class="d-flex align-items-start mb-1">
-                                                    <div>
-                                                        <span class="fw-bold text-capitalize fs-7">Cname: </span>
-                                                        <span class="fst-normal fs-7">
-                                                            {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
-                                                                scope.row.dns_record['cname'].join(' , ') : '--' }}
-                                                        </span>
-                                                    </div>
-                                                </li>
-                                                <li class="d-flex align-items-start mb-1">
-                                                    <div>
-                                                        <span class="fw-bold text-capitalize fs-7">MX: </span>
-                                                        <span class="fst-normal fs-7">
-                                                            {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
-                                                                scope.row.dns_record['mx'].join(' , ') : '--' }}
-                                                        </span>
-                                                    </div>
-                                                </li>
+                                                <div v-if="typeof scope.row.dns_record['a'] === 'undefined' && typeof scope.row.dns_record['cname'] === 'undefined' && typeof scope.row.dns_record['mx'] === 'undefined'">
+                                                    <span class="text-danger">--</span>
+                                                </div>
+                                                <div v-else>
+                                                    <li class="d-flex align-items-start mb-1">
+                                                        <div>
+                                                            <span class="fw-bold text-capitalize fs-7">A: </span>
+                                                            <span class="fst-normal fs-7">
+                                                                {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
+                                                                    scope.row.dns_record['a'].join(' , ') : '--' }}
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                    <li class="d-flex align-items-start mb-1">
+                                                        <div>
+                                                            <span class="fw-bold text-capitalize fs-7">Cname: </span>
+                                                            <span class="fst-normal fs-7">
+                                                                {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
+                                                                    scope.row.dns_record['cname'].join(' , ') : '--' }}
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                    <li class="d-flex align-items-start mb-1">
+                                                        <div>
+                                                            <span class="fw-bold text-capitalize fs-7">MX: </span>
+                                                            <span class="fst-normal fs-7">
+                                                                {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
+                                                                    scope.row.dns_record['mx'].join(' , ') : '--' }}
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                </div>
                                             </template>
                                         </el-table-column>
                                     </el-table>
@@ -1369,6 +1386,7 @@ import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
+import { Modal } from "bootstrap";
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 // import data from "@/views/apps/targets/reconData.json";
@@ -1475,6 +1493,7 @@ export default defineComponent({
             total_not_done: 0,
         })
         const drawerTechnology = ref(false)
+        const drawerPort = ref(false)
         const targets = ref<Targets>({
             name: '',
             domain: '',
@@ -1861,6 +1880,23 @@ export default defineComponent({
                 drawerTechnology.value = true
                 detailTechnology.value = data
                 detailTechnologyTitle.value = title
+                const modal = new Modal(
+                    document.getElementById("technology_detail") as Element
+                );
+                modal.show();
+            }
+        };
+        const detailPort = ref([])
+        const detailPortTitle = ref('')
+        const drawerPorts = (data: any, title: any) => {
+            if (data || title) {
+                drawerPort.value = true
+                detailPort.value = data
+                detailPortTitle.value = title
+                const modal = new Modal(
+                    document.getElementById("port_detail") as Element
+                );
+                modal.show();
             }
         };
 
@@ -2136,6 +2172,7 @@ export default defineComponent({
             SearchIcon,
             drawerTechnology,
             drawerTechnologys,
+            drawerPorts,
             detailTechnology,
             detailTechnologyTitle,
             targets,
