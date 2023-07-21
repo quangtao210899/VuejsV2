@@ -178,6 +178,7 @@ export default defineComponent({
                         currentPage.value = 1;
                         selectedIds.value = [];
                         multipleTableRef.value!.clearSelection()
+                        getData()
                     })
                     .catch(({ response }) => {
                         notification(response.data.detail, 'error', 'Có lỗi xảy ra')

@@ -145,6 +145,24 @@ export default defineComponent({
         }
 
         const selectedIds = ref<Array<number>>([]);
+        // const deleteSelectd = () => {
+        //     ElMessageBox.confirm(
+        //         'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
+        //         'Xác Nhận Xóa',
+        //         {
+        //             confirmButtonText: 'Đồng Ý',
+        //             cancelButtonText: 'Hủy Bỏ',
+        //             type: 'warning',
+        //             icon: markRaw(Delete)
+        //         }
+        //     )
+        //         .then(() => {
+        //             deleteSubscription(selectedIds.value);
+        //         })
+        //         .catch(() => {
+
+        //         })
+        // };
         const disabled = ref<boolean>(false);
         const deleteSubscription = (ids: Array<number>) => {
             if (ids) {

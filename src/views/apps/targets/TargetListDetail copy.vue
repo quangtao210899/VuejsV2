@@ -538,7 +538,7 @@ export default defineComponent({
         const deleteSelectd = () => {
             ElMessageBox.confirm(
                 'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-                'Xác nhận xóa',
+                'Xác Nhận Xóa',
                 {
                     confirmButtonText: 'Đồng Ý',
                     cancelButtonText: 'Hủy Bỏ',
