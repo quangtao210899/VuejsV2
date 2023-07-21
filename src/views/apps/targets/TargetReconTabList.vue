@@ -2,7 +2,7 @@
     <KTToolbar></KTToolbar>
     <!--begin::Navbar-->
     <div class="px-3 pt-5 h-100">
-        <div class="mb-3 me-2 bg-white rounded-3 card d-block mt-16">
+        <div class="mb-3 me-2 bg-white rounded-3 card d-block mt-12">
             <div class="row px-2 h-md-50px align-items-center ">
                 <div class="col-sm-12 col-md-8 py-2">
                     <div class="row">
@@ -26,13 +26,13 @@
                         <!--begin::Card toolbar-->
                 <div class="card-toolbar">
                     <div class="d-flex justify-content-end w-100">
-                        <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
+                        <el-popconfirm confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không" icon="InfoFilled"
                             icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
                             @cancel="cancelEvent">
                             <template #reference>
                                 <button type="button" :disabled="checkDisabled"
                                     class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
-                                    <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy bỏ
+                                    <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy Bỏ
                                 </button>
                             </template>
                         </el-popconfirm>
@@ -40,18 +40,18 @@
                             :disabled="(checkDisabled || checkStatus)"
                             class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
                             <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
-                            <span class="text-primary"> Tiếp tục</span>
+                            <span class="text-primary"> Tiếp Tục</span>
                         </button>
                         <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
                             class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
                             <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
-                            <span class="text-danger">Tạm dừng</span>
+                            <span class="text-danger">Tạm Dừng</span>
                         </button>
                         <button type="button" :disabled="(reconStatus != 3 || checkDisabled) ? true : false"
                             @click="fileDownVisible = true"
                             class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
                             <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
-                            Xuất kết quả
+                            Xuất Kết Quả
                         </button>
                     </div>
                 </div>
@@ -183,7 +183,7 @@
                                                     <el-tab-pane v-for="(items, index) in domain_info" :key="index" class="h-100">
                                                         <template #label>
                                                             <span class="custom-tabs-label text-capitalize">
-                                                                <span>{{ convertToString(index) }}</span>
+                                                                <span class="text-muted">{{ convertToString(index) }}</span>
                                                             </span>
                                                         </template>
                                                         <div class="">
@@ -283,7 +283,7 @@
                                                     <el-tab-pane v-for="(items, index) in ip_info" :key="index" class="h-100">
                                                         <template #label>
                                                             <span class="custom-tabs-label text-capitalize">
-                                                                <span>{{ convertToString(index) }}</span><br>
+                                                                <span class="text-muted">{{ convertToString(index) }}</span><br>
                                                             </span>
                                                         </template>
                                                         <div class="">
@@ -471,7 +471,7 @@
                                                                         <div class="pb-2 mt-2">
                                                                             <h4 class="fs-4">Chi Tiết Của Cổng {{ key.toString().split("/")[0] }}
                                                                             </h4>
-                                                                            <span class="fs-7">Có
+                                                                            <span class="fs-7 text-dark">Có
                                                                                 <span class="fw-bold text-dark">{{ Object.keys(item.ips).length
                                                                                 }}</span>
                                                                                 địa chỉ IP có cổng
@@ -483,7 +483,7 @@
                                                                                 class="d-flex align-items-center py-2">
                                                                                 <span
                                                                                     class="bg-primary bullet bullet-dot me-5 h-7px w-7px"></span>
-                                                                                <span class="fs-6">{{ key }}</span>
+                                                                                <span class="text-dark">{{ key }}</span>
                                                                             </li>
                                                                         </div>
                                                                     </div>
@@ -563,9 +563,9 @@
                                                 <!--begin::Table head-->
                                                 <thead>
                                                     <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                        <th class="py-2 px-0 text-start">Email</th>
-                                                        <th class="py-2 px-3 text-center">Password</th>
-                                                        <th class="py-2 px-3 text-end">Password Crack</th>
+                                                        <th class="py-2 px-0 text-muted text-start">Email</th>
+                                                        <th class="py-2 px-3 text-muted text-center">Password</th>
+                                                        <th class="py-2 px-3 text-muted text-end">Password Crack</th>
                                                     </tr>
                                                 </thead>
                                                 <!--end::Table head-->
@@ -677,9 +677,9 @@
                                                 <!--begin::Table head-->
                                                 <thead>
                                                     <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                        <th class="py-2 px-0 text-start">Tên Miền</th>
-                                                        <th class="py-2 px-3 text-start">Giao Thức</th>
-                                                        <th class="py-2 px-3 text-end">Cùng Dải Mạng?</th>
+                                                        <th class="text-muted py-2 px-0 text-start">Tên Miền</th>
+                                                        <th class="text-muted py-2 px-3 text-start">Giao Thức</th>
+                                                        <th class="text-muted py-2 px-3 text-end">Cùng Dải Mạng?</th>
                                                     </tr>
                                                 </thead>
                                                 <!--end::Table head-->
@@ -769,7 +769,7 @@
                                                             <div class="card card-flush">
                                                                 <div class="card-body py-0">
                                                                     <h4>{{ detailTechnologyTitle }}</h4>
-                                                                    <span class="fs-7 mb-5 ">Tổng cộng có
+                                                                    <span class="fs-7 mb-5 text-dark">Tổng cộng có
                                                                         <span class="fw-bold text-dark ">{{ Object.keys(detailTechnology).length
                                                                         }}</span>
                                                                         Công nghệ được sử dụng
@@ -777,7 +777,8 @@
                                                                     <div class="d-flex flex-column ms-2 my-5">
                                                                         <li class="d-flex align-items-center py-2" v-for="el in detailTechnology"
                                                                             :key="el">
-                                                                            <span class="bullet bullet-dot bg-primary me-5 h-7px w-7px"></span> {{ el }}
+                                                                            <span class="bullet bullet-dot bg-primary me-5 h-7px w-7px"></span>
+                                                                            <span class="text-dark">{{ el }}</span>
                                                                         </li>
                                                                     </div>
                                                                 </div>
@@ -844,7 +845,7 @@
                                             <el-tab-pane v-for="(items, index) in metadata" :key="index" class="h-100">
                                                 <template #label>
                                                     <span class="custom-tabs-label">
-                                                        <span>{{ index }}</span>
+                                                        <span class="text-muted">{{ index }}</span>
                                                     </span>
                                                 </template>
                                                 <div class="h-100">
@@ -923,7 +924,7 @@
                                         <el-tab-pane class="h-100" v-for="(items, index) in webdata_result" :key="index">
                                             <template #label>
                                                 <span class="custom-tabs-label w-90px" style="white-space:pre-wrap">
-                                                    <span class="text-capitalize">{{ convertToString(index) }}</span>
+                                                    <span class="text-muted">{{ convertToString(index) }}</span>
                                                 </span>
                                             </template>
                                             <div class="h-100">
@@ -1036,7 +1037,6 @@
                             </template>
                             <div class="h-500px">
                                 <template v-if="subdomain_result.length > 0">
-
                                     <el-table :data="subdomain_result" height="500" style="width: 100%"
                                         class-name="my-custom-table">
                                         <el-table-column min-width="120" label-class-name="border border-0 fs-7" prop="name"
@@ -1047,7 +1047,7 @@
                                                 </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center"
-                                            label="Endpoints" min-width="90">
+                                            label="Endpoints" min-width="80">
                                             <template #default="scope">
                                                 <span class="fs-7 fst-normal badge cursor-pointer"
                                                     @click="modelEndpoints(scope.row.enpoint_data)"
@@ -1056,7 +1056,7 @@
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="directory"
-                                            label="Thư Mục" align="center" min-width="90">
+                                            label="Thư Mục" align="center" min-width="70">
                                             <template #default="scope">
                                                 <span class="fs-7 fst-normal badge cursor-pointer"
                                                     @click="modelDirectory(scope.row.directory_data)"
@@ -1064,7 +1064,7 @@
                                                     {{ scope.row.directory ?? '0' }}</span>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label-class-name="border border-0 fs-7" prop="url_checked"
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="url_checked" min-width="150"
                                             align="center" label="URL Checked">
                                             <template #default="scope">
                                                 <template v-if="scope.row.url_checked == ''">
@@ -1075,14 +1075,14 @@
                                                 </template>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Trạng Thái"
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Trạng Thái" min-width="70"
                                             align="center">
                                             <template #default="scope">
                                                 <span class="fst-normal text-dark" style="font-size: 13px;">
                                                     {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề"
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề" min-width="140"
                                             align="center">
                                             <template #default="scope">
                                                 <template v-if="scope.row.title == ''">
@@ -1093,7 +1093,7 @@
                                                 </template>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP"
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP" min-width="100"
                                             align="center">
                                             <template #default="scope">
                                                 <template v-if="scope.row.ip == ''">
@@ -1105,7 +1105,7 @@
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="portservice"
-                                            label="Cổng Dịch Vụ" align="center" min-width="200">
+                                            label="Cổng Dịch Vụ" align="center" min-width="150">
                                             <template #default="scope">
                                                 <div>
                                                     <template
@@ -1143,7 +1143,7 @@
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="center"
-                                            label="Công Nghệ Sử Dụng" min-width="200">
+                                            label="Công Nghệ Sử Dụng" min-width="150">
                                             <template #default="scope">
                                                 <div>
                                                     <template
@@ -1190,29 +1190,29 @@
                                                 <template v-else>
                                                     <li class="d-flex align-items-start mb-1">
                                                         <div>
-                                                            <span class="fw-bold text-capitalize fs-7">A : </span>
-                                                            <span class="fst-normal text-dark" style="font-size: 13px;">
-                                                                {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
-                                                                    scope.row.dns_record['a'].join(' , ') : '--' }}
+                                                            <span class="fw-bold text-capitalize text-dark" style="font-size: 13px;">A : </span>
+                                                            <span v-if="typeof scope.row.dns_record['a'] !== 'undefined'" class="fst-normal text-dark" style="font-size: 13px;">
+                                                                {{ scope.row.dns_record['a'].join(' , ') }}
                                                             </span>
+                                                            <span v-else class="badge badge-light-danger">--</span>
                                                         </div>
                                                     </li>
                                                     <li class="d-flex align-items-start mb-1">
                                                         <div>
-                                                            <span class="fw-bold text-capitalize fs-7">Cname : </span>
-                                                            <span class="fst-normal text-dark" style="font-size: 13px;">
-                                                                {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
-                                                                    scope.row.dns_record['cname'].join(' , ') : '--' }}
+                                                            <span class="fw-bold text-capitalize text-dark" style="font-size: 13px;">Cname : </span>
+                                                            <span v-if="typeof scope.row.dns_record['cname'] !== 'undefined'" class="fst-normal text-dark" style="font-size: 13px;">
+                                                                {{ scope.row.dns_record['cname'].join(' , ') }}
                                                             </span>
+                                                            <span v-else class="badge badge-light-danger">--</span>
                                                         </div>
                                                     </li>
                                                     <li class="d-flex align-items-start mb-1">
                                                         <div>
-                                                            <span class="fw-bold text-capitalize fs-7">MX : </span>
-                                                            <span class="fst-normal text-dark" style="font-size: 13px;">
-                                                                {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
-                                                                    scope.row.dns_record['mx'].join(' , ') : '--' }}
+                                                            <span class="fw-bold text-capitalize text-dark" style="font-size: 13px;">MX : </span>
+                                                            <span v-if="typeof scope.row.dns_record['mx'] !== 'undefined'" class="fst-normal text-dark" style="font-size: 13px;">
+                                                                {{ scope.row.dns_record['mx'].join(' , ') }}
                                                             </span>
+                                                            <span v-else class="badge badge-light-danger">--</span>
                                                         </div>
                                                     </li>
                                                 </template>
@@ -1243,7 +1243,7 @@
         <!--end::Card-->
     </div>
     <!-- // modoal  -->
-    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file" width="500">
+    <el-dialog v-model="fileDownVisible" title="Xác Nhận Xuất File" width="500">
         <div class="card h-100 bg-secondary ">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
@@ -1261,8 +1261,8 @@
         </div>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="fileDownVisible = false" :disabled="disabled">Hủy bỏ</el-button>
-                <el-button type="primary" :disabled="disabled" @click="downloadAcunetix">Tải về</el-button>
+                <el-button @click="fileDownVisible = false" :disabled="disabled">Hủy Bỏ</el-button>
+                <el-button type="primary" :disabled="disabled" @click="downloadAcunetix">Tải Về</el-button>
             </span>
         </template>
     </el-dialog>

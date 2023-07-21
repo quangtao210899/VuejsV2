@@ -39,7 +39,7 @@
                         {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center" label="Endpoints"
-                min-width="90">
+                min-width="80">
                 <template #default="scope">
                     <span class="fs-7 fst-normal badge cursor-pointer" @click="modelEndpoints(scope.row.enpoint_data)"
                         :class="`badge-light-${(scope.row.enpoint == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
@@ -47,14 +47,14 @@
                 </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="directory" label="Thư Mục" align="center"
-                min-width="90">
+                min-width="50">
                 <template #default="scope">
                     <span class="fs-7 fst-normal badge cursor-pointer" @click="modelDirectory(scope.row.directory_data)"
                         :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
                         {{ scope.row.directory ?? '0' }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="url_checked" align="center" label="URL Checked">
+            <el-table-column label-class-name="border border-0 fs-7" prop="url_checked" align="center" label="URL Checked" min-width="130">
                 <template #default="scope">
                     <template v-if="scope.row.url_checked == ''">
                         <span class="badge badge-light-danger">--</span>
@@ -64,13 +64,13 @@
                     </template>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Trạng Thái" align="center">
+            <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Trạng Thái" align="center" min-width="60">
                 <template #default="scope">
                     <span class="fst-normal text-dark" style="font-size: 13px;">
                         {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề" align="center">
+            <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề" align="center" min-width="130">
                 <template #default="scope">
                     <template v-if="scope.row.title == ''">
                             <span class="badge badge-light-danger">--</span>
@@ -80,7 +80,7 @@
                     </template>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP" align="center">
+            <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP" align="center" min-width="100">
                 <template #default="scope">
                     <template v-if="scope.row.ip == ''">
                             <span class="badge badge-light-danger">--</span>
@@ -91,7 +91,7 @@
                 </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="portservice" label="Cổng Dịch Vụ" align="center"
-                min-width="250">
+                min-width="150">
                 <template #default="scope">
                     <div>
                         <template
@@ -125,7 +125,7 @@
                 </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="center"
-                label="Công nghệ sử dụng" min-width="250">
+                label="Công Nghệ Sử Dụng" min-width="150">
                 <template #default="scope">
                     <div>
                         <template
@@ -167,29 +167,29 @@
                     <template v-else>
                         <li class="d-flex align-items-start mb-1">
                             <div>
-                                <span class="fw-bold text-capitalize fs-7">A : </span>
-                                <span class="fst-normal text-dark" style="font-size: 13px;">
-                                    {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
-                                        scope.row.dns_record['a'].join(' , ') : '--' }}
+                                <span class="fw-bold text-capitalize text-dark" style="font-size: 13px;">A : </span>
+                                <span v-if="typeof scope.row.dns_record['a'] !== 'undefined'" class="fst-normal text-dark" style="font-size: 13px;">
+                                    {{ scope.row.dns_record['a'].join(' , ') }}
                                 </span>
+                                <span v-else class="badge badge-light-danger">--</span>
                             </div>
                         </li>
                         <li class="d-flex align-items-start mb-1">
                             <div>
-                                <span class="fw-bold text-capitalize fs-7">Cname : </span>
-                                <span class="fst-normal text-dark" style="font-size: 13px;">
-                                    {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
-                                        scope.row.dns_record['cname'].join(' , ') : '--' }}
+                                <span class="fw-bold text-capitalize text-dark" style="font-size: 13px;">Cname : </span>
+                                <span v-if="typeof scope.row.dns_record['cname'] !== 'undefined'" class="fst-normal text-dark" style="font-size: 13px;">
+                                    {{ scope.row.dns_record['cname'].join(' , ') }}
                                 </span>
+                                <span v-else class="badge badge-light-danger">--</span>
                             </div>
                         </li>
                         <li class="d-flex align-items-start mb-1">
                             <div>
-                                <span class="fw-bold text-capitalize fs-7">MX : </span>
-                                <span class="fst-normal text-dark" style="font-size: 13px;">
-                                    {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
-                                        scope.row.dns_record['mx'].join(' , ') : '--' }}
+                                <span class="fw-bold text-capitalize text-dark" style="font-size: 13px;">MX : </span>
+                                <span v-if="typeof scope.row.dns_record['mx'] !== 'undefined'" class="fst-normal text-dark" style="font-size: 13px;">
+                                    {{ scope.row.dns_record['mx'].join(' , ') }}
                                 </span>
+                                <span v-else class="badge badge-light-danger">--</span>
                             </div>
                         </li>
                     </template>
@@ -205,7 +205,7 @@
                     <span class="badge badge-light-danger">--</span>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="waf" label="WAF" align="center" min-width="150">
+            <el-table-column label-class-name="border border-0 fs-7" prop="waf" label="WAF" align="center" min-width="100">
                 <template #default="scope">
                     <div class="flex-column">
                         <template v-if="scope.row.waf.length">                        
@@ -225,7 +225,7 @@
 
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="cdn" label="CDN" align="center" min-width="150">
+            <el-table-column label-class-name="border border-0 fs-7" prop="cdn" label="CDN" align="center" min-width="100">
                 <template #default="scope">
                     <div class="flex-column">
                         <template v-if="scope.row.cdn.length">
