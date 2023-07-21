@@ -95,8 +95,8 @@ export default defineComponent({
                 'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
                 'Xác nhận xóa',
                 {
-                    confirmButtonText: 'Đồng ý',
-                    cancelButtonText: 'Hủy bỏ',
+                    confirmButtonText: 'Đồng Ý',
+                    cancelButtonText: 'Hủy Bỏ',
                     type: 'warning',
                     icon: markRaw(Delete)
                 }
