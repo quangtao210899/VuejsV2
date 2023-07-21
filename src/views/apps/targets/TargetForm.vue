@@ -259,8 +259,11 @@ export default defineComponent({
         }
 
         const addFormSubmit = async (formData: RuleForm) => {
-            const ip = await getAutofill(ruleForm.domain);
-            ruleForm.ip = ip;
+            if (!ruleForm.ip.length) {
+                const ip = await getAutofill(ruleForm.domain);
+                ruleForm.ip = ip;
+            }
+
             return ApiService.post("/targets/", formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Thêm mới thành công')
@@ -281,8 +284,10 @@ export default defineComponent({
         }
 
         const editFormSubmit = async (formData: RuleForm) => {
-            const ip = await getAutofill(ruleForm.domain);
-            ruleForm.ip = ip;
+            if (!ruleForm.ip.length) {
+                const ip = await getAutofill(ruleForm.domain);
+                ruleForm.ip = ip;
+            }
 
             return ApiService.put(`/targets/${ID.value}/`, formData)
                 .then(({ data }) => {
