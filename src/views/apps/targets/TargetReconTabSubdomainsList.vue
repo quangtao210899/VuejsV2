@@ -20,21 +20,6 @@
             </div>
             <div class="col-sm-12 col-md-4 text-end ms-auto py-2">
                 <div class="d-flex justify-content-sm-start justify-content-md-end">
-
-                    <!--begin::Select-->
-                    <el-button class="me-2" type="primary" :icon="RefreshIcon" @click="reloadData" :loading="disabled"
-                        :loading-icon="RefreshIcon">Tải lại</el-button>
-                    <!--end::Select-->
-
-                    <!--begin::Select-->
-                    <el-select v-model="eventTime" class="d-block w-150px" as="select">
-                        <el-option value="300000" key="300000" label="5 phút" />
-                        <el-option value="60000" key="60000" label="1 phút" />
-                        <el-option value="30000" key="30000" label="30 giây" />
-                        <el-option value="15000" key="15000" label="15 giây" />
-                        <el-option value="5000" key="5000" label="5 giây" />
-                    </el-select>
-                    <!--end::Select-->
                 </div>
             </div>
         </div>
@@ -44,13 +29,13 @@
     <!--begin::Card-->
     <div class="">
         <div class="rounded-top py-3 px-2 bg-white">
-            <el-input v-model="searchSubdomain" size="large" placeholder="Title to search" :prefix-icon="SearchIcon" />
+            <el-input v-model="searchSubdomain" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
         </div>
         <el-table :data="subdomain_result" style="width: 100%" :height="heightTable" class-name="my-custom-table"
             table-layout="fixed" v-loading="loadingSubdomain">
-            <el-table-column min-width="100" label-class-name="border border-0 fs-7" prop="name" label="Subdomain">
+            <el-table-column min-width="100" label-class-name="border border-0 fs-7" prop="name" label="Subdomains">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
+                    <span class="fst-normal text-dark" style="font-size: 13px;">
                         {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center" label="Endpoints"
@@ -61,7 +46,7 @@
                         {{ scope.row.enpoint ?? '0' }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="directory" label="Directory" align="center"
+            <el-table-column label-class-name="border border-0 fs-7" prop="directory" label="Thư Mục" align="center"
                 min-width="90">
                 <template #default="scope">
                     <span class="fs-7 fst-normal badge cursor-pointer" @click="modelDirectory(scope.row.directory_data)"
@@ -71,29 +56,41 @@
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="url_checked" align="center" label="URL Checked">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
-                        {{ (scope.row.url_checked == '') ? '--' : scope.row.url_checked }}</span>
+                    <template v-if="scope.row.url_checked == ''">
+                        <span class="badge badge-light-danger">--</span>
+                    </template>
+                    <template v-else>
+                        <span class="fst-normal text-dark" style="font-size: 13px;">{{ scope.row.url_checked }}</span>
+                    </template>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Status" align="center">
+            <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Trạng Thái" align="center">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
+                    <span class="fst-normal text-dark" style="font-size: 13px;">
                         {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Title" align="center">
+            <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề" align="center">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
-                        {{ (scope.row.title == '') ? '--' : scope.row.title }}</span>
+                    <template v-if="scope.row.title == ''">
+                            <span class="badge badge-light-danger">--</span>
+                    </template>
+                    <template v-else>
+                        <span class="fst-normal text-dark" style="font-size: 13px;">{{ scope.row.title }}</span>
+                    </template>
                 </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP" align="center">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
-                        {{ (scope.row.ip == '') ? '--' : scope.row.ip }}</span>
+                    <template v-if="scope.row.ip == ''">
+                            <span class="badge badge-light-danger">--</span>
+                    </template>
+                    <template v-else>
+                        <span class="fst-normal text-dark" style="font-size: 13px;">{{ scope.row.ip }}</span>
+                    </template>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="portservice" label="Cổng dịch vụ" align="start"
+            <el-table-column label-class-name="border border-0 fs-7" prop="portservice" label="Cổng Dịch Vụ" align="center"
                 min-width="250">
                 <template #default="scope">
                     <div>
@@ -127,7 +124,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="start"
+            <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="center"
                 label="Công nghệ sử dụng" min-width="250">
                 <template #default="scope">
                     <div>
@@ -161,60 +158,68 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="right" label="Bản ghi DNS"
+            <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="center" label="Bản Ghi DNS"
                 min-width="150">
                 <template #default="scope">
-                    <li class="d-flex align-items-start mb-1">
-                        <div>
-                            <span class="fw-bold text-capitalize fs-7">A : </span>
-                            <span class="fst-normal fs-7">
-                                {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
-                                    scope.row.dns_record['a'].join(' , ') : '--' }}
-                            </span>
-                        </div>
-                    </li>
-                    <li class="d-flex align-items-start mb-1">
-                        <div>
-                            <span class="fw-bold text-capitalize fs-7">Cname : </span>
-                            <span class="fst-normal fs-7">
-                                {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
-                                    scope.row.dns_record['cname'].join(' , ') : '--' }}
-                            </span>
-                        </div>
-                    </li>
-                    <li class="d-flex align-items-start mb-1">
-                        <div>
-                            <span class="fw-bold text-capitalize fs-7">MX : </span>
-                            <span class="fst-normal fs-7">
-                                {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
-                                    scope.row.dns_record['mx'].join(' , ') : '--' }}
-                            </span>
-                        </div>
-                    </li>
+                    <template v-if="!scope.row.dns_record['a'] && !scope.row.dns_record['cname'] && !scope.row.dns_record['mx']">
+                        <span class="badge badge-light-danger">--</span>
+                    </template>
+                    <template v-else>
+                        <li class="d-flex align-items-start mb-1">
+                            <div>
+                                <span class="fw-bold text-capitalize fs-7">A : </span>
+                                <span class="fst-normal text-dark" style="font-size: 13px;">
+                                    {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
+                                        scope.row.dns_record['a'].join(' , ') : '--' }}
+                                </span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start mb-1">
+                            <div>
+                                <span class="fw-bold text-capitalize fs-7">Cname : </span>
+                                <span class="fst-normal text-dark" style="font-size: 13px;">
+                                    {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
+                                        scope.row.dns_record['cname'].join(' , ') : '--' }}
+                                </span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start mb-1">
+                            <div>
+                                <span class="fw-bold text-capitalize fs-7">MX : </span>
+                                <span class="fst-normal text-dark" style="font-size: 13px;">
+                                    {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
+                                        scope.row.dns_record['mx'].join(' , ') : '--' }}
+                                </span>
+                            </div>
+                        </li>
+                    </template>
                 </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" label="Cloud" align="center">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">--</span>
+                    <span class="badge badge-light-danger">--</span>
                 </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" label="CMS" align="center">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">--</span>
+                    <span class="badge badge-light-danger">--</span>
                 </template>
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="waf" label="WAF" align="center" min-width="150">
                 <template #default="scope">
-                    <div class="d-flex flex-column">
+                    <div class="flex-column">
                         <template v-if="scope.row.waf.length">                        
                             <li v-for="(val, key) in scope.row.waf" :key="key"
-                                class="d-flex align-items-top py-2 fs-7 text-start">
-                                <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
+                                class="d-flex align-items-top py-2 fs-7 text-start fst-normal">
+                                <span class="bullet bullet-dot bg-success text-dark h-7px w-7px me-5 mt-3"></span>
+                                <span class="fst-normal text-dark" style="font-size: 13px;">
+                                    {{ (val == '' ||
                                     val == null) ? '--' : val }}
+                                </span>
                             </li>
                         </template>
                         <template v-else>
-                            <span>--</span>
+                            <span class="badge badge-light-danger">--</span>
                         </template>
                     </div>
 
@@ -222,16 +227,19 @@
             </el-table-column>
             <el-table-column label-class-name="border border-0 fs-7" prop="cdn" label="CDN" align="center" min-width="150">
                 <template #default="scope">
-                    <div class="d-flex flex-column">
+                    <div class="flex-column">
                         <template v-if="scope.row.cdn.length">
                                 <li v-for="(val, key) in scope.row.cdn" :key="key"
                                     class="d-flex align-items-top py-2 fs-7 text-start">
-                                    <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span> {{ (val == '' ||
+                                    <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span>
+                                    <span class="fst-normal text-dark" style="font-size: 13px;">
+                                        {{ (val == '' ||
                                         val == null) ? '--' : val }}
+                                    </span>
                                 </li>
                         </template>
                         <template v-else>
-                            <span>--</span>
+                            <span class="badge badge-light-danger">--</span>
                         </template>
                     </div>
                 </template>
@@ -289,9 +297,9 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogEndpointsVisible" title="Enpoint Detail" width="1000">
+    <el-dialog v-model="dialogEndpointsVisible" title="Chi Tiết Enpoint" width="1000">
         <div>
-            <el-input v-model="searchEnpoint" size="large" placeholder="Type to search" :prefix-icon="SearchIcon" />
+            <el-input v-model="searchEnpoint" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
             <div class="my-5 text-primary">
                 <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
                 <span class="fw-bold">{{ totalRecords }}</span>
@@ -326,12 +334,18 @@
                     </template>
                 </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="title" label="Title">
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
-                        {{ (scope.row.title == '') ? '--' : scope.row.title }}</span> </template>
+                    <template v-if="scope.row.title == ''">
+                        <span class="badge badge-light-danger fs-7">--</span>
+                    </template>
+                    <template v-else>
+                        <span class="fs-7 fst-normal">
+                        {{ scope.row.title }}</span>
+                    </template>
+                </template>
             </el-table-column>
-            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="status_code" label="Status"
+            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="status_code" label="Trạng Thái"
                 align="right">
                 <template #default="scope">
                     <span class="badge fs-7 fst-normal"
