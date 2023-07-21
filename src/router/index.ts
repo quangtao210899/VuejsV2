@@ -72,7 +72,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetReconTabList.vue"),
         meta: {
           pageTitle: "Chi tiết recon",
-          breadcrumbs: ["Target","Recon","DetailRecon"],
+          breadcrumbs: ["Mục Tiêu","Recon","Chi Tiết Recon"],
           links: ["/target-list",''],
         },
       },
