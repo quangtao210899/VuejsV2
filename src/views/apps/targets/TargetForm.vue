@@ -31,7 +31,7 @@
                     </div> -->
                 </el-form-item>
                 <el-form-item label="Nhóm mục tiêu" prop="group" class="pb-3 text-capitalize w-100 fs-6" :error="(errors.group) ? errors.group[0] : ''">
-                    <el-select v-model="ruleForm.group" size="large" placeholder="Chọn nhóm mục tiêu" class="w-100" filterable
+                    <el-select v-model="ruleForm.group" size="large" placeholder="Chọn nhóm mục tiêu" class="w-100" filterable no-match-text="Không có dữ liệu phù hợp"
                         :class="(errors.group) ? 'el-error-ruleForm' : ''">
                         <el-option v-for=" val  in  data_group " :key="val.id" :label="val.title" :value="val.id" />
                     </el-select>

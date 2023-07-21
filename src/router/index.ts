@@ -102,7 +102,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetGroupList.vue"),
         meta: {
           pageTitle: "Danh Sách Nhóm Mục Tiêu",
-          breadcrumbs: [ "TargetGroup"],
+          breadcrumbs: [ "Nhóm mục tiêu"],
         },
       },
     ],

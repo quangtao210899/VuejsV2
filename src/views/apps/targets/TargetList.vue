@@ -5,8 +5,8 @@
     </div>
     <!--begin::Card-->
     <el-scrollbar :height="heightTable">
-    <div class="app-container container-fluid overflow-auto pt-10" >
-        <div class="mt-10 p-5 bg-body rounded-3">
+    <div class="app-container container-fluid pt-10 mt-10 " >
+        <div class="p-5 bg-body rounded-3">
             <!--begin::Card body-->
             <el-table ref="multipleTableRef" :data="list" style="width: 100%"
                     class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed"
@@ -190,10 +190,10 @@ export default defineComponent({
                 text: values ?? more,
                 icon: icon,
                 buttonsStyling: false,
-                confirmButtonText: "Đồng ý!",
+                confirmButtonText: (icon == 'error') ? "Thử Lại" : "Đồng Ý",
                 heightAuto: false,
                 customClass: {
-                    confirmButton: (icon == 'error') ? "btn btn-danger" : "btn btn-primary",
+                    confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             });
         }

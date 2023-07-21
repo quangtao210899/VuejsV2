@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 0px; justify-content: center;">
-                    <button type="button" class="btn btn-sm btn-light-primary me-9" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
                         Đóng
                     </button>
                 </div>

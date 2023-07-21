@@ -490,7 +490,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer" style="border-top: 0px; justify-content: center;">
-                                                                <button type="button" class="btn btn-sm btn-light-primary me-9" data-bs-dismiss="modal">
+                                                                <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
                                                                     Đóng
                                                                 </button>
                                                             </div>
@@ -785,7 +785,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer" style="border-top: 0px; justify-content: center;">
-                                                            <button type="button" class="btn btn-sm btn-light-primary me-9" data-bs-dismiss="modal">
+                                                            <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
                                                                 Đóng
                                                             </button>
                                                         </div>
@@ -1613,10 +1613,10 @@ export default defineComponent({
                 text: values ?? more,
                 icon: icon,
                 buttonsStyling: false,
-                confirmButtonText: "Đồng ý!",
+                confirmButtonText: (icon == 'error') ? "Thử Lại" : "Đồng Ý",
                 heightAuto: false,
                 customClass: {
-                    confirmButton: "btn btn-primary",
+                    confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             }).then(() => {
                 // 

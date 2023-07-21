@@ -35,13 +35,11 @@
                         <div class="fw-bold me-5">
                             Đã Chọn <span class="me-1">{{ idsDelete.length }}</span>
                         </div>
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
-                            <button type="button" @click="deleteSelectd()" :disabled="disabled"
-                                class="btn btn-light-danger  btn-sm">
-                                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
-                                Xóa
-                            </button>
-                        </el-tooltip>
+                        <button type="button" @click="deleteSelectd()" :disabled="disabled"
+                            class="btn btn-light-danger  btn-sm">
+                            <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
+                            Xóa
+                        </button>
                     </div>
                 </template>
 
@@ -95,8 +93,8 @@ export default defineComponent({
                 'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
                 'Xác nhận xóa',
                 {
-                    confirmButtonText: 'Đồng ý',
-                    cancelButtonText: 'Hủy bỏ',
+                    confirmButtonText: 'Đồng Ý',
+                    cancelButtonText: 'Hủy Bỏ',
                     type: 'warning',
                     icon: markRaw(Delete)
                 }
