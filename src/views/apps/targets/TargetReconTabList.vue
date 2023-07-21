@@ -81,8 +81,8 @@
 
         <!--begin::Card-->
         <div class="">
-            <el-scrollbar class="rounded-3 height-repository" :noresize="true" min-size="10" :native="true"
-                wrap-class="w-100 overflow-x-auto pe-1">
+            <el-scrollbar class="rounded-3" :noresize="true" min-size="10" :native="true"
+                wrap-class="w-100 pe-1">
                 <el-row :gutter="10">
                     <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8" class="mb-3 mx-0">
                         <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 5px' }">
@@ -1419,7 +1419,7 @@ export default defineComponent({
     },
     setup() {
         const route = useRoute();
-        const scanID = ref<null | number | any>(route.params.id ?? '');
+        const scanID = ref<null | number | any>(318);
         const idRecon = ref<null | number | any>(route.params.idRecon ?? '');
         const list = ref<getData | any>()
         const RefreshIcon = ref(Refresh)

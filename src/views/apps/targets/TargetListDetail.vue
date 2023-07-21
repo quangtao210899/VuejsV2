@@ -1,5 +1,5 @@
 <template>
-    <KTToolbar :search="query" :idsDelete="selectedIds"></KTToolbar>
+    <KTToolbar></KTToolbar>
 
     <!--begin::Card-->
     <el-scrollbar :height="heightTable">
@@ -10,7 +10,7 @@
                     <div class="card-body p-0 pt-3">
                         <!--begin::Details-->
                         <div class="w-100  mb-3">
-                            <div class="row px-2">
+                            <div class="row pt-3 lh-lg fs-13px">
                                 <div v-if="targetData.name" class="col-sm-6 col-md-3 col-lg-3 col-12">
                                     <span class="w-70px">Mục tiêu : </span>
                                     <span class="fw-bold">{{targetData.name}}</span>
@@ -62,9 +62,9 @@
                     <!--begin:::Tab pane-->
                     <div class="tab-pane fade show active" id="kt_customer_view_overview_tab" role="tabpanel">
                         <div>
-                            <div class="card pt-4 mb-6 mb-xl-9">
+                            <div class="card pt-4 h-100">
                                 <!--begin::Card header-->
-                                <div class="card-header border-0">
+                                <div class="card-header border-0 px-5">
                                     <!--begin::Card title-->
                                     <div class="card-title">
                                         <h2>Profile</h2>
@@ -74,14 +74,8 @@
                                 <!--end::Card header-->
 
                                 <!--begin::Card body-->
-                                <div class="card-body pt-0 pb-5">
-                                    <!--begin::Table wrapper-->
-                                    <div class="table-responsive">
-                                        <!--begin::Table-->
-
-                                        <!--end::Table-->
-                                    </div>
-                                    <!--end::Table wrapper-->
+                                <div class="card-body pt-0 pb-5 px-5">
+                                    <TargetReconTabList></TargetReconTabList>
                                 </div>
                                 <!--end::Card body-->
                             </div>
@@ -120,6 +114,8 @@ import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { ElTable, ElTableColumn } from 'element-plus';
 import { useRoute } from 'vue-router';
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
+import TargetReconTabList from "@/views/apps/targets/TargetReconTabList.vue";
 
 interface TargetData {
     name: string;
@@ -134,6 +130,8 @@ export default defineComponent({
     components: {
         ElTable,
         ElTableColumn,
+        KTToolbar,
+        TargetReconTabList
     },
     directives: {
         debounce: vue3Debounce({ lock: true })
