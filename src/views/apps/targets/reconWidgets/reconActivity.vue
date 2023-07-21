@@ -167,5 +167,23 @@ const chartOptions = (
 .el-timeline-item__content{
   margin-right: 10px;
 }
+
+.el-timeline-item__timestamp {
+    /* color: var(--el-text-color-secondary); */
+    color: #A1A5B7;
+    line-height: 1;
+    font-size: var(--el-font-size-small);
+}
+
+.el-table .cell {
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    line-height: 23px;
+    color: #A1A5B7;
+    padding: 0 12px;
+}
 </style>
   
