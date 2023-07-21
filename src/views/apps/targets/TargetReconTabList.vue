@@ -1,10 +1,29 @@
 <template>
+    <KTToolbar></KTToolbar>
     <!--begin::Navbar-->
     <div class="px-3 pt-5 h-100">
-        <div class="mb-3 me-2 position-relative position-repository bg-white rounded-3 ">
-            <!--begin::Card header-->
-            <div class="card-header border-0 p-0 position-absolute end-0 pe-1 position-sm-top">
-                <!--begin::Card toolbar-->
+        <div class="mb-3 me-2 bg-white rounded-3 card d-block mt-16">
+            <div class="row px-2 h-md-50px align-items-center ">
+                <div class="col-sm-12 col-md-8 py-2">
+                    <div class="row">
+                        <div class="col-6">
+                            <div>
+                                <span class="w-70px">Mục Tiêu: </span>
+                                <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <span class="w-70px">Nhóm Mục Tiêu: </span>
+                                <span class="fw-bold">{{ targets.group.title }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 text-end ms-auto py-2">
+                    <div class="d-flex justify-content-sm-start justify-content-md-end">
+
+                        <!--begin::Card toolbar-->
                 <div class="card-toolbar">
                     <div class="d-flex justify-content-end w-100">
                         <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
@@ -36,43 +55,6 @@
                         </button>
                     </div>
                 </div>
-                <!--end::Card toolbar-->
-            </div>
-            <!--end::Card header-->
-            <div class="row px-2 h-md-50px align-items-center ">
-                <div class="col-sm-12 col-md-8 py-2">
-                    <div class="row">
-                        <div class="col-6">
-                            <div>
-                                <span class="w-70px">Mục Tiêu: </span>
-                                <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div>
-                                <span class="w-70px">Nhóm Mục Tiêu: </span>
-                                <span class="fw-bold">{{ targets.group.title }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-4 text-end ms-auto py-2">
-                    <div class="d-flex justify-content-sm-start justify-content-md-end">
-
-                        <!--begin::Select-->
-                        <el-button class="me-2" type="primary" :icon="RefreshIcon" @click="reloadData" :loading="disabled"
-                            :loading-icon="RefreshIcon">Tải Lại</el-button>
-                        <!--end::Select-->
-
-                        <!--begin::Select-->
-                        <el-select v-model="eventTime" class="d-block w-150px" as="select">
-                            <el-option value="300000" key="300000" label="5 phút" />
-                            <el-option value="60000" key="60000" label="1 phút" />
-                            <el-option value="30000" key="30000" label="30 giây" />
-                            <el-option value="15000" key="15000" label="15 giây" />
-                            <el-option value="5000" key="5000" label="5 giây" />
-                        </el-select>
-                        <!--end::Select-->
                     </div>
                 </div>
             </div>
@@ -154,10 +136,10 @@
                                     <!--begin::Stat-->
 
                                     <!--begin::Stats-->
-                                    <div class="d-flex flex-wrap mt-1">
+                                    <div class="d-flex flex-wrap mt-1 row">
                                         <!--begin::Stat-->
                                         <div
-                                            class="min-w-80px py-1 px-2 me-2 mb-2 ">
+                                            class=" col-12 min-w-80px py-1 px-2 me-2 mb-2 ">
                                             <div class="fw-semobold fs-7 text-dark"><span class="text-primary fs-6">{{
                                                 account.email }} </span> Địa Chỉ Email</div>
                                         </div>
@@ -165,7 +147,7 @@
 
                                         <!--begin::Stat-->
                                         <div
-                                            class="min-w-80px py-1 px-2 me-2 mb-2">
+                                            class="col-12 min-w-80px py-1 px-2 me-2 mb-2">
                                             <div class="fw-semobold fs-7 text-dark"><span class="text-primary fs-6">{{
                                                 account.credentials }} </span> Credentials</div>
                                         </div>
@@ -181,7 +163,7 @@
                                     :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
                                     <template #header>
                                         <div class="card-header">
-                                            <span class="card-label fw-bold text-gray-800 fs-5">Thông Tin Về Domain</span>
+                                            <span class="card-label fw-bold text-dark fs-5">Thông Tin Về Domain</span>
                                         </div>
                                     </template>
                                     <div class="h-500px">
@@ -192,7 +174,7 @@
                                                     <div class="text-center mb-5">
                                                         <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                     </div>
-                                                    <span>Không tìm thấy dữ liệu nào!</span>
+                                                    <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                                 </div>
                                             </template>
                                             <template v-else>
@@ -212,7 +194,7 @@
                                                                         <i
                                                                             class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                                     </div>
-                                                                    <span>Không tìm thấy dữ liệu nào!</span>
+                                                                    <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                                                 </div>
                                                             </template>
                                                             <template v-else>
@@ -281,7 +263,7 @@
                                     :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
                                     <template #header>
                                         <div class="card-header">
-                                            <span class="card-label fw-bold text-gray-800 fs-5">Thông Tin Về IP</span>
+                                            <span class="card-label fw-bold text-dark fs-5">Thông Tin Về IP</span>
                                         </div>
                                     </template>
                                     <div class="h-500px">
@@ -292,7 +274,7 @@
                                                     <div class="text-center mb-5">
                                                         <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                     </div>
-                                                    <span>Không tìm thấy dữ liệu nào!</span>
+                                                    <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                                 </div>
                                             </template>
                                             <template v-else>
@@ -312,7 +294,7 @@
                                                                         <i
                                                                             class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                                     </div>
-                                                                    <span>Không tìm thấy dữ liệu nào!</span>
+                                                                    <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                                                 </div>
                                                             </template>
                                                             <template v-else>
@@ -452,7 +434,7 @@
                                     <span class="badge badge-circle badge-primary me-2">
                                         {{ (port_service_status == 3 && checkArray(port_service) == true) ?
                                             Object.keys(port_service).length : 0 }}</span>
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Cổng Dịch Vụ</span>
+                                    <span class="card-label fw-bold text-dark fs-5">Cổng Dịch Vụ</span>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -462,7 +444,7 @@
                                             <div class="text-center mb-5">
                                                 <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                             </div>
-                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                            <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                         </div>
                                     </template>
                                     <template v-else>
@@ -487,7 +469,7 @@
                                                                 <div class="card card-flush">
                                                                     <div class="card-body py-0">
                                                                         <div class="pb-2 mt-2">
-                                                                            <h4 class="fs-4">Chi tiết của cổng {{ key.toString().split("/")[0] }}
+                                                                            <h4 class="fs-4">Chi Tiết Của Cổng {{ key.toString().split("/")[0] }}
                                                                             </h4>
                                                                             <span class="fs-7">Có
                                                                                 <span class="fw-bold text-dark">{{ Object.keys(item.ips).length
@@ -552,7 +534,7 @@
                                         {{ (related_email_status == 3 && checkArray(related_email) == true) ?
                                             Object.keys(related_email).length : 0 }}
                                     </span>
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Email Liên Quan</span>
+                                    <span class="card-label fw-bold text-dark fs-5">Email Liên Quan</span>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -562,7 +544,7 @@
                                             <div class="text-center mb-5">
                                                 <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                             </div>
-                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                            <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                         </div>
                                     </template>
                                     <template v-else-if="!Array.isArray(related_email)">
@@ -673,7 +655,7 @@
                                         {{ (related_domain_status == 3 && checkArray(related_domain) == true) ?
                                             Object.keys(related_domain).length : 0 }}
                                     </span>
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Tên Miền Liên Quan Đến Mục Tiêu</span>
+                                    <span class="card-label fw-bold text-dark fs-5">Tên Miền Liên Quan Đến Mục Tiêu</span>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -684,7 +666,7 @@
                                                 <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
 
                                             </div>
-                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                            <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                         </div>
                                     </template>
                                     <template v-else>
@@ -760,7 +742,7 @@
                                         {{ (technology_status == 3 && checkArray(technology) == true) ?
                                             Object.keys(technology).length : 0 }}
                                     </span>
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Công Nghệ Sử Dụng</span>
+                                    <span class="card-label fw-bold text-dark fs-5">Công Nghệ Sử Dụng</span>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -770,7 +752,7 @@
                                             <div class="text-center mb-5">
                                                 <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                             </div>
-                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                            <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                         </div>
                                     </template>
                                     <template v-else>
@@ -842,7 +824,7 @@
                             :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
                             <template #header>
                                 <div class="card-header">
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Metadata</span>
+                                    <span class="card-label fw-bold text-dark fs-5">Metadata</span>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -853,7 +835,7 @@
                                             <div class="text-center mb-5">
                                                 <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                             </div>
-                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                            <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                         </div>
                                     </template>
                                     <template v-else>
@@ -873,7 +855,7 @@
                                                                 <i
                                                                     class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                             </div>
-                                                            <span>Không tìm thấy dữ liệu nào!</span>
+                                                            <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                                         </div>
                                                     </template>
                                                     <template v-else>
@@ -931,7 +913,7 @@
                             :body-style="{ padding: '0', height: 'calc(100% - 56px)' }">
                             <template #header>
                                 <div class="card-header">
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Web Data</span>
+                                    <span class="card-label fw-bold text-dark fs-5">Web Data</span>
                                 </div>
                             </template>
                             <div class="h-500px">
@@ -952,7 +934,7 @@
                                                         <div class="text-center mb-5">
                                                             <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                                         </div>
-                                                        <span>Không tìm thấy dữ liệu nào!</span>
+                                                        <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                                     </div>
                                                 </template>
                                                 <template v-else>
@@ -1047,7 +1029,7 @@
                         <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                             <template #header>
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span class="card-label fw-bold text-gray-800 fs-5">Subdomains</span>
+                                    <span class="card-label fw-bold text-dark fs-5">Subdomains</span>
                                     <router-link class="btn btn-sm btn-light-primary"
                                         :to="`/target-recon-detail/${idRecon}/${scanID}/subdomains`" active-class="active">Xem Thêm</router-link>
                                 </div>
@@ -1060,8 +1042,9 @@
                                         <el-table-column min-width="120" label-class-name="border border-0 fs-7" prop="name"
                                             label="Subdomains">
                                             <template #default="scope">
-                                                <span class="fs-7 fst-normal">
-                                                    {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
+                                                <span class="fst-normal text-dark" style="font-size: 13px;">
+                                                    {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> 
+                                                </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center"
                                             label="Endpoints" min-width="90">
@@ -1084,38 +1067,50 @@
                                         <el-table-column label-class-name="border border-0 fs-7" prop="url_checked"
                                             align="center" label="URL Checked">
                                             <template #default="scope">
-                                                <span class="fs-7 fst-normal">
-                                                    {{ (scope.row.url_checked == '') ? '--' : scope.row.url_checked }}</span>
+                                                <template v-if="scope.row.url_checked == ''">
+                                                    <span class="badge badge-light-danger">--</span>
+                                                </template>
+                                                <template v-else>
+                                                    <span class="fst-normal text-dark" style="font-size: 13px;">{{ scope.row.url_checked }}</span>
+                                                </template>
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Trạng Thái"
                                             align="center">
                                             <template #default="scope">
-                                                <span class="fs-7 fst-normal">
+                                                <span class="fst-normal text-dark" style="font-size: 13px;">
                                                     {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề"
                                             align="center">
                                             <template #default="scope">
-                                                <span class="fs-7 fst-normal">
-                                                    {{ (scope.row.title == '') ? '--' : scope.row.title }}</span>
+                                                <template v-if="scope.row.title == ''">
+                                                        <span class="badge badge-light-danger">--</span>
+                                                </template>
+                                                <template v-else>
+                                                    <span class="fst-normal text-dark" style="font-size: 13px;">{{ scope.row.title }}</span>
+                                                </template>
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP"
                                             align="center">
                                             <template #default="scope">
-                                                <span class="fs-7 fst-normal">
-                                                    {{ (scope.row.ip == '') ? '--' : scope.row.ip }}</span>
+                                                <template v-if="scope.row.ip == ''">
+                                                        <span class="badge badge-light-danger">--</span>
+                                                </template>
+                                                <template v-else>
+                                                    <span class="fst-normal text-dark" style="font-size: 13px;">{{ scope.row.ip }}</span>
+                                                </template>
                                             </template>
                                         </el-table-column>
                                         <el-table-column label-class-name="border border-0 fs-7" prop="portservice"
-                                            label="Cổng Dịch Vụ" align="start" min-width="200">
+                                            label="Cổng Dịch Vụ" align="center" min-width="200">
                                             <template #default="scope">
                                                 <div>
                                                     <template
                                                         v-if="scope.row.portservice == undefined || Object.keys(scope.row.portservice).length === 0">
-                                                        <span class="text-danger">--</span>
+                                                        <span class="badge badge-light-danger">--</span>
                                                     </template>
                                                     <template v-else>
                                                         <template v-for="(items, key) in scope.row.portservice" :key="key">
@@ -1147,13 +1142,13 @@
                                                 </div>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="start"
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="center"
                                             label="Công Nghệ Sử Dụng" min-width="200">
                                             <template #default="scope">
                                                 <div>
                                                     <template
                                                         v-if="scope.row.technology == undefined || Object.keys(scope.row.technology).length === 0">
-                                                        <span class="text-danger">--</span>
+                                                        <span class="badge badge-light-danger">--</span>
                                                     </template>
                                                     <template v-else>
                                                         <template v-for="(items, key) in scope.row.technology" :key="key">
@@ -1186,17 +1181,17 @@
                                                 </div>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="left"
+                                        <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="center"
                                             label="Bản Ghi DNS" min-width="150">
                                             <template #default="scope">
-                                                <div v-if="typeof scope.row.dns_record['a'] === 'undefined' && typeof scope.row.dns_record['cname'] === 'undefined' && typeof scope.row.dns_record['mx'] === 'undefined'">
-                                                    <span class="text-danger">--</span>
-                                                </div>
-                                                <div v-else>
+                                                <template v-if="!scope.row.dns_record['a'] && !scope.row.dns_record['cname'] && !scope.row.dns_record['mx']">
+                                                    <span class="badge badge-light-danger">--</span>
+                                                </template>
+                                                <template v-else>
                                                     <li class="d-flex align-items-start mb-1">
                                                         <div>
-                                                            <span class="fw-bold text-capitalize fs-7">A: </span>
-                                                            <span class="fst-normal fs-7">
+                                                            <span class="fw-bold text-capitalize fs-7">A : </span>
+                                                            <span class="fst-normal text-dark" style="font-size: 13px;">
                                                                 {{ (typeof scope.row.dns_record['a'] !== "undefined") ?
                                                                     scope.row.dns_record['a'].join(' , ') : '--' }}
                                                             </span>
@@ -1204,8 +1199,8 @@
                                                     </li>
                                                     <li class="d-flex align-items-start mb-1">
                                                         <div>
-                                                            <span class="fw-bold text-capitalize fs-7">Cname: </span>
-                                                            <span class="fst-normal fs-7">
+                                                            <span class="fw-bold text-capitalize fs-7">Cname : </span>
+                                                            <span class="fst-normal text-dark" style="font-size: 13px;">
                                                                 {{ (typeof scope.row.dns_record['cname'] !== "undefined") ?
                                                                     scope.row.dns_record['cname'].join(' , ') : '--' }}
                                                             </span>
@@ -1213,14 +1208,14 @@
                                                     </li>
                                                     <li class="d-flex align-items-start mb-1">
                                                         <div>
-                                                            <span class="fw-bold text-capitalize fs-7">MX: </span>
-                                                            <span class="fst-normal fs-7">
+                                                            <span class="fw-bold text-capitalize fs-7">MX : </span>
+                                                            <span class="fst-normal text-dark" style="font-size: 13px;">
                                                                 {{ (typeof scope.row.dns_record['mx'] !== "undefined") ?
                                                                     scope.row.dns_record['mx'].join(' , ') : '--' }}
                                                             </span>
                                                         </div>
                                                     </li>
-                                                </div>
+                                                </template>
                                             </template>
                                         </el-table-column>
                                     </el-table>
@@ -1230,7 +1225,7 @@
                                         <div class="mb-5">
                                             <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
                                         </div>
-                                        <span>Không tìm thấy dữ liệu nào!</span>
+                                        <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                     </div>
                                 </template>
                                 <template v-else>
@@ -1316,9 +1311,9 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogEndpointsVisible" title="Enpoint Detail" width="1000">
+    <el-dialog v-model="dialogEndpointsVisible" title="Chi Tiết Enpoint" width="1000">
         <div>
-            <el-input v-model="searchEnpoint" size="large" placeholder="Type to search" :prefix-icon="SearchIcon" />
+            <el-input v-model="searchEnpoint" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
             <div class="my-5 text-primary">
                 <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
                 <span class="fw-bold">{{ totalRecords }}</span>
@@ -1353,12 +1348,18 @@
                     </template>
                 </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="title" label="Title">
+            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
-                        {{ (scope.row.title == '') ? '--' : scope.row.title }}</span> </template>
+                    <template v-if="scope.row.title == ''">
+                        <span class="badge badge-light-danger fs-7">--</span>
+                    </template>
+                    <template v-else>
+                        <span class="fs-7 fst-normal">
+                        {{ scope.row.title }}</span>
+                    </template>
+                </template>
             </el-table-column>
-            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="status_code" label="Status"
+            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="status_code" label="Trạng Thái"
                 align="right">
                 <template #default="scope">
                     <span class="badge fs-7 fst-normal"
@@ -1388,6 +1389,7 @@ import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
 import { Modal } from "bootstrap";
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 // import data from "@/views/apps/targets/reconData.json";
 import { Refresh, Search } from '@element-plus/icons-vue'
@@ -1431,6 +1433,7 @@ export default defineComponent({
 
     components: {
         KTDatatable,
+        KTToolbar,
         filtersTabScan,
         CodeHighlighter,
         reconActivity,
