@@ -343,7 +343,7 @@
                 </div>
                 <!--end::Form-->
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-sm  btn-light-primary me-9" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-sm  btn-light-primary" data-bs-dismiss="modal">
                         Đóng
                     </button>
                 </div>

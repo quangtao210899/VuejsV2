@@ -29,7 +29,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="130" prop="title" label="NHÓM MỤC TIÊU">
+          <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="135" prop="title" label="NHÓM MỤC TIÊU">
             <template #default="scope">
               <span v-if="scope.row.title != ''" class="fs-13px text-gray-700 text-hover-primary">{{
                 scope.row.title }}</span>
@@ -89,7 +89,7 @@
           <!--begin::Form-->
           <div class="modal-body">
             <!--begin::Card-->
-            <div class="card card-flush pt-3 mb-5 mb-xl-10">
+            <div class="card card-flush">
               <!--begin::Card header-->
               <div class="card-header">
                 <!--begin::Card title-->
@@ -112,55 +112,54 @@
               <!--begin::Card body-->
               <div class="card-body py-0">
                 <!--begin::Section-->
-                <div class="mb-10">
+                <div>
                   <!--begin::Title-->
                   <h5>Thông Tin Chi Tiết:</h5>
                   <!--end::Title-->
                   <!--begin::Details-->
-                  <div class="d-flex flex-wrap py-5">
+                  <div class="d-flex flex-wrap">
                     <!--begin::Row-->
                     <div class="flex-equal me-5">
                       <!--begin::Details-->
                       <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
                         <!--begin::Row-->
                         <tr>
-                          <td class="text-gray-400">Số Mục Tiêu</td>
-                          <td class="text-gray-800 badge badge-light pe-2">{{ detailData.target_count ?? 0 }} </td>
+                          <td class="text-gray-400">Số Mục Tiêu:</td>
+                          <td>{{ detailData.target_count ?? 0 }} </td>
                         </tr>
                         <!--end::Row-->
 
                         <!--begin::Row-->
                         <tr>
-                          <td class="text-gray-400">Số Lỗ Hổng</td>
-                          <td class="text-gray-800  badge badge-light pe-2">{{ detailData.flaw_count ?? 0 }}</td>
+                          <td class="text-gray-400">Số Lỗ Hổng:</td>
+                          <td>{{ detailData.flaw_count ?? 0 }}</td>
                         </tr>
                         <!--end::Row-->
                         <!--begin::Row-->
                         <tr>
-                          <td class="text-gray-400">Số Dịch Vụ</td>
-                          <td class="text-gray-800 badge badge-light pe-2">{{ detailData.service_count ?? 0 }}</td>
+                          <td class="text-gray-400">Số Dịch Vụ:</td>
+                          <td>{{ detailData.service_count ?? 0 }}</td>
                         </tr>
                         <!--end::Row-->
                         <!--begin::Row-->
                         <tr>
-                          <td class="text-gray-400">Ngày Tạo</td>
-                          <td class="text-gray-800">{{ detailData.created_at }}</td>
+                          <td class="text-gray-400">Ngày Tạo:</td>
+                          <td>{{ detailData.created_at }}</td>
                         </tr>
                         <!--end::Row-->
                         <!--begin::Row-->
                         <tr>
-                          <td class="text-gray-400">Ngày Cập Nhật Cuối</td>
-                          <td class="text-gray-800">{{ detailData.modified_at }}</td>
+                          <td class="text-gray-400">Ngày Cập Nhật Cuối:</td>
+                          <td>{{ detailData.modified_at }}</td>
                         </tr>
                         <!--end::Row-->
                       </table>
                       <!--end::Details-->
                       <!--begin::Label-->
-                      <label for="description" class="fs-6 fw-semobold mb-2 text-gray-400">Mô Tả</label>
+                      <label for="description" class="fs-6 fw-semobold mb-2 text-gray-400">Mô Tả:</label>
                       <!--end::Label-->
                       <!--begin::Input-->
-                      <Field as="textarea" class="form-control form-control-solid" rows="5" id="description" name="description"
-                        v-model="detailData.description" disabled  :placeholder="(detailData.description) ? '' : 'Chưa có mô tả'" />
+                      <el-input v-model="detailData.description" disabled :rows="5" type="textarea" placeholder="(detailData.description) ? '' : 'Chưa có mô tả'" />
                       <!--end::Input-->
                     </div>
                     <!--end::Row-->
@@ -175,10 +174,10 @@
             <!--end::Card-->
           </div>
           <!--end::Form-->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal">
-              Quay lại
-            </button>
+          <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+              <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
+                  Đóng
+              </button>
           </div>
         </div>
         <!--end::Modal content-->
@@ -300,6 +299,7 @@ export default defineComponent({
       detailData.target_count = data.target_count
       detailData.created_at = data.created_at
       detailData.flaw_count = data.flaw_count
+      console.log(detailData.description)
       const modal = new Modal(
         document.getElementById("kt_modal_detail") as Element
       );
