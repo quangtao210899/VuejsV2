@@ -38,25 +38,25 @@
           </el-table-column>
           <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark" prop="target_count" label="MỤC TIÊU">
             <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.target_count}}</span>
+              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.target_count ?? 0}}</span>
             </template>
           </el-table-column>
 
           <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="flaw_count" label="LỖ HỔNG">
             <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.flaw_count }}</span>
+              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.flaw_count ?? 0}}</span>
             </template>
           </el-table-column>
           <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="service_count"
             label="DỊCH VỤ">
             <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{scope.row.service_count }}</span>
+              <span class="fs-13px text-gray-700 text-hover-primary">{{scope.row.service_count ?? 0}}</span>
             </template>
           </el-table-column>
           <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
             <template #default="scope">
               <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh Sửa" placement="top">
-                <router-link :to="`/target-form/${scope.row.id}`" v-on:click.stop
+                <router-link :to="`/target-group-form/${scope.row.id}`" v-on:click.stop
                   class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
                   <KTIcon icon-name="pencil" icon-class="fs-3" />
                 </router-link>
@@ -115,7 +115,7 @@
                         <!--begin::Row-->
                         <tr>
                           <td>Số Mục Tiêu:</td>
-                          <td>{{ detailData.target_count ?? 0 }} </td>
+                          <td>{{ detailData.target_count ? detailData.target_count: 0 }} </td>
                         </tr>
                         <!--end::Row-->
 
@@ -249,6 +249,7 @@ export default defineComponent({
             currentPage.value = 1;
             selectedIds.value = [];
             multipleTableRef.value!.clearSelection()
+            getData()
           })
           .catch(({ response }) => {
             notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -338,7 +339,7 @@ export default defineComponent({
       }
     };
     // thêm mới
-    const urlAddNew = ref('target-form/add')
+    const urlAddNew = ref('target-group-form/add')
 
     // update the height
     const refGetTheHeight = ref<any>(null); // Ref to hold the div element

@@ -47,6 +47,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-group-form/:id",
+        name: "target-group-form",
+        component: () => import("@/views/apps/targets/TargetGroupForm.vue"),
+        meta: {
+          pageTitle: "Chi tiết nhóm mục tiêu",
+          breadcrumbs: ["Nhóm Mục Tiêu", "addForm"],
+          links: ["/target-group"],
+        },
+      },
+      {
         path: "/target-recons/:id",
         name: "target-recon",
         component: () => import("@/views/apps/targets/TargetReconList.vue"),
@@ -102,7 +112,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetGroupList.vue"),
         meta: {
           pageTitle: "Danh Sách Nhóm Mục Tiêu",
-          breadcrumbs: [ "Nhóm mục tiêu"],
+          breadcrumbs: [ "Nhóm Mục Tiêu"],
         },
       },
     ],

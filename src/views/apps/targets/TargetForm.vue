@@ -304,7 +304,6 @@ export default defineComponent({
         // tính labelPosition form
         const labelPosition = ref('left')
         const handleResize = () => {
-            console.log(134)
             const windowWidth = window.innerWidth;
             if (windowWidth >= 992) {
                 labelPosition.value = 'left'
