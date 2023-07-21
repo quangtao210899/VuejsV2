@@ -10,8 +10,8 @@
         <!--begin::Card body-->
         <el-table ref="multipleTableRef" :data="list" style="width: 100%"
           class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
-          @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
-          @current-change="handleCurrentChange" :default-sort="{ prop: 'id', order: 'descending' }"
+          @selection-change="handleSelectionChange" :row-key="getRowKey"
+          @row-click= "handleCurrentChange" :default-sort="{ prop: 'id', order: 'descending' }"
           @sort-change="handleSortChange">
           <template #empty>
             <div class="flex items-center justify-center h-100%">
@@ -96,16 +96,6 @@
                 <div class="card-title">
                   <h1 class="fw-bold">{{ detailData.title }}</h1>
                 </div>
-                <!--begin::Card toolbar-->
-                <div class="card-toolbar">
-                  <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
-                    data-bs-target="#kt_modal_new_target_group" 
-                    >
-                    <!-- @click="handleClick(detailData, 'edit')" -->
-                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Cập nhật
-                  </button>
-                </div>
-                <!--end::Card toolbar-->
               </div>
               <!--end::Card header-->
 
@@ -124,42 +114,42 @@
                       <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
                         <!--begin::Row-->
                         <tr>
-                          <td class="text-gray-400">Số Mục Tiêu:</td>
+                          <td>Số Mục Tiêu:</td>
                           <td>{{ detailData.target_count ?? 0 }} </td>
                         </tr>
                         <!--end::Row-->
 
                         <!--begin::Row-->
                         <tr>
-                          <td class="text-gray-400">Số Lỗ Hổng:</td>
+                          <td>Số Lỗ Hổng:</td>
                           <td>{{ detailData.flaw_count ?? 0 }}</td>
                         </tr>
                         <!--end::Row-->
                         <!--begin::Row-->
                         <tr>
-                          <td class="text-gray-400">Số Dịch Vụ:</td>
+                          <td>Số Dịch Vụ:</td>
                           <td>{{ detailData.service_count ?? 0 }}</td>
                         </tr>
                         <!--end::Row-->
                         <!--begin::Row-->
                         <tr>
-                          <td class="text-gray-400">Ngày Tạo:</td>
+                          <td>Ngày Tạo:</td>
                           <td>{{ detailData.created_at }}</td>
                         </tr>
                         <!--end::Row-->
                         <!--begin::Row-->
                         <tr>
-                          <td class="text-gray-400">Ngày Cập Nhật Cuối:</td>
+                          <td>Ngày Cập Nhật Cuối:</td>
                           <td>{{ detailData.modified_at }}</td>
                         </tr>
                         <!--end::Row-->
                       </table>
                       <!--end::Details-->
                       <!--begin::Label-->
-                      <label for="description" class="fs-6 fw-semobold mb-2 text-gray-400">Mô Tả:</label>
+                      <label for="description" class="fs-6 fw-semobold mb-2">Mô Tả:</label>
                       <!--end::Label-->
                       <!--begin::Input-->
-                      <el-input v-model="detailData.description" disabled :rows="5" type="textarea" placeholder="(detailData.description) ? '' : 'Chưa có mô tả'" />
+                      <el-input v-model="detailData.description" disabled :rows="5" type="textarea" :placeholder="(detailData.description) ? '' : 'Chưa có mô tả'" />
                       <!--end::Input-->
                     </div>
                     <!--end::Row-->
@@ -299,7 +289,6 @@ export default defineComponent({
       detailData.target_count = data.target_count
       detailData.created_at = data.created_at
       detailData.flaw_count = data.flaw_count
-      console.log(detailData.description)
       const modal = new Modal(
         document.getElementById("kt_modal_detail") as Element
       );
