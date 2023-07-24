@@ -207,10 +207,11 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/telegram-detail/:id",
         name: "telegram-detail",
-        component: () => import("@/views/apps/telegrams/TelegramListDetail.vue"),
+        // component: () => import("@/views/apps/telegrams/TelegramListDetail.vue"),
+        component: () => import("@/views/apps/telegrams/TelegramListDetail2.vue"),
         meta: {
           pageTitle: "Chi tiết nhóm Telegarm",
-          breadcrumbs: ["TelegramGroup", "Telegram",],
+          breadcrumbs: ["Nhóm Telegram", "Chi Tiết",],
           links: ["/telegram-group"],
         },
       },

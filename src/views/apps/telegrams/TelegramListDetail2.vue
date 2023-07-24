@@ -95,7 +95,8 @@
   <!--end::Card-->
 
   <!-- modal detail  -->
-  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Tin Nhắn" width="650" align-center id="modal-detail" :show-close="false">
+  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Tin Nhắn" width="650" align-center id="modal-detail"
+    :show-close="false">
     <div class="modal-body" style="padding: 0px !important;">
       <!--begin::Card-->
       <div class="card card-flush">
@@ -188,7 +189,7 @@
 import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import ApiService from "@/core/services/ApiService";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
-
+import { useRoute } from 'vue-router';
 // validate
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -206,6 +207,8 @@ export default defineComponent({
     debounce: vue3Debounce({ lock: true })
   },
   setup() {
+    const route = useRoute();
+    const ID = route.params.id ?? '';
     const list = ref<object | any>([])
     const data_group = ref<object | any>([])
     const totalPage = ref<number>(0);
@@ -224,7 +227,7 @@ export default defineComponent({
     });
     const getData = async () => {
       loading.value = true;
-      return ApiService.get(`telegram/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
+      return ApiService.get(`telegram/index?group=${ID}&search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -409,8 +412,9 @@ span.el-dialog__title {
 #modal-detail .el-dialog__body {
   padding-top: 10px;
 }
+
 .dialog-footer {
   display: flex;
-  justify-content: center; /* Căn giữa theo chiều dọc và ngang */
-}
-</style>
+  justify-content: center;
+  /* Căn giữa theo chiều dọc và ngang */
+}</style>
