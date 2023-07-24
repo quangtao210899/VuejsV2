@@ -6,13 +6,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div>
-                            <span class="w-70px">Mục tiêu : </span>
+                            <span class="w-70px">Mục Tiêu : </span>
                             <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div>
-                            <span class="w-70px">Nhóm mục tiêu : </span>
+                            <span class="w-70px">Nhóm Mục Tiêu : </span>
                             <span class="fw-bold">{{ targets.group.title }}</span>
                         </div>
                     </div>

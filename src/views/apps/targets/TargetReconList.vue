@@ -272,7 +272,7 @@ export default defineComponent({
             }
         };
         // thêm mới
-        const urlAddNew = ref('target-form/add')
+        const urlAddNew = ref(reconID.value + '/add')        
 
         // update the height
         const refGetTheHeight = ref<any>(null); // Ref to hold the div element
