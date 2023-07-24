@@ -135,7 +135,7 @@
         <!--begin::Card body-->
         <div class="card-body py-0" style="padding-top:0px !important;">
           <!--begin::Section-->
-          <div class="mb-10">
+          <div>
             <!--begin::Title-->
             <h5>Thông tin chi tiết:</h5>
             <!--end::Title-->
@@ -173,6 +173,14 @@
       </div>
       <!--end::Card-->
     </div>
+
+    <template #footer center>
+      <div class="dialog-footer">
+        <button type="button" class="btn btn-sm btn-light-primary" @click="DialogVisibleDetail = false">
+          Đóng
+        </button>
+      </div>
+    </template>
   </el-dialog>
 </template>
 
@@ -397,7 +405,12 @@ span.el-dialog__title {
   font-weight: 600;
   line-height: 27px;
 }
+
 #modal-detail .el-dialog__body {
   padding-top: 10px;
+}
+.dialog-footer {
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều dọc và ngang */
 }
 </style>
