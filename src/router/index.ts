@@ -187,7 +187,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/telegram-list",
         name: "telegram",
-        component: () => import("@/views/apps/telegrams/TelegramList.vue"),
+        // component: () => import("@/views/apps/telegrams/TelegramList.vue"),
+        component: () => import("@/views/apps/telegrams/TelegramList2.vue"),
         meta: {
           pageTitle: "Telegarm",
           breadcrumbs: ["Telegram"],
