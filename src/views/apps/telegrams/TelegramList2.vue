@@ -20,7 +20,7 @@
 
           <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35" :reserve-selection="true" />
 
-          <el-table-column width="60" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
+          <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
             <template #default="scope">
               <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
               }}</span>
@@ -28,46 +28,60 @@
             </template>
           </el-table-column>
 
-          <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="135" prop="title"
-            label="NHÓM MỤC TIÊU">
+          <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="100" prop="group_name"
+            label="TÊN NHÓM">
             <template #default="scope">
-              <span v-if="scope.row.title != ''" class="fs-13px text-gray-700 text-hover-primary">{{
-                scope.row.title }}</span>
+              <span v-if="scope.row.group_name != ''" class="fs-13px text-gray-700 text-hover-primary">{{
+                scope.row.group_name }}</span>
               <span v-else class="badge badge-light-danger">--</span>
             </template>
           </el-table-column>
-          <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark" prop="target_count"
-            label="MỤC TIÊU">
+          <el-table-column min-width="120" label-class-name="fs-13px fw-bold text-dark" prop="target_count" label="TÊN">
             <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.target_count ?? 0 }}</span>
+              <div class="d-flex align-items-center">
+                <!--begin::Symbol-->
+                <div class="symbol symbol-45px me-5">
+                  <span class="symbol-label">
+                    <KTIcon icon-name="user" icon-class="text-success fs-2x" />
+                  </span>
+                </div>
+                <!--end::Symbol-->
+                <!--begin::Text-->
+                <div class="d-flex flex-column" v-if="!scope.row.phone && scope.row.username == ' '">
+                  <span class="badge badge-light-danger">--</span>
+                </div>
+                <div class="d-flex flex-column" v-else>
+                  <div class="mx-0 my-0">
+                    <span class="fs-13px text-gray-700" v-if="scope.row.username != ' '">{{ scope.row.username }}</span>
+                    <span class="badge badge-light-danger" v-else>--</span>
+                  </div>
+                  <div class="mx-0 my-0">
+                    <span class="fs-13px text-gray-700" v-if="scope.row.phone">{{ scope.row.phone }}</span>
+                    <span class="badge badge-light-danger" v-else>--</span>
+                  </div>
+                </div>
+                <!--end::Text-->
+              </div>
             </template>
           </el-table-column>
 
-          <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="flaw_count" label="LỖ HỔNG">
+          <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="text" label="NỘI DUNG">
             <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.flaw_count ?? 0 }}</span>
+              <span class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.text, 200) }}</span>
             </template>
           </el-table-column>
-          <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="service_count"
-            label="DỊCH VỤ">
+          <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="date" label="THỜI GIAN">
             <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.service_count ?? 0 }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
-            <template #default="scope">
-              <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh Sửa" placement="top">
-                <router-link :to="`/target-group-form/${scope.row.id}`" v-on:click.stop
-                  class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
-                  <KTIcon icon-name="pencil" icon-class="fs-3" />
-                </router-link>
-              </el-tooltip>
+              <span v-if="scope.row.date != ''" class="fs-13px text-gray-700 text-hover-primary">
+                <i class="fa-solid fa-calendar-days fs-7"></i>
+                {{ scope.row.date }}</span>
+              <span v-else class="badge badge-light-danger">--</span>
             </template>
           </el-table-column>
         </el-table>
         <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
           <div>
-            <span class="text-capitalize fs-13px">Tổng Số Nhóm Mục Tiêu: {{ totalPage }}</span>
+            <span class="text-capitalize fs-13px">Tổng Số Tin Nhắn: {{ totalPage }}</span>
           </div>
           <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
             v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
@@ -81,100 +95,93 @@
   <!--end::Card-->
 
   <!-- modal detail  -->
-  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered mw-650px">
-      <!--begin::Modal content-->
-      <div class="modal-content">
-        <!--begin::Form-->
-        <div class="modal-body">
-          <!--begin::Card-->
-          <div class="card card-flush">
-            <!--begin::Card header-->
-            <div class="card-header">
-              <!--begin::Card title-->
-              <div class="card-title">
-                <h1 class="fw-bold">{{ detailData.title }}</h1>
+  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Tin Nhắn" width="650" align-center id="modal-detail" :show-close="false">
+    <div class="modal-body" style="padding: 0px !important;">
+      <!--begin::Card-->
+      <div class="card card-flush">
+        <!--begin::Card header-->
+        <div class="card-header mb-5">
+          <!--begin::Card title-->
+          <div class="card-title">
+            <div class="d-flex align-items-center">
+              <!--begin::Symbol-->
+              <div class="symbol symbol-50px me-5">
+                <span class="symbol-label bg-light-success">
+                  <KTIcon icon-name="user" icon-class="text-success fs-2x" />
+                </span>
               </div>
-            </div>
-            <!--end::Card header-->
-
-            <!--begin::Card body-->
-            <div class="card-body py-0">
-              <!--begin::Section-->
-              <div>
-                <!--begin::Title-->
-                <h5>Thông Tin Chi Tiết:</h5>
-                <!--end::Title-->
-                <!--begin::Details-->
-                <div class="d-flex flex-wrap">
-                  <!--begin::Row-->
-                  <div class="flex-equal me-5">
-                    <!--begin::Details-->
-                    <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-                      <!--begin::Row-->
-                      <tr>
-                        <td>Số Mục Tiêu:</td>
-                        <td>{{ detailData.target_count ? detailData.target_count : 0 }} </td>
-                      </tr>
-                      <!--end::Row-->
-
-                      <!--begin::Row-->
-                      <tr>
-                        <td>Số Lỗ Hổng:</td>
-                        <td>{{ detailData.flaw_count ?? 0 }}</td>
-                      </tr>
-                      <!--end::Row-->
-                      <!--begin::Row-->
-                      <tr>
-                        <td>Số Dịch Vụ:</td>
-                        <td>{{ detailData.service_count ?? 0 }}</td>
-                      </tr>
-                      <!--end::Row-->
-                      <!--begin::Row-->
-                      <tr>
-                        <td>Ngày Tạo:</td>
-                        <td>{{ detailData.created_at }}</td>
-                      </tr>
-                      <!--end::Row-->
-                      <!--begin::Row-->
-                      <tr>
-                        <td>Ngày Cập Nhật Cuối:</td>
-                        <td>{{ detailData.modified_at }}</td>
-                      </tr>
-                      <!--end::Row-->
-                    </table>
-                    <!--end::Details-->
-                    <!--begin::Label-->
-                    <label for="description" class="fs-6 fw-semobold mb-2">Mô Tả:</label>
-                    <!--end::Label-->
-                    <!--begin::Input-->
-                    <el-input v-model="detailData.description" disabled :rows="5" type="textarea"
-                      :placeholder="(detailData.description) ? '' : 'Chưa có mô tả'" />
-                    <!--end::Input-->
-                  </div>
-                  <!--end::Row-->
-
+              <!--end::Symbol-->
+              <div class="d-flex flex-column" v-if="!detailData.phone && detailData.username == ' '">
+                <span class="badge badge-light-danger">--</span>
+              </div>
+              <div class="d-flex flex-column" v-else>
+                <div class="mx-0 my-0">
+                  <span class="fs-13px text-gray-700" v-if="detailData.username != ' '">{{ detailData.username }}</span>
+                  <span class="badge badge-light-danger" v-else>--</span>
                 </div>
-                <!--end::Row-->
+                <div class="mx-0 my-0">
+                  <span class="fs-13px text-gray-700" v-if="detailData.phone">{{ detailData.phone }}</span>
+                  <span class="badge badge-light-danger" v-else>--</span>
+                </div>
               </div>
-              <!--end::Section-->
             </div>
-            <!--end::Card body-->
           </div>
-          <!--end::Card-->
+          <!--begin::Card toolbar-->
+
+          <!--end::Card toolbar-->
         </div>
-        <!--end::Form-->
-        <div class="modal-footer" style="border-top: 0px; justify-content: center;">
-          <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
-            Đóng
-          </button>
+        <!--end::Card header-->
+
+        <!--begin::Card body-->
+        <div class="card-body py-0" style="padding-top:0px !important;">
+          <!--begin::Section-->
+          <div>
+            <!--begin::Title-->
+            <h5>Thông Tin Chi Tiết:</h5>
+            <!--end::Title-->
+
+            <!--begin::Details-->
+            <div>
+              <!--begin::Row-->
+              <div class="me-5">
+                <!--begin::Details-->
+                <div>
+                  <div class="row fs-6 mb-3">
+                    <div class="col-3 text-gray-900">Tên Nhóm:</div>
+                    <div class="col-9 text-gray-900"><span>{{ detailData.group_name ?? '--' }}</span>
+                    </div>
+                  </div>
+                  <div class="row fs-6 mb-3">
+                    <div class="col-3 text-gray-900">Nội Dung:</div>
+                    <div class="col-9 text-gray-900"><span>{{ detailData.text ?? '--' }}</span></div>
+                  </div>
+                  <div class="row fs-6">
+                    <div class="col-3 text-gray-900">Thời Gian:</div>
+                    <div class="col-9 text-gray-900"><span>{{ detailData.date }}</span></div>
+                  </div>
+                </div>
+                <!--end::Details-->
+              </div>
+              <!--end::Row-->
+
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Section-->
         </div>
+        <!--end::Card body-->
       </div>
-      <!--end::Modal content-->
+      <!--end::Card-->
     </div>
-    <!--end::Modal dialog-->
-  </div>
+
+    <template #footer center>
+      <div class="dialog-footer">
+        <button type="button" class="btn btn-sm btn-light-primary" @click="DialogVisibleDetail = false">
+          Đóng
+        </button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -186,7 +193,6 @@ import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
-import { Modal } from "bootstrap";
 export default defineComponent({
   name: "kt-target-list",
 
@@ -208,19 +214,17 @@ export default defineComponent({
     const query = ref<string>('');
     const orderingID = ref<string>('-id');
     const loading = ref<boolean>(false)
+    const DialogVisibleDetail = ref<boolean>(false)
     const detailData = reactive({
-      id: '',
-      title: '',
-      description: '',
-      modified_at: '',
-      service_count: '',
-      target_count: '',
-      created_at: '',
-      flaw_count: '',
+      username: ' ',
+      phone: '',
+      group_name: '',
+      text: '',
+      date: '',
     });
     const getData = async () => {
       loading.value = true;
-      return ApiService.get(`targetgroup/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
+      return ApiService.get(`telegram/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -242,7 +246,7 @@ export default defineComponent({
         setTimeout(() => {
           disabled.value = false
         }, 1000);
-        return ApiService.delete(`targetgroup/multi-delete?id=${ids}`)
+        return ApiService.delete(`telegram/message/multi-delete?id=${ids}`)
           .then(({ data }) => {
             notification(data.detail, 'success', 'Xóa thành công')
             currentPage.value = 1;
@@ -280,18 +284,12 @@ export default defineComponent({
 
     // handleCurrentChange
     const handleCurrentChange = (data: any) => {
-      detailData.id = data.id
-      detailData.title = data.title
-      detailData.description = data.description
-      detailData.modified_at = data.modified_at
-      detailData.service_count = data.service_count
-      detailData.target_count = data.target_count
-      detailData.created_at = data.created_at
-      detailData.flaw_count = data.flaw_count
-      const modal = new Modal(
-        document.getElementById("kt_modal_detail") as Element
-      );
-      modal.show();
+      DialogVisibleDetail.value = true
+      detailData.username = data.username
+      detailData.phone = data.phone
+      detailData.group_name = data.group_name
+      detailData.text = data.text
+      detailData.date = data.date
     }
 
     // table
@@ -337,8 +335,13 @@ export default defineComponent({
       }
     };
     // thêm mới
-    const urlAddNew = ref('target-group-form/add')
-
+    const urlAddNew = ref('')
+    const truncateText = (text: string, maxLength: number) => {
+      if (text.length > maxLength) {
+        return text.substring(0, maxLength) + '...';
+      }
+      return text;
+    };
 
     const handleSortChange = (column: any) => {
       orderingID.value = (column.order == 'ascending' && column.prop == 'id') ? '-id' : 'id'
@@ -378,6 +381,7 @@ export default defineComponent({
 
       //
       handleResize,
+      truncateText,
       heightTable,
       handleSelectionChange,
       getRowKey,
@@ -387,7 +391,26 @@ export default defineComponent({
       handleSortChange,
       deleteSubscription,
       detailData,
+      DialogVisibleDetail,
     };
   },
 });
 </script>
+
+
+<style >
+span.el-dialog__title {
+  color: #181C32 !important;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 27px;
+}
+
+#modal-detail .el-dialog__body {
+  padding-top: 10px;
+}
+.dialog-footer {
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều dọc và ngang */
+}
+</style>
