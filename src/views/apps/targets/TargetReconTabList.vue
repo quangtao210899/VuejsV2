@@ -1,7 +1,7 @@
 <template>
     <!--begin::Navbar-->
     <div class="px-3 pt-5 h-100">
-        <div class="mb-3 me-2 position-relative position-repository bg-white rounded-3 ">
+        <div class="mb-3 position-relative position-repository bg-white rounded-3 me-3">
             <!--begin::Card header-->
             <div class="card-header border-0 p-0 position-absolute end-0 pe-1 position-sm-top">
                 <!--begin::Card toolbar-->
@@ -81,8 +81,8 @@
 
         <!--begin::Card-->
         <div class="">
-            <el-scrollbar class="rounded-3" :noresize="true" min-size="10" :native="true"
-                wrap-class="w-100 pe-1">
+            <el-scrollbar class="rounded-3 height-repository"
+                wrap-class="w-100 pe-3">
                 <el-row :gutter="10">
                     <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8" class="mb-3 mx-0">
                         <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '20px 20px' }">
@@ -1378,7 +1378,7 @@
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, onBeforeUnmount, watch } from "vue";
+import { defineComponent, ref, onMounted, onBeforeUnmount, onUpdated , watch } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
@@ -1435,9 +1435,9 @@ export default defineComponent({
         CodeHighlighter,
         reconActivity,
     },
-    setup() {
+    setup(props) {
         const route = useRoute();
-        const scanID = ref<null | number | any>(318);
+        const scanID = ref<null | number | any>(route.params.id ?? '');
         const idRecon = ref<null | number | any>(route.params.idRecon ?? '');
         const list = ref<getData | any>()
         const RefreshIcon = ref(Refresh)
@@ -1594,7 +1594,7 @@ export default defineComponent({
                     checkStatus.value = (data.status == 3) ? true : false
                     humanDiffTime()
                     //console.log(Object.keys(subdomain_result.value))
-                    //console.log(data)
+                    console.log(data, 'data') 
 
                 })
                 .catch(({ response }) => {

@@ -64,7 +64,7 @@
 
     <div class="d-flex hand-height-2 shadow-hvover " :class="classDetail ? 'pe-1' : ''">
       <!--begin::Card body-->
-      <div class="card-body overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
+      <div class="card-body overflow-auto h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
         :class="classDetail ? ' border-end' : 'col-12 '">
         <div class="w-100">
@@ -760,7 +760,6 @@ export default defineComponent({
     //   }
     //   console.log(CustomWidth.value)
     //   console.log(contentWidth.value)
-
     // };
 
     const handleMouseDown = (event: any) => {
@@ -768,12 +767,14 @@ export default defineComponent({
       state.startX = event.clientX;
       state.startScrollLeft = container.value.scrollLeft;
 
+
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", handleMouseUp);
     };
 
     const handleMouseMove = (event: any) => {
       if (!state.isDragging) return;
+      console.log(state , 'state')
 
       const deltaX = event.clientX - state.startX;
       container.value.scrollLeft = state.startScrollLeft - deltaX;
@@ -789,6 +790,7 @@ export default defineComponent({
     // Tính toán chiều rộng nội dung
     const contentWidth = ref(0);
     onMounted(() => {
+      console.log(contentWidth.value, 'contentWidth')
       contentWidth.value = container.value.scrollWidth;
     });
 

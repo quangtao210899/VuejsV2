@@ -37,7 +37,7 @@
                     <!--end::Select-->
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
     <!--end::Navbar-->
 

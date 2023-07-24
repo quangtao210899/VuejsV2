@@ -157,7 +157,7 @@ export default defineComponent({
                 },
             }).then(() => {
                 if (icon == 'success' || values == 'Mục tiêu không tồn tại') {
-                    router.push({ name: 'target-list' });
+                    router.push({ name: urlBack.value });
                 }
             });
         }
@@ -254,8 +254,10 @@ export default defineComponent({
             })
         }
 
+        const urlBack = ref<string>('target-list')
+
         const formBack = async (data: any) => {
-            router.push({ name: 'target-list' });
+            router.push({ name: urlBack.value });
         }
 
         const addFormSubmit = async (formData: RuleForm) => {
