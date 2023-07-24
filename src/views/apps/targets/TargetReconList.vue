@@ -22,7 +22,7 @@
                     <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35"
                         :reserve-selection="true" />
 
-                    <el-table-column width="60" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID" >
+                    <el-table-column width="100" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID" >
                         <template #default="scope">
                             <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
                             }}</span>
@@ -30,14 +30,14 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="120" prop="usernamename" label="TÊN ĐĂNG NHẬP"  >
+                    <el-table-column label-class-name="fs-13px fw-bold text-dark" prop="usernamename" label="TÊN ĐĂNG NHẬP"  >
                         <template #default="scope">
                             <span v-if="scope.row.user != ''" class="fs-13px text-gray-700 text-hover-primary">{{
                                 scope.row.user.username }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark"  prop="created_at" label="THỜI GIAN BẮT ĐẦU" >
+                    <el-table-column label-class-name="fs-13px fw-bold text-dark"  prop="created_at" label="THỜI GIAN BẮT ĐẦU" >
                         <template #default="scope">
                             <span v-if="scope.row.created_at != ''" class="fs-13px text-gray-700 text-hover-primary">
                                 <i class="fa-solid fa-calendar-days fs-7"></i>
@@ -46,7 +46,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="modified_at" label="THỜI GIAN KẾT THÚC" >
+                    <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="modified_at" label="THỜI GIAN KẾT THÚC" >
                         <template #default="scope">
                             <span v-if="scope.row.modified_at != ''" class="fs-13px text-gray-700 text-hover-primary">
                                 <i class="fa-solid fa-calendar-days fs-7"></i>
@@ -54,22 +54,12 @@
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI" >
+                    <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI" >
                         <template #default="scope">
-                            <span v-if="scope.row.status != ''" :class="`fs-13px badge badge-${getStatus(scope.row.status).color}`">{{
+                            <span v-if="scope.row.status != ''" :class="`badge badge-${getStatus(scope.row.status).color}`">{{
                                 scope.row.status_name }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                             
-                        </template>
-                    </el-table-column>
-                    <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
-                        <template #default="scope">
-                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh Sửa" placement="top">
-                                <router-link :to="`/target-recon-detail/${reconID}/${scope.row.id}/detail`" v-on:click.stop
-                                    class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
-                                    <KTIcon icon-name="pencil" icon-class="fs-3" />
-                                </router-link>
-                            </el-tooltip>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -222,9 +212,8 @@ export default defineComponent({
 
         // handleCurrentChange
         const handleCurrentChange = (data: any) => {
-            console.log(data.id)
             if (data) {
-                return router.push({ name: 'target-detail', params: { id: data.id } });
+                return router.push({ name: 'target-recon-tab', params: { id: data.id, idRecon: reconID.value } });
             }
             return;
         }
