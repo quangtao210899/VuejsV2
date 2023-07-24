@@ -10,9 +10,8 @@
         <!--begin::Card body-->
         <el-table ref="multipleTableRef" :data="list" style="width: 100%"
           class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
-          @selection-change="handleSelectionChange" :row-key="getRowKey"
-          @row-click= "handleCurrentChange" :default-sort="{ prop: 'id', order: 'descending' }"
-          @sort-change="handleSortChange">
+          @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="handleCurrentChange"
+          :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
           <template #empty>
             <div class="flex items-center justify-center h-100%">
               <el-empty />
@@ -29,28 +28,30 @@
             </template>
           </el-table-column>
 
-          <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="135" prop="title" label="NHÓM MỤC TIÊU">
+          <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="135" prop="title"
+            label="NHÓM MỤC TIÊU">
             <template #default="scope">
               <span v-if="scope.row.title != ''" class="fs-13px text-gray-700 text-hover-primary">{{
                 scope.row.title }}</span>
               <span v-else class="badge badge-light-danger">--</span>
             </template>
           </el-table-column>
-          <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark" prop="target_count" label="MỤC TIÊU">
+          <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark" prop="target_count"
+            label="MỤC TIÊU">
             <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.target_count ?? 0}}</span>
+              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.target_count ?? 0 }}</span>
             </template>
           </el-table-column>
 
           <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="flaw_count" label="LỖ HỔNG">
             <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.flaw_count ?? 0}}</span>
+              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.flaw_count ?? 0 }}</span>
             </template>
           </el-table-column>
           <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="service_count"
             label="DỊCH VỤ">
             <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{scope.row.service_count ?? 0}}</span>
+              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.service_count ?? 0 }}</span>
             </template>
           </el-table-column>
           <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
@@ -71,7 +72,6 @@
           <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
             v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
             :disabled="disabled"></el-pagination>
-          <div></div>
         </div>
         <!--end::Card body-->
       </div>
@@ -80,100 +80,101 @@
 
   <!--end::Card-->
 
-    <!-- modal detail  -->
-    <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-      <!--begin::Modal dialog-->
-      <div class="modal-dialog modal-dialog-centered mw-650px">
-        <!--begin::Modal content-->
-        <div class="modal-content">
-          <!--begin::Form-->
-          <div class="modal-body">
-            <!--begin::Card-->
-            <div class="card card-flush">
-              <!--begin::Card header-->
-              <div class="card-header">
-                <!--begin::Card title-->
-                <div class="card-title">
-                  <h1 class="fw-bold">{{ detailData.title }}</h1>
-                </div>
+  <!-- modal detail  -->
+  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <!--begin::Modal content-->
+      <div class="modal-content">
+        <!--begin::Form-->
+        <div class="modal-body">
+          <!--begin::Card-->
+          <div class="card card-flush">
+            <!--begin::Card header-->
+            <div class="card-header">
+              <!--begin::Card title-->
+              <div class="card-title">
+                <h1 class="fw-bold">{{ detailData.title }}</h1>
               </div>
-              <!--end::Card header-->
+            </div>
+            <!--end::Card header-->
 
-              <!--begin::Card body-->
-              <div class="card-body py-0">
-                <!--begin::Section-->
-                <div>
-                  <!--begin::Title-->
-                  <h5>Thông Tin Chi Tiết:</h5>
-                  <!--end::Title-->
-                  <!--begin::Details-->
-                  <div class="d-flex flex-wrap">
-                    <!--begin::Row-->
-                    <div class="flex-equal me-5">
-                      <!--begin::Details-->
-                      <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-                        <!--begin::Row-->
-                        <tr>
-                          <td>Số Mục Tiêu:</td>
-                          <td>{{ detailData.target_count ? detailData.target_count: 0 }} </td>
-                        </tr>
-                        <!--end::Row-->
+            <!--begin::Card body-->
+            <div class="card-body py-0">
+              <!--begin::Section-->
+              <div>
+                <!--begin::Title-->
+                <h5>Thông Tin Chi Tiết:</h5>
+                <!--end::Title-->
+                <!--begin::Details-->
+                <div class="d-flex flex-wrap">
+                  <!--begin::Row-->
+                  <div class="flex-equal me-5">
+                    <!--begin::Details-->
+                    <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
+                      <!--begin::Row-->
+                      <tr>
+                        <td>Số Mục Tiêu:</td>
+                        <td>{{ detailData.target_count ? detailData.target_count : 0 }} </td>
+                      </tr>
+                      <!--end::Row-->
 
-                        <!--begin::Row-->
-                        <tr>
-                          <td>Số Lỗ Hổng:</td>
-                          <td>{{ detailData.flaw_count ?? 0 }}</td>
-                        </tr>
-                        <!--end::Row-->
-                        <!--begin::Row-->
-                        <tr>
-                          <td>Số Dịch Vụ:</td>
-                          <td>{{ detailData.service_count ?? 0 }}</td>
-                        </tr>
-                        <!--end::Row-->
-                        <!--begin::Row-->
-                        <tr>
-                          <td>Ngày Tạo:</td>
-                          <td>{{ detailData.created_at }}</td>
-                        </tr>
-                        <!--end::Row-->
-                        <!--begin::Row-->
-                        <tr>
-                          <td>Ngày Cập Nhật Cuối:</td>
-                          <td>{{ detailData.modified_at }}</td>
-                        </tr>
-                        <!--end::Row-->
-                      </table>
-                      <!--end::Details-->
-                      <!--begin::Label-->
-                      <label for="description" class="fs-6 fw-semobold mb-2">Mô Tả:</label>
-                      <!--end::Label-->
-                      <!--begin::Input-->
-                      <el-input v-model="detailData.description" disabled :rows="5" type="textarea" :placeholder="(detailData.description) ? '' : 'Chưa có mô tả'" />
-                      <!--end::Input-->
-                    </div>
-                    <!--end::Row-->
-
+                      <!--begin::Row-->
+                      <tr>
+                        <td>Số Lỗ Hổng:</td>
+                        <td>{{ detailData.flaw_count ?? 0 }}</td>
+                      </tr>
+                      <!--end::Row-->
+                      <!--begin::Row-->
+                      <tr>
+                        <td>Số Dịch Vụ:</td>
+                        <td>{{ detailData.service_count ?? 0 }}</td>
+                      </tr>
+                      <!--end::Row-->
+                      <!--begin::Row-->
+                      <tr>
+                        <td>Ngày Tạo:</td>
+                        <td>{{ detailData.created_at }}</td>
+                      </tr>
+                      <!--end::Row-->
+                      <!--begin::Row-->
+                      <tr>
+                        <td>Ngày Cập Nhật Cuối:</td>
+                        <td>{{ detailData.modified_at }}</td>
+                      </tr>
+                      <!--end::Row-->
+                    </table>
+                    <!--end::Details-->
+                    <!--begin::Label-->
+                    <label for="description" class="fs-6 fw-semobold mb-2">Mô Tả:</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <el-input v-model="detailData.description" disabled :rows="5" type="textarea"
+                      :placeholder="(detailData.description) ? '' : 'Chưa có mô tả'" />
+                    <!--end::Input-->
                   </div>
                   <!--end::Row-->
+
                 </div>
-                <!--end::Section-->
+                <!--end::Row-->
               </div>
-              <!--end::Card body-->
+              <!--end::Section-->
             </div>
-            <!--end::Card-->
+            <!--end::Card body-->
           </div>
-          <!--end::Form-->
-          <div class="modal-footer" style="border-top: 0px; justify-content: center;">
-              <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
-                  Đóng
-              </button>
-          </div>
+          <!--end::Card-->
         </div>
-        <!--end::Modal content-->
+        <!--end::Form-->
+        <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+          <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
+            Đóng
+          </button>
+        </div>
       </div>
-      <!--end::Modal dialog-->
+      <!--end::Modal content-->
     </div>
+    <!--end::Modal dialog-->
+  </div>
 </template>
 
 <script lang="ts">
@@ -185,7 +186,6 @@ import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
-import { useRouter } from 'vue-router';
 import { Modal } from "bootstrap";
 export default defineComponent({
   name: "kt-target-list",
@@ -218,7 +218,6 @@ export default defineComponent({
       created_at: '',
       flaw_count: '',
     });
-    const ModalDetail = ref<null | HTMLElement>(null);
     const getData = async () => {
       loading.value = true;
       return ApiService.get(`targetgroup/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
@@ -278,7 +277,6 @@ export default defineComponent({
 
     // xóa 
     const multipleTableRef = ref<InstanceType<typeof ElTable>>()
-    const router = useRouter();
 
     // handleCurrentChange
     const handleCurrentChange = (data: any) => {
@@ -340,17 +338,6 @@ export default defineComponent({
     };
     // thêm mới
     const urlAddNew = ref('target-group-form/add')
-
-    // update the height
-    const refGetTheHeight = ref<any>(null); // Ref to hold the div element
-    const divHeight = ref(300); // Reactive variable to store the height with an initial value
-
-    // Function to update the height
-    function updateDivHeight() {
-      if (refGetTheHeight.value) {
-        divHeight.value = refGetTheHeight.value.clientHeight;
-      }
-    }
 
 
     const handleSortChange = (column: any) => {
