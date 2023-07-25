@@ -73,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Recon Mục Tiêu",
           breadcrumbs: ["Mục Tiêu", "Recon", "Thêm mới"],
-          links: ["/target-list", "/target-recons/:id"],
+          links: ["/target-list", '/target-list'],
         },
       },
       {
@@ -197,7 +197,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/telegram-list",
         name: "telegram",
-        component: () => import("@/views/apps/telegrams/TelegramList.vue"),
+        // component: () => import("@/views/apps/telegrams/TelegramList.vue"),
+        component: () => import("@/views/apps/telegrams/TelegramList2.vue"),
         meta: {
           pageTitle: "Telegarm",
           breadcrumbs: ["Telegram"],
@@ -206,10 +207,11 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/telegram-detail/:id",
         name: "telegram-detail",
-        component: () => import("@/views/apps/telegrams/TelegramListDetail.vue"),
+        // component: () => import("@/views/apps/telegrams/TelegramListDetail.vue"),
+        component: () => import("@/views/apps/telegrams/TelegramListDetail2.vue"),
         meta: {
           pageTitle: "Chi tiết nhóm Telegarm",
-          breadcrumbs: ["TelegramGroup", "Telegram",],
+          breadcrumbs: ["Nhóm Telegram", "Chi Tiết",],
           links: ["/telegram-group"],
         },
       },

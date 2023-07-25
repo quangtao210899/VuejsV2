@@ -4,48 +4,41 @@
     <!--begin::Card-->
     <div class="app-container container-fluid pt-10">
         <div class="card d-block px-5 pb-20 mt-10 pt-10">
-            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" :label-width="'auto'" :label-position="labelPosition" 
-                class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right"
-                >
-                <el-form-item label="Tên mục tiêu" prop="name" class="pb-3 text-capitalize fs-6" tabindex="0" :error="(errors.name) ? errors.name[0] : ''">
-                    <el-input v-model="ruleForm.name" size="large" placeholder="Nhập tên mục tiêu" :autofocus="true"
+            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" :label-width="'auto'"
+                :label-position="labelPosition" class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize"
+                size="large" status-icon require-asterisk-position="right">
+                <el-form-item label="Tên Mục Tiêu" prop="name" class="pb-3 text-capitalize fs-13px"
+                    :error="(errors.name) ? errors.name[0] : ''">
+                    <el-input v-model="ruleForm.name" size="large" placeholder="Tên mục tiêu"
                         :class="(errors.name) ? 'el-error-ruleForm' : ''" />
-                    <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
-                        <span class="" v-if="errors.name">{{ errors.name[0] }}</span>
-                    </div> -->
                 </el-form-item>
-                <el-form-item label="Domain" prop="domain" class="pb-3 text-capitalize fs-6" :error="(errors.domain) ? errors.domain[0] : ''">
-                    <el-input v-model="ruleForm.domain" size="large" v placeholder="Nhập domain mục tiêu" @blur="getAutofill(ruleForm.domain)
+                <el-form-item label="Tên Miền" prop="domain" class="pb-3 text-capitalize fs-13px"
+                    :error="(errors.domain) ? errors.domain[0] : ''">
+                    <el-input v-model="ruleForm.domain" size="large" v placeholder="Tên miền" @blur="getAutofill(ruleForm.domain)
                         .then(ip => {
                             ruleForm.ip = ip
                         });" :class="(errors.domain) ? 'el-error-ruleForm' : ''" />
-                    <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
-                        <span class="" v-if="errors.domain">{{ errors.domain[0] }}</span>
-                    </div> -->
                 </el-form-item>
-                <el-form-item label="IP" prop="ip" class="pb-3 text-capitalize fs-6" :error="(errors.ip) ? errors.ip[0] : ''">
-                    <el-input v-model="ruleForm.ip" size="large" placeholder="Nhập ip mục tiêu"
+                <el-form-item label="Địa Chỉ IP" prop="ip" class="pb-3 text-capitalize fs-13px"
+                    :error="(errors.ip) ? errors.ip[0] : ''">
+                    <el-input v-model="ruleForm.ip" size="large" placeholder="Địa chỉ IP"
                         :class="(errors.ip) ? 'el-error-ruleForm' : ''" />
-                    <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
-                        <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
-                    </div> -->
                 </el-form-item>
-                <el-form-item label="Nhóm mục tiêu" prop="group" class="pb-3 text-capitalize w-100 fs-6" :error="(errors.group) ? errors.group[0] : ''">
-                    <el-select v-model="ruleForm.group" size="large" placeholder="Chọn nhóm mục tiêu" class="w-100" filterable no-match-text="Không có dữ liệu phù hợp"
-                        :class="(errors.group) ? 'el-error-ruleForm' : ''">
+                <el-form-item label="Nhóm mục tiêu" prop="group" class="pb-3 text-capitalize w-100 fs-13px"
+                    :error="(errors.group) ? errors.group[0] : ''">
+                    <el-select v-model="ruleForm.group" size="large" placeholder="Nhóm mục tiêu" class="w-100" filterable
+                        no-match-text="Không có dữ liệu phù hợp" :class="(errors.group) ? 'el-error-ruleForm' : ''">
                         <el-option v-for=" val  in  data_group " :key="val.id" :label="val.title" :value="val.id" />
                     </el-select>
-                    <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
-                        <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
-                    </div> -->
                     <div class="fv-plugins-message-container">
                         <div class="fv-help-block">
-                            <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] :
-                                errors.detail }}</span>
+                            <span class="" v-if="errors.detail">
+                                {{ Array.isArray(errors.detail) ? errors.detail[0] : errors.detail }}
+                            </span>
                         </div>
-                </div>
+                    </div>
                 </el-form-item>
-                
+
             </el-form>
         </div>
     </div>
@@ -204,7 +197,7 @@ export default defineComponent({
             if (value == null || value == '') { return true; }
             const specialCharacters = /^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})$/;
             if (!specialCharacters.test(value)) {
-                callback(new Error('Sai định dạng địa chỉ IP'));
+                callback(new Error('IP không đúng định dạng'));
             } else {
                 callback();
             }
@@ -214,7 +207,7 @@ export default defineComponent({
             if (value == null || value == '') { return true; }
             const specialCharacters = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!specialCharacters.test(value)) {
-                callback(new Error('Sai định dạng địa chỉ Domain'));
+                callback(new Error('Tên miền không đúng định dạng'));
             } else {
                 callback();
             }
@@ -223,7 +216,7 @@ export default defineComponent({
         const rules = reactive<FormRules>({
             name: [
                 { required: true, message: 'Tên mục tiêu không được để trống', trigger: 'blur' },
-                { min: 3, max: 50, message: 'kí tự trong khoảng từ 3 đến 50 kí tự', trigger: 'blur' },
+                { min: 3, max: 50, message: 'Độ dài từ 3-50 ký tự', trigger: 'blur' },
                 { validator: validateName, trigger: 'blur' },
             ],
             ip: [
@@ -349,24 +342,25 @@ export default defineComponent({
 .demo-ruleForm .el-form-item__error {
     text-transform: initial !important;
     line-height: 18px !important;
-    color:#f1416c !important;
+    color: #f1416c !important;
 }
 
 /* .demo-ruleForm .el-error-ruleForm .el-input__wrapper {
     box-shadow: 0 0 0 1px var(--el-color-danger) inset !important;
 } */
 
-.el-form-item__label{
-    font-size: 1.075rem !important;
+.el-form-item__label {
+    font-size: 13px !important;
     font-weight: 500;
     color: #252f4a !important;
 }
 
 .demo-ruleForm .el-input__wrapper {
     box-shadow: none !important;
-    
+
 }
-.demo-ruleForm .el-input__wrapper.is-focus{
+
+.demo-ruleForm .el-input__wrapper.is-focus {
     background-color: #f1f1f2 !important;
     color: #4b5675 !important;
 }
@@ -375,15 +369,22 @@ export default defineComponent({
     padding-top: 4px;
 }
 
+
 .demo-ruleForm .el-input__wrapper {
-    background: #f9f9f9 ;
+    background: #f9f9f9;
     border-radius: 10px !important;
 
 }
+
 .demo-ruleForm .el-input__wrapper input {
     font-weight: 500 !important;
     color: #252f4a !important;
     font-size: 13px !important;
     line-height: 21px !important;
+}
+
+.demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label-wrap>.el-form-item__label:after,
+.demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label:after {
+    margin-left: 0px !important;
 }
 </style>

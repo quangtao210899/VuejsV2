@@ -7,9 +7,10 @@
                 'container-fluid': toolbarWidthFluid,
                 'container-xxl': !toolbarWidthFluid,
             }">
-            
+
             <!--begin::Details-->
-            <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch" :typeText="typeText" :disabled="disabled" :check-search="checkSearch" />
+            <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch" :typeText="typeText"
+                :disabled="disabled" :check-search="checkSearch" />
             <!--end::Details-->
 
             <!--begin::Toolbar-->
@@ -52,7 +53,7 @@
 </template>
   
 <script lang="ts">
-import { defineComponent, ref, markRaw, watch } from "vue";
+import { defineComponent, markRaw } from "vue";
 import { toolbarWidthFluid } from "@/core/helpers/config";
 import KTPageTitle from "@/views/apps/targets/reconWidgets/KTPageTitle2.vue";
 import { ElMessageBox } from 'element-plus'

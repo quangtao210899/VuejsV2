@@ -1,22 +1,24 @@
 <template>
     <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true"
         @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @click="getCheckedKeys"></KTToolbar>
-    <div class="app-container container-fluid pt-10">
-        <div class="card d-block px-5 pb-20 mt-10 pt-10">
-            <el-form ref="ruleFormRef" :model="ruleForm" :label-width="'auto'" :label-position="labelPosition" 
-                class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right">
-                <div class="fv-plugins-message-container">
-                    <div class="fv-help-block">
-                        <span class="" v-if="errors.tree">{{ Array.isArray(errors.tree) ? errors.tree[0] :
-                            errors.tree }}</span>
+    <el-scrollbar :height="heightTable">
+        <div class="app-container container-fluid pt-10">
+            <div class="card d-block px-5 pb-20 mt-10 pt-10">
+                <el-form ref="ruleFormRef" :model="ruleForm" :label-width="'auto'"
+                    class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right">
+                    <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                            <span class="" v-if="errors.tree">{{ Array.isArray(errors.tree) ? errors.tree[0] :
+                                errors.tree }}</span>
+                        </div>
                     </div>
-                </div>
 
-                <el-tree ref="treeRef" :data="dataFormCreate" show-checkbox node-key="id"
-                    :default-expanded-keys="['0-0', '0-0-0', '0-0-1', '0-0-2', '0-0-3']" :props="defaultProps" class="custom-tree" />
-            </el-form>
+                    <el-tree ref="treeRef" :data="dataFormCreate" show-checkbox node-key="id"
+                        :default-expanded-keys="['0-0', '0-0-0', '0-0-1', '0-0-2', '0-0-3']" :props="defaultProps" class="custom-tree" />
+                </el-form>
+            </div>
         </div>
-    </div>
+    </el-scrollbar>
 </template>
 
 <script lang="ts">
@@ -569,10 +571,9 @@ export default defineComponent({
                 const mergedArray = [...new Set([...selectedKey, ...checkedKey])];
 
                 treeRef.value!.setCheckedKeys(mergedArray, false)
-
                 
                 if (errors.notifi_error_select.length) {
-                    const formattedTexts = errors.notifi_error_select.map((text) => `<p>${text}</p>`).join("");
+                    const formattedTexts = errors.notifi_error_select.map((text, index) => `<p style='text-align:left'>${index + 1}. ${text}</p>`).join("");
                     notification(formattedTexts, 'error', 'Có lỗi xảy ra', '600px')
                     errors.notifi_error_select = []
 
@@ -677,20 +678,39 @@ export default defineComponent({
                 });
         }
 
-        // tính labelPosition form
-        const labelPosition = ref('left')
+        const heightTable = ref(0)
         const handleResize = () => {
-            const windowWidth = window.innerWidth;
-            if (windowWidth >= 992) {
-                labelPosition.value = 'left'
-            } else if (windowWidth >= 768) {
-                labelPosition.value = 'top'
-            } else if (windowWidth >= 576) {
-                labelPosition.value = 'top'
-            } else {
-                labelPosition.value = 'top'
-            }
+        const windowWidth = window.innerWidth;
+        if (windowWidth >= 1400) {
+            heightTable.value = window.innerHeight - 80;
+        } else if (windowWidth >= 1200) {
+            heightTable.value = window.innerHeight - 80;
+        } else if (windowWidth >= 992) {
+            heightTable.value = window.innerHeight - 80;
+        } else if (windowWidth >= 768) {
+            heightTable.value = window.innerHeight - 75;
+        } else if (windowWidth >= 576) {
+            heightTable.value = window.innerHeight - 75;
+        } else {
+            // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
+            heightTable.value = window.innerHeight - 70;
+        }
         };
+
+        // tính labelPosition form
+        // const labelPosition = ref('left')
+        // const handleResize = () => {
+        //     const windowWidth = window.innerWidth;
+        //     if (windowWidth >= 992) {
+        //         labelPosition.value = 'left'
+        //     } else if (windowWidth >= 768) {
+        //         labelPosition.value = 'top'
+        //     } else if (windowWidth >= 576) {
+        //         labelPosition.value = 'top'
+        //     } else {
+        //         labelPosition.value = 'top'
+        //     }
+        // };
 
         onMounted(() => {
             handleResize();
@@ -711,7 +731,7 @@ export default defineComponent({
             formBack,
             formSubmit,
             errors,
-            labelPosition,
+            // labelPosition,
             dataFormCreate,
             defaultProps,
             treeRef,
@@ -719,6 +739,7 @@ export default defineComponent({
             getCheckedKeys,
             resetData,
             validationSchema,
+            heightTable
         };
     },
 });
@@ -735,7 +756,7 @@ export default defineComponent({
 } */
 
 .el-form-item__label{
-    font-size: 1.075rem !important;
+    font-size: 13px !important;
     font-weight: 500;
     color: #252f4a !important;
 }
@@ -765,7 +786,8 @@ export default defineComponent({
     line-height: 21px !important;
 }
 
-/* .swal-wide{
-    width:1500px !important;
-} */
+.demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label-wrap>.el-form-item__label:after,
+.demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label:after {
+    margin-left: 0px !important;
+}
 </style>
