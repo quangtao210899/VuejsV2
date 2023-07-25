@@ -194,7 +194,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="dns_record" align="left" label="Bản Ghi DNS"
-                            min-width="150">
+                            min-width="250">
                             <template #default="scope">
                                 <template v-if="Object.values(scope.row.dns_record).length == 0">
                                     <span class="badge badge-light-danger">--</span>
