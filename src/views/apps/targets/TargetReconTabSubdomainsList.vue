@@ -264,7 +264,7 @@
                         <div v-if="totalSubdomain > 0">
                             <span class="text-capitalize fs-13px">Tổng Số Subdomains: {{ totalSubdomain }}</span>
                         </div>
-                        <el-pagination background v-model:current-page="currentPageSubdomain"
+                        <el-pagination background v-model:current-page="currentPageSubdomain" :hide-on-single-page="true"
                             :total="totalSubdomain" layout="'prev, pager, next'" :disabled="disabled"></el-pagination>
                             <div></div>
                     </div>
