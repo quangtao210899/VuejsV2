@@ -688,7 +688,7 @@ export default defineComponent({
                 return ApiService.put(`/targets/${id.value}/`, formData)
                     .then(({ data }) => {
                         if (submitButtonRef.value) {
-                            notification(data.detail, 'success', 'Sửa mới thành công')
+                            notification(data.detail, 'success', 'Chỉnh sửa thành công')
                             //Disable button
                             submitButtonRef.value.disabled = true;
                             // Activate indicator

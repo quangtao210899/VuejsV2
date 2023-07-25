@@ -300,10 +300,21 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/user-list",
         name: "user",
-        component: () => import("@/views/apps/users/UserList.vue"),
+        // component: () => import("@/views/apps/users/UserList.vue"),
+        component: () => import("@/views/apps/users/UserList2.vue"),
         meta: {
           pageTitle: "Người Dùng",
-          breadcrumbs: ["User List"],
+          breadcrumbs: ["Người Dùng"],
+        },
+      },
+      {
+        path: "/user-form/:id",
+        name: "user-form",
+        component: () => import("@/views/apps/users/UserForm.vue"),
+        meta: {
+          pageTitle: "Chi tiết nhóm mục tiêu",
+          breadcrumbs: ["Người Dùng","addForm"],
+          links: ["/user-list"],
         },
       },
       {
