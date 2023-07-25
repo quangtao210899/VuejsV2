@@ -1,7 +1,6 @@
 <template>
     <KTToolbar></KTToolbar>
     <!--begin::Card-->
-    <el-scrollbar :height="heightTable">
         <div class="app-container container-fluid mt-10 pt-10">
             <div class="card h-100 d-block bg-transparent">
                 <div class="card px-5 mb-3 card-custom">
@@ -1647,7 +1646,6 @@
                 <!--end:::Tab content-->
             </div>
         </div>
-    </el-scrollbar>
 
         <!-- modoal  -->
         <el-dialog v-model="dialogDirectoryVisible" title="Directory Detail" width="1000">
@@ -1867,7 +1865,7 @@ export default defineComponent({
         const linkCheck = ref<string>('')
         const linkCheckIP = ref<string>('')
         const reconStatus = ref<number>(0)
-        const checkRecon = ref<boolean>(false)
+        const checkRecon = ref<boolean>(true)
         const checkReconMessage = ref<string>('')
 
         const getData = async () => {
@@ -1884,6 +1882,7 @@ export default defineComponent({
                         checkRecon.value = true
                         checkReconMessage.value = data.recon.message
                     }else{
+                        checkRecon.value = false
                         reconId.value = data.recon.recon.id
 
                         // recon
@@ -1996,25 +1995,6 @@ export default defineComponent({
             });
         }
 
-        // tính toán chiều cao table
-        const heightTable = ref(0)
-        const handleResize = () => {
-            const windowWidth = window.innerWidth;
-            if (windowWidth >= 1400) {
-                heightTable.value = window.innerHeight - 80;
-            } else if (windowWidth >= 1200) {
-                heightTable.value = window.innerHeight - 80;
-            } else if (windowWidth >= 992) {
-                heightTable.value = window.innerHeight - 80;
-            } else if (windowWidth >= 768) {
-                heightTable.value = window.innerHeight - 75;
-            } else if (windowWidth >= 576) {
-                heightTable.value = window.innerHeight - 75;
-            } else {
-                // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-                heightTable.value = window.innerHeight - 70;
-            }
-        };
 
         // check trạng thái
         const getStatus = (status: string) => {
@@ -2405,13 +2385,9 @@ export default defineComponent({
 
         onMounted(() => {
             getData();
-            handleResize();
-            window.addEventListener('resize', handleResize);
         });
 
-        onUnmounted(() => {
-            window.removeEventListener('resize', handleResize);
-        });
+
 
         return {
             getData,
@@ -2423,8 +2399,6 @@ export default defineComponent({
             currentPage,
             loading,
             disabled,
-            handleResize,
-            heightTable,
             handleCurrentChange,
 
             //

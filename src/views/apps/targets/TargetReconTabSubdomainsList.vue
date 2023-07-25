@@ -1,6 +1,5 @@
 <template>
     <KTToolbar></KTToolbar>
-    <el-scrollbar :height="heightTable">
         <div class="app-container container-fluid pt-10 mt-10 ">
             <div class="py-5 bg-body rounded-3">
                 <!--begin::Navbar-->
@@ -270,13 +269,6 @@
                             :disabled="disabled"></el-pagination>
                         <div></div>
                     </div>
-                    <!-- <div class="d-flex justify-content-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-                        <el-pagination background v-model:current-page="currentPageSubdomain"
-                            v-model:page-size="pageSizeSubdomain" :total="totalSubdomain"
-                            :layout="(checkPaginationTable) ? 'prev, pager, next' : 'total, sizes, prev, pager, next, jumper'"
-                            :disabled="disabled"
-                            :page-sizes="(checkPaginationTable) ? [] : [10, 20, 30, 40, 50]"></el-pagination>
-                    </div> -->
                 </div>
                 <!--end::Card-->
 
@@ -403,7 +395,6 @@
                 </el-dialog>
             </div>
         </div>
-    </el-scrollbar>
 </template>
   
 <script lang="ts">
@@ -737,35 +728,11 @@ export default defineComponent({
         }
 
         // tính toán chiều cao table
-        const heightTable = ref(0)
-        const checkPaginationTable = ref(false)
-        const handleResize = () => {
-            const windowWidth = window.innerWidth;
-            if (windowWidth >= 1400) {
-                heightTable.value = window.innerHeight - 80;
-            } else if (windowWidth >= 1200) {
-                heightTable.value = window.innerHeight - 80;
-            } else if (windowWidth >= 992) {
-                heightTable.value = window.innerHeight - 80;
-            } else if (windowWidth >= 768) {
-                heightTable.value = window.innerHeight - 75;
-            } else if (windowWidth >= 576) {
-                heightTable.value = window.innerHeight - 75;
-            } else {
-                // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-                heightTable.value = window.innerHeight - 70;
-            }
-        };
 
         onMounted(() => {
             getData();
-            handleResize();
-            window.addEventListener('resize', handleResize);
         });
 
-        onUnmounted(() => {
-            window.removeEventListener('resize', handleResize);
-        });
 
         return {
             scanID,
@@ -821,8 +788,6 @@ export default defineComponent({
             pageSizeSubdomain,
             currentPageSubdomain,
             loadingSubdomain,
-            heightTable,
-            checkPaginationTable,
         };
     },
 });
