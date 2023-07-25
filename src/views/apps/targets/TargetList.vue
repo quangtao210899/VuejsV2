@@ -4,7 +4,6 @@
         @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
     </div>
     <!--begin::Card-->
-    <el-scrollbar :height="heightTable">
     <div class="app-container container-fluid pt-10 mt-10 " >
         <div class="p-5 bg-body rounded-3">
             <!--begin::Card body-->
@@ -15,7 +14,7 @@
                     @sort-change="handleSortChange">
                     <template #empty>
                         <div class="flex items-center justify-center h-100%">
-                            <el-empty />
+                            <el-empty description="Không có dữ liệu nào"/>
                         </div>
                     </template>
 
@@ -55,7 +54,7 @@
                     </el-table-column>
                     <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="group" label="NHÓM MỤC TIÊU" >
                         <template #default="scope">
-                            <span v-if="scope.row.title != ''" class="fs-13px text-gray-700 text-hover-primary">{{
+                            <span v-if="scope.row.group.title != ''" class="fs-13px text-gray-700 text-hover-primary">{{
                                 scope.row.group.title }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
@@ -81,7 +80,7 @@
                                 </router-link>
                             </el-tooltip>
                         </template>
-                    </el-table-column>
+                    </el-table-column> 
                 </el-table>
                 <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
                     <div >
@@ -95,7 +94,6 @@
             <!--end::Card body-->
         </div>
     </div>
-    </el-scrollbar>
 
     <!--end::Card-->
 </template>
@@ -151,7 +149,6 @@ export default defineComponent({
         }
 
         const getDataGroup = async () => {
-            loading.value = true;
             return ApiService.get(`targetgroup/list/`)
                 .then(({ data }) => {
                     data_group.value = data
@@ -159,9 +156,6 @@ export default defineComponent({
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                 })
-                .finally(() => {
-                    loading.value = false
-                });
         }
 
         const selectedIds = ref<Array<number>>([]);
@@ -241,39 +235,8 @@ export default defineComponent({
             getData();
         });
 
-        // tính toán chiều cao table
-        const heightTable = ref(0)
-        const handleResize = () => {
-            const windowWidth = window.innerWidth;
-            if (windowWidth >= 1400) {
-                heightTable.value = window.innerHeight - 80;
-            } else if (windowWidth >= 1200) {
-                heightTable.value = window.innerHeight - 80;
-            } else if (windowWidth >= 992) {
-                heightTable.value = window.innerHeight - 80;
-            } else if (windowWidth >= 768) {
-                heightTable.value = window.innerHeight -75;
-            } else if (windowWidth >= 576) {
-                heightTable.value = window.innerHeight - 75;
-            } else {
-                // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-                heightTable.value = window.innerHeight - 70;
-            }
-        };
         // thêm mới
         const urlAddNew = ref('target-form/add')
-
-        // update the height
-        const refGetTheHeight = ref<any>(null); // Ref to hold the div element
-        const divHeight = ref(300); // Reactive variable to store the height with an initial value
-
-        // Function to update the height
-        function updateDivHeight() {
-            if (refGetTheHeight.value) {
-                divHeight.value = refGetTheHeight.value.clientHeight;
-            }
-        }
-
 
         const handleSortChange = (column: any) => {
             orderingID.value = (column.order == 'ascending' && column.prop == 'id') ? '-id' : 'id'
@@ -283,13 +246,8 @@ export default defineComponent({
         onMounted(() => {
             getData();
             getDataGroup();
-            handleResize();
-            window.addEventListener('resize', handleResize);
         });
 
-        onUnmounted(() => {
-            window.removeEventListener('resize', handleResize);
-        });
 
         return {
             getData,
@@ -315,8 +273,6 @@ export default defineComponent({
             disabled,
 
             //
-            handleResize,
-            heightTable,
             handleSelectionChange,
             getRowKey,
             handleCurrentChange,

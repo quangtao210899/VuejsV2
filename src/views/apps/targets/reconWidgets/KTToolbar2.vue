@@ -1,52 +1,55 @@
 <template>
-    <div class="py-2 bg-body position-fixed" id="kt_subheader"
-        style="box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05) !important;width: -webkit-fill-available;z-index:99;">
-        <div id="kt_app_toolbar_container"
-            class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap " :class="{
-                'container-fluid': toolbarWidthFluid,
-                'container-xxl': !toolbarWidthFluid,
-            }">
+    <div id="kt_app_header" class="app-header position-fixed border-bottom h-50px" 
+    style="top: 70px !important;box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05) !important;">
+        <div class="py-1 bg-body" id="kt_subheader"
+            style="; width:100%;">
+            <div id="kt_app_toolbar_container" style="min-height: 43px;"
+                class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap " :class="{
+                    'container-fluid': toolbarWidthFluid,
+                    'container-xxl': !toolbarWidthFluid,
+                }">
 
-            <!--begin::Details-->
-            <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch" :typeText="typeText"
-                :disabled="disabled" :check-search="checkSearch" />
-            <!--end::Details-->
+                <!--begin::Details-->
+                <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch"
+                    :typeText="typeText" :disabled="disabled" :check-search="checkSearch" />
+                <!--end::Details-->
 
-            <!--begin::Toolbar-->
-            <div class="d-flex align-items-center py-1 me-2">
-                <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formBack"
-                    class="btn btn-light font-weight-bold py-2 px-5 ">
-                    Quay Lại
-                </router-link>
-
-                <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formSubmit"
-                    class="btn btn-primary font-weight-bold py-2 px-5 ms-2">
-                    Đồng Ý
-                </router-link>
-
-                <!--begin::Button-->
-                <template v-if="idsDelete.length == 0">
-                    <router-link v-if="addNew != ''" :to="addNew" :disabled="disabled"
-                        class="btn btn-light-primary font-weight-bold py-2 px-5 ml-2">
-                        Thêm
+                <!--begin::Toolbar-->
+                <div class="d-flex align-items-center py-1 me-2">
+                    <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formBack"
+                        class="btn btn-light font-weight-bold py-2 px-5 ">
+                        Quay Lại
                     </router-link>
-                </template>
-                <template v-else>
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="fw-bold me-5">
-                            Đã Chọn <span class="me-1">{{ idsDelete.length }}</span>
-                        </div>
-                        <button type="button" @click="deleteSelectd()" :disabled="disabled"
-                            class="btn btn-light-danger  btn-sm">
-                            <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
-                            Xóa
-                        </button>
-                    </div>
-                </template>
 
-                <!--end::Button-->
+                    <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formSubmit"
+                        class="btn btn-primary font-weight-bold py-2 px-5 ms-2">
+                        Đồng Ý
+                    </router-link>
+
+                    <!--begin::Button-->
+                    <template v-if="idsDelete.length == 0">
+                        <router-link v-if="addNew != ''" :to="addNew" :disabled="disabled"
+                            class="btn btn-light-primary font-weight-bold py-2 px-5 ml-2">
+                            Thêm
+                        </router-link>
+                    </template>
+                    <template v-else>
+                        <div class="d-flex justify-content-end align-items-center">
+                            <div class="fw-bold me-5">
+                                Đã Chọn <span class="me-1">{{ idsDelete.length }}</span>
+                            </div>
+                            <button type="button" @click="deleteSelectd()" :disabled="disabled"
+                                class="btn btn-light-danger  btn-sm">
+                                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
+                                Xóa
+                            </button>
+                        </div>
+                    </template>
+
+                    <!--end::Button-->
+                </div>
+                <!--end::Toolbar-->
             </div>
-            <!--end::Toolbar-->
         </div>
     </div>
 </template>

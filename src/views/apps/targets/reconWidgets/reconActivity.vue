@@ -1,6 +1,6 @@
 <template>
   <!--begin::Mixed Widget 4-->
-  <div class="card overflow-auto h-650px text-dark">
+  <div class="card overflow-auto h-650px text-dark px-3">
     <!--begin::Beader-->
     <span class="card-label fw-bold fs-3 mb-3 text-dark" style="margin-left: 3px;">Activity</span>
     <!--end::Header-->
@@ -23,7 +23,7 @@
       </div>
 
       <div class="pt-5">
-        <p class="text-center fs-6 pb-5">
+        <p class="text-center fs-13px pb-5">
           <span class="badge badge-light-danger fs-8">Notes:</span>&nbsp;
           Tiến Trình Recon
         </p>
@@ -31,7 +31,7 @@
           <el-timeline-item v-for="(activity, index) in activitieLine" :key="index" :icon="activity.icon"
           :type="activity.color" :color="activity.color" :size="activity.size" :hollow="true"
             :timestamp="activity.time">
-            <span class="text-dark">{{ activity.name }}</span>
+            <span class="text-dark fs-13px">{{ activity.name }}</span>
           </el-timeline-item>
         </el-timeline>
       </div>
@@ -175,7 +175,7 @@ const chartOptions = (
     font-size: var(--el-font-size-small);
 }
 
-.el-table .cell {
+/* .el-table .cell {
     box-sizing: border-box;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -184,6 +184,6 @@ const chartOptions = (
     line-height: 23px;
     color: #A1A5B7;
     padding: 0 12px;
-}
+} */
 </style>
   

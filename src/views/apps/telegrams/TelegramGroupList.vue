@@ -1037,7 +1037,7 @@ export default defineComponent({
       } else {
         return ApiService.put(`/telegram/group/${id.value}/update`, formData)
           .then(({ data }) => {
-            notification(data.detail, 'success', 'Sửa mới thành công')
+            notification(data.detail, 'success', 'Chỉnh sửa thành công')
             getData();
             if (submitButtonRef.value) {
               //Disable button
