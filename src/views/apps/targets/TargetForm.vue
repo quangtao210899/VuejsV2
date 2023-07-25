@@ -281,7 +281,7 @@ export default defineComponent({
 
             return ApiService.put(`/targets/${ID.value}/`, formData)
                 .then(({ data }) => {
-                    notification(data.detail, 'success', 'Sửa mới thành công')
+                    notification(data.detail, 'success', 'Chỉnh sửa thành công')
                 })
                 .catch(({ response }) => {
                     if (response?.data) {

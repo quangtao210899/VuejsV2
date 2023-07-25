@@ -8,11 +8,11 @@
                 size="large" status-icon require-asterisk-position="right">
                 <el-form-item label="Tên nhóm mục tiêu" prop="title" class="pb-3 text-capitalize fs-6" tabindex="0"
                     :error="(errors.title) ? errors.title[0] : ''">
-                    <el-input v-model="ruleForm.title" size="large" placeholder="Nhập tên nhóm mục tiêu" :autofocus="true"
+                    <el-input v-model="ruleForm.title" size="large" placeholder="Tên nhóm mục tiêu" :autofocus="true"
                         :class="(errors.title) ? 'el-error-ruleForm' : ''" />
                 </el-form-item>
                 <el-form-item label="Mô Tả" prop="description" class="pb-3 text-capitalize fs-6">
-                    <el-input v-model="ruleForm.description" :rows="5" type="textarea" placeholder="Nhập mô tả nhóm mục tiêu" :autofocus="true"/>
+                    <el-input v-model="ruleForm.description" :rows="5" type="textarea" placeholder="Mô tả nhóm mục tiêu" :autofocus="true"/>
                 </el-form-item>
             </el-form>
         </div>
@@ -188,7 +188,7 @@ export default defineComponent({
         const editFormSubmit = async (formData: RuleForm) => {
             return ApiService.put(`/targetgroup/${ID.value}`, formData)
                 .then(({ data }) => {
-                    notification(data.detail, 'success', 'Sửa mới thành công')
+                    notification(data.detail, 'success', 'Chỉnh sửa thành công')
                 })
                 .catch(({ response }) => {
                     if (response?.data) {
