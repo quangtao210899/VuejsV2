@@ -321,7 +321,7 @@ export default defineComponent({
 } */
 
 .el-form-item__label {
-    font-size: 1.075rem !important;
+    font-size: 13px !important;
     font-weight: 500;
     color: #252f4a !important;
 }
