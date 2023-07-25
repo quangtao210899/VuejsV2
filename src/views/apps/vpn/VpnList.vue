@@ -1,68 +1,68 @@
 <template>
-  <div class="position-relative w-100 h-100">
+  <div class="h-100 w-100 d-block overflow-none">
+    <div class="w-100 h-100">
+      <div ref="mapContainer" id="mapContainer" class="h-100 w-100"></div>
+      <div class="position-absolute top-0 start-0 z-index-3">
+        <div class="w-300px bg-white rounded-3 ms-6 my-3 shadow-map">
+          <div class="p-5">
+            <div class="mb-3 fs-8"
+              :class="(connecting == true) ? 'Đang kết nối...' : ((infoStatus == 1) ? 'text-success' : 'text-danger')">
+              <i class="fa-solid  me-1"
+                :class="(infoStatus == 1) ? 'fa-lock-open text-success' : 'fa-lock text-danger'"></i>
+              <span class="fw-bold text-uppercase">{{ (connecting == true) ? 'Đang kết nối...' : ((infoStatus == 1) ?
+                'Đã kết nối' : 'Không kết nối') }} </span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-5">
+              <h3>{{ (infoStatus == 1) ? infoCountry : 'Kết Nối Đến VPN' }}</h3>
+              <el-tooltip :disabled="(infoStatus == 1 || loading == false || connecting == false) ? false : true"
+                class="box-item" effect="dark" placement="top" :auto-close="0">
+                <template #content>
+                  IP: {{ infoIp }}<br />
+                  Connect Time: {{ infoConnectTime }}<br />
+                  Check Time: {{ infoCheckTime }}<br />
+                </template>
+                <el-button :disabled="(infoStatus == 1) ? false : true" circle class="h-25px w-25px"><i
+                    class="fa-solid fa-info"></i></el-button>
+              </el-tooltip>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <el-button :disabled="(loading || connecting) ? true : false" type="primary" class="fs-6 px-14"
+                @click=randomCountry>Kết Nối Nhanh</el-button>
+              <el-button :disabled="(infoStatus == 0 || loading || connecting) ? true : false" @click="disConnectNordvpn"
+                type="danger" link><i class="fa-solid fa-power-off fs-2 text-danger"></i></el-button>
+              <el-button :disabled="(loading || connecting) ? true : false" @click="getStatus" type="primary" link>
+                <i class="fa-solid fa-spinner fs-2 " :class="(loading) ? 'fa-spin text-warning' : 'text-success'"></i>
+              </el-button>
+            </div>
+          </div>
+          <div class="pb-5 border-top pt-5">
+            <div class="mx-5">
+              <el-select v-model="infoCountry" @change="changeCountry" :loading="loading" value-key="id" filterable
+                placeholder="Select" class="w-100" :disabled="(loading || connecting) ? true : false">
+                <el-option v-for="(item, key) in dataMap" :key="key" :label="item.title" :value="item.title" />
+              </el-select>
+            </div>
+          </div>
 
-    <div ref="mapContainer" id="mapContainer" class="h-100 w-100"></div>
-    <div class="position-absolute top-0 start-0 z-index-1">
-      <div class="w-300px bg-white rounded-3 ms-6 my-3 shadow-map">
-        <div class="p-5">
-          <div class="mb-3 fs-8"
-            :class="(connecting == true) ? 'Đang kết nối...' : ((infoStatus == 1) ? 'text-success' : 'text-danger')">
-            <i class="fa-solid  me-1"
-              :class="(infoStatus == 1) ? 'fa-lock-open text-success' : 'fa-lock text-danger'"></i>
-            <span class="fw-bold text-uppercase">{{ (connecting == true) ? 'Đang kết nối...' : ((infoStatus == 1) ?
-              'Đã kết nối' : 'Không kết nối') }} </span>
-          </div>
-          <div class="d-flex justify-content-between align-items-center mb-5">
-            <h3>{{ (infoStatus == 1) ? infoCountry : 'Kết Nối Đến VPN' }}</h3>
-            <el-tooltip :disabled="(infoStatus == 1 || loading == false || connecting == false) ? false : true"
-              class="box-item" effect="dark" placement="top" :auto-close="0">
-              <template #content>
-                IP: {{ infoIp }}<br />
-                Connect Time: {{ infoConnectTime }}<br />
-                Check Time: {{ infoCheckTime }}<br />
-              </template>
-              <el-button :disabled="(infoStatus == 1) ? false : true" circle class="h-25px w-25px"><i
-                  class="fa-solid fa-info"></i></el-button>
-            </el-tooltip>
-          </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <el-button :disabled="(loading || connecting) ? true : false" type="primary" class="fs-6 px-14"
-              @click=randomCountry>Kết Nối Nhanh</el-button>
-            <el-button :disabled="(infoStatus == 0 || loading || connecting) ? true : false" @click="disConnectNordvpn"
-              type="danger" link><i class="fa-solid fa-power-off fs-2 text-danger"></i></el-button>
-            <el-button :disabled="(loading || connecting) ? true : false" @click="getStatus" type="primary" link>
-              <i class="fa-solid fa-spinner fs-2 " :class="(loading) ? 'fa-spin text-warning' : 'text-success'"></i>
-            </el-button>
-          </div>
-        </div>
-        <div class="pb-5 border-top pt-5">
-          <div class="mx-5">
-            <el-select v-model="infoCountry" @change="changeCountry" :loading="loading" value-key="id" filterable
-              placeholder="Select" class="w-100" :disabled="(loading || connecting) ? true : false">
-              <el-option v-for="(item, key) in dataMap" :key="key" :label="item.title" :value="item.title" />
-            </el-select>
-          </div>
         </div>
 
       </div>
-
     </div>
-
-
   </div>
 </template>
 
 <script lang="ts">
 import 'leaflet/dist/leaflet.css';
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { defineComponent, ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import L from 'leaflet';
 import dataMap from "@/views/apps/vpn/dataMap.json";
 import { ElMessage, ElMessageBox } from 'element-plus'
 import ApiService from "@/core/services/ApiService";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-export default {
+export default defineComponent({
   name: 'VpnComponent',
-
+  components: {
+  },
   setup() {
     // Khởi tạo một tham chiếu đến DOM element container để chứa bản đồ
     const mapContainer = ref<string | HTMLElement | any>(null);
@@ -127,67 +127,67 @@ export default {
 
       //console.log(newloading,newconnecting,NewInfoStatus  )
       const customIconConnecting = L.divIcon({
-          className: customIcon.options.className,
-          html: `<div class="position-relative h-100 w-100">
+        className: customIcon.options.className,
+        html: `<div class="position-relative h-100 w-100">
             <img class="h-100 w-100 z-index-1" src="/media/icons/duotune/vpn/123.png" alt="icon">
             <div class="position-absolute start-0 h-100 w-100" style="top: 1.1px">
               <div class="d-flex justify-content-center align-items-center h-100 w-100">
                 <i class="fa-solid fa-circle-notch fa-spin text-primary fs-4 z-index-2"></i>
               </div>
             </div></div>`,
-          iconSize: customIcon.options.iconSize,
-          iconAnchor: customIcon.options.iconAnchor,
-        });
+        iconSize: customIcon.options.iconSize,
+        iconAnchor: customIcon.options.iconAnchor,
+      });
 
-        const customIconDisconnect= L.divIcon({
-          className: customIcon.options.className,
-          html: `<div class="position-relative h-100 w-100">
+      const customIconDisconnect = L.divIcon({
+        className: customIcon.options.className,
+        html: `<div class="position-relative h-100 w-100">
             <img class="h-100 w-100 z-index-1 opacity-50 bg-danger rounded-circle" src="/media/icons/duotune/vpn/123.png" alt="icon">
             <div class="position-absolute start-0 h-100 w-100" style="top: 1.1px">
               <div class="d-flex justify-content-center align-items-center h-100 w-100">
                 <i class="fa-solid fa-circle-xmark text-danger fs-3 z-index-2 rounded-circle bg-white"></i>
               </div>
             </div></div>`,
-          iconSize: customIcon.options.iconSize,
-          iconAnchor: customIcon.options.iconAnchor,
-        });
+        iconSize: customIcon.options.iconSize,
+        iconAnchor: customIcon.options.iconAnchor,
+      });
 
-        const customIconConnect= L.divIcon({
-          className: customIcon.options.className,
-          html: `<div class="position-relative h-100 w-100">
+      const customIconConnect = L.divIcon({
+        className: customIcon.options.className,
+        html: `<div class="position-relative h-100 w-100">
             <img class="h-100 w-100 z-index-1 opacity-50 bg-success rounded-circle" src="/media/icons/duotune/vpn/123.png" alt="icon">
             <div class="position-absolute start-0 h-100 w-100" style="top: 1.1px">
               <div class="d-flex justify-content-center align-items-center h-100 w-100">
                 <i class="fa-solid fa-circle-check text-success fs-3 z-index-2 rounded-circle bg-white"></i>
              </div>
             </div></div>`,
-          iconSize: customIcon.options.iconSize,
-          iconAnchor: customIcon.options.iconAnchor,
-        });
+        iconSize: customIcon.options.iconSize,
+        iconAnchor: customIcon.options.iconAnchor,
+      });
 
       dataMap.forEach((el, i) => {
         // Kiểm tra nếu đánh dấu đã tồn tại, thực hiện chỉnh sửa
         if (markers.value[i]) {
           const marker = markers.value[i];
-          if (newloading == true || newconnecting == true ) {
-            if(countryLoading.value == el.title){
+          if (newloading == true || newconnecting == true) {
+            if (countryLoading.value == el.title) {
               //console.log(newconnecting, newloading, countryLoading.value, 2222);
               marker.setIcon(customIconConnecting);
             }
             marker.off('click');
           } else {
-            if(countryLoading.value == el.title && NewInfoStatus == 0){
+            if (countryLoading.value == el.title && NewInfoStatus == 0) {
               marker.setIcon(customIconDisconnect);
-            }else if(countryLoading.value == el.title && NewInfoStatus == 1){
+            } else if (countryLoading.value == el.title && NewInfoStatus == 1) {
               marker.setIcon(customIconConnect);
-            }else{
+            } else {
               marker.setIcon(customIcon);
             }
             marker.on('click', () => handleClickMap(el));
           }
           // marker.setLatLng(el.markerLatLng);
           // marker.bindPopup(el.title);
-        }else{
+        } else {
           console.error(' lỗi');
           return
         }
@@ -235,7 +235,7 @@ export default {
           infoConnectTime.value = (data.info == null) ? 'null' : data.info.connect_time
           infoCheckTime.value = (data.info == null) ? 'null' : data.info.check_time
           infoStatus.value = data.status
-          countryLoading.value = (data.status  == 1 && data.info.country !== null) ? data.info.country : null
+          countryLoading.value = (data.status == 1 && data.info.country !== null) ? data.info.country : null
           if (data.info) {
             let country = data.info.country
             dataMap.forEach(element => {
@@ -254,12 +254,12 @@ export default {
         });
     };
 
-    const getStatus = async (has_notify=true) => {
+    const getStatus = async (has_notify = true) => {
       loading.value = true;
       let form = {}
       return await ApiService.post(`nordvpn/status`, form)
         .then(({ data }) => {
-          if(has_notify){
+          if (has_notify) {
             notification(data.detail, 'success', '')
           }
           getInfo()
@@ -282,7 +282,7 @@ export default {
       let form = { country: country }
       return await ApiService.post(`nordvpn/connect`, form)
         .then(({ data }) => {
-          notification(data.detail , 'success', '')
+          notification(data.detail, 'success', '')
           getInfo()
         })
         .catch(({ response }) => {
@@ -395,10 +395,10 @@ export default {
       randomCountry,
     };
   }
-};
+});
 </script>
 
-<style >
+<style  scoped>
 /* Zoom In #1 */
 .hoverIcon,
 .hoverIcon2 {
@@ -421,4 +421,12 @@ export default {
 
 .shadow-map {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-}</style>
+}
+
+</style>
+<style>
+.el-scrollbar__view{
+  height: 100% !important;
+  width: 100% !important;
+}
+</style>
