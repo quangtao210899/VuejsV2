@@ -1,20 +1,272 @@
 <template>
-    <!--begin::Navbar-->
-    <div class="mb-3 position-relative position-repository bg-white rounded-2">
-        <div class="row px-2 h-md-50px align-items-center ">
-            <div class="col-sm-12 col-md-8 py-2">
-                <div class="row">
-                    <div class="col-6">
-                        <div>
-                            <span class="w-70px">Mục Tiêu : </span>
-                            <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
+    <KTToolbar></KTToolbar>
+        <div class="app-container container-fluid pt-10 mt-10 ">
+            <div class="py-5 bg-body rounded-3">
+                <!--begin::Navbar-->
+                <div class="pb-3 px-5 position-relative position-repository bg-white  border-bottom border-secondary">
+                    <div class="row px-2 align-items-center ">
+                        <div class="col-sm-12 col-md-8 ">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div>
+                                        <span class="w-70px">Mục Tiêu : </span>
+                                        <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div>
+                                        <span class="w-70px">Nhóm Mục Tiêu : </span>
+                                        <span class="fw-bold">{{ targets.group.title }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 text-end ms-auto ">
+                            <div class="d-flex justify-content-sm-start justify-content-md-end">
+                                <div class="input-group input-group-sm input-group-solid" style="max-width: 250px">
+                                    <input type="text" class="form-control" placeholder="Tìm kiếm..."
+                                        v-model="searchSubdomain">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div>
-                            <span class="w-70px">Nhóm Mục Tiêu : </span>
-                            <span class="fw-bold">{{ targets.group.title }}</span>
+                </div>
+                <!--end::Navbar-->
+
+                <!--begin::Card-->
+                <div class="px-5">
+                    <div class="rounded-top py-1 bg-white d-flex justify-content-start">
+                        <!-- <el-input v-model="searchSubdomain" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" /> -->
+                        <!-- <div class="input-group input-group-sm input-group-solid" style="max-width: 350px">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm..."
+                                v-model="searchSubdomain">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+                    <el-table :data="subdomain_result" style="width: 100%" class-name="my-custom-table" table-layout="fixed"
+                        v-loading="loadingSubdomain">
+                        <template #empty>
+                            <div class="flex items-center justify-center h-100%">
+                                <el-empty description="Không có dữ liệu nào"/>
+                            </div>
+                        </template>
+                        <el-table-column min-width="120" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="name" align="left"
+                            label="Subdomains">
+                            <template #default="scope">
+                                <span class="fst-normal">
+                                    {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="enpoint" align="left" label="Endpoints"
+                            min-width="100">
+                            <template #default="scope">
+                                <span class="fs-13px fst-normal badge cursor-pointer"
+                                    @click="modelEndpoints(scope.row.enpoint_data)"
+                                    :class="`badge-light-${(scope.row.enpoint == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
+                                    {{ scope.row.enpoint ?? '0' }}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="directory" label="Thư Mục" align="left"
+                            min-width="100">
+                            <template #default="scope">
+                                <span class="fs-13px fst-normal badge cursor-pointer"
+                                    @click="modelDirectory(scope.row.directory_data)"
+                                    :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
+                                    {{ scope.row.directory ?? '0' }}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="url_checked" align="left" label="URL Checked"
+                            min-width="130">
+                            <template #default="scope">
+                                <template v-if="scope.row.url_checked == ''">
+                                    <span class="badge badge-light-danger">--</span>
+                                </template>
+                                <template v-else>
+                                    <span class="fst-normal" style="font-size: 13px;">{{ scope.row.url_checked
+                                    }}</span>
+                                </template>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="status" label="Trạng Thái" align="left"
+                            min-width="120">
+                            <template #default="scope">
+                                <span class="fst-normal" style="font-size: 13px;">
+                                    {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="title" label="Tiêu Đề" align="left"
+                            min-width="130">
+                            <template #default="scope">
+                                <template v-if="scope.row.title == ''">
+                                    <span class="badge badge-light-danger">--</span>
+                                </template>
+                                <template v-else>
+                                    <span class="fst-normal" style="font-size: 13px;">{{ scope.row.title }}</span>
+                                </template>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="ip" label="IP" align="left" min-width="100">
+                            <template #default="scope">
+                                <template v-if="scope.row.ip == ''">
+                                    <span class="badge badge-light-danger">--</span>
+                                </template>
+                                <template v-else>
+                                    <span class="fst-normal" style="font-size: 13px;">{{ scope.row.ip }}</span>
+                                </template>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="portservice" label="Cổng Dịch Vụ" align="left"
+                            min-width="150">
+                            <template #default="scope">
+                                <div>
+                                    <template
+                                        v-if="scope.row.portservice == undefined || Object.keys(scope.row.portservice).length === 0">
+                                        <span class="badge badge-light-danger">--</span>
+                                    </template>
+                                    <template v-else>
+                                        <template v-for="(items, key) in scope.row.portservice" :key="key">
+                                            <span v-if="key < 3 || expandedPortservice.includes(scope.$index)"
+                                                class="badge badge-light-primary ms-1">{{ items }}</span>
+                                        </template>
+                                        <span v-if="Object.keys(scope.row.portservice).length > 3"
+                                            @click="handlePortserviceMore(scope.$index)"
+                                            class="badge badge-light ms-1 cursor-pointer">
+                                            <template v-if="isRowExpandedPortservice(scope.$index)">Ẩn</template>
+                                            <template v-else>
+                                                <el-popover placement="right" width="280" trigger="hover" hide-after="100">
+                                                    <template #reference>
+                                                        <span>Thêm</span>
+                                                    </template>
+                                                    <div>
+                                                        <span v-for="(el, elIndex) in scope.row.portservice.slice(3)"
+                                                            :key="elIndex" class="badge badge-light-primary ms-1 mb-1">
+                                                            {{ el }}
+                                                        </span>
+                                                    </div>
+                                                </el-popover>
+                                            </template>
+                                        </span>
+                                    </template>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="technology" align="left"
+                            label="Công Nghệ Sử Dụng" min-width="170">
+                            <template #default="scope">
+                                <div>
+                                    <template
+                                        v-if="scope.row.technology == undefined || Object.keys(scope.row.technology).length === 0">
+                                        <span class="badge badge-light-danger">--</span>
+                                    </template>
+                                    <template v-else>
+                                        <template v-for="(items, key) in scope.row.technology" :key="key">
+                                            <span v-if="key < 3 || expandedRowsTeachnology.includes(scope.$index)"
+                                                class="badge badge-light-primary ms-1">{{ items }}</span>
+                                        </template>
+                                        <span v-if="Object.keys(scope.row.technology).length > 3"
+                                            @click="handleTechnologyMore(scope.$index)"
+                                            class="badge badge-light ms-1 cursor-pointer">
+                                            <template v-if="isRowExpandedTechnology(scope.$index)">Ẩn</template>
+                                            <template v-else>
+                                                <el-popover placement="right" width="280" trigger="hover" hide-after="100">
+                                                    <template #reference>
+                                                        <span>Thêm</span>
+                                                    </template>
+                                                    <div>
+                                                        <span v-for="(el, elIndex) in scope.row.technology.slice(3)"
+                                                            :key="elIndex" class="badge badge-light-primary ms-1 mb-1">
+                                                            {{ el }}
+                                                        </span>
+                                                    </div>
+                                                </el-popover>
+                                            </template>
+                                        </span>
+                                    </template>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="dns_record" align="left" label="Bản Ghi DNS"
+                            min-width="150">
+                            <template #default="scope">
+                                <template v-if="Object.values(scope.row.dns_record).length == 0">
+                                    <span class="badge badge-light-danger">--</span>
+                                </template>
+                                <template v-else>
+                                    <template v-for="(value, key) in scope.row.dns_record" :key="key">
+                                        <li class="d-flex align-items-start mb-1">
+                                            <span class="fw-bold text-capitalize fs-13px"
+                                                style="white-space: nowrap; ">
+                                                {{ key }}:
+                                            </span>
+                                            <span class="fst-normal ms-1" style="font-size: 13px;">
+                                                {{ scope.row.dns_record[key].join(', ') }}
+                                            </span>
+                                        </li>
+                                    </template>
+                                </template>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" label="Cloud" align="left">
+                            <template #default="scope">
+                                <span class="badge badge-light-danger">--</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" label="CMS" align="left">
+                            <template #default="scope">
+                                <span class="badge badge-light-danger">--</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="waf" label="WAF" align="left" min-width="100">
+                            <template #default="scope">
+                                <div class="flex-column">
+                                    <template v-if="scope.row.waf.length != 0">
+                                        <span class="fst-normal fs-13px" style="font-size: 13px;">
+                                            {{ scope.row.waf.join('; ') }}
+                                        </span>
+                                    </template>
+                                    <template v-else>
+                                        <span class="badge badge-light-danger">--</span>
+                                    </template>
+                                </div>
+
+                            </template>
+                        </el-table-column>
+                        <el-table-column label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="cdn" label="CDN" align="left" min-width="100">
+                            <template #default="scope">
+                                <div class="flex-column">
+                                    <template v-if="scope.row.cdn.length">
+                                        <li v-for="(val, key) in scope.row.cdn" :key="key"
+                                            class="d-flex align-items-top py-2 fs-13px text-start">
+                                            <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span>
+                                            <span class="fst-normal" style="font-size: 13px;">
+                                                {{ (val == '' ||
+                                                    val == null) ? '--' : val }}
+                                            </span>
+                                        </li>
+                                    </template>
+                                    <template v-else>
+                                        <span class="badge badge-light-danger">--</span>
+                                    </template>
+                                </div>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <div
+                        class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+                        <div v-if="totalSubdomain > 0">
+                            <span class="text-capitalize fs-13px">Tổng Số Subdomains: {{ totalSubdomain }}</span>
                         </div>
+                        <el-pagination background v-model:current-page="currentPageSubdomain"
+                            :total="totalSubdomain" layout="'prev, pager, next'" :disabled="disabled"></el-pagination>
+                            <div></div>
                     </div>
                 </div>
             </div>
@@ -23,263 +275,41 @@
                 </div>
             </div>
         </div>
-    </div>
+
     <!--end::Navbar-->
 
-    <!--begin::Card-->
-    <div class="">
-        <div class="rounded-top py-3 px-2 bg-white">
-            <el-input v-model="searchSubdomain" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
-        </div>
-        <el-table :data="subdomain_result" style="width: 100%" :height="heightTable" class-name="my-custom-table"
-            table-layout="fixed" v-loading="loadingSubdomain">
-            <el-table-column min-width="100" label-class-name="border border-0 fs-7" prop="name" label="Subdomains">
-                <template #default="scope">
-                    <span class="fst-normal text-dark" style="font-size: 13px;">
-                        {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="enpoint" align="center" label="Endpoints"
-                min-width="80">
-                <template #default="scope">
-                    <span class="fs-7 fst-normal badge cursor-pointer" @click="modelEndpoints(scope.row.enpoint_data)"
-                        :class="`badge-light-${(scope.row.enpoint == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
-                        {{ scope.row.enpoint ?? '0' }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="directory" label="Thư Mục" align="center"
-                min-width="50">
-                <template #default="scope">
-                    <span class="fs-7 fst-normal badge cursor-pointer" @click="modelDirectory(scope.row.directory_data)"
-                        :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
-                        {{ scope.row.directory ?? '0' }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="url_checked" align="center" label="URL Checked" min-width="130">
-                <template #default="scope">
-                    <template v-if="scope.row.url_checked == ''">
-                        <span class="badge badge-light-danger">--</span>
-                    </template>
-                    <template v-else>
-                        <span class="fst-normal text-dark" style="font-size: 13px;">{{ scope.row.url_checked }}</span>
-                    </template>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="status" label="Trạng Thái" align="center" min-width="60">
-                <template #default="scope">
-                    <span class="fst-normal text-dark" style="font-size: 13px;">
-                        {{ (scope.row.status == '') ? '--' : scope.row.status }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề" align="center" min-width="130">
-                <template #default="scope">
-                    <template v-if="scope.row.title == ''">
-                            <span class="badge badge-light-danger">--</span>
-                    </template>
-                    <template v-else>
-                        <span class="fst-normal text-dark" style="font-size: 13px;">{{ scope.row.title }}</span>
-                    </template>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="ip" label="IP" align="center" min-width="100">
-                <template #default="scope">
-                    <template v-if="scope.row.ip == ''">
-                            <span class="badge badge-light-danger">--</span>
-                    </template>
-                    <template v-else>
-                        <span class="fst-normal text-dark" style="font-size: 13px;">{{ scope.row.ip }}</span>
-                    </template>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="portservice" label="Cổng Dịch Vụ" align="center"
-                min-width="150">
-                <template #default="scope">
-                    <div>
-                        <template
-                            v-if="scope.row.portservice == undefined || Object.keys(scope.row.portservice).length === 0">
-                            <span class="badge badge-light-danger">--</span>
-                        </template>
-                        <template v-else>
-                            <template v-for="(items, key) in scope.row.portservice" :key="key">
-                                <span v-if="key < 3 || expandedPortservice.includes(scope.$index)"
-                                    class="badge badge-light-primary ms-1">{{ items }}</span>
-                            </template>
-                            <span v-if="Object.keys(scope.row.portservice).length > 3"
-                                @click="handlePortserviceMore(scope.$index)" class="badge badge-light ms-1 cursor-pointer">
-                                <template v-if="isRowExpandedPortservice(scope.$index)">Ẩn</template>
-                                <template v-else>
-                                    <el-popover placement="right" width="280" trigger="hover" hide-after="100">
-                                        <template #reference>
-                                            <span>Thêm</span>
-                                        </template>
-                                        <div>
-                                            <span v-for="(el, elIndex) in scope.row.portservice.slice(3)" :key="elIndex"
-                                                class="badge badge-light-primary ms-1 mb-1">
-                                                {{ el }}
-                                            </span>
-                                        </div>
-                                    </el-popover>
-                                </template>
-                            </span>
-                        </template>
-                    </div>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="technology" align="center"
-                label="Công Nghệ Sử Dụng" min-width="150">
-                <template #default="scope">
-                    <div>
-                        <template
-                            v-if="scope.row.technology == undefined || Object.keys(scope.row.technology).length === 0">
-                            <span class="badge badge-light-danger">--</span>
-                        </template>
-                        <template v-else>
-                            <template v-for="(items, key) in scope.row.technology" :key="key">
-                                <span v-if="key < 3 || expandedRowsTeachnology.includes(scope.$index)"
-                                    class="badge badge-light-primary ms-1">{{ items }}</span>
-                            </template>
-                            <span v-if="Object.keys(scope.row.technology).length > 3"
-                                @click="handleTechnologyMore(scope.$index)" class="badge badge-light ms-1 cursor-pointer">
-                                <template v-if="isRowExpandedTechnology(scope.$index)">Ẩn</template>
-                                <template v-else>
-                                    <el-popover placement="right" width="280" trigger="hover" hide-after="100">
-                                        <template #reference>
-                                            <span>Thêm</span>
-                                        </template>
-                                        <div>
-                                            <span v-for="(el, elIndex) in scope.row.technology.slice(3)" :key="elIndex"
-                                                class="badge badge-light-primary ms-1 mb-1">
-                                                {{ el }}
-                                            </span>
-                                        </div>
-                                    </el-popover>
-                                </template>
-                            </span>
-                        </template>
-                    </div>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="dns_record" align="center" label="Bản Ghi DNS"
-                min-width="150">
-                <template #default="scope">
-                    <template v-if="!scope.row.dns_record['a'] && !scope.row.dns_record['cname'] && !scope.row.dns_record['mx']">
-                        <span class="badge badge-light-danger">--</span>
-                    </template>
-                    <template v-else>
-                        <li class="d-flex align-items-start mb-1">
-                            <div>
-                                <span class="fw-bold text-capitalize text-dark" style="font-size: 13px;">A : </span>
-                                <span v-if="typeof scope.row.dns_record['a'] !== 'undefined'" class="fst-normal text-dark" style="font-size: 13px;">
-                                    {{ scope.row.dns_record['a'].join(' , ') }}
-                                </span>
-                                <span v-else class="badge badge-light-danger">--</span>
-                            </div>
-                        </li>
-                        <li class="d-flex align-items-start mb-1">
-                            <div>
-                                <span class="fw-bold text-capitalize text-dark" style="font-size: 13px;">Cname : </span>
-                                <span v-if="typeof scope.row.dns_record['cname'] !== 'undefined'" class="fst-normal text-dark" style="font-size: 13px;">
-                                    {{ scope.row.dns_record['cname'].join(' , ') }}
-                                </span>
-                                <span v-else class="badge badge-light-danger">--</span>
-                            </div>
-                        </li>
-                        <li class="d-flex align-items-start mb-1">
-                            <div>
-                                <span class="fw-bold text-capitalize text-dark" style="font-size: 13px;">MX : </span>
-                                <span v-if="typeof scope.row.dns_record['mx'] !== 'undefined'" class="fst-normal text-dark" style="font-size: 13px;">
-                                    {{ scope.row.dns_record['mx'].join(' , ') }}
-                                </span>
-                                <span v-else class="badge badge-light-danger">--</span>
-                            </div>
-                        </li>
-                    </template>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" label="Cloud" align="center">
-                <template #default="scope">
-                    <span class="badge badge-light-danger">--</span>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" label="CMS" align="center">
-                <template #default="scope">
-                    <span class="badge badge-light-danger">--</span>
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="waf" label="WAF" align="center" min-width="100">
-                <template #default="scope">
-                    <div class="flex-column">
-                        <template v-if="scope.row.waf.length">                        
-                            <li v-for="(val, key) in scope.row.waf" :key="key"
-                                class="d-flex align-items-top py-2 fs-7 text-start fst-normal">
-                                <span class="bullet bullet-dot bg-primary text-dark h-7px w-7px me-5 mt-3"></span>
-                                <span class="fst-normal text-dark" style="font-size: 13px;">
-                                    {{ (val == '' ||
-                                    val == null) ? '--' : val }}
-                                </span>
-                            </li>
-                        </template>
-                        <template v-else>
-                            <span class="badge badge-light-danger">--</span>
-                        </template>
-                    </div>
-
-                </template>
-            </el-table-column>
-            <el-table-column label-class-name="border border-0 fs-7" prop="cdn" label="CDN" align="center" min-width="100">
-                <template #default="scope">
-                    <div class="flex-column">
-                        <template v-if="scope.row.cdn.length">
-                                <li v-for="(val, key) in scope.row.cdn" :key="key"
-                                    class="d-flex align-items-top py-2 fs-7 text-start">
-                                    <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span>
-                                    <span class="fst-normal text-dark" style="font-size: 13px;">
-                                        {{ (val == '' ||
-                                        val == null) ? '--' : val }}
-                                    </span>
-                                </li>
-                        </template>
-                        <template v-else>
-                            <span class="badge badge-light-danger">--</span>
-                        </template>
-                    </div>
-                </template>
-            </el-table-column>
-        </el-table>
-        <div class="d-flex justify-content-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-            <el-pagination background v-model:current-page="currentPageSubdomain" v-model:page-size="pageSizeSubdomain"
-                :total="totalSubdomain" :layout="(checkPaginationTable) ? 'prev, pager, next' : 'total, sizes, prev, pager, next, jumper'" :disabled="disabled"
-                :page-sizes="(checkPaginationTable) ? [] : [10, 20, 30, 40, 50]"></el-pagination>
-        </div>
-    </div>
-    <!--end::Card-->
-
     <!-- modoal  -->
-    <el-dialog v-model="dialogDirectoryVisible" title="Directory Detail" width="1000">
+    <el-dialog v-model="dialogDirectoryVisible" title="Chi Tiết Thư Mục" width="1000">
         <div>
-            <el-input v-model="searchDirectory" size="large" placeholder="Type to search" :prefix-icon="SearchIcon" />
+            <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
             <div class="my-5 text-primary">
                 <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
                 <span class="fw-bold">{{ totalRecordsDirectory }}</span>
             </div>
         </div>
         <el-table :data="directory_data" style="width: 100%" height="400" class-name="my-custom-table">
-            <el-table-column min-width="40" label-class-name="border border-0 fs-7" label="STT">
+            <template #empty>
+                <div class="flex items-center justify-center h-100%">
+                    <el-empty description="Không có dữ liệu nào"/>
+                </div>
+            </template>
+            <el-table-column min-width="40" label-class-name="text-uppercase fs-13px fw-bold text-dark" label="STT">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
                         {{ scope.row.index }}</span> </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="name" label="Thư mục">
+            <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="name" label="Thư mục">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
                         {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="content_type" label="Content Type"
+            <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="content_type" label="Content Type"
                 align="center">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
                         {{ (scope.row.content_type == '') ? '--' : scope.row.content_type }}</span> </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="status" label="Status"
+            <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="status" label="Trạng Thái"
                 align="right">
                 <template #default="scope">
                     <span class="badge fs-7 fst-normal"
@@ -306,12 +336,17 @@
             </div>
         </div>
         <el-table :data="enpoint_data" style="width: 100%" height="400" class-name="my-custom-table" v-loading="loading">
-            <el-table-column min-width="40" label-class-name="border border-0 fs-7" label="STT">
+            <template #empty>
+                <div class="flex items-center justify-center h-100%">
+                    <el-empty description="Không có dữ liệu nào"/>
+                </div>
+            </template>
+            <el-table-column min-width="40" label-class-name="text-uppercase fs-13px fw-bold text-dark" label="STT">
                 <template #default="scope">
                     <span class="fs-7 fst-normal">
                         {{ scope.row.index }}</span> </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="url" label="URL">
+            <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="url" label="URL">
                 <template #default="scope">
                     <span class="fs-7 fst-normal" v-if="scope.row.url != '' || scope.row.url != null">
                         <el-link class="fs-7" :underline="false" :href="scope.row.url" target="_blank">{{ scope.row.url
@@ -321,7 +356,7 @@
 
                 </template>
             </el-table-column>
-            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="params" label="Parameter"
+            <el-table-column min-width="60" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="params" label="Parameter"
                 align="center">
                 <template #default="scope">
 
@@ -334,7 +369,7 @@
                     </template>
                 </template>
             </el-table-column>
-            <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="title" label="Tiêu Đề">
+            <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="title" label="Tiêu Đề">
                 <template #default="scope">
                     <template v-if="scope.row.title == ''">
                         <span class="badge badge-light-danger fs-7">--</span>
@@ -345,7 +380,7 @@
                     </template>
                 </template>
             </el-table-column>
-            <el-table-column min-width="60" label-class-name="border border-0 fs-7" prop="status_code" label="Trạng Thái"
+            <el-table-column min-width="60" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="status_code" label="Trạng Thái"
                 align="right">
                 <template #default="scope">
                     <span class="badge fs-7 fst-normal"
@@ -377,6 +412,7 @@ import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 // import data from "@/views/apps/targets/reconData.json";
 import { Refresh, Search } from '@element-plus/icons-vue'
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 
 interface Targets {
     name: string;
@@ -394,6 +430,7 @@ export default defineComponent({
         filtersTabScan,
         CodeHighlighter,
         reconActivity,
+        KTToolbar,
     },
     setup() {
         const route = useRoute();

@@ -3,9 +3,9 @@
         @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @click="getCheckedKeys"></KTToolbar>
     <el-scrollbar :height="heightTable">
         <div class="app-container container-fluid pt-10">
-            <div class="card d-block px-5 pb-20 mt-10 pt-10">
-                <el-form ref="ruleFormRef" :model="ruleForm" :label-width="'auto'"
-                    class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right">
+            <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20 mt-10 pt-10">
+                <el-form ref="ruleFormRef" :model="ruleForm" label-width="33%"
+                    class="demo-ruleForm px-0 px-lg-0 mx-5 mx-lg-10 mx-xxl-20 px-xxl-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right">
                     <div class="fv-plugins-message-container">
                         <div class="fv-help-block">
                             <span class="" v-if="errors.tree">{{ Array.isArray(errors.tree) ? errors.tree[0] :

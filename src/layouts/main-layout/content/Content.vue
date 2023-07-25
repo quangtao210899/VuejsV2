@@ -1,17 +1,19 @@
 <template>
   <div id="kt_app_content" class="app-content flex-column-fluid h-100 pb-0">
+    <el-scrollbar :height="heightTable">
+
     <!--begin::Content container-->
-    <div id="kt_app_content_container" class="h-100 container-xxl" :class="{
+    <!-- <div id="kt_app_content_container" class="h-100 container-xxl" :class="{
       'container-fluid': contentWidthFluid,
       'container-xxl': !contentWidthFluid,
-    }">
-      <div id="kt_app_content_containern " class="h-100 position-relative">
-        <el-scrollbar :height="heightTable">
+    }"> -->
+      <div id="kt_app_content_containern " class="h-100 w-100 position-relative">
           <RouterView></RouterView>
-        </el-scrollbar>
       </div>
-    </div>
+    <!-- </div> -->
     <!--end::Content container-->
+  </el-scrollbar>
+
   </div>
 </template>
 

@@ -13,7 +13,6 @@
 
                 <!--begin::Breadcrumb-->
 
-                
                 <ul v-if="breadcrumbs && pageTitleBreadcrumbDisplay"
                     class="breadcrumb breadcrumb-dot fw-semibold fs-7 my-0 pt-1">
                     <!--begin::Item-->
