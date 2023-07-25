@@ -15,14 +15,14 @@
                     @sort-change="handleSortChange">
                     <template #empty>
                         <div class="flex items-center justify-center h-100%">
-                            <el-empty />
+                            <el-empty description="Không có dữ liệu nào" />
                         </div>
                     </template>
 
                     <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35"
                         :reserve-selection="true" />
 
-                    <el-table-column width="100" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID" >
+                    <el-table-column min-width="35px" width="150" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID" >
                         <template #default="scope">
                             <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
                             }}</span>
@@ -30,14 +30,14 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column label-class-name="fs-13px fw-bold text-dark" prop="usernamename" label="TÊN ĐĂNG NHẬP"  >
+                    <el-table-column label-class-name="fs-13px fw-bold text-dark" prop="usernamename" label="TÊN ĐĂNG NHẬP" min-width="140px" >
                         <template #default="scope">
                             <span v-if="scope.row.user != ''" class="fs-13px text-gray-700 text-hover-primary">{{
                                 scope.row.user.username }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label-class-name="fs-13px fw-bold text-dark"  prop="created_at" label="THỜI GIAN BẮT ĐẦU" >
+                    <el-table-column label-class-name="fs-13px fw-bold text-dark"  prop="created_at" label="THỜI GIAN BẮT ĐẦU" min-width="170px">
                         <template #default="scope">
                             <span v-if="scope.row.created_at != ''" class="fs-13px text-gray-700 text-hover-primary">
                                 <i class="fa-solid fa-calendar-days fs-7"></i>
@@ -46,7 +46,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="modified_at" label="THỜI GIAN KẾT THÚC" >
+                    <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="modified_at" label="THỜI GIAN KẾT THÚC" min-width="170px">
                         <template #default="scope">
                             <span v-if="scope.row.modified_at != ''" class="fs-13px text-gray-700 text-hover-primary">
                                 <i class="fa-solid fa-calendar-days fs-7"></i>
@@ -54,9 +54,9 @@
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI" >
+                    <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI" min-width="150px">
                         <template #default="scope">
-                            <span v-if="scope.row.status != ''" :class="`badge badge-${getStatus(scope.row.status).color}`">{{
+                            <span v-if="scope.row.status != ''" :class="`fs-12px py-3 px-4 badge badge-light-${getStatus(scope.row.status).color}`">{{
                                 scope.row.status_name }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                             
@@ -65,7 +65,7 @@
                 </el-table>
                 <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
                     <div >
-                        <span class="text-capitalize fs-13px">Tổng Số Mục Tiêu: {{ totalPage }}</span>
+                        <span class="text-capitalize fs-13px">Tổng Số Recon: {{ totalPage }}</span>
                     </div>
                     <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
                         v-model:page-size="itemsPerPage" :total="totalPage"

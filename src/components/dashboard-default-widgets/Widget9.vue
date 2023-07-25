@@ -36,7 +36,7 @@
           <!--begin::Table body-->
           <thead>
               <tr>
-                  <th><b>Mục tiêu</b></th>
+                  <th><b>Mục Tiêu</b></th>
                   <th><b>Vulns</b></th>
               </tr>
           </thead>

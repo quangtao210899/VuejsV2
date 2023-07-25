@@ -1,7 +1,8 @@
 <template>
-    <div class="py-2 bg-body position-fixed" id="kt_subheader"
-        style="box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05) !important;width: -webkit-fill-available;z-index:99;">
+    <div class="py-2 bg-body position-fixed" id="kt_subheader" 
+    style="box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05) !important; width: -webkit-fill-available;z-index:99;">
         <div id="kt_app_toolbar_container"
+        style="min-height: 43px;"
             class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap " :class="{
                 'container-fluid': toolbarWidthFluid,
                 'container-xxl': !toolbarWidthFluid,
