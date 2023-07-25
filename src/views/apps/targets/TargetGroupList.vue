@@ -4,7 +4,6 @@
       @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
   </div>
   <!--begin::Card-->
-  <el-scrollbar :height="heightTable">
     <div class="app-container container-fluid pt-10 mt-10 ">
       <div class="p-5 bg-body rounded-3">
         <!--begin::Card body-->
@@ -76,7 +75,6 @@
         <!--end::Card body-->
       </div>
     </div>
-  </el-scrollbar>
 
   <!--end::Card-->
 
@@ -204,7 +202,7 @@ export default defineComponent({
     const data_group = ref<object | any>([])
     const totalPage = ref<number>(0);
     const currentPage = ref<number>(1);
-    const itemsPerPage = ref<number>(20);
+    const itemsPerPage = ref<number>(10);
     const query = ref<string>('');
     const orderingID = ref<string>('-id');
     const loading = ref<boolean>(false)
@@ -317,25 +315,6 @@ export default defineComponent({
       getData();
     });
 
-    // tính toán chiều cao table
-    const heightTable = ref(0)
-    const handleResize = () => {
-      const windowWidth = window.innerWidth;
-      if (windowWidth >= 1400) {
-        heightTable.value = window.innerHeight - 80;
-      } else if (windowWidth >= 1200) {
-        heightTable.value = window.innerHeight - 80;
-      } else if (windowWidth >= 992) {
-        heightTable.value = window.innerHeight - 80;
-      } else if (windowWidth >= 768) {
-        heightTable.value = window.innerHeight - 75;
-      } else if (windowWidth >= 576) {
-        heightTable.value = window.innerHeight - 75;
-      } else {
-        // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-        heightTable.value = window.innerHeight - 70;
-      }
-    };
     // thêm mới
     const urlAddNew = ref('target-group-form/add')
 
@@ -347,13 +326,8 @@ export default defineComponent({
 
     onMounted(() => {
       getData();
-      handleResize();
-      window.addEventListener('resize', handleResize);
     });
 
-    onUnmounted(() => {
-      window.removeEventListener('resize', handleResize);
-    });
 
     return {
       getData,
@@ -375,10 +349,6 @@ export default defineComponent({
       // edit 
       loading,
       disabled,
-
-      //
-      handleResize,
-      heightTable,
       handleSelectionChange,
       getRowKey,
       handleCurrentChange,
