@@ -264,142 +264,143 @@
                         <div v-if="totalSubdomain > 0">
                             <span class="text-capitalize fs-13px">Tổng Số Subdomains: {{ totalSubdomain }}</span>
                         </div>
-                        <el-pagination background v-model:current-page="currentPageSubdomain" :hide-on-single-page="true"
-                            v-model:page-size="pageSizeSubdomain" :total="totalSubdomain" layout="prev, pager, next"
-                            :disabled="disabled"></el-pagination>
-                        <div></div>
+                        <el-pagination background v-model:current-page="currentPageSubdomain"
+                            :total="totalSubdomain" layout="'prev, pager, next'" :disabled="disabled"></el-pagination>
+                            <div></div>
                     </div>
                 </div>
-                <!--end::Card-->
-
-                <!-- modoal  -->
-                <el-dialog v-model="dialogDirectoryVisible" title="Chi Tiết Thư Mục" width="1000">
-                    <div>
-                        <el-input v-model="searchDirectory" size="large" placeholder="Type to search"
-                            :prefix-icon="SearchIcon" />
-                        <div class="my-5 text-primary">
-                            <span class="fs-7 text-gray-600">Tổng Thư Mục: </span>
-                            <span class="fw-bold">{{ totalRecordsDirectory }}</span>
-                        </div>
-                    </div>
-                    <el-table :data="directory_data" style="width: 100%" height="400" class-name="my-custom-table">
-                        <template #empty>
-                            <div class="flex items-center justify-center h-100%">
-                                <el-empty description="Không có dữ liệu nào"/>
-                            </div>
-                        </template>
-                        <el-table-column min-width="40" label-class-name="text-uppercase  fs-7" label="STT">
-                            <template #default="scope">
-                                <span class="fs-7 fst-normal">
-                                    {{ scope.row.index }}</span> </template>
-                        </el-table-column>
-                        <el-table-column min-width="90" label-class-name="text-uppercase  fs-7" prop="name" label="Thư mục">
-                            <template #default="scope">
-                                <span class="fs-7 fst-normal">
-                                    {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
-                        </el-table-column>
-                        <el-table-column min-width="90" label-class-name="text-uppercase  fs-7" prop="content_type" label="Content Type"
-                            align="left">
-                            <template #default="scope">
-                                <span class="fs-7 fst-normal">
-                                    {{ (scope.row.content_type == '') ? '--' : scope.row.content_type }}</span> </template>
-                        </el-table-column>
-                        <el-table-column min-width="90" label-class-name="text-uppercase  fs-7" prop="status" label="Status" align="right">
-                            <template #default="scope">
-                                <span class="badge fs-7 fst-normal"
-                                    :class="(scope.row.status == '200') ? 'badge-light-success' : 'badge-light-danger'">
-                                    {{ (scope.row.status == '') ? '--' : scope.row.status }}
-                                </span>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <div v-if="totalRecordsDirectory > pageSizeDirectory"
-                        class="d-flex justify-content-center mx-auto w-100 my-5">
-                        <el-pagination @current-change="handleCurrentChangeDirectory" background
-                            v-model:current-page="currentPageDirectory" v-model:page-size="pageSizeDirectory"
-                            :total="totalRecordsDirectory" layout="prev, pager, next"></el-pagination>
-                    </div>
-                </el-dialog>
-
-                <!-- modoal  -->
-                <el-dialog v-model="dialogEndpointsVisible" title="Chi Tiết Enpoint" width="1000">
-                    <div>
-                        <el-input v-model="searchEnpoint" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
-                        <div class="my-5 text-primary">
-                            <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
-                            <span class="fw-bold">{{ totalRecords }}</span>
-                        </div>
-                    </div>
-                    <el-table :data="enpoint_data" style="width: 100%" height="400" class-name="my-custom-table"
-                        v-loading="loading">
-                        <template #empty>
-                            <div class="flex items-center justify-center h-100%">
-                                <el-empty description="Không có dữ liệu nào"/>
-                            </div>
-                        </template>
-                        <el-table-column min-width="40" label-class-name="text-uppercase  fs-7" label="STT">
-                            <template #default="scope">
-                                <span class="fs-7 fst-normal">
-                                    {{ scope.row.index }}</span> </template>
-                        </el-table-column>
-                        <el-table-column min-width="90" label-class-name="text-uppercase  fs-7" prop="url" label="URL">
-                            <template #default="scope">
-                                <span class="fs-7 fst-normal" v-if="scope.row.url != '' || scope.row.url != null">
-                                    <el-link class="fs-7" :underline="false" :href="scope.row.url" target="_blank">{{
-                                        scope.row.url
-                                    }}</el-link>
-                                </span>
-                                <span v-else>--</span>
-
-                            </template>
-                        </el-table-column>
-                        <el-table-column min-width="60" label-class-name="text-uppercase  fs-7" prop="params" label="Parameter"
-                            align="left">
-                            <template #default="scope">
-
-                                <template v-if="Object.keys(scope.row.params).length == 0">
-                                    <span class="badge badge-light-danger fs-7">--</span>
-                                </template>
-                                <template v-else>
-                                    <span v-for="(value, index) in scope.row.params" :index="index"
-                                        class="badge badge-light-primary fs-7 my-1 ms-1">{{ value }}</span>
-                                </template>
-                            </template>
-                        </el-table-column>
-                        <el-table-column min-width="90" label-class-name="text-uppercase  fs-7" prop="title" label="Tiêu Đề">
-                            <template #default="scope">
-                                <template v-if="scope.row.title == ''">
-                                    <span class="badge badge-light-danger fs-7">--</span>
-                                </template>
-                                <template v-else>
-                                    <span class="fs-7 fst-normal">
-                                        {{ scope.row.title }}</span>
-                                </template>
-                            </template>
-                        </el-table-column>
-                        <el-table-column min-width="60" label-class-name="text-uppercase  fs-7" prop="status_code" label="Trạng Thái"
-                            align="right">
-                            <template #default="scope">
-                                <span class="badge fs-7 fst-normal"
-                                    :class="(scope.row.status_code == '200') ? 'badge-light-success' : 'badge-light-danger'">
-                                    {{ (scope.row.status == '') ? '--' : scope.row.status_code }}
-                                </span>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <div v-if="totalRecords > pageSizeEndpoints" class="d-flex justify-content-center mx-auto w-100 my-5">
-                        <el-pagination @current-change="handleCurrentChangeEndpoint" background
-                            v-model:current-page="currentPageEndpoints" v-model:page-size="pageSizeEndpoints"
-                            :total="totalRecords" layout="prev, pager, next"></el-pagination>
-                    </div>
-                </el-dialog>
+            </div>
+            <div class="col-sm-12 col-md-4 text-end ms-auto py-2">
+                <div class="d-flex justify-content-sm-start justify-content-md-end">
+                </div>
             </div>
         </div>
+
+    <!--end::Navbar-->
+
+    <!-- modoal  -->
+    <el-dialog v-model="dialogDirectoryVisible" title="Chi Tiết Thư Mục" width="1000">
+        <div>
+            <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
+            <div class="my-5 text-primary">
+                <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
+                <span class="fw-bold">{{ totalRecordsDirectory }}</span>
+            </div>
+        </div>
+        <el-table :data="directory_data" style="width: 100%" height="400" class-name="my-custom-table">
+            <template #empty>
+                <div class="flex items-center justify-center h-100%">
+                    <el-empty description="Không có dữ liệu nào"/>
+                </div>
+            </template>
+            <el-table-column min-width="40" label-class-name="text-uppercase fs-13px fw-bold text-dark" label="STT">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ scope.row.index }}</span> </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="name" label="Thư mục">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="content_type" label="Content Type"
+                align="center">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ (scope.row.content_type == '') ? '--' : scope.row.content_type }}</span> </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="status" label="Trạng Thái"
+                align="right">
+                <template #default="scope">
+                    <span class="badge fs-7 fst-normal"
+                        :class="(scope.row.status == '200') ? 'badge-light-success' : 'badge-light-danger'">
+                        {{ (scope.row.status == '') ? '--' : scope.row.status }}
+                    </span>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div v-if="totalRecordsDirectory > pageSizeDirectory" class="d-flex justify-content-center mx-auto w-100 my-5">
+            <el-pagination @current-change="handleCurrentChangeDirectory" background
+                v-model:current-page="currentPageDirectory" v-model:page-size="pageSizeDirectory"
+                :total="totalRecordsDirectory" layout="prev, pager, next"></el-pagination>
+        </div>
+    </el-dialog>
+
+    <!-- modoal  -->
+    <el-dialog v-model="dialogEndpointsVisible" title="Chi Tiết Enpoint" width="1000">
+        <div>
+            <el-input v-model="searchEnpoint" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
+            <div class="my-5 text-primary">
+                <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
+                <span class="fw-bold">{{ totalRecords }}</span>
+            </div>
+        </div>
+        <el-table :data="enpoint_data" style="width: 100%" height="400" class-name="my-custom-table" v-loading="loading">
+            <template #empty>
+                <div class="flex items-center justify-center h-100%">
+                    <el-empty description="Không có dữ liệu nào"/>
+                </div>
+            </template>
+            <el-table-column min-width="40" label-class-name="text-uppercase fs-13px fw-bold text-dark" label="STT">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal">
+                        {{ scope.row.index }}</span> </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="url" label="URL">
+                <template #default="scope">
+                    <span class="fs-7 fst-normal" v-if="scope.row.url != '' || scope.row.url != null">
+                        <el-link class="fs-7" :underline="false" :href="scope.row.url" target="_blank">{{ scope.row.url
+                        }}</el-link>
+                    </span>
+                    <span v-else>--</span>
+
+                </template>
+            </el-table-column>
+            <el-table-column min-width="60" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="params" label="Parameter"
+                align="center">
+                <template #default="scope">
+
+                    <template v-if="Object.keys(scope.row.params).length == 0">
+                        <span class="badge badge-light-danger fs-7">--</span>
+                    </template>
+                    <template v-else>
+                        <span v-for="(value, index) in scope.row.params" :index="index"
+                            class="badge badge-light-primary fs-7 my-1 ms-1">{{ value }}</span>
+                    </template>
+                </template>
+            </el-table-column>
+            <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="title" label="Tiêu Đề">
+                <template #default="scope">
+                    <template v-if="scope.row.title == ''">
+                        <span class="badge badge-light-danger fs-7">--</span>
+                    </template>
+                    <template v-else>
+                        <span class="fs-7 fst-normal">
+                        {{ scope.row.title }}</span>
+                    </template>
+                </template>
+            </el-table-column>
+            <el-table-column min-width="60" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="status_code" label="Trạng Thái"
+                align="right">
+                <template #default="scope">
+                    <span class="badge fs-7 fst-normal"
+                        :class="(scope.row.status_code == '200') ? 'badge-light-success' : 'badge-light-danger'">
+                        {{ (scope.row.status == '') ? '--' : scope.row.status_code }}
+                    </span>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div v-if="totalRecords > pageSizeEndpoints" class="d-flex justify-content-center mx-auto w-100 my-5">
+            <el-pagination @current-change="handleCurrentChangeEndpoint" background
+                v-model:current-page="currentPageEndpoints" v-model:page-size="pageSizeEndpoints" :total="totalRecords"
+                layout="prev, pager, next"></el-pagination>
+        </div>
+    </el-dialog>
 </template>
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, onBeforeUnmount, watch, onUnmounted } from "vue";
+import { defineComponent, ref, onMounted, onBeforeUnmount, watch , onUnmounted } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
@@ -511,7 +512,7 @@ export default defineComponent({
         // tính thời gian
         const diffTime = ref<string | any>(0);
         const time = ref<any>(null);
-        let intervalId: any;
+        let intervalId : any;
         const eventTime = ref<number | any>('30000');
         const checkDisabled = ref<boolean>(false);
 
@@ -728,11 +729,42 @@ export default defineComponent({
         }
 
         // tính toán chiều cao table
+        const heightTable = ref(0)
+        const checkPaginationTable = ref(false)
+        const handleResize = () => {
+            const windowWidth = window.innerWidth;
+
+            if (windowWidth >= 1400) {
+                heightTable.value = window.innerHeight - 357;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 1200) {
+                heightTable.value = window.innerHeight - 357;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 992) {
+                heightTable.value = window.innerHeight - 357;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 768) {
+                heightTable.value = window.innerHeight - 327;
+                checkPaginationTable.value = false
+            } else if (windowWidth >= 576) {
+                heightTable.value = window.innerHeight - 347;
+                checkPaginationTable.value = false
+            } else {
+                // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
+                heightTable.value = window.innerHeight - 347;
+                checkPaginationTable.value = true
+            }
+        };
 
         onMounted(() => {
             getData();
+            handleResize();
+            window.addEventListener('resize', handleResize);
         });
 
+        onUnmounted(() => {
+            window.removeEventListener('resize', handleResize);
+        });
 
         return {
             scanID,
@@ -788,12 +820,9 @@ export default defineComponent({
             pageSizeSubdomain,
             currentPageSubdomain,
             loadingSubdomain,
+            heightTable,
+            checkPaginationTable,
         };
     },
 });
 </script>
-<style >
-.my-custom-table td.el-table__cell {
-    border-bottom-style: dashed !important;
-}
-</style>

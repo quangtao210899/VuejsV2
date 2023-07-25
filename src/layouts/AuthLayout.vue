@@ -32,7 +32,7 @@
           <img
             alt="Logo"
             :src="getAssetPath('media/logos/Logo-full-color@4x-1-e1659552753965.png')"
-            class="h-60px h-lg-300px"
+            class="h-60px h-lg-250px"
           />
         </router-link>
       </div>

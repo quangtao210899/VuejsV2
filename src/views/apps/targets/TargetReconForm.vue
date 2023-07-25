@@ -1,6 +1,7 @@
 <template>
     <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true"
         @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @click="getCheckedKeys"></KTToolbar>
+    <el-scrollbar :height="heightTable">
         <div class="app-container container-fluid pt-10">
             <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20 mt-10 pt-10">
                 <el-form ref="ruleFormRef" :model="ruleForm" label-width="33%"
@@ -17,6 +18,7 @@
                 </el-form>
             </div>
         </div>
+    </el-scrollbar>
 </template>
 
 <script lang="ts">
@@ -676,6 +678,49 @@ export default defineComponent({
                 });
         }
 
+        const heightTable = ref(0)
+        const handleResize = () => {
+        const windowWidth = window.innerWidth;
+        if (windowWidth >= 1400) {
+            heightTable.value = window.innerHeight - 80;
+        } else if (windowWidth >= 1200) {
+            heightTable.value = window.innerHeight - 80;
+        } else if (windowWidth >= 992) {
+            heightTable.value = window.innerHeight - 80;
+        } else if (windowWidth >= 768) {
+            heightTable.value = window.innerHeight - 75;
+        } else if (windowWidth >= 576) {
+            heightTable.value = window.innerHeight - 75;
+        } else {
+            // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
+            heightTable.value = window.innerHeight - 70;
+        }
+        };
+
+        // tính labelPosition form
+        // const labelPosition = ref('left')
+        // const handleResize = () => {
+        //     const windowWidth = window.innerWidth;
+        //     if (windowWidth >= 992) {
+        //         labelPosition.value = 'left'
+        //     } else if (windowWidth >= 768) {
+        //         labelPosition.value = 'top'
+        //     } else if (windowWidth >= 576) {
+        //         labelPosition.value = 'top'
+        //     } else {
+        //         labelPosition.value = 'top'
+        //     }
+        // };
+
+        onMounted(() => {
+            handleResize();
+            window.addEventListener('resize', handleResize);
+        });
+
+        onUnmounted(() => {
+            window.removeEventListener('resize', handleResize);
+        });
+
         return {
             list,
             data_group,
@@ -694,6 +739,7 @@ export default defineComponent({
             getCheckedKeys,
             resetData,
             validationSchema,
+            heightTable
         };
     },
 });
@@ -710,7 +756,7 @@ export default defineComponent({
 } */
 
 .el-form-item__label{
-    font-size: 13px !important;
+    font-size: 1.075rem !important;
     font-weight: 500;
     color: #252f4a !important;
 }
@@ -738,10 +784,5 @@ export default defineComponent({
     color: #252f4a !important;
     font-size: 13px !important;
     line-height: 21px !important;
-}
-
-.demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label-wrap>.el-form-item__label:after,
-.demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label:after {
-    margin-left: 0px !important;
 }
 </style>
