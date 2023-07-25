@@ -251,7 +251,7 @@ export default defineComponent({
 } */
 
 .el-form-item__label {
-    font-size: 1.075rem !important;
+    font-size: 13px !important;
     font-weight: 500;
     color: #252f4a !important;
 }
@@ -281,4 +281,8 @@ export default defineComponent({
     padding-top: 4px;
 }
 
+.demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label-wrap>.el-form-item__label:after,
+.demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label:after {
+    margin-left: 0px !important;
+}
 </style>

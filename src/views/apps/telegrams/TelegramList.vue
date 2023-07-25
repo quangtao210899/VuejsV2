@@ -58,7 +58,7 @@
         highlight-current-row :row-key="getRowKey" @current-change="handleCurrentChange">
         <template #empty>
           <div class="flex items-center justify-center h-100%">
-            <el-empty />
+            <el-empty description="Không có dữ liệu nào"/>
           </div>
         </template>
         <el-table-column label-class-name="border border-0 fs-7" type="selection" width="35" :reserve-selection="true" />
