@@ -39,7 +39,7 @@
                     highlight-current-row :row-key="getRowKey" @current-change="handleCurrentChange">
                     <template #empty>
                         <div class="flex items-center justify-center h-100%">
-                            <el-empty />
+                            <el-empty description="Không có dữ liệu nào"/>
                         </div>
                     </template>
 
@@ -538,10 +538,10 @@ export default defineComponent({
         const deleteSelectd = () => {
             ElMessageBox.confirm(
                 'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-                'Xác nhận xóa',
+                'Xác Nhận Xóa',
                 {
-                    confirmButtonText: 'Đồng ý',
-                    cancelButtonText: 'Hủy bỏ',
+                    confirmButtonText: 'Đồng Ý',
+                    cancelButtonText: 'Hủy Bỏ',
                     type: 'warning',
                     icon: markRaw(Delete)
                 }
@@ -625,10 +625,10 @@ export default defineComponent({
                 text: values ?? more,
                 icon: icon,
                 buttonsStyling: false,
-                confirmButtonText: "Đồng ý!",
+                confirmButtonText: (icon == 'error') ? "Thử Lại" : "Đồng Ý",
                 heightAuto: false,
                 customClass: {
-                    confirmButton: "btn btn-primary",
+                    confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             }).then(() => {
                 hideModal(newTargetGroupModalRef.value);

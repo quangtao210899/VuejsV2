@@ -34,7 +34,7 @@
       <template v-else>
         <tr class="odd">
           <td colspan="12" class="dataTables_empty">
-            <el-empty :image-size="150" />
+            <el-empty :image-size="150" description="Không có dữ liệu nào"/>
           </td>
         </tr>
       </template>

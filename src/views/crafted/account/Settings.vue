@@ -2393,7 +2393,7 @@ export default defineComponent({
           Swal.fire({
             text: "Email is successfully changed!",
             icon: "success",
-            confirmButtonText: "Đồng ý",
+            confirmButtonText: "Đồng Ý",
             buttonsStyling: false,
             heightAuto: false,
             customClass: {
@@ -2428,9 +2428,9 @@ export default defineComponent({
           updatePasswordButton.value?.removeAttribute("data-kt-indicator");
 
           Swal.fire({
-            text: "Password is successfully changed!",
+            text: "Thay đổi mật khẩu thành công",
             icon: "success",
-            confirmButtonText: "Đồng ý",
+            confirmButtonText: "Đồng Ý",
             buttonsStyling: false,
             heightAuto: false,
             customClass: {

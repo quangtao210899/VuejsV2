@@ -15,7 +15,7 @@
                     @sort-change="handleSortChange">
                     <template #empty>
                         <div class="flex items-center justify-center h-100%">
-                            <el-empty />
+                            <el-empty description="Không có dữ liệu nào"/>
                         </div>
                     </template>
 
@@ -81,7 +81,7 @@
                                 </router-link>
                             </el-tooltip>
                         </template>
-                    </el-table-column>
+                    </el-table-column> 
                 </el-table>
                 <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
                     <div >
@@ -174,6 +174,7 @@ export default defineComponent({
                         currentPage.value = 1;
                         selectedIds.value = [];
                         multipleTableRef.value!.clearSelection()
+                        getData()
                     })
                     .catch(({ response }) => {
                         notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -186,10 +187,10 @@ export default defineComponent({
                 text: values ?? more,
                 icon: icon,
                 buttonsStyling: false,
-                confirmButtonText: "Đồng ý!",
+                confirmButtonText: (icon == 'error') ? "Thử Lại" : "Đồng Ý",
                 heightAuto: false,
                 customClass: {
-                    confirmButton: (icon == 'error') ? "btn btn-danger" : "btn btn-primary",
+                    confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             });
         }

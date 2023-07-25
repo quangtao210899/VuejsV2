@@ -1,97 +1,99 @@
 <template>
-  <div class=" overflow-auto p-5 h-100 w-100">
-    <div class="row g-5 g-xl-10">
-      <div class="col-6 col-md-3">
-        <Widget1 className="h-md-100 h-lg-75 mb-5 mb-xl-10" description="Mục Tiêu" :target="target" bgColor="#F1416C"
-          :bgImage="getAssetPath('media/patterns/vector-1.png')" />
-      </div>
-      <div class="col-6 col-md-3">
-        <Widget2 className="h-md-100 h-lg-75 mb-5 mb-xl-10" :icon="false" :subdomain="subdomain" :liveSubdomain="subdomainLive"
-          description="Subdomains" labelColor="dark" textColor="gray-300" />
+  <el-scrollbar :height="heightTable">
+    <div class=" px-5 pt-5 h-100 w-100">
+      <div class="row g-5 g-xl-10">
+        <div class="col-6 col-md-3">
+          <Widget1 className="h-md-100 h-lg-75 mb-5 mb-xl-10" description="Mục Tiêu" :target="target" bgColor="#F1416C"
+            :bgImage="getAssetPath('media/patterns/vector-1.png')" />
+        </div>
+        <div class="col-6 col-md-3">
+          <Widget2 className="h-md-100 h-lg-75 mb-5 mb-xl-10" :icon="false" :subdomain="subdomain"
+            :liveSubdomain="subdomainLive" description="Subdomains" labelColor="dark" textColor="gray-300" />
+        </div>
+
+        <div class="col-6 col-md-3">
+          <Widget3 className="h-md-100 h-lg-75 mb-5 mb-xl-10" :open="serviceOpen" :closed="serviceClone"
+            description="Dịch Vụ" :services="service" />
+        </div>
+
+        <div class="col-6 col-md-3">
+          <Widget4 bgColor="#0e367b" :bgImage="getAssetPath('media/patterns/pattern-2.jpg')"
+            className="h-md-100 mb-5 mb-xl-10 h-lg-75" :scanHigh="serviceHigh" :scanMedium="serviceMedium"
+            :scanLow="serviceLow" :scanInfo="serviceInfo" description="Lỗ Hổng Bảo Mật" :scan="scan" />
+        </div>
       </div>
 
-      <div class="col-6 col-md-3">
-        <Widget3 className="h-md-100 h-lg-75 mb-5 mb-xl-10" :open="serviceOpen" :closed="serviceClone" description="Dịch Vụ"
-          :services="service" />
-      </div>
+      <div class="row gx-5 gx-xl-10">
+        <!--begin::Col-->
+        <div class="col-xl-6 mb-5 mb-xl-10">
+          <Widget6 className="h-xl-100" v-bind:height="300" :targetGroupLabels="targetGroupLabels"
+            :targetGroupData="targetGroupData" :targetGroupColor="targetGroupColor" />
+        </div>
+        <!--end::Col-->
 
-      <div class="col-6 col-md-3">
-        <Widget4 bgColor="#0e367b" :bgImage="getAssetPath('media/patterns/pattern-2.jpg')" className="h-md-100 mb-5 mb-xl-10 h-lg-75"
-          :scanHigh="serviceHigh" :scanMedium="serviceMedium" :scanLow="serviceLow" :scanInfo="serviceInfo"
-          description="Lỗ Hổng Bảo Mật" :scan="scan" />
+        <!--begin::Col-->
+        <div class="col-xl-6 mb-5 mb-xl-10">
+          <Widget7 className="h-xl-100" v-bind:height="300" :vulnerableColor="vulnerableColor"
+            :vulnerableData="vulnerableData" :vulnerableLabels="vulnerableLabels" />
+        </div>
+        <!--end::Col-->
       </div>
-    </div>
+      <!--end::Row-->
 
-    <div class="row gx-5 gx-xl-10">
-      <!--begin::Col-->
-      <div class="col-xl-6 mb-5 mb-xl-10">
-        <Widget6 className="h-xl-100" v-bind:height="300" :targetGroupLabels="targetGroupLabels"
-          :targetGroupData="targetGroupData" :targetGroupColor="targetGroupColor" />
+      <!--begin::Row-->
+      <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+        <!--begin::Col-->
+        <div class="col-xl-6">
+          <Widget8 className="h-xl-100" :DBLeakData="DBLeak" />
+        </div>
+        <!--end::Col-->
+
+        <!--begin::Col-->
+        <div class="col-xl-6">
+          <Widget9 className="h-lg-100" :dataMostVulnerable="dataMostVulnerable" />
+        </div>
+        <!--end::Col-->
       </div>
-      <!--end::Col--> 
+      <!--end::Row-->
 
-      <!--begin::Col-->
-      <div class="col-xl-6 mb-5 mb-xl-10">
-        <Widget7 className="h-xl-100" v-bind:height="300" :vulnerableColor="vulnerableColor"
-          :vulnerableData="vulnerableData" :vulnerableLabels="vulnerableLabels" />
-      </div>
-      <!--end::Col-->
-    </div>
-    <!--end::Row-->
+      <!--begin::Row-->
+      <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+        <!--begin::Col-->
+        <div class="col-xl-6">
+          <Widget10 className="h-md-100" :HackerNews="HackerNews" />
+        </div>
+        <!--end::Col-->
 
-    <!--begin::Row-->
-    <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-      <!--begin::Col-->
-      <div class="col-xl-6">
-        <Widget8 className="h-xl-100" :DBLeakData="DBLeak" />
-      </div>
-      <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-6">
+          <Widget11 className="h-md-100" :MostcommonPortData="MostcommonPorts"
+            :MostcommonPortLabels="MostcommonPortLabels" :MostcommonPortColor="MostcommonPortColor" />
+        </div>
+        <!--end::Col-->
 
-      <!--begin::Col-->
-      <div class="col-xl-6">
-        <Widget9 className="h-lg-100" :dataMostVulnerable="dataMostVulnerable" />
-      </div>
-      <!--end::Col-->
-    </div>
-    <!--end::Row-->
-
-    <!--begin::Row-->
-    <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-      <!--begin::Col-->
-      <div class="col-xl-6">
-        <Widget10 className="h-md-100" :HackerNews="HackerNews" />
-      </div>
-      <!--end::Col-->
-
-      <!--begin::Col-->
-      <div class="col-xl-6">
-        <Widget11 className="h-md-100" :MostcommonPortData="MostcommonPorts" :MostcommonPortLabels="MostcommonPortLabels"
-           :MostcommonPortColor="MostcommonPortColor" />
-      </div>
-      <!--end::Col-->
-
-      <!-- <div class="col-xl-6">
+        <!-- <div class="col-xl-6">
         <Widget13 className="h-md-100" />
       </div> -->
-      <!--end::Col-->
-    </div>
-    <!--end::Row-->
-
-    <!--begin::Row-->
-    <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-      <!--begin::Col-->
-      <div class="col-xl-12">
-        <Widget12 className="h-md-100" :latestVulnerabilitiesData="LatestVulnerabilities" />
+        <!--end::Col-->
       </div>
-      <!--end::Col-->
+      <!--end::Row-->
+
+      <!--begin::Row-->
+      <div class="row g-5 g-xl-10">
+        <!--begin::Col-->
+        <div class="col-xl-12">
+          <Widget12 className="h-md-100" :latestVulnerabilitiesData="LatestVulnerabilities" />
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Row-->
     </div>
-    <!--end::Row-->
-  </div>
+  </el-scrollbar>
 </template>
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, onUnmounted } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import Widget1 from "@/components/dashboard-default-widgets/Widget1.vue";
@@ -236,7 +238,7 @@ export default defineComponent({
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         })
         .finally(() => {
-            loading.value = false
+          loading.value = false
         });
     };
 
@@ -245,19 +247,45 @@ export default defineComponent({
         text: values ?? more,
         icon: icon,
         buttonsStyling: false,
-        confirmButtonText: "Đồng ý!",
+        confirmButtonText: (icon == 'error') ? "Thử Lại" : "Đồng Ý",
         heightAuto: false,
         customClass: {
-          confirmButton: "btn btn-primary",
+          confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
         },
       }).then(() => {
+
       });
     }
-
+    // tính toán chiều cao table
+    const heightTable = ref(0)
+    const handleResize = () => {
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 1400) {
+        heightTable.value = window.innerHeight - 80;
+      } else if (windowWidth >= 1200) {
+        heightTable.value = window.innerHeight - 80;
+      } else if (windowWidth >= 992) {
+        heightTable.value = window.innerHeight - 80;
+      } else if (windowWidth >= 768) {
+        heightTable.value = window.innerHeight - 75;
+      } else if (windowWidth >= 576) {
+        heightTable.value = window.innerHeight - 75;
+      } else {
+        // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
+        heightTable.value = window.innerHeight - 70;
+      }
+    };
 
     onMounted(() => {
       getData();
+      handleResize();
+      window.addEventListener('resize', handleResize);
     });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
+    });
+
 
     return {
       getData,
@@ -286,6 +314,7 @@ export default defineComponent({
       LatestVulnerabilities,
       MostcommonPortLabels,
       MostcommonPortColor,
+      heightTable,
     };
   },
 });

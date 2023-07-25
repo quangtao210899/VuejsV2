@@ -1,8 +1,8 @@
 <template>
   <!--begin::Mixed Widget 4-->
-  <div class="card overflow-auto h-650px">
+  <div class="card overflow-auto h-650px text-dark px-3">
     <!--begin::Beader-->
-    <span class="card-label fw-bold fs-3 mb-3" style="margin-left: 3px;">Activity</span>
+    <span class="card-label fw-bold fs-3 mb-3 text-dark" style="margin-left: 3px;">Activity</span>
     <!--end::Header-->
 
     <!--begin::Body-->
@@ -13,25 +13,25 @@
           :height="chartHeight" type="radialBar"></apexchart>
         <!--end::Chart-->
         <div class="d-flex justify-content-evenly flex-wrap">
-          <li class="d-flex align-items-center py-2">
-            <span class="bullet bullet-vertical  me-3 h-10px w-20px" :class="(process[0] == 100 ? 'bg-success' : 'bg-primary' )"></span> <strong class="me-1">{{activity.total_finish}} </strong> Hoàn thành
+          <li class="d-flex align-items-center py-2 text-dark">
+            <span class="bullet bullet-vertical  me-3 h-10px w-20px" :class="(process[0] == 100 ? 'bg-success' : 'bg-primary' )"></span> <strong class="me-1">{{activity.total_finish}} </strong> Hoàn Thành
           </li>
-          <li class="d-flex align-items-center py-2">
-            <span class="bullet bullet-vertical me-3 h-10px w-20px"></span><strong class="me-1">{{activity.total_not_done}} </strong> Chưa chạy
+          <li class="d-flex align-items-center py-2 text-dark">
+            <span class="bullet bullet-vertical me-3 h-10px w-20px"></span><strong class="me-1">{{activity.total_not_done}} </strong> Chưa Chạy
           </li>
         </div>
       </div>
 
       <div class="pt-5">
-        <p class="text-center fs-6 pb-5">
+        <p class="text-center fs-13px pb-5">
           <span class="badge badge-light-danger fs-8">Notes:</span>&nbsp;
-          Tiến trình Recon
+          Tiến Trình Recon
         </p>
         <el-timeline class="ps-0">
           <el-timeline-item v-for="(activity, index) in activitieLine" :key="index" :icon="activity.icon"
           :type="activity.color" :color="activity.color" :size="activity.size" :hollow="true"
             :timestamp="activity.time">
-            {{ activity.name }}
+            <span class="text-dark fs-13px">{{ activity.name }}</span>
           </el-timeline-item>
         </el-timeline>
       </div>
@@ -167,5 +167,23 @@ const chartOptions = (
 .el-timeline-item__content{
   margin-right: 10px;
 }
+
+.el-timeline-item__timestamp {
+    /* color: var(--el-text-color-secondary); */
+    color: #A1A5B7;
+    line-height: 1;
+    font-size: var(--el-font-size-small);
+}
+
+/* .el-table .cell {
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    line-height: 23px;
+    color: #A1A5B7;
+    padding: 0 12px;
+} */
 </style>
   
