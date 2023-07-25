@@ -86,6 +86,7 @@
           <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
             v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
             :disabled="disabled"></el-pagination>
+          <div></div>
         </div>
         <!--end::Card body-->
       </div>
