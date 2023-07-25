@@ -261,7 +261,7 @@
                     </el-table>
                     <div
                         class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-                        <div>
+                        <div v-if="totalSubdomain > 0">
                             <span class="text-capitalize fs-13px">Tổng Số Subdomains: {{ totalSubdomain }}</span>
                         </div>
                         <el-pagination background v-model:current-page="currentPageSubdomain" :hide-on-single-page="true"

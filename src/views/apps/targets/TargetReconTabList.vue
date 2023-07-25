@@ -151,8 +151,8 @@
                                 <div class="d-flex flex-wrap mt-1 row">
                                     <!--begin::Stat-->
                                     <div class=" col-12 min-w-80px py-1 px-2 me-2 mb-1 ">
-                                        <div class="fw-semobold fs-13px text-dark text-gray-500">
-                                            <span class="text-primary " style="font-weight: 500;">
+                                        <div class="fw-semobold fs-13px text-dark text-gray-500" style="font-weight: 500 !important;">
+                                            <span class="text-primary " >
                                                 {{ account.email }} </span> Địa Chỉ Email
                                         </div>
                                     </div>
@@ -160,8 +160,8 @@
 
                                     <!--begin::Stat-->
                                     <div class="col-12 min-w-80px py-1 px-2 me-2 mb-1">
-                                        <div class="fw-semobold fs-13px text-dark text-gray-500">
-                                            <span class="text-primary" style="font-weight: 500;">{{
+                                        <div class="fw-semobold fs-13px text-dark text-gray-500" style="font-weight: 500 !important;">
+                                            <span class="text-primary" >{{
                                                 account.credentials }} </span> Credentials
                                         </div>
                                     </div>

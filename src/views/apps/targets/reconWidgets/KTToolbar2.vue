@@ -1,8 +1,7 @@
 <template>
-    <div id="kt_app_header" class="app-header position-fixed border-bottom h-50px" 
-    style="top: 70px !important;box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05) !important;">
-        <div class="py-1 bg-body" id="kt_subheader"
-            style="; width:100%;">
+    <div id="kt_app_header" class="app-header position-fixed border-bottom h-50px custom-top-fixed"
+        style="box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05) !important;z-index:2 !important">
+        <div class="py-1 bg-body" id="kt_subheader" style="; width:100%;">
             <div id="kt_app_toolbar_container" style="min-height: 43px;"
                 class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap " :class="{
                     'container-fluid': toolbarWidthFluid,
@@ -121,4 +120,43 @@ export default defineComponent({
     },
 });
 </script>
+
+<style lang="scss">
+    .custom-top-fixed {
+        top: 60px !important;
+    }
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+    .custom-top-fixed {
+        top: 60px !important;
+    }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+    .custom-top-fixed {
+        top: 60px !important;
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+    .custom-top-fixed {
+        top: 70px !important;
+    }
+}
+
+// X-Large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+    .custom-top-fixed {
+        top: 70px !important;
+    }
+}
+
+// XX-Large devices (larger desktops, 1400px and up)
+@media (min-width: 1400px) {
+    .custom-top-fixed {
+        top: 70px !important;
+    }
+}</style>
   
