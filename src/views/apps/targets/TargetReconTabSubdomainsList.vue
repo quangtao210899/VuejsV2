@@ -211,7 +211,7 @@
                         <template v-if="scope.row.waf.length">                        
                             <li v-for="(val, key) in scope.row.waf" :key="key"
                                 class="d-flex align-items-top py-2 fs-7 text-start fst-normal">
-                                <span class="bullet bullet-dot bg-success text-dark h-7px w-7px me-5 mt-3"></span>
+                                <span class="bullet bullet-dot bg-primary text-dark h-7px w-7px me-5 mt-3"></span>
                                 <span class="fst-normal text-dark" style="font-size: 13px;">
                                     {{ (val == '' ||
                                     val == null) ? '--' : val }}

@@ -97,6 +97,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/target-scans/:id/add",
+        name: "target-scan-add",
+        component: () => import("@/views/apps/targets/TargetScanForm.vue"),
+        meta: {
+          pageTitle: "Scan Mục Tiêu",
+          breadcrumbs: ["Target","Scan", "Thêm Mới"],
+          links: ["/target-list", ''],
+        },
+      },
+      {
         path: "/target-scans/:id",
         name: "target-scan",
         component: () => import("@/views/apps/targets/TargetScanList.vue"),

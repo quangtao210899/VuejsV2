@@ -1,31 +1,63 @@
 <template>
     <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true"
-        @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @click="getCheckedKeys"></KTToolbar>
-    <el-scrollbar :height="heightTable">
-        <div class="app-container container-fluid pt-10">
-            <div class="card d-block px-5 pb-20 mt-10 pt-10">
-                <el-form ref="ruleFormRef" :model="ruleForm" :label-width="'auto'"
-                    class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right">
+        @form-submit="formSubmit(ruleFormRef)" @form-back="formBack"></KTToolbar>
+    <!--begin::Card-->
+    <div class="app-container container-fluid pt-10">
+        <div class="card d-block px-5 pb-20 mt-10 pt-10">
+            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" :label-width="'auto'" :label-position="labelPosition" 
+                class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right"
+                >
+                <el-form-item label="Tên mục tiêu" prop="name" class="pb-3 text-capitalize fs-6" tabindex="0" :error="(errors.name) ? errors.name[0] : ''">
+                    <el-input v-model="ruleForm.name" size="large" placeholder="Nhập tên mục tiêu" :autofocus="true"
+                        :class="(errors.name) ? 'el-error-ruleForm' : ''" />
+                    <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
+                        <span class="" v-if="errors.name">{{ errors.name[0] }}</span>
+                    </div> -->
+                </el-form-item>
+                <el-form-item label="Domain" prop="domain" class="pb-3 text-capitalize fs-6" :error="(errors.domain) ? errors.domain[0] : ''">
+                    <el-input v-model="ruleForm.domain" size="large" v placeholder="Nhập domain mục tiêu" @blur="getAutofill(ruleForm.domain)
+                        .then(ip => {
+                            ruleForm.ip = ip
+                        });" :class="(errors.domain) ? 'el-error-ruleForm' : ''" />
+                    <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
+                        <span class="" v-if="errors.domain">{{ errors.domain[0] }}</span>
+                    </div> -->
+                </el-form-item>
+                <el-form-item label="IP" prop="ip" class="pb-3 text-capitalize fs-6" :error="(errors.ip) ? errors.ip[0] : ''">
+                    <el-input v-model="ruleForm.ip" size="large" placeholder="Nhập ip mục tiêu"
+                        :class="(errors.ip) ? 'el-error-ruleForm' : ''" />
+                    <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
+                        <span class="" v-if="errors.ip">{{ errors.ip[0] }}</span>
+                    </div> -->
+                </el-form-item>
+                <el-form-item label="Nhóm mục tiêu" prop="group" class="pb-3 text-capitalize w-100 fs-6" :error="(errors.group) ? errors.group[0] : ''">
+                    <el-select v-model="ruleForm.group" size="large" placeholder="Chọn nhóm mục tiêu" class="w-100" filterable no-match-text="Không có dữ liệu phù hợp"
+                        :class="(errors.group) ? 'el-error-ruleForm' : ''">
+                        <el-option v-for=" val  in  data_group " :key="val.id" :label="val.title" :value="val.id" />
+                    </el-select>
+                    <!-- <div class="fv-help-block  position-absolute start-0 el-form-item__error" style="top: 32px;">
+                        <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
+                    </div> -->
                     <div class="fv-plugins-message-container">
                         <div class="fv-help-block">
-                            <span class="" v-if="errors.tree">{{ Array.isArray(errors.tree) ? errors.tree[0] :
-                                errors.tree }}</span>
+                            <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] :
+                                errors.detail }}</span>
                         </div>
-                    </div>
-
-                    <el-tree ref="treeRef" :data="dataFormCreate" show-checkbox node-key="id"
-                        :default-expanded-keys="['0-0', '0-0-0', '0-0-1', '0-0-2', '0-0-3']" :props="defaultProps" class="custom-tree" />
-                </el-form>
-            </div>
+                </div>
+                </el-form-item>
+                
+            </el-form>
         </div>
-    </el-scrollbar>
+    </div>
+
+    <!--end::Card-->
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import ApiService from "@/core/services/ApiService";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
-import { ElTree } from 'element-plus'
+
 // validate
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -34,13 +66,18 @@ import { useRouter, useRoute } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
-    recon: Object
-    target_id: number
+    name: string
+    group: string
+    domain: string
+    ip: string
 }
 
-interface Errors {
-    tree: string;
-    notifi_error_select: string[];
+interface RuleForm2 {
+    name: string
+    group: string
+    domain: string
+    ip: string
+    detail: string
 }
 
 export default defineComponent({
@@ -57,539 +94,62 @@ export default defineComponent({
     setup() {
         const route = useRoute();
         const ID = ref<any>((route.params.id == 'add' ? null : route.params.id));
-        const treeRef = ref<InstanceType<typeof ElTree>>()
         const type = ref<string>((ID.value == null ? 'Thêm Mới' : 'Chỉnh Sửa'))
         const list = ref<object | any>([])
         const data_group = ref<object | any>([])
         const loading = ref<boolean>(false)
         const router = useRouter();
-        const reconID = ref<null | number | any>(route.params.id ?? '');
 
-        // const getData = async () => {
-        //     if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
-        //         loading.value = true;
-        //         return ApiService.get(`targets/${ID.value}`)
-        //             .then(({ data }) => {
-        //                 ruleForm.domain = data.domain
-        //                 ruleForm.ip = data.ip
-        //                 ruleForm.name = data.name
-        //                 ruleForm.group = data.group.id
-        //             })
-        //             .catch(({ response }) => {
-        //                 notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-        //             })
-        //             .finally(() => {
-        //                 loading.value = false
-        //             })
-        //     }
-        //     return;
-        // }
-
-        const defaultProps = reactive({
-            children: 'children',
-            label: 'label',
-        });
-
-        const dataFormCreate = ref([
-            {
-                label: 'Full recon',
-                id: '0-0',
-                children: [
-                    {
-                        label: 'OSINT',
-                        name: "OSINT",
-                        id: '0-0-0',
-                        children: [
-                            {
-                                label: 'Domain information',
-                                name: "domain",
-                                id: '0-0-0-0',
-                            },
-                            {
-                                label: 'Emails addresses and users',
-                                name: "email",
-                                id: '0-0-0-1',
-                            },
-                            {
-                                label: 'Password leaks',
-                                name: "password",
-                                id: '0-0-0-2',
-                            },
-                            {
-                                label: 'Metadata finder',
-                                name: "metadata",
-                                id: '0-0-0-3',
-                            },
-                        ],
-                    },
-                    {
-                        label: 'Subdomains',
-                        name: "Subdomains",
-                        id: '0-0-1',
-                        children: [
-                            {
-                                id: '0-0-1-0',
-                                label: 'Passive',
-                                name: "sub_passive",
-                            },
-                            {
-                                id: '0-0-1-1',
-                                label: 'Certificate transparency',
-                                name: "sub_crt",
-                            },
-                            {
-                                id: '0-0-1-2',
-                                label: 'TLS handshake',
-                                name: "sub_active",
-                            },
-                            {
-                                id: '0-0-1-3',
-                                label: 'NOERROR subdomain discovery',
-                                name: "sub_noerror",
-                            },
-                            {
-                                id: '0-0-1-4',
-                                label: 'Bruteforce',
-                                name: "sub_brute",
-                            },
-                            {
-                                id: '0-0-1-5',
-                                label: 'DNS Records',
-                                name: "sub_dns",
-                            },
-                            {
-                                id: '0-0-1-6',
-                                label: 'JS files & Source Code Scraping',
-                                name: "sub_scraping",
-                            },
-                            {
-                                id: '0-0-1-7',
-                                label: 'Google Analytics ID',
-                                name: "sub_analytics",
-                            },
-                            {
-                                id: '0-0-1-8',
-                                label: 'Cloud checkers',
-                                name: "s3buckets",
-                            },
-                            {
-                                id: '0-0-1-9',
-                                label: 'Subdomains takeover',
-                                name: "subdomains_takeover",
-                            },
-                        ],
-                    },
-                    {
-                        label: 'Hosts',
-                        name: 'Hosts',
-                        id: '0-0-2',
-                        children: [
-                            {
-                                id: '0-0-2-0',
-                                label: 'IP info',
-                                name: "whoisxml",
-                            },
-                            {
-                                id: '0-0-2-1',
-                                label: 'CDN checker',
-                                name: "ipcdn",
-                            },
-                            {
-                                id: '0-0-2-2',
-                                label: 'WAF checker',
-                                name: "wafw00f",
-                            },
-                            {
-                                id: '0-0-2-3',
-                                label: 'Port Scanner',
-                                name: "port_scanner",
-                            },
-                        ],
-                    },
-                    {
-                        label: 'Webs',
-                        name: 'Webs',
-                        id: '0-0-3',
-                        children: [
-                            {
-                                id: '0-0-3-0',
-                                label: 'Web Prober',
-                                name: "prober",
-                            },
-                            {
-                                id: '0-0-3-1',
-                                label: 'CMS Scanner',
-                                name: "cms",
-                            },
-                            {
-                                id: '0-0-3-2',
-                                label: 'Url extraction',
-                                name: "url_extraction",
-                            },
-                            {
-                                id: '0-0-3-3',
-                                label: 'URL patterns Search and filtering',
-                                name: "url_filter",
-                            },
-                            {
-                                id: '0-0-3-4',
-                                label: 'Javascript analysis',
-                                name: "js_analysis",
-                            },
-                            {
-                                id: '0-0-3-5',
-                                label: 'Fuzzing',
-                                name: "fuzzing",
-                            },
-                        ],
-                    },
-                ],
-            },
-        ]);
-
-        const dataValidateTree = ref([
-            {
-                key: "0-0-0-2",
-                title: "Password leaks",
-                children: [
-                    {
-                        key: "0-0-0-1",
-                        title: "Emails addresses and users",
-                    },
-                ],
-            },
-            {
-                key: "0-0-1-5",
-                title: "DNS Records",
-                children: [
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-            {
-                key: "0-0-1-6",
-                title: "JS files & Source Code Scraping",
-                children: [
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-            {
-                key: "0-0-1-8",
-                title: "Cloud checkers",
-                children: [
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-            {
-                key: "0-0-1-9",
-                title: "Subdomains takeover",
-                children: [
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-            {
-                key: "0-0-3-0",
-                title: "Web Prober",
-                children: [
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-            {
-                key: "0-0-2-1",
-                title: "CDN checker",
-                children: [
-                    {
-                        key: "0-0-1-5",
-                        title: "DNS Records",
-                    },
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-            {
-                key: "0-0-2-2",
-                title: "WAF checker",
-                children: [
-                    {
-                        key: "0-0-3-0",
-                        title: "Web Prober",
-                    },
-                ],
-            },
-            {
-                key: "0-0-3-2",
-                title: "Url extraction",
-                children: [
-                    {
-                        key: "0-0-3-0",
-                        title: "Web Prober",
-                    },
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-            {
-                key: "0-0-3-1",
-                title: "CMS Scanner",
-                children: [
-                    {
-                        key: "0-0-3-0",
-                        title: "Web Prober",
-                    },
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-            {
-                key: "0-0-3-5",
-                title: "Fuzzing",
-                children: [
-                    {
-                        key: "0-0-3-0",
-                        title: "Web Prober",
-                    },
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-            {
-                key: "0-0-3-4",
-                title: "Javascript analysis",
-                children: [
-                    {
-                        key: "0-0-1-6",
-                        title: "JS files & Source Code Scraping",
-                    },
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-            {
-                key: "0-0-3-3",
-                title: "URL patterns Search and filtering",
-                children: [
-                    {
-                        key: "0-0-3-2",
-                        title: "Url extraction",
-                    },
-                    {
-                        key: "0-0-3-0",
-                        title: "Web Prober",
-                    },
-                    {
-                        key: "0-0-1-0",
-                        title: "Passive",
-                    },
-                    {
-                        key: "0-0-1-1",
-                        title: "Certificate transparency",
-                    },
-                    {
-                        key: "0-0-1-3",
-                        title: "NOERROR subdomain discovery",
-                    },
-                    {
-                        key: "0-0-1-4",
-                        title: "Bruteforce",
-                    }
-                ],
-            },
-        ]);
-
-        const getCheckedKeys = () => {
-            return treeRef.value!.getCheckedKeys(false)
-        }
-
-        const resetData = () => {
-            treeRef.value!.setCheckedKeys([], false)
-        }
-
-        const validationSchema = () => {
-            let checkedKey: string[] = [],
-                expandedKey: string[] = [];
-            let selectedKey = getCheckedKeys()
-            if (getCheckedKeys().length == 0) {
-                notification('Bạn phải chọn ít nhất một recon', 'error', 'Có lỗi xảy ra')
-
-                return true
-            } else {
-                dataValidateTree.value.map(el => {
-                    el.children.map(e => {
-                        if (getCheckedKeys().includes(el.key) && !getCheckedKeys().includes(e.key)) {
-                            let keyExpanded = e.key.slice(0, 5);
-                            checkedKey.push(e.key);
-                            expandedKey.push(keyExpanded);
-                            errors.notifi_error_select.push("Để recon " + el.title + " bạn cần chạy thêm " + e.title);
-                        }
+        const getData = async () => {
+            if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
+                loading.value = true;
+                return ApiService.get(`targets/${ID.value}`)
+                    .then(({ data }) => {
+                        ruleForm.domain = data.domain
+                        ruleForm.ip = data.ip
+                        ruleForm.name = data.name
+                        ruleForm.group = data.group.id
                     })
-                })
-
-                const mergedArray = [...new Set([...selectedKey, ...checkedKey])];
-
-                treeRef.value!.setCheckedKeys(mergedArray, false)
-                
-                if (errors.notifi_error_select.length) {
-                    const formattedTexts = errors.notifi_error_select.map((text, index) => `<p style='text-align:left'>${index + 1}. ${text}</p>`).join("");
-                    notification(formattedTexts, 'error', 'Có lỗi xảy ra', '600px')
-                    errors.notifi_error_select = []
-
-                    return true
-                }
-
-                return false
+                    .catch(({ response }) => {
+                        notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+                    })
+                    .finally(() => {
+                        loading.value = false
+                    })
             }
-        };
+            return;
+        }
 
-        const notification = (values: string, icon: string, more: string, width: string = '') => {
+        const getAutofill = async (domain) => {
+            try {
+                const response = await ApiService.get(`targets/ip?domain=${domain}`);
+                const { data } = response;
+                return data.ip;
+            } catch (error: any) {
+                notification(error?.response?.data?.detail, 'error', 'Có lỗi xảy ra');
+                throw error;
+            }
+        }
+
+        const getDataGroup = async () => {
+            loading.value = true;
+            return ApiService.get(`targetgroup/list/`)
+                .then(({ data }) => {
+                    data_group.value = data
+                })
+                .catch(({ response }) => {
+                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+                })
+                .finally(() => {
+                    loading.value = false
+                });
+        }
+
+        const notification = (values: string, icon: string, more: string) => {
             Swal.fire({
-                html: values ?? more,
+                text: values ?? more,
                 icon: icon,
                 buttonsStyling: false,
-                width: width,
                 confirmButtonText: (icon == 'error') ? "Thử Lại" : "Đồng Ý",
                 heightAuto: false,
                 customClass: {
@@ -597,38 +157,97 @@ export default defineComponent({
                 },
             }).then(() => {
                 if (icon == 'success' || values == 'Mục tiêu không tồn tại') {
-                    router.push({ name: 'target-recon' });
+                    router.push({ name: 'target-list' });
                 }
             });
         }
         const resetForm = () => {
-            errors.notifi_error_select = []
-            errors.tree = ''
+            errors.name = ''
+            errors.domain = ''
+            errors.ip = ''
+            errors.group = ''
+            errors.detail = ''
         }
 
-        // onMounted(() => {
-        //     getData();
-        // });
+        onMounted(() => {
+            getData();
+            getDataGroup();
+        });
 
 
         // validate
         const ruleFormRef = ref<FormInstance>()
         const ruleForm = reactive<RuleForm>({
-            recon: {},
-            target_id: 0,
+            name: '',
+            group: '',
+            domain: '',
+            ip: '',
         })
-
-        const errors: Errors = reactive({
-            tree: '',
-            notifi_error_select: [],
+        const errors = reactive<RuleForm2>({
+            name: '',
+            group: '',
+            ip: '',
+            domain: '',
+            detail: ''
         });
 
+        const validateName = (rule: any, value: any, callback: any) => {
+            const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
+            if (specialCharacters.test(value)) {
+                callback(new Error('Tên nhóm không được chứa ký tự đặc biệt'));
+            } else {
+                callback();
+            }
+        };
+
+        const isValidIPAddress = (rule: any, value: any, callback: any) => {
+            if (value == null || value == '') { return true; }
+            const specialCharacters = /^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})$/;
+            if (!specialCharacters.test(value)) {
+                callback(new Error('Sai định dạng địa chỉ IP'));
+            } else {
+                callback();
+            }
+        };
+
+        const isValidDomain = (rule: any, value: any, callback: any) => {
+            if (value == null || value == '') { return true; }
+            const specialCharacters = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!specialCharacters.test(value)) {
+                callback(new Error('Sai định dạng địa chỉ Domain'));
+            } else {
+                callback();
+            }
+        };
+
+        const rules = reactive<FormRules>({
+            name: [
+                { required: true, message: 'Tên mục tiêu không được để trống', trigger: 'blur' },
+                { min: 3, max: 50, message: 'kí tự trong khoảng từ 3 đến 50 kí tự', trigger: 'blur' },
+                { validator: validateName, trigger: 'blur' },
+            ],
+            ip: [
+                { validator: isValidIPAddress, trigger: 'blur' },
+            ],
+            domain: [
+                { validator: isValidDomain, trigger: 'blur' },
+            ],
+            group: [
+                { required: true, message: 'Tên nhóm không được để trống', trigger: 'blur' },
+            ]
+        })
+
         const formSubmit = async (formEl: FormInstance | undefined) => {
+            // console.log(rules)
             if (!formEl) return
             resetForm();
             await formEl.validate((valid, fields) => {
                 if (valid) {
-                    addFormSubmit(ruleForm);
+                    if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
+                        editFormSubmit(ruleForm);
+                    } else {
+                        addFormSubmit(ruleForm);
+                    }
                 } else {
                     console.log('error submit!', fields)
                 }
@@ -636,81 +255,71 @@ export default defineComponent({
         }
 
         const formBack = async (data: any) => {
-            router.push({ name: 'target-recon' });
+            router.push({ name: 'target-list' });
         }
 
         const addFormSubmit = async (formData: RuleForm) => {
-            if (validationSchema()) {
-                return
+            if (!ruleForm.ip.length) {
+                const ip = await getAutofill(ruleForm.domain);
+                ruleForm.ip = ip;
             }
 
-            let dataTree = dataFormCreate.value[0]['children']
-            let checkedKey = getCheckedKeys();
-
-            let arr: string[] = [];
-
-            checkedKey.forEach((element) => {
-                if (typeof element === 'string' && element.length > 5) {
-                    arr.push(element.slice(0, 5));
-                }
-            });
-            const checkedKeyNew = [...new Set(checkedKey.concat(arr))];
-
-            formData = {
-                recon: dataTree.map(({ id, label, children }) => ({
-                    title: label,
-                    active: checkedKeyNew.find(name => name == id) == id ? true : false,
-                    children: children.map(({ name, id, label }) => ({
-                        title: label,
-                        name: name,
-                        active: checkedKeyNew.find(name => name == id) == id ? true : false,
-                    }))
-                })),
-                target_id: reconID.value,
-            }
-
-            return ApiService.post("recon/create2/", formData)
+            return ApiService.post("/targets/", formData)
                 .then(({ data }) => {
-                    notification(data.detail, 'success', 'Recon mục tiêu thành công')
+                    notification(data.detail, 'success', 'Thêm mới thành công')
+                    // getData();
+                    console.log(data);
                 })
                 .catch(({ response }) => {
-                    notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
+                    if (response?.data) {
+                        errors.name = response.data.name;
+                        errors.ip = response.data.ip;
+                        errors.domain = response.data.domain;
+                        errors.group = response.data.group;
+                        errors.detail = response.data.detail;
+                    } else {
+                        notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
+                    }
                 });
         }
 
-        const heightTable = ref(0)
-        const handleResize = () => {
-        const windowWidth = window.innerWidth;
-        if (windowWidth >= 1400) {
-            heightTable.value = window.innerHeight - 80;
-        } else if (windowWidth >= 1200) {
-            heightTable.value = window.innerHeight - 80;
-        } else if (windowWidth >= 992) {
-            heightTable.value = window.innerHeight - 80;
-        } else if (windowWidth >= 768) {
-            heightTable.value = window.innerHeight - 75;
-        } else if (windowWidth >= 576) {
-            heightTable.value = window.innerHeight - 75;
-        } else {
-            // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-            heightTable.value = window.innerHeight - 70;
+        const editFormSubmit = async (formData: RuleForm) => {
+            if (!ruleForm.ip.length) {
+                const ip = await getAutofill(ruleForm.domain);
+                ruleForm.ip = ip;
+            }
+
+            return ApiService.put(`/targets/${ID.value}/`, formData)
+                .then(({ data }) => {
+                    notification(data.detail, 'success', 'Sửa mới thành công')
+                })
+                .catch(({ response }) => {
+                    if (response?.data) {
+                        errors.name = response.data.name;
+                        errors.ip = response.data.ip;
+                        errors.domain = response.data.domain;
+                        errors.group = response.data.group;
+                        errors.detail = response.data.detail;
+                    } else {
+                        notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+                    }
+                });
         }
-        };
 
         // tính labelPosition form
-        // const labelPosition = ref('left')
-        // const handleResize = () => {
-        //     const windowWidth = window.innerWidth;
-        //     if (windowWidth >= 992) {
-        //         labelPosition.value = 'left'
-        //     } else if (windowWidth >= 768) {
-        //         labelPosition.value = 'top'
-        //     } else if (windowWidth >= 576) {
-        //         labelPosition.value = 'top'
-        //     } else {
-        //         labelPosition.value = 'top'
-        //     }
-        // };
+        const labelPosition = ref('left')
+        const handleResize = () => {
+            const windowWidth = window.innerWidth;
+            if (windowWidth >= 992) {
+                labelPosition.value = 'left'
+            } else if (windowWidth >= 768) {
+                labelPosition.value = 'top'
+            } else if (windowWidth >= 576) {
+                labelPosition.value = 'top'
+            } else {
+                labelPosition.value = 'top'
+            }
+        };
 
         onMounted(() => {
             handleResize();
@@ -727,19 +336,13 @@ export default defineComponent({
             loading,
             ruleFormRef,
             ruleForm,
+            rules,
             type,
             formBack,
             formSubmit,
             errors,
-            // labelPosition,
-            dataFormCreate,
-            defaultProps,
-            treeRef,
-            dataValidateTree,
-            getCheckedKeys,
-            resetData,
-            validationSchema,
-            heightTable
+            getAutofill,
+            labelPosition,
         };
     },
 });

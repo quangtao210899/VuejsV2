@@ -1,420 +1,105 @@
 <template>
-    <KTToolbar addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
+    <div ref="refGetTheHeight">
+        <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
         @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
+    </div>
     <!--begin::Card-->
-    <div class="app-container container-fluid">
-        <div class="card h-100 d-block">
-            <!--begin::Card header-->
-
-            <!--end::Card header-->
-
+    <el-scrollbar :height="heightTable">
+    <div class="app-container container-fluid pt-10 mt-10 " >
+        <div class="p-5 bg-body rounded-3">
             <!--begin::Card body-->
-            <div class="card-body pt-0  overflow-y-auto overflow-x-auto h-100 p-0 m-0 ">
-                <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
-                    :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
-                    :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
-                    @customRow="customRowTable">
-                    <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-                    <template v-slot:user="{ row: customer }">{{ customer.user.username }}</template>
-                    <template v-slot:status_name="{ row: customer }"><span
-                            :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status_name ?? '--'
-                            }}</span></template>
-                    <template v-slot:created_at="{ row: customer }">
-                        {{ customer.created_at ? customer.created_at : '--:--' }}
+            <el-table ref="multipleTableRef" :data="list" style="width: 100%"
+                    class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed"
+                    v-loading="loading" @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
+                    @current-change="handleCurrentChange" :default-sort="{ prop: 'id', order: 'descending' }"
+                    @sort-change="handleSortChange">
+                    <template #empty>
+                        <div class="flex items-center justify-center h-100%">
+                            <el-empty />
+                        </div>
                     </template>
-                    <template v-slot:finished_at="{ row: customer }">
-                        {{ customer.finished_at ? customer.finished_at : '--:--' }}
-                    </template>
-                    <template v-slot:actions="{ row: customer }">
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết" placement="top">
-                            <router-link :to="`/target-scan-detail/${targetId}/${customer.id}/detail`"
-                                class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                <KTIcon icon-name="eye" icon-class="fs-3" />
-                            </router-link>
-                        </el-tooltip>
-                    </template>
-                </KTDatatable>
-            </div>
+
+                    <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35"
+                        :reserve-selection="true" />
+
+                    <el-table-column min-width="35px" width="150" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID" >
+                        <template #default="scope">
+                            <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
+                            }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column label-class-name="fs-13px fw-bold text-dark" prop="usernamename" label="TÊN ĐĂNG NHẬP" min-width="140px" >
+                        <template #default="scope">
+                            <span v-if="scope.row.user != ''" class="fs-13px text-gray-700 text-hover-primary">{{
+                                scope.row.user.username }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label-class-name="fs-13px fw-bold text-dark"  prop="created_at" label="THỜI GIAN BẮT ĐẦU" min-width="170px">
+                        <template #default="scope">
+                            <span v-if="scope.row.created_at != ''" class="fs-13px text-gray-700 text-hover-primary">
+                                <i class="fa-solid fa-calendar-days fs-7"></i>
+                                {{ scope.row.created_at}}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="finished_at" label="THỜI GIAN KẾT THÚC" min-width="170px">
+                        <template #default="scope">
+                            <span v-if="scope.row.finished_at != ''" class="fs-13px text-gray-700 text-hover-primary">
+                                <i class="fa-solid fa-calendar-days fs-7"></i>
+                                {{ scope.row.finished_at }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI" min-width="150px">
+                        <template #default="scope">
+                            <span v-if="scope.row.status != ''" :class="`fs-12px py-3 px-4 badge badge-light-${getStatus(scope.row.status).color}`">{{
+                                scope.row.status_name }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                            
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+                    <div >
+                        <span class="text-capitalize fs-13px">Tổng Số Lần Scan: {{ totalPage }}</span>
+                    </div>
+                    <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
+                        v-model:page-size="itemsPerPage" :total="totalPage"
+                        layout="prev, pager, next" :disabled="disabled" ></el-pagination>
+                        <div></div>
+                </div>
             <!--end::Card body-->
         </div>
     </div>
+    </el-scrollbar>
+
     <!--end::Card-->
-
-
-    <!-- modal  -->
-    <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">
-        <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered mw-650px">
-            <!--begin::Modal content-->
-            <div class="modal-content">
-                <!--begin::Modal header-->
-                <div class="modal-header" id="kt_modal_new_target_group_header">
-                    <!--begin::Modal title-->
-                    <h2>{{ nameType }}</h2>
-                    <!--end::Modal title-->
-
-                    <!--begin::Close-->
-                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                        <KTIcon icon-name="cross" icon-class="fs-1" />
-                    </div>
-                    <!--end::Close-->
-                </div>
-                <!--end::Modal header-->
-
-                <!--begin::Form-->
-                <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit" :validation-schema="scanFormState.proxyAuthenticationCheck && scanFormState.proxyCheck ? validationSchema
-                    : (scanFormState.proxyCheck && !scanFormState.proxyAuthenticationCheck) ? validationSchemaProxyCheck
-                        : (!scanFormState.proxyCheck && scanFormState.proxyAuthenticationCheck) || (!scanFormState.proxyCheck && !scanFormState.proxyAuthenticationCheck) ? validationSchemaFalse
-                            : validationSchemaFalse">
-                    <div class="modal-body py-10 px-lg-17">
-                        <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
-                            data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-                            data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
-                            data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
-                            <div class="mb-5 fv-row">
-                                <span class="d-flex align-items-center fs-6 fw-semobold mb-2" for="type">
-                                    <span class="required"><b>Tốc độ scan</b></span>
-                                </span>
-                                <div class="d-flex align-items-center" style="padding-left: 20px;">
-                                    <label class="form-check form-check-custom form-check-solid me-10">
-                                        <input class="form-check-input h-20px w-20px" type="radio" name="type" :value="1"
-                                            v-model="scanFormState.scanSpeedOption" />
-                                        <span class="form-check-label fw-semobold"> Tuần tự </span>
-                                    </label>
-                                    <label class="form-check form-check-custom form-check-solid me-10">
-                                        <input class="form-check-input h-20px w-20px" type="radio" name="type" :value="2"
-                                            v-model="scanFormState.scanSpeedOption" />
-                                        <span class="form-check-label fw-semobold"> Chậm </span>
-                                    </label>
-                                    <label class="form-check form-check-custom form-check-solid me-10">
-                                        <input class="form-check-input h-20px w-20px" type="radio" name="type" :value="3"
-                                            v-model="scanFormState.scanSpeedOption" checked />
-                                        <span class="form-check-label fw-semobold"> Trung bình </span>
-                                    </label>
-                                    <label class="form-check form-check-custom form-check-solid">
-                                        <input class="form-check-input h-20px w-20px" type="radio" name="type" :value="4"
-                                            v-model="scanFormState.scanSpeedOption" />
-                                        <span class="form-check-label fw-semobold"> Nhanh </span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-stack mb-8">
-                                <div class="me-5">
-                                    <span class="fs-6 fw-semobold" for="proxyCheck"><b>Proxy</b></span>
-                                </div>
-                                <label class="form-check form-switch form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" name="proxyCheck"
-                                        v-model="scanFormState.proxyCheck" />
-                                    <span class="form-check-label fw-semobold text-gray-400">Allowed</span>
-                                </label>
-                            </div>
-                            <div style="padding-left: 20px;" v-if="scanFormState.proxyCheck">
-                                <div class="mb-5 fv-row">
-                                    <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="proxyScheme">
-                                        <span>Giao thức</span>
-                                    </label>
-                                    <el-select v-model="scanFormState.proxyScheme" id="proxyScheme" name="proxyScheme"
-                                        as="select" placeholder="Chọn giao thức">
-                                        <el-option value="">Chọn trạng thái</el-option>
-                                        <el-option label="HTTP" value="HTTP">HTTP</el-option>
-                                        <el-option label="SOCKS5" value="SOCKS5">SOCKS5</el-option>
-                                    </el-select>
-                                    <div class="fv-plugins-message-container">
-                                        <div class="fv-help-block">
-                                            <ErrorMessage name="proxyScheme" />
-                                            <span class="" v-if="errors.proxyScheme">{{ errors.proxyScheme[0] }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-5 fv-row row">
-                                    <div class="col-6">
-                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="proxyAdress">
-                                            <span>Địa chỉ</span>
-                                        </label>
-                                        <Field type="text" class="form-control form-control-solid" placeholder="example.com"
-                                            id="proxyAdress" name="proxyAdress" v-model="scanFormState.proxyAdress" />
-                                        <div class="fv-plugins-message-container">
-                                            <div class="fv-help-block">
-                                                <ErrorMessage name="proxyAdress" />
-                                                <span class="" v-if="errors.proxyAdress">{{ errors.proxyAdress[0] }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="proxyPort">
-                                            <span>Cổng dịch vụ</span>
-                                        </label>
-                                        <Field type="text" class="form-control form-control-solid" placeholder="80"
-                                            id="proxyPort" name="proxyPort" v-model="scanFormState.proxyPort" />
-                                        <div class="fv-plugins-message-container">
-                                            <div class="fv-help-block">
-                                                <ErrorMessage name="proxyPort" />
-                                                <span class="" v-if="errors.proxyPort">{{ errors.proxyPort[0] }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-5 fv-row">
-                                    <div class="form-check form-check-custom form-check-solid"
-                                        name="proxyAuthenticationCheck">
-                                        <label class="d-flex align-items-center fs-6 fw-semobold" for="is_staff">Proxy yêu
-                                            cầu xác thực</label>
-                                        <input name="is_staff" id="is_staff" class="form-check-input"
-                                            style="margin-left: 20px;" type="checkbox" value="1"
-                                            v-model="scanFormState.proxyAuthenticationCheck">
-                                    </div>
-                                </div>
-                                <div v-if="scanFormState.proxyAuthenticationCheck">
-                                    <div class="mb-5 fv-row row">
-                                        <div class="col-6">
-                                            <label class="d-flex align-items-center fs-6 fw-semobold mb-2"
-                                                for="proxyUsername">
-                                                <span>Tên đăng nhập</span>
-                                            </label>
-                                            <Field type="text" class="form-control form-control-solid" name="proxyUsername"
-                                                id="proxyUsername" v-model="scanFormState.proxyUsername" />
-                                            <div class="fv-plugins-message-container">
-                                                <div class="fv-help-block">
-                                                    <ErrorMessage name="proxyUsername" />
-                                                    <span class="" v-if="errors.proxyUsername">{{ errors.proxyUsername[0]
-                                                    }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <label class="d-flex align-items-center fs-6 fw-semobold mb-2"
-                                                for="proxyUserPassword">
-                                                <span>Mật khẩu</span>
-                                            </label>
-                                            <div class="position-relative mb-3">
-                                                <Field :type="!eyeButtonRef ? 'password' : 'text'"
-                                                    class="form-control form-control-solid" name="proxyUserPassword"
-                                                    id="proxyUserPassword" v-model="scanFormState.proxyUserPassword" />
-
-                                                <span
-                                                    class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
-                                                    <KTIcon :icon-name="!eyeButtonRef ? 'eye-slash' : 'eye'"
-                                                        icon-class="fs-2" @click="eyePassword" />
-                                                </span>
-                                            </div>
-                                            <div class="fv-plugins-message-container">
-                                                <div class="fv-help-block">
-                                                    <ErrorMessage name="proxyUserPassword" />
-                                                    <span class="" v-if="errors.proxyUserPassword">{{
-                                                        errors.proxyUserPassword[0] }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-5 fv-row">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-stack mb-8">
-                                <div class="me-5">
-                                    <label class="fs-6 fw-semobold" for="headerOption"><b>Sử dụng Header tùy
-                                            chọn</b></label>
-                                </div>
-                                <label class="form-check form-switch form-check-custom form-check-solid">
-                                    <input @click="clearHeaderOptions" class="form-check-input" type="checkbox"
-                                        name="headerOption" id="headerOption" v-model="scanFormState.headerOptionCheck" />
-                                    <span class="form-check-label fw-semobold text-gray-400">Allowed</span>
-                                </label>
-                            </div>
-                            <div style="padding-left: 20px;" v-if="scanFormState.headerOptionCheck">
-                                <div class="mb-5 fv-row">
-                                    <el-form-item prop="tags">
-                                        <el-select v-model="scanFormState.headerOptionValue" multiple filterable
-                                            allow-create default-first-option placeholder="Ví dụ: Cookie: e8452aaa">
-                                        </el-select>
-                                        <div class="fv-plugins-message-container">
-                                            <div class="fv-help-block">
-                                                <ErrorMessage name="headerOptionValue" />
-                                                <span class="" v-if="errors.headerOptionValue">{{
-                                                    errors.headerOptionValue[0] }}</span>
-                                            </div>
-                                        </div>
-                                    </el-form-item>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-stack mb-8">
-                                <div class="me-5">
-                                    <span class="fs-6 fw-semobold"><b>Quét bằng Nmap</b></span>
-                                </div>
-                                <label class="form-check form-switch form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" name="nmap_check"
-                                        v-model="scanFormState.nmap_check" />
-                                    <span class="form-check-label fw-semobold text-gray-400">Allowed</span>
-                                </label>
-                            </div>
-                            <div class="d-flex flex-stack mb-8">
-                                <div class="me-5">
-                                    <span class="fs-6 fw-semobold"><b>Quét bằng Nuclei</b></span>
-                                </div>
-                                <label class="form-check form-switch form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" name="nuclei_check"
-                                        v-model="scanFormState.nuclei_check" />
-                                    <span class="form-check-label fw-semobold text-gray-400">Allowed</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer flex-center">
-                        <button ref="discardButtonRef" :disabled="disabled" type="reset"
-                            id="kt_modal_new_target_group_cancel" class="btn btn-sm  btn-light me-3">
-                            Loại bỏ
-                        </button>
-                        <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
-                            class="btn btn-sm  btn-primary">
-                            <span class="indicator-label"> Gửi </span>
-                            <span class="indicator-progress">
-                                Đang gửi...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
-                        </button>
-                    </div>
-                </VForm>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-        <div class="modal-dialog modal-dialog-centered mw-650px">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="card card-flush pt-3 mb-5 mb-xl-10">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <h1 class="fw-bold">{{ detailData.username }}</h1>
-                            </div>
-                        </div>
-                        <div class="card-body py-0">
-                            <div class="mb-10">
-                                <h5>Thông tin chi tiết:</h5>
-                                <div class="d-flex flex-wrap py-5">
-                                    <div class="flex-equal me-5">
-                                        <div class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Tốc độ Scan:</div>
-                                                <div class="text-gray-800 pe-2 col-6">{{
-                                                    getScanSpeedName(detailData.dataScanner.scanSpeedOption) }} </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Proxy:</div>
-                                                <div class="text-gray-800 col-6 pe-2">{{ detailData.dataScanner.proxyCheck ?
-                                                    'Bật' : 'Tắt' }}
-                                                </div>
-                                            </div>
-                                            <ul v-if="detailData.dataScanner.proxyCheck">
-                                                <li>Giao thức: {{ detailData.dataScanner.proxyScheme }}</li>
-                                                <li>Địa chỉ: {{ detailData.dataScanner.proxyAdress }}</li>
-                                                <li>Proxy yêu cẫu xác thực: {{
-                                                    detailData.dataScanner.proxyAuthenticationCheck ? 'Bật' : 'Tắt' }}</li>
-                                                <li v-if="detailData.dataScanner.proxyAuthenticationCheck">Tên đăng nhập: {{
-                                                    detailData.dataScanner.proxyUsername }}</li>
-                                                <li v-if="detailData.dataScanner.proxyAuthenticationCheck">Mật khẩu: {{
-                                                    detailData.dataScanner.proxyUserPassword }}</li>
-                                            </ul>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Sử dụng Header tùy chọn:</div>
-                                                <div class="text-gray-800 col-6 pe-2" style="display: inline;">{{
-                                                    detailData.dataScanner.headerOptionCheck ? 'Bật' : 'Tắt' }}</div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Quét bằng Nmap:</div>
-                                                <div class="text-gray-800 col-6">{{ detailData.dataScanner.nmap_check ?
-                                                    'Bật' : 'Tắt' }}</div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Quét bằng Nuclei:</div>
-                                                <div class="text-gray-800 col-6">{{ detailData.dataScanner.nuclei_check ?
-                                                    'Bật' : 'Tắt' }}</div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Trạng thái:</div>
-                                                <span :class="`badge badge-${getStatus(detailData.status).color} col-2`">{{
-                                                    detailData.statusName }}</span>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Thời gian bắt đầu:</div>
-                                                <div class="text-gray-800 col-6">{{ detailData.created_at ?
-                                                    detailData.created_at : "--:--" }}</div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <div class="text-gray-400 col-6">Thời gian kết thúc:</div>
-                                                <div class="text-gray-800 col-6">{{ detailData.finished_at ?
-                                                    detailData.finished_at : "--:--" }}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm  btn-primary me-9" data-bs-dismiss="modal" :disabled="disabled">
-                        Quay lại
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 </template>
 
-<style lang="scss">
-.el-select {
-    width: 100%;
-}
-
-.el-date-editor.el-input,
-.el-date-editor.el-input__inner {
-    width: 100%;
-}
-</style>
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, onBeforeUnmount } from "vue";
-import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
-import type { Sort } from "@/components/kt-datatable/table-partials/models";
+import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import ApiService from "@/core/services/ApiService";
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
+import { useRoute } from 'vue-router';
 
 // validate
-import { hideModal } from "@/core/helpers/dom";
-import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
-import Fillter from "@/views/apps/targets/filterTargetScan.vue";
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
-import { markRaw } from 'vue'
-import * as Yup from "yup";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
-
-import { Modal } from "bootstrap";
-import dayjs from 'dayjs';
-import 'dayjs/locale/vi';
-dayjs.locale('vi');
-
-interface APIData {
-    status: string;
-    created_at: string;
-    finished_at: string;
-    user: string;
-}
+import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
     name: "kt-target-list",
 
     components: {
-        KTDatatable,
-        ErrorMessage,
-        Field,
-        VForm,
-        Fillter,
+        ElTable,
+        ElTableColumn,
         KTToolbar,
+        ElPagination,
     },
     directives: {
         debounce: vue3Debounce({ lock: true })
@@ -423,154 +108,23 @@ export default defineComponent({
         const list = ref<object | any>([])
         const data_group = ref<object | any>([])
         const totalPage = ref<number>(0);
-        const filterStatus = ref<String | null>('');
-        // const testPage = ref<number>(0);
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
-        const query = ref<String>('');
-        const search_group = ref<String>('');
-        const orderingID = ref<String>('');
-        const typeModal = ref<String>('');
-        const id = ref<number>(0);
-        const nameType = ref<string>('');
-        const apiData = ref<APIData>({
-            status: '',
-            created_at: "",
-            finished_at: '',
-            user: '',
-        });
-        const errors = reactive({
-            status: "",
-            created_at: "",
-            finished_at: '',
-            user: '',
-            detail: '',
-            proxyScheme: '',
-            proxyAdress: '',
-            proxyPort: '',
-            proxyUsername: '',
-            proxyUserPassword: '',
-            headerOptionValue: '',
-        });
-        const detailData = reactive({
-            id: '',
-            username: "",
-            created_at: "",
-            finished_at: '',
-            status: '',
-            statusName: '',
-            dataScanner: {
-                scanSpeedOption: '',
-                proxyCheck: false,
-                proxyScheme: '',
-                proxyAdress: '',
-                proxyAuthenticationCheck: false,
-                proxyUsername: '',
-                proxyUserPassword: '',
-                headerOptionCheck: false,
-                nmap_check: false,
-                nuclei_check: false,
-            },
-        });
-        const disabled = ref<boolean>(false);
+        const filterStatus = ref<String | null>('');
+        const query = ref<string>('');
+        const search_group = ref<string>('');
+        const orderingID = ref<string>('-id');
+        const loading = ref<boolean>(false)
 
-        // const target_id = ref(null);
+        const route = useRoute();
+        const scanID = ref<null | number | any>(route.params.id ?? '');
+
         const getIdFromUrl = () => {
             const url = window.location.href;
             const idMatch = url.match(/target-scans\/(\d+)/);
             if (idMatch) {
                 return parseInt(idMatch[1]);
             }
-        };
-        const targetId = getIdFromUrl();
-        const getScanSpeedName = (speed: number | string) => {
-            if (speed == 1) {
-                return 'Tuần tự'
-            } else if (speed == 2) {
-                return 'Chậm'
-            } else if (speed == 3) {
-                return 'Trung bình'
-            }
-
-            return 'Nhanh'
-        };
-
-        const discardButtonRef = ref<HTMLElement | null>(null);
-        const ModalDetail = ref<null | HTMLElement>(null);
-        const loading = ref<boolean>(false)
-
-        const headerConfig = ref([
-            {
-                columnName: "ID",
-                columnLabel: "id",
-                sortEnabled: true,
-            },
-            {
-                columnName: "Người scan",
-                columnLabel: "user",
-            },
-            {
-                columnName: "Thời gian bắt đầu",
-                columnLabel: "created_at",
-            },
-            {
-                columnName: "Thời gian kết thúc",
-                columnLabel: "finished_at",
-            },
-            {
-                columnName: "Trạng thái",
-                columnLabel: "status_name",
-            },
-            {
-                columnName: "Actions",
-                columnLabel: "actions",
-                columnWidth: 50,
-            },
-        ]);
-
-        const getStatus = (status: number | string) => {
-            if (status == 1) {
-                return { color: 'default' };
-            } else if (status == 2) {
-                return { color: 'primary' };
-            } else if (status == 3) {
-                return { color: 'success' };
-            } else if (status == 4) {
-                return { color: 'danger' };
-            }
-            return { color: 'warning' };
-        };
-
-        const handleClick = (data: object | any, type: String) => {
-            typeModal.value = type
-            // errors.name = ''
-            // errors.domain = ''
-            // errors.ip = ''
-            // errors.group = ''
-            // errors.detail = ''
-
-            nameType.value = "Quét lỗ hổng bảo mật"
-            if (discardButtonRef.value !== null) {
-                discardButtonRef.value.click();
-            }
-            // resetData();
-        };
-
-        // const resetData = () => {
-        //   apiData.value.title = '';
-        //   apiData.value.description = '';
-        //   id.value = 0;
-        // }
-
-        const handlePage = (page: number) => {
-            currentPage.value = page ?? 1;
-            getData();
-        };
-
-        const handlePerPage = (itemsPage: number) => {
-            currentPage.value = 1
-            itemsPerPage.value = itemsPage ?? 20;
-            getData();
         };
 
         const getData = async () => {
@@ -589,48 +143,26 @@ export default defineComponent({
                 });
         }
 
-        // tính thời gian
-        const eventTime = ref<number | any>('30000');
-        let intervalId: any;
-        const startTimer = () => {
-            intervalId = setInterval(() => {
-                getData();
-            }, eventTime.value);
-        };
-
-        const stopTimer = () => {
-            clearInterval(intervalId);
-        };
-
-        onMounted(() => {
-            startTimer();
-        });
-
-        onBeforeUnmount(() => {
-            stopTimer();
-        });
-
         const selectedIds = ref<Array<number>>([]);
-        const deleteSelectd = () => {
-            ElMessageBox.confirm(
-                'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-                'Xác Nhận Xóa',
-                {
-                    confirmButtonText: 'Đồng Ý',
-                    cancelButtonText: 'Hủy Bỏ',
-                    type: 'warning',
-                    icon: markRaw(Delete)
-                }
-            )
-                .then(() => {
-                    deleteSubscription(selectedIds.value);
-                })
-                .catch(() => {
+        // const deleteSelectd = () => {
+        //     ElMessageBox.confirm(
+        //         'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
+        //         'Xác Nhận Xóa',
+        //         {
+        //             confirmButtonText: 'Đồng Ý',
+        //             cancelButtonText: 'Hủy Bỏ',
+        //             type: 'warning',
+        //             icon: markRaw(Delete)
+        //         }
+        //     )
+        //         .then(() => {
+        //             deleteSubscription(selectedIds.value);
+        //         })
+        //         .catch(() => {
 
-                })
-        };
-
-
+        //         })
+        // };
+        const disabled = ref<boolean>(false);
         const deleteSubscription = (ids: Array<number>) => {
             if (ids) {
                 disabled.value = true
@@ -641,7 +173,8 @@ export default defineComponent({
                     .then(({ data }) => {
                         notification(data.detail, 'success', 'Xóa thành công')
                         currentPage.value = 1;
-                        selectedIds.value.length = 0;
+                        selectedIds.value = [];
+                        multipleTableRef.value!.clearSelection()
                         getData();
                     })
                     .catch(({ response }) => {
@@ -649,82 +182,6 @@ export default defineComponent({
                     });
             }
         };
-
-        const sort = (sort: Sort) => {
-            if (sort.label) {
-                orderingID.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}`;
-            }
-            getData();
-        };
-        const customRowTable = (detail: any) => {
-            if (detail) {
-                detailData.username = detail.user.username
-                detailData.finished_at = detail.finishedAt
-                detailData.status = detail.status
-                detailData.statusName = detail.status_name
-                detailData.dataScanner = detail.data_scanner
-                detailData.created_at = detail.created_at
-                detailData.finished_at = detail.finished_at
-                const modal = new Modal(
-                    document.getElementById("kt_modal_detail") as Element
-                );
-                modal.show();
-            } else {
-                notification('', 'error', 'Có lỗi xảy ra')
-            }
-        };
-
-        const onItemSelect = (selectedItems: Array<number>) => {
-            selectedIds.value = selectedItems;
-
-        };
-
-        // validate start
-        const submitButtonRef = ref<null | HTMLButtonElement>(null);
-        const modalRef = ref<null | HTMLElement>(null);
-        const newTargetGroupModalRef = ref<null | HTMLElement>(null);
-        const PatternTargetGroup = /^[ a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/
-
-        const scanFormState = reactive({
-            targetID: getIdFromUrl(),
-            scanSpeedOption: 3,
-            proxyCheck: false,
-            proxyScheme: "",
-            proxyAdress: '',
-            proxyPort: '',
-            proxyAuthenticationCheck: false,
-            proxyUsername: '',
-            proxyUserPassword: '',
-            headerOptionCheck: false,
-            headerOptionValue: [],
-            rescanOptionCheck: false,
-            rescanRecurTime: '',
-            nmap_check: false,
-            nuclei_check: false,
-        })
-
-        const validationSchema = Yup.object().shape({
-            proxyAdress: Yup.string()
-                .required('Vui lòng nhập địa chỉ'),
-            proxyPort: Yup.string()
-                .required('Vui lòng nhập cổng'),
-            proxyUsername: Yup.string()
-                .required('Vui lòng nhập username'),
-            proxyUserPassword: Yup.string()
-                .required('Vui lòng nhập mật khẩu'),
-        });
-
-        const validationSchemaProxyCheck = Yup.object().shape({
-            proxyAdress: Yup.string()
-                .required('Vui lòng nhập địa chỉ'),
-            proxyPort: Yup.string()
-                .required('Vui lòng nhập cổng'),
-        });
-        const validationSchemaFalse = Yup.object().shape({
-            proxyAdress: Yup.string(),
-            proxyPort: Yup.string(),
-            headerOptionValue: Yup.array().min(1, 'Vui lòng nhập giá trị').of(Yup.string()),
-        });
 
         const notification = (values: string, icon: string, more: string) => {
             Swal.fire({
@@ -736,136 +193,123 @@ export default defineComponent({
                 customClass: {
                     confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
-            }).then(() => {
-                hideModal(newTargetGroupModalRef.value);
-
-                hideModal(ModalDetail.value);
             });
         }
-        const abc = 1
 
-        const headerInputValue = ref("")
-        const eyeButtonRef = ref<boolean>(false);
-        const eyePassword = () => {
-            eyeButtonRef.value = (eyeButtonRef.value) ? false : true;
+        const getStatus = (status: number | string) => {
+            if (status == 1) {
+                return { color: 'default' };
+            } else if (status == 2) {
+                return { color: 'primary' };
+            } else if (status == 3) {
+                return { color: 'success' };
+            } else if (status == 4) {
+                return { color: 'danger' };
+            }
+            return { color: 'warning' };
         };
-        const submit = async () => {
-            if (!submitButtonRef.value) {
-                return;
-            }
-            if (!scanFormState.proxyCheck) {
-                scanFormState.proxyScheme = ""
-                scanFormState.proxyAdress = ""
-                scanFormState.proxyPort = ""
-                scanFormState.proxyUsername = ""
-                scanFormState.proxyUserPassword = ""
-            }
-
-            if (!scanFormState.proxyAuthenticationCheck) {
-                scanFormState.proxyUsername = ""
-                scanFormState.proxyUserPassword = ""
-            }
-
-            if (!scanFormState.headerOptionCheck) {
-                scanFormState.headerOptionValue = []
-            }
-
-            if (typeModal.value == 'add') {
-
-                return ApiService.post("scan/create/", scanFormState)
-                    .then(({ data }) => {
-                        notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
-                        if (submitButtonRef.value) {
-                            //Disable button
-                            submitButtonRef.value.disabled = true;
-                            // Activate indicator
-                            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-                            setTimeout(() => {
-                                if (submitButtonRef.value) {
-                                    submitButtonRef.value.disabled = false;
-                                    submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                                }
-
-                            }, 1000);
-                        }
-                        getData();
-                    })
-                    .catch((response) => {
-                        let r = response.response
-                        if (r?.data) {
-
-                            errors.detail = r.data.detail;
-
-                            notification(r?.data?.detail, 'error', 'Có lỗi xảy ra')
-                        } else {
-                            notification(r?.data?.detail, 'error', 'Có lỗi xảy ra')
-                        }
-                    });
-            }
-        };
-
-
-        // end validate
-        const clearHeaderOptions = () => {
-            scanFormState.headerOptionValue = []
-        }
 
         const handleFilter = (data: any) => {
-            if (data) {
-                query.value = data.query;
-                filterStatus.value = data.status;
-                currentPage.value = 1;
-                getData();
-            } else {
-                notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
-            }
-
+            query.value = data;
+            currentPage.value = 1;
+            getData();
         };
+
+        // xóa 
+        const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+        const router = useRouter();
+
+        // handleCurrentChange
+        const handleCurrentChange = (data: any) => {
+            if (data) {
+                return router.push({ name: 'target-scanstab', params: { id: data.id, idScan: scanID.value } });
+            }
+            return;
+        }
+
+        // table
+        const handleSelectionChange = (val: any) => {
+            if (val) {
+                selectedIds.value = val.map((item: { id: number }) => item.id);
+            }
+            return;
+        }
+
+        const getRowKey = (row: any) => {
+            return row.id
+        }
+
+        // Lắng nghe sự thay đổi của currentPage và pageSize
+        watch(currentPage, (newCurrentPage) => {
+            currentPage.value = newCurrentPage ?? 1;
+            getData();
+        });
+
+        watch(itemsPerPage, (newPageSize) => {
+            itemsPerPage.value = newPageSize ?? 20;
+            getData();
+        });
+
+        // tính toán chiều cao table
+        const heightTable = ref(0)
+        const handleResize = () => {
+            const windowWidth = window.innerWidth;
+            if (windowWidth >= 1400) {
+                heightTable.value = window.innerHeight - 80;
+            } else if (windowWidth >= 1200) {
+                heightTable.value = window.innerHeight - 80;
+            } else if (windowWidth >= 992) {
+                heightTable.value = window.innerHeight - 80;
+            } else if (windowWidth >= 768) {
+                heightTable.value = window.innerHeight -75;
+            } else if (windowWidth >= 576) {
+                heightTable.value = window.innerHeight - 75;
+            } else {
+                // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
+                heightTable.value = window.innerHeight - 70;
+            }
+        };
+        // thêm mới
+        const urlAddNew = ref(scanID.value + '/add')        
+
+        // update the height
+        const refGetTheHeight = ref<any>(null); // Ref to hold the div element
+        const divHeight = ref(300); // Reactive variable to store the height with an initial value
+
+        // Function to update the height
+        function updateDivHeight() {
+            if (refGetTheHeight.value) {
+                divHeight.value = refGetTheHeight.value.clientHeight;
+            }
+        }
+
+        const handleSortChange = (column: any) => {
+            orderingID.value = (column.order == 'ascending' && column.prop == 'id') ? '-id' : 'id'
+            getData()
+        }
 
         onMounted(() => {
             getData();
+            handleResize();
+            window.addEventListener('resize', handleResize);
+        });
+
+        onUnmounted(() => {
+            window.removeEventListener('resize', handleResize);
         });
 
         return {
             getData,
             list,
-            headerConfig,
-            sort,
-            onItemSelect,
             selectedIds,
-            deleteSelectd,
-
-            getAssetPath,
 
             // validate
-            // crud
-            apiData,
             data_group,
-            validationSchema,
-            validationSchemaProxyCheck,
-            validationSchemaFalse,
-            submit,
-            submitButtonRef,
-            modalRef,
-            // target_id,
-            getIdFromUrl,
-            newTargetGroupModalRef,
-            handleClick,
-            errors,
-
-            discardButtonRef,
-            clearHeaderOptions,
-            // detials
-            ModalDetail,
-            customRowTable,
-            detailData,
 
             // page 
             itemsPerPage,
             totalPage,
             currentPage,
-            handlePage,
-            handlePerPage,
 
             // search query 
             query,
@@ -873,20 +317,21 @@ export default defineComponent({
             handleFilter,
 
             // edit 
-            nameType,
             loading,
-
-            getStatus,
-
-            //SCAN
-            scanFormState,
-            getScanSpeedName,
-            headerInputValue,
-            eyePassword,
-            eyeButtonRef,
-            targetId,
             disabled,
+
+            //
+            handleResize,
+            heightTable,
+            handleSelectionChange,
+            getRowKey,
+            handleCurrentChange,
+            multipleTableRef,
+            urlAddNew,
+            handleSortChange,
             deleteSubscription,
+            scanID,
+            getStatus,
         };
     },
 });
