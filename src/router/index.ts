@@ -73,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Recon Mục Tiêu",
           breadcrumbs: ["Mục Tiêu", "Recon", "Thêm mới"],
-          links: ["/target-list", "/target-recons/:id"],
+          links: ["/target-list", '/target-list'],
         },
       },
       {
