@@ -665,7 +665,7 @@ export default defineComponent({
       }
       return ApiService.put(`/vuls/${detailData.id}/update`, form_data)
         .then(({ data }) => {
-          notification(data.detail, 'success', 'Update thành công')
+          notification(data.detail, 'success', 'Chỉnh sửa thành công')
           getData();
         })
         .catch(({ response }) => {
