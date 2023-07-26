@@ -122,7 +122,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetScanTabList.vue"),
         meta: {
           pageTitle: "Chi tiết danh sách quét",
-          breadcrumbs: ["Target","Scan","DetailScan"],
+          breadcrumbs: ["Target","Scan","Chi Tiết"],
           links: ["/target-list",''],
         },
       },
