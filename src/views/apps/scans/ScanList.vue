@@ -10,7 +10,7 @@
           :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
           <div class="w-100">
             <el-table :data="list" style="width: 100%" class-name=" my-custom-table rounded-top cursor-pointer"
-              table-layout="fixed" v-loading="loading" @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey" @current-change="customRowTable">
+              table-layout="fixed" v-loading="loading" @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey" @row-click="customRowTable">
               <template #empty>
                 <div class="flex items-center justify-center h-100%">
                   <el-empty description="Không có dữ liệu nào" />
@@ -57,7 +57,7 @@
                   <span v-else class="badge badge-light-danger">--</span>
                 </template>
               </el-table-column>
-              <el-table-column min-width="80" label-class-name="fs-13px text-dark fw-bold" prop="schema" label="SERVICE">
+              <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="schema" label="SERVICE">
                 <template #default="scope">
                   <span v-if="scope.row.schema != '' || scope.row.port_scan['type'] != ''"
                     class="fs-13px px-4 py-3 badge badge-light-primary">
@@ -85,7 +85,7 @@
                 <template #default="scope">
                   <span v-if="scope.row.status != ''" class="badge fs-13px"
                     :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
-                    {{ scope.row.status }}
+                    {{ getStatus(scope.row.status).title }}
                   </span>
                   <span v-else class="badge badge-light-danger">--</span>
                 </template>
@@ -507,7 +507,7 @@ export default defineComponent({
 
     const getData = async () => {
       loading.value = true;
-      return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}`)
+      return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&search=${query.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -719,18 +719,15 @@ export default defineComponent({
     };
 
     const handleFilter = (data: any) => {
-      if (data) {
-        status.value = data.status;
-        severity.value = data.severity;
-        ip.value = data.ip;
-        domain.value = data.domain;
-        typeIp.value = data.typeIp;
-        typeDomain.value = data.typeDomain;
+      query.value = data
+        // status.value = data.status;
+        // severity.value = data.severity;
+        // ip.value = data.ip;
+        // domain.value = data.domain;
+        // typeIp.value = data.typeIp;
+        // typeDomain.value = data.typeDomain;
         currentPage.value = 1;
         getData();
-      } else {
-        notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
-      }
 
     };
 
