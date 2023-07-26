@@ -3,32 +3,36 @@
     <!--begin::Navbar-->
     
     <div class="px-5 pt-5 h-100 pt-10 mt-10">
-        <div class="mb-3 position-relative position-repository bg-white rounded-3 me-3 ">
+        <div class="mb-3 position-relative position-repository bg-white rounded-3 border border-secondary">
             <!--begin::Card header-->
             <!--end::Card header-->
-            <div class="row px-2 h-md-50px align-items-center ">
-                <div class="col-sm-12 col-md-8 py-2">
+            <div class="row px-2 h-md-50px align-items-center">
+                <div class="col-sm-12 col-md-6 col-lg-5 py-2">
                     <div class="row">
                         <div class="col-6">
                             <div>
                                 <span class="w-70px">Mục Tiêu: </span>
-                                <span class="fw-bold">{{ targets.name }} - {{ targets.domain }}</span>
+                                <span class="fw-bold" :class="(checkNameTarget(  targets.name, targets.domain) == '--') ? 'badge badge-light-danger' : ''">
+                                    {{ checkNameTarget(  targets.name, targets.domain) }}
+                                </span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div>
                                 <span class="w-70px">Nhóm Mục Tiêu: </span>
-                                <span class="fw-bold">{{ targets.group.title }}</span>
+                                <span class="fw-bold" :class="(targets.group.title == '') ? 'badge badge-light-danger' : ''">
+                                    {{ (targets.group.title != '') ? targets.group.title : '--' }}
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-4 text-end ms-auto py-2">
+                <div class="col-sm-12 col-md-6 col-lg-7 text-end ms-auto py-2">
                     <div class="d-flex justify-content-sm-start justify-content-md-end">
 
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar">
-                            <div class="d-flex justify-content-end w-100">
+                            <div class="d-flex justify-content-end">
                                 <el-popconfirm confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
                                     icon="InfoFilled" icon-color="#626AEF"
                                     title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
@@ -42,13 +46,13 @@
                                 </el-popconfirm>
                                 <button v-if="reconStatus == 5" type="button" @click="handlePauser"
                                     :disabled="(checkDisabled || checkStatus)"
-                                    class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                                    class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary fw-bold bg-body btn-color-gray-700 btn-active-color-primary ms-2">
                                     <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
                                     <span class="text-primary"> Tiếp Tục</span>
                                 </button>
                                 <button v-else type="button" @click="handlePauser"
                                     :disabled="(checkDisabled || checkStatus)"
-                                    class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                                    class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger ms-2">
                                     <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
                                     <span class="text-danger">Tạm Dừng</span>
                                 </button>
@@ -1299,11 +1303,11 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogDirectoryVisible" title="Chi Tiết Thư Mục" width="1000">
+    <el-dialog v-model="dialogDirectoryVisible" title="Chi Tiết Thư Mục" width="1000" modal-class="custom-dialog">
         <div>
-            <el-input v-model="searchDirectory" size="large" placeholder="Type to search" :prefix-icon="SearchIcon" />
-            <div class="my-5 text-primary">
-                <span class="fs-7 text-gray-600">Tổng Thư Mục: </span>
+            <el-input v-model="searchDirectory" size="large" placeholder="Tìm Kiếm Thư Mục" :prefix-icon="SearchIcon" />
+            <div class="my-3 text-primary">
+                <span class="text-gray-600">Tổng Thư Mục: </span>
                 <span class="fw-bold">{{ totalRecordsDirectory }}</span>
             </div>
         </div>
@@ -1315,43 +1319,43 @@
             </template>
             <el-table-column min-width="40" label-class-name="text-uppercase fs-13px fw-bold text-dark" label="STT">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
+                    <span class="fst-normal">
                         {{ scope.row.index }}</span> </template>
             </el-table-column>
             <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="name" label="Thư mục">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
+                    <span class="fst-normal" :class="(scope.row.name == '') ? 'badge badge-light-danger' : '' ">
                         {{ (scope.row.name == '') ? '--' : scope.row.name }}</span> </template>
             </el-table-column>
             <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="content_type" label="Content Type"
                 align="center">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
+                    <span class="fst-normal" :class="(scope.row.content_type == '') ? 'badge badge-light-danger' : '' ">
                         {{ (scope.row.content_type == '') ? '--' : scope.row.content_type }}</span> </template>
             </el-table-column>
             <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="status" label="Status"
                 align="right">
                 <template #default="scope">
-                    <span class="badge fs-7 fst-normal"
+                    <span class="badge fst-normal"
                         :class="(scope.row.status == '200') ? 'badge-light-success' : 'badge-light-danger'">
                         {{ (scope.row.status == '') ? '--' : scope.row.status }}
                     </span>
                 </template>
             </el-table-column>
         </el-table>
-        <div v-if="totalRecordsDirectory > pageSizeDirectory" class="d-flex justify-content-center mx-auto w-100 my-5">
-            <el-pagination @current-change="handleCurrentChangeDirectory" background
+        <div class="d-flex justify-content-center mx-auto w-100 my-5">
+            <el-pagination @current-change="handleCurrentChangeDirectory" background :hide-on-single-page="true"
                 v-model:current-page="currentPageDirectory" v-model:page-size="pageSizeDirectory"
                 :total="totalRecordsDirectory" layout="prev, pager, next"></el-pagination>
         </div>
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogEndpointsVisible" title="Chi Tiết Enpoint" width="1000">
+    <el-dialog v-model="dialogEndpointsVisible" title="Chi Tiết Enpoint" width="1000" modal-class="custom-dialog">
         <div>
             <el-input v-model="searchEnpoint" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
-            <div class="my-5 text-primary">
-                <span class="fs-7 text-gray-600">Tổng Enpoint: </span>
+            <div class="my-3 text-primary">
+                <span class="fs-13px text-gray-600">Tổng Enpoint: </span>
                 <span class="fw-bold">{{ totalRecords }}</span>
             </div>
         </div>
@@ -1363,16 +1367,16 @@
             </template>
             <el-table-column min-width="40" label-class-name="text-uppercase fs-13px fw-bold text-dark" label="STT">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal">
+                    <span class=" fst-normal">
                         {{ scope.row.index }}</span> </template>
             </el-table-column>
             <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="url" label="URL">
                 <template #default="scope">
-                    <span class="fs-7 fst-normal" v-if="scope.row.url != '' || scope.row.url != null">
-                        <el-link class="fs-7" :underline="false" :href="scope.row.url" target="_blank">{{ scope.row.url
+                    <span class="fst-normal" v-if="scope.row.url != '' || scope.row.url != null">
+                        <el-link class="fs-13px" :underline="false" :href="scope.row.url" target="_blank">{{ scope.row.url
                         }}</el-link>
                     </span>
-                    <span v-else>--</span>
+                    <span v-else class="badge badge-light-danger">--</span>
 
                 </template>
             </el-table-column>
@@ -1381,21 +1385,21 @@
                 <template #default="scope">
 
                     <template v-if="Object.keys(scope.row.params).length == 0">
-                        <span class="badge badge-light-danger fs-7">--</span>
+                        <span class="badge badge-light-danger ">--</span>
                     </template>
                     <template v-else>
                         <span v-for="(value, index) in scope.row.params" :index="index"
-                            class="badge badge-light-primary fs-7 my-1 ms-1">{{ value }}</span>
+                            class="badge badge-light-primary my-1 ms-1">{{ value }}</span>
                     </template>
                 </template>
             </el-table-column>
             <el-table-column min-width="90" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="title" label="Tiêu Đề">
                 <template #default="scope">
                     <template v-if="scope.row.title == ''">
-                        <span class="badge badge-light-danger fs-7">--</span>
+                        <span class="badge badge-light-danger">--</span>
                     </template>
                     <template v-else>
-                        <span class="fs-7 fst-normal">
+                        <span class="fst-normal">
                             {{ scope.row.title }}</span>
                     </template>
                 </template>
@@ -1403,15 +1407,15 @@
             <el-table-column min-width="60" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="status_code" label="Trạng Thái"
                 align="right">
                 <template #default="scope">
-                    <span class="badge fs-7 fst-normal"
+                    <span class="badge fst-normal"
                         :class="(scope.row.status_code == '200') ? 'badge-light-success' : 'badge-light-danger'">
                         {{ (scope.row.status == '') ? '--' : scope.row.status_code }}
                     </span>
                 </template>
             </el-table-column>
         </el-table>
-        <div v-if="totalRecords > pageSizeEndpoints" class="d-flex justify-content-center mx-auto w-100 my-5">
-            <el-pagination @current-change="handleCurrentChangeEndpoint" background
+        <div class="d-flex justify-content-center mx-auto w-100 my-5">
+            <el-pagination @current-change="handleCurrentChangeEndpoint" background :hide-on-single-page="true"
                 v-model:current-page="currentPageEndpoints" v-model:page-size="pageSizeEndpoints" :total="totalRecords"
                 layout="prev, pager, next"></el-pagination>
         </div>
@@ -1627,7 +1631,7 @@ export default defineComponent({
                     technology_status.value = (data.recon[0].technology !== undefined) ? data.recon[0].technology.status : {};
 
                     // subdomain_result
-                    subdomain_result.value = data.recon[0].subdomain_result
+                    subdomain_result.value = data.recon[0].subdomain_result.slice(0,10)
 
                     // Web Data
                     webdata_result.value = (data.recon[0].webdata !== undefined) ? data.recon[0].webdata.message : {};
@@ -2130,6 +2134,20 @@ export default defineComponent({
             }
         };
 
+        // check
+        const checkNameTarget = (name: string, domain: string) => {
+            if (name != '' && domain != '') {
+                return name + ' - ' + domain;
+            } else if(name != '' || domain != '') {
+                if(name != ''){
+                    return name
+                }else{
+                    return domain
+                }
+            }
+            return '--'
+        };
+
         return {
             activities,
             scanID,
@@ -2168,6 +2186,7 @@ export default defineComponent({
             // sử lý dữ liệu
             getSeverity,
             getStatus,
+            checkNameTarget,
 
             // filter
             loading,
@@ -2259,6 +2278,9 @@ export default defineComponent({
 </script>
   
 <style >
+.custom-dialog .el-dialog__body{
+    padding: 10px 20px;
+}
 .shadow-hvover {
     box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
 }
