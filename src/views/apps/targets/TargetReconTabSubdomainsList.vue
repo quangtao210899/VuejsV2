@@ -1,6 +1,6 @@
 <template>
     <KTToolbar></KTToolbar>
-        <div class="app-container container-fluid pt-10 mt-10 ">
+        <div class="app-container container-fluid mt-5">
             <div class="py-5 bg-body rounded-3">
                 <!--begin::Navbar-->
                 <div class="pb-3 px-5 position-relative position-repository bg-white  border-bottom border-secondary">

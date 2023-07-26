@@ -1,7 +1,7 @@
 <template>
-    <div id="kt_app_header" class="app-header position-fixed border-bottom h-50px custom-top-fixed"
+    <div id="kt_app_header" class="h-50px custom-top-fixed"
         style="box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05) !important;z-index:2 !important">
-        <div class="py-1 bg-body" id="kt_subheader" style="; width:100%;">
+        <div class="py-1 bg-body" id="kt_subheader" style="width: -webkit-fill-available ;position: fixed !important;z-index: 9 !important;">
             <div id="kt_app_toolbar_container" style="min-height: 43px;"
                 class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap " :class="{
                     'container-fluid': toolbarWidthFluid,

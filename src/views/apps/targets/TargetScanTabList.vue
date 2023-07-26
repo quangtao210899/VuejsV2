@@ -1,6 +1,6 @@
 <template>
     <KTToolbar :check-search="true" @handle-search="handleFilter"></KTToolbar>
-    <div class="px-5 pt-5 h-100 pt-10 mt-10">
+    <div class="px-5 pt-5 h-100 pt-5">
         <div class="mb-3 position-relative position-repository bg-white rounded-3 border border-secondary">
             <!--begin::Card header-->
             <!--end::Card header-->
@@ -63,7 +63,7 @@
             <div class=" border-0 ps-2 pt-3 pt-sm-12 pt-md-12 pt-lg-6 position-sm-absolute end-0 pe-1 me-2 me-md-0 me-sm-0"
                 style="top: -80px">
                 <!--begin::Card toolbar-->
-                <div class="w-100 ">
+                <!-- <div class="w-100 ">
                     <div class="d-flex justify-content-end pb-md-0 pb-2">
                         <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
                             icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
@@ -92,7 +92,7 @@
                             Xuất kết quả
                         </button>
                     </div>
-                </div>
+                </div> -->
                 <!--end::Card toolbar-->
             </div>
             <!--end::Card header-->

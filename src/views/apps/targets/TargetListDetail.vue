@@ -1,7 +1,7 @@
 <template>
     <KTToolbar></KTToolbar>
     <!--begin::Card-->
-        <div class="app-container container-fluid mt-10 pt-10">
+        <div class="app-container container-fluid mt-5">
             <div class="card h-100 d-block bg-transparent">
                 <div class="card px-5 mb-3 card-custom">
                     <div class="card-body p-0">

@@ -1,10 +1,8 @@
 <template>
-    <div ref="refGetTheHeight">
-        <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-        @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
-    </div>
+    <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
+    @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
     <!--begin::Card-->
-    <div class="app-container container-fluid pt-10 mt-10 " >
+    <div class="app-container container-fluid mt-5" >
         <div class="p-5 bg-body rounded-3">
             <!--begin::Card body-->
             <el-table ref="multipleTableRef" :data="list" style="width: 100%"

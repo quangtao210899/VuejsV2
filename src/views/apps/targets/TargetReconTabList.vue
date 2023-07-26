@@ -2,7 +2,7 @@
     <KTToolbar></KTToolbar>
     <!--begin::Navbar-->
     
-    <div class="px-5 pt-5 h-100 pt-10 mt-10">
+    <div class="px-5 pt-5 h-100">
         <div class="mb-3 position-relative position-repository bg-white rounded-3 border border-secondary">
             <!--begin::Card header-->
             <!--end::Card header-->

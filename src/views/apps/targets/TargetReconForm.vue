@@ -2,8 +2,8 @@
     <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true"
         @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @click="getCheckedKeys"></KTToolbar>
     <el-scrollbar :height="heightTable">
-        <div class="app-container container-fluid pt-10">
-            <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20 mt-10 pt-10">
+        <div class="app-container container-fluid pt-5">
+            <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20 pt-10">
                 <el-form ref="ruleFormRef" :model="ruleForm" label-width="33%"
                     class="demo-ruleForm px-0 px-lg-0 mx-5 mx-lg-10 mx-xxl-20 px-xxl-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right">
                     <div class="fv-plugins-message-container">

@@ -5,7 +5,7 @@
     </div>
     <!--begin::Card-->
     <el-scrollbar :height="heightTable">
-    <div class="app-container container-fluid pt-10 mt-10 " >
+    <div class="app-container container-fluid mt-5" >
         <div class="p-5 bg-body rounded-3">
             <!--begin::Card body-->
             <el-table ref="multipleTableRef" :data="list" style="width: 100%"
