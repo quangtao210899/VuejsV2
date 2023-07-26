@@ -9,7 +9,7 @@
         <div class="overflow-auto h-100 m-0 mt-3" ref="container" @mousedown="handleMouseDown"
           :style="classDetail ? { width: leftWidth + 'px'} : { width: '100%' }">
           <div class="w-100">
-            <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 99;" class-name=" my-custom-table rounded-top cursor-pointer"
+            <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;" class-name=" my-custom-table rounded-top cursor-pointer"
               table-layout="fixed" v-loading="loading" @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey" @row-click="customRowTable">
               <template #empty>
                 <div class="flex items-center justify-center h-100%">
