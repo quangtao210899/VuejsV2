@@ -1376,7 +1376,7 @@
                                             </div>
                                             <div class="lh-lg fs-13px">
                                                 <div class="mb-5"
-                                                    v-if="(detailData.url != null && detailData.url != '') || (detailData.parameter != null && detailData.parameter != '')">
+                                                    v-if="(detailData.url != null && detailData.url != '') || (detailData.affects_detail != null && detailData.affects_detail != '')">
                                                     <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Vulnerable
                                                         URL</h4>
                                                     <div v-if="detailData.url != null && detailData.url != ''">
@@ -1390,9 +1390,9 @@
                                                             </a>
                                                         </span>
                                                     </div>
-                                                    <div v-if="detailData.parameter != null && detailData.parameter != ''">
+                                                    <div v-if="detailData.affects_detail != null && detailData.affects_detail != ''">
                                                         <span class="w-100">Parameter : </span>
-                                                        <span class="ps-1"> {{ detailData.parameter }}</span>
+                                                        <span class="ps-1"> {{ detailData.affects_detail }}</span>
                                                     </div>
                                                 </div>
 
@@ -2046,7 +2046,7 @@ export default defineComponent({
             created_at: '',
             status: '',
             url: '',
-            parameter: '',
+            affects_detail: '',
             tags: '',
             cvss_score: '',
             details: '',
