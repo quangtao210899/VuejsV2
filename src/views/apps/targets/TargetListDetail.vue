@@ -477,20 +477,20 @@
                                                                                     <div class="card card-flush">
                                                                                         <div class="card-body py-0">
                                                                                             <div class="pb-2 mt-2">
-                                                                                                <h4 class="fs-4">Chi Tiết Của Cổng {{ key.toString().split("/")[0] }}
+                                                                                                <h4 class="fs-4">Chi Tiết Của Cổng {{ detailPortTitle }}
                                                                                                 </h4>
                                                                                                 <span class="fs-7 text-dark">Có
-                                                                                                    <span class="fw-bold text-dark">{{ Object.keys(item.ips).length
+                                                                                                    <span class="fw-bold text-dark">{{ portCount
                                                                                                     }}</span>
                                                                                                     địa chỉ IP có cổng
-                                                                                                    <span class="fw-bold text-dark">{{ key.toString().split("/")[0]
+                                                                                                    <span class="fw-bold text-dark">{{ detailPortTitle
                                                                                                     }}</span></span>
                                                                                             </div>
                                                                                             <div class="d-flex flex-column my-3 ms-2">
-                                                                                                <li v-for="(i, key) in  item.ips" :key="key"
+                                                                                                <li v-for="(i, key) in  detailPort" :key="key"
                                                                                                     class="d-flex align-items-center py-2">
                                                                                                     <span
-                                                                                                        class="bg-primary bullet bullet-dot me-5 h-7px w-7px"></span>
+                                                                                                        :class="`bg-${i ? 'primary' : 'danger'} bullet bullet-dot me-5 h-7px w-7px`"></span>
                                                                                                     <span class="text-dark">{{ key }}</span>
                                                                                                 </li>
                                                                                             </div>
@@ -2265,11 +2265,13 @@ export default defineComponent({
 
         const detailPort = ref([])
         const detailPortTitle = ref('')
+        const portCount = ref<number | any>(null)
         const drawerPorts = (data: any, title: any) => {
             if (data || title) {
                 drawerPort.value = true
-                detailPort.value = data
-                detailPortTitle.value = title
+                detailPort.value = data.ips
+                portCount.value = Object.keys(data.ips).length
+                detailPortTitle.value = title.toString().split("/")[0]
                 const modal = new Modal(
                     document.getElementById("port_detail") as Element
                 );
@@ -2474,6 +2476,9 @@ export default defineComponent({
             expandedRowsTeachnology,
             detailTechnologyTitle,
             detailTechnology,
+            detailPortTitle,
+            detailPort,
+            portCount,
             searchDirectory,
             searchEnpoint,
             totalRecordsDirectory,
