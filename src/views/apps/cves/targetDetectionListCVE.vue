@@ -653,8 +653,8 @@ export default defineComponent({
 
                 return ApiService.post(`cve/${getIdFromUrl()}/create_scan`, {})
                     .then(({ data }) => {
-                        notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
                         getData();
+                        notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
                         if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;

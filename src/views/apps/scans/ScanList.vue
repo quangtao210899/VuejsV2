@@ -3,13 +3,13 @@
     @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
   <!--begin::Card-->
   <div class="app-container container-fluid mt-5">
-    <div class="card h-100 d-block">
-      <div class="d-flex ">
+    <div class="card h-10 d-block">
+      <div class="d-flex px-5">
         <!--begin::Card body-->
-        <div class="overflow-auto h-100 m-0 p-5" ref="container" @mousedown="handleMouseDown"
-          :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
+        <div class="overflow-auto h-100 m-0 mt-3" ref="container" @mousedown="handleMouseDown"
+          :style="classDetail ? { width: leftWidth + 'px'} : { width: '100%' }">
           <div class="w-100">
-            <el-table :data="list" style="width: 100%" class-name=" my-custom-table rounded-top cursor-pointer"
+            <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 99;" class-name=" my-custom-table rounded-top cursor-pointer"
               table-layout="fixed" v-loading="loading" @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey" @row-click="customRowTable">
               <template #empty>
                 <div class="flex items-center justify-center h-100%">
@@ -112,13 +112,13 @@
         <div class="overflow-scroll  h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
           :class="classDetail ? ' d-block' : 'd-none'">
           <div class="ms-3 pb-10 affix-container">
-            <div class="card-title py-5 ">
-              <h2 class="fw-bold pe-15 mt-5 fs-1">{{ detailData.vt_name }}</h2>
-              <div class="position-absolute translate-middle-y" :style="{ top: '-130px', right: '10px' }">
+            <div class="card-title pb-5 ">
+              <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailData.vt_name }}</h2>
+              <div class="position-absolute translate-middle-y" :style="{ top: '-140px', right: '10px' }">
                 <el-affix target=".affix-container" :offset="170">
                   <button @click="handleCloseDetail" type="button" class="btn zindex-fixed btn-icon "
                     :disabled="disabled">
-                    <KTIcon icon-name="abstract-11" icon-class="text-dark" :style="{ fontSize: '22px' }" />
+                    <i class="fa-solid fa-xmark fs-1"></i>
                   </button>
                 </el-affix>
               </div>
@@ -392,6 +392,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
 import { markRaw } from 'vue'
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
+import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 
 interface APIData {
   title: string;
@@ -409,6 +410,9 @@ export default defineComponent({
     Fillter,
     CodeHighlighter,
     KTToolbar,
+    ElTable,
+    ElTableColumn,
+    ElPagination,
   },
   directives: {
     debounce: vue3Debounce({ lock: true })
@@ -566,26 +570,8 @@ export default defineComponent({
 
     // selectedIds
     const selectedIds = ref<Array<number>>([]);
-    const deleteSelectd = () => {
-      ElMessageBox.confirm(
-        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-        'Xác Nhận Xóa',
-        {
-          confirmButtonText: 'Đồng Ý',
-          cancelButtonText: 'Hủy Bỏ',
-          type: 'warning',
-          icon: markRaw(Delete)
-        }
-      )
-        .then(() => {
-          deleteSubscription(selectedIds.value);
-        })
-        .catch(() => {
-
-        })
-    };
     const disabled = ref<boolean>(false);
-
+    const multipleTableRef = ref<InstanceType<typeof ElTable>>()
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
         let formData = { id: ids }
@@ -595,9 +581,11 @@ export default defineComponent({
         }, 1000);
         return ApiService.post('vuls/multi_delete', formData)
           .then(({ data }) => {
-            notification(data.detail, 'success', 'Xóa thành công')
-            selectedIds.value.length = 0;
             getData();
+            notification(data.detail, 'success', 'Xóa thành công')
+            currentPage.value = 1;
+            selectedIds.value = [];
+            multipleTableRef.value!.clearSelection()
           })
           .catch(({ response }) => {
             notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -665,8 +653,8 @@ export default defineComponent({
       }
       return ApiService.put(`/vuls/${detailData.id}/update`, form_data)
         .then(({ data }) => {
-          notification(data.detail, 'success', 'Update thành công')
           getData();
+          notification(data.detail, 'success', 'Update thành công')
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -818,22 +806,15 @@ export default defineComponent({
       headerConfig,
       onItemSelect,
       selectedIds,
-      deleteSelectd,
-
       getAssetPath,
       closeOnRow,
       checkitemsPerPage,
-
-      // validate
       // crud
       apiData,
       handleClick,
       deleteSubscription,
-
-
       // detials
       customRowTable,
-
       // page 
       itemsPerPage,
       totalPage,
@@ -873,6 +854,7 @@ export default defineComponent({
       contentWidth,
       container,
       disabled,
+      multipleTableRef,
     };
   },
 });
