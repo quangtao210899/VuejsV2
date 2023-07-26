@@ -535,10 +535,10 @@ export default defineComponent({
                 }, 1000);
                 return ApiService.delete(`user/multi-delete?id=${ids}`)
                     .then(({ data }) => {
+                        getData();
                         notification(data.detail, 'success', 'Xóa thành công')
                         currentPage.value = 1;
                         selectedIds.value.length = 0;
-                        getData();
                     })
                     .catch(({ response }) => {
                         notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -637,8 +637,8 @@ export default defineComponent({
                 return ApiService.post("/auth/register/", formData)
                     .then(({ data }) => {
                         if (submitButtonRef.value) {
-                            notification(data.detail, 'success', 'Thêm mới thành công')
                             getData();
+                            notification(data.detail, 'success', 'Thêm mới thành công')
                             //Disable button
                             submitButtonRef.value.disabled = true;
                             // Activate indicator
@@ -671,8 +671,8 @@ export default defineComponent({
 
                 return ApiService.put(`/user/${id.value}/update`, formData)
                     .then(({ data }) => {
-                        notification(data.detail, 'success', 'Sửa mới thành công')
                         getData();
+                        notification(data.detail, 'success', 'Sửa mới thành công')
                         if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;

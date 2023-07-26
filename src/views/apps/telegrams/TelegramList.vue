@@ -53,7 +53,7 @@
 
     <!--begin::Card body-->
     <div class="h-100 w-100 p-0 m-0">
-      <el-table ref="multipleTableRef" :data="list" style="width: 100%" class-name="my-custom-table rounded-top"
+      <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;" class-name="my-custom-table rounded-top"
         :height="heightTable" table-layout="fixed" v-loading="loading" @selection-change="handleSelectionChange"
         highlight-current-row :row-key="getRowKey" @current-change="handleCurrentChange">
         <template #empty>

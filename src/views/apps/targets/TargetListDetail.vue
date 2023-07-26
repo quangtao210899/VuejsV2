@@ -10,20 +10,20 @@
                             <div class="row pt-3 lh-lg fs-13px">
                                 <div class="col-sm-6 col-md-3 col-lg-3 col-12">
                                     <span class="w-70px text-capitalize">Mục tiêu: </span>
-                                    <span class="fw-bold">{{ (targetData.name != '') ? targetData.name : '--' }}</span>
+                                    <span class="fw-bold" :class="(targetData.name != '') ? '' : 'badge badge-light-danger'">{{ (targetData.name != '') ? targetData.name : '--' }}</span>
                                 </div>
                                 <div class="col-sm-6 col-md-3 col-lg-3 col-12">
                                     <span class="w-70px text-capitalize">Nhóm mục tiêu: </span>
-                                    <span class="fw-bold">{{ (targetData.group != '') ? targetData.group : '--' }}</span>
+                                    <span class="fw-bold" :class="(targetData.group != '') ? '' : 'badge badge-light-danger'">{{ (targetData.group != '') ? targetData.group : '--' }}</span>
                                 </div>
                                 <div  class="col-sm-6 col-md-3 col-lg-3 col-12">
                                     <span class="w-70px text-capitalize">Ip: </span>
-                                    <span class="fw-bold">{{ (targetData.ip != '') ? targetData.ip : '--' }}</span>
+                                    <span class="fw-bold" :class="(targetData.ip != '') ? '' : 'badge badge-light-danger'">{{ (targetData.ip != '') ? targetData.ip : '--' }}</span>
 
                                 </div>
                                 <div  class="col-sm-6 col-md-3 col-lg-3 col-12">
                                     <span class="w-70px text-capitalize">Domain: </span>
-                                    <span class="fw-bold">{{ (targetData.domain != '') ? targetData.domain : '--' }}</span>
+                                    <span class="fw-bold" :class="(targetData.domain != '') ? '' : 'badge badge-light-danger'">{{ (targetData.domain != '') ? targetData.domain : '--' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -1043,9 +1043,9 @@
                                                             :to="`/target-recon-detail/${ID}/${reconId}/subdomains`" active-class="active">Xem Thêm</router-link>
                                                     </div>
                                                 </template>
-                                                <div class="h-500px">
+                                                <div class="h-500px"> 
                                                     <template v-if="subdomain_result.length > 0">
-                                                        <el-table :data="subdomain_result" height="500" style="width: 100%"
+                                                        <el-table :data="subdomain_result" height="500" style="width: 100%;z-index: 1;"
                                                             class-name="my-custom-table">
                                                             <el-table-column min-width="120" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="name"
                                                                 label="Subdomains">
@@ -1244,7 +1244,7 @@
                     <!--begin:::Tab pane-->
                     <div class="tab-pane fade" id="kt_password_tab" role="tabpanel">
                         <div>
-                            <div class="card rounded-0 rounded-bottom position-relative">
+                            <div class=" position-relative">
                                 <div class="position-absolute" style="top: -50px; right: 15px;">
                                     <div class="d-flex align-items-center">
                                         <!-- <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
@@ -1276,7 +1276,7 @@
                                             </template>
 
                                             <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark"
-                                                prop="severity" align="center" label="SEV">
+                                                prop="severity" align="center" label="MỨC ĐỘ">
                                                 <template #default="scope">
                                                     <div class="text-center">
                                                         <KTIcon icon-name="severity" 
@@ -1291,9 +1291,9 @@
                                             <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="150"
                                                 prop="vt_name" label="TÊN">
                                                 <template #default="scope">
-                                                    <span v-if="scope.row.vt_name != '' || scope.row.port_scan != ''"
+                                                    <span v-if="scope.row.vt_name != '' || scope.row.port_scan.vt_name != ''"
                                                         class="fs-13px text-gray-700 text-hover-primary">
-                                                        {{scope.row.vt_name ?? scope.row.port_scan["vt_name"] }}</span>
+                                                        {{scope.row.vt_name ?? scope.row.port_scan.vt_name }}</span>
                                                     <span v-else class="badge badge-light-danger">--</span>
                                                 </template>
                                             </el-table-column>
@@ -1339,7 +1339,7 @@
                                                 :disabled="disabled"></el-pagination>
                                             <div></div>
                                         </div>
-                                    </div>
+                                        </div>
                                     </div>
                                     <!--end::Card body-->
                                     <div v-if="classDetail" @mousedown="startDragging"
@@ -1348,12 +1348,12 @@
                                         </div>
                                     </div>
                                     <!--begin::Card2 body-->
-                                    <div class="h-100 d-block"
+                                    <div class="h-100 overflow-scroll d-block"
                                         :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
                                         :class="classDetail ? ' d-block' : 'd-none'">
                                         <div class="ms-3 pb-10 affix-container">
-                                            <div class="card-title py-5 ">
-                                                <h2 class="fw-bold pe-15 mt-5 fs-3">{{ detailData.vt_name }}</h2>
+                                            <div class="card-title pb-5 ">
+                                                <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailData.vt_name }}</h2>
                                                 <div  class="">
                                                     <span 
                                                         :class="`px-4 me-2 py-3 badge fs-13px badge-light-${getSeverity(detailData.severity).color}`">
@@ -1365,7 +1365,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="position-absolute translate-middle-y"
-                                                    :style="{ top: '-130px', right: '10px' }">
+                                                    :style="{ top: '-140px', right: '10px' }">
                                                     <el-affix target=".affix-container" :offset="170">
                                                         <button @click="handleCloseDetail" type="button"
                                                             class="btn zindex-fixed btn-icon " :disabled="disabled">
@@ -1771,7 +1771,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -2401,7 +2401,26 @@ export default defineComponent({
             getData();
         });
 
+        // tính thời gian
+        const eventTime = ref<number | any>('30000');
+        let intervalId: any;
+        const startTimer = () => {
+        intervalId = setInterval(() => {
+            getData();
+        }, eventTime.value);
+        };
 
+        const stopTimer = () => {
+        clearInterval(intervalId);
+        };
+
+        onMounted(() => {
+        startTimer();
+        });
+
+        onBeforeUnmount(() => {
+        stopTimer();
+        });
 
         return {
             getData,

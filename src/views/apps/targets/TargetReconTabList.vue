@@ -1081,7 +1081,7 @@
                         </template>
                         <div class="h-500px">
                             <template v-if="subdomain_result.length > 0">
-                                <el-table :data="subdomain_result" height="500" style="width: 100%"
+                                <el-table :data="subdomain_result" height="500" style="width: 100%;z-index: 1;"
                                     class-name="my-custom-table">
                                     <el-table-column min-width="120" label-class-name="text-uppercase fs-13px fw-bold text-dark"
                                         prop="name" label="Subdomains">
