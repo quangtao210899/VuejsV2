@@ -117,18 +117,20 @@ export default defineComponent({
         const links = computed<string[]>(() => {
             if (route.name == 'target-scanstab') {
                 linkToBack.value = `/target-scans/${route.params['idScan']}`
-            }
-            else if (route.name == 'target-recon-tab') {
+            } else if (route.name == 'target-recon-tab') {
                 linkToBack.value = `/target-recons/${route.params['idRecon']}`
-            }
-            else if (route.name == 'target-recon-tab-subdomains') {
+            } else if (route.name == 'target-recon-tab-subdomains') {
                 linkToBack.value = `/target-recons/${route.params['idRecon']}`
-            }
-            else if (route.name == 'targetDetectionListCVE') {
+            } else if (route.name == 'targetDetectionListCVE') {
                 linkToBack.value = `/cve/${route.params['idCVE']}/scan`
             } else if (route.name == 'targetDetectionListCVEAll') {
                 linkToBack.value = `/cve/${route.params['id']}/scan`
+            } else if (route.name == 'target-recon-add') {
+                linkToBack.value = `/target-recons/${route.params['id']}`
+            } else if (route.name == 'target-scan-add') {
+                linkToBack.value = `/target-scans/${route.params['id']}`
             }
+
             return route.meta.links as string[];
         });
 

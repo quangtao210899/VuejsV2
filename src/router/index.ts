@@ -73,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Recon Mục Tiêu",
           breadcrumbs: ["Mục Tiêu", "Recon", "Thêm mới"],
-          links: ["/target-list", '/target-list'],
+          links: ["/target-list", ''],
         },
       },
       {
@@ -102,7 +102,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetScanForm.vue"),
         meta: {
           pageTitle: "Scan Mục Tiêu",
-          breadcrumbs: ["Target","Scan", "Thêm Mới"],
+          breadcrumbs: ["Mục Tiêu","Scan", "Thêm Mới"],
           links: ["/target-list", ''],
         },
       },
@@ -112,7 +112,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/targets/TargetScanList.vue"),
         meta: {
           pageTitle: "Danh Sách Quét",
-          breadcrumbs: ["Target","Scan"],
+          breadcrumbs: ["Mục Tiêu","Scan"],
           links: ["/target-list"],
         },
       },

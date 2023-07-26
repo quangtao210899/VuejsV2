@@ -2,7 +2,7 @@
     <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true"
         @form-submit="formSubmit(ruleFormRef)" @form-back="formBack"></KTToolbar>
     <div class="app-container container-fluid pt-10">
-        <div class="card d-block px-5 pb-20 mt-10 pt-10">
+        <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20 mt-10 pt-10" style=""> 
             <el-form ref="ruleFormRef" :model="scanFormState" :rules="rules" :label-width="'auto'" :label-position="labelPosition" 
                 class="demo-ruleForm px-0 px-md-10 mx-0 mx-md-10 mt-10 text-capitalize" size="large" status-icon require-asterisk-position="right">
                 <el-form-item label="Tốc độ scan" prop="domain" class="pb-3 text-capitalize fs-6">
@@ -16,7 +16,6 @@
                 <el-form-item label="Proxy" prop="proxyCheck" class="pb-3 text-capitalize fs-6">
                     <el-switch
                         v-model="scanFormState.proxyCheck"
-                        active-text="Allowed"
                     />
                 </el-form-item>
                 <div v-if="scanFormState.proxyCheck">
@@ -53,7 +52,6 @@
                         <el-form-item label="Proxy yêu cầu xác thực" prop="proxyAuthenticationCheck" class="pb-3 text-capitalize fs-6">
                             <el-switch
                                 v-model="scanFormState.proxyAuthenticationCheck"
-                                active-text="Allowed"
                             />
                         </el-form-item>
                     </div>
@@ -82,7 +80,6 @@
                     <el-form-item label="Sử dụng Header tùy chọn" prop="headerOptionCheck" class="pb-3 text-capitalize fs-6">
                         <el-switch
                             v-model="scanFormState.headerOptionCheck"
-                            active-text="Allowed"
                             @click="clearHeaderOptions"
                         />
                     </el-form-item>
@@ -98,7 +95,6 @@
                     <el-form-item label="Quét bằng Nmap" prop="nmap_check" class="pb-3 text-capitalize fs-6">
                         <el-switch
                             v-model="scanFormState.nmap_check"
-                            active-text="Allowed"
                             @click="clearHeaderOptions"
                         />
                     </el-form-item>
@@ -107,7 +103,6 @@
                     <el-form-item label="Quét bằng Nuclei" prop="nuclei_check" class="pb-3 text-capitalize fs-6">
                         <el-switch
                             v-model="scanFormState.nuclei_check"
-                            active-text="Allowed"
                             @click="clearHeaderOptions"
                         />
                     </el-form-item>
@@ -160,7 +155,7 @@ export default defineComponent({
                 },
             }).then(() => {
                 if (icon == 'success' || values == 'Mục tiêu không tồn tại') {
-                    router.push({ name: 'target-list' });
+                    router.push({ name: 'target-scan' });
                 }
             });
         }
@@ -372,9 +367,14 @@ export default defineComponent({
 } */
 
 .el-form-item__label{
-    font-size: 1.075rem !important;
+    font-size: 13px !important;
     font-weight: 500;
     color: #252f4a !important;
+}
+
+.el-radio__label{
+    font-size: 13px !important;
+    color: #181C32 !important;
 }
 
 .demo-ruleForm .el-input__wrapper {
