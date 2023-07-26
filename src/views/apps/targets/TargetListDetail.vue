@@ -1265,6 +1265,7 @@
                                         @mousedown="handleMouseDown"
                                         :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
                                         <!--begin::Card body-->
+                                        <div class="w-100">
                                         <el-table :data="getScansData" style="width: 100%"
                                             class-name=" my-custom-table rounded-top cursor-pointer mt-2" table-layout="fixed"
                                             v-loading="loading" highlight-current-row @current-change="handleCurrentChange">
@@ -1338,6 +1339,7 @@
                                                 :disabled="disabled"></el-pagination>
                                             <div></div>
                                         </div>
+                                    </div>
                                     </div>
                                     <!--end::Card body-->
                                     <div v-if="classDetail" @mousedown="startDragging"
