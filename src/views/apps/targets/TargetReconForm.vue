@@ -14,7 +14,7 @@
                     </div>
 
                     <el-tree ref="treeRef" :data="dataFormCreate" show-checkbox node-key="id"
-                        :default-expanded-keys="['0-0', '0-0-0', '0-0-1', '0-0-2', '0-0-3']" :props="defaultProps" class="custom-tree" />
+                        :default-expanded-keys="['0-0', '0-0-0', '0-0-1', '0-0-2', '0-0-3']" :props="defaultProps" class="custom-tree text-dark fs-13px"/>
                 </el-form>
             </div>
         </div>
