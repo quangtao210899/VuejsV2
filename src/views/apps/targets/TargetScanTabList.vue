@@ -1,7 +1,7 @@
 <template>
     <KTToolbar :check-search="true" @handle-search="handleFilter"></KTToolbar>
-    <div class="px-5 pt-5 h-100">
-        <div class="mb-3 position-relative position-repository bg-white rounded-3 border border-secondary px-2">
+    <div class="app-container container-fluid pt-5 h-100 ">
+        <div class="mb-3 position-relative position-repository bg-white rounded-3 border card card-custom px-2">
             <!--begin::Card header-->
             <!--end::Card header-->
             <div class="row align-items-center">
@@ -130,53 +130,17 @@
 
 
     <!--begin::Card-->
-    <div class="app-container container-fluid p-0">
-        <div class="card h-100 d-block">
+    <div class="app-container container-fluid p-0 ">
+        <div class="card card-custom h-100 d-block">
             <div class="d-flex">
                 <!--begin::Card body-->
                 <div class="card-body overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container"
                     @mousedown="handleMouseDown" :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
                     :class="classDetail ? 'border-end' : 'col-12'">
-                    <div class="w-100">
-                        <!-- <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }"> -->
-                        <KTDatatable :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig"
-                            :loading="loading" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
-                            @page-change="handlePage" :checkitemsPerPage="checkitemsPerPage"
-                            :currentCheckPage="currentCheckPage" @on-items-per-page-change="handlePerPage"
-                            @customRow="customRowTable">
-                            <template v-slot:severity="{ row: customer }">
-                                <div class="text-center">
-                                    <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
-                                        :style="{ fontSize: '19px', color: getSeverity(customer.severity).color }" /><br>
-                                    <p class="fst-normal"
-                                        :style="{ fontSize: '11px', color: getSeverity(customer.severity).color }">{{
-                                            getSeverity(customer.severity).title }}</p>
-                                </div>
-                            </template>
-                            <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-hover-primary">
-                                    {{ customer.vt_name ?? (customer.port_scan.vt_name ?? (customer.port_scan.name +
-                                        (customer.port_scan["matcher-name"] ? ":" + customer.port_scan["matcher-name"] : "")))
-                                    }}</span></template>
-                            <template v-slot:affects_url="{ row: customer }">
-                                <div class="badge badge-light">
-                                    {{ customer.affects_url ?? (customer.port_scan.host ?? "Default Name") }}</div>
-                            </template>
-                            <template v-slot:status="{ row: customer }">
-                                <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ??
-                                    '--' }}</span>
-                                </div>
-                            </template>
-                            <template v-slot:last_seen="{ row: customer }">
-                                <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
-                                    <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
-                                    {{ customer.last_seen }}
-                                </span>
-                            </template>
-                        </KTDatatable>
-
-                        <el-table :data="list" style="width: 100%;z-index: 1;"
+                    <div class="w-100 px-5 py-2">
+                        <el-table :data="getScansData" style="width: 100%;z-index: 1;"
                             class-name=" my-custom-table rounded-top cursor-pointer mt-2" table-layout="fixed"
-                            v-loading="loading" highlight-current-row @current-change="customRowTable">
+                            v-loading="loading" highlight-current-row @row-click="customRowTable">
                             <template #empty>
                                 <div class="flex items-center justify-center h-100%">
                                     <el-empty description="Không có dữ liệu scans nào" />
@@ -184,7 +148,7 @@
                             </template>
 
                             <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="severity"
-                                align="center" label="SEV">
+                                align="center" label="MỨC ĐỘ">
                                 <template #default="scope">
                                     <div class="text-center">
                                         <KTIcon icon-name="severity"
@@ -201,26 +165,19 @@
                                 <template #default="scope">
                                     <span v-if="scope.row.vt_name != '' || scope.row.port_scan != ''"
                                         class="fs-13px text-gray-700 text-hover-primary">
-                                        {{ scope.row.vt_name ?? scope.row.port_scan["vt_name"] }}</span>
+                                        {{ (scope.row.vt_name == '') ? scope.row.port_scan.vt_name : scope.row.vt_name
+                                        }}</span>
                                     <span v-else class="badge badge-light-danger">--</span>
                                 </template>
                             </el-table-column>
-                            <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="hostname"
+                            <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="affects_url"
                                 label="HOST NAME">
                                 <template #default="scope">
-                                    <span v-if="scope.row.hostname != '' || scope.row.port_scan.hostname != ''"
+                                    <span v-if="scope.row.affects_url != '' || scope.row.port_scan.affects_url != ''"
                                         class="fs-13px text-gray-700 text-hover-primary">
                                         <i class="fa-solid fa-link fs-8"></i>
-                                        {{ scope.row.hostname }}</span>
-                                    <span v-else class="badge badge-light-danger">--</span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column min-width="160" label-class-name="fs-13px text-dark fw-bold" prop="last_seen"
-                                label="NGÀY TẠO">
-                                <template #default="scope">
-                                    <span v-if="scope.row.last_seen != ''"
-                                        class="fs-13px text-gray-700 text-hover-primary">{{
-                                            scope.row.last_seen }}</span>
+                                        {{ (scope.row.affects_url == '') ? scope.row.port_scan.affects_url :
+                                            scope.row.affects_url }}</span>
                                     <span v-else class="badge badge-light-danger">--</span>
                                 </template>
                             </el-table-column>
@@ -235,11 +192,11 @@
                                 </template>
                             </el-table-column>
 
-                            <el-table-column min-width="90" label-class-name="fs-13px text-dark fw-bold" align="left"
-                                prop="status" label="THỜI GIAN">
+                            <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold" align="left"
+                                prop="last_seen" label="NGÀY TẠO">
                                 <template #default="scope">
-                                    <span v-if="scope.row.status != ''" 
-                                    class="fs-13px d-flex justify-content-end align-items-center">
+                                    <span v-if="scope.row.last_seen != ''"
+                                        class="fs-13px d-flex justify-content-end align-items-center">
                                         <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
                                         {{ scope.row.last_seen }}
                                     </span>
@@ -251,10 +208,11 @@
                         <div
                             class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom">
                             <div v-if="totalPage > 0">
-                                <span class="text-capitalize fs-13px">Tổng Số Scans: {{ totalPage }}</span>
+                                <span class="text-capitalize fs-13px ">Tổng Số Scans: {{ totalPage }}</span>
                             </div>
                             <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
-                                v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"></el-pagination>
+                                v-model:page-size="itemsPerPage" :total="totalPage"
+                                layout="prev, pager, next"></el-pagination>
                             <div></div>
                         </div>
                     </div>
@@ -264,7 +222,7 @@
                 <!--begin::Card2 body-->
                 <div class="overflow-scroll h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
                     :class="classDetail ? ' d-block' : 'd-none'">
-                    <div class="ms-3 pb-10">
+                    <div class="ms-3 pb-10 affix-containe">
                         <div class="card-title py-2 position-relative">
                             <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailVuln.vt_name }}</h2>
                             <div class="position-absolute top-50 end-0 translate-middle-y">
@@ -279,11 +237,16 @@
                                 }}</span></h4>
                             </div>
                             <div class="mb-5" v-if="detailVuln.severity != '' || detailVuln.status != ''">
-                                <span class="badge text-white me-2"
-                                    :style="{ background: getSeverity(detailVuln.severity).color }">Severity: {{
-                                        getSeverity(detailVuln.severity).title }}</span>
-                                <span :class="`badge badge-${getStatus(detailVuln.status).color}`">Trạng thái: {{
-                                    detailVuln.status }}</span>
+                                <div  class="">
+                                    <span 
+                                        :class="`px-4 me-2 py-3 badge fs-13px badge-light-${getSeverityName(detailVuln.severity).color}`">
+                                        {{  getSeverityName(detailVuln.severity).title }}
+                                    </span>
+                                    <span 
+                                        :class="`px-4 py-3 badge fs-13px badge-light-${getStatus(detailVuln.status).color}`">
+                                        {{ getStatus(detailVuln.status).title }}
+                                    </span>
+                                </div>
                             </div>
 
                             <template v-if="checkDetailVuln">
@@ -558,7 +521,7 @@
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
                 <!--begin::Name-->
                 <div class="symbol symbol-60px mb-5">
-                    <i class="fa-solid fa-file-excel fs-4x text-primary"></i>
+                    <i class="fa-solid fa-file-excel fs-4x text-success"></i>
                 </div>
                 <!--end::Image-->
 
@@ -670,7 +633,6 @@ export default defineComponent({
         const progress = ref<number>(0)
         const checkStatus = ref<boolean>(false)
         const currentCheckPage = ref<boolean>(false)
-        const checkStatusDisabled = ref<boolean>(false)
         const severityLow = ref<number>(0)
         const severityMedium = ref<number>(0)
         const severityHigh = ref<number>(0)
@@ -679,51 +641,6 @@ export default defineComponent({
         const timeEnd = ref<number | any>(null)
         const timeStart = ref<number | any>(null)
         const closeOnRow = ref(true);
-
-        const headerConfig = ref([
-            {
-                columnName: "Mức độ",
-                columnLabel: "severity",
-                columnWidth: 90,
-                textAlign: "center",
-            },
-            {
-                columnName: "Lỗ hổng",
-                columnLabel: "vt_name",
-            },
-            {
-                columnName: "URL",
-                columnLabel: "affects_url",
-            },
-            {
-                columnName: "Trạng thái",
-                columnLabel: "status",
-                columnWidth: 90,
-            },
-            {
-                columnName: "Ngày tạo",
-                columnLabel: "last_seen",
-                columnWidth: 100,
-            }
-        ]);
-
-        const handleClick = (data: object | any, type: String) => {
-            typeModal.value = type
-            apiData.value.description = data.description;
-        };
-
-        const handlePage = (page: number) => {
-            // console.log(currentPage.value, 'currentPage')
-            currentCheckPage.value = false;
-            currentPage.value = page ?? 1;
-            getData();
-        };
-
-        const handlePerPage = (itemsPage: number) => {
-            currentCheckPage.value = false;
-            itemsPerPage.value = itemsPage ?? 20;
-            getData();
-        };
 
         const getData = async () => {
             loading.value = true;
@@ -746,8 +663,6 @@ export default defineComponent({
                     targetData.value.ip = data.target.ip
                     targetData.value.name = data.target.name
                     totalPage.value = Object.keys(list.value).length
-                    // console.log(currentPage.value)
-                    // console.log(totalPage.value)
 
                     // time'..
                     countRequest.value = new Intl.NumberFormat("en-US").format(data.web_scan_status.request_count ?? 0);
@@ -768,8 +683,9 @@ export default defineComponent({
                     checkStatus.value = (data.scan_status == 3 || data.scan_status == 0 || data.scan_status == 4 || data.scan_status == 1) ? true : false
                     // checkStatusDisabled.value = (data.scan_status == 3) ? true : false
                     scanStatus.value = data.scan_status
+                    fetchDataScans(currentPage.value, itemsPerPage.value)
+
                     humanDiffTime()
-                    showLocaleTime()
                     // console.log(countRequest.value)
                     // console.log(averageResponseTime.value)
                     // console.log(locations.value)
@@ -782,6 +698,36 @@ export default defineComponent({
                     loading.value = false
                 });
         }
+
+        const getScansData = ref<any>([]);
+        const fetchDataScans = (currentPages: number, pageSizes: number) => {
+            const start = (currentPages - 1) * pageSizes;
+            const end = start + pageSizes;
+            const filterTableData = (query.value === null || query.value === '')
+                ? list.value
+                : list.value.filter((data: any) => {
+                    const vt_name = data.vt_name ?? (data.port_scan ? data.port_scan.vt_name : null);
+                    const affects_url = data.affects_url ?? (data.port_scan ? data.port_scan.affects_url : null);
+                    return !query.value ||
+                        (vt_name && vt_name.toLowerCase().includes(query.value.toLowerCase())) ||
+                        (affects_url && affects_url.toLowerCase().includes(query.value.toLowerCase()));
+                });
+            getScansData.value = filterTableData.slice(start, end)
+            totalPage.value = Object.keys(filterTableData).length;
+        };
+
+        // Lắng nghe sự thay đổi của currentPage và pageSize
+        watch([currentPage, itemsPerPage], ([newCurrentPage, newPageSize]) => {
+            fetchDataScans(newCurrentPage, newPageSize);
+        });
+
+        // tìm kiếm 
+        const handleFilter = (data: any) => {
+            query.value = data;
+            currentPage.value = 1;
+            fetchDataScans(1, itemsPerPage.value)
+        };
+
         const debounceSearch = debounce(getData, 1000);
         watch(query, debounceSearch);
         const detailVuln = reactive({
@@ -838,7 +784,6 @@ export default defineComponent({
                     detailVuln.cvss3 = data.cvss3 ?? ''
                     detailVuln.tags = data.tags.find((value: String) => value.includes("CWE-")) ?? ''
                     detailVuln.cvss_score = data.cvss_score ?? ''
-
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -885,41 +830,33 @@ export default defineComponent({
                     confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             }).then(() => {
-                // 
-                // hideModal( ModalConfirm.value);
             });
         };
 
-        const handleSeverity = (data: number) => {
-            checkDisabled.value = true
-            setTimeout(() => {
-                checkDisabled.value = false;
-            }, 500);
-            if (data == 4) {
-                filterSeverity.value = null
-            } else {
-                filterSeverity.value = data
+        const getSeverityName = (severity: number | string) => {
+            if (severity == 'Info') {
+                return { id: 0, title: 'Info', color: 'success', class: 'severityInfo' };
+            } else if (severity == 'Low') {
+                return { id: 1, title: 'Low', color: 'primary', class: 'severityLow' };
+            } else if (severity == 'Medium') {
+                return { id: 2, title: 'Medium', color: 'warning', class: 'severityMedium' };
+            } else if (severity == 'High') {
+                return { id: 3, title: 'High', color: 'danger', class: 'severityHigh' };
             }
-            currentCheckPage.value = true;
-            getData();
+            return { id: 4, title: 'undefined', color: 'light', class: 'severityundefined' };
         };
 
-        // watch( list, () => {
-        // console.log(currentPage.value, 'currentPage.value')
-        //     currentPage.value = 1;
-        // })
-
         const getSeverity = (severity: number | string) => {
-            if (severity == 0 || severity == 'Info') {
-                return { id: 0, title: 'Info', color: '#28a745', class: 'severityInfo' };
-            } else if (severity == 1 || severity == 'Low') {
-                return { id: 1, title: 'Low', color: '#23b7e5', class: 'severityLow' };
-            } else if (severity == 2 || severity == 'Medium') {
-                return { id: 2, title: 'Medium', color: '#fcba32', class: 'severityMedium' };
-            } else if (severity == 3 || severity == 'High') {
-                return { id: 3, title: 'High', color: '#e11f26', class: 'severityHigh' };
+            if (severity == 0) {
+                return { id: 0, title: 'Info', color: 'success', class: 'severityInfo' };
+            } else if (severity == 1) {
+                return { id: 1, title: 'Low', color: 'primary', class: 'severityLow' };
+            } else if (severity == 2) {
+                return { id: 2, title: 'Medium', color: 'warning', class: 'severityMedium' };
+            } else if (severity == 3) {
+                return { id: 3, title: 'High', color: 'danger', class: 'severityHigh' };
             }
-            return { id: 4, title: 'undefined', color: '#7239ea', class: 'severityundefined' };
+            return { id: 4, title: 'undefined', color: 'light', class: 'severityundefined' };
         };
 
         const getStatus = (status: string) => {
@@ -994,17 +931,6 @@ export default defineComponent({
             window.removeEventListener("mouseup", handleMouseUp);
         };
 
-        // reloadData
-        const reloadgetData = () => {
-            getData();
-            ElMessage({
-                message: 'Tải lại thành công',
-                type: 'success',
-                center: false,
-            })
-        };
-        const reloadData = debounce(reloadgetData, 500);
-
         // tạm dừng
         // false - tạm dừng
         // true - tiếp tục
@@ -1016,11 +942,7 @@ export default defineComponent({
                 checkDisabled.value = false;
             }, 500);
             if (scanStatus.value == 3) {
-                ElMessage({
-                    message: 'Danh dách đã được quét thành công không thể tạm dừng',
-                    type: 'success',
-                    center: false,
-                })
+                notification('Danh dách đã được quét thành công không thể tạm dừng', 'error', 'Có lỗi xảy ra')
             } else if (scanStatus.value == 5) {
                 // console.log('tiếp tục')
                 getResume()
@@ -1028,11 +950,7 @@ export default defineComponent({
                 // console.log('tạm dừng')
                 getPauser()
             } else {
-                ElMessage({
-                    message: 'Có lỗi xảy ra',
-                    type: 'error',
-                    center: false,
-                })
+                notification('', 'error', 'Có lỗi xảy ra')
             }
 
         };
@@ -1046,18 +964,10 @@ export default defineComponent({
             return ApiService.post(`/scan/${scanID.value}/control`, formData)
                 .then(({ data }) => {
                     getData()
-                    ElMessage({
-                        message: data.detail ?? 'Tiếp tục thành công',
-                        type: 'success',
-                        center: false,
-                    })
+                    notification(data.detail, 'success', 'Tiếp tục thành công')
                 })
                 .catch(({ response }) => {
-                    ElMessage({
-                        message: response.data.detail ?? 'Có lỗi xảy ra',
-                        type: 'error',
-                        center: false,
-                    })
+                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                 });
         };
 
@@ -1070,18 +980,10 @@ export default defineComponent({
             return ApiService.post(`/scan/${scanID.value}/control`, formData)
                 .then(({ data }) => {
                     getData()
-                    ElMessage({
-                        message: data.detail ?? 'Tạm dừng thành công',
-                        type: 'success',
-                        center: false,
-                    })
+                    notification(data.detail, 'success', 'Tạm dừng thành công')
                 })
                 .catch(({ response }) => {
-                    ElMessage({
-                        message: response.data.detail ?? 'Có lỗi xảy ra',
-                        type: 'error',
-                        center: false,
-                    })
+                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                 });
         };
 
@@ -1111,42 +1013,20 @@ export default defineComponent({
             }).catch(async error => {
                 // xử lý hiển thị lỗi 
                 const reponse_message = JSON.parse(await error.response.data.text()).detail ?? "Có lỗi xảy ra"
-                ElMessage({
-                    message: reponse_message,
-                    type: 'success',
-                    center: false,
-                })
+                notification(reponse_message, 'success', 'Có lỗi xảy ra')
                 fileDownVisible.value = false;
             })
         };
+
         // hủy
         const confirmEvent = () => {
-            ElMessage({
-                message: 'Test hủy',
-                type: 'success',
-                center: false,
-            })
         }
 
         const cancelEvent = () => {
-            ElMessage({
-                message: 'Hủy bỏ lệnh thành công',
-                type: 'info',
-                center: false,
-            })
         }
-
-        // tìm kiếm 
-        const handleFilter = (data: any) => {
-            query.value = data;
-            currentPage.value = 1;
-            getData();
-        };
-
 
         // tính thời gian
         const diffTime = ref<string | any>(0);
-        const time = ref<any>(null);
         const eventTime = ref<number | any>('30000');
         let intervalId: any;
 
@@ -1179,81 +1059,8 @@ export default defineComponent({
             }
         };
 
-        // thời gian tự động chạy
-        let intervalIdAuto: any;
-
-        const showLocaleTime = async () => {
-            clearInterval(intervalIdAuto);
-            if (scanStatus.value == 2) {
-                intervalIdAuto = setInterval(() => { humanDiff(); }, 1000);
-            } else {
-                return;
-            }
-        };
-
-        // tính chiều cao của header
-        const divHeight = ref<number>(0); // Sử dụng kiểu dữ liệu number hoặc null cho divHeight
-        const divRef = ref<null | HTMLElement>(null);
-
-        const handleHeightheader = () => {
-            const divElement = document.querySelector('#layouthetder') as HTMLElement;
-            if (divElement) {
-                divHeight.value = divElement.offsetHeight;
-            }
-            //console.log(divHeight.value, 'divHeight')
-        };
-
-        // Sử dụng nextTick để đảm bảo rằng kích thước đã được cập nhật
-        nextTick(() => {
-            watch(classDetail, () => {
-                handleHeightheader();
-                handleResize();
-            });
-        });
-
-        // tính toán chiều cao table
-        const heightTable = ref(0)
-        const widthLayout = ref(0)
-        const checkPaginationTable = ref(false)
-        const handleResize = () => {
-            widthLayout.value = window.innerWidth;
-            const windowWidth = window.innerWidth;
-            if (windowWidth >= 1400) {
-                heightTable.value = window.innerHeight - (divHeight.value + 100);
-                checkPaginationTable.value = false
-            } else if (windowWidth >= 1200) {
-                heightTable.value = window.innerHeight - (divHeight.value + 100);
-                checkPaginationTable.value = false
-            } else if (windowWidth >= 992) {
-                heightTable.value = window.innerHeight - (divHeight.value + 100);
-                checkPaginationTable.value = false
-            } else if (windowWidth >= 768) {
-                heightTable.value = window.innerHeight - (divHeight.value + 100);
-                checkPaginationTable.value = false
-            } else if (windowWidth >= 576) {
-                heightTable.value = window.innerHeight - (divHeight.value + 100);
-                checkPaginationTable.value = false
-            } else {
-                // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-                heightTable.value = window.innerHeight - (divHeight.value + 100);
-                checkPaginationTable.value = true
-            }
-
-        };
-
-
-
         onMounted(() => {
             getData();
-            handleHeightheader();
-            handleResize();
-            window.addEventListener('resize', handleResize);
-            window.addEventListener('resize', handleHeightheader);
-        });
-
-        onUnmounted(() => {
-            window.removeEventListener('resize', handleResize);
-            window.removeEventListener('resize', handleHeightheader);
         });
 
         // check
@@ -1278,17 +1085,16 @@ export default defineComponent({
         });
 
         onUnmounted(() => {
-            clearInterval(intervalIdAuto);
             clearInterval(intervalId);
         });
 
 
         return {
+            getScansData,
             checkNameTarget,
             scanID,
             getData,
             list,
-            headerConfig,
             getAssetPath,
             handleCloseDetail,
             targetData,
@@ -1300,11 +1106,11 @@ export default defineComponent({
             severityHigh,
             severityLow,
             severityInfo,
-            handleSeverity,
             filterSeverity,
             activeName,
             closeOnRow,
             checkitemsPerPage,
+            getSeverityName,
 
             // tải về
             fileDownVisible,
@@ -1313,7 +1119,6 @@ export default defineComponent({
 
             // crud
             apiData,
-            handleClick,
 
             // detials
             customRowTable,
@@ -1324,8 +1129,6 @@ export default defineComponent({
             itemsPerPage,
             totalPage,
             currentPage,
-            handlePage,
-            handlePerPage,
             currentCheckPage,
             // search query 
             query,
@@ -1356,7 +1159,6 @@ export default defineComponent({
             container,
 
             // reloadData
-            reloadData,
             progress,
             checkStatus,
             diffTime,
@@ -1370,25 +1172,16 @@ export default defineComponent({
             // hủy 
             confirmEvent,
             cancelEvent,
-            widthLayout,
-            heightTable,
-            divRef,
         };
     },
 });
 </script>
   
 <style scoped>
-.shadow-hvover {
-    box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
-}
-
-.hand-height-3 {
-    height: calc(100% - 260px) !important;
-}
-
-.hand-height-4 {
-    height: calc(100% - 70px) !important;
+.card.card-custom {
+    box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05) !important;
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
+    border: 0;
 }
 
 /* cursor: col-resize; */
