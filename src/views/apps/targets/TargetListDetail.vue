@@ -1043,7 +1043,7 @@
                                                             :to="`/target-recon-detail/${ID}/${reconId}/subdomains`" active-class="active">Xem Thêm</router-link>
                                                     </div>
                                                 </template>
-                                                <div class="h-500px">
+                                                <div class="h-500px"> 
                                                     <template v-if="subdomain_result.length > 0">
                                                         <el-table :data="subdomain_result" height="500" style="width: 100%;z-index: 1;"
                                                             class-name="my-custom-table">
@@ -1276,7 +1276,7 @@
                                             </template>
 
                                             <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark"
-                                                prop="severity" align="center" label="SEV">
+                                                prop="severity" align="center" label="MỨC ĐỘ">
                                                 <template #default="scope">
                                                     <div class="text-center">
                                                         <KTIcon icon-name="severity" 
@@ -1291,9 +1291,9 @@
                                             <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="150"
                                                 prop="vt_name" label="TÊN">
                                                 <template #default="scope">
-                                                    <span v-if="scope.row.vt_name != '' || scope.row.port_scan != ''"
+                                                    <span v-if="scope.row.vt_name != '' || scope.row.port_scan.vt_name != ''"
                                                         class="fs-13px text-gray-700 text-hover-primary">
-                                                        {{scope.row.vt_name ?? scope.row.port_scan["vt_name"] }}</span>
+                                                        {{scope.row.vt_name ?? scope.row.port_scan.vt_name }}</span>
                                                     <span v-else class="badge badge-light-danger">--</span>
                                                 </template>
                                             </el-table-column>
@@ -1348,7 +1348,7 @@
                                         </div>
                                     </div>
                                     <!--begin::Card2 body-->
-                                    <div class="h-100 d-block"
+                                    <div class="h-100 overflow-scroll d-block"
                                         :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
                                         :class="classDetail ? ' d-block' : 'd-none'">
                                         <div class="ms-3 pb-10 affix-container">

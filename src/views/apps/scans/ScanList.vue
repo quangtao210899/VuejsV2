@@ -7,20 +7,22 @@
       <div class="d-flex px-5">
         <!--begin::Card body-->
         <div class="overflow-auto h-100 m-0 mt-3" ref="container" @mousedown="handleMouseDown"
-          :style="classDetail ? { width: leftWidth + 'px'} : { width: '100%' }">
+          :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
           <div class="w-100">
-            <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;" class-name=" my-custom-table rounded-top cursor-pointer"
-              table-layout="fixed" v-loading="loading" @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey" @row-click="customRowTable">
+            <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
+              class-name=" my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
+              @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
+              @row-click="customRowTable">
               <template #empty>
                 <div class="flex items-center justify-center h-100%">
                   <el-empty description="Không có dữ liệu nào" />
                 </div>
               </template>
               <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35"
-                        :reserve-selection="true" />
+                :reserve-selection="true" />
 
               <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="severity" align="center"
-                label="SEV">
+                label="MỨC ĐỘ">
                 <template #default="scope">
                   <div class="text-center">
                     <KTIcon icon-name="severity"
@@ -34,9 +36,9 @@
 
               <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="150" prop="vt_name" label="TÊN">
                 <template #default="scope">
-                  <span v-if="scope.row.vt_name != '' || scope.row.port_scan != ''"
+                  <span v-if="scope.row.vt_name != '' || scope.row.port_scan.vt_name != ''"
                     class="fs-13px text-gray-700 text-hover-primary">
-                    {{ scope.row.vt_name ?? scope.row.port_scan["vt_name"] }}</span>
+                    {{ scope.row.vt_name ?? scope.row.port_scan.vt_name }}</span>
                   <span v-else class="badge badge-light-danger">--</span>
                 </template>
               </el-table-column>
@@ -70,7 +72,8 @@
                 label="NGÀY TẠO">
                 <template #default="scope">
                   <template v-if="scope.row.last_seen != ''">
-                    <span class="fs-13px text-gray-700 text-hover-primary d-flex justify-content-start align-items-center">
+                    <span
+                      class="fs-13px text-gray-700 text-hover-primary d-flex justify-content-start align-items-center">
                       <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
                       {{ scope.row.last_seen }}
                     </span>
@@ -524,16 +527,16 @@ export default defineComponent({
         });
     }
 
-        // Lắng nghe sự thay đổi của currentPage và pageSize
-        watch(currentPage, (newCurrentPage) => {
-          currentPage.value = newCurrentPage ?? 1;
-          getData();
-        });
+    // Lắng nghe sự thay đổi của currentPage và pageSize
+    watch(currentPage, (newCurrentPage) => {
+      currentPage.value = newCurrentPage ?? 1;
+      getData();
+    });
 
-        watch(itemsPerPage, (newPageSize) => {
-            itemsPerPage.value = newPageSize ?? 20;
-            getData();
-        });
+    watch(itemsPerPage, (newPageSize) => {
+      itemsPerPage.value = newPageSize ?? 20;
+      getData();
+    });
 
     // tính thời gian
     const eventTime = ref<number | any>('30000');
@@ -556,17 +559,17 @@ export default defineComponent({
       stopTimer();
     });
 
-        // table
-        const handleSelectionChange = (val: any) => {
-            if (val) {
-                selectedIds.value = val.map((item: { id: number }) => item.id);
-            }
-            return;
-        }
+    // table
+    const handleSelectionChange = (val: any) => {
+      if (val) {
+        selectedIds.value = val.map((item: { id: number }) => item.id);
+      }
+      return;
+    }
 
-        const getRowKey = (row: any) => {
-            return row.id
-        }
+    const getRowKey = (row: any) => {
+      return row.id
+    }
 
     // selectedIds
     const selectedIds = ref<Array<number>>([]);
@@ -708,14 +711,14 @@ export default defineComponent({
 
     const handleFilter = (data: any) => {
       query.value = data
-        // status.value = data.status;
-        // severity.value = data.severity;
-        // ip.value = data.ip;
-        // domain.value = data.domain;
-        // typeIp.value = data.typeIp;
-        // typeDomain.value = data.typeDomain;
-        currentPage.value = 1;
-        getData();
+      // status.value = data.status;
+      // severity.value = data.severity;
+      // ip.value = data.ip;
+      // domain.value = data.domain;
+      // typeIp.value = data.typeIp;
+      // typeDomain.value = data.typeDomain;
+      currentPage.value = 1;
+      getData();
 
     };
 
@@ -924,5 +927,4 @@ export default defineComponent({
   right: 0;
   height: 0px;
   background-color: black;
-}
-</style>
+}</style>
