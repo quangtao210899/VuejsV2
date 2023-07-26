@@ -8,7 +8,7 @@
     <div class="app-container container-fluid mt-5">
       <div class="p-5 bg-body rounded-3">
         <!--begin::Card body-->
-        <el-table ref="multipleTableRef" :data="list" style="width: 100%"
+        <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 99;"
           class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
           @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="handleCurrentChange"
           :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
@@ -252,11 +252,11 @@ export default defineComponent({
         }, 1000);
         return ApiService.delete(`telegram/message/multi-delete?id=${ids}`)
           .then(({ data }) => {
+            getData()
             notification(data.detail, 'success', 'Xóa thành công')
             currentPage.value = 1;
             selectedIds.value = [];
             multipleTableRef.value!.clearSelection()
-            getData()
           })
           .catch(({ response }) => {
             notification(response.data.detail, 'error', 'Có lỗi xảy ra')

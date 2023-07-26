@@ -174,7 +174,7 @@
                             </template>
                         </KTDatatable>
 
-                        <el-table :data="list" style="width: 100%"
+                        <el-table :data="list" style="width: 100%;z-index: 99;"
                             class-name=" my-custom-table rounded-top cursor-pointer mt-2" table-layout="fixed"
                             v-loading="loading" highlight-current-row @current-change="customRowTable">
                             <template #empty>

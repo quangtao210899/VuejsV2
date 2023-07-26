@@ -56,7 +56,7 @@
                             </div>
                         </div> -->
                     </div>
-                    <el-table :data="subdomain_result" style="width: 100%" class-name="my-custom-table" table-layout="fixed"
+                    <el-table :data="subdomain_result" style="width: 100%;z-index: 99;" class-name="my-custom-table" table-layout="fixed"
                         v-loading="loadingSubdomain">
                         <template #empty>
                             <div class="flex items-center justify-center h-100%">

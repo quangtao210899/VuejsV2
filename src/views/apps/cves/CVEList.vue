@@ -959,8 +959,8 @@ export default defineComponent({
             if (typeModal.value == 'add') {
                 return ApiService.post("cve/create/", formData)
                     .then(({ data }) => {
-                        notification(data.detail, 'success', 'Thêm mới thành công')
                         getData();
+                        notification(data.detail, 'success', 'Thêm mới thành công')
                         if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;
@@ -993,8 +993,8 @@ export default defineComponent({
             } else {
                 return ApiService.put(`/cve/${id.value}/update/`, formData)
                     .then(({ data }) => {
-                        notification(data.detail, 'success', 'Chỉnh sửa thành công')
                         getData();
+                        notification(data.detail, 'success', 'Chỉnh sửa thành công')
                         if (submitButtonRef.value) {
                             //Disable button
                             submitButtonRef.value.disabled = true;

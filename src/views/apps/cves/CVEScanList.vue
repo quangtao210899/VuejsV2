@@ -462,10 +462,10 @@ export default defineComponent({
                 }, 1000);
                 return ApiService.post(`cve/${getIdFromUrl()}/delete`, formData)
                     .then(({ data }) => {
+                        getData();
                         notification(data.detail, 'success', 'Xóa thành công')
                         currentPage.value = 1;
                         selectedIds.value.length = 0;
-                        getData();
                     })
                     .catch(({ response }) => {
                         notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -533,8 +533,8 @@ export default defineComponent({
 
             return ApiService.post(`cve/${getIdFromUrl()}/create_scan`, {})
                 .then(({ data }) => {
-                    notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
                     getData();
+                    notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
                     if (submitButtonRef.value) {
                         //Disable button
                         submitButtonRef.value.disabled = true;
