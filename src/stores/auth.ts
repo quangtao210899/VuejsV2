@@ -142,10 +142,10 @@ export const useAuthStore = defineStore("auth", () => {
       });
   }
 
-  function verifyAuth() {
+  async function verifyAuth() {
     if (JwtService.getToken()) {
       ApiService.setHeader();
-      ApiService.post("api/token/verify-token/", { token: JwtService.getToken() })
+      await ApiService.post("api/token/verify-token/", { token: JwtService.getToken() })
         .then(({ data }) => {
           connectSocket(host)
           // setAuth(data);
