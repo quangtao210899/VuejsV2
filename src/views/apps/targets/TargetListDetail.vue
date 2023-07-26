@@ -1268,7 +1268,7 @@
                                         <div class="w-100">
                                         <el-table :data="getScansData" style="width: 100%"
                                             class-name=" my-custom-table rounded-top cursor-pointer mt-2" table-layout="fixed"
-                                            v-loading="loading" highlight-current-row @current-change="handleCurrentChange">
+                                            v-loading="loading" highlight-current-row @row-click="handleCurrentChange">
                                             <template #empty>
                                                 <div class="flex items-center justify-center h-100%">
                                                     <el-empty description="Không có dữ liệu nào" />
