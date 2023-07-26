@@ -1,6 +1,63 @@
 <template>
-    <div id="layouthetder" ref="divRef" class="pt-3 px-5">
-        <!--begin::Navbar-->
+    <KTToolbar :check-search="true" @handle-search="handleFilter"></KTToolbar>
+    <div class="px-5 pt-5 h-100 pt-10 mt-10">
+        <div class="mb-3 position-relative position-repository bg-white rounded-3 border border-secondary">
+            <!--begin::Card header-->
+            <!--end::Card header-->
+            <div class="row px-2 h-md-50px align-items-center">
+                <div class="col-sm-12 col-md-6 col-lg-5 py-2">
+                    <div class="row">
+                        <div class="col-6">
+                            <div>
+                                <span class="w-70px">Mục Tiêu: </span>
+                                <span class="fw-bold" :class="(checkNameTarget(  targetData.name, targetData.domain) == '--') ? 'badge badge-light-danger' : ''">
+                                    {{ checkNameTarget(  targetData.name, targetData.domain) }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <span class="w-70px">IP Mục Tiêu: </span>
+                                <span class="fw-bold" :class="(targetData.ip == '') ? 'badge badge-light-danger' : ''">
+                                    {{ (targetData.ip != '') ? targetData.ip : '--' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-7 text-end ms-auto py-2">
+                    <div class="d-flex justify-content-end">
+                        <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
+                            icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
+                            @cancel="cancelEvent">
+                            <template #reference>
+                                <button type="button" :disabled="checkDisabled"
+                                    class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
+                                    <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy bỏ
+                                </button>
+                            </template>
+                        </el-popconfirm>
+                        <button v-if="scanStatus == 5" type="button" @click="handlePauser"
+                            :disabled="(checkDisabled || checkStatus)"
+                            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                            <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
+                            <span class="text-primary"> Tiếp tục</span>
+                        </button>
+                        <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
+                            class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                            <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
+                            <span class="text-danger">Tạm dừng</span>
+                        </button>
+                        <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
+                            class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                            <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
+                            Xuất kết quả
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="card" :class="classDetail ? '' : 'mb-3'">
             <!--begin::Card header-->
             <div class=" border-0 ps-2 pt-3 pt-sm-12 pt-md-12 pt-lg-6 position-sm-absolute end-0 pe-1 me-2 me-md-0 me-sm-0"
@@ -182,416 +239,344 @@
                 <!--end::Details-->
             </div>
         </div>
-        <!--end::Navbar-->
-        <div class="row mb-3 align-items-center"
-            :class="(classDetail || widthLayout <= 768) ? 'shadow-hvover bg-white rounded-3 mx-0 my-2' : ''">
-            <div class="col-12 col-md-6 py-2">
-                <div class="d-flex flex-row justify-content-end justify-content-md-start">
-                    <div class="col">
-                        <div class="d-flex align-items-center position-relative me-2">
-                            <KTIcon icon-name="magnifier" icon-class="fs-1 position-absolute ms-5" />
-                            <input type="text" data-kt-subscription-table-filter="search" v-model="query" name="query"
-                                class="form-control h-35px ps-14 btn-active-color-primary"
-                                placeholder="Tìm kiếm theo tên" />
-                        </div>
-                    </div>
-                    <div class="col d-flex flex-row justify-content-end justify-content-md-start">
-                        <button type="button" class="btn btn-icon btn-sm fw-bold bg-success h-35px w-35px text-white"
-                            @click.passive="handleSeverity(0)" :disabled="checkDisabled">
-                            {{ severityInfo }}
-                        </button>
-                        <button type="button" class="btn btn-icon btn-sm fw-bold bg-primary h-35px w-35px text-white ms-2"
-                            @click.passive="handleSeverity(1)" :disabled="checkDisabled">
-                            {{ severityLow }}
-                        </button>
-                        <button type="button" class="btn btn-icon btn-sm fw-bold bg-warning h-35px w-35px text-white ms-2"
-                            @click.passive="handleSeverity(2)" :disabled="checkDisabled">
-                            {{ severityMedium }}
-                        </button>
-                        <button type="button" class="btn btn-icon btn-sm fw-bold bg-danger h-35px w-35px text-white ms-2"
-                            @click.passive="handleSeverity(3)" :disabled="checkDisabled">
-                            {{ severityHigh }}
-                        </button>
-                        <button @click.passive="handleSeverity(4)" type="button" :disabled="checkDisabled"
-                            class="btn btn-icon btn-sm fw-bold btn-outline btn-outline-dashed btn-outline-info h-35px w-35px text-info ms-2">
-                            All
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 text-end ms-auto py-2">
-                <div class="d-flex justify-content-end">
-                    <div
-                        :class="`text-start me-0 d-${(classDetail || widthLayout <= 768) ? 'block' : 'none'} d-md-${(classDetail || widthLayout <= 768) ? 'block' : 'none'}`">
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin tiến trình"
-                            placement="top">
-                            <button type="button"
-                                class="btn btn-sm fw-bold bg-secondary btn-color-gray-700 h-30px w-100px btn-active-color-primary"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
-                                data-kt-menu-flip="top-start">
-                                <KTIcon icon-name="information-3" icon-class="fs-2" />
-                                Info
-                            </button>
-                            <!-- </div> -->
-                        </el-tooltip>
-                        <filtersTabScan @filterData="handleFilter" :targetData="targetData" :diffTime="diffTime"
-                            :countRequest="countRequest" :averageResponseTime="averageResponseTime" :locations="locations"
-                            :progress="progress" :scanStatus="scanStatus">
-                        </filtersTabScan>
-                    </div>
-                    <!--begin::Actions-->
-                    <div class=" mx-2">
-                        <!--begin::Select-->
-                        <button type="button" @click="reloadData" :disabled="checkDisabled"
-                            class="btn btn-icon btn-sm w-100px h-30px fw-bold bg-primary btn-color-gray-700 btn-active-color-primary text-white">
-                            <KTIcon icon-name="arrows-loop" icon-class="fs-2 text-white" />
-                            Tải lại
-                        </button>
-                        <!--end::Select-->
-                    </div>
-                    <!--end::Actions-->
-
-                    <!--begin::Actions-->
-                    <div class="">
-                        <!--begin::Select-->
-                        <el-select v-model="eventTime" clearable class="w-150px">
-                            <el-option value="300000" key="300000" label="5 phút" />
-                            <el-option value="60000" key="60000" label="1 phút" />
-                            <el-option value="30000" key="30000" label="30 giây" />
-                            <el-option value="15000" key="15000" label="15 giây" />
-                            <el-option value="5000" key="5000" label="5 giây" />
-                        </el-select>
-                        <!--end::Select-->
-                    </div>
-                    <!--end::Actions-->
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!--begin::Card-->
-    <div class="app-container container-fluid p-0" >
-    <div class="card h-100 d-block">
-        <div class="d-flex shadow-hvover" :style="{ height: heightTable + 'px' }">
-            <!--begin::Card body-->
-            <div class="card-body overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container"
-                @mousedown="handleMouseDown" :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
-                :class="classDetail ? 'border-end' : 'col-12'">
-                <div class="w-100">
-                    <!-- <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }"> -->
-                    <KTDatatable :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig"
-                        :loading="loading" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
-                        @page-change="handlePage" :checkitemsPerPage="checkitemsPerPage"
-                        :currentCheckPage="currentCheckPage" @on-items-per-page-change="handlePerPage"
-                        @customRow="customRowTable">
-                        <template v-slot:severity="{ row: customer }">
-                            <div class="text-center">
-                                <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
-                                    :style="{ fontSize: '19px', color: getSeverity(customer.severity).color }" /><br>
-                                <p class="fst-normal"
-                                    :style="{ fontSize: '11px', color: getSeverity(customer.severity).color }">{{
-                                        getSeverity(customer.severity).title }}</p>
-                            </div>
-                        </template>
-                        <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-hover-primary">
-                                {{ customer.vt_name ?? (customer.port_scan.vt_name ?? (customer.port_scan.name +
-                                    (customer.port_scan["matcher-name"] ? ":" + customer.port_scan["matcher-name"] : "")))
-                                }}</span></template>
-                        <template v-slot:affects_url="{ row: customer }">
-                            <div class="badge badge-light">
-                                {{ customer.affects_url ?? (customer.port_scan.host ?? "Default Name") }}</div>
-                        </template>
-                        <template v-slot:status="{ row: customer }">
-                            <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ??
-                                '--' }}</span>
-                            </div>
-                        </template>
-                        <template v-slot:last_seen="{ row: customer }">
-                            <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
-                                <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
-                                {{ customer.last_seen }}
-                            </span>
-                        </template>
-                    </KTDatatable>
-                </div>
-            </div>
-            <!--end::Card body-->
-            <div v-if="classDetail" @mousedown="startDragging" class="drag-handle"></div>
-            <!--begin::Card2 body-->
-            <div class="overflow-scroll h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
-                :class="classDetail ? ' d-block' : 'd-none'">
-                <div class="ms-3 pb-10">
-                    <div class="card-title py-2 position-relative">
-                        <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailVuln.vt_name }}</h2>
-                        <div class="position-absolute top-50 end-0 translate-middle-y">
-                            <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
-                                <KTIcon icon-name="x" icon-class="bi bi-x" :style="{ fontSize: '25px' }" />
-                            </button>
-                        </div>
-                    </div>
-                    <div class="lh-lg mt-2">
-                        <div class="mb-5" v-if="detailVuln.host != null && detailVuln.host != ''">
-                            <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">URL : <span>{{ detailVuln.host
-                            }}</span></h4>
-                        </div>
-                        <div class="mb-5" v-if="detailVuln.severity != '' || detailVuln.status != ''">
-                            <span class="badge text-white me-2"
-                                :style="{ background: getSeverity(detailVuln.severity).color }">Severity: {{
-                                    getSeverity(detailVuln.severity).title }}</span>
-                            <span :class="`badge badge-${getStatus(detailVuln.status).color}`">Trạng thái: {{
-                                detailVuln.status }}</span>
-                        </div>
 
-                        <template v-if="checkDetailVuln">
-                            <div class="mb-5" v-if="detailVuln.details != null && detailVuln.details != ''">
-                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Attack Details</h4>
-                                <div v-html="detailVuln.details"></div>
+    <!--begin::Card-->
+    <div class="app-container container-fluid p-0">
+        <div class="card h-100 d-block">
+            <div class="d-flex shadow-hvover" :style="{ height: heightTable + 'px' }">
+                <!--begin::Card body-->
+                <div class="card-body overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container"
+                    @mousedown="handleMouseDown" :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
+                    :class="classDetail ? 'border-end' : 'col-12'">
+                    <div class="w-100">
+                        <!-- <div :style="classDetail ? { width: contentWidth + 'px' } : { width: '100%' }"> -->
+                        <KTDatatable :clickOnRow="true" :closeOnRow="closeOnRow" :data="list" :header="headerConfig"
+                            :loading="loading" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
+                            @page-change="handlePage" :checkitemsPerPage="checkitemsPerPage"
+                            :currentCheckPage="currentCheckPage" @on-items-per-page-change="handlePerPage"
+                            @customRow="customRowTable">
+                            <template v-slot:severity="{ row: customer }">
+                                <div class="text-center">
+                                    <KTIcon icon-name="severity" icon-class="bi bi-bug-fill"
+                                        :style="{ fontSize: '19px', color: getSeverity(customer.severity).color }" /><br>
+                                    <p class="fst-normal"
+                                        :style="{ fontSize: '11px', color: getSeverity(customer.severity).color }">{{
+                                            getSeverity(customer.severity).title }}</p>
+                                </div>
+                            </template>
+                            <template v-slot:vt_name="{ row: customer }"><span class="fs-6 fw-bold text-hover-primary">
+                                    {{ customer.vt_name ?? (customer.port_scan.vt_name ?? (customer.port_scan.name +
+                                        (customer.port_scan["matcher-name"] ? ":" + customer.port_scan["matcher-name"] : "")))
+                                    }}</span></template>
+                            <template v-slot:affects_url="{ row: customer }">
+                                <div class="badge badge-light">
+                                    {{ customer.affects_url ?? (customer.port_scan.host ?? "Default Name") }}</div>
+                            </template>
+                            <template v-slot:status="{ row: customer }">
+                                <div> <span :class="`badge badge-${getStatus(customer.status).color}`">{{ customer.status ??
+                                    '--' }}</span>
+                                </div>
+                            </template>
+                            <template v-slot:last_seen="{ row: customer }">
+                                <span class="text-gray-600 w-bold d-flex justify-content-end align-items-center fs-7">
+                                    <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+                                    {{ customer.last_seen }}
+                                </span>
+                            </template>
+                        </KTDatatable>
+                    </div>
+                </div>
+                <!--end::Card body-->
+                <div v-if="classDetail" @mousedown="startDragging" class="drag-handle"></div>
+                <!--begin::Card2 body-->
+                <div class="overflow-scroll h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
+                    :class="classDetail ? ' d-block' : 'd-none'">
+                    <div class="ms-3 pb-10">
+                        <div class="card-title py-2 position-relative">
+                            <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailVuln.vt_name }}</h2>
+                            <div class="position-absolute top-50 end-0 translate-middle-y">
+                                <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
+                                    <KTIcon icon-name="x" icon-class="bi bi-x" :style="{ fontSize: '25px' }" />
+                                </button>
                             </div>
-                            <div class="mb-5" v-if="detailVuln.classification != null && detailVuln.classification != ''">
-                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Classification</h4>
-                                <div class="lh-base mt-3">
-                                    <div class="row">
-                                        <div class="w-70px"><span>CWE</span></div>
-                                        <div class="col"><span>{{ detailVuln.tags ?? '--' }}</span></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="w-70px"><span>CVSS</span></div>
-                                        <div class="col">
-                                            <template v-for="(items, index) in detailVuln.classification" :key="index">
-                                                <template v-if="items != null">
-                                                    <template v-if="Array.isArray(items)">
-                                                        <template v-for="(item, key) in items" :key="key">
+                        </div>
+                        <div class="lh-lg mt-2">
+                            <div class="mb-5" v-if="detailVuln.host != null && detailVuln.host != ''">
+                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">URL : <span>{{ detailVuln.host
+                                }}</span></h4>
+                            </div>
+                            <div class="mb-5" v-if="detailVuln.severity != '' || detailVuln.status != ''">
+                                <span class="badge text-white me-2"
+                                    :style="{ background: getSeverity(detailVuln.severity).color }">Severity: {{
+                                        getSeverity(detailVuln.severity).title }}</span>
+                                <span :class="`badge badge-${getStatus(detailVuln.status).color}`">Trạng thái: {{
+                                    detailVuln.status }}</span>
+                            </div>
+
+                            <template v-if="checkDetailVuln">
+                                <div class="mb-5" v-if="detailVuln.details != null && detailVuln.details != ''">
+                                    <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Attack Details</h4>
+                                    <div v-html="detailVuln.details"></div>
+                                </div>
+                                <div class="mb-5"
+                                    v-if="detailVuln.classification != null && detailVuln.classification != ''">
+                                    <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Classification</h4>
+                                    <div class="lh-base mt-3">
+                                        <div class="row">
+                                            <div class="w-70px"><span>CWE</span></div>
+                                            <div class="col"><span>{{ detailVuln.tags ?? '--' }}</span></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="w-70px"><span>CVSS</span></div>
+                                            <div class="col">
+                                                <template v-for="(items, index) in detailVuln.classification" :key="index">
+                                                    <template v-if="items != null">
+                                                        <template v-if="Array.isArray(items)">
+                                                            <template v-for="(item, key) in items" :key="key">
+                                                                <li class="d-flex align-items-center py-2">
+                                                                    <span
+                                                                        class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
+                                                                    {{ index }} : {{ item }}
+                                                                </li>
+                                                            </template>
+                                                        </template>
+                                                        <template v-else>
                                                             <li class="d-flex align-items-center py-2">
                                                                 <span
                                                                     class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
-                                                                {{ index }} : {{ item }}
+                                                                {{ index }} : {{ items }}
                                                             </li>
                                                         </template>
                                                     </template>
-                                                    <template v-else>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-5">
+                                    <div id="kt_detail_collapsible_scan">
+
+                                        <div class="py-1"
+                                            v-if="detailVuln.description != null && detailVuln.description != ''">
+                                            <div class="py-3 d-flex flex-stack flex-wrap">
+                                                <div class="d-flex align-items-center collapsible toggle collapsed"
+                                                    data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_5"
+                                                    aria-expanded="false">
+                                                    <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                                                        <KTIcon icon-name="minus-square"
+                                                            icon-class="toggle-on text-primary fs-2" />
+                                                        <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                                                    </div>
+
+                                                    <div class="me-3">
+                                                        <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">Vulnerability
+                                                            Description</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="kt_detail_collapsible_scan_5" class="fs-6 px-2 collapse" style="">
+                                                <div v-html="detailVuln.description">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="separator separator-dashed"
+                                            v-if="detailVuln.description != null && detailVuln.description != ''"></div>
+
+
+                                        <div class="py-1" v-if="detailVuln.impact != null && detailVuln.impact != ''">
+                                            <div class="py-3 d-flex flex-stack flex-wrap">
+                                                <div class="d-flex align-items-center collapsible toggle collapsed"
+                                                    data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_5"
+                                                    aria-expanded="false">
+                                                    <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                                                        <KTIcon icon-name="minus-square"
+                                                            icon-class="toggle-on text-primary fs-2" />
+                                                        <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                                                    </div>
+
+                                                    <div class="me-3">
+                                                        <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">The impact of
+                                                            this
+                                                            vulnerability</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="kt_detail_collapsible_scan_5" class="fs-6 px-2 collapse" style="">
+                                                <div>
+                                                    <span>{{ detailVuln.impact }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="separator separator-dashed"
+                                            v-if="detailVuln.impact != null && detailVuln.impact != ''"></div>
+
+
+                                        <div class="py-1" v-if="detailVuln.request != null && detailVuln.request != ''">
+                                            <div class="py-3 d-flex flex-stack flex-wrap">
+                                                <div class="d-flex align-items-center collapsible toggle collapsed"
+                                                    data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_1"
+                                                    aria-expanded="false">
+                                                    <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                                                        <KTIcon icon-name="minus-square"
+                                                            icon-class="toggle-on text-primary fs-2" />
+                                                        <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                                                    </div>
+
+                                                    <div class="me-3">
+                                                        <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">HTTP Request
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="kt_detail_collapsible_scan_1" class="fs-6 px-2 collapse" style="">
+                                                <div>
+                                                    <CodeHighlighter lang="json">{{ detailVuln.request }}</CodeHighlighter>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="separator separator-dashed"
+                                            v-if="detailVuln.request != null && detailVuln.request != ''"></div>
+
+                                        <div class="py-1"
+                                            v-if="detailVuln.http_response != null && detailVuln.http_response != ''">
+                                            <div class="py-3 d-flex flex-stack flex-wrap">
+                                                <div class="d-flex align-items-center collapsible toggle collapsed"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#kt_detail_collapsible_scan_2">
+                                                    <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                                                        <KTIcon icon-name="minus-square"
+                                                            icon-class="toggle-on text-primary fs-2" />
+
+                                                        <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                                                    </div>
+
+                                                    <div class="me-3">
+                                                        <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">HTTP Response
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="kt_detail_collapsible_scan_2" class="collapse fs-6 px-2">
+                                                <div>
+                                                    <CodeHighlighter lang="html">{{ detailVuln.http_response }}
+                                                    </CodeHighlighter>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="separator separator-dashed"
+                                            v-if="detailVuln.http_response != null && detailVuln.http_response != ''"></div>
+
+                                        <div class="py-1"
+                                            v-if="detailVuln.recommendation != null && detailVuln.recommendation != ''">
+                                            <div class="py-3 d-flex flex-stack flex-wrap">
+                                                <div class="d-flex align-items-center collapsible toggle collapsed"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#kt_detail_collapsible_scan_3">
+                                                    <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
+                                                        <KTIcon icon-name="minus-square"
+                                                            icon-class="toggle-on text-primary fs-2" />
+                                                        <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
+                                                    </div>
+
+                                                    <div class="me-3">
+                                                        <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">How to fix
+                                                            this
+                                                            vulnerability</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id="kt_detail_collapsible_scan_3" class="collapse fs-6 px-2">
+                                                <div>
+                                                    {{ detailVuln.recommendation }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div class="mb-5" v-if="detailVuln.tags != null && detailVuln.tags != ''">
+                                    <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">CVE/CWE</h4>
+                                    <div class="lh-base ms-5">
+                                        <template v-for="(tag, index) in detailVuln.tags" :key="index">
+                                            <li class="d-flex align-items-center py-2">
+                                                <span class="bullet bullet-dot h-5px w-5px bg-success me-5"></span> {{ tag
+                                                }}
+                                            </li>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div class="mb-5"
+                                    v-if="detailVuln.classification != null && detailVuln.classification != ''">
+                                    <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Classification</h4>
+                                    <div class="lh-base ms-5">
+                                        <template v-for="(items, index) in detailVuln.classification" :key="index">
+                                            <template v-if="items != null">
+                                                <template v-if="Array.isArray(items)">
+                                                    <template v-for="(item, key) in items" :key="key">
                                                         <li class="d-flex align-items-center py-2">
                                                             <span
                                                                 class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
-                                                            {{ index }} : {{ items }}
+                                                            {{ index }} : {{ item }}
                                                         </li>
                                                     </template>
                                                 </template>
-                                            </template>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-5">
-                                <div id="kt_detail_collapsible_scan">
-
-                                    <div class="py-1" v-if="detailVuln.description != null && detailVuln.description != ''">
-                                        <div class="py-3 d-flex flex-stack flex-wrap">
-                                            <div class="d-flex align-items-center collapsible toggle collapsed"
-                                                data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_5"
-                                                aria-expanded="false">
-                                                <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
-                                                    <KTIcon icon-name="minus-square"
-                                                        icon-class="toggle-on text-primary fs-2" />
-                                                    <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
-                                                </div>
-
-                                                <div class="me-3">
-                                                    <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">Vulnerability
-                                                        Description</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="kt_detail_collapsible_scan_5" class="fs-6 px-2 collapse" style="">
-                                            <div v-html="detailVuln.description">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="separator separator-dashed"
-                                        v-if="detailVuln.description != null && detailVuln.description != ''"></div>
-
-
-                                    <div class="py-1" v-if="detailVuln.impact != null && detailVuln.impact != ''">
-                                        <div class="py-3 d-flex flex-stack flex-wrap">
-                                            <div class="d-flex align-items-center collapsible toggle collapsed"
-                                                data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_5"
-                                                aria-expanded="false">
-                                                <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
-                                                    <KTIcon icon-name="minus-square"
-                                                        icon-class="toggle-on text-primary fs-2" />
-                                                    <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
-                                                </div>
-
-                                                <div class="me-3">
-                                                    <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">The impact of this
-                                                        vulnerability</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="kt_detail_collapsible_scan_5" class="fs-6 px-2 collapse" style="">
-                                            <div>
-                                                <span>{{ detailVuln.impact }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="separator separator-dashed"
-                                        v-if="detailVuln.impact != null && detailVuln.impact != ''"></div>
-
-
-                                    <div class="py-1" v-if="detailVuln.request != null && detailVuln.request != ''">
-                                        <div class="py-3 d-flex flex-stack flex-wrap">
-                                            <div class="d-flex align-items-center collapsible toggle collapsed"
-                                                data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_1"
-                                                aria-expanded="false">
-                                                <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
-                                                    <KTIcon icon-name="minus-square"
-                                                        icon-class="toggle-on text-primary fs-2" />
-                                                    <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
-                                                </div>
-
-                                                <div class="me-3">
-                                                    <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">HTTP Request</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="kt_detail_collapsible_scan_1" class="fs-6 px-2 collapse" style="">
-                                            <div>
-                                                <CodeHighlighter lang="json">{{ detailVuln.request }}</CodeHighlighter>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="separator separator-dashed"
-                                        v-if="detailVuln.request != null && detailVuln.request != ''"></div>
-
-                                    <div class="py-1"
-                                        v-if="detailVuln.http_response != null && detailVuln.http_response != ''">
-                                        <div class="py-3 d-flex flex-stack flex-wrap">
-                                            <div class="d-flex align-items-center collapsible toggle collapsed"
-                                                data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_2">
-                                                <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
-                                                    <KTIcon icon-name="minus-square"
-                                                        icon-class="toggle-on text-primary fs-2" />
-
-                                                    <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
-                                                </div>
-
-                                                <div class="me-3">
-                                                    <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">HTTP Response</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="kt_detail_collapsible_scan_2" class="collapse fs-6 px-2">
-                                            <div>
-                                                <CodeHighlighter lang="html">{{ detailVuln.http_response }}
-                                                </CodeHighlighter>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="separator separator-dashed"
-                                        v-if="detailVuln.http_response != null && detailVuln.http_response != ''"></div>
-
-                                    <div class="py-1"
-                                        v-if="detailVuln.recommendation != null && detailVuln.recommendation != ''">
-                                        <div class="py-3 d-flex flex-stack flex-wrap">
-                                            <div class="d-flex align-items-center collapsible toggle collapsed"
-                                                data-bs-toggle="collapse" data-bs-target="#kt_detail_collapsible_scan_3">
-                                                <div class="btn btn-sm btn-icon btn-active-color-primary ms-n3 me-2">
-                                                    <KTIcon icon-name="minus-square"
-                                                        icon-class="toggle-on text-primary fs-2" />
-                                                    <KTIcon icon-name="plus-square" icon-class="toggle-off fs-2" />
-                                                </div>
-
-                                                <div class="me-3">
-                                                    <h4 class="text-gray-800 fw-bold cursor-pointer mb-0">How to fix this
-                                                        vulnerability</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="kt_detail_collapsible_scan_3" class="collapse fs-6 px-2">
-                                            <div>
-                                                {{ detailVuln.recommendation }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                        <template v-else>
-                            <div class="mb-5" v-if="detailVuln.tags != null && detailVuln.tags != ''">
-                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">CVE/CWE</h4>
-                                <div class="lh-base ms-5">
-                                    <template v-for="(tag, index) in detailVuln.tags" :key="index">
-                                        <li class="d-flex align-items-center py-2">
-                                            <span class="bullet bullet-dot h-5px w-5px bg-success me-5"></span> {{ tag }}
-                                        </li>
-                                    </template>
-                                </div>
-                            </div>
-                            <div class="mb-5" v-if="detailVuln.classification != null && detailVuln.classification != ''">
-                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Classification</h4>
-                                <div class="lh-base ms-5">
-                                    <template v-for="(items, index) in detailVuln.classification" :key="index">
-                                        <template v-if="items != null">
-                                            <template v-if="Array.isArray(items)">
-                                                <template v-for="(item, key) in items" :key="key">
+                                                <template v-else>
                                                     <li class="d-flex align-items-center py-2">
                                                         <span class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
-                                                        {{ index }} : {{ item }}
+                                                        {{ index }} : {{ items }}
                                                     </li>
                                                 </template>
                                             </template>
-                                            <template v-else>
-                                                <li class="d-flex align-items-center py-2">
-                                                    <span class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
-                                                    {{ index }} : {{ items }}
-                                                </li>
-                                            </template>
                                         </template>
-                                    </template>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mb-5" v-if="detailVuln.type != null && detailVuln.type != ''">
-                                <p><span class="text-gray-800 fs-6 fw-bold cursor-pointer ">Service : </span><span
-                                        class="badge badge-light-primary">{{ detailVuln.type }}</span></p>
-                            </div>
-                            <div class="mb-5" v-if="detailVuln.reference != null && detailVuln.reference != ''">
-                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Reference</h4>
-                                <div class="lh-base ms-5">
-                                    <template v-for="(tag, index) in detailVuln.reference" :key="index">
-                                        <li class="d-flex align-items-center py-2">
-                                            <span class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
-                                            {{ tag }}
-                                            <KTIcon icon-name="copy" class="fs-2 ms-3" data-clipboard-target="123" />
-                                        </li>
-                                    </template>
+                                <div class="mb-5" v-if="detailVuln.type != null && detailVuln.type != ''">
+                                    <p><span class="text-gray-800 fs-6 fw-bold cursor-pointer ">Service : </span><span
+                                            class="badge badge-light-primary">{{ detailVuln.type }}</span></p>
                                 </div>
-                            </div>
-                            <div class="mb-5" v-if="detailVuln.matcherName != null && detailVuln.matcherName != ''">
-                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">matcher name</h4>
-                                <span> {{ detailVuln.matcherName }}</span>
-                            </div>
-                            <div class="mb-5" v-if="detailVuln.description != null && detailVuln.description != ''">
-                                <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Description</h4>
-                                <span> {{ detailVuln.description }}</span>
-                            </div>
-                        </template>
+                                <div class="mb-5" v-if="detailVuln.reference != null && detailVuln.reference != ''">
+                                    <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Reference</h4>
+                                    <div class="lh-base ms-5">
+                                        <template v-for="(tag, index) in detailVuln.reference" :key="index">
+                                            <li class="d-flex align-items-center py-2">
+                                                <span class="bullet bullet-dot h-5px w-5px bg-success me-5"></span>
+                                                {{ tag }}
+                                                <KTIcon icon-name="copy" class="fs-2 ms-3" data-clipboard-target="123" />
+                                            </li>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div class="mb-5" v-if="detailVuln.matcherName != null && detailVuln.matcherName != ''">
+                                    <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">matcher name</h4>
+                                    <span> {{ detailVuln.matcherName }}</span>
+                                </div>
+                                <div class="mb-5" v-if="detailVuln.description != null && detailVuln.description != ''">
+                                    <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Description</h4>
+                                    <span> {{ detailVuln.description }}</span>
+                                </div>
+                            </template>
 
+                        </div>
                     </div>
                 </div>
+
+                <!--end::Card2 body-->
             </div>
 
-            <!--end::Card2 body-->
         </div>
-
-    </div></div>
+    </div>
     <!--end::Card-->
 
 
@@ -632,6 +617,7 @@ import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
 import { ElMessage } from 'element-plus'
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 
 // import dayjs from 'dayjs';
 import axios from 'axios'
@@ -675,6 +661,7 @@ export default defineComponent({
         KTDatatable,
         filtersTabScan,
         CodeHighlighter,
+        KTToolbar,
     },
     setup() {
         const route = useRoute();
@@ -1180,14 +1167,9 @@ export default defineComponent({
 
         // tìm kiếm 
         const handleFilter = (data: any) => {
-            if (data) {
-                query.value = data.query;
-                currentPage.value = 1;
-                getData();
-            } else {
-                notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
-            }
-
+            query.value = data;
+            currentPage.value = 1;
+            getData();
         };
 
 
@@ -1250,7 +1232,7 @@ export default defineComponent({
             //console.log(divHeight.value, 'divHeight')
         };
 
-          // Sử dụng nextTick để đảm bảo rằng kích thước đã được cập nhật
+        // Sử dụng nextTick để đảm bảo rằng kích thước đã được cập nhật
         nextTick(() => {
             watch(classDetail, () => {
                 handleHeightheader();
@@ -1303,6 +1285,20 @@ export default defineComponent({
             window.removeEventListener('resize', handleHeightheader);
         });
 
+        // check
+        const checkNameTarget = (name: string, domain: string) => {
+            if (name != '' && domain != '') {
+                return name + ' - ' + domain;
+            } else if(name != '' || domain != '') {
+                if(name != ''){
+                    return name
+                }else{
+                    return domain
+                }
+            }
+            return '--'
+        };
+
         // Tính toán chiều rộng nội dung
         const contentWidth = ref(0);
         onMounted(() => {
@@ -1317,6 +1313,7 @@ export default defineComponent({
 
 
         return {
+            checkNameTarget,
             scanID,
             getData,
             list,

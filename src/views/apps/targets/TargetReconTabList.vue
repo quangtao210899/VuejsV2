@@ -35,7 +35,7 @@
                             <div class="d-flex justify-content-end">
                                 <el-popconfirm confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
                                     icon="InfoFilled" icon-color="#626AEF"
-                                    title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
+                                    title="Bạn có chắc chắn muốn hủy lần Recon này không?" @confirm="confirmEvent"
                                     @cancel="cancelEvent">
                                     <template #reference>
                                         <button type="button" :disabled="checkDisabled"
@@ -1483,7 +1483,7 @@ export default defineComponent({
         CodeHighlighter,
         reconActivity,
     },
-    setup(props) {
+    setup() {
         const route = useRoute();
         const scanID = ref<null | number | any>(route.params.id ?? '');
         const idRecon = ref<null | number | any>(route.params.idRecon ?? '');
@@ -1514,8 +1514,6 @@ export default defineComponent({
         const severityHigh = ref<number>(0)
         const reconStatus = ref<number>(0)
         const filterSeverity = ref<number | null>(null)
-        const timeEnd = ref<number | any>(null)
-        const timeStart = ref<number | any>(null)
         const account = ref<any>({
             credentials: 0,
             email: 0,
@@ -1703,21 +1701,6 @@ export default defineComponent({
             return { id: 8, title: 'undefined', color: 'light' };
         };
 
-        // reloadData
-        const reloadgetData = () => {
-            disabled.value = true
-            setTimeout(() => {
-                disabled.value = false
-            }, 1000);
-            getData();
-            ElMessage({
-                message: 'Tải lại thành công',
-                type: 'success',
-                center: false,
-            })
-        };
-        const reloadData = debounce(reloadgetData, 500);
-
         // tạm dừng
         // false - tạm dừng
         // true - tiếp tục
@@ -1729,21 +1712,13 @@ export default defineComponent({
                 checkDisabled.value = false;
             }, 500);
             if (reconStatus.value == 3) {
-                ElMessage({
-                    message: 'Danh dách đã được quét thành công không thể tạm dừng',
-                    type: 'success',
-                    center: false,
-                })
+                notification('Danh dách đã được quét thành công không thể tạm dừng', 'error', 'Có lỗi xảy ra')
             } else if (reconStatus.value == 5) {
                 getResume()
             } else if (reconStatus.value == 2) {
                 getPauser()
             } else {
-                ElMessage({
-                    message: 'Có lỗi xảy ra',
-                    type: 'error',
-                    center: false,
-                })
+                notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
             }
 
         };
@@ -1756,19 +1731,11 @@ export default defineComponent({
             }
             return ApiService.post(`recon/${scanID.value}/restart2`, formData)
                 .then(({ data }) => {
+                    notification(data.detail, 'success', 'Tiếp tục thành công')
                     getData()
-                    ElMessage({
-                        message: data.detail ?? 'Tiếp tục thành công',
-                        type: 'success',
-                        center: false,
-                    })
                 })
                 .catch(({ response }) => {
-                    ElMessage({
-                        message: response.data.detail ?? 'Có lỗi xảy ra',
-                        type: 'error',
-                        center: false,
-                    })
+                    notification(response.data.detail , 'error', 'Có lỗi xảy ra')
                 });
         };
 
@@ -1780,19 +1747,11 @@ export default defineComponent({
             }
             return ApiService.post(`recon/${scanID.value}/stop2`, formData)
                 .then(({ data }) => {
+                    notification(data.detail, 'success', 'Tạm dừng thành công')
                     getData()
-                    ElMessage({
-                        message: data.detail ?? 'Tạm dừng thành công',
-                        type: 'success',
-                        center: false,
-                    })
                 })
                 .catch(({ response }) => {
-                    ElMessage({
-                        message: response.data.detail ?? 'Có lỗi xảy ra',
-                        type: 'error',
-                        center: false,
-                    })
+                    notification(response.data.detail , 'error', 'Có lỗi xảy ra')
                 });
         };
 
@@ -1820,29 +1779,15 @@ export default defineComponent({
             }).catch(async error => {
                 // xử lý hiển thị lỗi 
                 const reponse_message = JSON.parse(await error.response.data.text()).detail ?? "Có lỗi xảy ra"
-                ElMessage({
-                    message: reponse_message,
-                    type: 'success',
-                    center: false,
-                })
+                notification(reponse_message, 'error', 'Có lỗi xảy ra')
                 fileDownVisible.value = false;
             })
         };
         // hủy
         const confirmEvent = () => {
-            ElMessage({
-                message: 'Test hủy',
-                type: 'success',
-                center: false,
-            })
         }
 
         const cancelEvent = () => {
-            ElMessage({
-                message: 'Hủy bỏ lệnh thành công',
-                type: 'info',
-                center: false,
-            })
         }
 
         // tính thời gian
@@ -1850,20 +1795,6 @@ export default defineComponent({
         const time = ref<any>(null);
         const eventTime = ref<number | any>('30000');
         let intervalId: any;
-
-        // const humanDiff = async () => {
-        //     let date1: any = (reconStatus.value == 2) ? new Date() : new Date(timeEnd.value);
-        //     let date2: any = new Date(timeStart.value);
-        //     let diff = Math.max(date2, date1) - Math.min(date2, date1);
-        //     let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
-        //     let hrs = Math.floor(diff / HRS);
-        //     let min = Math.floor((diff % HRS) / MIN).toLocaleString('en-US', { minimumIntegerDigits: 1 });
-        //     let sec = Math.floor(((diff % MIN) / SEC)).toLocaleString('en-US', { minimumIntegerDigits: 2 });
-        //     if (hrs == 0) {
-        //         return diffTime.value = min + 'm ' + sec + 's';
-        //     }
-        //     return diffTime.value = hrs + 'h ' + min + 'm ' + sec + 's';
-        // };
 
         watch((eventTime), () => {
             humanDiffTime();
@@ -2193,7 +2124,6 @@ export default defineComponent({
 
 
             // reloadData
-            reloadData,
             progress,
             checkStatus,
             diffTime,
