@@ -1938,7 +1938,7 @@ export default defineComponent({
                         technology_status.value = ( data.recon.recon.recon[0].technology !== undefined) ?  data.recon.recon.recon[0].technology.status : {};
 
                         // subdomain_result
-                        subdomain_result.value =  data.recon.recon.recon[0].subdomain_result
+                        subdomain_result.value =  data.recon.recon.recon[0].subdomain_result.slice(0,10)
 
                         // Web Data
                         webdata_result.value = ( data.recon.recon.recon[0].webdata !== undefined) ?  data.recon.recon.recon[0].webdata.message : {};
