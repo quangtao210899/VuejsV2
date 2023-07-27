@@ -83,7 +83,7 @@
                   </template>
                 </template>
               </el-table-column>
-              <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold" align="left" prop="status"
+              <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="status"
                 label="TRẠNG THÁI">
                 <template #default="scope">
                   <span v-if="scope.row.status != ''" class="badge fs-13px"
@@ -147,17 +147,13 @@
             </div>
             <div class="bg-light my-5 py-2 px-4 lh-lg rounded-2 me-2 fs-13px">
               <div class="row">
-                <div class="col-12 col-xl-6 col-xxl-4 my-1">
+                <div class="col-12 col-xl-6 my-1">
                   <span class="text-black-50">IP : </span>
                   <span class="ps-1"> {{ detailData.ip }}</span>
                 </div>
-                <div class="col-12 col-xl-6 col-xxl-4 my-1">
+                <div class="col-12 col-xl-6 my-1">
                   <span class="text-black-50">Host name : </span>
                   <span class="ps-1"> {{ detailData.hostname }}</span>
-                </div>
-                <div class="col-12 col-xl-6 col-xxl-4 my-1">
-                  <span class="text-black-50">Date : </span>
-                  <span class="ps-1"> {{ detailData.last_seen }}</span>
                 </div>
               </div>
             </div>

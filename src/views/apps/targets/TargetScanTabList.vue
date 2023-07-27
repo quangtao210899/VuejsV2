@@ -233,7 +233,7 @@
                                 </template>
                             </el-table-column>
                             <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="affects_url"
-                                label="HOST NAME">
+                                label="URL">
                                 <template #default="scope">
                                     <span v-if="scope.row.affects_url || scope.row.port_scan.host"
                                         class="fs-13px text-gray-700 text-hover-primary">
@@ -243,24 +243,25 @@
                                     <span v-else class="badge badge-light-danger">--</span>
                                 </template>
                             </el-table-column>
-                            <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold" align="left"
-                                prop="status" label="TRẠNG THÁI">
-                                <template #default="scope">
-                                    <span v-if="scope.row.status != ''" class="badge fs-13px"
-                                        :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
-                                        {{ scope.row.status }}
-                                    </span>
-                                    <span v-else class="badge badge-light-danger">--</span>
-                                </template>
-                            </el-table-column>
 
                             <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold" align="left"
                                 prop="last_seen" label="NGÀY TẠO">
                                 <template #default="scope">
                                     <span v-if="scope.row.last_seen != ''"
-                                        class="fs-13px d-flex justify-content-end align-items-center">
+                                        class="fs-13px d-flex justify-content-start align-items-center">
                                         <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
                                         {{ scope.row.last_seen }}
+                                    </span>
+                                    <span v-else class="badge badge-light-danger">--</span>
+                                </template>
+                            </el-table-column>
+
+                            <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold"
+                                prop="status" label="TRẠNG THÁI">
+                                <template #default="scope">
+                                    <span v-if="scope.row.status != ''" class="badge fs-13px"
+                                        :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
+                                        {{ scope.row.status }}
                                     </span>
                                     <span v-else class="badge badge-light-danger">--</span>
                                 </template>
@@ -281,10 +282,10 @@
                 </div>
                 <!--end::Card body-->
                 <div v-if="classDetail" @mousedown="startDragging"
-                                        class="drag-handle position-relative border-start">
-                                        <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
-                                        </div>
-                                    </div>
+                    class="drag-handle position-relative border-start">
+                    <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
+                    </div>
+                </div>
                 <!--begin::Card2 body-->
                 <div class="overflow-auto h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
                     :class="classDetail ? ' d-block' : 'd-none'">
@@ -293,8 +294,8 @@
                             <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailVuln.vt_name }}</h2>
                             <div  class="">
                                 <span 
-                                    :class="`px-4 me-2 py-3 badge fs-13px badge-light-${getSeverityName(detailVuln.severity).color}`">
-                                    {{  getSeverityName(detailVuln.severity).title }}
+                                    :class="`px-4 me-2 py-3 badge fs-13px badge-light-${getSeverity(detailVuln.severity).color}`">
+                                    {{  getSeverity(detailVuln.severity).title }}
                                 </span>
                                 <span 
                                     :class="`px-4 py-3 badge fs-13px badge-light-${getStatus(detailVuln.status).color}`">
@@ -703,7 +704,8 @@ export default defineComponent({
                     scanStatus.value = data.scan_status
                     fetchDataScans(currentPage.value, itemsPerPage.value)
 
-                    humanDiffTime()
+                    humanDiffTime();
+                    showLocaleTime();
                     // console.log(countRequest.value)
                     // console.log(averageResponseTime.value)
                     // console.log(locations.value)
@@ -800,7 +802,6 @@ export default defineComponent({
         };
 
         const customRowTable = (detail: any) => {
-            console.log(detail)
 
             classDetail.value = true;
             closeOnRow.value = true;
@@ -822,6 +823,10 @@ export default defineComponent({
                     }
                 }
             }
+
+            console.log(detail)
+            console.log(detailVuln)
+
         };
 
         const handleCloseDetail = () => {
@@ -842,19 +847,6 @@ export default defineComponent({
                 },
             }).then(() => {
             });
-        };
-
-        const getSeverityName = (severity: number | string) => {
-            if (severity == 'Info') {
-                return { id: 0, title: 'Info', color: 'success', class: 'severityInfo' };
-            } else if (severity == 'Low') {
-                return { id: 1, title: 'Low', color: 'primary', class: 'severityLow' };
-            } else if (severity == 'Medium') {
-                return { id: 2, title: 'Medium', color: 'warning', class: 'severityMedium' };
-            } else if (severity == 'High') {
-                return { id: 3, title: 'High', color: 'danger', class: 'severityHigh' };
-            }
-            return { id: 4, title: 'undefined', color: 'light', class: 'severityundefined' };
         };
 
         const getSeverity = (severity: number | string) => {
@@ -1070,6 +1062,23 @@ export default defineComponent({
             }
         };
 
+        // thời gian tự động chạy
+        let intervalIdAuto: any;
+
+        const showLocaleTime = async () => {
+            clearInterval(intervalIdAuto);
+            if (scanStatus.value == 2) {
+                intervalIdAuto = setInterval(() => { humanDiff(); }, 1000);
+            } else {
+                return;
+            }
+        };
+
+        onUnmounted(() => {
+            clearInterval(intervalIdAuto);
+            clearInterval(intervalId);
+        });
+
         onMounted(() => {
             getData();
         });
@@ -1129,8 +1138,6 @@ export default defineComponent({
             activeName,
             closeOnRow,
             checkitemsPerPage,
-            getSeverityName,
-
             // tải về
             fileDownVisible,
             downloadAcunetix,
