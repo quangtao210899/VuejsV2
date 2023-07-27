@@ -1,7 +1,7 @@
 <template>
-    <KTToolbar></KTToolbar>
+    <KTToolbar @on-header-height="onheaderHeight"></KTToolbar>
     <!--begin::Card-->
-        <div class="app-container container-fluid mt-5">
+        <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
             <div class="card h-100 d-block bg-transparent">
                 <div class="card px-5 mb-3 card-custom">
                     <div class="card-body p-0">
@@ -2401,6 +2401,13 @@ export default defineComponent({
             getData();
         });
 
+        // thay đổi kích thước header
+        const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            console.log(height)
+        }
+
         // tính thời gian
         const eventTime = ref<number | any>('30000');
         let intervalId: any;
@@ -2423,6 +2430,8 @@ export default defineComponent({
         });
 
         return {
+            headerHeight,
+            onheaderHeight,
             getData,
             list,
 

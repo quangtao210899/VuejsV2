@@ -1,7 +1,7 @@
 <template>
     <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true"
-        @form-submit="formSubmit(ruleFormRef)" @form-back="formBack"></KTToolbar>
-    <div class="app-container container-fluid pt-5">
+        @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @on-header-height="onheaderHeight"></KTToolbar>
+    <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
         <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20 pt-10">
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" :label-width="'33%'"
                 :label-position="labelPosition" class="demo-ruleForm px-0 px-lg-0 mx-5 mx-lg-10 mx-xxl-20 px-xxl-10 mt-10 text-capitalize"
@@ -283,6 +283,13 @@ export default defineComponent({
             }
         };
 
+        // thay đổi kích thước header
+        const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            console.log(height)
+        }
+
         onMounted(() => {
             handleResize();
             window.addEventListener('resize', handleResize);
@@ -293,6 +300,8 @@ export default defineComponent({
         });
 
         return {
+            headerHeight,
+            onheaderHeight,
             list,
             data_group,
             loading,

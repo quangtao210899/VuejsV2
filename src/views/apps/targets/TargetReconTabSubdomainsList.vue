@@ -1,7 +1,7 @@
 <template>
-    <KTToolbar></KTToolbar>
-        <div class="app-container container-fluid mt-5">
-            <div class="py-5 bg-body rounded-3">
+    <KTToolbar @on-header-height="onheaderHeight"></KTToolbar>
+        <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
+            <div class="bg-body rounded-3 pt-3" >
                 <!--begin::Navbar-->
                 <div class="pb-3 px-5 position-relative position-repository bg-white  border-bottom border-secondary">
                     <div class="row px-2 align-items-center ">
@@ -774,6 +774,13 @@ export default defineComponent({
             return '--'
         };
 
+        // thay đổi kích thước header
+        const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            console.log(height)
+        }
+
         onMounted(() => {
             getData();
             handleResize();
@@ -785,6 +792,8 @@ export default defineComponent({
         });
 
         return {
+            headerHeight,
+            onheaderHeight,
             checkNameTarget,
             scanID,
             getData,

@@ -1,8 +1,8 @@
 <template>
     <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-    @handle-delete-selectd="deleteSubscription" :disabled="disabled" v-model:header-height="headerHeight"></KTToolbar>
+    @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
     <!--begin::Card-->
-    <div class="app-container container-fluid mt-5" >
+    <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
         <div class="p-5 bg-body rounded-3">
             <!--begin::Card body-->
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
@@ -125,7 +125,6 @@ export default defineComponent({
         const totalPage = ref<number>(0);
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
-        const headerHeight = ref<number>(0);
         const query = ref<string>('');
         const search_group = ref<string>('');
         const orderingID = ref<string>('-id');
@@ -234,9 +233,12 @@ export default defineComponent({
             getData();
         });
 
-        watch(headerHeight, (newPageSize) => {
-            console.log(newPageSize)
-        });
+        // thay đổi kích thước header
+        const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            console.log(height)
+        }
 
         // thêm mới
         const urlAddNew = ref('target-form/add')
@@ -274,6 +276,9 @@ export default defineComponent({
             // edit 
             loading,
             disabled,
+
+            // đo chiều cao header
+            onheaderHeight,
             headerHeight,
 
             //

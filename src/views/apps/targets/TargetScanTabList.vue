@@ -1,6 +1,6 @@
 <template>
-    <KTToolbar :check-search="true" @handle-search="handleFilter"></KTToolbar>
-    <div class="app-container container-fluid pt-5 h-100 ">
+    <KTToolbar :check-search="true" @handle-search="handleFilter" @on-header-height="onheaderHeight"></KTToolbar>
+    <div class="app-container container-fluid h-100 " :style="{marginTop: headerHeight + 'px'}">
         <div class="mb-3 position-relative position-repository bg-white rounded-3 border card card-custom px-2">
             <!--begin::Card header-->
             <!--end::Card header-->
@@ -194,18 +194,13 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <!--begin::Card-->
-    <div class="app-container container-fluid p-0 ">
-        <div class="card card-custom h-100 d-block">
-            <div class="d-flex">
+        <div class="h-100 d-block card card-custom ">
+            <div class="d-flex px-5">
                 <!--begin::Card body-->
-                <div class="card-body overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container"
+                <div class="overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container"
                     @mousedown="handleMouseDown" :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
                     :class="classDetail ? 'border-end' : 'col-12'">
-                    <div class="w-100 px-5 py-2">
+                    <div class="w-100  py-2">
                         <el-table :data="getScansData" style="width: 100%;z-index: 1;"
                             class-name=" my-custom-table rounded-top cursor-pointer mt-2" table-layout="fixed"
                             v-loading="loading" highlight-current-row @row-click="customRowTable">
@@ -534,8 +529,6 @@
 
         </div>
     </div>
-    <!--end::Card-->
-
 
     <!-- // modoal  -->
     <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file" width="500">
@@ -1109,8 +1102,17 @@ export default defineComponent({
             clearInterval(intervalId);
         });
 
+        // thay đổi kích thước header
+        const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            console.log(height)
+        }
+
 
         return {
+            headerHeight,
+            onheaderHeight,
             getScansData,
             checkNameTarget,
             scanID,
