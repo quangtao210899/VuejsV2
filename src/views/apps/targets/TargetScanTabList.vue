@@ -354,7 +354,7 @@
                             <div class="mb-5" v-if="detailVuln.details != null && detailVuln.details != ''">
                                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">Attack Details</h4>
                                 <div>
-                                    <div class="ps-1 custom_attack_details" v-html="detailVuln.details"></div>
+                                    <div class="ps-1" v-html="detailVuln.details.replace(/<br\s*\/?>/g, '')"></div>
                                 </div>
                             </div>
 
@@ -1228,11 +1228,6 @@ export default defineComponent({
     right: 0;
     height: 0px;
     background-color: black;
-}
-
-
-.custom_attack_details br{
-    display: none !important;
 }
 </style>
   
