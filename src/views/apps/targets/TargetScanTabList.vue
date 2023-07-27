@@ -243,24 +243,25 @@
                                     <span v-else class="badge badge-light-danger">--</span>
                                 </template>
                             </el-table-column>
-                            <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" align="left"
-                                prop="status" label="TRẠNG THÁI">
-                                <template #default="scope">
-                                    <span v-if="scope.row.status != ''" class="badge fs-13px"
-                                        :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
-                                        {{ scope.row.status }}
-                                    </span>
-                                    <span v-else class="badge badge-light-danger">--</span>
-                                </template>
-                            </el-table-column>
 
                             <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold" align="left"
                                 prop="last_seen" label="NGÀY TẠO">
                                 <template #default="scope">
                                     <span v-if="scope.row.last_seen != ''"
-                                        class="fs-13px d-flex justify-content-end align-items-center">
+                                        class="fs-13px d-flex justify-content-start align-items-center">
                                         <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
                                         {{ scope.row.last_seen }}
+                                    </span>
+                                    <span v-else class="badge badge-light-danger">--</span>
+                                </template>
+                            </el-table-column>
+
+                            <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold"
+                                prop="status" label="TRẠNG THÁI">
+                                <template #default="scope">
+                                    <span v-if="scope.row.status != ''" class="badge fs-13px"
+                                        :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
+                                        {{ scope.row.status }}
                                     </span>
                                     <span v-else class="badge badge-light-danger">--</span>
                                 </template>

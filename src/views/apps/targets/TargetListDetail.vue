@@ -1307,7 +1307,7 @@
                                                     <span v-else class="badge badge-light-danger">--</span>
                                                 </template>
                                             </el-table-column>
-                                            <el-table-column min-width="160" label-class-name="fs-13px text-dark fw-bold"
+                                            <el-table-column min-width="160" label-class-name="fs-13px text-dark fw-bold" align="left"
                                                 prop="last_seen" label="NGÀY TẠO">
                                                 <template #default="scope">
                                                     <span v-if="scope.row.last_seen != ''"
@@ -1317,7 +1317,7 @@
                                                 </template>
                                             </el-table-column>
                                             <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold"
-                                                align="left" prop="status" label="TRẠNG THÁI">
+                                                 prop="status" label="TRẠNG THÁI">
                                                 <template #default="scope">
                                                     <span v-if="scope.row.status != ''" class="badge fs-13px"
                                                         :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
