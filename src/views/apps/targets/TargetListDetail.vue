@@ -39,14 +39,14 @@
                                 class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold flex-nowrap">
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
-                                    <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
+                                    <a class="nav-link text-active-primary pb-4" :class="{ active: activeTab === 'kt_recon_tab' }" aria-selected="true" data-bs-toggle="tab"
                                         href="#kt_recon_tab">Recon</a>
                                 </li>
                                 <!--end:::Tab item-->
 
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
-                                    <a class="nav-link text-active-primary me-6" data-bs-toggle="tab"
+                                    <a class="nav-link text-active-primary me-6" :class="{ active: activeTab === 'kt_scans_tab' }" aria-selected="false" data-bs-toggle="tab"
                                         href="#kt_scans_tab">Scans</a>
                                 </li>
                                 <!--end:::Tab item-->
@@ -60,7 +60,7 @@
                 <!--begin:::Tab content-->
                 <div class="tab-content " id="myTabContent">
                     <!--begin:::Tab pane-->
-                    <div class="tab-pane fade show active" id="kt_recon_tab" role="tabpanel">
+                    <div class="tab-pane fade show active"  id="kt_recon_tab" role="tabpanel">
                         <div>
                             <div class="card rounded-0 rounded-bottom ">
                                 <template v-if="checkRecon == true" >
@@ -1243,7 +1243,7 @@
                     <!--begin:::Tab pane-->
                     <div class="tab-pane fade" id="kt_scans_tab" role="tabpanel">
                         <div>
-                            <div class=" position-relative">
+                            <div class="card position-relative">
                                 <div class="position-absolute" style="top: -50px; right: 15px;">
                                     <div class="d-flex align-items-center">
                                         <!-- <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
@@ -2429,8 +2429,10 @@ export default defineComponent({
         onBeforeUnmount(() => {
         stopTimer();
         });
+        const activeTab = ref('kt_recon_tab');
 
         return {
+            activeTab,
             headerHeight,
             onheaderHeight,
             getData,
