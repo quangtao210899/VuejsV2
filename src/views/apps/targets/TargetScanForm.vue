@@ -61,7 +61,7 @@
                         type="password" :show-password="true" :class="(errors.proxyUserPassword) ? 'el-error-ruleForm' : ''"
                         autocomplete="new-password" />
                 </el-form-item>
-                <el-form-item prop="headerOptionValue" label="Sử dụng Header tùy chọn" class="pb-3 text-capitalize fs-6" :error="(errors.headerOptionValue) ? errors.headerOptionValue[0] : ''">
+                <el-form-item prop="headerOptionValue" label="Header Tùy Chỉnh" class="pb-3 text-capitalize fs-6" :error="(errors.headerOptionValue) ? errors.headerOptionValue[0] : ''">
                     <el-select v-model="scanFormState.headerOptionValue" multiple filterable class="w-100"
                         allow-create default-first-option placeholder="Ví dụ: Cookie: e8452aaa">
                     </el-select>
