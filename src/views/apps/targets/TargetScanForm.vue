@@ -354,29 +354,25 @@ export default defineComponent({
 .demo-ruleForm .el-form-item__error {
     text-transform: initial !important;
     line-height: 18px !important;
-    color:#f1416c !important;
+    color: #f1416c !important;
 }
 
 /* .demo-ruleForm .el-error-ruleForm .el-input__wrapper {
     box-shadow: 0 0 0 1px var(--el-color-danger) inset !important;
 } */
 
-.el-form-item__label{
+.el-form-item__label {
     font-size: 13px !important;
     font-weight: 500;
     color: #252f4a !important;
 }
 
-.el-radio__label{
-    font-size: 13px !important;
-    color: #181C32 !important;
-}
-
 .demo-ruleForm .el-input__wrapper {
     box-shadow: none !important;
-    
+
 }
-.demo-ruleForm .el-input__wrapper.is-focus{
+
+.demo-ruleForm .el-input__wrapper.is-focus {
     background-color: #f1f1f2 !important;
     color: #4b5675 !important;
 }
@@ -385,15 +381,22 @@ export default defineComponent({
     padding-top: 4px;
 }
 
+
 .demo-ruleForm .el-input__wrapper {
-    background: #f9f9f9 ;
+    background: #f9f9f9;
     border-radius: 10px !important;
 
 }
+
 .demo-ruleForm .el-input__wrapper input {
     font-weight: 500 !important;
     color: #252f4a !important;
     font-size: 13px !important;
     line-height: 21px !important;
+}
+
+.demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label-wrap>.el-form-item__label:after,
+.demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label:after {
+    margin-left: 0px !important;
 }
 </style>
