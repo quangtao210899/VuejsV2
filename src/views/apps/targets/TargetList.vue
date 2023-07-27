@@ -1,6 +1,6 @@
 <template>
     <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-    @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
+    @handle-delete-selectd="deleteSubscription" :disabled="disabled" v-model:header-height="headerHeight"></KTToolbar>
     <!--begin::Card-->
     <div class="app-container container-fluid mt-5" >
         <div class="p-5 bg-body rounded-3">
@@ -125,6 +125,7 @@ export default defineComponent({
         const totalPage = ref<number>(0);
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
+        const headerHeight = ref<number>(0);
         const query = ref<string>('');
         const search_group = ref<string>('');
         const orderingID = ref<string>('-id');
@@ -233,6 +234,10 @@ export default defineComponent({
             getData();
         });
 
+        watch(headerHeight, (newPageSize) => {
+            console.log(newPageSize)
+        });
+
         // thêm mới
         const urlAddNew = ref('target-form/add')
 
@@ -269,6 +274,7 @@ export default defineComponent({
             // edit 
             loading,
             disabled,
+            headerHeight,
 
             //
             handleSelectionChange,
