@@ -1,6 +1,6 @@
 <template>
   <!--begin::Menu 1-->
-  <div class="menu menu-sub menu-sub-dropdown w-350px w-md-450px" data-kt-menu="true">
+  <div class="menu menu-sub menu-sub-dropdown w-350px w-md-500px" data-kt-menu="true">
     <!--begin::Header-->
     <div class="px-7 py-5">
       <div class="fs-5 text-dark fw-bold">Thông tin</div>
@@ -30,19 +30,7 @@
         <div class="col-6">
           <!--begin::Row-->
           <div class="row text-start">
-            <div class="col-12 mb-3">
-              <div class="row">
-                <!--begin::Label-->
-                <span class="w-60px fw-semobold text-muted">ID </span>
-                <!--end::Label-->
 
-                <!--begin::Col-->
-                <div class="col">
-                  <span class="fw-bold fs-6 text-dark">{{ targetData.id }}</span>
-                </div>
-                <!--end::Col-->
-              </div>
-            </div>
             <div class="col-12 mb-3">
               <div class="row">
                 <!--begin::Label-->

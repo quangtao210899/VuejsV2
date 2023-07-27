@@ -6,7 +6,7 @@
     <div class="card h-10 d-block">
       <div class="d-flex px-5">
         <!--begin::Card body-->
-        <div class="overflow-auto h-100 m-0 mt-3" ref="container" @mousedown="handleMouseDown"
+        <div class="card-body overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
           :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
           <div class="w-100">
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
@@ -128,12 +128,12 @@
             </div>
             <div class="d-flex flex-wrap">
               <div class="w-200px me-2 my-1">
-                <el-select name="severity" as="select" v-model="detailData.severity" class=""
+                <el-select name="severity" as="select" v-model="detailData.severity"
                   :class="getSeverity(detailData.severity).class" @change="handleChangeUpdate('Mức độ')">
-                  <el-option label="Info" value="0" key="0">Info</el-option>
-                  <el-option label="Low" value="1" key="1">Low</el-option>
-                  <el-option label="Medium" value="2" key="2">Medium</el-option>
-                  <el-option label="High" value="3" key="3">High</el-option>
+                  <el-option label="Info" :value="0" key="0">Info</el-option>
+                  <el-option label="Low" :value="1" key="1">Low</el-option>
+                  <el-option label="Medium" :value="2" key="2">Medium</el-option>
+                  <el-option label="High" :value="3" key="3">High</el-option>
                 </el-select>
               </div>
               <div class="w-200px my-1">
@@ -163,7 +163,6 @@
               </div>
             </div>
             <div class="lh-lg">
-
               <div class="mb-5"
                 v-if="(detailData.url != null && detailData.url != '') || (detailData.parameter != null && detailData.parameter != '')">
                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
@@ -389,11 +388,7 @@ import ApiService from "@/core/services/ApiService";
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import Fillter from "@/views/apps/scans/filters.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
-import { markRaw } from 'vue'
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 
@@ -410,7 +405,6 @@ export default defineComponent({
     ErrorMessage,
     Field,
     VForm,
-    Fillter,
     CodeHighlighter,
     KTToolbar,
     ElTable,
@@ -449,7 +443,7 @@ export default defineComponent({
     const detailData = reactive({
       id: '',
       vt_name: '',
-      severity: '',
+      severity: '0',
       ip: '',
       hostname: '',
       schema: '',
@@ -597,35 +591,50 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
-      closeOnRow.value = true;
-      classDetail.value = true;
+      console.log(detail)
       checkitemsPerPage.value = true;
-      detailData.id = detail.id ?? detail.port_scan.id
-      detailData.vt_name = detail.vt_name ?? detail.port_scan.name
-      detailData.status = detail.status
-      detailData.severity = String(detail.severity)
-      detailData.created_at = detail.created_at
-      detailData.hostname = detail.hostname ?? detail.port_scan.hostname
-      detailData.ip = detail.ip ?? detail.port_scan.in_cpe
-      detailData.schema = detail.schema ?? detail.port_scan.schema
-      detailData.last_seen = detail.last_seen ?? detail.port_scan.last_seen
-      detailData.url = detail.affects_url //
-      detailData.parameter = detail.affects_detail ?? detail.port_scan.affects_detail
-      detailData.tags = detail.tags ?? detail.port_scan.tags
-      detailData.cvss_score = detail.cvss_score ?? detail.port_scan.cvss_score
-      detailData.details = detail.details ?? detail.port_scan.details
-      detailData.description = detail.description ?? detail.port_scan.description
-      detailData.request = detail.request ?? detail.port_scan.request
-      detailData.http_response = detail.http_response ?? detail.port_scan.http_response
-      detailData.recommendation = detail.recommendation ?? detail.port_scan.recommendation
+      if (detail) {
+        closeOnRow.value = true;
+        classDetail.value = true;
+        for (const key in detailData) {
+            // Kiểm tra xem dữ liệu truyền vào có tồn tại và tương ứng với thuộc tính trong detailData hay không
+            if (detail.hasOwnProperty(key) || detail.port_scan) {
+            // Nếu có, gán giá trị vào obj detailData
+                detailData[key] = detail[key] ?? detail.port_scan[key];
+            } else {
+            // Nếu không, gán giá trị rỗng vào obj detailData
+            detailData[key] = '';
+            }
+        }
+      }
+      // console.log(detailData)
+      // return;
+      // detailData.id = detail.id ?? detail.port_scan.id
+      // detailData.vt_name = detail.vt_name ?? detail.port_scan.name
+      // detailData.status = detail.status
+      // detailData.severity = String(detail.severity)
+      // detailData.created_at = detail.created_at
+      // detailData.hostname = detail.hostname ?? detail.port_scan.hostname
+      // detailData.ip = detail.in_cpe ?? detail.port_scan.in_cpe
+      // detailData.schema = detail.schema ?? detail.port_scan.schema
+      // detailData.last_seen = detail.last_seen ?? detail.port_scan.last_seen
+      // detailData.url = detail.affects_url //
+      // detailData.parameter = detail.affects_detail ?? detail.port_scan.affects_detail
+      // detailData.tags = detail.tags ?? detail.port_scan.tags
+      // detailData.cvss_score = detail.cvss_score ?? detail.port_scan.cvss_score
+      // detailData.details = detail.details ?? detail.port_scan.details
+      // detailData.description = detail.description ?? detail.port_scan.description
+      // detailData.request = detail.request ?? detail.port_scan.request
+      // detailData.http_response = detail.http_response ?? detail.port_scan.http_response
+      // detailData.recommendation = detail.recommendation ?? detail.port_scan.recommendation
       // post scan
-      detailData.in_cpe = detail.port_scan.in_cpe
-      detailData.protocol = detail.port_scan.protocol
-      detailData.service = detail.port_scan.service
-      detailData.port = detail.port_scan.port
-      detailData.classification = detail.port_scan.classification
-      detailData.type = detail.port_scan.type
-      detailData.references = detail.port_scan.references
+      // detailData.in_cpe = detail.port_scan.in_cpe
+      // detailData.protocol = detail.port_scan.protocol
+      // detailData.service = detail.port_scan.service
+      // detailData.port = detail.port_scan.port
+      // detailData.classification =  detail.classification
+      // detailData.type = detail.port_scan.type
+      // detailData.references = detail.port_scan.references
 
       dataConfirm.severity = detailData.severity
       dataConfirm.status = detailData.status
@@ -867,28 +876,35 @@ export default defineComponent({
 .shadow-hvover {
   box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
 }
-
+/* 
 .severityInfo .el-input__wrapper {
-  background-color: #28a745;
+  background-color: #28a745 !important;
+  color: #fff;
+
 }
 
 .severityLow .el-input__wrapper {
-  background-color: #23b7e5;
+  background-color: #23b7e5 !important;
+  color: #fff;
+
 }
 
 .severityMedium .el-input__wrapper {
-  background-color: #fcba32;
+  background-color: #fcba32!important;
   color: #fff;
 }
 
 .severityHigh .el-input__wrapper {
-  background-color: #e11f26;
+  background-color: #e11f26!important;
+  color: #fff;
 }
 
 .severityundefined .el-input__wrapper {
-  background-color: #7e8299;
-}
+  background-color: #7e8299!important;
+  color: #fff;
 
+} */
+/* 
 .severityInfo .el-input__inner,
 .severityInfo .el-input .el-select__caret,
 .severityMedium .el-input__inner,
@@ -900,7 +916,7 @@ export default defineComponent({
 .severityLow .el-input .el-select__caret,
 .severityLow .el-input__inner {
   color: #fff !important;
-}
+} */
 
 .el-select .el-input__wrapper {
   height: 40px !important;
