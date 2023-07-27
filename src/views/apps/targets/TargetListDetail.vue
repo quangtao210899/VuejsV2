@@ -41,14 +41,14 @@
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
                                     <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
-                                        href="#kt_customer_view_overview_tab">Recon</a>
+                                        href="#kt_recon_tab">Recon</a>
                                 </li>
                                 <!--end:::Tab item-->
 
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
                                     <a class="nav-link text-active-primary me-6" data-bs-toggle="tab"
-                                        href="#kt_password_tab">Scans</a>
+                                        href="#kt_scans_tab">Scans</a>
                                 </li>
                                 <!--end:::Tab item-->
                             </ul>
@@ -61,7 +61,7 @@
                 <!--begin:::Tab content-->
                 <div class="tab-content " id="myTabContent">
                     <!--begin:::Tab pane-->
-                    <div class="tab-pane fade show active" id="kt_customer_view_overview_tab" role="tabpanel">
+                    <div class="tab-pane fade show active" id="kt_recon_tab" role="tabpanel">
                         <div>
                             <div class="card rounded-0 rounded-bottom ">
                                 <template v-if="checkRecon == true" >
@@ -1242,7 +1242,7 @@
                     <!--end:::Tab pane-->
 
                     <!--begin:::Tab pane-->
-                    <div class="tab-pane fade" id="kt_password_tab" role="tabpanel">
+                    <div class="tab-pane fade" id="kt_scans_tab" role="tabpanel">
                         <div>
                             <div class=" position-relative">
                                 <div class="position-absolute" style="top: -50px; right: 15px;">
@@ -1947,7 +1947,7 @@ export default defineComponent({
                         webdata_status.value = ( data.recon.recon.recon[0].webdata !== undefined) ?  data.recon.recon.recon[0].webdata.status : {};
 
                         // check
-                        reconStatus.value = data.status
+                        reconStatus.value = data.recon.recon.status
                     }
 
                     // scan

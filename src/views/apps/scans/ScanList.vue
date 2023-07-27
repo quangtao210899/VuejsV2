@@ -6,7 +6,7 @@
     <div class="card h-10 d-block">
       <div class="d-flex px-5">
         <!--begin::Card body-->
-        <div class="overflow-auto h-100 m-0 mt-3" ref="container" @mousedown="handleMouseDown"
+        <div class="card-body overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
           :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
           <div class="w-100">
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
@@ -876,7 +876,7 @@ export default defineComponent({
 .shadow-hvover {
   box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
 }
-
+/* 
 .severityInfo .el-input__wrapper {
   background-color: #28a745 !important;
   color: #fff;
@@ -903,8 +903,8 @@ export default defineComponent({
   background-color: #7e8299!important;
   color: #fff;
 
-}
-
+} */
+/* 
 .severityInfo .el-input__inner,
 .severityInfo .el-input .el-select__caret,
 .severityMedium .el-input__inner,
@@ -916,7 +916,7 @@ export default defineComponent({
 .severityLow .el-input .el-select__caret,
 .severityLow .el-input__inner {
   color: #fff !important;
-}
+} */
 
 .el-select .el-input__wrapper {
   height: 40px !important;

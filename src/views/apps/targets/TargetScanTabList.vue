@@ -4,125 +4,193 @@
         <div class="mb-3 position-relative position-repository bg-white rounded-3 border card card-custom px-2">
             <!--begin::Card header-->
             <!--end::Card header-->
-            <div class="row align-items-center">
-                <div class="col-sm-12 col-md-6 col-lg-5 py-2">
-                    <div class="row">
-                        <div class="col-6">
-                            <div>
-                                <span class="w-70px">Mục Tiêu: </span>
-                                <span class="fw-bold"
-                                    :class="(checkNameTarget(targetData.name, targetData.domain) == '--') ? 'badge badge-light-danger' : ''">
-                                    {{ checkNameTarget(targetData.name, targetData.domain) }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div>
-                                <span class="w-70px">IP Mục Tiêu: </span>
-                                <span class="fw-bold" :class="(targetData.ip == '') ? 'badge badge-light-danger' : ''">
-                                    {{ (targetData.ip != '') ? targetData.ip : '--' }}
-                                </span>
-                            </div>
+            <div class="d-md-none d-block py-3">
+                <div class="row">
+                    <div class="col-6">
+                        <div>
+                            <span class="w-70px">Mục Tiêu: </span>
+                            <span class="fw-bold"
+                                :class="(checkNameTarget(targetData.name, targetData.domain) == '--') ? 'badge badge-light-danger' : ''">
+                                {{ checkNameTarget(targetData.name, targetData.domain) }}
+                            </span>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-7 text-end ms-auto py-2">
-                    <div class="d-flex justify-content-end">
+                    <div class="col-6">
+                        <div>
+                            <span class="w-70px">IP Mục Tiêu: </span>
+                            <span class="fw-bold" :class="(targetData.ip == '') ? 'badge badge-light-danger' : ''">
+                                {{ (targetData.ip != '') ? targetData.ip : '--' }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-sm-start justify-content-between mt-2">
+                        <div class="">
+                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin tiến trình"
+                                placement="top">
+                                <button type="button"
+                                    class="btn btn-sm fw-bold bg-secondary btn-color-gray-700 w-70px px-1 btn-active-color-primary"
+                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
+                                    data-kt-menu-flip="top-start">
+                                    <KTIcon icon-name="information-3" icon-class="fs-2" />
+                                    Info
+                                </button>
+                                <!-- </div> -->
+                            </el-tooltip>
+                            <filtersTabScan @filterData="handleFilter" :targetData="targetData" :diffTime="diffTime"
+                                :countRequest="countRequest" :averageResponseTime="averageResponseTime"
+                                :locations="locations" :progress="progress" :scanStatus="scanStatus">
+                            </filtersTabScan>
+                        </div>
                         <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
                             icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
                             @cancel="cancelEvent">
                             <template #reference>
                                 <button type="button" :disabled="checkDisabled"
-                                    class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
-                                    <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy bỏ
+                                    class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary w-70px px-1 ms-1 ms-sm-2 text-white">
+                                    <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy Bỏ
                                 </button>
                             </template>
                         </el-popconfirm>
                         <button v-if="scanStatus == 5" type="button" @click="handlePauser"
                             :disabled="(checkDisabled || checkStatus)"
-                            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary w-70px px-1 ms-sm-2 ms-1">
                             <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
-                            <span class="text-primary"> Tiếp tục</span>
+                            <span class="text-primary"> Tiếp</span>
                         </button>
                         <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
-                            class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                            class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger ms-sm-2 ms-1">
                             <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
-                            <span class="text-danger">Tạm dừng</span>
+                            <span class="text-danger">Dừng</span>
                         </button>
                         <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
-                            class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                            class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-sm-2 ms-1 text-white">
                             <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
-                            Xuất kết quả
+                            Xuất Kết Quả
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="row px-1">
-                <div class=" col-3 p-2">
-                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                        <!--begin::Number-->
-                        <div class="d-flex align-items-center">
-                            <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
-                            <div class="fs-2 fw-bold">{{ diffTime }}</div>
+            <div class="d-md-block d-none">
+                <div class="row align-items-center">
+                    <div class="col-sm-12 col-md-6 col-lg-5 py-2 ">
+                        <div class="row ps-4">
+                            <div class="col-6">
+                                <div>
+                                    <span class="w-70px">Mục Tiêu: </span>
+                                    <span class="fw-bold"
+                                        :class="(checkNameTarget(targetData.name, targetData.domain) == '--') ? 'badge badge-light-danger' : ''">
+                                        {{ checkNameTarget(targetData.name, targetData.domain) }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div>
+                                    <span class="w-70px">IP Mục Tiêu: </span>
+                                    <span class="fw-bold" :class="(targetData.ip == '') ? 'badge badge-light-danger' : ''">
+                                        {{ (targetData.ip != '') ? targetData.ip : '--' }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <!--end::Number-->
-
-                        <!--begin::Label-->
-                        <div class="fw-semobold text-gray-400 fs-13px">Thời Gian</div>
-                        <!--end::Label-->
                     </div>
-                    <!--end::Stat-->
-                </div>
-                <div class="col-3 p-2">
-                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                        <!--begin::Number-->
-                        <div class="d-flex align-items-center">
-                            <KTIcon icon-name="arrow-up-down" icon-class="fs-3 text-success me-2" />
-                            <div class="fs-2 fw-bold">{{ countRequest }}</div>
+                    <div class="col-sm-12 col-md-6 col-lg-7 text-start ms-auto py-2 pe-6">
+                        <div class="d-flex justify-content-end">
+                            <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không"
+                                icon="InfoFilled" icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?"
+                                @confirm="confirmEvent" @cancel="cancelEvent">
+                                <template #reference>
+                                    <button type="button" :disabled="checkDisabled"
+                                        class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
+                                        <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy Bỏ
+                                    </button>
+                                </template>
+                            </el-popconfirm>
+                            <button v-if="scanStatus == 5" type="button" @click="handlePauser"
+                                :disabled="(checkDisabled || checkStatus)"
+                                class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
+                                <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
+                                <span class="text-primary"> Tiếp Tục</span>
+                            </button>
+                            <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
+                                class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
+                                <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
+                                <span class="text-danger">Tạm Dừng</span>
+                            </button>
+                            <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
+                                class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
+                                <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
+                                Xuất Kết Quả
+                            </button>
                         </div>
-                        <!--end::Number-->
-
-                        <!--begin::Label-->
-                        <div class="fw-semobold text-gray-400 fs-13px">Yêu cầu</div>
-                        <!--end::Label-->
                     </div>
+                    <div class="row col-12 ps-5 pe-1">
+                        <div class=" col-3 p-2">
+                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ms-2">
+                                <!--begin::Number-->
+                                <div class="d-flex align-items-center">
+                                    <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
+                                    <div class="fs-2 fw-bold">{{ diffTime }}</div>
+                                </div>
+                                <!--end::Number-->
 
-                </div>
-                <div class="col-3 p-2">
-                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                        <!--begin::Number-->
-                        <div class="d-flex align-items-center">
-                            <KTIcon icon-name="watch" icon-class="fs-3 text-success me-2" />
-                            <div class="fs-2 fw-bold">{{ averageResponseTime }}</div>
+                                <!--begin::Label-->
+                                <div class="fw-semobold text-gray-400 fs-13px">Thời Gian</div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Stat-->
                         </div>
-                        <!--end::Number-->
+                        <div class="col-3 p-2">
+                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                <!--begin::Number-->
+                                <div class="d-flex align-items-center">
+                                    <KTIcon icon-name="arrow-up-down" icon-class="fs-3 text-success me-2" />
+                                    <div class="fs-2 fw-bold">{{ countRequest }}</div>
+                                </div>
+                                <!--end::Number-->
 
-                        <!--begin::Label-->
-                        <div class="fw-semobold text-gray-400 fs-13px">Average Response Time</div>
-                        <!--end::Label-->
-                    </div>
-                    <!--end::Stat-->
+                                <!--begin::Label-->
+                                <div class="fw-semobold text-gray-400 fs-13px">Yêu cầu</div>
+                                <!--end::Label-->
+                            </div>
 
-                </div>
-                <div class="col-3 p-2">
-                    <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                        <!--begin::Number-->
-                        <div class="d-flex align-items-center">
-                            <KTIcon icon-name="pointers" icon-class="fs-3 text-success me-2" />
-                            <div class="fs-2 fw-bold">{{ locations }}</div>
                         </div>
-                        <!--end::Number-->
+                        <div class="col-3 p-2">
+                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                <!--begin::Number-->
+                                <div class="d-flex align-items-center">
+                                    <KTIcon icon-name="watch" icon-class="fs-3 text-success me-2" />
+                                    <div class="fs-2 fw-bold">{{ averageResponseTime }}</div>
+                                </div>
+                                <!--end::Number-->
 
-                        <!--begin::Label-->
-                        <div class="fw-semobold text-gray-400 fs-13px">Đường dẫn</div>
-                        <!--end::Label-->
+                                <!--begin::Label-->
+                                <div class="fw-semobold text-gray-400 fs-13px">Average Response Time</div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Stat-->
+
+                        </div>
+                        <div class="col-3 p-2">
+                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                <!--begin::Number-->
+                                <div class="d-flex align-items-center">
+                                    <KTIcon icon-name="pointers" icon-class="fs-3 text-success me-2" />
+                                    <div class="fs-2 fw-bold">{{ locations }}</div>
+                                </div>
+                                <!--end::Number-->
+
+                                <!--begin::Label-->
+                                <div class="fw-semobold text-gray-400 fs-13px">Đường dẫn</div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Stat-->
+
+                        </div>
+                        <div class="col-12 my-3 w-100  ms-2">
+                            <span class="fw-semobold text-muted fs-13px">Tiến trình</span>
+                            <el-progress :percentage="progress" status="success" />
+                        </div>
                     </div>
-                    <!--end::Stat-->
-
-                </div>
-                <div class="col-12 my-3 w-100">
-                    <span class="fw-semobold text-muted fs-13px">Tiến trình</span>
-                    <el-progress :percentage="progress" status="success" />
                 </div>
             </div>
         </div>
@@ -1158,5 +1226,6 @@ export default defineComponent({
     right: 0;
     height: 0px;
     background-color: black;
-}</style>
+}
+</style>
   
