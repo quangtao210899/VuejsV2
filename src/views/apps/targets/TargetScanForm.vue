@@ -14,11 +14,14 @@
                         <el-radio :label="4">Nhanh</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="Proxy" prop="proxyCheck" class="pb-3 text-capitalize fs-6">
-                    <el-switch
-                        v-model="scanFormState.proxyCheck"
-                    />
-                </el-form-item>
+                <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback pb-3 text-capitalize fs-6">
+                    <label class="el-form-item__label" style="width: 33%;">Proxy</label>
+                    <div class="el-form-item__content">
+                        <el-switch
+                            v-model="scanFormState.proxyCheck"
+                        />
+                    </div>
+                </div>
                 <el-form-item v-if="scanFormState.proxyCheck" label="Giao thức" prop="proxyScheme" class="pb-3 text-capitalize w-100 fs-6" :error="(errors.proxyScheme) ? errors.proxyScheme[0] : ''">
                     <el-select v-model="scanFormState.proxyScheme" id="proxyScheme" name="proxyScheme"
                         as="select" placeholder="Chọn giao thức" class="w-100">
@@ -33,53 +36,63 @@
                     </div>
                 </el-form-item>
                 <el-form-item v-if="scanFormState.proxyCheck" label="Địa chỉ" prop="proxyAdress" class="pb-3 text-capitalize fs-6" :error="(errors.proxyAdress) ? errors.proxyAdress[0] : ''">
-                    <el-input v-model="scanFormState.proxyAdress" size="large" placeholder="Nhập địa chỉ"
+                    <el-input v-model="scanFormState.proxyAdress" size="large" placeholder="Địa chỉ"
                         :class="(errors.proxyAdress) ? 'el-error-ruleForm' : ''" />
                 </el-form-item>
                 <el-form-item v-if="scanFormState.proxyCheck" label="Cổng Dịch Vụ" prop="proxyPort" class="pb-3 text-capitalize fs-6" :error="(errors.proxyPort) ? errors.proxyPort[0] : ''">
-                    <el-input type="number" v-model="scanFormState.proxyPort" size="large" placeholder="Nhập cổng dịch vụ"
+                    <el-input v-model="scanFormState.proxyPort" size="large" placeholder="Cổng dịch vụ"
                         :class="(errors.proxyPort) ? 'el-error-ruleForm' : ''" />
                 </el-form-item>
-                <el-form-item v-if="scanFormState.proxyCheck" label="Proxy yêu cầu xác thực" prop="proxyAuthenticationCheck" class="pb-3 text-capitalize fs-6">
-                    <el-switch
-                        v-model="scanFormState.proxyAuthenticationCheck"
-                    />
-                </el-form-item>
+                <div v-if="scanFormState.proxyCheck" class="el-form-item el-form-item--large asterisk-right el-form-item--feedback pb-3 text-capitalize fs-6">
+                    <label class="el-form-item__label" style="width: 33%;">Proxy yêu cầu xác thực</label>
+                    <div class="el-form-item__content">
+                        <el-switch
+                            v-model="scanFormState.proxyAuthenticationCheck"
+                        />
+                    </div>
+                </div>
                 <el-form-item v-if="scanFormState.proxyCheck && scanFormState.proxyAuthenticationCheck" label="Tên Đăng Nhập" prop="proxyUsername" class="pb-3 text-capitalize fs-6" :error="(errors.proxyUsername) ? errors.proxyUsername[0] : ''">
-                    <el-input v-model="scanFormState.proxyUsername" size="large" placeholder="Nhập tên đăng nhập"
+                    <el-input v-model="scanFormState.proxyUsername" size="large" placeholder="Tên đăng nhập"
                         :class="(errors.proxyUsername) ? 'el-error-ruleForm' : ''" />
                 </el-form-item>
                 <el-form-item v-if="scanFormState.proxyCheck && scanFormState.proxyAuthenticationCheck" label="Mật Khẩu" prop="proxyUserPassword" class="pb-3 text-capitalize fs-6" :error="(errors.proxyUserPassword) ? errors.proxyUserPassword[0] : ''">
-                    <el-input :type="!eyeButtonRef ? 'password' : 'text'" v-model="scanFormState.proxyUserPassword" size="large" placeholder="Nhập mật khẩu"
+                    <el-input :type="!eyeButtonRef ? 'password' : 'text'" v-model="scanFormState.proxyUserPassword" size="large" placeholder="Mật khẩu"
                         :class="(errors.proxyUserPassword) ? 'el-error-ruleForm' : ''" />
                     <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
                         <KTIcon :icon-name="!eyeButtonRef ? 'eye-slash' : 'eye'"
                             icon-class="fs-2" @click="eyePassword" />
                     </span>
                 </el-form-item>
-                <el-form-item label="Sử dụng Header tùy chọn" prop="headerOptionCheck" class="pb-3 text-capitalize fs-6">
-                    <el-switch
-                        v-model="scanFormState.headerOptionCheck"
-                        @click="clearHeaderOptions"
-                    />
-                </el-form-item>
+                <div v-if="scanFormState.proxyCheck" class="el-form-item el-form-item--large asterisk-right el-form-item--feedback pb-3 text-capitalize fs-6">
+                    <label class="el-form-item__label" style="width: 33%;">Sử dụng Header tùy chọn</label>
+                    <div class="el-form-item__content">
+                        <el-switch
+                            v-model="scanFormState.headerOptionCheck"
+                            @click="clearHeaderOptions"
+                        />
+                    </div>
+                </div>
                 <el-form-item v-if="scanFormState.headerOptionCheck" prop="headerOptionValue" label="Header" class="pb-3 text-capitalize fs-6" :error="(errors.headerOptionValue) ? errors.headerOptionValue[0] : ''">
                     <el-select v-model="scanFormState.headerOptionValue" multiple filterable
                         allow-create default-first-option placeholder="Ví dụ: Cookie: e8452aaa">
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Quét bằng Nmap" prop="nmap_check" class="pb-3 text-capitalize fs-6">
-                    <el-switch
-                        v-model="scanFormState.nmap_check"
-                        @click="clearHeaderOptions"
-                    />
-                </el-form-item>
-                <el-form-item label="Quét bằng Nuclei" prop="nuclei_check" class="pb-3 text-capitalize fs-6">
-                    <el-switch
-                        v-model="scanFormState.nuclei_check"
-                        @click="clearHeaderOptions"
-                    />
-                </el-form-item>
+                <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback pb-3 text-capitalize fs-6">
+                    <label class="el-form-item__label" style="width: 33%;">Quét bằng Nmap</label>
+                    <div class="el-form-item__content">
+                        <el-switch
+                            v-model="scanFormState.nmap_check"
+                        />
+                    </div>
+                </div>
+                <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback pb-3 text-capitalize fs-6">
+                    <label class="el-form-item__label" style="width: 33%;">Quét bằng Nuclei</label>
+                    <div class="el-form-item__content">
+                        <el-switch
+                            v-model="scanFormState.nuclei_check"
+                        />
+                    </div>
+                </div>
             </el-form>
         </div>
     </div>
@@ -158,10 +171,6 @@ export default defineComponent({
             }
         }
 
-        // onMounted(() => {
-        //     getData();
-        // });
-
         // validate
         const ruleFormRef = ref<FormInstance>()
 
@@ -233,6 +242,17 @@ export default defineComponent({
             }
         };
 
+        const isValidPort = (rule: any, value: any, callback: any) => {
+            if (value == null || value == '') { return true; }
+            value = Number(value)
+            
+            if (!Number.isInteger(value)) {
+                callback(new Error('Port phải là số'))
+            } else {
+                callback();
+            }
+        }
+
         const rules = reactive<FormRules>({
             proxyAdress: [
                 { required: true, message: 'Vui lòng nhập địa chỉ', trigger: 'blur' },
@@ -240,6 +260,7 @@ export default defineComponent({
             ],
             proxyPort: [
                 { required: true, message: 'Vui lòng nhập port', trigger: 'blur' },
+                { validator: isValidPort, trigger: 'blur' },
             ],
             proxyUsername: [
                 { required: true, message: 'Vui lòng nhập tên đăng nhập', trigger: 'blur' },
@@ -266,8 +287,6 @@ export default defineComponent({
         }
 
         const addFormSubmit = async () => {
-            console.log(scanFormState, 11111111);
-            
             return ApiService.post("scan/create/", scanFormState)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
