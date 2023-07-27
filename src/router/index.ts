@@ -170,7 +170,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/scans/ScanList.vue"),
         meta: {
           pageTitle: "Danh Sách Lỗ Hổng",
-          breadcrumbs: ["Scans"],
+          breadcrumbs: ["Lỗ Hổng Bảo Mật"],
         },
       },
       

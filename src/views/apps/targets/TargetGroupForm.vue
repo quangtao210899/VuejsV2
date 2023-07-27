@@ -1,18 +1,19 @@
 <template>
     <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true"
-        @form-submit="formSubmit(ruleFormRef)" @form-back="formBack"></KTToolbar>
-    <div class="app-container container-fluid pt-5">
+        @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @on-header-height="onheaderHeight"></KTToolbar>
+    <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
         <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20  pt-10">
-            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" :label-width="'33%'"
-                :label-position="labelPosition" class="demo-ruleForm px-0 px-lg-0 mx-5 mx-lg-10 mx-xxl-20 px-xxl-10 mt-10 text-capitalize"
-                size="large" status-icon require-asterisk-position="right">
+            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" :label-width="'33%'" :label-position="labelPosition"
+                class="demo-ruleForm px-0 px-lg-0 mx-5 mx-lg-10 mx-xxl-20 px-xxl-10 mt-10 text-capitalize" size="large"
+                status-icon require-asterisk-position="right">
                 <el-form-item label="Tên nhóm mục tiêu" prop="title" class="pb-3 text-capitalize fs-6" tabindex="0"
                     :error="(errors.title) ? errors.title[0] : ''">
                     <el-input v-model="ruleForm.title" size="large" placeholder="Tên nhóm mục tiêu" :autofocus="true"
                         :class="(errors.title) ? 'el-error-ruleForm' : ''" />
                 </el-form-item>
                 <el-form-item label="Mô Tả" prop="description" class="pb-3 text-capitalize fs-6">
-                    <el-input v-model="ruleForm.description" :rows="5" type="textarea" placeholder="Mô tả nhóm mục tiêu" :autofocus="true"/>
+                    <el-input v-model="ruleForm.description" :rows="5" type="textarea" placeholder="Mô tả nhóm mục tiêu"
+                        :autofocus="true" />
                 </el-form-item>
             </el-form>
         </div>
@@ -213,6 +214,12 @@ export default defineComponent({
                 labelPosition.value = 'top'
             }
         };
+        // thay đổi kích thước header
+        const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            console.log(height)
+        }
 
         onMounted(() => {
             handleResize();
@@ -224,6 +231,8 @@ export default defineComponent({
         });
 
         return {
+            onheaderHeight,
+            headerHeight,
             list,
             data_group,
             loading,
@@ -257,19 +266,22 @@ export default defineComponent({
 }
 
 
-.demo-ruleForm .el-input__wrapper.is-focus,.el-textarea__inner:focus{
+.demo-ruleForm .el-input__wrapper.is-focus,
+.el-textarea__inner:focus {
     background-color: #f1f1f2 !important;
     /* color: #4b5675 !important; */
 }
 
-.demo-ruleForm .el-input__wrapper,.el-textarea__inner {
+.demo-ruleForm .el-input__wrapper,
+.el-textarea__inner {
     background: #f9f9f9;
     border-radius: 10px !important;
     box-shadow: none !important;
 }
 
 
-.demo-ruleForm .el-input__wrapper input, .el-textarea textarea {
+.demo-ruleForm .el-input__wrapper input,
+.el-textarea textarea {
     font-weight: 500 !important;
     color: #252f4a !important;
     font-size: 13px !important;
@@ -284,5 +296,4 @@ export default defineComponent({
 .demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label-wrap>.el-form-item__label:after,
 .demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label:after {
     margin-left: 0px !important;
-}
-</style>
+}</style>

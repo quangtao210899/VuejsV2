@@ -1,11 +1,11 @@
 <template>
     <div ref="refGetTheHeight">
         <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-        @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
+        @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
     </div>
     <!--begin::Card-->
     <el-scrollbar :height="heightTable">
-    <div class="app-container container-fluid mt-5" >
+    <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}" >
         <div class="p-5 bg-body rounded-3">
             <!--begin::Card body-->
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
@@ -30,7 +30,7 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column label-class-name="fs-13px fw-bold text-dark" prop="usernamename" label="TÊN ĐĂNG NHẬP" min-width="140px" >
+                    <el-table-column label-class-name="fs-13px fw-bold text-dark" prop="username" label="TÊN ĐĂNG NHẬP" min-width="140px" >
                         <template #default="scope">
                             <span v-if="scope.row.user != ''" class="fs-13px text-gray-700 text-hover-primary">{{
                                 scope.row.user.username }}</span>
@@ -48,7 +48,7 @@
 
                     <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="finished_at" label="THỜI GIAN KẾT THÚC" min-width="170px">
                         <template #default="scope">
-                            <span v-if="scope.row.finished_at != ''" class="fs-13px text-gray-700 text-hover-primary">
+                            <span v-if="scope.row.finished_at != '' && [3,4,5].includes(scope.row.status)" class="fs-13px text-gray-700 text-hover-primary">
                                 <i class="fa-solid fa-calendar-days fs-7"></i>
                                 {{ scope.row.finished_at }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
@@ -288,6 +288,13 @@ export default defineComponent({
             getData()
         }
 
+        // thay đổi kích thước header
+        const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            console.log(height)
+        }
+
         onMounted(() => {
             getData();
             handleResize();
@@ -299,6 +306,8 @@ export default defineComponent({
         });
 
         return {
+            headerHeight,
+            onheaderHeight,
             getData,
             list,
             selectedIds,

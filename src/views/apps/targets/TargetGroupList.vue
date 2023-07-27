@@ -1,81 +1,80 @@
 <template>
   <div ref="refGetTheHeight">
     <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-      @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
+      @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
   </div>
   <!--begin::Card-->
-    <div class="app-container container-fluid mt-5">
-      <div class="p-5 bg-body rounded-3">
-        <!--begin::Card body-->
-        <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-          class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
-          @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="handleCurrentChange"
-          :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
-          <template #empty>
-            <div class="flex items-center justify-center h-100%">
-              <el-empty description="Không có dữ liệu nào"/>
-            </div>
-          </template>
-
-          <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35" :reserve-selection="true" />
-
-          <el-table-column width="60" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
-            <template #default="scope">
-              <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
-              }}</span>
-              <span v-else class="badge badge-light-danger">--</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="135" prop="title"
-            label="NHÓM MỤC TIÊU">
-            <template #default="scope">
-              <span v-if="scope.row.title != ''" class="fs-13px text-gray-700 text-hover-primary">{{
-                scope.row.title }}</span>
-              <span v-else class="badge badge-light-danger">--</span>
-            </template>
-          </el-table-column>
-          <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark" prop="target_count"
-            label="MỤC TIÊU">
-            <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.target_count ?? 0 }}</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="flaw_count" label="LỖ HỔNG">
-            <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.flaw_count ?? 0 }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="service_count"
-            label="DỊCH VỤ">
-            <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.service_count ?? 0 }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
-            <template #default="scope">
-              <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh Sửa" placement="top">
-                <router-link :to="`/target-group-form/${scope.row.id}`" v-on:click.stop
-                  class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
-                  <KTIcon icon-name="pencil" icon-class="fs-3" />
-                </router-link>
-              </el-tooltip>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-          <div v-if="totalPage > 0">
-            <span  class="text-capitalize fs-13px">Tổng Số Nhóm Mục Tiêu: {{ totalPage }}</span>
+  <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
+    <div class="p-5 bg-body rounded-3">
+      <!--begin::Card body-->
+      <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
+        class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
+        @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="handleCurrentChange"
+        :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
+        <template #empty>
+          <div class="flex items-center justify-center h-100%">
+            <el-empty description="Không có dữ liệu nào" />
           </div>
-          <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
-            v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
-            :disabled="disabled"></el-pagination>
-          <div></div>
+        </template>
+
+        <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35" :reserve-selection="true" />
+
+        <el-table-column width="60" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
+          <template #default="scope">
+            <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
+            }}</span>
+            <span v-else class="badge badge-light-danger">--</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="135" prop="title" label="NHÓM MỤC TIÊU">
+          <template #default="scope">
+            <span v-if="scope.row.title != ''" class="fs-13px text-gray-700 text-hover-primary">{{
+              scope.row.title }}</span>
+            <span v-else class="badge badge-light-danger">--</span>
+          </template>
+        </el-table-column>
+        <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark" prop="target_count"
+          label="MỤC TIÊU">
+          <template #default="scope">
+            <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.target_count ?? 0 }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="flaw_count" label="LỖ HỔNG">
+          <template #default="scope">
+            <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.flaw_count ?? 0 }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="service_count"
+          label="DỊCH VỤ">
+          <template #default="scope">
+            <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.service_count ?? 0 }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
+          <template #default="scope">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh Sửa" placement="top">
+              <router-link :to="`/target-group-form/${scope.row.id}`" v-on:click.stop
+                class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
+                <KTIcon icon-name="pencil" icon-class="fs-3" />
+              </router-link>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+        <div v-if="totalPage > 0">
+          <span class="text-capitalize fs-13px">Tổng Số Nhóm Mục Tiêu: {{ totalPage }}</span>
         </div>
-        <!--end::Card body-->
+        <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
+          v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
+          :disabled="disabled"></el-pagination>
+        <div></div>
       </div>
+      <!--end::Card body-->
     </div>
+  </div>
 
   <!--end::Card-->
 
@@ -324,6 +323,12 @@ export default defineComponent({
       orderingID.value = (column.order == 'ascending' && column.prop == 'id') ? '-id' : 'id'
       getData()
     }
+    // thay đổi kích thước header
+    const headerHeight = ref<number>(0);
+    const onheaderHeight = (height: number) => {
+      headerHeight.value = height
+      console.log(height)
+    }
 
     onMounted(() => {
       getData();
@@ -331,6 +336,8 @@ export default defineComponent({
 
 
     return {
+      headerHeight,
+      onheaderHeight,
       getData,
       list,
       selectedIds,
