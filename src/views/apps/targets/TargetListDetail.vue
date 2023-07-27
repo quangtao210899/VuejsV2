@@ -1,6 +1,6 @@
 <template>
     <KTToolbar @on-header-height="onheaderHeight"></KTToolbar>
-    <!--begin::Card-->
+    <!--begin::Card--> 
         <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
             <div class="card h-100 d-block bg-transparent">
                 <div class="card px-5 mb-3 card-custom">
@@ -1347,7 +1347,7 @@
                                         </div>
                                     </div>
                                     <!--begin::Card2 body-->
-                                    <div class="h-100 overflow-scroll d-block"
+                                    <div class="h-100 overflow-auto d-block"
                                         :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
                                         :class="classDetail ? ' d-block' : 'd-none'">
                                         <div class="ms-3 pb-10 affix-container">
@@ -1375,17 +1375,17 @@
                                             </div>
                                             <div class="lh-lg fs-13px">
                                                 <div class="mb-5"
-                                                    v-if="(detailData.url != null && detailData.url != '') || (detailData.affects_detail != null && detailData.affects_detail != '')">
+                                                    v-if="(detailData.affects_url != null && detailData.affects_url != '') || (detailData.affects_detail != null && detailData.affects_detail != '')">
                                                     <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Vulnerable
                                                         URL</h4>
-                                                    <div v-if="detailData.url != null && detailData.url != ''">
+                                                    <div v-if="detailData.affects_url != null && detailData.affects_url != ''">
                                                         <span class="w-100">URL : </span>
                                                         <span class="ps-1">
-                                                            <a target="_blank" :href="`${detailData.url}`"
+                                                            <a target="_blank" :href="`${detailData.affects_url}`"
                                                                 class="text-primary">
                                                                 <KTIcon icon-name="link" icon-class="bi bi-link-45deg"
                                                                     :style="{ fontSize: '16px' }" />
-                                                                {{ detailData.url }}
+                                                                {{ detailData.affects_url }}
                                                             </a>
                                                         </span>
                                                     </div>
@@ -2037,14 +2037,17 @@ export default defineComponent({
         const detailData = reactive({
             id: '',
             vt_name: '',
+            affects_detail: '',
+            affects_url: '',
             severity: '',
             ip: '',
             hostname: '',
             schema: '',
             created_at: '',
             status: '',
+            last_seen: '',
             url: '',
-            affects_detail: '',
+            parameter: '',
             tags: '',
             cvss_score: '',
             details: '',
@@ -2064,7 +2067,7 @@ export default defineComponent({
 
         // handleCurrentChange
         const handleCurrentChange = (detail: any) => {
-            // console.log(detail)
+            console.log(detail)
             if (detail) {
                 closeOnRow.value = true;
                 classDetail.value = true;

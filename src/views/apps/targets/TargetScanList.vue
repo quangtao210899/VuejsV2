@@ -1,8 +1,8 @@
 <template>
-    <div ref="refGetTheHeight">
+    <div ref="refGetTheHeight"> 
         <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
         @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
-    </div>
+    </div> 
     <!--begin::Card-->
     <el-scrollbar :height="heightTable">
     <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}" >
