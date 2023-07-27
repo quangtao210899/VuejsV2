@@ -129,7 +129,7 @@
             <div class="d-flex flex-wrap">
               <div class="w-200px me-2 my-1">
                 <el-select name="severity" as="select" v-model="detailData.severity"
-                  :class="getSeverity(detailData.severity).class" @change="handleChangeUpdate('Mức độ')">
+                  :class="getSeverity(detailData.severity).class" @change="handleChangeUpdate()">
                   <el-option label="Info" :value="0" key="0">Info</el-option>
                   <el-option label="Low" :value="1" key="1">Low</el-option>
                   <el-option label="Medium" :value="2" key="2">Medium</el-option>
@@ -138,7 +138,7 @@
               </div>
               <div class="w-200px my-1">
                 <el-select name="status" as="select" v-model="detailData.status"
-                  @change="handleChangeUpdate('Trạng Thái')">
+                  @change="handleChangeUpdate()">
                   <el-option label="open" value="open" key="open">open</el-option>
                   <el-option label="re-open" value="re-open" key="re-open">re-open</el-option>
                   <el-option label="Close" value="closed" key="closed">Close</el-option>
@@ -646,12 +646,8 @@ export default defineComponent({
       checkitemsPerPage.value = false;
     };
 
-    const handleChangeUpdate = (type: string) => {
-      if (detailData.status && detailData.severity && type) {
-        updateData()
-      } else {
-        notification('', 'error', 'Có lỗi xảy ra')
-      }
+    const handleChangeUpdate = () => {
+      updateData()
     };
 
     const updateData = async () => {
