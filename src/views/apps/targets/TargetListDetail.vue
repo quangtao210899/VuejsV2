@@ -1298,7 +1298,7 @@
                                                 </template>
                                             </el-table-column>
                                             <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold"
-                                                prop="hostname" label="HOST NAME">
+                                                prop="hostname" label="URL">
                                                 <template #default="scope">
                                                     <span v-if="scope.row.hostname != '' || scope.row.port_scan.hostname != ''"
                                                         class="fs-13px text-gray-700 text-hover-primary">
@@ -1316,7 +1316,7 @@
                                                     <span v-else class="badge badge-light-danger">--</span>
                                                 </template>
                                             </el-table-column>
-                                            <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold"
+                                            <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold"
                                                 align="left" prop="status" label="TRẠNG THÁI">
                                                 <template #default="scope">
                                                     <span v-if="scope.row.status != ''" class="badge fs-13px"
