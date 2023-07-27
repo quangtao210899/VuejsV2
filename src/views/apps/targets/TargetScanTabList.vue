@@ -1,4 +1,4 @@
-<template>
+<template> 
     <KTToolbar :check-search="true" @handle-search="handleFilter" @on-header-height="onheaderHeight"></KTToolbar>
     <div class="app-container container-fluid h-100 " :style="{marginTop: headerHeight + 'px'}">
         <div class="mb-3 position-relative position-repository bg-white rounded-3 border card card-custom px-2">
@@ -72,7 +72,7 @@
             </div>
             <div class="d-md-block d-none">
                 <div class="row align-items-center">
-                    <div class="col-sm-12 col-md-6 col-lg-5 py-2 ">
+                    <div class="col-sm-12 col-md-6 py-2 ">
                         <div class="row ps-4">
                             <div class="col-6">
                                 <div>
@@ -93,7 +93,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-7 text-start ms-auto py-2 pe-6">
+                    <div class="col-sm-12 col-md-6 py-2 pe-6">
                         <div class="d-flex justify-content-end">
                             <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không"
                                 icon="InfoFilled" icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?"
@@ -198,8 +198,7 @@
             <div class="d-flex px-5">
                 <!--begin::Card body-->
                 <div class="overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container"
-                    @mousedown="handleMouseDown" :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }"
-                    :class="classDetail ? 'border-end' : 'col-12'">
+                    @mousedown="handleMouseDown" :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
                     <div class="w-100  py-2">
                         <el-table :data="getScansData" style="width: 100%;z-index: 1;"
                             class-name=" my-custom-table rounded-top cursor-pointer mt-2" table-layout="fixed"
@@ -226,21 +225,21 @@
                             <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="150" prop="vt_name"
                                 label="TÊN">
                                 <template #default="scope">
-                                    <span v-if="scope.row.vt_name != '' || scope.row.port_scan != ''"
+                                    <span v-if="scope.row.vt_name != '' || scope.row.port_scan.name != ''"
                                         class="fs-13px text-gray-700 text-hover-primary">
-                                        {{ (scope.row.vt_name == '') ? scope.row.port_scan.vt_name : scope.row.vt_name
-                                        }}</span>
+                                        {{ scope.row.vt_name ?? scope.row.port_scan?.name }}
+                                    </span>
                                     <span v-else class="badge badge-light-danger">--</span>
                                 </template>
                             </el-table-column>
                             <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="affects_url"
                                 label="HOST NAME">
                                 <template #default="scope">
-                                    <span v-if="scope.row.affects_url != '' || scope.row.port_scan.affects_url != ''"
+                                    <span v-if="scope.row.affects_url || scope.row.port_scan.host"
                                         class="fs-13px text-gray-700 text-hover-primary">
                                         <i class="fa-solid fa-link fs-8"></i>
-                                        {{ (scope.row.affects_url == '') ? scope.row.port_scan.affects_url :
-                                            scope.row.affects_url }}</span>
+                                        {{ scope.row.port_scan?.host ?? scope.row.affects_url }}
+                                    </span>
                                     <span v-else class="badge badge-light-danger">--</span>
                                 </template>
                             </el-table-column>
@@ -281,52 +280,52 @@
                     </div>
                 </div>
                 <!--end::Card body-->
-                <div v-if="classDetail" @mousedown="startDragging" class="drag-handle"></div>
+                <div v-if="classDetail" @mousedown="startDragging"
+                                        class="drag-handle position-relative border-start">
+                                        <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
+                                        </div>
+                                    </div>
                 <!--begin::Card2 body-->
-                <div class="overflow-scroll h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
+                <div class="overflow-auto h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
                     :class="classDetail ? ' d-block' : 'd-none'">
                     <div class="ms-3 pb-10 affix-containe">
-                        <div class="card-title py-2 position-relative">
+                        <div class="card-title py-3 position-relative">
                             <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailVuln.vt_name }}</h2>
-                            <div class="position-absolute top-50 end-0 translate-middle-y">
+                            <div  class="">
+                                <span 
+                                    :class="`px-4 me-2 py-3 badge fs-13px badge-light-${getSeverityName(detailVuln.severity).color}`">
+                                    {{  getSeverityName(detailVuln.severity).title }}
+                                </span>
+                                <span 
+                                    :class="`px-4 py-3 badge fs-13px badge-light-${getStatus(detailVuln.status).color}`">
+                                    {{ getStatus(detailVuln.status).title }}
+                                </span>
+                            </div>
+                            <div class="position-absolute end-0 translate-middle-y" style="top:35px">
                                 <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
-                                    <KTIcon icon-name="x" icon-class="bi bi-x" :style="{ fontSize: '25px' }" />
+                                    <i class="fa-solid fa-xmark fs-1"></i>
                                 </button>
+                                
                             </div>
                         </div>
-                        <div class="bg-light my-5 py-2 px-4 lh-lg rounded-2 me-2 fs-13px">
-                            <div class="row">
-                                <div class="col-12 col-xl-6 col-xxl-4 my-1">
-                                    <span class="text-black-50">IP : </span>
-                                    <span class="ps-1"> {{ detailVuln.ip }}</span>
-                                </div>
-                                <div class="col-12 col-xl-6 col-xxl-4 my-1">
-                                    <span class="text-black-50">Host name : </span>
-                                    <span class="ps-1"> {{ detailVuln.affects_url }}</span>
-                                </div>
-                                <div class="col-12 col-xl-6 col-xxl-4 my-1">
-                                    <span class="text-black-50">Date : </span>
-                                    <span class="ps-1"> {{ detailVuln.last_seen }}</span>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="lh-lg">
                             <div class="mb-5"
-                                v-if="(detailVuln.url != null && detailVuln.url != '') || (detailVuln.parameter != null && detailVuln.parameter != '')">
+                                v-if="(detailVuln.affects_url != null && detailVuln.affects_url != '') || (detailVuln.affects_detail != null && detailVuln.affects_detail != '')">
                                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
-                                <div v-if="detailVuln.url != null && detailVuln.url != ''">
+                                <div v-if="detailVuln.affects_url != null && detailVuln.affects_url != ''">
                                     <span class="w-100">URL : </span>
                                     <span class="ps-1">
-                                        <a target="_blank" :href="`${detailVuln.url}`" class="text-primary">
+                                        <a target="_blank" :href="`${detailVuln.affects_url}`" class="text-primary">
                                             <KTIcon icon-name="link" icon-class="bi bi-link-45deg"
                                                 :style="{ fontSize: '16px' }" />
-                                            {{ detailVuln.url }}
+                                            {{ detailVuln.affects_url }}
                                         </a>
                                     </span>
                                 </div>
-                                <div v-if="detailVuln.parameter != null && detailVuln.parameter != ''">
+                                <div v-if="detailVuln.affects_detail != null && detailVuln.affects_detail != ''">
                                     <span class="w-100">Parameter : </span>
-                                    <span class="ps-1"> {{ detailVuln.parameter }}</span>
+                                    <span class="ps-1"> {{ detailVuln.affects_detail }}</span>
                                 </div>
                             </div>
 
@@ -752,11 +751,11 @@ export default defineComponent({
         const detailVuln = reactive({
             id: '',
             vt_name: '',
-            hostname: '',
+            affects_detail: '',
             affects_url: '',
             severity: '',
             ip: '',
-            host: '',
+            hostname: '',
             schema: '',
             created_at: '',
             status: '',
@@ -772,17 +771,11 @@ export default defineComponent({
             recommendation: '',
             in_cpe: '',
             protocol: '',
-            reference: '',
+            references: '',
             type: '',
             classification: '',
             port: '',
             service: '',
-            author: '',
-            matcherName: '',
-            cvss3: '',
-            references: '',
-            long_description: '',
-            impact: '',
         });
         const checkDetailVuln = ref<boolean>(false)
         const getDetailVuln = async (vuln_id: number) => {
@@ -798,6 +791,8 @@ export default defineComponent({
                             detailVuln[key] = '';
                         }
                     }
+                    // console.log(detailVuln)
+                    // console.log(data)
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -805,6 +800,8 @@ export default defineComponent({
         };
 
         const customRowTable = (detail: any) => {
+            console.log(detail)
+
             classDetail.value = true;
             closeOnRow.value = true;
             checkitemsPerPage.value = true;
@@ -1108,7 +1105,6 @@ export default defineComponent({
             headerHeight.value = height
             console.log(height)
         }
-
 
         return {
             headerHeight,

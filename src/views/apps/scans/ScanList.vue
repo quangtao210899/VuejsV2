@@ -1,7 +1,7 @@
 <template>
   <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
     @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
-  <!--begin::Card-->
+  <!--begin::Card--> 
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
     <div class="card h-10 d-block">
       <div class="d-flex px-5">
@@ -112,7 +112,7 @@
           </div>
         </div>
         <!--begin::Card2 body-->
-        <div class="overflow-scroll  h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
+        <div class="overflow-auto  h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
           :class="classDetail ? ' d-block' : 'd-none'">
           <div class="ms-3 pb-10 affix-container">
             <div class="card-title pb-5 ">
@@ -163,20 +163,20 @@
             </div>
             <div class="lh-lg">
               <div class="mb-5"
-                v-if="(detailData.url != null && detailData.url != '') || (detailData.parameter != null && detailData.parameter != '')">
+                v-if="(detailData.affects_url != null && detailData.affects_url != '') || (detailData.affects_detail != null && detailData.affects_detail != '')">
                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
-                <div v-if="detailData.url != null && detailData.url != ''">
+                <div v-if="detailData.affects_url != null && detailData.affects_url != ''">
                   <span class="w-100">URL : </span>
                   <span class="ps-1">
-                    <a target="_blank" :href="`${detailData.url}`" class="text-primary">
+                    <a target="_blank" :href="`${detailData.affects_url}`" class="text-primary">
                       <KTIcon icon-name="link" icon-class="bi bi-link-45deg" :style="{ fontSize: '16px' }" />
-                      {{ detailData.url }}
+                      {{ detailData.affects_url }}
                     </a>
                   </span>
                 </div>
-                <div v-if="detailData.parameter != null && detailData.parameter != ''">
+                <div v-if="detailData.affects_detail != null && detailData.affects_detail != ''">
                   <span class="w-100">Parameter : </span>
-                  <span class="ps-1"> {{ detailData.parameter }}</span>
+                  <span class="ps-1"> {{ detailData.affects_detail }}</span>
                 </div>
               </div>
 
@@ -442,7 +442,9 @@ export default defineComponent({
     const detailData = reactive({
       id: '',
       vt_name: '',
-      severity: '0',
+      affects_detail: '',
+      affects_url: '',
+      severity: '',
       ip: '',
       hostname: '',
       schema: '',
