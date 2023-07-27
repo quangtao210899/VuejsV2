@@ -200,7 +200,7 @@
               <div class="mb-5" v-if="detailData.details != null && detailData.details != ''">
                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">Attack Details</h4>
                 <div>
-                  <div class="ps-1" v-html="detailData.details"></div>
+                  <div class="ps-1" v-html="detailData.details.replace(/<br\s*\/?>/g, '')"></div>
                 </div>
               </div>
 
