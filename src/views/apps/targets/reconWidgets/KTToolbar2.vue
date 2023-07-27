@@ -61,6 +61,7 @@ import { toolbarWidthFluid } from "@/core/helpers/config";
 import KTPageTitle from "@/views/apps/targets/reconWidgets/KTPageTitle2.vue";
 import { ElMessageBox } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
+import { number } from "yup";
 
 export default defineComponent({
     name: "layout-toolbar",
@@ -76,13 +77,14 @@ export default defineComponent({
         checkBack: { type: Boolean, required: false, default: false },
         checkSubmit: { type: Boolean, required: false, default: false },
         typeText: { type: String, required: false, default: '' },
+        headerHeight: { type: Number, required: false, default: 0 },
     },
     emits: [
         "handle-delete-selectd",
         "handle-search",
         "form-back",
         "form-submit",
-        "header-height",
+        "on-header-height",
     ],
     setup(props, { emit }) {
         const handleSearch = (search: any) => {
@@ -119,13 +121,13 @@ export default defineComponent({
         // Function to update the height value
         const updateHeight = () => {
             if (divToMeasure.value !== null) {
-                height.value = divToMeasure.value.clientHeight;
+                height.value = divToMeasure.value.clientHeight - 28;
             }
         };
 
         watch(height, (newHeight) => {
             if (newHeight !== null) {
-                emit("header-height", newHeight);
+                emit("on-header-height", newHeight);
             }
         });
 

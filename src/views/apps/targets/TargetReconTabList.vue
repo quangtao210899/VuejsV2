@@ -1,8 +1,8 @@
 <template>
-    <KTToolbar></KTToolbar>
+    <KTToolbar @on-header-height="onheaderHeight"></KTToolbar>
     <!--begin::Navbar-->
     
-    <div class="px-5 pt-5 h-100">
+    <div class="px-5 h-100" :style="{marginTop: headerHeight + 'px'}">
         <div class="mb-3 position-relative position-repository bg-white rounded-3 border border-secondary">
             <!--begin::Card header-->
             <!--end::Card header-->
@@ -2079,7 +2079,16 @@ export default defineComponent({
             return '--'
         };
 
+        // thay đổi kích thước header
+        const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            console.log(height)
+        }
+
         return {
+            headerHeight,
+            onheaderHeight,
             activities,
             scanID,
             idRecon,

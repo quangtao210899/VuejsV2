@@ -1,8 +1,8 @@
 <template>
   <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-    @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
+    @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
   <!--begin::Card-->
-  <div class="app-container container-fluid mt-5">
+  <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
     <div class="card h-10 d-block">
       <div class="d-flex px-5">
         <!--begin::Card body-->
@@ -137,8 +137,7 @@
                 </el-select>
               </div>
               <div class="w-200px my-1">
-                <el-select name="status" as="select" v-model="detailData.status"
-                  @change="handleChangeUpdate()">
+                <el-select name="status" as="select" v-model="detailData.status" @change="handleChangeUpdate()">
                   <el-option label="open" value="open" key="open">open</el-option>
                   <el-option label="re-open" value="re-open" key="re-open">re-open</el-option>
                   <el-option label="Close" value="closed" key="closed">Close</el-option>
@@ -597,14 +596,14 @@ export default defineComponent({
         closeOnRow.value = true;
         classDetail.value = true;
         for (const key in detailData) {
-            // Kiểm tra xem dữ liệu truyền vào có tồn tại và tương ứng với thuộc tính trong detailData hay không
-            if (detail.hasOwnProperty(key) || detail.port_scan) {
+          // Kiểm tra xem dữ liệu truyền vào có tồn tại và tương ứng với thuộc tính trong detailData hay không
+          if (detail.hasOwnProperty(key) || detail.port_scan) {
             // Nếu có, gán giá trị vào obj detailData
-                detailData[key] = detail[key] ?? detail.port_scan[key];
-            } else {
+            detailData[key] = detail[key] ?? detail.port_scan[key];
+          } else {
             // Nếu không, gán giá trị rỗng vào obj detailData
             detailData[key] = '';
-            }
+          }
         }
       }
       // console.log(detailData)
@@ -797,6 +796,13 @@ export default defineComponent({
       window.removeEventListener("mouseup", handleMouseUp);
     };
 
+    // thay đổi kích thước header
+    const headerHeight = ref<number>(0);
+    const onheaderHeight = (height: number) => {
+      headerHeight.value = height
+      console.log(height)
+    }
+
     // Tính toán chiều rộng nội dung
     const contentWidth = ref(0);
     onMounted(() => {
@@ -809,6 +815,8 @@ export default defineComponent({
     });
 
     return {
+      headerHeight,
+      onheaderHeight,
       getData,
       list,
       headerConfig,
@@ -872,6 +880,7 @@ export default defineComponent({
 .shadow-hvover {
   box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
 }
+
 /* 
 .severityInfo .el-input__wrapper {
   background-color: #28a745 !important;
@@ -939,4 +948,5 @@ export default defineComponent({
   right: 0;
   height: 0px;
   background-color: black;
-}</style>
+}
+</style>

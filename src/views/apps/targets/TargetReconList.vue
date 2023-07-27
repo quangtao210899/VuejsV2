@@ -1,10 +1,10 @@
 <template>
     <div ref="refGetTheHeight">
         <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-        @handle-delete-selectd="deleteSubscription" :disabled="disabled"></KTToolbar>
+        @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
     </div>
     <!--begin::Card-->
-    <div class="app-container container-fluid mt-5" >
+    <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
         <div class="p-5 bg-body rounded-3">
             <!--begin::Card body-->
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
@@ -258,12 +258,21 @@ export default defineComponent({
             getData()
         }
 
+        // thay đổi kích thước header
+        const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            console.log(height)
+        }
+
         onMounted(() => {
             getData();
         });
 
 
         return {
+            headerHeight,
+            onheaderHeight,
             getData,
             list,
             selectedIds,
