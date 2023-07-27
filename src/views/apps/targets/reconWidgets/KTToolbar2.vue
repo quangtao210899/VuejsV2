@@ -1,9 +1,11 @@
 <template>
     <div id="kt_app_header" class="h-50px custom-top-fixed"
         style="box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05) !important;z-index:999 !important">
-        <div class="py-1 bg-body custom-fixed-bar" id="kt_subheader" style="width: -webkit-fill-available ;position: fixed !important;z-index: 9 !important;">
-            <div id="kt_app_toolbar_container" style="min-height: 43px;"
-                class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap " :class="{
+        <div class="py-1 bg-body custom-fixed-bar" id="kt_subheader"
+            style="width: -webkit-fill-available ;position: fixed !important;z-index: 9 !important;">
+            <div ref="divToMeasure" id="kt_app_toolbar_container" style="min-height: 43px;"
+                class="app-container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap "
+                :class="{
                     'container-fluid': toolbarWidthFluid,
                     'container-xxl': !toolbarWidthFluid,
                 }">
@@ -54,7 +56,7 @@
 </template>
   
 <script lang="ts">
-import { defineComponent, markRaw } from "vue";
+import { defineComponent, markRaw, ref, onMounted, onUnmounted, watch } from "vue";
 import { toolbarWidthFluid } from "@/core/helpers/config";
 import KTPageTitle from "@/views/apps/targets/reconWidgets/KTPageTitle2.vue";
 import { ElMessageBox } from 'element-plus'
@@ -79,7 +81,8 @@ export default defineComponent({
         "handle-delete-selectd",
         "handle-search",
         "form-back",
-        "form-submit"
+        "form-submit",
+        "header-height",
     ],
     setup(props, { emit }) {
         const handleSearch = (search: any) => {
@@ -110,24 +113,59 @@ export default defineComponent({
                 })
         };
 
+        // đô chiều cao của thẻ devi.container
+        const divToMeasure = ref<null | HTMLFormElement>(null);
+        const height = ref(0);
+        // Function to update the height value
+        const updateHeight = () => {
+            if (divToMeasure.value !== null) {
+                height.value = divToMeasure.value.clientHeight;
+            }
+        };
+
+        watch(height, (newHeight) => {
+            if (newHeight !== null) {
+                emit("header-height", newHeight);
+            }
+        });
+
+        // Event listener to update the height when the window is resized
+        const onResize = () => {
+            updateHeight();
+        };
+
+        onMounted(() => {
+            // Initial measurement
+            updateHeight();
+            // Attach the event listener when the component is mounted
+            window.addEventListener('resize', onResize);
+        });
+
+        onUnmounted(() => {
+            // Remove the event listener when the component is unmounted
+            window.removeEventListener('resize', onResize);
+        });
         return {
             toolbarWidthFluid,
             deleteSelectd,
             handleSearch,
             formBack,
             formSubmit,
+            divToMeasure,
         };
     },
 });
 </script>
 
 <style lang="scss" scoped>
-.custom-fixed-bar{
+.custom-fixed-bar {
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
+
 .custom-top-fixed {
     top: 60px !important;
 }
+
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
     .custom-top-fixed {
