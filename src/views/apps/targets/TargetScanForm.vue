@@ -24,7 +24,7 @@
                 </div>
                 <el-form-item v-if="scanFormState.proxyCheck" label="Giao thức" prop="proxyScheme" class="pb-3 text-capitalize w-100 fs-6" :error="(errors.proxyScheme) ? errors.proxyScheme[0] : ''">
                     <el-select v-model="scanFormState.proxyScheme" id="proxyScheme" name="proxyScheme"
-                        as="select" placeholder="Chọn giao thức" class="w-100">
+                        as="select" placeholder="Giao thức" class="w-100">
                         <el-option label="HTTP" value="HTTP">HTTP</el-option>
                         <el-option label="SOCKS5" value="SOCKS5">SOCKS5</el-option>
                     </el-select>
@@ -35,8 +35,8 @@
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item v-if="scanFormState.proxyCheck" label="Địa chỉ" prop="proxyAdress" class="pb-3 text-capitalize fs-6" :error="(errors.proxyAdress) ? errors.proxyAdress[0] : ''">
-                    <el-input v-model="scanFormState.proxyAdress" size="large" placeholder="Địa chỉ"
+                <el-form-item v-if="scanFormState.proxyCheck" label="Tên Miền" prop="proxyAdress" class="pb-3 text-capitalize fs-6" :error="(errors.proxyAdress) ? errors.proxyAdress[0] : ''">
+                    <el-input v-model="scanFormState.proxyAdress" size="large" placeholder="Tên miền"
                         :class="(errors.proxyAdress) ? 'el-error-ruleForm' : ''" />
                 </el-form-item>
                 <el-form-item v-if="scanFormState.proxyCheck" label="Cổng Dịch Vụ" prop="proxyPort" class="pb-3 text-capitalize fs-6" :error="(errors.proxyPort) ? errors.proxyPort[0] : ''">
@@ -55,25 +55,14 @@
                     <el-input v-model="scanFormState.proxyUsername" size="large" placeholder="Tên đăng nhập"
                         :class="(errors.proxyUsername) ? 'el-error-ruleForm' : ''" />
                 </el-form-item>
-                <el-form-item v-if="scanFormState.proxyCheck && scanFormState.proxyAuthenticationCheck" label="Mật Khẩu" prop="proxyUserPassword" class="pb-3 text-capitalize fs-6" :error="(errors.proxyUserPassword) ? errors.proxyUserPassword[0] : ''">
-                    <el-input :type="!eyeButtonRef ? 'password' : 'text'" v-model="scanFormState.proxyUserPassword" size="large" placeholder="Mật khẩu"
-                        :class="(errors.proxyUserPassword) ? 'el-error-ruleForm' : ''" />
-                    <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
-                        <KTIcon :icon-name="!eyeButtonRef ? 'eye-slash' : 'eye'"
-                            icon-class="fs-2" @click="eyePassword" />
-                    </span>
+                <el-form-item v-if="scanFormState.proxyCheck && scanFormState.proxyAuthenticationCheck" label="Mật khẩu mới" prop="proxyUserPassword" class="pb-3 text-capitalize fs-6" tabindex="0"
+                    :error="(errors.proxyUserPassword) ? errors.proxyUserPassword[0] : ''" >
+                    <el-input v-model="scanFormState.proxyUserPassword" size="large" placeholder="Mật khẩu mới"
+                        type="password" :show-password="true" :class="(errors.proxyUserPassword) ? 'el-error-ruleForm' : ''"
+                        autocomplete="new-password" />
                 </el-form-item>
-                <div v-if="scanFormState.proxyCheck" class="el-form-item el-form-item--large asterisk-right el-form-item--feedback pb-3 text-capitalize fs-6">
-                    <label class="el-form-item__label" style="width: 33%;">Sử dụng Header tùy chọn</label>
-                    <div class="el-form-item__content">
-                        <el-switch
-                            v-model="scanFormState.headerOptionCheck"
-                            @click="clearHeaderOptions"
-                        />
-                    </div>
-                </div>
-                <el-form-item v-if="scanFormState.headerOptionCheck" prop="headerOptionValue" label="Header" class="pb-3 text-capitalize fs-6" :error="(errors.headerOptionValue) ? errors.headerOptionValue[0] : ''">
-                    <el-select v-model="scanFormState.headerOptionValue" multiple filterable
+                <el-form-item prop="headerOptionValue" label="Sử dụng Header tùy chọn" class="pb-3 text-capitalize fs-6" :error="(errors.headerOptionValue) ? errors.headerOptionValue[0] : ''">
+                    <el-select v-model="scanFormState.headerOptionValue" multiple filterable class="w-100"
                         allow-create default-first-option placeholder="Ví dụ: Cookie: e8452aaa">
                     </el-select>
                 </el-form-item>
@@ -165,10 +154,6 @@ export default defineComponent({
                 scanFormState.proxyUsername = ""
                 scanFormState.proxyUserPassword = ""
             }
-
-            if (!scanFormState.headerOptionCheck) {
-                scanFormState.headerOptionValue = []
-            }
         }
 
         // validate
@@ -214,11 +199,6 @@ export default defineComponent({
             nuclei_check: false,
         })
 
-        const eyeButtonRef = ref<boolean>(false);
-        const eyePassword = () => {
-            eyeButtonRef.value = (eyeButtonRef.value) ? false : true;
-        };
-
         const validateName = (rule: any, value: any, callback: any) => {
             const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
             if (specialCharacters.test(value)) {
@@ -242,12 +222,26 @@ export default defineComponent({
             }
         };
 
+        const isValidDomain = (rule: any, value: any, callback: any) => {
+            if (value == null || value == '') { return true; }
+            const specialCharacters = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!specialCharacters.test(value)) {
+                callback(new Error('Tên miền không đúng định dạng'));
+            } else {
+                callback();
+            }
+        };
+
         const isValidPort = (rule: any, value: any, callback: any) => {
             if (value == null || value == '') { return true; }
             value = Number(value)
             
             if (!Number.isInteger(value)) {
-                callback(new Error('Port phải là số'))
+                callback(new Error('Cổng dịch vụ phải là số'))
+            } else if (value < 0) {
+                callback(new Error('Cổng dịch vụ không được là số âm'))
+            } else if (value > 65535) {
+                callback(new Error('Giới hạn mà cổng dịch vụ cho phép phải nhỏ hơn 65535'))
             } else {
                 callback();
             }
@@ -256,10 +250,10 @@ export default defineComponent({
         const rules = reactive<FormRules>({
             proxyAdress: [
                 { required: true, message: 'Vui lòng nhập địa chỉ', trigger: 'blur' },
-                { validator: isValidIPAddress, trigger: 'blur' },
+                { validator: isValidDomain, trigger: 'blur' },
             ],
             proxyPort: [
-                { required: true, message: 'Vui lòng nhập port', trigger: 'blur' },
+                { required: true, message: 'Vui lòng nhập cổng dịch vụ', trigger: 'blur' },
                 { validator: isValidPort, trigger: 'blur' },
             ],
             proxyUsername: [
@@ -287,6 +281,8 @@ export default defineComponent({
         }
 
         const addFormSubmit = async () => {
+            console.log(scanFormState);
+            
             return ApiService.post("scan/create/", scanFormState)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
@@ -340,8 +336,6 @@ export default defineComponent({
             errors,
             labelPosition,
             scanFormState,
-            eyeButtonRef,
-            eyePassword,
             clearHeaderOptions,
         };
     },
