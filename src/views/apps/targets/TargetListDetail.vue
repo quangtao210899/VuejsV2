@@ -12,18 +12,17 @@
                                     <span class="w-70px text-capitalize">Mục tiêu: </span>
                                     <span class="fw-bold" :class="(targetData.name != '') ? '' : 'badge badge-light-danger'">{{ (targetData.name != '') ? targetData.name : '--' }}</span>
                                 </div>
-                                <div class="col-sm-6 col-md-3 col-lg-3 col-12">
-                                    <span class="w-70px text-capitalize">Nhóm mục tiêu: </span>
-                                    <span class="fw-bold" :class="(targetData.group != '') ? '' : 'badge badge-light-danger'">{{ (targetData.group != '') ? targetData.group : '--' }}</span>
-                                </div>
-                                <div  class="col-sm-6 col-md-3 col-lg-3 col-12">
-                                    <span class="w-70px text-capitalize">Ip: </span>
-                                    <span class="fw-bold" :class="(targetData.ip != '') ? '' : 'badge badge-light-danger'">{{ (targetData.ip != '') ? targetData.ip : '--' }}</span>
-
-                                </div>
                                 <div  class="col-sm-6 col-md-3 col-lg-3 col-12">
                                     <span class="w-70px text-capitalize">Domain: </span>
                                     <span class="fw-bold" :class="(targetData.domain != '') ? '' : 'badge badge-light-danger'">{{ (targetData.domain != '') ? targetData.domain : '--' }}</span>
+                                </div>
+                                <div  class="col-sm-6 col-md-3 col-lg-3 col-12">
+                                    <span class="w-70px text-capitalize">IP: </span>
+                                    <span class="fw-bold" :class="(targetData.ip != '') ? '' : 'badge badge-light-danger'">{{ (targetData.ip != '') ? targetData.ip : '--' }}</span>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3 col-12">
+                                    <span class="w-70px text-capitalize">Nhóm mục tiêu: </span>
+                                    <span class="fw-bold" :class="(targetData.group != '') ? '' : 'badge badge-light-danger'">{{ (targetData.group != '') ? targetData.group : '--' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -1423,10 +1422,9 @@
 
                                                 <div class="mb-5"
                                                     v-if="detailData.details != null && detailData.details != ''">
-                                                    <h4 class="text-gray-700 fs-13px fw-bold cursor-pointer mb-0">Attack
-                                                        Details</h4>
+                                                    <h4 class="text-gray-700 fs-13px fw-bold cursor-pointer mb-0">Attack Details</h4>
                                                     <div>
-                                                        <div class="ps-1 " v-html="detailData.details"></div>
+                                                        <div class="ps-1 custom_attack_details" v-html="detailData.details"></div>
                                                     </div>
                                                 </div>
 
@@ -2581,5 +2579,10 @@ export default defineComponent({
     right: 0;
     height: 0px;
     background-color: black;
+}
+
+
+.custom_attack_details br{
+    display: none !important;
 }
 </style>

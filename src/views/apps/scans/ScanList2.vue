@@ -204,7 +204,7 @@
             <div class="mb-5" v-if="detailData.details != null && detailData.details != ''">
               <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Attack Details</h4>
               <div>
-                <div class="ps-1" v-html="detailData.details"></div>
+                <div class="ps-1 custom_attack_details" v-html="detailData.details"></div>
               </div>
             </div>
 
@@ -927,5 +927,10 @@ export default defineComponent({
   right: 0;
   height: 0px;
   background-color: black;
+}
+
+
+.custom_attack_details br{
+    display: none !important;
 }
 </style>
