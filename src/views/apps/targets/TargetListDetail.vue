@@ -579,8 +579,8 @@
                                                                     <thead>
                                                                         <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
                                                                             <th class="py-2 text-muted text-start">Email</th>
-                                                                            <th class="py-2 text-muted text-center">Password</th>
-                                                                            <th class="py-2 text-muted text-end">Password Crack</th>
+                                                                            <th class="py-2 text-muted text-start">Password</th>
+                                                                            <th class="py-2 text-muted text-start">Password Crack</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <!--end::Table head-->
@@ -609,9 +609,9 @@
                                                                                     <span class="badge badge-light-danger ">--</span>
                                                                                 </template>
                                                                             </td>
-                                                                            <td class="text-end">
+                                                                            <td class="text-start">
                                                                                 <template
-                                                                                    v-if="checkArray(item.password_hash) || item.password_hash != ''">
+                                                                                    v-if="item.password_hash != ''">
                                                                                     <template v-if="checkArray(item.password_hash)">
                                                                                         <span class="badge badge-light text-dark ms-1 mb-1"
                                                                                             v-for="i in item.password_hash">
@@ -1045,14 +1045,14 @@
                                             <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                                                 <template #header>
                                                     <div class="d-flex justify-content-between align-items-center">
-                                                        <span class="card-label fw-bold text-dark fs-5">Subdomains3</span>
+                                                        <span class="card-label fw-bold text-dark fs-5">Subdomains</span>
                                                         <router-link class="btn btn-sm btn-light-primary"
                                                             :to="`/target-recon-detail/${ID}/${reconId}/subdomains`" active-class="active">Xem Thêm</router-link>
                                                     </div>
                                                 </template>
-                                                <div class="h-500px"> 
+                                                <div> 
                                                     <template v-if="subdomain_result.length > 0">
-                                                        <el-table :data="subdomain_result" height="500" style="width: 100%;z-index: 1;"
+                                                        <el-table :data="subdomain_result" style="width: 100%;z-index: 1;"
                                                             class-name="my-custom-table">
                                                             <el-table-column min-width="120" label-class-name="text-uppercase fs-13px fw-bold text-dark" prop="name"
                                                                 label="Subdomains">
