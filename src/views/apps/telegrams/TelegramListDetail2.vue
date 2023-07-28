@@ -14,7 +14,7 @@
           :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
           <template #empty>
             <div class="flex items-center justify-center h-100%">
-              <el-empty />
+              <el-empty description="Không có dữ liệu nào"/>
             </div>
           </template>
 

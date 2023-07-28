@@ -208,12 +208,12 @@
                                                                                     <!--begin::Table container-->
                                                                                     <div class="table-responsive w-100 h-500px">
                                                                                         <!--begin::Table-->
-                                                                                        <table class="table table-row-dashed table-row-gray-300 ">
+                                                                                        <table class="table table-bordered table-row-gray-300 ">
                                                                                             <!--begin::Table head-->
                                                                                             <!--begin::Table body-->
                                                                                             <tbody class="overflow-y-auto w-100">
                                                                                                 <tr v-for="(item, key) in items" :key="key">
-                                                                                                    <td class="text-start"><span>{{ key }}</span>
+                                                                                                    <td class="text-start" style="width: 150px;"><span>{{ key }}</span>
                                                                                                     </td>
                                                                                                     <td class="text-start">
                                                                                                         <template v-if="checkArray(item) == true">
@@ -308,7 +308,7 @@
                                                                                     <!--begin::Table container-->
                                                                                     <div class="table-responsive w-100 h-500px">
                                                                                         <!--begin::Table-->
-                                                                                        <table class="table table-row-dashed table-row-gray-300 ">
+                                                                                        <table class="table table-bordered table-row-gray-300 ">
                                                                                             <!--begin::Table body-->
                                                                                             <tbody class="overflow-y-auto w-100">
                                                                                                 <tr v-for="(item, key) in items" :key="key">
@@ -316,8 +316,8 @@
                                                                                                     }}</span>
                                                                                                     </td>
                                                                                                     <td v-if="checkArray(item) == true"
-                                                                                                        class="text-start">
-                                                                                                        <div class="d-flex flex-column">
+                                                                                                        class="text-start" style="padding: 0px 0.75rem 0px 0.75rem;">
+                                                                                                        <div>
                                                                                                             <template v-for="(el, i) in item"
                                                                                                                 :key="i">
                                                                                                                 <template
@@ -366,7 +366,15 @@
                                                                                                                     </li>
                                                                                                                 </template>
                                                                                                                 <template v-else>
-                                                                                                                    <li
+                                                                                                                    <div class="row">
+                                                                                                                        <div class="col-6 py-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                            <span class="border">{{ i }}</span> 
+                                                                                                                        </div>
+                                                                                                                        <div class="col-6 py-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                            {{ (el == '' || el == null) ? '--' : el }}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <!-- <li
                                                                                                                         class="d-flex align-items-center py-2">
                                                                                                                         <span
                                                                                                                             :class="(el == '' || el == null) ? 'text-danger' : ''"
@@ -379,7 +387,7 @@
                                                                                                                                 null) ? '--' : el
                                                                                                                             }}
                                                                                                                         </span>
-                                                                                                                    </li>
+                                                                                                                    </li> -->
                                                                                                                 </template>
                                                                                                             </template>
                                                                                                         </div>
@@ -564,15 +572,15 @@
                                                         </template>
                                                         <template v-else>
                                                             <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-100 p-3">
+                                                            <div class="table-responsive w-100 h-100">
                                                                 <!--begin::Table-->
-                                                                <table class="table table-row-dashed table-row-gray-300">
+                                                                <table class="table table-bordered table-row-gray-300">
                                                                     <!--begin::Table head-->
                                                                     <thead>
-                                                                        <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                                            <th class="py-2 px-0 text-muted text-start">Email</th>
-                                                                            <th class="py-2 px-3 text-muted text-center">Password</th>
-                                                                            <th class="py-2 px-3 text-muted text-end">Password Crack</th>
+                                                                        <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
+                                                                            <th class="py-2 text-muted text-start">Email</th>
+                                                                            <th class="py-2 text-muted text-center">Password</th>
+                                                                            <th class="py-2 text-muted text-end">Password Crack</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <!--end::Table head-->
@@ -678,15 +686,15 @@
                                                         </template>
                                                         <template v-else>
                                                             <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-100 p-3">
+                                                            <div class="table-responsive w-100 h-100">
                                                                 <!--begin::Table-->
-                                                                <table class="table table-row-dashed table-row-gray-300">
+                                                                <table class="table table-bordered table-row-gray-300">
                                                                     <!--begin::Table head-->
                                                                     <thead>
-                                                                        <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                                            <th class="text-muted py-2 px-0 text-start">Tên Miền</th>
-                                                                            <th class="text-muted py-2 px-3 text-start">Giao Thức</th>
-                                                                            <th class="text-muted py-2 px-3 text-end">Cùng Dải Mạng?</th>
+                                                                        <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
+                                                                            <th class="text-muted py-2 text-start">Tên Miền</th>
+                                                                            <th class="text-muted py-2 text-start">Giao Thức</th>
+                                                                            <th class="text-muted py-2 text-end">Cùng Dải Mạng?</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <!--end::Table head-->
@@ -868,9 +876,9 @@
                                                                         </template>
                                                                         <template v-else>
                                                                             <!--begin::Table container-->
-                                                                            <div class="table-responsive w-100 ">
+                                                                            <div class="table-responsive w-100 h-100">
                                                                                 <!--begin::Table-->
-                                                                                <table class="table table-row-dashed table-row-gray-300 ">
+                                                                                <table class="table table-bordered table-row-gray-300 ">
                                                                                     <!--begin::Table body-->
                                                                                     <tbody class="overflow-y-auto w-100">
                                                                                         <tr v-for="(item, key) in items" :key="key">
@@ -948,9 +956,9 @@
                                                                     <template v-else>
                                                                         <template v-if="checkArray(items.message) && items.status == 3">
                                                                             <!--begin::Table container-->
-                                                                            <div class="table-responsive w-100 h-100 p-3">
+                                                                            <div class="table-responsive w-100 h-100">
                                                                                 <!--begin::Table-->
-                                                                                <table class="table table-row-dashed table-row-gray-300">
+                                                                                <table class="table table-bordered table-row-gray-300">
                                                                                     <template v-if="index.toString() == 'js_analysis'">
                                                                                         <thead>
                                                                                             <tr
@@ -1037,7 +1045,7 @@
                                             <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                                                 <template #header>
                                                     <div class="d-flex justify-content-between align-items-center">
-                                                        <span class="card-label fw-bold text-dark fs-5">Subdomains</span>
+                                                        <span class="card-label fw-bold text-dark fs-5">Subdomains3</span>
                                                         <router-link class="btn btn-sm btn-light-primary"
                                                             :to="`/target-recon-detail/${ID}/${reconId}/subdomains`" active-class="active">Xem Thêm</router-link>
                                                     </div>
@@ -1199,7 +1207,7 @@
                                                                             <li class="d-flex align-items-start mb-1">
                                                                                 <span class="fw-bold text-capitalize text-dark fs-13px"
                                                                                 style="white-space: nowrap; ">
-                                                                                    {{ key }}: 
+                                                                                    {{ String(key).toUpperCase() }}: 
                                                                                 </span>
                                                                                 <span class="fst-normal text-dark ms-1" style="font-size: 13px;">
                                                                                      {{ scope.row.dns_record[key].join(', ') }}
@@ -1330,7 +1338,7 @@
                                         <div
                                             class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom">
                                             <div v-if="totalPage > 0">
-                                                <span class="text-capitalize fs-13px">Tổng Số Scans: {{ totalPage }}</span>
+                                                <span class="text-capitalize fs-13px">Tổng Số Lỗ Hổng: {{ totalPage }}</span>
                                             </div>
                                             <el-pagination background v-model:current-page="currentPage"
                                                 :hide-on-single-page="true" v-model:page-size="itemsPerPage"
@@ -1379,7 +1387,7 @@
                                                     <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Vulnerable
                                                         URL</h4>
                                                     <div v-if="detailData.affects_url != null && detailData.affects_url != ''">
-                                                        <span class="w-100">URL : </span>
+                                                        <span class="w-100">URL: </span>
                                                         <span class="ps-1">
                                                             <a target="_blank" :href="`${detailData.affects_url}`"
                                                                 class="text-primary">
@@ -1390,7 +1398,7 @@
                                                         </span>
                                                     </div>
                                                     <div v-if="detailData.affects_detail != null && detailData.affects_detail != ''">
-                                                        <span class="w-100">Parameter : </span>
+                                                        <span class="w-100">Parameter: </span>
                                                         <span class="ps-1"> {{ detailData.affects_detail }}</span>
                                                     </div>
                                                 </div>
@@ -1650,13 +1658,13 @@
         <!-- modoal  -->
         <el-dialog v-model="dialogDirectoryVisible" title="Chi Tiết Thư Mục" width="1000" modal-class="custom-dialog">
         <div>
-            <el-input v-model="searchDirectory" size="large" placeholder="Type to search" :prefix-icon="SearchIcon" />
+            <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
             <div class="my-3 text-primary">
                 <span class="fs-13px text-gray-600">Tổng Thư Mục: </span>
                 <span class="fw-bold">{{ totalRecordsDirectory }}</span>
             </div>
         </div>
-        <el-table :data="directory_data" style="width: 100%" height="400" class-name="my-custom-table">
+        <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table">
             <template #empty>
                 <div class="flex items-center justify-center h-100%">
                     <el-empty description="Không có dữ liệu nào"/>
@@ -1704,7 +1712,7 @@
                 <span class="fw-bold">{{ totalRecords }}</span>
             </div>
         </div>
-        <el-table :data="enpoint_data" style="width: 100%" height="400" class-name="my-custom-table" v-loading="loading">
+        <el-table :data="enpoint_data" style="width: 100%" height="443" class-name="my-custom-table" v-loading="loading">
             <template #empty>
                 <div class="flex items-center justify-center h-100%">
                     <el-empty description="Không có dữ liệu nào"/>
@@ -2159,7 +2167,7 @@ export default defineComponent({
         const enpoint_data_full = ref<any>([])
         const enpoint_data = ref<any>([])
         const currentPageEndpoints = ref(1); // Trang hiện tại
-        const pageSizeEndpoints = ref(5); // Số lượng hàng mỗi trang
+        const pageSizeEndpoints = ref(10); // Số lượng hàng mỗi trang
         const pageSizeDirectory = ref(10); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
         const searchEnpoint = ref('')
@@ -2549,6 +2557,14 @@ export default defineComponent({
 });
 </script>
 <style >
+.el-tabs--left .el-tabs__nav-wrap.is-left {
+    border-right: #e4e7ed 1px solid;
+}
+
+.el-tabs--left.el-tabs--border-card .el-tabs__header.is-left {
+    margin-right: 0px;
+}
+
 .custom-dialog .el-dialog__body{
     padding: 10px 20px;
 }
