@@ -83,8 +83,7 @@
                   </template>
                 </template>
               </el-table-column>
-              <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="status"
-                label="TRẠNG THÁI">
+              <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI">
                 <template #default="scope">
                   <span v-if="scope.row.status != ''" class="badge fs-13px"
                     :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
