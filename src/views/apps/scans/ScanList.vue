@@ -798,7 +798,7 @@ export default defineComponent({
     const headerHeight = ref<number>(0);
     const onheaderHeight = (height: number) => {
       headerHeight.value = height
-      console.log(height)
+      
     }
 
     // Tính toán chiều rộng nội dung

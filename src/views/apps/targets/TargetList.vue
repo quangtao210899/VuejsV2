@@ -8,7 +8,7 @@
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
                     class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed"
                     v-loading="loading" @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
-                    @current-change="handleCurrentChange" :default-sort="{ prop: 'id', order: 'descending' }"
+                    @row-click="handleCurrentChange" :default-sort="{ prop: 'id', order: 'descending' }"
                     @sort-change="handleSortChange">
                     <template #empty>
                         <div class="flex items-center justify-center h-100%">
@@ -237,7 +237,7 @@ export default defineComponent({
         const headerHeight = ref<number>(0);
         const onheaderHeight = (height: number) => {
             headerHeight.value = height
-            console.log(height)
+            
         }
 
         // thêm mới

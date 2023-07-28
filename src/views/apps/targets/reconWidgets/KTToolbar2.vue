@@ -18,12 +18,12 @@
                 <!--begin::Toolbar-->
                 <div class="d-flex align-items-center py-1 me-2">
                     <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formBack"
-                        class="btn btn-light font-weight-bold py-2 px-5 ">
+                        class="btn btn-light font-weight-bold py-2 px-5 fs-13px me-2">
                         Quay Lại
                     </router-link>
 
                     <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formSubmit"
-                        class="btn btn-primary font-weight-bold py-2 px-5 ms-2">
+                        class="btn btn-primary font-weight-bold py-2 px-5 fs-13px">
                         Đồng Ý
                     </router-link>
 
@@ -35,7 +35,7 @@
                         </router-link>
                         <router-link v-if="checkSyncAll == true" to="#" :disabled="disabled" @click="handleSyncAll"
                             class="btn btn-light-success font-weight-bold py-2 px-5 me-2 fs-13px">
-                            Đồng bộ Tất Cả
+                            Đồng Bộ Tất Cả
                         </router-link>
                         <router-link v-if="addNew != ''" :to="addNew" :disabled="disabled"
                             class="btn btn-light-primary font-weight-bold py-2 px-5 fs-13px">

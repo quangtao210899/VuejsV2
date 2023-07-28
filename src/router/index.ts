@@ -231,7 +231,17 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/telegrams/TelegramGroupList.vue"),
         meta: {
           pageTitle: "Nhóm Telegarm",
-          breadcrumbs: ["TelegramGroup"],
+          breadcrumbs: ["Nhóm Telegarm"],
+        },
+      },
+      {
+        path: "/telegram-group-form/:id",
+        name: "telegram-group-form",
+        component: () => import("@/views/apps/telegrams/TeltgramGroupForm.vue"),
+        meta: {
+          pageTitle: "Nhóm Telegarm",
+          breadcrumbs: ["Nhóm Telegarm", "addForm"],
+          links: ["/telegram-group"],
         },
       },
       {

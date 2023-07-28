@@ -596,7 +596,7 @@ export default defineComponent({
                     confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             }).then(() => {
-                if (icon == 'success' || values == 'Mục tiêu không tồn tại') {
+                if (icon == 'success' || values == 'Mục tiêu không tồn tại' || values == 'Có lỗi xảy ra') {
                     router.push({ name: 'target-recon' });
                 }
             });
@@ -716,7 +716,7 @@ export default defineComponent({
         const headerHeight = ref<number>(0);
         const onheaderHeight = (height: number) => {
             headerHeight.value = height
-            console.log(height)
+            
         }
 
         onMounted(() => {
