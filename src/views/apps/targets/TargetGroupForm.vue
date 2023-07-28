@@ -105,7 +105,7 @@ export default defineComponent({
                     confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             }).then(() => {
-                if (icon == 'success' || values == 'Mục tiêu không tồn tại') {
+                if (icon == 'success' || values == 'Mục tiêu không tồn tại' || values == 'Nhóm mục tiêu không có dữ liệu' || values == 'Có lỗi xảy ra') {
                     router.push({ name: 'target-group' });
                 }
             });
@@ -218,7 +218,7 @@ export default defineComponent({
         const headerHeight = ref<number>(0);
         const onheaderHeight = (height: number) => {
             headerHeight.value = height
-            console.log(height)
+            
         }
 
         onMounted(() => {
