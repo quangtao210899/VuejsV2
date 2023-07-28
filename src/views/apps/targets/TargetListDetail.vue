@@ -1,6 +1,6 @@
 <template>
     <KTToolbar @on-header-height="onheaderHeight"></KTToolbar>
-    <!--begin::Card-->
+    <!--begin::Card--> 
         <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
             <div class="card h-100 d-block bg-transparent">
                 <div class="card px-5 mb-3 card-custom">
@@ -12,18 +12,17 @@
                                     <span class="w-70px text-capitalize">Mục tiêu: </span>
                                     <span class="fw-bold" :class="(targetData.name != '') ? '' : 'badge badge-light-danger'">{{ (targetData.name != '') ? targetData.name : '--' }}</span>
                                 </div>
-                                <div class="col-sm-6 col-md-3 col-lg-3 col-12">
-                                    <span class="w-70px text-capitalize">Nhóm mục tiêu: </span>
-                                    <span class="fw-bold" :class="(targetData.group != '') ? '' : 'badge badge-light-danger'">{{ (targetData.group != '') ? targetData.group : '--' }}</span>
-                                </div>
-                                <div  class="col-sm-6 col-md-3 col-lg-3 col-12">
-                                    <span class="w-70px text-capitalize">Ip: </span>
-                                    <span class="fw-bold" :class="(targetData.ip != '') ? '' : 'badge badge-light-danger'">{{ (targetData.ip != '') ? targetData.ip : '--' }}</span>
-
-                                </div>
                                 <div  class="col-sm-6 col-md-3 col-lg-3 col-12">
                                     <span class="w-70px text-capitalize">Domain: </span>
                                     <span class="fw-bold" :class="(targetData.domain != '') ? '' : 'badge badge-light-danger'">{{ (targetData.domain != '') ? targetData.domain : '--' }}</span>
+                                </div>
+                                <div  class="col-sm-6 col-md-3 col-lg-3 col-12">
+                                    <span class="w-70px text-capitalize">IP: </span>
+                                    <span class="fw-bold" :class="(targetData.ip != '') ? '' : 'badge badge-light-danger'">{{ (targetData.ip != '') ? targetData.ip : '--' }}</span>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3 col-12">
+                                    <span class="w-70px text-capitalize">Nhóm mục tiêu: </span>
+                                    <span class="fw-bold" :class="(targetData.group != '') ? '' : 'badge badge-light-danger'">{{ (targetData.group != '') ? targetData.group : '--' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -40,14 +39,14 @@
                                 class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold flex-nowrap">
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
-                                    <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
+                                    <a class="nav-link text-active-primary pb-4" :class="{ active: activeTab === 'kt_recon_tab' }" aria-selected="true" data-bs-toggle="tab"
                                         href="#kt_recon_tab">Recon</a>
                                 </li>
                                 <!--end:::Tab item-->
 
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
-                                    <a class="nav-link text-active-primary me-6" data-bs-toggle="tab"
+                                    <a class="nav-link text-active-primary me-6" :class="{ active: activeTab === 'kt_scans_tab' }" aria-selected="false" data-bs-toggle="tab"
                                         href="#kt_scans_tab">Scans</a>
                                 </li>
                                 <!--end:::Tab item-->
@@ -61,7 +60,7 @@
                 <!--begin:::Tab content-->
                 <div class="tab-content " id="myTabContent">
                     <!--begin:::Tab pane-->
-                    <div class="tab-pane fade show active" id="kt_recon_tab" role="tabpanel">
+                    <div class="tab-pane fade show active"  id="kt_recon_tab" role="tabpanel">
                         <div>
                             <div class="card rounded-0 rounded-bottom ">
                                 <template v-if="checkRecon == true" >
@@ -1252,7 +1251,7 @@
                     <!--begin:::Tab pane-->
                     <div class="tab-pane fade" id="kt_scans_tab" role="tabpanel">
                         <div>
-                            <div class=" position-relative">
+                            <div class="card position-relative">
                                 <div class="position-absolute" style="top: -50px; right: 15px;">
                                     <div class="d-flex align-items-center">
                                         <!-- <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
@@ -1306,7 +1305,7 @@
                                                 </template>
                                             </el-table-column>
                                             <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold"
-                                                prop="hostname" label="HOST NAME">
+                                                prop="hostname" label="URL">
                                                 <template #default="scope">
                                                     <span v-if="scope.row.hostname != '' || scope.row.port_scan.hostname != ''"
                                                         class="fs-13px text-gray-700 text-hover-primary">
@@ -1315,7 +1314,7 @@
                                                     <span v-else class="badge badge-light-danger">--</span>
                                                 </template>
                                             </el-table-column>
-                                            <el-table-column min-width="160" label-class-name="fs-13px text-dark fw-bold"
+                                            <el-table-column min-width="160" label-class-name="fs-13px text-dark fw-bold" align="left"
                                                 prop="last_seen" label="NGÀY TẠO">
                                                 <template #default="scope">
                                                     <span v-if="scope.row.last_seen != ''"
@@ -1324,8 +1323,8 @@
                                                     <span v-else class="badge badge-light-danger">--</span>
                                                 </template>
                                             </el-table-column>
-                                            <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold"
-                                                align="left" prop="status" label="TRẠNG THÁI">
+                                            <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold"
+                                                 prop="status" label="TRẠNG THÁI">
                                                 <template #default="scope">
                                                     <span v-if="scope.row.status != ''" class="badge fs-13px"
                                                         :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
@@ -1356,7 +1355,7 @@
                                         </div>
                                     </div>
                                     <!--begin::Card2 body-->
-                                    <div class="h-100 overflow-scroll d-block"
+                                    <div class="h-100 overflow-auto d-block"
                                         :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
                                         :class="classDetail ? ' d-block' : 'd-none'">
                                         <div class="ms-3 pb-10 affix-container">
@@ -1384,17 +1383,17 @@
                                             </div>
                                             <div class="lh-lg fs-13px">
                                                 <div class="mb-5"
-                                                    v-if="(detailData.url != null && detailData.url != '') || (detailData.affects_detail != null && detailData.affects_detail != '')">
+                                                    v-if="(detailData.affects_url != null && detailData.affects_url != '') || (detailData.affects_detail != null && detailData.affects_detail != '')">
                                                     <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Vulnerable
                                                         URL</h4>
-                                                    <div v-if="detailData.url != null && detailData.url != ''">
+                                                    <div v-if="detailData.affects_url != null && detailData.affects_url != ''">
                                                         <span class="w-100">URL : </span>
                                                         <span class="ps-1">
-                                                            <a target="_blank" :href="`${detailData.url}`"
+                                                            <a target="_blank" :href="`${detailData.affects_url}`"
                                                                 class="text-primary">
                                                                 <KTIcon icon-name="link" icon-class="bi bi-link-45deg"
                                                                     :style="{ fontSize: '16px' }" />
-                                                                {{ detailData.url }}
+                                                                {{ detailData.affects_url }}
                                                             </a>
                                                         </span>
                                                     </div>
@@ -1431,10 +1430,9 @@
 
                                                 <div class="mb-5"
                                                     v-if="detailData.details != null && detailData.details != ''">
-                                                    <h4 class="text-gray-700 fs-13px fw-bold cursor-pointer mb-0">Attack
-                                                        Details</h4>
+                                                    <h4 class="text-gray-700 fs-13px fw-bold cursor-pointer mb-0">Attack Details</h4>
                                                     <div>
-                                                        <div class="ps-1 " v-html="detailData.details"></div>
+                                                        <div class="ps-1" v-html="detailData.details.replace(/<br\s*\/?>/g, '')"></div>
                                                     </div>
                                                 </div>
 
@@ -2047,14 +2045,17 @@ export default defineComponent({
         const detailData = reactive({
             id: '',
             vt_name: '',
+            affects_detail: '',
+            affects_url: '',
             severity: '',
             ip: '',
             hostname: '',
             schema: '',
             created_at: '',
             status: '',
+            last_seen: '',
             url: '',
-            affects_detail: '',
+            parameter: '',
             tags: '',
             cvss_score: '',
             details: '',
@@ -2074,7 +2075,7 @@ export default defineComponent({
 
         // handleCurrentChange
         const handleCurrentChange = (detail: any) => {
-            // console.log(detail)
+            console.log(detail)
             if (detail) {
                 closeOnRow.value = true;
                 classDetail.value = true;
@@ -2436,8 +2437,10 @@ export default defineComponent({
         onBeforeUnmount(() => {
         stopTimer();
         });
+        const activeTab = ref('kt_recon_tab');
 
         return {
+            activeTab,
             headerHeight,
             onheaderHeight,
             getData,
@@ -2597,5 +2600,10 @@ export default defineComponent({
     right: 0;
     height: 0px;
     background-color: black;
+}
+
+
+.custom_attack_details br{
+    display: none !important;
 }
 </style>

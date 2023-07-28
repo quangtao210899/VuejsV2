@@ -1,8 +1,8 @@
 <template>
-    <div ref="refGetTheHeight">
+    <div ref="refGetTheHeight"> 
         <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
         @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
-    </div>
+    </div> 
     <!--begin::Card-->
     <el-scrollbar :height="heightTable">
     <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}" >
@@ -54,7 +54,7 @@
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI" min-width="150px">
+                    <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="status"  label="TRẠNG THÁI" min-width="150px">
                         <template #default="scope">
                             <span v-if="scope.row.status != ''" :class="`fs-12px py-3 px-4 badge badge-light-${getStatus(scope.row.status).color}`">{{
                                 scope.row.status_name }}</span>
