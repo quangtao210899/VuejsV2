@@ -2,7 +2,7 @@
     <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
     @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
     <!--begin::Card-->
-    <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
+    <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}"> 
         <div class="p-5 bg-body rounded-3">
             <!--begin::Card body-->
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"

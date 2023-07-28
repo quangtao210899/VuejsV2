@@ -29,18 +29,26 @@
 
                     <!--begin::Button-->
                     <template v-if="idsDelete.length == 0">
+                        <router-link v-if="checkSetting == true" to="#" :disabled="disabled"  @click="handleSetting"
+                            class="btn btn-light-info font-weight-bold py-2 px-5 me-2 fs-13px">
+                            Cấu Hình
+                        </router-link>
+                        <router-link v-if="checkSyncAll == true" to="#" :disabled="disabled" @click="handleSyncAll"
+                            class="btn btn-light-success font-weight-bold py-2 px-5 me-2 fs-13px">
+                            Đồng bộ Tất Cả
+                        </router-link>
                         <router-link v-if="addNew != ''" :to="addNew" :disabled="disabled"
-                            class="btn btn-light-primary font-weight-bold py-2 px-5 ml-2">
+                            class="btn btn-light-primary font-weight-bold py-2 px-5 fs-13px">
                             Thêm
                         </router-link>
                     </template>
                     <template v-else>
                         <div class="d-flex justify-content-end align-items-center">
-                            <div class="fw-bold me-5">
+                            <div class="fw-bold me-5 fs-13px">
                                 Đã Chọn <span class="me-1">{{ idsDelete.length }}</span>
                             </div>
                             <button type="button" @click="deleteSelectd()" :disabled="disabled"
-                                class="btn btn-light-danger  btn-sm">
+                                class="btn btn-light-danger fs-13px btn-sm">
                                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
                                 Xóa
                             </button>
@@ -61,7 +69,6 @@ import { toolbarWidthFluid } from "@/core/helpers/config";
 import KTPageTitle from "@/views/apps/targets/reconWidgets/KTPageTitle2.vue";
 import { ElMessageBox } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
-import { number } from "yup";
 
 export default defineComponent({
     name: "layout-toolbar",
@@ -76,6 +83,8 @@ export default defineComponent({
         checkSearch: { type: Boolean, required: false, default: false },
         checkBack: { type: Boolean, required: false, default: false },
         checkSubmit: { type: Boolean, required: false, default: false },
+        checkSetting: { type: Boolean, required: false, default: false },
+        checkSyncAll: { type: Boolean, required: false, default: false },
         typeText: { type: String, required: false, default: '' },
         headerHeight: { type: Number, required: false, default: 0 },
     },
@@ -85,6 +94,8 @@ export default defineComponent({
         "form-back",
         "form-submit",
         "on-header-height",
+        "handle-sync-all",
+        "handle-setting",
     ],
     setup(props, { emit }) {
         const handleSearch = (search: any) => {
@@ -147,6 +158,13 @@ export default defineComponent({
             // Remove the event listener when the component is unmounted
             window.removeEventListener('resize', onResize);
         });
+
+        const handleSyncAll = () => {
+            emit("handle-sync-all");
+        };
+        const handleSetting = () => {
+            emit("handle-setting");
+        };
         return {
             toolbarWidthFluid,
             deleteSelectd,
@@ -154,6 +172,8 @@ export default defineComponent({
             formBack,
             formSubmit,
             divToMeasure,
+            handleSyncAll,
+            handleSetting,
         };
     },
 });

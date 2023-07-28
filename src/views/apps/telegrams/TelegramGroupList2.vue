@@ -1,164 +1,148 @@
 <template>
-  <KTToolbar addNew="urlAddNew" :check-setting="true" @handle-setting="handleSetting" :check-sync-all="true"
-    @handle-sync-all="handleSyncAll" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-    @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
   <!--begin::Card-->
-  <div class="app-container container-fluid p-5">
-    <div class="card h-100 d-block">
-      <div class="h-100  shadow-hvover">
-        <!--begin::Card body-->
-        <div class="card-body overflow-y-auto overflow-x-auto h-100 p-0 m-0 ">
-          <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
-            :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
-            :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
-            @customRow="customRowTable">
-            <template v-slot:id="{ row: customer }">{{ customer.id ?? '--' }}</template>
-            <template v-slot:name="{ row: customer }">
-              <span class="text-dark text-hover-primary ">{{ customer.name ?? '--' }}</span>
-            </template>
-            <template v-slot:date_update="{ row: customer }">
-              <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
-                <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
-                {{ formatDate(customer.date_update) }}
-              </span>
-            </template>
-            <template v-slot:total_message="{ row: customer }">
-              <div class="badge badge-light">{{ customer.total_message ?? 0 }}</div>
-            </template>
-            <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--'
-            }}</template>
-            <template v-slot:status="{ row: customer }">
-              <KTIcon v-on:click.stop @click="updateStatus(customer)" :disabled="disabled"
-                :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'"
-                :icon-class="(customer.status == 0) ? 'fs-3x text-success' : 'fs-3x text-danger'" />
-            </template>
-            <template v-slot:actions="{ row: customer }">
-              <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng bộ" placement="top">
-                <!-- <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1"
+  <div class="app-container container-fluid p-5 mt-10">
+  <div class="card h-100 d-block">
+    <!--begin::Card header-->
+    <div
+      class="card-header border-0 pt-2 pt-sm-10 pt-md-10 position-sm-absolute justify-content-end end-0 pe-1 me-2 me-md-0 me-sm-0"
+      style="top: -80px">
+      <!--begin::Card title-->
+
+      <!--begin::Card title-->
+
+      <!--begin::Card toolbar-->
+      <div class="card-toolbar">
+        <!--begin::Toolbar-->
+        <div v-show="selectedIds.length === 0">
+          <div class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
+            <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
+              <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
+                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                <KTIcon icon-name="filter" icon-class="fs-2" />
+                Filter
+              </button>
+              <!-- </div> -->
+            </el-tooltip>
+            <Fillter @filterData="handleFilter"></Fillter> 
+            <!--begin::Add subscription-->
+            <!--end::Add subscription-->
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Cấu hình thời gian lấy tin nhắn"
+              placement="top">
+              <button type="button" class="btn btn-sm fw-bold btn-info me-2" @click="handleSubmitSetting"
+                :disabled="disabled">
+                <KTIcon icon-name="setting-2" icon-class="fs-2" />
+                Cấu hình
+              </button>
+            </el-tooltip>
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng bộ toàn bộ tin nhắn" placement="top">
+              <button type="button" class="btn btn-sm fw-bold btn-success me-2" @click="handleSyncAll"
+                :disabled="disabled">
+                <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
+                Đồng bộ All
+              </button>
+            </el-tooltip>
+
+            <!-- <button type="button" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-success btn-active-light-success me-2"
+            data-bs-toggle="modal" data-bs-target="#kt_modal_sync_telegram">
+              <KTIcon icon-name="arrows-circle" icon-class="fs-2" />
+              Đồng bộ All
+            </button> -->
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thêm mới" placement="top">
+              <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal" :disabled="disabled"
+                data-bs-target="#kt_modal_new_telegram_group" @click="handleClick({}, 'add')">
+                <KTIcon icon-name="plus-circle" icon-class="fs-2" />
+                Thêm
+              </button>
+            </el-tooltip>
+
+          </div>
+          <!--end::Toolbar-->
+        </div>
+
+        <!--begin::Group actions-->
+        <div v-show="selectedIds.length !== 0">
+          <div class="d-flex justify-content-end align-items-center">
+            <div class="fw-bold me-5">
+              <span class="me-2">{{ selectedIds.length }}</span>Selected
+            </div>
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
+              <button type="button" @click="deleteSelectd()" class="btn btn-danger  btn-sm" :disabled="disabled">
+                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
+                Xóa mục đã chọn
+              </button>
+            </el-tooltip>
+            <!-- <button type="button" class="btn btn-light-danger ms-2">
+              Hủy
+            </button> -->
+          </div>
+        </div>
+        <!--end::Group actions-->
+      </div>
+      <!--end::Card toolbar-->
+    </div>
+    <!--end::Card header-->
+
+    <div class="h-100  shadow-hvover">
+      <!--begin::Card body-->
+      <div class="card-body overflow-y-auto overflow-x-auto h-100 p-0 m-0 ">
+        <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
+          :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
+          :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
+          @customRow="customRowTable">
+          <template v-slot:id="{ row: customer }">{{ customer.id ?? '--' }}</template>
+          <template v-slot:name="{ row: customer }">
+            <span class="text-dark text-hover-primary ">{{ customer.name ?? '--' }}</span>
+          </template>
+          <template v-slot:date_update="{ row: customer }">
+            <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
+              <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
+              {{ formatDate(customer.date_update) }}
+            </span>
+          </template>
+          <template v-slot:total_message="{ row: customer }">
+            <div class="badge badge-light">{{ customer.total_message ?? 0 }}</div>
+          </template>
+          <template v-slot:type="{ row: customer }">{{ (customer.type == 1 ? 'DB Leak' : 'Hacker News') ?? '--'
+          }}</template>
+          <template v-slot:status="{ row: customer }">
+            <KTIcon v-on:click.stop @click="updateStatus(customer)" :disabled="disabled"
+              :icon-name="(customer.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'"
+              :icon-class="(customer.status == 0) ? 'fs-3x text-success' : 'fs-3x text-danger'" />
+          </template>
+          <template v-slot:actions="{ row: customer }">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng bộ" placement="top">
+              <!-- <button type="button" class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1"
                 :disabled="disabledButton" ref="submitButtonRef" @click="handleSyncItem(customer)">
                 <KTIcon icon-name="arrows-circle" icon-class="fs-3" />
               </button> -->
-                <el-button class="me-1 btn-sm btn btn-icon btn-bg-light btn-active-color-success" type="primary"
-                  :icon="RefreshIcon" @click="handleSyncItem(customer)"
-                  :loading="((disabledButton && idSync == customer.id) || idSyncALL) ? true : false"
-                  :loading-icon="RefreshIcon"></el-button>
-              </el-tooltip>
-              <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết tin nhắn" placement="top">
-                <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
-                  @click="handleClick(customer, 'detail')">
-                  <KTIcon icon-name="eye" icon-class="fs-3" />
-                </button>
-              </el-tooltip>
-              <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
-                <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
-                  data-bs-toggle="modal" data-bs-target="#kt_modal_new_telegram_group"
-                  @click="handleClick(customer, 'edit')" :disabled="disabled">
-                  <KTIcon icon-name="pencil" icon-class="fs-3" />
-                </button>
-              </el-tooltip>
-            </template>
-          </KTDatatable>
-        </div>
-        <!--end::Card body-->
-      </div>
-
-      <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-        class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
-        @selection-change="handleSelectionChange" :row-key="getRowKey"
-        @current-change="customRowTable">
-        <template #empty>
-          <div class="flex items-center justify-center h-100%">
-            <el-empty description="Không có dữ liệu nào" />
-          </div>
-        </template>
-
-        <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35" :reserve-selection="true" />
-
-        <el-table-column width="50" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
-          <template #default="scope">
-            <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
-            }}</span>
-            <span v-else class="badge badge-light-danger">--</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="150" prop="name" label="GROUP">
-          <template #default="scope">
-            <span v-if="scope.row.name != ''" class="fs-13px text-gray-700 text-hover-primary">{{
-              scope.row.name }}</span>
-            <span v-else class="badge badge-light-danger">--</span>
-          </template>
-        </el-table-column>
-        <el-table-column min-width="50" label-class-name="fs-13px fw-bold text-dark" prop="total_message" label="TỔNG">
-          <template #default="scope">
-            <span v-if="scope.row.total_message != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.total_message
-            }}</span>
-            <span v-else class="badge badge-light-danger">--</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="type" label="KIỂU">
-          <template #default="scope">
-            <span v-if="scope.row.type != ''" class="fs-13px text-gray-700 text-hover-primary">
-              {{ (scope.row.type == 1 ? 'DB Leak' : 'Hacker News') }}
-              </span>
-            <span v-else class="badge badge-light-danger">--</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="date_update" label="THỜI GIAN">
-            <template #default="scope">
-              <span v-if="scope.row.date_update != ''" class="fs-13px text-gray-700 text-hover-primary">
-                <i class="fa-solid fa-calendar-days fs-7"></i>
-                {{ scope.row.date_update }}</span>
-              <span v-else class="badge badge-light-danger">--</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI"  align="center">
-            <template #default="scope">
-              <KTIcon v-on:click.stop @click="updateStatus( scope.row)" :disabled="disabled"
-                :icon-name="( scope.row.status == 0) ? 'toggle-on-circle' : 'toggle-off-circle'"
-                :icon-class="( scope.row.status == 0) ? 'fs-3x text-success' : 'fs-3x text-danger'" />
-            </template>
-          </el-table-column>
-
-        <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
-          <template #default="scope">
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Recon" placement="top">
-              <router-link :to="`/target-recons/${scope.row.id}`" v-on:click.stop
-                class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 my-1">
-                <i class="fas fa-mail-bulk"></i>
-              </router-link>
+              <el-button class="me-1 btn-sm btn btn-icon btn-bg-light btn-active-color-success" type="primary"
+                :icon="RefreshIcon" @click="handleSyncItem(customer)"
+                :loading="((disabledButton && idSync == customer.id) || idSyncALL) ? true : false"
+                :loading-icon="RefreshIcon"></el-button>
             </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan" placement="top">
-              <router-link :to="`/target-scans/${scope.row.id}`" v-on:click.stop
-                class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1 my-1">
-                <KTIcon icon-name="search-list" icon-class="fs-3" />
-              </router-link>
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi tiết tin nhắn" placement="top">
+              <button type="button" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
+                @click="handleClick(customer, 'detail')">
+                <KTIcon icon-name="eye" icon-class="fs-3" />
+              </button>
             </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh Sửa" placement="top">
-              <router-link :to="`/target-form/${scope.row.id}`" v-on:click.stop
-                class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
+            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh sửa" placement="top">
+              <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
+                data-bs-toggle="modal" data-bs-target="#kt_modal_new_telegram_group"
+                @click="handleClick(customer, 'edit')" :disabled="disabled">
                 <KTIcon icon-name="pencil" icon-class="fs-3" />
-              </router-link>
+              </button>
             </el-tooltip>
           </template>
-        </el-table-column>
-      </el-table>
-      <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-        <div v-if="totalPage > 0">
-          <span class="text-capitalize fs-13px">Tổng Số Mục Tiêu: {{ totalPage }}</span>
-        </div>
-        <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
-          v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
-          :disabled="disabled"></el-pagination>
-        <div></div>
+        </KTDatatable>
       </div>
-
+      <!--end::Card body-->
     </div>
 
   </div>
+
+</div>
   <!--end::Card-->
 
   <!-- modal  -->
@@ -528,7 +512,6 @@ import { Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
 import { markRaw } from 'vue'
-import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 
 // import useCurrencyInput from "vue-currency-input";
 
@@ -548,7 +531,6 @@ export default defineComponent({
     VForm,
     Fillter,
     CodeHighlighter,
-    KTToolbar,
   },
   directives: {
     debounce: vue3Debounce({ lock: true })
@@ -727,7 +709,7 @@ export default defineComponent({
     };
 
     // xóa
-
+    
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
         disabled.value = true
@@ -781,7 +763,7 @@ export default defineComponent({
           confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
         },
       }).then(() => {
-
+        
         hideModal(newTargetTelegramModalRef.value);
         hideModal(newTSetingModalRef.value);
       });
@@ -942,7 +924,7 @@ export default defineComponent({
     const setingData = ref<object | string | any>({ ...initialData });
     const prevData = shallowRef<object | string | any>({ ...initialData });
 
-    const handleSetting = () => {
+    const handleSubmitSetting = () => {
       const modal = new Modal(ModalSetting.value);
       modal.show();
       dataModal.value = modal
@@ -1113,45 +1095,19 @@ export default defineComponent({
       getSetting();
     });
 
-    // thay đổi kích thước header
-    const headerHeight = ref<number>(0);
-    const onheaderHeight = (height: number) => {
-      headerHeight.value = height
-      console.log(height)
-    }
-
-            // table
-            const handleSelectionChange = (val: any) => {
-            if (val) {
-                selectedIds.value = val.map((item: { id: number }) => item.id);
-            }
-            return;
-        }
-
-        const getRowKey = (row: any) => {
-            return row.id
-        }
-
     return {
-      deleteSubscription,
-      onheaderHeight,
-      headerHeight,
       getData,
       list,
       headerConfig,
       onItemSelect,
       selectedIds,
       deleteSelectd,
-
+      
       getAssetPath,
       sort,
 
-      // table 
-      getRowKey,
-      handleSelectionChange,
-
       // crud
-
+      
       handleClick,
       nameType,
       apiData,
@@ -1194,7 +1150,7 @@ export default defineComponent({
       disabledButton,
 
       // setting
-      handleSetting,
+      handleSubmitSetting,
       setingData,
       prevData,
       newTSetingModalRef,
