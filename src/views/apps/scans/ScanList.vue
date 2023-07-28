@@ -83,8 +83,7 @@
                   </template>
                 </template>
               </el-table-column>
-              <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="status"
-                label="TRẠNG THÁI">
+              <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI">
                 <template #default="scope">
                   <span v-if="scope.row.status != ''" class="badge fs-13px"
                     :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
@@ -97,7 +96,7 @@
             </el-table>
             <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom">
               <div v-if="totalPage > 0">
-                <span class="text-capitalize fs-13px">Tổng Số Lỗ hổng bảo mật: {{ totalPage }}</span>
+                <span class="text-capitalize fs-13px">Tổng Số Lỗ Hổng: {{ totalPage }}</span>
               </div>
               <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
                 v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
@@ -148,11 +147,11 @@
             <div class="bg-light my-5 py-2 px-4 lh-lg rounded-2 me-2 fs-13px">
               <div class="row">
                 <div class="col-12 col-xl-6 my-1">
-                  <span class="text-black-50">IP : </span>
+                  <span class="text-black-50">IP: </span>
                   <span class="ps-1"> {{ detailData.ip }}</span>
                 </div>
                 <div class="col-12 col-xl-6 my-1">
-                  <span class="text-black-50">Host name : </span>
+                  <span class="text-black-50">Host name: </span>
                   <span class="ps-1"> {{ detailData.hostname }}</span>
                 </div>
               </div>
@@ -162,7 +161,7 @@
                 v-if="(detailData.affects_url != null && detailData.affects_url != '') || (detailData.affects_detail != null && detailData.affects_detail != '')">
                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
                 <div v-if="detailData.affects_url != null && detailData.affects_url != ''">
-                  <span class="w-100">URL : </span>
+                  <span class="w-100">URL: </span>
                   <span class="ps-1">
                     <a target="_blank" :href="`${detailData.affects_url}`" class="text-primary">
                       <KTIcon icon-name="link" icon-class="bi bi-link-45deg" :style="{ fontSize: '16px' }" />
@@ -171,7 +170,7 @@
                   </span>
                 </div>
                 <div v-if="detailData.affects_detail != null && detailData.affects_detail != ''">
-                  <span class="w-100">Parameter : </span>
+                  <span class="w-100">Parameter: </span>
                   <span class="ps-1"> {{ detailData.affects_detail }}</span>
                 </div>
               </div>
@@ -206,42 +205,42 @@
 
               <div class="mb-5" v-if="detailData.in_cpe != null && detailData.in_cpe != ''">
                 <div class="d-flex align-items-end ">
-                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">In CPE : </h4>
+                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">In CPE: </h4>
                   <span> {{ detailData.in_cpe }}</span>
                 </div>
               </div>
 
               <div class="mb-5" v-if="detailData.protocol != null && detailData.protocol != ''">
                 <div class="d-flex align-items-end ">
-                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Protocol : </h4>
+                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Protocol: </h4>
                   <span> {{ detailData.protocol }}</span>
                 </div>
               </div>
 
               <div class="mb-5" v-if="detailData.service != null && detailData.service != ''">
                 <div class="d-flex align-items-end ">
-                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Service : </h4>
+                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Service: </h4>
                   <span> {{ detailData.service }}</span>
                 </div>
               </div>
 
               <div class="mb-5" v-if="detailData.port != null && detailData.port != ''">
                 <div class="d-flex align-items-end">
-                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Port : </h4>
+                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Port: </h4>
                   <span> {{ detailData.port }}</span>
                 </div>
               </div>
 
               <div class="mb-5" v-if="detailData.type != null && detailData.type != ''">
                 <div class="d-flex align-items-end ">
-                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Service : </h4>
+                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Service: </h4>
                   <span> {{ detailData.type }}</span>
                 </div>
               </div>
 
               <div class="mb-5" v-if="detailData.url != null && detailData.url != ''">
                 <div class="d-flex align-items-end ">
-                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">URL : </h4>
+                  <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">URL: </h4>
                   <span> {{ detailData.url }}</span>
                 </div>
               </div>
@@ -798,7 +797,7 @@ export default defineComponent({
     const headerHeight = ref<number>(0);
     const onheaderHeight = (height: number) => {
       headerHeight.value = height
-      console.log(height)
+      
     }
 
     // Tính toán chiều rộng nội dung

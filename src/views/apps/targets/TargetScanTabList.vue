@@ -271,7 +271,7 @@
                         <div
                             class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom">
                             <div v-if="totalPage > 0">
-                                <span class="text-capitalize fs-13px ">Tổng Số Scans: {{ totalPage }}</span>
+                                <span class="text-capitalize fs-13px ">Tổng Số Lỗ Hổng: {{ totalPage }}</span>
                             </div>
                             <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
                                 v-model:page-size="itemsPerPage" :total="totalPage"
@@ -315,7 +315,7 @@
                                 v-if="(detailVuln.affects_url != null && detailVuln.affects_url != '') || (detailVuln.affects_detail != null && detailVuln.affects_detail != '')">
                                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
                                 <div v-if="detailVuln.affects_url != null && detailVuln.affects_url != ''">
-                                    <span class="w-100">URL : </span>
+                                    <span class="w-100">URL: </span>
                                     <span class="ps-1">
                                         <a target="_blank" :href="`${detailVuln.affects_url}`" class="text-primary">
                                             <KTIcon icon-name="link" icon-class="bi bi-link-45deg"
@@ -325,7 +325,7 @@
                                     </span>
                                 </div>
                                 <div v-if="detailVuln.affects_detail != null && detailVuln.affects_detail != ''">
-                                    <span class="w-100">Parameter : </span>
+                                    <span class="w-100">Parameter: </span>
                                     <span class="ps-1"> {{ detailVuln.affects_detail }}</span>
                                 </div>
                             </div>
@@ -360,42 +360,42 @@
 
                             <div class="mb-5" v-if="detailVuln.in_cpe != null && detailVuln.in_cpe != ''">
                                 <div class="d-flex align-items-end ">
-                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">In CPE : </h4>
+                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">In CPE: </h4>
                                     <span> {{ detailVuln.in_cpe }}</span>
                                 </div>
                             </div>
 
                             <div class="mb-5" v-if="detailVuln.protocol != null && detailVuln.protocol != ''">
                                 <div class="d-flex align-items-end ">
-                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Protocol : </h4>
+                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Protocol: </h4>
                                     <span> {{ detailVuln.protocol }}</span>
                                 </div>
                             </div>
 
                             <div class="mb-5" v-if="detailVuln.service != null && detailVuln.service != ''">
                                 <div class="d-flex align-items-end ">
-                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Service : </h4>
+                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Service: </h4>
                                     <span> {{ detailVuln.service }}</span>
                                 </div>
                             </div>
 
                             <div class="mb-5" v-if="detailVuln.port != null && detailVuln.port != ''">
                                 <div class="d-flex align-items-end">
-                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Port : </h4>
+                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Port: </h4>
                                     <span> {{ detailVuln.port }}</span>
                                 </div>
                             </div>
 
                             <div class="mb-5" v-if="detailVuln.type != null && detailVuln.type != ''">
                                 <div class="d-flex align-items-end ">
-                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Service : </h4>
+                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">Service: </h4>
                                     <span> {{ detailVuln.type }}</span>
                                 </div>
                             </div>
 
                             <div class="mb-5" v-if="detailVuln.url != null && detailVuln.url != ''">
                                 <div class="d-flex align-items-end ">
-                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">URL : </h4>
+                                    <h4 class="text-gray-800 fs-13px lh-lg fs-13px fw-bold m-0 pe-2">URL: </h4>
                                     <span> {{ detailVuln.url }}</span>
                                 </div>
                             </div>
@@ -1112,7 +1112,7 @@ export default defineComponent({
         const headerHeight = ref<number>(0);
         const onheaderHeight = (height: number) => {
             headerHeight.value = height
-            console.log(height)
+            
         }
 
         return {

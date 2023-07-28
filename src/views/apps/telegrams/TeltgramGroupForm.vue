@@ -7,38 +7,78 @@
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="33%" :label-position="labelPosition"
                 class="demo-ruleForm px-0 px-lg-0 mx-5 mx-lg-10 mx-xxl-20 px-xxl-10 mt-10 text-capitalize" size="large"
                 status-icon require-asterisk-position="right">
-                <el-form-item label="Tên Mục Tiêu" prop="name" class="pb-3 text-capitalize fs-13px"
+                <el-form-item label="Tên Nhóm Telegram" prop="name" class="pb-3 text-capitalize fs-13px"
                     :error="(errors.name) ? errors.name[0] : ''">
-                    <el-input v-model="ruleForm.name" size="large" placeholder="Tên mục tiêu"
+                    <el-input v-model="ruleForm.name" size="large" placeholder="Tên Nhóm Telegram"
                         :class="(errors.name) ? 'el-error-ruleForm' : ''" />
                 </el-form-item>
-                <el-form-item label="Tên Miền" prop="domain" class="pb-3 text-capitalize fs-13px"
-                    :error="(errors.domain) ? errors.domain[0] : ''">
-                    <el-input v-model="ruleForm.domain" size="large" v placeholder="Tên miền" @blur="getAutofill(ruleForm.domain)
-                        .then(ip => {
-                            ruleForm.ip = ip
-                        });" :class="(errors.domain) ? 'el-error-ruleForm' : ''" />
-                </el-form-item>
-                <el-form-item label="Địa Chỉ IP" prop="ip" class="pb-3 text-capitalize fs-13px"
-                    :error="(errors.ip) ? errors.ip[0] : ''">
-                    <el-input v-model="ruleForm.ip" size="large" placeholder="Địa chỉ IP"
-                        :class="(errors.ip) ? 'el-error-ruleForm' : ''" />
-                </el-form-item>
-                <el-form-item label="Nhóm mục tiêu" prop="group" class="pb-3 text-capitalize w-100 fs-13px"
-                    :error="(errors.group) ? errors.group[0] : ''">
-                    <el-select v-model="ruleForm.group" size="large" placeholder="Nhóm mục tiêu" class="w-100" filterable
-                        no-match-text="Không có dữ liệu phù hợp" :class="(errors.group) ? 'el-error-ruleForm' : ''">
-                        <el-option v-for=" val  in  data_group " :key="val.id" :label="val.title" :value="val.id" />
-                    </el-select>
-                    <div class="fv-plugins-message-container">
-                        <div class="fv-help-block">
-                            <span class="" v-if="errors.detail">
-                                {{ Array.isArray(errors.detail) ? errors.detail[0] : errors.detail }}
-                            </span>
+                <!--begin::Input group-->
+                <div class="d-flex flex-stack mb-8">
+                    <!--begin::Label-->
+                    <div class="me-5">
+                        <label class="fs-6 fw-semobold" for="status">Trạng thái</label>
+
+                        <div class="fs-7 fw-semobold text-gray-400">
+                            Bật trạng thái để có thể đồng bộ hóa Telegram
                         </div>
                     </div>
-                </el-form-item>
+                    <!--end::Label-->
 
+                    <!--begin::Switch-->
+                    <label class="form-check form-switch form-check-custom form-check-solid" for="status">
+                        <el-switch v-model="ruleForm.status"
+                        style="--el-switch-on-color: #50cd89; --el-switch-off-color: #f1416c" :active-value="0"
+                        :inactive-value="1" />
+                    </label>
+                    <!--end::Switch-->
+                </div>
+                <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="mb-15 fv-row">
+                    <!--begin::Wrapper-->
+                    <div class="d-flex flex-stack">
+                        <!--begin::Label-->
+                        <div class="fw-semobold me-5">
+                            <label class="fs-6" for="type">Kiểu nhóm</label>
+
+                            <div class="fs-7 text-gray-400">
+                                Chọn kiểu cho nhóm Telegram
+                            </div>
+                        </div>
+                        <!--end::Label-->
+
+                        <!--begin::radio-->
+                        <div class="d-flex align-items-center">
+                            <!--begin::radio-->
+                            <label class="form-check form-check-custom form-check-solid me-10">
+                                <input class="form-check-input h-20px w-20px" type="radio" name="type" value="1"
+                                    v-model="ruleForm.type" checked />
+
+                                <span class="form-check-label fw-semobold"> DB Leak </span>
+                            </label>
+                            <!--end::radio-->
+
+                            <!--begin::radio-->
+                            <label class="form-check form-check-custom form-check-solid">
+                                <input v-model="ruleForm.type" class="form-check-input h-20px w-20px" type="radio"
+                                    name="type" value="2" />
+
+                                <span class="form-check-label fw-semobold"> Hacker News </span>
+                            </label>
+                            <!--end::radio-->
+                        </div>
+                        <!--end::radio-->
+                    </div>
+                    <!--end::Wrapper-->
+                </div>
+                <!--end::Input group-->
+                <div class="fv-plugins-message-container">
+                    <div class="fv-help-block">
+                        <span class="" v-if="errors.detail">
+                            {{ Array.isArray(errors.detail) ? errors.detail[0] : errors.detail }}
+                        </span>
+                    </div>
+                </div>
             </el-form>
         </div>
     </div>
@@ -47,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
+import { defineComponent, ref, onMounted, reactive, onUnmounted } from "vue";
 import ApiService from "@/core/services/ApiService";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 
@@ -60,16 +100,14 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
     name: string
-    group: string
-    domain: string
-    ip: string
+    status: number
+    type: number
 }
 
 interface RuleForm2 {
     name: string
-    group: string
-    domain: string
-    ip: string
+    status: string
+    type: string
     detail: string
 }
 
@@ -96,12 +134,11 @@ export default defineComponent({
         const getData = async () => {
             if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
                 loading.value = true;
-                return ApiService.get(`targets/${ID.value}`)
+                return ApiService.get(`telegram/group/${ID.value}/edit`)
                     .then(({ data }) => {
-                        ruleForm.domain = data.domain
-                        ruleForm.ip = data.ip
+                        ruleForm.status = data.status
+                        ruleForm.type = data.type
                         ruleForm.name = data.name
-                        ruleForm.group = data.group.id
                     })
                     .catch(({ response }) => {
                         notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -111,31 +148,6 @@ export default defineComponent({
                     })
             }
             return;
-        }
-
-        const getAutofill = async (domain) => {
-            try {
-                const response = await ApiService.get(`targets/ip?domain=${domain}`);
-                const { data } = response;
-                return data.ip;
-            } catch (error: any) {
-                notification(error?.response?.data?.detail, 'error', 'Có lỗi xảy ra');
-                throw error;
-            }
-        }
-
-        const getDataGroup = async () => {
-            loading.value = true;
-            return ApiService.get(`targetgroup/list/`)
-                .then(({ data }) => {
-                    data_group.value = data
-                })
-                .catch(({ response }) => {
-                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                })
-                .finally(() => {
-                    loading.value = false
-                });
         }
 
         const notification = (values: string, icon: string, more: string) => {
@@ -156,15 +168,13 @@ export default defineComponent({
         }
         const resetForm = () => {
             errors.name = ''
-            errors.domain = ''
-            errors.ip = ''
-            errors.group = ''
+            errors.type = ''
+            errors.status = ''
             errors.detail = ''
         }
 
         onMounted(() => {
             getData();
-            getDataGroup();
         });
 
 
@@ -172,62 +182,21 @@ export default defineComponent({
         const ruleFormRef = ref<FormInstance>()
         const ruleForm = reactive<RuleForm>({
             name: '',
-            group: '',
-            domain: '',
-            ip: '',
+            type: 1,
+            status: 0
         })
         const errors = reactive<RuleForm2>({
             name: '',
-            group: '',
-            ip: '',
-            domain: '',
+            type: '',
+            status: '',
             detail: ''
         });
 
-        const validateName = (rule: any, value: any, callback: any) => {
-            const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
-            if (specialCharacters.test(value)) {
-                callback(new Error('Tên nhóm không được chứa ký tự đặc biệt'));
-            } else {
-                callback();
-            }
-        };
-
-        const isValidIPAddress = (rule: any, value: any, callback: any) => {
-            if (value == null || value == '') { return true; }
-            const specialCharacters = /^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})$/;
-            if (!specialCharacters.test(value)) {
-                callback(new Error('IP không đúng định dạng'));
-            } else {
-                callback();
-            }
-        };
-
-        const isValidDomain = (rule: any, value: any, callback: any) => {
-            if (value == null || value == '') { return true; }
-            const specialCharacters = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (!specialCharacters.test(value)) {
-                callback(new Error('Tên miền không đúng định dạng'));
-            } else {
-                callback();
-            }
-        };
-
         const rules = reactive<FormRules>({
             name: [
-                { required: true, message: 'Tên mục tiêu không được để trống', trigger: 'blur' },
+                { required: true, message: 'Tên nhóm telegarm không được để trống', trigger: 'blur' },
                 { min: 3, max: 50, message: 'Độ dài từ 3-50 ký tự', trigger: 'blur' },
-                { validator: validateName, trigger: 'blur' },
             ],
-            ip: [
-                { validator: isValidIPAddress, trigger: 'blur' },
-            ],
-            domain: [
-                { validator: isValidDomain, trigger: 'blur' },
-            ],
-            group: [
-                { required: true, message: 'Tên nhóm không được để trống', trigger: 'blur' },
-            ]
         })
 
         const formSubmit = async (formEl: FormInstance | undefined) => {
@@ -247,16 +216,19 @@ export default defineComponent({
             })
         }
 
-        const urlBack = ref<string>('target-list')
+        const urlBack = ref<string>('telegram-group')
 
         const formBack = async (data: any) => {
             router.push({ name: urlBack.value });
         }
 
         const addFormSubmit = async (formData: RuleForm) => {
-            const ip = await getAutofill(ruleForm.domain);
-            ruleForm.ip = ip;
-            return ApiService.post("/targets/", formData)
+            let formData2 = {
+                name: formData.name,
+                type: formData.type,
+                status: formData.status
+            }
+            return ApiService.post("/telegram/group/create", formData2)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Thêm mới thành công')
                     // getData();
@@ -265,9 +237,8 @@ export default defineComponent({
                 .catch(({ response }) => {
                     if (response?.data) {
                         errors.name = response.data.name;
-                        errors.ip = response.data.ip;
-                        errors.domain = response.data.domain;
-                        errors.group = response.data.group;
+                        errors.status = response.data.status;
+                        errors.type = response.data.type;
                         errors.detail = response.data.detail;
                     } else {
                         notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
@@ -276,19 +247,20 @@ export default defineComponent({
         }
 
         const editFormSubmit = async (formData: RuleForm) => {
-            const ip = await getAutofill(ruleForm.domain);
-            ruleForm.ip = ip;
-
-            return ApiService.put(`/targets/${ID.value}/`, formData)
+            let formData2 = {
+                name: formData.name,
+                type: formData.type,
+                status: formData.status
+            }
+            return ApiService.put(`/telegram/group/${ID.value}/update`, formData2)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Chỉnh sửa thành công')
                 })
                 .catch(({ response }) => {
                     if (response?.data) {
                         errors.name = response.data.name;
-                        errors.ip = response.data.ip;
-                        errors.domain = response.data.domain;
-                        errors.group = response.data.group;
+                        errors.status = response.data.status;
+                        errors.type = response.data.type;
                         errors.detail = response.data.detail;
                     } else {
                         notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -340,7 +312,6 @@ export default defineComponent({
             formBack,
             formSubmit,
             errors,
-            getAutofill,
             labelPosition,
         };
     },

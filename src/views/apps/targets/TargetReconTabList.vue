@@ -1309,13 +1309,13 @@
     <!-- modoal  -->
     <el-dialog v-model="dialogDirectoryVisible" title="Chi Tiết Thư Mục" width="1000" modal-class="custom-dialog">
         <div>
-            <el-input v-model="searchDirectory" size="large" placeholder="Tìm Kiếm Thư Mục" :prefix-icon="SearchIcon" />
+            <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
             <div class="my-3 text-primary">
                 <span class="text-gray-600">Tổng Thư Mục: </span>
                 <span class="fw-bold">{{ totalRecordsDirectory }}</span>
             </div>
         </div>
-        <el-table :data="directory_data" style="width: 100%" height="400" class-name="my-custom-table">
+        <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table">
             <template #empty>
                 <div class="flex items-center justify-center h-100%">
                     <el-empty description="Không có dữ liệu nào"/>
@@ -1363,7 +1363,7 @@
                 <span class="fw-bold">{{ totalRecords }}</span>
             </div>
         </div>
-        <el-table :data="enpoint_data" style="width: 100%" height="400" class-name="my-custom-table" v-loading="loading">
+        <el-table :data="enpoint_data" style="width: 100%" height="443" class-name="my-custom-table" v-loading="loading">
             <template #empty>
                 <div class="flex items-center justify-center h-100%">
                     <el-empty description="Không có dữ liệu nào"/>
@@ -1942,7 +1942,7 @@ export default defineComponent({
         const enpoint_data_full = ref<any>([])
         const enpoint_data = ref<any>([])
         const currentPageEndpoints = ref(1); // Trang hiện tại
-        const pageSizeEndpoints = ref(5); // Số lượng hàng mỗi trang
+        const pageSizeEndpoints = ref(10); // Số lượng hàng mỗi trang
         const pageSizeDirectory = ref(10); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
         const searchEnpoint = ref('')
