@@ -1338,7 +1338,7 @@
                                         <div
                                             class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom">
                                             <div v-if="totalPage > 0">
-                                                <span class="text-capitalize fs-13px">Tổng Số Scans: {{ totalPage }}</span>
+                                                <span class="text-capitalize fs-13px">Tổng Số Lỗ Hổng: {{ totalPage }}</span>
                                             </div>
                                             <el-pagination background v-model:current-page="currentPage"
                                                 :hide-on-single-page="true" v-model:page-size="itemsPerPage"
@@ -1387,7 +1387,7 @@
                                                     <h4 class="text-gray-800 fs-6 fw-bold cursor-pointer mb-0">Vulnerable
                                                         URL</h4>
                                                     <div v-if="detailData.affects_url != null && detailData.affects_url != ''">
-                                                        <span class="w-100">URL : </span>
+                                                        <span class="w-100">URL: </span>
                                                         <span class="ps-1">
                                                             <a target="_blank" :href="`${detailData.affects_url}`"
                                                                 class="text-primary">
@@ -1398,7 +1398,7 @@
                                                         </span>
                                                     </div>
                                                     <div v-if="detailData.affects_detail != null && detailData.affects_detail != ''">
-                                                        <span class="w-100">Parameter : </span>
+                                                        <span class="w-100">Parameter: </span>
                                                         <span class="ps-1"> {{ detailData.affects_detail }}</span>
                                                     </div>
                                                 </div>
