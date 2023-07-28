@@ -39,14 +39,14 @@
                                 class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold flex-nowrap">
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
-                                    <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
+                                    <a class="nav-link text-active-primary pb-4" :class="{ active: activeTab === 'kt_recon_tab' }" aria-selected="true" data-bs-toggle="tab"
                                         href="#kt_recon_tab">Recon</a>
                                 </li>
                                 <!--end:::Tab item-->
 
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
-                                    <a class="nav-link text-active-primary me-6" data-bs-toggle="tab"
+                                    <a class="nav-link text-active-primary me-6" :class="{ active: activeTab === 'kt_scans_tab' }" aria-selected="false" data-bs-toggle="tab"
                                         href="#kt_scans_tab">Scans</a>
                                 </li>
                                 <!--end:::Tab item-->
@@ -60,7 +60,7 @@
                 <!--begin:::Tab content-->
                 <div class="tab-content " id="myTabContent">
                     <!--begin:::Tab pane-->
-                    <div class="tab-pane fade show active" id="kt_recon_tab" role="tabpanel">
+                    <div class="tab-pane fade show active"  id="kt_recon_tab" role="tabpanel">
                         <div>
                             <div class="card rounded-0 rounded-bottom ">
                                 <template v-if="checkRecon == true" >
@@ -208,12 +208,12 @@
                                                                                     <!--begin::Table container-->
                                                                                     <div class="table-responsive w-100 h-500px">
                                                                                         <!--begin::Table-->
-                                                                                        <table class="table table-row-dashed table-row-gray-300 ">
+                                                                                        <table class="table table-bordered table-row-gray-300 ">
                                                                                             <!--begin::Table head-->
                                                                                             <!--begin::Table body-->
                                                                                             <tbody class="overflow-y-auto w-100">
                                                                                                 <tr v-for="(item, key) in items" :key="key">
-                                                                                                    <td class="text-start"><span>{{ key }}</span>
+                                                                                                    <td class="text-start" style="width: 150px;"><span>{{ key }}</span>
                                                                                                     </td>
                                                                                                     <td class="text-start">
                                                                                                         <template v-if="checkArray(item) == true">
@@ -308,7 +308,7 @@
                                                                                     <!--begin::Table container-->
                                                                                     <div class="table-responsive w-100 h-500px">
                                                                                         <!--begin::Table-->
-                                                                                        <table class="table table-row-dashed table-row-gray-300 ">
+                                                                                        <table class="table table-bordered table-row-gray-300 ">
                                                                                             <!--begin::Table body-->
                                                                                             <tbody class="overflow-y-auto w-100">
                                                                                                 <tr v-for="(item, key) in items" :key="key">
@@ -316,8 +316,8 @@
                                                                                                     }}</span>
                                                                                                     </td>
                                                                                                     <td v-if="checkArray(item) == true"
-                                                                                                        class="text-start">
-                                                                                                        <div class="d-flex flex-column">
+                                                                                                        class="text-start" style="padding: 0px 0.75rem 0px 0.75rem;">
+                                                                                                        <div>
                                                                                                             <template v-for="(el, i) in item"
                                                                                                                 :key="i">
                                                                                                                 <template
@@ -366,7 +366,15 @@
                                                                                                                     </li>
                                                                                                                 </template>
                                                                                                                 <template v-else>
-                                                                                                                    <li
+                                                                                                                    <div class="row">
+                                                                                                                        <div class="col-6 py-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                            <span class="border">{{ i }}</span> 
+                                                                                                                        </div>
+                                                                                                                        <div class="col-6 py-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                            {{ (el == '' || el == null) ? '--' : el }}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <!-- <li
                                                                                                                         class="d-flex align-items-center py-2">
                                                                                                                         <span
                                                                                                                             :class="(el == '' || el == null) ? 'text-danger' : ''"
@@ -379,7 +387,7 @@
                                                                                                                                 null) ? '--' : el
                                                                                                                             }}
                                                                                                                         </span>
-                                                                                                                    </li>
+                                                                                                                    </li> -->
                                                                                                                 </template>
                                                                                                             </template>
                                                                                                         </div>
@@ -564,15 +572,15 @@
                                                         </template>
                                                         <template v-else>
                                                             <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-100 p-3">
+                                                            <div class="table-responsive w-100 h-100">
                                                                 <!--begin::Table-->
-                                                                <table class="table table-row-dashed table-row-gray-300">
+                                                                <table class="table table-bordered table-row-gray-300">
                                                                     <!--begin::Table head-->
                                                                     <thead>
-                                                                        <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                                            <th class="py-2 px-0 text-muted text-start">Email</th>
-                                                                            <th class="py-2 px-3 text-muted text-center">Password</th>
-                                                                            <th class="py-2 px-3 text-muted text-end">Password Crack</th>
+                                                                        <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
+                                                                            <th class="py-2 text-muted text-start">Email</th>
+                                                                            <th class="py-2 text-muted text-center">Password</th>
+                                                                            <th class="py-2 text-muted text-end">Password Crack</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <!--end::Table head-->
@@ -678,15 +686,15 @@
                                                         </template>
                                                         <template v-else>
                                                             <!--begin::Table container-->
-                                                            <div class="table-responsive w-100 h-100 p-3">
+                                                            <div class="table-responsive w-100 h-100">
                                                                 <!--begin::Table-->
-                                                                <table class="table table-row-dashed table-row-gray-300">
+                                                                <table class="table table-bordered table-row-gray-300">
                                                                     <!--begin::Table head-->
                                                                     <thead>
-                                                                        <tr class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                                            <th class="text-muted py-2 px-0 text-start">Tên Miền</th>
-                                                                            <th class="text-muted py-2 px-3 text-start">Giao Thức</th>
-                                                                            <th class="text-muted py-2 px-3 text-end">Cùng Dải Mạng?</th>
+                                                                        <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
+                                                                            <th class="text-muted py-2 text-start">Tên Miền</th>
+                                                                            <th class="text-muted py-2 text-start">Giao Thức</th>
+                                                                            <th class="text-muted py-2 text-end">Cùng Dải Mạng?</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <!--end::Table head-->
@@ -868,9 +876,9 @@
                                                                         </template>
                                                                         <template v-else>
                                                                             <!--begin::Table container-->
-                                                                            <div class="table-responsive w-100 ">
+                                                                            <div class="table-responsive w-100 h-100">
                                                                                 <!--begin::Table-->
-                                                                                <table class="table table-row-dashed table-row-gray-300 ">
+                                                                                <table class="table table-bordered table-row-gray-300 ">
                                                                                     <!--begin::Table body-->
                                                                                     <tbody class="overflow-y-auto w-100">
                                                                                         <tr v-for="(item, key) in items" :key="key">
@@ -948,9 +956,9 @@
                                                                     <template v-else>
                                                                         <template v-if="checkArray(items.message) && items.status == 3">
                                                                             <!--begin::Table container-->
-                                                                            <div class="table-responsive w-100 h-100 p-3">
+                                                                            <div class="table-responsive w-100 h-100">
                                                                                 <!--begin::Table-->
-                                                                                <table class="table table-row-dashed table-row-gray-300">
+                                                                                <table class="table table-bordered table-row-gray-300">
                                                                                     <template v-if="index.toString() == 'js_analysis'">
                                                                                         <thead>
                                                                                             <tr
@@ -1037,7 +1045,7 @@
                                             <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                                                 <template #header>
                                                     <div class="d-flex justify-content-between align-items-center">
-                                                        <span class="card-label fw-bold text-dark fs-5">Subdomains</span>
+                                                        <span class="card-label fw-bold text-dark fs-5">Subdomains3</span>
                                                         <router-link class="btn btn-sm btn-light-primary"
                                                             :to="`/target-recon-detail/${ID}/${reconId}/subdomains`" active-class="active">Xem Thêm</router-link>
                                                     </div>
@@ -1243,7 +1251,7 @@
                     <!--begin:::Tab pane-->
                     <div class="tab-pane fade" id="kt_scans_tab" role="tabpanel">
                         <div>
-                            <div class=" position-relative">
+                            <div class="card position-relative">
                                 <div class="position-absolute" style="top: -50px; right: 15px;">
                                     <div class="d-flex align-items-center">
                                         <!-- <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
@@ -2429,8 +2437,10 @@ export default defineComponent({
         onBeforeUnmount(() => {
         stopTimer();
         });
+        const activeTab = ref('kt_recon_tab');
 
         return {
+            activeTab,
             headerHeight,
             onheaderHeight,
             getData,
@@ -2547,6 +2557,14 @@ export default defineComponent({
 });
 </script>
 <style >
+.el-tabs--left .el-tabs__nav-wrap.is-left {
+    border-right: #e4e7ed 1px solid;
+}
+
+.el-tabs--left.el-tabs--border-card .el-tabs__header.is-left {
+    margin-right: 0px;
+}
+
 .custom-dialog .el-dialog__body{
     padding: 10px 20px;
 }
