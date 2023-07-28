@@ -327,7 +327,7 @@
                                                             <div class="table-responsive w-100 h-500px">
                                                                 <!--begin::Table-->
                                                                 <table
-                                                                    class="table table-row-dashed table-row-gray-300 ">
+                                                                    class="table table-bordered table-row-gray-300 ">
                                                                     <!--begin::Table body-->
                                                                     <tbody class="overflow-y-auto w-100">
                                                                         <tr v-for="(item, key) in items" :key="key">
@@ -336,8 +336,8 @@
                                                                             }}</span>
                                                                             </td>
                                                                             <td v-if="checkArray(item) == true"
-                                                                                class="text-start">
-                                                                                <div class="d-flex flex-column">
+                                                                                class="text-start" style="padding: 0px 0.75rem 0px 0.75rem;">
+                                                                                <div class="">
                                                                                     <template v-for="(el, i) in item"
                                                                                         :key="i">
                                                                                         <template
@@ -388,21 +388,26 @@
                                                                                             </li>
                                                                                         </template>
                                                                                         <template v-else>
-                                                                                            <li
+                                                                                            <div class="row">
+                                                                                                <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                    <span class="border">{{ i }}</span> 
+                                                                                                </div>
+                                                                                                <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                    {{ (el == '' || el == null) ? '--' : el }}
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <!-- <li
                                                                                                 class="d-flex align-items-center py-2">
                                                                                                 <span
                                                                                                     :class="(el == '' || el == null) ? 'text-danger' : ''"
-                                                                                                    class="bullet bullet-dot bg-primary me-5">
+                                                                                                    class="bullet bullet-dot bg-success me-5">
                                                                                                 </span>
                                                                                                 {{ i }} :
                                                                                                 <span class="ms-1"
                                                                                                     :class="(el == '' || el == null) ? 'text-danger' : ''">
-                                                                                                    {{ (el == '' || el
-                                                                                                        ==
-                                                                                                        null) ? '--' : el
-                                                                                                    }}
+                                                                                                    {{ (el == '' || el == null) ? '--' : el }}
                                                                                                 </span>
-                                                                                            </li>
+                                                                                            </li> -->
                                                                                         </template>
                                                                                     </template>
                                                                                 </div>
@@ -2217,6 +2222,14 @@ export default defineComponent({
 </script>
   
 <style >
+.el-tabs--left .el-tabs__nav-wrap.is-left {
+    border-right: #e4e7ed 1px solid;
+}
+
+.el-tabs--left.el-tabs--border-card .el-tabs__header.is-left {
+    margin-right: 0px;
+}
+
 .custom-dialog .el-dialog__body{
     padding: 10px 20px;
 }
