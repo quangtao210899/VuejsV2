@@ -73,7 +73,7 @@
 
             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng Bộ" placement="top">
               <el-button class="me-1 btn-sm btn btn-icon btn-bg-light btn-active-color-success" type="primary"
-                :icon="RefreshIcon" @click="getSyncItem(scope.row.id)"
+                :icon="RefreshIcon" @click="getSyncItem(scope.row.id)" v-on:click.stop
                 :disabled="(disabled || loadingSync) ? true : false"
                 :loading="(idSync == scope.row.id) ? loadingSync : loadingSync" :loading-icon="RefreshIcon"></el-button>
             </el-tooltip>
@@ -252,8 +252,6 @@ import 'dayjs/locale/vi';
 dayjs.locale('vi');
 import { Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
-import { markRaw } from 'vue'
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 
@@ -347,24 +345,6 @@ export default defineComponent({
 
     const disabled = ref<boolean>(false);
     const selectedIds = ref<Array<number>>([]);
-    const deleteSelectd = () => {
-      ElMessageBox.confirm(
-        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-        'Xác Nhận Xóa',
-        {
-          confirmButtonText: 'Đồng Ý',
-          cancelButtonText: 'Hủy Bỏ',
-          type: 'warning',
-          icon: markRaw(Delete)
-        }
-      )
-        .then(() => {
-          deleteSubscription(selectedIds.value);
-        })
-        .catch(() => {
-        })
-    };
-
     // xóa
     const multipleTableRef = ref<InstanceType<typeof ElTable>>()
     const deleteSubscription = (ids: Array<number>) => {
@@ -607,7 +587,6 @@ export default defineComponent({
       getData,
       list,
       selectedIds,
-      deleteSelectd,
 
       // table 
       getRowKey,
