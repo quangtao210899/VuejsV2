@@ -574,8 +574,9 @@
                                         Object.keys(related_email).length : 0 }}
                                 </span>
                                 <span class="card-label fw-bold text-dark fs-5">Email Liên Quan</span>
-                                
-                                <el-button style="float: right;" @click="downloadCSV" :icon="DownloadIcon" size="small" circle />
+                                <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tải xuống file CSV" placement="top">
+                                    <el-button :disabled="related_email == '' || Object.keys(related_email).length == 0" style="float: right;" @click="downloadCSV" :icon="DownloadIcon" size="small" circle />
+                                </el-tooltip>
                             </div>
                         </template>
                         <div class="h-500px">
@@ -1709,13 +1710,19 @@ export default defineComponent({
         };
 
         const downloadCSV = () => {
+            if (related_email.value == '' || Object.keys(related_email.value).length == 0) {
+                notification('Không có dữ liệu để tải về', 'error', 'Có lỗi xảy ra')
+
+                return false
+            }
+
             const csvString = Papa.unparse(related_email.value);
             const blob = new Blob([csvString], { type: "text/csv" });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
 
             link.href = url;
-            link.download = "data.csv";
+            link.download = "email_related.csv";
             document.body.appendChild(link);
             link.click();
 

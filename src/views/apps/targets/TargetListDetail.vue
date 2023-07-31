@@ -544,12 +544,15 @@
                                         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
                                             <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                                                 <template #header>
-                                                    <div class="d-flex align-items-center">
+                                                    <div>
                                                         <span class="badge badge-circle badge-primary me-2">
                                                             {{ (related_email_status == 3 && checkArray(related_email) == true) ?
                                                                 Object.keys(related_email).length : 0 }}
                                                         </span>
                                                         <span class="card-label fw-bold text-dark fs-5">Email Liên Quan</span>
+                                                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tải xuống file CSV" placement="top">
+                                                            <el-button :disabled="related_email == '' || Object.keys(related_email).length == 0" style="float: right;" @click="downloadCSV" :icon="DownloadIcon" size="small" circle />
+                                                        </el-tooltip>
                                                     </div>
                                                 </template>
                                                 <div class="h-500px">
@@ -591,7 +594,7 @@
                                                                             <td class="text-start"><span>
                                                                                     <span>{{ (item.email == '') ? '--' : item.email }}</span>
                                                                                 </span></td>
-                                                                            <td class="text-center ">
+                                                                            <td class="text-center">
                                                                                 <template
                                                                                     v-if="checkArray(item.password_crack) || item.password_crack != ''">
                                                                                     <template v-if="checkArray(item.password_crack)">
@@ -609,7 +612,7 @@
                                                                                     <span class="badge badge-light-danger ">--</span>
                                                                                 </template>
                                                                             </td>
-                                                                            <td class="text-start">
+                                                                            <td class="text-center">
                                                                                 <template
                                                                                     v-if="item.password_hash != ''">
                                                                                     <template v-if="checkArray(item.password_hash)">
@@ -1789,7 +1792,8 @@ import { debounce } from 'vue-debounce'
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { Modal } from "bootstrap";
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
-import { Search } from '@element-plus/icons-vue'
+import { Search, Download } from '@element-plus/icons-vue'
+import Papa from 'papaparse';
 
 interface TargetData {
     name: string;
@@ -1821,6 +1825,7 @@ export default defineComponent({
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
         const loading = ref<boolean>(false)
+        const DownloadIcon = ref(Download)
 
         const targetData = reactive<TargetData>({
             name: '',
@@ -2039,6 +2044,27 @@ export default defineComponent({
                 return { id: 3, title: 'High', color: 'danger', class: 'severityHigh' };
             }
             return { id: 4, title: 'undefined', color: 'light', class: 'severityundefined' };
+        };
+
+        const downloadCSV = () => {
+            if (related_email.value == '' || Object.keys(related_email.value).length == 0) {
+                notification('Không có dữ liệu để tải về', 'error', 'Có lỗi xảy ra')
+
+                return false
+            }
+
+            const csvString = Papa.unparse(related_email.value);
+            const blob = new Blob([csvString], { type: "text/csv" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+
+            link.href = url;
+            link.download = "email_related.csv";
+            document.body.appendChild(link);
+            link.click();
+
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         };
 
         // chi tiết all
@@ -2552,6 +2578,8 @@ export default defineComponent({
             pageSizeEndpoints,
             totalRecords,
             currentPageEndpoints,
+            DownloadIcon,
+            downloadCSV,
         };
     },
 });
