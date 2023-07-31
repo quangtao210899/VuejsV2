@@ -568,12 +568,14 @@
                 <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
                     <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                         <template #header>
-                            <div class="d-flex align-items-center">
+                            <div>
                                 <span class="badge badge-circle badge-primary me-2">
                                     {{ (related_email_status == 3 && checkArray(related_email) == true) ?
                                         Object.keys(related_email).length : 0 }}
                                 </span>
                                 <span class="card-label fw-bold text-dark fs-5">Email Liên Quan</span>
+                                
+                                <el-button style="float: right;" @click="downloadCSV" :icon="DownloadIcon" size="small" circle />
                             </div>
                         </template>
                         <div class="h-500px">
@@ -603,8 +605,8 @@
                                             <thead>
                                                 <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
                                                     <th class="py-2 text-muted text-start">Email</th>
-                                                    <th class="py-2 text-muted text-center">Password</th>
-                                                    <th class="py-2 text-muted text-end">Password Crack</th>
+                                                    <th class="py-2 text-muted text-start">Password</th>
+                                                    <th class="py-2 text-muted text-start">Password Crack</th>
                                                 </tr>
                                             </thead>
                                             <!--end::Table head-->
@@ -633,9 +635,9 @@
                                                             <span class="badge badge-light-danger ">--</span>
                                                         </template>
                                                     </td>
-                                                    <td class="text-end">
+                                                    <td class="text-center">
                                                         <template
-                                                            v-if="checkArray(item.password_hash) || item.password_hash != ''">
+                                                            v-if="item.password_hash != ''">
                                                             <template v-if="checkArray(item.password_hash)">
                                                                 <span class="badge badge-light text-dark ms-1 mb-1"
                                                                     v-for="i in item.password_hash">
@@ -1081,7 +1083,7 @@
                                     :to="`/target-recon-detail/${idRecon}/${scanID}/subdomains`" active-class="active">Xem Thêm</router-link>
                             </div>
                         </template>
-                        <div class="h-500px">
+                        <div>
                             <template v-if="subdomain_result.length > 0">
                                 <el-table :data="subdomain_result" style="width: 100%;z-index: 1;"
                                     class-name="my-custom-table">
@@ -1440,6 +1442,8 @@ import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 // import data from "@/views/apps/targets/reconData.json";
 import { Refresh, Search } from '@element-plus/icons-vue'
+import { Download } from '@element-plus/icons-vue'
+import Papa from 'papaparse';
 
 // import dayjs from 'dayjs';
 import axios from 'axios'
@@ -1492,6 +1496,7 @@ export default defineComponent({
         const list = ref<getData | any>()
         const RefreshIcon = ref(Refresh)
         const SearchIcon = ref(Search)
+        const DownloadIcon = ref(Download)
         const loading = ref<boolean>(false)
         const apiData = ref<APIData>({
             title: '',
@@ -1617,6 +1622,7 @@ export default defineComponent({
                     // related_email
                     related_email.value = (data.recon[0].related_email !== undefined) ? data.recon[0].related_email.message : {};
                     related_email_status.value = (data.recon[0].related_email !== undefined) ? data.recon[0].related_email.status : {};
+                    
 
                     // related_domain
                     related_domain.value = (data.recon[0].related_domain !== undefined) ? data.recon[0].related_domain.message : {};
@@ -1641,7 +1647,6 @@ export default defineComponent({
                     reconStatus.value = data.status
                     checkStatus.value = (data.status == 3) ? true : false
                     humanDiffTime()
-                    //console.log(Object.keys(subdomain_result.value))
 
                 })
                 .catch(({ response }) => {
@@ -1701,6 +1706,21 @@ export default defineComponent({
                 return { id: 7, title: 'Accepted', color: 'info' };
             }
             return { id: 8, title: 'undefined', color: 'light' };
+        };
+
+        const downloadCSV = () => {
+            const csvString = Papa.unparse(related_email.value);
+            const blob = new Blob([csvString], { type: "text/csv" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+
+            link.href = url;
+            link.download = "data.csv";
+            document.body.appendChild(link);
+            link.click();
+
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         };
 
         // tạm dừng
@@ -2085,7 +2105,6 @@ export default defineComponent({
         const headerHeight = ref<number>(0);
         const onheaderHeight = (height: number) => {
             headerHeight.value = height
-            
         }
 
         return {
@@ -2175,6 +2194,7 @@ export default defineComponent({
             disabled,
             RefreshIcon,
             SearchIcon,
+            DownloadIcon,
             drawerTechnology,
             drawerTechnologys,
             drawerPorts,
@@ -2213,6 +2233,8 @@ export default defineComponent({
             // search
             searchEnpoint,
             searchDirectory,
+
+            downloadCSV,
         };
     },
 });
