@@ -273,6 +273,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/cve-form/:id",
+        name: "cve-form",
+        component: () => import("@/views/apps/cves/CVEForm.vue"),
+        meta: {
+          pageTitle: "CVE",
+          breadcrumbs: ["CVE", "addForm"],
+          links: ["/cve-list"],
+        },
+      },
+      {
         path: "/cve/:id/scan",
         name: "scanCVEList",
         component: () => import("@/views/apps/cves/CVEScanList.vue"),
