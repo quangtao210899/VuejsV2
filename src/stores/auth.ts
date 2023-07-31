@@ -2,7 +2,8 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import ApiService from "@/core/services/ApiService";
 import JwtService from "@/core/services/JwtService";
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export interface User {
   name: string;
@@ -57,6 +58,19 @@ export const useAuthStore = defineStore("auth", () => {
       });
   }
 
+  function notification(values: string, icon: string) {
+    Swal.fire({
+      text: values,
+      icon: icon,
+      buttonsStyling: false,
+      confirmButtonText: (icon == 'error') ? "Thử Lại" : "Đồng Ý",
+      heightAuto: false,
+      customClass: {
+        confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
+      },
+    })
+  }
+
   function connectSocket(host: string, reconnect: boolean = false) {
     if (connection && !reconnect) {
       return
@@ -80,11 +94,14 @@ export const useAuthStore = defineStore("auth", () => {
         var data = JSON.parse(event.data);
         var message = data['message'];
         var status = data['status'];
-        if (status) {
-          ElMessage(message)
-        } else {
-          ElMessage.error(message)
+        console.log('WebSocket', data)
 
+        if (status) {
+          notification(message ?? 'Thành Công', 'success')
+          // ElMessage.success(message)
+        } else {
+          notification(message ?? 'Thất Bại', 'error')
+          // ElMessage.error(message)
         }
       }
     }
@@ -109,9 +126,11 @@ export const useAuthStore = defineStore("auth", () => {
           var message = data['message'];
           var status = data['status'];
           if (status) {
-            ElMessage(message)
+            notification(message ?? 'Thành Công', 'success')
+            // ElMessage.success(message)
           } else {
-            ElMessage.error(message)
+            notification(message ?? 'Thất Bại', 'error')
+            // ElMessage.error(message)
           }
         }
         clearTimeout(timeoutId);
