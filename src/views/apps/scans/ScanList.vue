@@ -2,7 +2,7 @@
   <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
     @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
 
-  <!--begin::Card--> 
+  <!--begin::Card-->
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
     <div class="card h-10 d-block">
       <div class="d-flex px-5">
@@ -38,7 +38,7 @@
               <el-table-column width="50" label-class-name="fs-13px fw-bold text-dark" prop="flag" align="center"
                 label="CỜ">
                 <template #default="scope">
-                    <i class=" fs-2 fa-flag" :class="(scope.row.flag == true) ? 'fa-solid text-warning' : 'fa-regular'"></i>
+                  <i class=" fs-2 fa-flag" :class="(scope.row.flag == true) ? 'fa-solid text-warning' : 'fa-regular'"></i>
                 </template>
               </el-table-column>
 
@@ -91,7 +91,8 @@
                   </template>
                 </template>
               </el-table-column>
-              <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI">
+              <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold" prop="status"
+                label="TRẠNG THÁI">
                 <template #default="scope">
                   <span v-if="scope.row.status != ''" class="badge fs-13px"
                     :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
@@ -114,10 +115,9 @@
           </div>
         </div>
         <!--end::Card body-->
-        <div v-if="classDetail" @mousedown="startDragging"
-            class="drag-handle position-relative border-start">
-            <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
-            </div>
+        <div v-if="classDetail" @mousedown="startDragging" class="drag-handle position-relative border-start">
+          <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
+          </div>
         </div>
         <!--begin::Card2 body-->
         <div class="overflow-auto  h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
@@ -125,7 +125,7 @@
           <div class="ms-3 pb-10 affix-container">
             <div class="card-title pb-0">
               <h2 class="fw-bold pe-15 mt-5 fs-13px text-uppercase">{{ detailData.vt_name }}</h2>
-              <div class="position-absolute translate-middle-y" :style="{ top: '-140px', right: '10px' }">
+              <div class="position-absolute translate-middle-y" :style="{ top: '-145px', right: '10px' }">
                 <el-affix target=".affix-container" :offset="170">
                   <button @click="handleCloseDetail" type="button" class="btn zindex-fixed btn-icon "
                     :disabled="disabled">
@@ -135,7 +135,7 @@
               </div>
             </div>
             <div class="d-flex flex-wrap">
-              <div class="w-150px mx-1 my-1">
+              <div class="me-2 my-1" style="width: 130px;">
                 <el-select name="severity" as="select" v-model="detailData.severity"
                   :class="getSeverity(detailData.severity).class" @change="updateData()">
                   <el-option label="Info" :value="0" key="0">Info</el-option>
@@ -144,24 +144,34 @@
                   <el-option label="High" :value="3" key="3">High</el-option>
                 </el-select>
               </div>
-              <div class="mx-1 my-1">
-                <button class="btn btn-icon btn-sm btn-success" style="height: 32px; width: 32px;" @click="ChangeFlag(detailData.flag)" >
+
+              <div class="me-2 my-1">
+                <!-- <button class="btn btn-icon btn-sm btn-success" style="height: 32px; width: 32px;" @click="ChangeFlag(detailData.flag)" >
                   <i class="fa-solid fa-flag"></i>
+                </button> -->
+                <button class="btn btn-sm "
+                  :class="(detailData.flag == true) ? 'btn-light-warning' : 'btn-active-light-dark'" style="height: 32px;"
+                  @click="ChangeFlag(detailData.flag)">
+                  <i class="fa-flag" :class="((detailData.flag == true) ? 'fa-solid' : 'fa-regular')"></i>
+                  {{ (detailData.flag == true) ? 'Đã Xác Nhận' : 'Chưa Xác Nhận' }}
                 </button>
               </div>
-              <div class="w-150px my-1 mx-1">
+
+              <div class="me-2 my-1" style="width: 130px;">
+                <button class="btn btn-sm btn-light-dark w-100" style="height: 32px" @click="getUplaodFile">
+                  <i class="fa-solid fa-notes-medical"></i>
+                  Ghi Chú
+                </button>
+              </div>
+
+              <div class="= my-1" style="width: 130px;">
                 <el-select name="status" as="select" v-model="detailData.status"
-                :class="getStatus(detailData.status).class" @change="updateData()">
+                  :class="getStatus(detailData.status).class" @change="updateData()">
                   <el-option label="open" value="open" key="open">open</el-option>
                   <el-option label="re-open" value="re-open" key="re-open">re-open</el-option>
                   <el-option label="Close" value="closed" key="closed">Close</el-option>
                   <el-option label="Accepted" value="rick-accepted" key="rick-accepted">Accepted</el-option>
                 </el-select>
-              </div>
-              <div class="mx-1 my-1">
-                <button class="btn btn-icon btn-sm btn-success" style="height: 32px; width: 32px;"  @click="notesVisible = true">
-                  <i class="fa-solid fa-notes-medical"></i>
-                </button>
               </div>
             </div>
             <!-- <div class="bg-light my-5 py-2 px-4 lh-lg rounded-2 me-2 fs-13px">
@@ -390,12 +400,39 @@
   </div>
   <!--end::Card-->
 
-  <el-dialog v-model="notesVisible" title="Shipping address">
-    
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="notesVisible = false">Hủy Bỏ</el-button>
-        <el-button type="primary" @click="notesVisible = false">
+  <el-dialog v-model="notesVisible" title="Ghi Chú" width="90%" id="modal-detail" :before-close="closeNotesVisible">
+    <div>
+      <QuillEditor class="h-400px" theme="snow" toolbar="full" v-model:content="contentNote" contentType="html"
+        placeholder="Thêm Ghi Chú...">
+        <template #toolbar>
+          <el-upload ref="upload" class="d-flex align-content-start flex-wrap align-items-end" list-type="text" action="#"
+            :limit="1" :on-exceed="handleExceed" :on-remove="handleRemove" :auto-upload="false"
+            v-model:file-list="fileDocument">
+            <template #trigger>
+              <button type="button" class="btn btn-sm btn-light-primary h-40px me-2 mb-2" :disabled="disabled">
+                <i class="fa-solid fa-upload"></i>
+                Đính Kèm File
+              </button>
+            </template>
+            <template #file="{ file }">
+              <div class="mb-2">
+                <span class="badge badge-light-success h-40px  px-5 rounded-start">
+                  <i class="fa-regular fa-file-lines text-success me-2 fs-13px"></i>
+                  {{ file.name }}</span>
+                <span class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-secondary">
+                  <i class="fa-solid fa-xmark text-danger" @click="removeFile(file)" style="cursor: pointer;"></i>
+                </span>
+              </div>
+            </template>
+          </el-upload>
+        </template>
+      </QuillEditor>
+      <span v-if="errorUploadFile != ''" class="text-danger fs-13px">Lỗi: {{ errorUploadFile }}</span>
+    </div>
+    <template #footer center>
+      <span class="d-flex justify-content-center">
+        <el-button @click="notesVisible = false">Quay Lại</el-button>
+        <el-button type="primary" @click="putUplaodFile">
           Đồng Ý
         </el-button>
       </span>
@@ -417,10 +454,11 @@ import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 
-
 // ckediter
-import CKEditor from '@ckeditor/ckeditor5-vue'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { genFileId } from 'element-plus'
+import type { UploadInstance, UploadProps, UploadRawFile, UploadUserFile } from 'element-plus'
 
 interface APIData {
   title: string;
@@ -440,16 +478,13 @@ export default defineComponent({
     ElTable,
     ElTableColumn,
     ElPagination,
-    CKEditor,
+    QuillEditor,
   },
   directives: {
     debounce: vue3Debounce({ lock: true })
   },
   setup() {
     // ckediter
-    const editor = ClassicEditor;
-    const editorData = ref('<p>Hello, CKEditor 5 Core!</p>');
-
     const list = ref<object | any>([])
     const loading = ref<boolean>(false)
     const totalPage = ref<number>(0);
@@ -516,11 +551,12 @@ export default defineComponent({
       loading.value = true;
       return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&search=${query.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}`)
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           list.value = data.results
           totalPage.value = data.count
         })
         .catch(({ response }) => {
+
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         })
         .finally(() => {
@@ -683,15 +719,15 @@ export default defineComponent({
 
     const getStatus = (status: string) => {
       if (status === 'open') {
-        return { id: 3, title: 'Open', color: 'success', class: 'severityInfo'  };
+        return { id: 3, title: 'Open', color: 'info', class: 'stautsOpen' };
       } else if (status === 're-open') {
-        return { id: 5, title: 'Reopen', color: 'primary', class: 'severityLow'  };
+        return { id: 5, title: 'Reopen', color: 'primary', class: 'stautsReopen' };
       } else if (status === 'closed') {
-        return { id: 6, title: 'Close', color: 'danger', class: 'severityHigh'  };
+        return { id: 6, title: 'Close', color: 'danger', class: 'stautsClose' };
       } else if (status === 'rick-accepted') {
-        return { id: 7, title: 'Accepted', color: 'info', class: 'stautsInfo'  };
+        return { id: 7, title: 'Accepted', color: 'success', class: 'stautsAccepted' };
       }
-      return { id: 8, title: 'undefined', color: 'light', class: 'severityundefined'  };
+      return { id: 8, title: 'undefined', color: 'light', class: 'stautsundefined' };
     };
 
     const handleFilter = (data: any) => {
@@ -741,17 +777,6 @@ export default defineComponent({
       startScrollLeft: 0,
     });
 
-    // const handleCustomSize = () => {
-    //   CustomWidth.value = !CustomWidth.value
-    //   if(CustomWidth.value){
-    //     leftWidth.value = 200;
-    //   }else{
-    //     contentWidth.value = container.value.scrollWidth;
-    //   }
-    //   console.log(CustomWidth.value)
-    //   console.log(contentWidth.value)
-    // };
-
     const handleMouseDown = (event: any) => {
       state.isDragging = true;
       state.startX = event.clientX;
@@ -781,12 +806,90 @@ export default defineComponent({
     const headerHeight = ref<number>(0);
     const onheaderHeight = (height: number) => {
       headerHeight.value = height
-      
+
     }
 
     // notesVisible
     const notesVisible = ref<boolean>(false);
-    
+    const fileDocument = ref<UploadUserFile[]>([
+      {
+        name: '',
+        url: '',
+      }
+    ]);
+
+    const errorUploadFile = ref('');
+    const contentNote = ref<any>('')
+    const fileData = ref<any>('')
+    const has_delete_file = ref<any>(false)
+    const putUplaodFile = async () => {
+      disabled.value = true
+      setTimeout(() => {
+        disabled.value = false
+      }, 1000);
+      fileData.value = fileDocument.value[0].raw;
+      const formData = new FormData();
+        formData.append('files', fileData.value);
+        formData.append('document', contentNote.value);
+        formData.append('has_delete_file', has_delete_file.value);
+        console.log(fileDocument.value, 'fileDocument')
+        console.log(formData)
+      // return;
+      return ApiService.put(`/vuls/${detailData.id}/update_document`, formData)
+        .then(({ data }) => {
+          notesVisible.value = false
+          notification(data?.detail, 'success', 'Chỉnh sửa thành công')
+        })
+        .catch(({ response }) => {
+          console.log(response)
+          errorUploadFile.value = response.data.Errors.document[0] ?? response.data.Errors?.files[0]
+          // notification((response.data.Errors.document[0] ?? response.data.Errors?.files[0]), 'error', 'Có lỗi xảy ra')
+        });
+    }
+
+    const getUplaodFile = async () => {
+      notesVisible.value = true
+      return ApiService.get(`/vuls/${detailData.id}/get_document`)
+        .then(({ data }) => {
+          console.log(data)
+          contentNote.value = (data.document == null) ? '<p><br></p>' : data.document;
+          if (data.files.length != 0) {
+            fileDocument.value[0].name = data.files[0].file_name
+            fileDocument.value[0].url = data.files[0].file
+            fileDocument.value[0].size = data.files[0].size
+          } else {
+            fileDocument.value = [];
+          }
+        })
+        .catch(({ response }) => {
+          notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+        });
+    }
+
+    const closeNotesVisible = () => {
+      notesVisible.value = false
+      contentNote.value = ''
+      errorUploadFile.value = ''
+      fileDocument.value = []
+    }
+
+    const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
+      console.log(uploadFile, uploadFiles)
+    }
+
+    const upload = ref<UploadInstance>()
+    const handleExceed: UploadProps['onExceed'] = (files) => {
+      upload.value!.clearFiles()
+      const file = files[0] as UploadRawFile
+      file.uid = genFileId()
+      upload.value!.handleStart(file)
+    }
+
+    const removeFile = (files: any) => {
+      upload.value!.clearFiles()
+      const file = files[0] as UploadRawFile
+    }
+
     // Tính toán chiều rộng nội dung
     const contentWidth = ref(0);
     onMounted(() => {
@@ -861,14 +964,58 @@ export default defineComponent({
 
 
       // ckediter
-      editorData,
-      editor,
+      contentNote,
+      putUplaodFile,
+      getUplaodFile,
+      fileDocument,
+      handleExceed,
+      upload,
+      closeNotesVisible,
+      errorUploadFile,
+      handleRemove,
+      removeFile,
     };
   },
 });
 </script>
 
 <style>
+span.el-dialog__title {
+  color: #181C32 !important;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 27px;
+}
+
+#modal-detail .el-dialog__body {
+  padding-top: 0px !important;
+}
+
+.stautsOpen .el-input .el-select__caret,
+.stautsOpen .el-input__inner {
+  color: #7239ea !important;
+}
+
+.stautsReopen .el-input .el-select__caret,
+.stautsReopen .el-input__inner {
+  color: #009ef7 !important;
+}
+
+.stautsClose .el-input .el-select__caret,
+.stautsClose .el-input__inner {
+  color: #f1416c !important;
+}
+
+.stautsAccepted .el-input .el-select__caret,
+.stautsAccepted .el-input__inner {
+  color: #50cd89 !important;
+}
+
+.stautsundefined .el-input .el-select__caret,
+.stautsundefined .el-input__inner {
+  color: #7e8299 !important;
+}
+
 .severityInfo .el-input__wrapper {
   background-color: #50cd89 !important;
   box-shadow: unset !important;
@@ -880,22 +1027,17 @@ export default defineComponent({
 }
 
 .severityMedium .el-input__wrapper {
-  background-color: #ffc700!important;
+  background-color: #ffc700 !important;
   box-shadow: unset !important;
 }
 
 .severityHigh .el-input__wrapper {
-  background-color: #f1416c!important;
+  background-color: #f1416c !important;
   box-shadow: unset !important;
 }
 
 .severityundefined .el-input__wrapper {
-  background-color: #7e8299!important;
-  box-shadow: unset !important;
-}
-
-.stautsInfo .el-input__wrapper {
-  background-color: #7239ea!important;
+  background-color: #7e8299 !important;
   box-shadow: unset !important;
 }
 
