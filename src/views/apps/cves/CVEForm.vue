@@ -120,26 +120,6 @@ export default defineComponent({
         const loading = ref<boolean>(false)
         const router = useRouter();
 
-        // const getData = async () => {
-        //     if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
-        //         loading.value = true;
-        //         return ApiService.get(`targets/${ID.value}`)
-        //             .then(({ data }) => {
-        //                 ruleForm.domain = data.domain
-        //                 ruleForm.ip = data.ip
-        //                 ruleForm.name = data.name
-        //                 ruleForm.group = data.group.id
-        //             })
-        //             .catch(({ response }) => {
-        //                 notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-        //             })
-        //             .finally(() => {
-        //                 loading.value = false
-        //             })
-        //     }
-        //     return;
-        // }
-
         const notification = (values: string, icon: string, more: string) => {
             Swal.fire({
                 text: values ?? more,
@@ -166,11 +146,6 @@ export default defineComponent({
             errors.poc = ''
             errors.detail = ''
         }
-
-        onMounted(() => {
-            // getData();
-        });
-
 
         // validate
         const ruleFormRef = ref<FormInstance>()
