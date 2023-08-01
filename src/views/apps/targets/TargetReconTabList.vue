@@ -27,9 +27,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-7 text-end ms-auto py-2">
+                <div class="col-sm-12 col-md-6 col-lg-7 ms-auto py-2">
                     <div class="d-flex justify-content-sm-start justify-content-md-end">
-                        <!--begin::Card toolbar-->
                         <div class="card-toolbar">
                             <div class="d-flex justify-content-end">
                                 <el-popconfirm confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
@@ -38,27 +37,27 @@
                                     @cancel="cancelEvent">
                                     <template #reference>
                                         <button type="button" :disabled="checkDisabled"
-                                            class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
-                                            <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy Bỏ
+                                            class="btn btn-sm btn-light-danger custom-button">
+                                            <KTIcon icon-name="cross-square" icon-class="fs-2 " />Hủy Bỏ
                                         </button>
                                     </template>
                                 </el-popconfirm>
                                 <button v-if="reconStatus == 5" type="button" @click="handlePauser"
                                     :disabled="(checkDisabled || checkStatus)"
-                                    class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary fw-bold bg-body btn-color-gray-700 btn-active-color-primary ms-2">
-                                    <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
-                                    <span class="text-primary"> Tiếp Tục</span>
+                                    class="btn btn-sm btn-light-success ms-2 custom-button">
+                                    <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
+                                    <span>Tiếp Tục</span>
                                 </button>
                                 <button v-else type="button" @click="handlePauser"
                                     :disabled="(checkDisabled || checkStatus)"
-                                    class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger ms-2">
-                                    <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
-                                    <span class="text-danger">Tạm Dừng</span>
+                                    class="btn btn-sm btn-light-warning ms-2 custom-button">
+                                    <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
+                                    <span>Tạm Dừng</span>
                                 </button>
                                 <button type="button" :disabled="(reconStatus != 3 || checkDisabled) ? true : false"
                                     @click="fileDownVisible = true"
-                                    class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
-                                    <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
+                                    class="btn btn-sm btn-light-primary ms-2 custom-button">
+                                    <KTIcon icon-name="file-down" icon-class="fs-2" />
                                     Xuất Kết Quả
                                 </button>
                             </div>
@@ -67,7 +66,6 @@
                 </div>
             </div>
         </div>
-        <!--end::Navbar-->
 
         <!--begin::Card-->
         <div class="">
@@ -575,7 +573,7 @@
                                                 <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
                                                     <th class="py-2 text-muted text-start">Email</th>
                                                     <th class="py-2 text-muted text-start">Password</th>
-                                                    <th class="py-2 text-muted text-start">Password Crack</th>
+                                                    <th class="py-2 text-muted text-start">Password Hash</th>
                                                 </tr>
                                             </thead>
                                             <!--end::Table head-->
@@ -1253,7 +1251,7 @@
     </div>
     <!-- // modoal  -->
     <el-dialog v-model="fileDownVisible" title="Xác Nhận Xuất File" width="500">
-        <div class="card h-100 bg-secondary ">
+        <div class="card h-100 bg-secondary">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
                 <!--begin::Name-->
@@ -1691,7 +1689,7 @@ export default defineComponent({
             const link = document.createElement("a");
 
             link.href = url;
-            link.download = `email_${targetData.domain}.csv`;
+            link.download = `email_releated.csv`;
             document.body.appendChild(link);
             link.click();
 
@@ -2318,5 +2316,26 @@ export default defineComponent({
     .height-repository {
         height: 780px;
     }
-}</style>
+}
+
+  /* Media query cho màn hình >= 992px (lg) */
+@media (min-width: 1399px) {
+    .custom-button {
+        width: 175px;
+    }
+}
+
+/* Media query cho màn hình >= 768px và < 992px (md) */
+@media (min-width: 992px) and (max-width: 1399px) {
+    .custom-button {
+        width: 145px;
+    }
+}
+
+@media (max-width: 992px) {
+    .custom-button {
+        width: 139px;
+    }
+}
+</style>
   

@@ -447,20 +447,14 @@
                                                                         {{ key }}
                                                                     </span>
                                                                     <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="port_detail">
-                                                                        <div class="modal-dialog modal-dialog-centered mw-550px">
+                                                                        <div class="modal-dialog modal-dialog-centered mw-400px">
                                                                             <div class="modal-content">
                                                                                 <div class="modal-body" style="padding: 26px 0px 0px 0px;">
                                                                                     <div class="card card-flush">
                                                                                         <div class="card-body py-0">
                                                                                             <div class="pb-2 mt-2">
-                                                                                                <h4 class="fs-4">Chi Tiết Của Cổng {{ detailPortTitle }}
+                                                                                                <h4 class="fs-4">Có 2 địa chỉ IP sử dụng {{ detailPortTitle }}
                                                                                                 </h4>
-                                                                                                <span class="fs-7 text-dark">Có
-                                                                                                    <span class="fw-bold text-dark">{{ portCount
-                                                                                                    }}</span>
-                                                                                                    địa chỉ IP có cổng
-                                                                                                    <span class="fw-bold text-dark">{{ detailPortTitle
-                                                                                                    }}</span></span>
                                                                                             </div>
                                                                                             <div class="d-flex flex-column my-3 ms-2">
                                                                                                 <li v-for="(i, key) in  detailPort" :key="key"
@@ -473,7 +467,7 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+                                                                                <div class="modal-footer pt-0" style="border-top: 0px; justify-content: center;">
                                                                                     <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
                                                                                         Đóng
                                                                                     </button>
@@ -552,7 +546,7 @@
                                                                         <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
                                                                             <th class="py-2 text-muted text-start">Email</th>
                                                                             <th class="py-2 text-muted text-start">Password</th>
-                                                                            <th class="py-2 text-muted text-start">Password Crack</th>
+                                                                            <th class="py-2 text-muted text-start">Password Hash</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <!--end::Table head-->
@@ -750,17 +744,16 @@
                                                                         }}</span>
                                                                 </span>
                                                                 <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="technology_detail">
-                                                                    <div class="modal-dialog modal-dialog-centered mw-550px">
+                                                                    <div class="modal-dialog modal-dialog-centered mw-400px">
                                                                         <div class="modal-content">
                                                                             <div class="modal-body" style="padding: 26px 0px 0px 0px;">
                                                                                 <div class="card card-flush">
                                                                                     <div class="card-body py-0">
-                                                                                        <h4>{{ detailTechnologyTitle }}</h4>
-                                                                                        <span class="fs-7 mb-5 text-dark">Tổng cộng có
+                                                                                        <h4 class="mb-5 text-dark">Có
                                                                                             <span class="fw-bold text-dark ">{{ Object.keys(detailTechnology).length
                                                                                             }}</span>
-                                                                                            Công nghệ được sử dụng
-                                                                                        </span>
+                                                                                            domain sử dụng công nghệ {{ detailTechnologyTitle }}
+                                                                                        </h4>
                                                                                         <div class="d-flex flex-column ms-2 my-5">
                                                                                             <li class="d-flex align-items-center py-2" v-for="el in detailTechnology"
                                                                                                 :key="el">
@@ -771,7 +764,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+                                                                            <div class="modal-footer pt-0" style="border-top: 0px; justify-content: center;">
                                                                                 <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
                                                                                     Đóng
                                                                                 </button>
@@ -2029,7 +2022,7 @@ export default defineComponent({
             const link = document.createElement("a");
 
             link.href = url;
-            link.download = `email_${targetData.domain}.csv`;
+            link.download = `email_releated.csv`;
             document.body.appendChild(link);
             link.click();
 
