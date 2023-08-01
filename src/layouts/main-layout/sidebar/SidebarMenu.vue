@@ -245,7 +245,7 @@ export default defineComponent({
       if (menuItem == '/user-list' && ['user-form'].includes(routeName)) {
         return true;
       }
-      if (menuItem == '/target-list' && ['target-scan','target-recon','target-scanstab','target-recon-tab','target-recon-tab-subdomains','target-form', 'target-detail', 'target-recon-add', 'target-scan-add'].includes(routeName) ) {
+      if (menuItem == '/target-list' && ['target-scan','target-recon','target-scanstab','target-recon-tab','target-recon-tab-subdomains','target-form', 'cve-form','target-detail', 'target-recon-add', 'target-scan-add'].includes(routeName) ) {
         return true;
       }
       return false
