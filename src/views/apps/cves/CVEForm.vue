@@ -4,125 +4,62 @@
     <!--begin::Card-->
     <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
         <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20  pt-10" style="">
-            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="33%" :label-position="labelPosition"
+            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="33%" label-position="top"
                 class="demo-ruleForm px-0 px-lg-0 mx-5 mx-lg-10 mx-xxl-20 px-xxl-10 mt-10 text-capitalize" size="large"
                 status-icon require-asterisk-position="right">
-                
-                <div class="modal-body py-10 px-lg-17">
-                    <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
-                        data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-                        data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
-                        data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
-                        <div class="mb-5 fv-row row">
-                            <div class="col-4">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="code">
-                                    <span class="required">Mã CVE</span>
-                                </label>
-                                <!-- <el-form-item label="Mã CVE" prop="name" class="pb-3 text-capitalize fs-13px"
-                    :error="(errors.name) ? errors.name[0] : ''"> -->
-                    <el-input v-model="ruleForm.name" size="large" placeholder="Tên mục tiêu"
-                        :class="(errors.name) ? 'el-error-ruleForm' : ''" />
-                <!-- </el-form-item> -->
-                            </div>
-
-                            <div class="col-4">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="product_type">
-                                    <span class="required">Loại Sản Phẩm</span>
-                                </label>
-                                    <!-- <el-form-item label="Mã CVE" prop="name" class="pb-3 text-capitalize fs-13px"
-                    :error="(errors.name) ? errors.name[0] : ''"> -->
-                    <el-input v-model="ruleForm.name" size="large" placeholder="Tên mục tiêu"
-                        :class="(errors.name) ? 'el-error-ruleForm' : ''" />
-                <!-- </el-form-item> -->
-                            </div>
-                            <div class="col-4">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="vul_type">
-                                    <span class="required">Loại Lỗ Hổng</span>
-                                </label>
-                                
-                                    <!-- <el-form-item label="Mã CVE" prop="name" class="pb-3 text-capitalize fs-13px"
-                    :error="(errors.name) ? errors.name[0] : ''"> -->
-                    <el-input v-model="ruleForm.name" size="large" placeholder="Tên mục tiêu"
-                        :class="(errors.name) ? 'el-error-ruleForm' : ''" />
-                                <!-- </el-form-item> -->
-
-
-
-
-                                
-                                <!-- <Field type="text" class="form-control form-control-solid" placeholder="Chọn nhóm mục tiêu"
-                                    name="group" v-model="apiData.group" /> -->
-                                <!-- <div class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="group" />
-                                        <span class="" v-if="errors.group">{{ errors.group[0] }}</span>
-                                    </div>
-                                </div> -->
-                            </div>
-                        </div>
-                        <div class="d-flex flex-column mb-5 fv-row">
-                            <label class="fs-6 fw-semobold mb-2" for="description">Mô Tả</label>
-                            <!-- <Field as="textarea" class="form-control form-control-solid" rows="5" id="description"
-                                name="description" placeholder="Mô tả về CVE" v-model="apiData.description" />
-                            <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                    <ErrorMessage name="description" />
-                                </div>
-                            </div> -->
-                            <el-input v-model="ruleForm.description" :rows="5" type="textarea" placeholder="Mô tả nhóm mục tiêu"
-                        :autofocus="true" />
-                        
-                        </div>
-                        <div class="d-flex flex-column mb-5 fv-row">
-                            <label class="fs-6 fw-semobold mb-2" for="description">Mô Tả</label>
-                            <!-- <Field as="textarea" class="form-control form-control-solid" rows="5" id="description"
-                                name="description" placeholder="Mô tả về CVE" v-model="apiData.description" />
-                            <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                    <ErrorMessage name="description" />
-                                </div>
-                            </div> -->
-                            <el-input v-model="ruleForm.description" :rows="5" type="textarea" placeholder="Mô tả nhóm mục tiêu"
-                        :autofocus="true" />
-                        
-                        </div>
-                        <div class="d-flex flex-column mb-5 fv-row">
-                            <label class="fs-6 fw-semobold mb-2" for="description">Mô Tả</label>
-                            <!-- <Field as="textarea" class="form-control form-control-solid" rows="5" id="description"
-                                name="description" placeholder="Mô tả về CVE" v-model="apiData.description" />
-                            <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                    <ErrorMessage name="description" />
-                                </div>
-                            </div> -->
-                            <el-input v-model="ruleForm.description" :rows="5" type="textarea" placeholder="Mô tả nhóm mục tiêu"
-                        :autofocus="true" />
-                        
-                        </div>
-                        <div class="d-flex flex-column mb-5 fv-row">
-                            <label class="fs-6 fw-semobold mb-2" for="description">Mô Tả</label>
-                            <!-- <Field as="textarea" class="form-control form-control-solid" rows="5" id="description"
-                                name="description" placeholder="Mô tả về CVE" v-model="apiData.description" />
-                            <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                    <ErrorMessage name="description" />
-                                </div>
-                            </div> -->
-                            <el-input v-model="ruleForm.description" :rows="5" type="textarea" placeholder="Mô tả nhóm mục tiêu"
-                        :autofocus="true" />
-                        
-                        </div>
-                        
-                        
-                        <!-- <div class="fv-plugins-message-container">
-                            <div class="fv-help-block">
-                                <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] :
-                                    errors.detail }}</span>
-                            </div>
-                        </div> -->
-                    </div>
-                    <!--end::Scroll-->
-                </div>
+                <el-form-item>
+                    <el-col :span="6">
+                        <el-form-item label="Mã CVE" prop="code" class="pb-3 text-capitalize fs-13px"
+                            :error="(errors.code) ? errors.code[0] : ''">
+                            <el-input v-model="ruleForm.code" size="large" placeholder="CVE-YYYY-xxxxxx"
+                                :class="(errors.code) ? 'el-error-ruleForm' : ''" />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="3">
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="Loại Sản Phẩm" prop="product_type" class="pb-3 text-capitalize fs-13px">
+                            <el-select id="product_type" name="product_type" placeholder="Loại sản phẩm" class="w-100"
+                                @change="removeErrorMsgOption" v-model="ruleForm.product_type">
+                                <!-- <el-option label="Chọn loại sản phẩm" value="">Chọn loại sản phẩm</el-option> -->
+                                <el-option v-for="item in dataProduct" :key="item.value" :label="item.label"
+                                    :value="item.value" />
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="3">
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="Loại Lỗ Hổng" prop="vul_type" class="pb-3 text-capitalize fs-13px">
+                            <el-select name="vul_type" placeholder="Loại lỗ hông" @change="removeErrorMsgOption" class="w-100"
+                                v-model="ruleForm.vul_type">
+                                <!-- <el-option label="Chọn loại lỗ hổng" value="">Chọn loại lỗ hổng</el-option> -->
+                                <el-option v-for="item in dataVul" :key="item.value" :label="item.label"
+                                    :value="item.value" />
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="Mô Tả" prop="description" class="pb-3 text-capitalize fs-6" :error="(errors.description) ? errors.description[0] : ''">
+                    <el-input v-model="ruleForm.description" :rows="5" type="textarea" placeholder="Mô tả về CVE"
+                        :class="(errors.description) ? 'el-error-ruleForm' : ''"
+                    />
+                </el-form-item>
+                <el-form-item label="Phiên Bản Ảnh Hưởng" prop="version" class="pb-3 text-capitalize fs-6" :error="(errors.version) ? errors.version[0] : ''">
+                    <el-input v-model="ruleForm.version" :rows="5" type="textarea" placeholder="Phiên bản sản phẩm bị ảnh hưởng bởi CVE"
+                        :class="(errors.version) ? 'el-error-ruleForm' : ''"
+                    />
+                </el-form-item>
+                <el-form-item label="Shodan Dock" prop="shodan_dock" class="pb-3 text-capitalize fs-6" :error="(errors.shodan_dock) ? errors.shodan_dock[0] : ''">
+                    <el-input v-model="ruleForm.shodan_dock" :rows="5" type="textarea" placeholder="Câu query shodan để tìm kiếm mục tiêu trên diện rộng. Cú pháp theo cú pháp tìm kiếm của shodan. Query phân cách bởi dấu ;"
+                        :class="(errors.shodan_dock) ? 'el-error-ruleForm' : ''"
+                    />
+                </el-form-item>
+                <el-form-item label="POC" prop="poc" class="pb-3 text-capitalize fs-6" :error="(errors.poc) ? errors.poc[0] : ''">
+                    <el-input v-model="ruleForm.poc" :rows="5" type="textarea" placeholder="Thông tin POC, cách khai thác"
+                        :class="(errors.poc) ? 'el-error-ruleForm' : ''"
+                    />
+                </el-form-item>
             </el-form>
         </div>
     </div>
@@ -143,17 +80,23 @@ import { useRouter, useRoute } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
-    name: string
-    group: string
-    domain: string
-    ip: string
+    code: string
+    product_type: string
+    vul_type: string
+    description: string
+    version: string
+    shodan_dock: string
+    poc: string
 }
 
 interface RuleForm2 {
-    name: string
-    group: string
-    domain: string
-    ip: string
+    code: string
+    product_type: string
+    vul_type: string
+    description: string
+    version: string
+    shodan_dock: string
+    poc: string
     detail: string
 }
 
@@ -177,50 +120,25 @@ export default defineComponent({
         const loading = ref<boolean>(false)
         const router = useRouter();
 
-        const getData = async () => {
-            if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
-                loading.value = true;
-                return ApiService.get(`targets/${ID.value}`)
-                    .then(({ data }) => {
-                        ruleForm.domain = data.domain
-                        ruleForm.ip = data.ip
-                        ruleForm.name = data.name
-                        ruleForm.group = data.group.id
-                    })
-                    .catch(({ response }) => {
-                        notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                    })
-                    .finally(() => {
-                        loading.value = false
-                    })
-            }
-            return;
-        }
-
-        const getAutofill = async (domain) => {
-            try {
-                const response = await ApiService.get(`targets/ip?domain=${domain}`);
-                const { data } = response;
-                return data.ip;
-            } catch (error: any) {
-                notification(error?.response?.data?.detail, 'error', 'Có lỗi xảy ra');
-                throw error;
-            }
-        }
-
-        const getDataGroup = async () => {
-            loading.value = true;
-            return ApiService.get(`targetgroup/list/`)
-                .then(({ data }) => {
-                    data_group.value = data
-                })
-                .catch(({ response }) => {
-                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                })
-                .finally(() => {
-                    loading.value = false
-                });
-        }
+        // const getData = async () => {
+        //     if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
+        //         loading.value = true;
+        //         return ApiService.get(`targets/${ID.value}`)
+        //             .then(({ data }) => {
+        //                 ruleForm.domain = data.domain
+        //                 ruleForm.ip = data.ip
+        //                 ruleForm.name = data.name
+        //                 ruleForm.group = data.group.id
+        //             })
+        //             .catch(({ response }) => {
+        //                 notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+        //             })
+        //             .finally(() => {
+        //                 loading.value = false
+        //             })
+        //     }
+        //     return;
+        // }
 
         const notification = (values: string, icon: string, more: string) => {
             Swal.fire({
@@ -239,39 +157,48 @@ export default defineComponent({
             });
         }
         const resetForm = () => {
-            errors.name = ''
-            errors.domain = ''
-            errors.ip = ''
-            errors.group = ''
+            errors.code = ''
+            errors.product_type = ''
+            errors.vul_type = ''
+            errors.description = ''
+            errors.shodan_dock = ''
+            errors.version = ''
+            errors.poc = ''
             errors.detail = ''
         }
 
         onMounted(() => {
-            getData();
-            getDataGroup();
+            // getData();
         });
 
 
         // validate
         const ruleFormRef = ref<FormInstance>()
         const ruleForm = reactive<RuleForm>({
-            name: '',
-            group: '',
-            domain: '',
-            ip: '',
+            code: "",
+            product_type: '',
+            vul_type: '',
+            description: '',
+            version: '',
+            shodan_dock: '',
+            poc: '',
         })
         const errors = reactive<RuleForm2>({
-            name: '',
-            group: '',
-            ip: '',
-            domain: '',
+            code: '',
+            product_type: '',
+            vul_type: '',
+            description: '',
+            version: '',
+            shodan_dock: '',
+            poc: '',
             detail: ''
         });
 
-        const validateName = (rule: any, value: any, callback: any) => {
-            const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
-            if (specialCharacters.test(value)) {
-                callback(new Error('Tên nhóm không được chứa ký tự đặc biệt'));
+        const isValidCVE = (rule: any, value: any, callback: any) => {
+            const patternCVECode = /^[Cc][Vv][Ee]-\d{4}-\d+$/;
+
+            if (!patternCVECode.test(value)) {
+                callback(new Error('Mã CVE không đúng định dạng'));
             } else {
                 callback();
             }
@@ -298,21 +225,293 @@ export default defineComponent({
         };
 
         const rules = reactive<FormRules>({
-            name: [
-                { required: true, message: 'Tên mục tiêu không được để trống', trigger: 'blur' },
-                { min: 3, max: 50, message: 'Độ dài từ 3-50 ký tự', trigger: 'blur' },
-                { validator: validateName, trigger: 'blur' },
+            code: [
+                { required: true, message: 'Vui lòng nhập mã CVE', trigger: 'blur' },
+                { validator: isValidCVE, trigger: 'blur' },
             ],
-            ip: [
-                { validator: isValidIPAddress, trigger: 'blur' },
+            product_type: [
+                { required: true, message: 'Vui lòng chọn loại sản phẩm', trigger: 'blur' },
             ],
-            domain: [
-                { validator: isValidDomain, trigger: 'blur' },
+            vul_type: [
+                { required: true, message: 'Vui lòng chọn loại lỗ hổng', trigger: 'blur' },
             ],
-            group: [
-                { required: true, message: 'Tên nhóm không được để trống', trigger: 'blur' },
-            ]
+            version: [
+                { required: true, message: 'Vui lòng nhập phiên bản ảnh hưởng', trigger: 'blur' },
+            ],
+            shodan_dock: [
+                { required: true, message: 'Vui lòng nhập Shodan Dock', trigger: 'blur' },
+            ],
         })
+
+        const removeErrorMsgOption = () => {
+            ruleForm.product_type !== '' ? errors.product_type = '' : ''
+            ruleForm.vul_type !== '' ? errors.vul_type = '' : ''
+        };
+
+        const dataVul = [
+            {
+                value: 0,
+                label: 'DoS',
+            },
+            {
+                value: 1,
+                label: 'Code Execution',
+            },
+            {
+                value: 2,
+                label: 'Overflow',
+            },
+            {
+                value: 3,
+                label: 'Memory Corruption',
+            },
+            {
+                value: 4,
+                label: 'Code Execution',
+            },
+            {
+                value: 5,
+                label: 'XSS',
+            },
+            {
+                value: 6,
+                label: 'Directory Traversal',
+            },
+            {
+                value: 7,
+                label: 'Http Response Splitting',
+            },
+            {
+                value: 8,
+                label: 'Bypass something',
+            },
+            {
+                value: 9,
+                label: 'Gain Information',
+            },
+            {
+                value: 10,
+                label: 'Gain Privileges',
+            },
+            {
+                value: 11,
+                label: 'CSRF',
+            },
+            {
+                value: 12,
+                label: 'File Inclusion',
+            },
+            {
+                value: 13,
+                label: 'Khác',
+            },
+        ]
+        const dataProduct = [
+            {
+                value: 0,
+                label: 'Microsoft',
+            },
+            {
+                value: 1,
+                label: 'Oracle',
+            },
+            {
+                value: 2,
+                label: 'Google',
+            },
+            {
+                value: 3,
+                label: 'Debian',
+            },
+            {
+                value: 4,
+                label: 'Apple',
+            },
+            {
+                value: 5,
+                label: 'IBM',
+            },
+            {
+                value: 6,
+                label: 'Redhat',
+            },
+            {
+                value: 7,
+                label: 'Fedoraproject',
+            },
+            {
+                value: 8,
+                label: 'Canonical',
+            },
+            {
+                value: 9,
+                label: 'Cisco',
+            },
+            {
+                value: 10,
+                label: 'Linux',
+            },
+            {
+                value: 11,
+                label: 'Opensuse',
+            },
+            {
+                value: 12,
+                label: 'Mozilla',
+            },
+            {
+                value: 13,
+                label: 'Netapp',
+            },
+            {
+                value: 14,
+                label: 'Apache',
+            },
+            {
+                value: 15,
+                label: 'HP',
+            },
+            {
+                value: 16,
+                label: 'Adobe',
+            },
+            {
+                value: 17,
+                label: 'SUN',
+            },
+            {
+                value: 18,
+                label: 'Jenkins',
+            },
+            {
+                value: 19,
+                label: 'SAP',
+            },
+            {
+                value: 20,
+                label: 'Suse',
+            },
+            {
+                value: 21,
+                label: 'Siemens',
+            },
+            {
+                value: 22,
+                label: 'GNU',
+            },
+            {
+                value: 23,
+                label: 'Gitlab',
+            },
+            {
+                value: 24,
+                label: 'Huawei',
+            },
+            {
+                value: 25,
+                label: 'F5',
+            },
+            {
+                value: 26,
+                label: 'PHP',
+            },
+            {
+                value: 27,
+                label: 'Intel',
+            },
+            {
+                value: 28,
+                label: 'Vmware',
+            },
+            {
+                value: 29,
+                label: 'Imagemagick',
+            },
+            {
+                value: 30,
+                label: 'Wireshark',
+            },
+            {
+                value: 31,
+                label: 'Novell',
+            },
+            {
+                value: 32,
+                label: 'Dell',
+            },
+            {
+                value: 33,
+                label: 'Mcafee',
+            },
+            {
+                value: 34,
+                label: 'Symantec',
+            },
+            {
+                value: 35,
+                label: 'Fortinet',
+            },
+            {
+                value: 36,
+                label: 'Moodle',
+            },
+            {
+                value: 37,
+                label: 'Juniper',
+            },
+            {
+                value: 38,
+                label: 'Freebsd',
+            },
+            {
+                value: 39,
+                label: 'Joomla',
+            },
+            {
+                value: 40,
+                label: 'XEN',
+            },
+            {
+                value: 41,
+                label: 'Broadcom',
+            },
+            {
+                value: 42,
+                label: 'Cpanel',
+            },
+            {
+                value: 43,
+                label: 'Zohocorp',
+            },
+            {
+                value: 44,
+                label: 'Ffmpeg',
+            },
+            {
+                value: 45,
+                label: 'Atlassian',
+            },
+            {
+                value: 46,
+                label: 'Mariadb',
+            },
+            {
+                value: 47,
+                label: 'EMC',
+            },
+            {
+                value: 48,
+                label: 'Wordpress',
+            },
+            {
+                value: 49,
+                label: 'Qemu',
+            },
+            {
+                value: 50,
+                label: 'Khác',
+            },
+        ]
 
         const formSubmit = async (formEl: FormInstance | undefined) => {
             // console.log(rules)
@@ -331,27 +530,26 @@ export default defineComponent({
             })
         }
 
-        const urlBack = ref<string>('target-list')
+        const urlBack = ref<string>('scanCVE')
 
         const formBack = async (data: any) => {
             router.push({ name: urlBack.value });
         }
 
         const addFormSubmit = async (formData: RuleForm) => {
-            const ip = await getAutofill(ruleForm.domain);
-            ruleForm.ip = ip;
-            return ApiService.post("/targets/", formData)
+            return ApiService.post("cve/create/", formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Thêm mới thành công')
-                    // getData();
-                    console.log(data);
                 })
                 .catch(({ response }) => {
                     if (response?.data) {
-                        errors.name = response.data.name;
-                        errors.ip = response.data.ip;
-                        errors.domain = response.data.domain;
-                        errors.group = response.data.group;
+                        errors.code = response.data.code;
+                        errors.product_type = response.data.product_type;
+                        errors.vul_type = response.data.vul_type;
+                        errors.description = response.data.description;
+                        errors.version = response.data.version;
+                        errors.poc = response.data.poc;
+                        errors.shodan_dock = response.data.shodan_dock;
                         errors.detail = response.data.detail;
                     } else {
                         notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
@@ -360,19 +558,19 @@ export default defineComponent({
         }
 
         const editFormSubmit = async (formData: RuleForm) => {
-            const ip = await getAutofill(ruleForm.domain);
-            ruleForm.ip = ip;
-
             return ApiService.put(`/targets/${ID.value}/`, formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Chỉnh sửa thành công')
                 })
                 .catch(({ response }) => {
                     if (response?.data) {
-                        errors.name = response.data.name;
-                        errors.ip = response.data.ip;
-                        errors.domain = response.data.domain;
-                        errors.group = response.data.group;
+                        errors.code = response.data.code;
+                        errors.product_type = response.data.product_type;
+                        errors.vul_type = response.data.vul_type;
+                        errors.description = response.data.description;
+                        errors.version = response.data.version;
+                        errors.poc = response.data.poc;
+                        errors.shodan_dock = response.data.shodan_dock;
                         errors.detail = response.data.detail;
                     } else {
                         notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -424,8 +622,10 @@ export default defineComponent({
             formBack,
             formSubmit,
             errors,
-            getAutofill,
             labelPosition,
+            removeErrorMsgOption,
+            dataProduct,
+            dataVul,
         };
     },
 });
@@ -478,5 +678,17 @@ export default defineComponent({
 .demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label-wrap>.el-form-item__label:after,
 .demo-ruleForm .el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label:after {
     margin-left: 0px !important;
+}
+
+.el-textarea__inner:focus {
+    background-color: #f1f1f2 !important;
+    /* color: #4b5675 !important; */
+}
+
+.demo-ruleForm .el-input__wrapper,
+.el-textarea__inner {
+    background: #f9f9f9;
+    border-radius: 10px !important;
+    box-shadow: none !important;
 }
 </style>
