@@ -31,14 +31,17 @@
                     <template v-if="idsDelete.length == 0">
                         <router-link v-if="checkSetting == true" to="#" :disabled="disabled"  @click="handleSetting"
                             class="btn btn-light-info font-weight-bold py-2 px-5 me-2 fs-13px">
+                            <i class="fa-solid fa-gear"></i>
                             Cấu Hình
                         </router-link>
                         <router-link v-if="checkSyncAll == true" to="#" :disabled="disabled" @click="handleSyncAll"
                             class="btn btn-light-success font-weight-bold py-2 px-5 me-2 fs-13px">
+                            <i class="fa-solid fa-rotate"></i>
                             Đồng Bộ Tất Cả
                         </router-link>
                         <router-link v-if="addNew != ''" :to="addNew" :disabled="disabled"
                             class="btn btn-light-primary font-weight-bold py-2 px-5 fs-13px">
+                            <i class="fa-solid fa-circle-plus"></i>
                             Thêm
                         </router-link>
                     </template>

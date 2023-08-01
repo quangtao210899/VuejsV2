@@ -94,8 +94,6 @@ export const useAuthStore = defineStore("auth", () => {
         var data = JSON.parse(event.data);
         var message = data['message'];
         var status = data['status'];
-        console.log('WebSocket', data)
-
         if (status) {
           notification(message ?? 'Thành Công', 'success')
           // ElMessage.success(message)

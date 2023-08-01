@@ -71,7 +71,7 @@
     </div>
     <!--end::Card header-->
 
-    <div class="hand-height-2 shadow-hvover">
+    <div class="">
       <!--begin::Card body-->
       <div class="card-body overflow-y-auto overflow-x-auto h-100 p-0 m-0">
         <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
