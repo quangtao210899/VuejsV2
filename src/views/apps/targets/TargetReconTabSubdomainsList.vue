@@ -247,14 +247,9 @@
                             <template #default="scope">
                                 <div class="flex-column">
                                     <template v-if="scope.row.cdn.length">
-                                        <li v-for="(val, key) in scope.row.cdn" :key="key"
-                                            class="d-flex align-items-top py-2 fs-13px text-start">
-                                            <span class="bullet bullet-dot bg-success  h-7px w-7px me-5 mt-3"></span>
-                                            <span class="fst-normal" style="font-size: 13px;">
-                                                {{ (val == '' ||
-                                                    val == null) ? '--' : val }}
+                                            <span class="fst-normal fs-13px" style="font-size: 13px;">
+                                                {{ scope.row.cdn.join('; ') }}
                                             </span>
-                                        </li>
                                     </template>
                                     <template v-else>
                                         <span class="badge badge-light-danger">--</span>

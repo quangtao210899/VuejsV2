@@ -144,7 +144,7 @@
                                                         <div class="d-flex flex-wrap mt-1 row">
                                                             <!--begin::Stat-->
                                                             <div
-                                                                class=" col-12 min-w-80px py-1 px-2 me-2 mb-1 ">
+                                                                class=" col-12 min-w-80px py-1 me-2 mb-1">
                                                                 <div class="fw-semobold fs-13px text-dark text-gray-500">
                                                                     <span class="text-primary " style="font-weight: 500;">
                                                                         {{ account.email }} </span> Địa Chỉ Email</div>
@@ -153,7 +153,7 @@
 
                                                             <!--begin::Stat-->
                                                             <div
-                                                                class="col-12 min-w-80px py-1 px-2 me-2 mb-1">
+                                                                class="col-12 min-w-80px py-1 me-2 mb-1">
                                                                 <div class="fw-semobold fs-13px text-dark text-gray-500">
                                                                     <span class="text-primary" style="font-weight: 500;">{{
                                                                     account.credentials }} </span> Credentials</div>
@@ -322,79 +322,48 @@
                                                                                                                 :key="i">
                                                                                                                 <template
                                                                                                                     v-if="checkArray(el) == true">
-                                                                                                                    <li v-for="(e, j) in el"
+                                                                                                                    <div v-for="(e, j) in el"
                                                                                                                         :key="j"
-                                                                                                                        class="d-flex align-items-center py-2">
-                                                                                                                        <template
-                                                                                                                            v-if="checkArray(e) == true">
-                                                                                                                            <span
-                                                                                                                                class="bullet bullet-dot bg-primary me-5"></span>
-                                                                                                                            <div
-                                                                                                                                class="d-flex align-items-start">
-                                                                                                                                <span>{{ j }} :
-                                                                                                                                </span>
-                                                                                                                                <div>
-                                                                                                                                    <span
-                                                                                                                                        v-for="q in e"
-                                                                                                                                        :key="q"
-                                                                                                                                        :class="(q == '' || q == null) ? 'text-danger' : ''"
-                                                                                                                                        class="badge badge-light-primary ms-2">
-                                                                                                                                        {{ (q == ''
-                                                                                                                                            || q
-                                                                                                                                            ==
-                                                                                                                                            null) ?
-                                                                                                                                            ' --' :
-                                                                                                                                            q }}
-                                                                                                                                    </span>
+                                                                                                                        class="">
+                                                                                                                        <template v-if="checkArray(e) == true">
+                                                                                                                            <div class="row" v-for="q in e"
+                                                                                                                                        :key="q">
+                                                                                                                                <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                                    <span class="border">{{ j }}</span> 
+                                                                                                                                </div>
+                                                                                                                                <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                                    <span :class="(q == '' || q == null) ? 'badge badge-light text-danger' : 'badge badge-light-primary'">{{ (q == '' || q == null) ? '--' : q }}</span>
                                                                                                                                 </div>
                                                                                                                             </div>
                                                                                                                         </template>
                                                                                                                         <template v-else>
-                                                                                                                            <div>
-                                                                                                                                <span
-                                                                                                                                    class="bullet bullet-dot bg-primary me-5"></span>
-                                                                                                                                {{ j }} :
-                                                                                                                                <span
-                                                                                                                                    :class="(e == '' || e == null) ? 'text-danger' : ''">
-                                                                                                                                    {{ (e == '' || e
-                                                                                                                                        == null) ?
-                                                                                                                                        '--' : e }}
-                                                                                                                                </span>
+                                                                                                                            <div class="row">
+                                                                                                                                <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                                    <span class="border">{{ j }}</span> 
+                                                                                                                                </div>
+                                                                                                                                <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                                    <span :class="(e == '' || e == null) ? 'badge badge-light text-danger' : ''">{{ (e == '' || e == null) ? '--' : e }}</span>
+                                                                                                                                </div>
                                                                                                                             </div>
-
                                                                                                                         </template>
-                                                                                                                    </li>
+                                                                                                                    </div>
                                                                                                                 </template>
                                                                                                                 <template v-else>
                                                                                                                     <div class="row">
                                                                                                                         <div class="col-6 py-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
                                                                                                                             <span class="border">{{ i }}</span> 
                                                                                                                         </div>
-                                                                                                                        <div class="col-6 py-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
-                                                                                                                            {{ (el == '' || el == null) ? '--' : el }}
+                                                                                                                        <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                            <span :class="(el == '' || el == null) ? 'badge badge-light text-danger' : ''">{{ (el == '' || el == null) ? '--' : el }}</span>
                                                                                                                         </div>
                                                                                                                     </div>
-                                                                                                                    <!-- <li
-                                                                                                                        class="d-flex align-items-center py-2">
-                                                                                                                        <span
-                                                                                                                            :class="(el == '' || el == null) ? 'text-danger' : ''"
-                                                                                                                            class="bullet bullet-dot bg-primary me-5">
-                                                                                                                        </span>
-                                                                                                                        {{ i }} :
-                                                                                                                        <span class="ms-1"
-                                                                                                                            :class="(el == '' || el == null) ? 'text-danger' : ''">
-                                                                                                                            {{ (el == '' || el ==
-                                                                                                                                null) ? '--' : el
-                                                                                                                            }}
-                                                                                                                        </span>
-                                                                                                                    </li> -->
                                                                                                                 </template>
                                                                                                             </template>
                                                                                                         </div>
                                                                                                     </td>
                                                                                                     <td v-else class="text-start">
                                                                                                         <span
-                                                                                                            :class="(item == '' || item == null) ? 'text-danger' : ''">
+                                                                                                            :class="(item == '' || item == null) ? 'badge badge-light text-danger' : ''">
                                                                                                             {{ (item == '' || item == null) ?
                                                                                                                 '--' :
                                                                                                                 item
@@ -478,20 +447,14 @@
                                                                         {{ key }}
                                                                     </span>
                                                                     <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="port_detail">
-                                                                        <div class="modal-dialog modal-dialog-centered mw-550px">
+                                                                        <div class="modal-dialog modal-dialog-centered mw-400px">
                                                                             <div class="modal-content">
                                                                                 <div class="modal-body" style="padding: 26px 0px 0px 0px;">
                                                                                     <div class="card card-flush">
                                                                                         <div class="card-body py-0">
                                                                                             <div class="pb-2 mt-2">
-                                                                                                <h4 class="fs-4">Chi Tiết Của Cổng {{ detailPortTitle }}
+                                                                                                <h4 class="fs-4">Có 2 địa chỉ IP sử dụng {{ detailPortTitle }}
                                                                                                 </h4>
-                                                                                                <span class="fs-7 text-dark">Có
-                                                                                                    <span class="fw-bold text-dark">{{ portCount
-                                                                                                    }}</span>
-                                                                                                    địa chỉ IP có cổng
-                                                                                                    <span class="fw-bold text-dark">{{ detailPortTitle
-                                                                                                    }}</span></span>
                                                                                             </div>
                                                                                             <div class="d-flex flex-column my-3 ms-2">
                                                                                                 <li v-for="(i, key) in  detailPort" :key="key"
@@ -504,7 +467,7 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+                                                                                <div class="modal-footer pt-0" style="border-top: 0px; justify-content: center;">
                                                                                     <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
                                                                                         Đóng
                                                                                     </button>
@@ -544,12 +507,15 @@
                                         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb-3 mx-0">
                                             <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
                                                 <template #header>
-                                                    <div class="d-flex align-items-center">
+                                                    <div>
                                                         <span class="badge badge-circle badge-primary me-2">
                                                             {{ (related_email_status == 3 && checkArray(related_email) == true) ?
                                                                 Object.keys(related_email).length : 0 }}
                                                         </span>
                                                         <span class="card-label fw-bold text-dark fs-5">Email Liên Quan</span>
+                                                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tải xuống file CSV" placement="top">
+                                                            <el-button :disabled="(related_email_status != 3 || !checkArray(related_email))" style="float: right;" @click="downloadCSV" :icon="DownloadIcon" size="small" circle />
+                                                        </el-tooltip>
                                                     </div>
                                                 </template>
                                                 <div class="h-500px">
@@ -580,7 +546,7 @@
                                                                         <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
                                                                             <th class="py-2 text-muted text-start">Email</th>
                                                                             <th class="py-2 text-muted text-start">Password</th>
-                                                                            <th class="py-2 text-muted text-start">Password Crack</th>
+                                                                            <th class="py-2 text-muted text-start">Password Hash</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <!--end::Table head-->
@@ -591,7 +557,7 @@
                                                                             <td class="text-start"><span>
                                                                                     <span>{{ (item.email == '') ? '--' : item.email }}</span>
                                                                                 </span></td>
-                                                                            <td class="text-center ">
+                                                                            <td class="text-center">
                                                                                 <template
                                                                                     v-if="checkArray(item.password_crack) || item.password_crack != ''">
                                                                                     <template v-if="checkArray(item.password_crack)">
@@ -609,7 +575,7 @@
                                                                                     <span class="badge badge-light-danger ">--</span>
                                                                                 </template>
                                                                             </td>
-                                                                            <td class="text-start">
+                                                                            <td class="text-center">
                                                                                 <template
                                                                                     v-if="item.password_hash != ''">
                                                                                     <template v-if="checkArray(item.password_hash)">
@@ -694,7 +660,7 @@
                                                                         <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
                                                                             <th class="text-muted py-2 text-start">Tên Miền</th>
                                                                             <th class="text-muted py-2 text-start">Giao Thức</th>
-                                                                            <th class="text-muted py-2 text-end">Cùng Dải Mạng?</th>
+                                                                            <th class="text-muted py-2 text-start">Cùng Dải Mạng?</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <!--end::Table head-->
@@ -708,7 +674,7 @@
                                                                                     {{ (item.type == '') ? '--' : item.type }}
                                                                                 </span>
                                                                             </td>
-                                                                            <td class="text-end">
+                                                                            <td class="text-start">
                                                                                 <span class="badge"
                                                                                     :class="`badge-light-${(item.status == true) ? 'primary' : 'danger'}`">
                                                                                     {{ item.status }}
@@ -778,17 +744,16 @@
                                                                         }}</span>
                                                                 </span>
                                                                 <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="technology_detail">
-                                                                    <div class="modal-dialog modal-dialog-centered mw-550px">
+                                                                    <div class="modal-dialog modal-dialog-centered mw-400px">
                                                                         <div class="modal-content">
                                                                             <div class="modal-body" style="padding: 26px 0px 0px 0px;">
                                                                                 <div class="card card-flush">
                                                                                     <div class="card-body py-0">
-                                                                                        <h4>{{ detailTechnologyTitle }}</h4>
-                                                                                        <span class="fs-7 mb-5 text-dark">Tổng cộng có
+                                                                                        <h4 class="mb-5 text-dark">Có
                                                                                             <span class="fw-bold text-dark ">{{ Object.keys(detailTechnology).length
                                                                                             }}</span>
-                                                                                            Công nghệ được sử dụng
-                                                                                        </span>
+                                                                                            domain sử dụng công nghệ {{ detailTechnologyTitle }}
+                                                                                        </h4>
                                                                                         <div class="d-flex flex-column ms-2 my-5">
                                                                                             <li class="d-flex align-items-center py-2" v-for="el in detailTechnology"
                                                                                                 :key="el">
@@ -799,7 +764,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+                                                                            <div class="modal-footer pt-0" style="border-top: 0px; justify-content: center;">
                                                                                 <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
                                                                                     Đóng
                                                                                 </button>
@@ -962,10 +927,9 @@
                                                                                     <template v-if="index.toString() == 'js_analysis'">
                                                                                         <thead>
                                                                                             <tr
-                                                                                                class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                                                                <th class="py-2 px-0 text-start">Thông tin</th>
-                                                                                                <th class="py-2 px-3 text-start ">Dữ liệu
-                                                                                                </th>
+                                                                                                class="fw-bold text-gray-600 align-middle py-2 px-0">
+                                                                                                <th class="py-2 text-muted text-start">Thông tin</th>
+                                                                                                <th class="py-2 text-muted text-start ">Dữ liệu</th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <!--begin::Table body-->
@@ -1042,7 +1006,7 @@
                                         </el-col>
 
                                         <el-col :span="24" class="mb-3 mx-0">
-                                            <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
+                                            <el-card shadow="hover" class="box-card rounded-3" :body-style="{ padding: '0px' }">
                                                 <template #header>
                                                     <div class="d-flex justify-content-between align-items-center">
                                                         <span class="card-label fw-bold text-dark fs-5">Subdomains</span>
@@ -1221,11 +1185,13 @@
                                                         </el-table>
                                                     </template>
                                                     <template v-else-if="reconStatus == 3 || reconStatus == 4">
-                                                        <div class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center">
-                                                            <div class="mb-5">
-                                                                <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                                        <div class="d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 200px;">
+                                                            <div class="my-auto">
+                                                                <div class="mb-5">
+                                                                    <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                                                </div>
+                                                                <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                                             </div>
-                                                            <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                                         </div>
                                                     </template>
                                                     <template v-else>
@@ -1789,7 +1755,8 @@ import { debounce } from 'vue-debounce'
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { Modal } from "bootstrap";
 import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
-import { Search } from '@element-plus/icons-vue'
+import { Search, Download } from '@element-plus/icons-vue'
+import Papa from 'papaparse';
 
 interface TargetData {
     name: string;
@@ -1821,6 +1788,7 @@ export default defineComponent({
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
         const loading = ref<boolean>(false)
+        const DownloadIcon = ref(Download)
 
         const targetData = reactive<TargetData>({
             name: '',
@@ -2039,6 +2007,27 @@ export default defineComponent({
                 return { id: 3, title: 'High', color: 'danger', class: 'severityHigh' };
             }
             return { id: 4, title: 'undefined', color: 'light', class: 'severityundefined' };
+        };
+
+        const downloadCSV = () => {
+            if (related_email.value == '' || Object.keys(related_email.value).length == 0) {
+                notification('Không có dữ liệu để tải về', 'error', 'Có lỗi xảy ra')
+
+                return false
+            }
+
+            const csvString = Papa.unparse(related_email.value);
+            const blob = new Blob([csvString], { type: "text/csv" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+
+            link.href = url;
+            link.download = `email_releated.csv`;
+            document.body.appendChild(link);
+            link.click();
+
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         };
 
         // chi tiết all
@@ -2552,6 +2541,8 @@ export default defineComponent({
             pageSizeEndpoints,
             totalRecords,
             currentPageEndpoints,
+            DownloadIcon,
+            downloadCSV,
         };
     },
 });

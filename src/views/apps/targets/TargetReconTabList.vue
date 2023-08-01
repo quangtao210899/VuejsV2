@@ -27,9 +27,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-7 text-end ms-auto py-2">
+                <div class="col-sm-12 col-md-6 col-lg-7 ms-auto py-2">
                     <div class="d-flex justify-content-sm-start justify-content-md-end">
-                        <!--begin::Card toolbar-->
                         <div class="card-toolbar">
                             <div class="d-flex justify-content-end">
                                 <el-popconfirm confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
@@ -38,27 +37,27 @@
                                     @cancel="cancelEvent">
                                     <template #reference>
                                         <button type="button" :disabled="checkDisabled"
-                                            class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
-                                            <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy Bỏ
+                                            class="btn btn-sm btn-light-danger custom-button">
+                                            <KTIcon icon-name="cross-square" icon-class="fs-2 " />Hủy Bỏ
                                         </button>
                                     </template>
                                 </el-popconfirm>
                                 <button v-if="reconStatus == 5" type="button" @click="handlePauser"
                                     :disabled="(checkDisabled || checkStatus)"
-                                    class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary fw-bold bg-body btn-color-gray-700 btn-active-color-primary ms-2">
-                                    <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
-                                    <span class="text-primary"> Tiếp Tục</span>
+                                    class="btn btn-sm btn-light-success ms-2 custom-button">
+                                    <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
+                                    <span>Tiếp Tục</span>
                                 </button>
                                 <button v-else type="button" @click="handlePauser"
                                     :disabled="(checkDisabled || checkStatus)"
-                                    class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger ms-2">
-                                    <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
-                                    <span class="text-danger">Tạm Dừng</span>
+                                    class="btn btn-sm btn-light-warning ms-2 custom-button">
+                                    <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
+                                    <span>Tạm Dừng</span>
                                 </button>
                                 <button type="button" :disabled="(reconStatus != 3 || checkDisabled) ? true : false"
                                     @click="fileDownVisible = true"
-                                    class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
-                                    <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
+                                    class="btn btn-sm btn-light-primary ms-2 custom-button">
+                                    <KTIcon icon-name="file-down" icon-class="fs-2" />
                                     Xuất Kết Quả
                                 </button>
                             </div>
@@ -67,7 +66,6 @@
                 </div>
             </div>
         </div>
-        <!--end::Navbar-->
 
         <!--begin::Card-->
         <div class="">
@@ -153,7 +151,7 @@
                                 <!--begin::Stats-->
                                 <div class="d-flex flex-wrap mt-1 row">
                                     <!--begin::Stat-->
-                                    <div class=" col-12 min-w-80px py-1 px-2 me-2 mb-1 ">
+                                    <div class=" col-12 min-w-80px py-1 me-2 mb-1">
                                         <div class="fw-semobold fs-13px text-dark text-gray-500" style="font-weight: 500 !important;">
                                             <span class="text-primary " >
                                                 {{ account.email }} </span> Địa Chỉ Email
@@ -162,7 +160,7 @@
                                     <!--end::Stat-->
 
                                     <!--begin::Stat-->
-                                    <div class="col-12 min-w-80px py-1 px-2 me-2 mb-1">
+                                    <div class="col-12 min-w-80px py-1 me-2 mb-1">
                                         <div class="fw-semobold fs-13px text-dark text-gray-500" style="font-weight: 500 !important;">
                                             <span class="text-primary" >{{
                                                 account.credentials }} </span> Credentials
@@ -305,8 +303,7 @@
                                                     class="h-100">
                                                     <template #label>
                                                         <span class="custom-tabs-label text-capitalize">
-                                                            <span class="text-muted">{{ convertToString(index)
-                                                            }}</span><br>
+                                                            <span class="text-muted">{{ convertToString(index) }}</span><br>
                                                         </span>
                                                     </template>
                                                     <div class="">
@@ -340,50 +337,31 @@
                                                                                         :key="i">
                                                                                         <template
                                                                                             v-if="checkArray(el) == true">
-                                                                                            <li v-for="(e, j) in el"
+                                                                                            <div v-for="(e, j) in el"
                                                                                                 :key="j"
-                                                                                                class="d-flex align-items-center py-2">
-                                                                                                <template
-                                                                                                    v-if="checkArray(e) == true">
-                                                                                                    <span
-                                                                                                        class="bullet bullet-dot bg-primary me-5"></span>
-                                                                                                    <div
-                                                                                                        class="d-flex align-items-start">
-                                                                                                        <span>{{ j }} :
-                                                                                                        </span>
-                                                                                                        <div>
-                                                                                                            <span
-                                                                                                                v-for="q in e"
-                                                                                                                :key="q"
-                                                                                                                :class="(q == '' || q == null) ? 'text-danger' : ''"
-                                                                                                                class="badge badge-light-primary ms-2">
-                                                                                                                {{ (q ==
-                                                                                                                    ''
-                                                                                                                    || q
-                                                                                                                    ==
-                                                                                                                    null) ?
-                                                                                                                    ' --' :
-                                                                                                                    q }}
-                                                                                                            </span>
+                                                                                                class="">
+                                                                                                <template v-if="checkArray(e) == true">
+                                                                                                    <div class="row" v-for="q in e"
+                                                                                                                :key="q">
+                                                                                                        <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                            <span class="border">{{ j }}</span> 
+                                                                                                        </div>
+                                                                                                        <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                            <span :class="(q == '' || q == null) ? 'badge badge-light text-danger' : 'badge badge-light-primary'">{{ (q == '' || q == null) ? '--' : q }}</span>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </template>
                                                                                                 <template v-else>
-                                                                                                    <div>
-                                                                                                        <span
-                                                                                                            class="bullet bullet-dot bg-primary me-5"></span>
-                                                                                                        {{ j }} :
-                                                                                                        <span
-                                                                                                            :class="(e == '' || e == null) ? 'text-danger' : ''">
-                                                                                                            {{ (e == ''
-                                                                                                                || e
-                                                                                                                == null) ?
-                                                                                                                '--' : e }}
-                                                                                                        </span>
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                            <span class="border">{{ j }}</span> 
+                                                                                                        </div>
+                                                                                                        <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                            <span :class="(e == '' || e == null) ? 'badge badge-light text-danger' : ''">{{ (e == '' || e == null) ? '--' : e }}</span>
+                                                                                                        </div>
                                                                                                     </div>
-
                                                                                                 </template>
-                                                                                            </li>
+                                                                                            </div>
                                                                                         </template>
                                                                                         <template v-else>
                                                                                             <div class="row">
@@ -391,28 +369,16 @@
                                                                                                     <span class="border">{{ i }}</span> 
                                                                                                 </div>
                                                                                                 <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
-                                                                                                    {{ (el == '' || el == null) ? '--' : el }}
+                                                                                                    <span :class="(el == '' || el == null) ? 'badge badge-light text-danger' : ''">{{ (el == '' || el == null) ? '--' : el }}</span>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <!-- <li
-                                                                                                class="d-flex align-items-center py-2">
-                                                                                                <span
-                                                                                                    :class="(el == '' || el == null) ? 'text-danger' : ''"
-                                                                                                    class="bullet bullet-dot bg-success me-5">
-                                                                                                </span>
-                                                                                                {{ i }} :
-                                                                                                <span class="ms-1"
-                                                                                                    :class="(el == '' || el == null) ? 'text-danger' : ''">
-                                                                                                    {{ (el == '' || el == null) ? '--' : el }}
-                                                                                                </span>
-                                                                                            </li> -->
                                                                                         </template>
                                                                                     </template>
                                                                                 </div>
                                                                             </td>
                                                                             <td v-else class="text-start">
                                                                                 <span
-                                                                                    :class="(item == '' || item == null) ? 'text-danger' : ''">
+                                                                                    :class="(item == '' || item == null) ? 'badge badge-light text-danger' : ''">
                                                                                     {{ (item == '' || item == null) ?
                                                                                         '--' :
                                                                                         item
@@ -574,8 +540,9 @@
                                         Object.keys(related_email).length : 0 }}
                                 </span>
                                 <span class="card-label fw-bold text-dark fs-5">Email Liên Quan</span>
-                                
-                                <el-button style="float: right;" @click="downloadCSV" :icon="DownloadIcon" size="small" circle />
+                                <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tải xuống file CSV" placement="top">
+                                    <el-button :disabled="(related_email_status != 3 || !checkArray(related_email))" style="float: right;" @click="downloadCSV" :icon="DownloadIcon" size="small" circle />
+                                </el-tooltip>
                             </div>
                         </template>
                         <div class="h-500px">
@@ -606,7 +573,7 @@
                                                 <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
                                                     <th class="py-2 text-muted text-start">Email</th>
                                                     <th class="py-2 text-muted text-start">Password</th>
-                                                    <th class="py-2 text-muted text-start">Password Crack</th>
+                                                    <th class="py-2 text-muted text-start">Password Hash</th>
                                                 </tr>
                                             </thead>
                                             <!--end::Table head-->
@@ -720,7 +687,7 @@
                                                 <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
                                                     <th class="text-muted py-2 text-start">Tên Miền</th>
                                                     <th class="text-muted py-2 text-start">Giao Thức</th>
-                                                    <th class="text-muted py-2 text-end">Cùng Dải Mạng?</th>
+                                                    <th class="text-muted py-2 text-start">Cùng Dải Mạng?</th>
                                                 </tr>
                                             </thead>
                                             <!--end::Table head-->
@@ -734,7 +701,7 @@
                                                             {{ (item.type == '') ? '--' : item.type }}
                                                         </span>
                                                     </td>
-                                                    <td class="text-end">
+                                                    <td class="text-start">
                                                         <span class="badge"
                                                             :class="`badge-light-${(item.status == true) ? 'primary' : 'danger'}`">
                                                             {{ item.status }}
@@ -994,10 +961,9 @@
                                                             <template v-if="index.toString() == 'js_analysis'">
                                                                 <thead>
                                                                     <tr
-                                                                        class="border-0  fw-bold text-gray-600 align-middle py-2 px-0">
-                                                                        <th class="py-2 px-0 text-start">Thông tin</th>
-                                                                        <th class="py-2 px-3 text-start ">Dữ liệu
-                                                                        </th>
+                                                                        class="fw-bold text-gray-600 align-middle py-2 px-0">
+                                                                        <th class="py-2 text-muted text-start">Thông tin</th>
+                                                                        <th class="py-2 text-muted text-start ">Dữ liệu</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <!--begin::Table body-->
@@ -1075,7 +1041,7 @@
                 </el-col>
 
                 <el-col :span="24" class="mb-3 mx-0">
-                    <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '0px' }">
+                    <el-card shadow="hover" class="box-card rounded-3" :body-style="{ padding: '0px' }">
                         <template #header>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="card-label fw-bold text-dark fs-5">Subdomains</span>
@@ -1261,11 +1227,13 @@
                                 </el-table>
                             </template>
                             <template v-else-if="reconStatus == 3 || reconStatus == 4">
-                                <div class="p-5 pt-0 w-100 h-100 d-flex flex-column justify-content-center text-center fs-13px">
-                                    <div class="mb-5">
-                                        <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                <div class="d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 200px;">
+                                    <div class="my-auto">
+                                        <div class="mb-5">
+                                            <i class="fa-solid fa-circle-info fa-bounce fs-3x text-primary"></i>
+                                        </div>
+                                        <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                     </div>
-                                    <span>Không Tìm Thấy Dữ Liệu Nào!</span>
                                 </div>
                             </template>
                             <template v-else>
@@ -1283,7 +1251,7 @@
     </div>
     <!-- // modoal  -->
     <el-dialog v-model="fileDownVisible" title="Xác Nhận Xuất File" width="500">
-        <div class="card h-100 bg-secondary ">
+        <div class="card h-100 bg-secondary">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
                 <!--begin::Name-->
@@ -1709,13 +1677,19 @@ export default defineComponent({
         };
 
         const downloadCSV = () => {
+            if (related_email.value == '' || Object.keys(related_email.value).length == 0) {
+                notification('Không có dữ liệu để tải về', 'error', 'Có lỗi xảy ra')
+
+                return false
+            }
+
             const csvString = Papa.unparse(related_email.value);
             const blob = new Blob([csvString], { type: "text/csv" });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
 
             link.href = url;
-            link.download = "data.csv";
+            link.download = `email_releated.csv`;
             document.body.appendChild(link);
             link.click();
 
@@ -2342,5 +2316,26 @@ export default defineComponent({
     .height-repository {
         height: 780px;
     }
-}</style>
+}
+
+  /* Media query cho màn hình >= 992px (lg) */
+@media (min-width: 1399px) {
+    .custom-button {
+        width: 175px;
+    }
+}
+
+/* Media query cho màn hình >= 768px và < 992px (md) */
+@media (min-width: 992px) and (max-width: 1399px) {
+    .custom-button {
+        width: 145px;
+    }
+}
+
+@media (max-width: 992px) {
+    .custom-button {
+        width: 139px;
+    }
+}
+</style>
   
