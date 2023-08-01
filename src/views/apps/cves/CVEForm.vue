@@ -31,7 +31,7 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="Loại Lỗ Hổng" prop="vul_type" class="pb-3 text-capitalize fs-13px">
-                            <el-select name="vul_type" placeholder="Loại lỗ hông" @change="removeErrorMsgOption" class="w-100"
+                            <el-select name="vul_type" placeholder="Loại lỗ hổng" @change="removeErrorMsgOption" class="w-100"
                                 v-model="ruleForm.vul_type">
                                 <!-- <el-option label="Chọn loại lỗ hổng" value="">Chọn loại lỗ hổng</el-option> -->
                                 <el-option v-for="item in dataVul" :key="item.value" :label="item.label"

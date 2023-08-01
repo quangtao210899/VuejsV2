@@ -53,15 +53,14 @@
                     </el-table-column>
                     <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="description" label="MÔ TẢ" >
                         <template #default="scope">
-                            <span v-if="scope.row.description != ''" class="fs-13px text-gray-700 text-hover-primary">{{
-                                scope.row.description }}</span>
+                            <span v-if="scope.row.description" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.description ?? '', 50) }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
                         </template>
                     </el-table-column>
                     <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
                         <template #default="scope">
                             <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan" placement="top">
-                                <router-link :to="`/target-scans/${scope.row.id}`" v-on:click.stop
+                                <router-link :to="`cve/${scope.row.id}/scan`" v-on:click.stop
                                     class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1 my-1">
                                     <KTIcon icon-name="search-list" icon-class="fs-3" />
                                 </router-link>
@@ -228,7 +227,12 @@ export default defineComponent({
             headerHeight.value = height
             
         }
-
+        const truncateText = (text: string, maxLength: number) => {
+            if (text.length > maxLength) {
+                return text.substring(0, maxLength) + '...';
+            }
+            return text;
+        };
         // thêm mới
         const urlAddNew = ref('cve-form/add')
 
@@ -272,6 +276,7 @@ export default defineComponent({
             urlAddNew,
             handleSortChange,
             deleteSubscription,
+            truncateText
         };
     },
 });
