@@ -1058,8 +1058,7 @@
                                                     <template #header>
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <span class="card-label fw-bold text-dark fs-5">Subdomains</span>
-                                                            <router-link class="btn btn-sm btn-light-primary"
-                                                                :to="`/target-recon-detail/${ID}/${reconId}/subdomains`" active-class="active">Xem Thêm</router-link>
+                                                            <span class="btn btn-sm btn-light-primary" @click="forwardSubdomainTab">Xem Thêm</span>
                                                         </div>
                                                     </template>
                                                     <div> 
@@ -1925,7 +1924,7 @@ export default defineComponent({
                     }else{
                         checkRecon.value = false
                         reconId.value = data.recon.recon.id
-                        dataLoaded.value = true;                        
+                        dataLoaded.value = true;                     
 
                         // recon
                         account.value = data.recon.recon.recon[0].account
@@ -2037,6 +2036,24 @@ export default defineComponent({
             });
         }
 
+        const activeTab = ref('kt_recon_tab');
+
+        const forwardSubdomainTab = () => {
+            const tabReconElement = document.getElementById('kt_recon_tab');
+            const tabSubdomainElement = document.getElementById('kt_subdomains_tab');
+
+            activeTab.value = 'kt_subdomains_tab'
+
+            if (tabReconElement) {
+                tabReconElement.classList.remove('show');
+                tabReconElement.classList.remove('active');
+            }
+
+            if (tabSubdomainElement) {
+                tabSubdomainElement.classList.add('show');
+                tabSubdomainElement.classList.add('active');
+            }
+        }
 
         // check trạng thái
         const getStatus = (status: string) => {
@@ -2476,7 +2493,6 @@ export default defineComponent({
         onBeforeUnmount(() => {
         stopTimer();
         });
-        const activeTab = ref('kt_recon_tab');
 
         return {
             activeTab,
@@ -2594,6 +2610,7 @@ export default defineComponent({
             DownloadIcon,
             downloadCSV,
             dataLoaded,
+            forwardSubdomainTab
         };
     },
 });
