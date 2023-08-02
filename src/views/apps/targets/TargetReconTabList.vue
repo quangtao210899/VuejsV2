@@ -23,21 +23,21 @@
                                         class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
                                         >
                                         <KTIcon icon-name="profile-circle" icon-class="fs-4 me-1" />
-                                        {{ targetData.domain }}
+                                        <span :class="(!targetData.domain) ? 'badge badge-light text-danger' : ''">{{ targetData.domain ? targetData.domain : '--' }}</span>
                                     </a>
                                     <a
                                         href="#"
                                         class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
                                         >
                                         <KTIcon icon-name="geolocation" icon-class="fs-4 me-1" />
-                                        {{ targetData.ip }}
+                                        <span :class="(!targetData.ip) ? 'badge badge-light text-danger' : ''">{{ targetData.ip ? targetData.ip : '--' }}</span>
                                     </a>
                                     <a
                                         href="#"
                                         class="d-flex align-items-center text-gray-400 text-hover-primary mb-2"
                                         >
                                         <KTIcon icon-name="sms" icon-class="fs-4 me-1" />
-                                        {{ targetData.group }}
+                                        <span :class="(!targetData.group) ? 'badge badge-light text-danger' : ''">{{ targetData.group ? targetData.group : '--' }}</span>
                                     </a>
                                 </div>
                             </div>
@@ -47,10 +47,10 @@
                                         <div class="d-flex justify-content-end">
                                             <el-popconfirm confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
                                                 icon="InfoFilled" icon-color="#626AEF"
-                                                title="Bạn có chắc chắn muốn hủy lần Recon này không?" @confirm="confirmEvent"
+                                                title="Bạn có chắc chắn muốn hủy lần Recon này không?" @confirm="handleCanceled"
                                                 @cancel="cancelEvent">
                                                 <template #reference>
-                                                    <button type="button" :disabled="checkDisabled"
+                                                    <button type="button" :disabled="[1,2,3,4,6].includes(reconStatus)"
                                                         class="btn btn-sm btn-light-danger custom-button">
                                                         <KTIcon icon-name="cross-square" icon-class="fs-2 " />Hủy Bỏ
                                                     </button>
@@ -62,7 +62,7 @@
                                                 @cancel="cancelEvent">
                                                 <template #reference>
                                                     <button type="button"
-                                                        :disabled="(checkDisabled || checkStatus)"
+                                                    :disabled="[6].includes(reconStatus)"
                                                         class="btn btn-sm btn-light-success ms-2 custom-button">
                                                         <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
                                                         <span>Tiếp Tục</span>
@@ -76,14 +76,14 @@
                                                 @cancel="cancelEvent">
                                                 <template #reference>
                                                     <button type="button"
-                                                        :disabled="(checkDisabled || checkStatus)"
+                                                        :disabled="[1,3,4].includes(reconStatus)"
                                                         class="btn btn-sm btn-light-warning ms-2 custom-button">
                                                         <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
                                                         <span>Tạm Dừng</span>
                                                     </button>
                                                 </template>
                                             </el-popconfirm>
-                                            <button type="button" :disabled="(reconStatus != 3 || checkDisabled) ? true : false"
+                                            <button type="button" :disabled="[1,2].includes(reconStatus)"
                                                 @click="fileDownVisible = true"
                                                 class="btn btn-sm btn-light-primary ms-2 custom-button">
                                                 <KTIcon icon-name="file-down" icon-class="fs-2" />
@@ -1074,8 +1074,7 @@
                                     <template #header>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="card-label fw-bold text-dark fs-5">Subdomains</span>
-                                            <router-link class="btn btn-sm btn-light-primary"
-                                                :to="`/target-recon-detail/${idRecon}/${scanID}/subdomains`" active-class="active">Xem Thêm</router-link>
+                                            <span class="btn btn-sm btn-light-primary" @click="forwardSubdomainTab">Xem Thêm</span>
                                         </div>
                                     </template>
                                     <div>
@@ -1448,7 +1447,7 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 // import data from "@/views/apps/targets/reconData.json";
 import { Refresh, Search } from '@element-plus/icons-vue'
 import { Download } from '@element-plus/icons-vue'
-// import Papa from 'papaparse';
+import Papa from 'papaparse';
 
 // import dayjs from 'dayjs';
 import axios from 'axios'
@@ -1756,6 +1755,16 @@ export default defineComponent({
 
         };
 
+        const handleCanceled = async () => {
+            if (reconStatus.value == 3) {
+                notification('Danh dách đã được quét thành công không thể tạm dừng', 'error', 'Có lỗi xảy ra')
+            } else if (reconStatus.value == 5) {
+                getCanceled()
+            } else {
+                notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
+            }
+        };
+
         const getResume = async () => {
             const formData = {
                 control_param: {
@@ -1779,6 +1788,22 @@ export default defineComponent({
                 }
             }
             return ApiService.post(`recon/${scanID.value}/stop2`, formData)
+                .then(({ data }) => {
+                    notification(data.detail, 'success', 'Tạm dừng thành công')
+                    getData()
+                })
+                .catch(({ response }) => {
+                    notification(response.data.detail , 'error', 'Có lỗi xảy ra')
+                });
+        };
+        
+        const getCanceled = async () => {
+            const formData = {
+                control_param: {
+                    "action": 'canceled'
+                }
+            }
+            return ApiService.post(`recon/${scanID.value}/abort`, formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Tạm dừng thành công')
                     getData()
@@ -1821,6 +1846,25 @@ export default defineComponent({
         }
 
         const cancelEvent = () => {
+        }
+
+        const activeTab = ref('kt_recon_tab');
+
+        const forwardSubdomainTab = () => {
+            const tabReconElement = document.getElementById('kt_recon_tab');
+            const tabSubdomainElement = document.getElementById('kt_subdomains_tab');
+
+            activeTab.value = 'kt_subdomains_tab'
+
+            if (tabReconElement) {
+                tabReconElement.classList.remove('show');
+                tabReconElement.classList.remove('active');
+            }
+
+            if (tabSubdomainElement) {
+                tabSubdomainElement.classList.add('show');
+                tabSubdomainElement.classList.add('active');
+            }
         }
 
         // tính thời gian
@@ -2118,8 +2162,6 @@ export default defineComponent({
             headerHeight.value = height
         }
 
-        const activeTab = ref('kt_recon_tab');
-
         return {
             activeTab,
             headerHeight,
@@ -2176,6 +2218,7 @@ export default defineComponent({
 
             // tạm dừng
             handlePauser,
+            handleCanceled,
             checkDisabled,
             reconStatus,
 
@@ -2249,6 +2292,7 @@ export default defineComponent({
             searchDirectory,
 
             downloadCSV,
+            forwardSubdomainTab,
         };
     },
 });
