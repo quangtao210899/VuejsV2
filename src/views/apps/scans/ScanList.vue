@@ -165,8 +165,8 @@
                 </button>
               </div>
 
-              <div class="= my-1" style="width: 130px;">
-                <el-select name="status" as="select" v-model="detailData.status"
+              <div class="my-1" style="width: 130px;">
+                <el-select class="my-select-status" name="status" as="select" v-model="detailData.status"
                   :class="getStatus(detailData.status).class" @change="updateData()">
                   <el-option label="Open" value="open" key="open">Open</el-option>
                   <el-option label="Re-Open" value="re-open" key="re-open">Re-Open</el-option>
@@ -1098,24 +1098,13 @@ span.el-dialog__title {
   color: #7e8299 !important;
 }
 
+.stautsundefined .el-input__wrapper ,
+.stautsAccepted .el-input__wrapper,
+.stautsClose .el-input__wrapper,
+.stautsReopen .el-input__wrapper,
 .stautsOpen .el-input__wrapper {
-  box-shadow: 0 0 0 1px #7239ea !important;
-}
-
-.stautsReopen .el-input__wrapper {
-  box-shadow: 0 0 0 1px #009ef7 !important;
-}
-
-.stautsClose .el-input__wrapper {
-  box-shadow: 0 0 0 1px #f1416c !important;
-}
-
-.stautsAccepted .el-input__wrapper {
-  box-shadow: 0 0 0 1px #50cd89 !important;
-}
-
-.stautsundefined .el-input__wrapper {
-  box-shadow: 0 0 0 1px #7e8299 !important;
+  background-color: #f4f4f4 !important;
+  box-shadow: unset !important;
 }
 
 .severityInfo .el-input__wrapper {
