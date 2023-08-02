@@ -35,8 +35,8 @@
                 </template>
               </el-table-column>
 
-              <el-table-column width="50" label-class-name="fs-13px fw-bold text-dark" prop="flag" align="center"
-                label="CỜ">
+              <el-table-column width="90" label-class-name="fs-13px fw-bold text-dark" prop="flag" align="center"
+                label="CONFIRM">
                 <template #default="scope">
                   <i class=" fs-2 fa-flag" :class="(scope.row.flag == true) ? 'fa-solid text-warning' : 'fa-regular'"></i>
                 </template>
@@ -405,7 +405,7 @@
       <QuillEditor class="h-600px" theme="snow" toolbar="full" v-model:content="contentNote" contentType="html"
         placeholder="Thêm Ghi Chú...">
         <template #toolbar>
-          <el-upload ref="upload" class="d-flex align-content-start flex-wrap align-items-end" list-type="text" action="#"
+          <el-upload ref="upload" class="d-flex align-content-start flex-wrap align-items-end my-upload-dialog" list-type="text" action="#"
             :limit="1" :on-exceed="handleExceed" :auto-upload="false" v-model:file-list="fileDocument">
             <template #trigger>
               <button type="button" class="btn btn-sm btn-light-primary h-35px me-2 mb-2" :disabled="disabled">
@@ -414,13 +414,16 @@
               </button>
             </template>
             <template #file="{ file }">
-              <div v-if="fileDocument.length != 0" class="mb-2 cursor-pointer">
-                <span class="badge badge-light-success h-35px  px-5 rounded-start" @click="downloadFile(file)">
+              <div v-if="fileDocument.length != 0" class="mb-2 ">
+                <span class="badge badge-light-success h-35px  px-5 rounded-start file-download"
+                @mouseover="isHovering = true" @mouseleave="isHovering = false" >
                   <i class="fa-regular fa-file-lines text-success me-2 fs-13px"></i>
-                  {{ (file.name.length > 30) ? file.name.substring(0, 30) + '...' : file.name }}</span>
+                  {{ (file.name.length > 30) ? file.name.substring(0, 30) + '...' : file.name }}
+                  <i v-if="isHovering && isCheckDowload" @click="downloadFile(file)" class="download-icon fa-solid fa-download fs-3 text-gray-700"></i>
+                </span>
                 <span
-                  class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-danger h-15px w-15px ">
-                  <i class="fa-solid fa-xmark text-light p-0 m-0" @click="removeFile"></i>
+                  class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-danger h-15px w-15px cursor-pointer">
+                  <i class="fa-solid fa-xmark text-white p-0 m-0" @click="removeFile"></i>
                 </span>
               </div>
             </template>
@@ -833,6 +836,7 @@ export default defineComponent({
       setTimeout(() => {
         disabled.value = false
       }, 1000);
+      isCheckDowload.value = false
       fileData.value = fileDocument.value?.[0]?.raw || fileDocument.value;
       const formData = new FormData();
       formData.append('files', fileData.value);
@@ -848,7 +852,7 @@ export default defineComponent({
         .catch(({ response }) => {
           console.log(response)
           errorUploadFileDetail.value = response.data?.detail
-          errorUploadFile.value = response.data.Errors
+          errorUploadFile.value = response.data.Errors ?? 'Đã có lỗi xảy ra'
         });
     }
 
@@ -863,6 +867,7 @@ export default defineComponent({
             fileDocumentData.value[0].url = data.files[0]?.file
             fileDocumentData.value[0].size = data.files[0]?.size
             fileDocument.value[0] = fileDocumentData.value[0]
+            isCheckDowload.value = true
           } else {
             fileDocument.value = [];
           }
@@ -883,6 +888,7 @@ export default defineComponent({
 
     const upload = ref<UploadInstance>()
     const handleExceed: UploadProps['onExceed'] = (files) => {
+      isCheckDowload.value = false
       upload.value!.clearFiles()
       const file = files[0] as UploadRawFile
       file.uid = genFileId()
@@ -937,6 +943,8 @@ export default defineComponent({
         isDownloading.value = false;
       }
     };
+    const isHovering = ref(false);
+    const isCheckDowload = ref(false);
 
     // Tính toán chiều rộng nội dung
     const contentWidth = ref(0);
@@ -1023,6 +1031,8 @@ export default defineComponent({
       removeFile,
       downloadFile,
       errorUploadFileDetail,
+      isHovering,
+      isCheckDowload,
     };
   },
 });
@@ -1065,6 +1075,26 @@ span.el-dialog__title {
   color: #7e8299 !important;
 }
 
+.stautsOpen .el-input__wrapper {
+  box-shadow: 0 0 0 1px #7239ea !important;
+}
+
+.stautsReopen .el-input__wrapper {
+  box-shadow: 0 0 0 1px #009ef7 !important;
+}
+
+.stautsClose .el-input__wrapper {
+  box-shadow: 0 0 0 1px #f1416c !important;
+}
+
+.stautsAccepted .el-input__wrapper {
+  box-shadow: 0 0 0 1px #50cd89 !important;
+}
+
+.stautsundefined .el-input__wrapper {
+  box-shadow: 0 0 0 1px #7e8299 !important;
+}
+
 .severityInfo .el-input__wrapper {
   background-color: #50cd89 !important;
   box-shadow: unset !important;
@@ -1103,5 +1133,27 @@ span.el-dialog__title {
 .severityLow .el-input .el-select__caret,
 .severityLow .el-input__inner {
   color: #fff !important;
+}
+
+/* dowload  */
+.file-download {
+  position: relative;
+}
+
+/* Hiệu ứng hover */
+.file-download:hover {
+  background-color: #dde3e3;
+}
+
+/* Căn giữa biểu tượng tải xuống */
+.download-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.my-upload-dialog .el-upload-list{
+  margin:  0  !important;
 }
 </style>
