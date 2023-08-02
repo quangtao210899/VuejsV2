@@ -445,7 +445,7 @@
     <template #footer center>
       <span class="d-flex justify-content-center">
         <el-button @click="notesVisible = false">Quay Lại</el-button>
-        <el-button type="primary" :disabled="disabled" @click="putUplaodFile">
+        <el-button type="primary" :disabled="disabled" @click="putUplaodFile" :loading=loading>
           Đồng Ý
         </el-button>
       </span>
@@ -842,6 +842,7 @@ export default defineComponent({
     const fileData = ref<any>('')
     const has_delete_file = ref<any>(false)
     const putUplaodFile = async () => {
+      loading.value = true
       disabled.value = true
       setTimeout(() => {
         disabled.value = false
@@ -870,6 +871,9 @@ export default defineComponent({
             errorUploadFileDetail.value = response.data?.detail
           }
           // errorUploadFile.value = response.data.Errors ?? 'Đã có lỗi xảy ra'
+        })
+        .finally(() => {
+          loading.value = false
         });
     }
 
