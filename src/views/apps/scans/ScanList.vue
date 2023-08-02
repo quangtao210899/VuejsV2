@@ -1,5 +1,5 @@
 <template>
-  <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
+  <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds" :check-status="true" @filert-status="handleFilterStatus"
     @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
 
   <!--begin::Card-->
@@ -414,7 +414,7 @@
               </button>
             </template>
             <template #file="{ file }">
-              <div v-if="fileDocument.length != 0" class="mb-2 ">
+              <div class="mb-2">
                 <span class="badge badge-light-success h-35px px-5 rounded-start" :class="(isHovering && isCheckDowload) ? 'cursor-pointer' : ''" @click="(isHovering && isCheckDowload) ? downloadFile(file) : ''"
                 @mouseover="isHovering = true" @mouseleave="isHovering = false" >
                   <i v-if="isHovering && isCheckDowload"  class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
@@ -736,16 +736,19 @@ export default defineComponent({
     };
 
     const handleFilter = (data: any) => {
+      console.log(data);
+
       query.value = data
-      // status.value = data.status;
-      // severity.value = data.severity;
-      // ip.value = data.ip;
-      // domain.value = data.domain;
-      // typeIp.value = data.typeIp;
-      // typeDomain.value = data.typeDomain;
       currentPage.value = 1;
       getData();
 
+    };
+
+    const handleFilterStatus = (data: any) => {
+      console.log(data);
+      status.value = data
+      currentPage.value = 1;
+      getData();
     };
 
     // chia màn hình
@@ -849,14 +852,24 @@ export default defineComponent({
           notification(data?.detail, 'success', 'Chỉnh sửa thành công')
         })
         .catch(({ response }) => {
-          console.log(response)
-          errorUploadFileDetail.value = response.data?.detail
-          errorUploadFile.value = response.data.Errors ?? 'Đã có lỗi xảy ra'
+          // console.log(response)
+          // errorUploadFileDetail.value = response.data?.detail 
+          if (response.data?.Errors){
+            // let errors = response.data.Errors
+            errorUploadFileDetail.value =  response.data.Errors[0]?.file[0] ?? response.data.Errors?.document[0] ?? "Có lỗi xảy ra"
+          }
+          if (response.data?.detail){
+            errorUploadFileDetail.value = response.data?.detail
+          }
+          // errorUploadFile.value = response.data.Errors ?? 'Đã có lỗi xảy ra'
         });
     }
 
     const getUplaodFile = async () => {
       notesVisible.value = true
+      errorUploadFileDetail.value = null
+      has_delete_file.value = false
+      isCheckDowload.value = false
       return ApiService.get(`/vuls/${detailData.id}/get_document`)
         .then(({ data }) => {
           // console.log(data)
@@ -898,6 +911,7 @@ export default defineComponent({
       upload.value!.clearFiles()
       fileDocument.value = []
       has_delete_file.value = true
+      isCheckDowload.value = false
     }
 
     // Tạo một biến tham chiếu để theo dõi tiến trình tải
@@ -957,6 +971,7 @@ export default defineComponent({
     });
 
     return {
+      handleFilterStatus,
       headerHeight,
       onheaderHeight,
       getData,
@@ -1032,6 +1047,7 @@ export default defineComponent({
       errorUploadFileDetail,
       isHovering,
       isCheckDowload,
+      
     };
   },
 });
