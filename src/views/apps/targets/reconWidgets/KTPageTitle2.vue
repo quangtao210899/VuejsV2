@@ -64,7 +64,7 @@
             </div>
             <div v-if="checkStatus" class="input-group input-group-sm input-group-solid" style="max-width: 175px;">
                 <el-select v-model="status" class="mx-2 my-select-filter" placeholder="Select" >
-                    <el-option key="" label="Chọn Trạng Thái" value="" />
+                    <el-option key="" label="Trạng Thái" value="" />
                     <el-option key="open" label="Open" value="open" />
                     <el-option key="re-open" label="Reopen" value="re-open" />
                     <el-option key="closed" label="Closed" value="closed" />
@@ -169,7 +169,8 @@ export default defineComponent({
 <style>
 .my-select-filter .el-input__wrapper {
     background: #f9f9f9;
-    box-shadow: unset !important
+    box-shadow: unset !important;
+    padding: 2.5px 10px !important;
 }
 
 .my-select-filter .el-select .el-input.is-focus .el-input__wrapper{
