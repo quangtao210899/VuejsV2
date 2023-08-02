@@ -414,7 +414,7 @@
               </button>
             </template>
             <template #file="{ file }">
-              <div v-if="fileDocument.length != 0" class="mb-2 ">
+              <div v-show="fileDocument.length != 0" class="mb-2 ">
                 <span class="badge badge-light-success h-35px px-5 rounded-start" :class="(isHovering && isCheckDowload) ? 'cursor-pointer' : ''" @click="(isHovering && isCheckDowload) ? downloadFile(file) : ''"
                 @mouseover="isHovering = true" @mouseleave="isHovering = false" >
                   <i v-if="isHovering && isCheckDowload"  class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
@@ -866,6 +866,7 @@ export default defineComponent({
       notesVisible.value = true
       errorUploadFileDetail.value = null
       has_delete_file.value = false
+      isCheckDowload.value = false
       return ApiService.get(`/vuls/${detailData.id}/get_document`)
         .then(({ data }) => {
           // console.log(data)
