@@ -1,5 +1,5 @@
 <template>
-  <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
+  <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds" :check-status="true" @filert-status="handleFilterStatus"
     @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
 
   <!--begin::Card-->
@@ -736,16 +736,19 @@ export default defineComponent({
     };
 
     const handleFilter = (data: any) => {
+      console.log(data);
+
       query.value = data
-      // status.value = data.status;
-      // severity.value = data.severity;
-      // ip.value = data.ip;
-      // domain.value = data.domain;
-      // typeIp.value = data.typeIp;
-      // typeDomain.value = data.typeDomain;
       currentPage.value = 1;
       getData();
 
+    };
+
+    const handleFilterStatus = (data: any) => {
+      console.log(data);
+      status.value = data
+      currentPage.value = 1;
+      getData();
     };
 
     // chia màn hình
@@ -958,6 +961,7 @@ export default defineComponent({
     });
 
     return {
+      handleFilterStatus,
       headerHeight,
       onheaderHeight,
       getData,
@@ -1033,6 +1037,7 @@ export default defineComponent({
       errorUploadFileDetail,
       isHovering,
       isCheckDowload,
+      
     };
   },
 });

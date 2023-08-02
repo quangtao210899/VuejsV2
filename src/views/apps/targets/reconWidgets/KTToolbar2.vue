@@ -11,7 +11,7 @@
                 }">
 
                 <!--begin::Details-->
-                <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch"
+                <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch" :check-status="checkStatus" @filert-status="handleFilter"
                     :typeText="typeText" :disabled="disabled" :check-search="checkSearch" />
                 <!--end::Details-->
 
@@ -85,6 +85,7 @@ export default defineComponent({
         idsDelete: { type: Array, required: false, default: [] },
         checkSearch: { type: Boolean, required: false, default: false },
         checkBack: { type: Boolean, required: false, default: false },
+        checkStatus: { type: Boolean, required: false, default: false },
         checkSubmit: { type: Boolean, required: false, default: false },
         checkSetting: { type: Boolean, required: false, default: false },
         checkSyncAll: { type: Boolean, required: false, default: false },
@@ -99,8 +100,13 @@ export default defineComponent({
         "on-header-height",
         "handle-sync-all",
         "handle-setting",
+        "filert-status",
     ],
     setup(props, { emit }) {
+
+        const handleFilter = (data: any) => {
+            emit("filert-status", data);
+        }
         const handleSearch = (search: any) => {
             emit("handle-search", search);
         }
@@ -177,6 +183,7 @@ export default defineComponent({
             divToMeasure,
             handleSyncAll,
             handleSetting,
+            handleFilter,
         };
     },
 });
