@@ -47,7 +47,7 @@
 
                     <el-table-column label-class-name="fs-13px text-dark fw-bold" prop="modified_at" label="THỜI GIAN KẾT THÚC" min-width="170px">
                         <template #default="scope">
-                            <span v-if="scope.row.modified_at != '' && [3,4,5].includes(scope.row.status)" class="fs-13px text-gray-700 text-hover-primary">
+                            <span v-if="scope.row.modified_at != '' && [3,4,5,6].includes(scope.row.status)" class="fs-13px text-gray-700 text-hover-primary">
                                 <i class="fa-solid fa-calendar-days fs-7"></i>
                                 {{ scope.row.modified_at }}</span>
                             <span v-else class="badge badge-light-danger">--</span>
