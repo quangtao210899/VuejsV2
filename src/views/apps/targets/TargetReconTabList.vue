@@ -104,11 +104,11 @@
                     <ul
                         class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold flex-nowrap">
                         <li class="nav-item">
-                            <a class="nav-link text-active-primary" :class="{ active: activeTab === 'kt_recon_tab' }" aria-selected="true" data-bs-toggle="tab"
+                            <a class="nav-link text-active-primary" @click="switchTab('kt_recon_tab')" :class="{ active: activeTab === 'kt_recon_tab' }" aria-selected="true" data-bs-toggle="tab"
                                 href="#kt_recon_tab">Recon</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-active-primary me-6" :class="{ active: activeTab === 'kt_subdomains_tab' }" aria-selected="false" data-bs-toggle="tab"
+                            <a class="nav-link text-active-primary me-6" @click="switchTab('kt_subdomains_tab')" :class="{ active: activeTab === 'kt_subdomains_tab' }" aria-selected="false" data-bs-toggle="tab"
                                 href="#kt_subdomains_tab">Subdomains</a>
                         </li>
                     </ul>
@@ -1867,6 +1867,10 @@ export default defineComponent({
             }
         }
 
+        const switchTab = (tabId: string) => {
+            activeTab.value = tabId
+        }
+
         // tính thời gian
         const diffTime = ref<string | any>(0);
         const time = ref<any>(null);
@@ -2293,6 +2297,7 @@ export default defineComponent({
 
             downloadCSV,
             forwardSubdomainTab,
+            switchTab,
         };
     },
 });

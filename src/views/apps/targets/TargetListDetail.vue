@@ -24,21 +24,21 @@
                                                 class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
                                                 >
                                                 <KTIcon icon-name="profile-circle" icon-class="fs-4 me-1" />
-                                                {{ targetData.domain }}
+                                                <span :class="(!targetData.domain) ? 'badge badge-light text-danger' : ''">{{ targetData.domain ? targetData.domain : '--' }}</span>
                                             </a>
                                             <a
                                                 href="#"
                                                 class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
                                                 >
                                                 <KTIcon icon-name="geolocation" icon-class="fs-4 me-1" />
-                                                {{ targetData.ip }}
+                                                <span :class="(!targetData.ip) ? 'badge badge-light text-danger' : ''">{{ targetData.ip ? targetData.ip : '--' }}</span>
                                             </a>
                                             <a
                                                 href="#"
                                                 class="d-flex align-items-center text-gray-400 text-hover-primary mb-2"
                                                 >
                                                 <KTIcon icon-name="sms" icon-class="fs-4 me-1" />
-                                                {{ targetData.group }}
+                                                <span :class="(!targetData.group) ? 'badge badge-light text-danger' : ''">{{ targetData.group ? targetData.group : '--' }}</span>
                                             </a>
                                         </div>
                                     </div>
@@ -81,14 +81,14 @@
                                 class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold flex-nowrap">
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
-                                    <a class="nav-link text-active-primary" :class="{ active: activeTab === 'kt_recon_tab' }" aria-selected="true" data-bs-toggle="tab"
+                                    <a class="nav-link text-active-primary" @click="switchTab('kt_recon_tab')" :class="{ active: activeTab === 'kt_recon_tab' }" aria-selected="true" data-bs-toggle="tab"
                                         href="#kt_recon_tab">Recon</a>
                                 </li>
                                 <!--end:::Tab item-->
 
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
-                                    <a class="nav-link text-active-primary me-6" :class="{ active: activeTab === 'kt_scans_tab' }" aria-selected="false" data-bs-toggle="tab"
+                                    <a class="nav-link text-active-primary me-6" @click="switchTab('kt_subdomains_tab')" :class="{ active: activeTab === 'kt_scans_tab' }" aria-selected="false" data-bs-toggle="tab"
                                         href="#kt_scans_tab">Scans</a>
                                 </li>
                                 <!--end:::Tab item-->
@@ -2055,6 +2055,10 @@ export default defineComponent({
             }
         }
 
+        const switchTab = (tabId: string) => {
+            activeTab.value = tabId
+        }
+
         // check trạng thái
         const getStatus = (status: string) => {
             if (status === 'open') {
@@ -2610,7 +2614,8 @@ export default defineComponent({
             DownloadIcon,
             downloadCSV,
             dataLoaded,
-            forwardSubdomainTab
+            forwardSubdomainTab,
+            switchTab,
         };
     },
 });
