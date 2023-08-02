@@ -683,8 +683,7 @@ export default defineComponent({
       return ApiService.put(`/vuls/${detailData.id}/update`, form_data)
         .then(({ data }) => {
           getData();
-          const title = (detailData.flag == true) ? 'Gắn cờ thành công' : 'Đã gỡ bỏ cờ'
-          notification(title, 'success', 'Chỉnh sửa thành công')
+          notification(data?.detail, 'success', 'Chỉnh sửa thành công')
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
