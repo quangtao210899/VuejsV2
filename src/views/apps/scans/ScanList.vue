@@ -865,6 +865,7 @@ export default defineComponent({
     const getUplaodFile = async () => {
       notesVisible.value = true
       errorUploadFileDetail.value = null
+      has_delete_file.value = false
       return ApiService.get(`/vuls/${detailData.id}/get_document`)
         .then(({ data }) => {
           // console.log(data)
