@@ -167,8 +167,8 @@
               <div class="= my-1" style="width: 130px;">
                 <el-select name="status" as="select" v-model="detailData.status"
                   :class="getStatus(detailData.status).class" @change="updateData()">
-                  <el-option label="open" value="open" key="open">open</el-option>
-                  <el-option label="re-open" value="re-open" key="re-open">re-open</el-option>
+                  <el-option label="Open" value="open" key="open">Open</el-option>
+                  <el-option label="Re-Open" value="re-open" key="re-open">Re-Open</el-option>
                   <el-option label="Close" value="closed" key="closed">Close</el-option>
                   <el-option label="Accepted" value="rick-accepted" key="rick-accepted">Accepted</el-option>
                 </el-select>
@@ -724,13 +724,13 @@ export default defineComponent({
     };
 
     const getStatus = (status: string) => {
-      if (status === 'open') {
+      if (status == 'open') {
         return { id: 3, title: 'Open', color: 'info', class: 'stautsOpen' };
-      } else if (status === 're-open') {
+      } else if (status == 're-open') {
         return { id: 5, title: 'Reopen', color: 'primary', class: 'stautsReopen' };
-      } else if (status === 'closed') {
+      } else if (status == 'closed') {
         return { id: 6, title: 'Close', color: 'danger', class: 'stautsClose' };
-      } else if (status === 'rick-accepted') {
+      } else if (status == 'rick-accepted') {
         return { id: 7, title: 'Accepted', color: 'success', class: 'stautsAccepted' };
       }
       return { id: 8, title: 'undefined', color: 'light', class: 'stautsundefined' };
