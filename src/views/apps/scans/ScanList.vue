@@ -1,12 +1,13 @@
 <template>
   <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
     @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
-  <!--begin::Card--> 
+
+  <!--begin::Card-->
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
     <div class="card h-10 d-block">
       <div class="d-flex px-5">
         <!--begin::Card body-->
-        <div class="card-body overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
+        <div class="overflow-auto h-100 pt-1" ref="container" @mousedown="handleMouseDown"
           :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
           <div class="w-100">
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
@@ -18,13 +19,13 @@
                   <el-empty description="Không có dữ liệu nào" />
                 </div>
               </template>
-              <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35"
+              <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="30"
                 :reserve-selection="true" />
 
               <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="severity" align="center"
                 label="MỨC ĐỘ">
                 <template #default="scope">
-                  <div class="text-center">
+                  <div class="text-center lh-sm">
                     <KTIcon icon-name="severity"
                       :icon-class="`bi bi-bug-fill fs-2 text-${getSeverity(scope.row.severity).color}`" />
                     <br>
@@ -34,7 +35,14 @@
                 </template>
               </el-table-column>
 
-              <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="150" prop="vt_name" label="TÊN">
+              <el-table-column width="90" label-class-name="fs-13px fw-bold text-dark" prop="flag" align="center"
+                label="CONFIRM">
+                <template #default="scope">
+                  <i class=" fs-2 fa-flag" :class="(scope.row.flag == true) ? 'fa-solid text-warning' : 'fa-regular'"></i>
+                </template>
+              </el-table-column>
+
+              <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="190" prop="vt_name" label="TÊN">
                 <template #default="scope">
                   <span v-if="scope.row.vt_name != '' || scope.row.port_scan.vt_name != ''"
                     class="fs-13px text-gray-700 text-hover-primary">
@@ -52,14 +60,14 @@
                   <span v-else class="badge badge-light-danger">--</span>
                 </template>
               </el-table-column>
-              <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="ip" label="IP">
+              <el-table-column min-width="130" label-class-name="fs-13px text-dark fw-bold" prop="ip" label="IP">
                 <template #default="scope">
-                  <span v-if="scope.row.ip != ''" class="fs-13px text-gray-700 text-hover-primary">
+                  <span v-if="scope.row.ip != ''" class="fs-13px text-gray-700 text-hover-primary d-block">
                     {{ scope.row.ip }}</span>
                   <span v-else class="badge badge-light-danger">--</span>
                 </template>
               </el-table-column>
-              <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="schema" label="SERVICE">
+              <el-table-column min-width="80" label-class-name="fs-13px text-dark fw-bold" prop="schema" label="SERVICE">
                 <template #default="scope">
                   <span v-if="scope.row.schema != '' || scope.row.port_scan['type'] != ''"
                     class="fs-13px px-4 py-3 badge badge-light-primary">
@@ -68,7 +76,7 @@
                   <span v-else class="badge badge-light-danger">--</span>
                 </template>
               </el-table-column>
-              <el-table-column min-width="160" label-class-name="fs-13px text-dark fw-bold" prop="last_seen"
+              <el-table-column min-width="180" label-class-name="fs-13px text-dark fw-bold" prop="last_seen"
                 label="NGÀY TẠO">
                 <template #default="scope">
                   <template v-if="scope.row.last_seen != ''">
@@ -83,7 +91,8 @@
                   </template>
                 </template>
               </el-table-column>
-              <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI">
+              <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold" prop="status"
+                label="TRẠNG THÁI">
                 <template #default="scope">
                   <span v-if="scope.row.status != ''" class="badge fs-13px"
                     :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
@@ -106,7 +115,7 @@
           </div>
         </div>
         <!--end::Card body-->
-        <div v-if="classDetail" @mousedown="startDragging" class="drag-handle position-relative border-end">
+        <div v-if="classDetail" @mousedown="startDragging" class="drag-handle position-relative border-start">
           <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
           </div>
         </div>
@@ -114,9 +123,9 @@
         <div class="overflow-auto  h-100 " :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
           :class="classDetail ? ' d-block' : 'd-none'">
           <div class="ms-3 pb-10 affix-container">
-            <div class="card-title pb-5 ">
-              <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailData.vt_name }}</h2>
-              <div class="position-absolute translate-middle-y" :style="{ top: '-140px', right: '10px' }">
+            <div class="card-title pb-0">
+              <h2 class="fw-bold pe-15 mt-5 fs-13px text-uppercase">{{ detailData.vt_name }}</h2>
+              <div class="position-absolute translate-middle-y" :style="{ top: '-145px', right: '10px' }">
                 <el-affix target=".affix-container" :offset="170">
                   <button @click="handleCloseDetail" type="button" class="btn zindex-fixed btn-icon "
                     :disabled="disabled">
@@ -126,25 +135,46 @@
               </div>
             </div>
             <div class="d-flex flex-wrap">
-              <div class="w-200px me-2 my-1">
+              <div class="me-2 my-1" style="width: 130px;">
                 <el-select name="severity" as="select" v-model="detailData.severity"
-                  :class="getSeverity(detailData.severity).class" @change="handleChangeUpdate()">
+                  :class="getSeverity(detailData.severity).class" @change="updateData()">
                   <el-option label="Info" :value="0" key="0">Info</el-option>
                   <el-option label="Low" :value="1" key="1">Low</el-option>
                   <el-option label="Medium" :value="2" key="2">Medium</el-option>
                   <el-option label="High" :value="3" key="3">High</el-option>
                 </el-select>
               </div>
-              <div class="w-200px my-1">
-                <el-select name="status" as="select" v-model="detailData.status" @change="handleChangeUpdate()">
-                  <el-option label="open" value="open" key="open">open</el-option>
-                  <el-option label="re-open" value="re-open" key="re-open">re-open</el-option>
+
+              <div class="me-2 my-1">
+                <!-- <button class="btn btn-icon btn-sm btn-success" style="height: 32px; width: 32px;" @click="ChangeFlag(detailData.flag)" >
+                  <i class="fa-solid fa-flag"></i>
+                </button> -->
+                <button class="btn btn-sm "
+                  :class="(detailData.flag == true) ? 'btn-light-warning' : 'btn-active-light-dark'" style="height: 32px;"
+                  @click="ChangeFlag(detailData.flag)">
+                  <i class="fa-flag" :class="((detailData.flag == true) ? 'fa-solid' : 'fa-regular')"></i>
+                  {{ (detailData.flag == true) ? 'Đã Xác Nhận' : 'Chưa Xác Nhận' }}
+                </button>
+              </div>
+
+              <div class="me-2 my-1" style="width: 130px;">
+                <button class="btn btn-sm btn-light-dark w-100" style="height: 32px" @click="getUplaodFile">
+                  <i class="fa-solid fa-notes-medical"></i>
+                  Ghi Chú
+                </button>
+              </div>
+
+              <div class="= my-1" style="width: 130px;">
+                <el-select name="status" as="select" v-model="detailData.status"
+                  :class="getStatus(detailData.status).class" @change="updateData()">
+                  <el-option label="Open" value="open" key="open">Open</el-option>
+                  <el-option label="Re-Open" value="re-open" key="re-open">Re-Open</el-option>
                   <el-option label="Close" value="closed" key="closed">Close</el-option>
                   <el-option label="Accepted" value="rick-accepted" key="rick-accepted">Accepted</el-option>
                 </el-select>
               </div>
             </div>
-            <div class="bg-light my-5 py-2 px-4 lh-lg rounded-2 me-2 fs-13px">
+            <!-- <div class="bg-light my-5 py-2 px-4 lh-lg rounded-2 me-2 fs-13px">
               <div class="row">
                 <div class="col-12 col-xl-6 my-1">
                   <span class="text-black-50">IP: </span>
@@ -155,8 +185,8 @@
                   <span class="ps-1"> {{ detailData.hostname }}</span>
                 </div>
               </div>
-            </div>
-            <div class="lh-lg">
+            </div> -->
+            <div class="lh-lg mt-3">
               <div class="mb-5"
                 v-if="(detailData.affects_url != null && detailData.affects_url != '') || (detailData.affects_detail != null && detailData.affects_detail != '')">
                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">Vulnerable URL</h4>
@@ -180,7 +210,7 @@
                 <div class="lh-base">
                   <template v-for="(tag, index) in detailData.tags" :key="index">
                     <li class="d-flex align-items-center py-2">
-                      <span class="bullet bullet-vertical bg-success me-5"></span> {{ tag }}
+                      <span class="bullet bullet-vertical bg-success me-3"></span> {{ tag }}
                     </li>
                   </template>
                 </div>
@@ -245,10 +275,10 @@
                 </div>
               </div>
 
-              <div class="mb-5" v-if="detailData.references != null && detailData.references != ''">
+              <div class="mb-5" v-if="detailData.reference != null && detailData.reference != ''">
                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">References</h4>
                 <div class="lh-base">
-                  <template v-for="(tag, index) in detailData.references" :key="index">
+                  <template v-for="(tag, index) in detailData.reference" :key="index">
                     <li class="d-flex align-items-center py-2 text-primary">
                       <span class="bullet bullet-vertical bg-primary me-5"></span> {{ tag }}
                     </li>
@@ -366,10 +396,53 @@
         </div>
         <!--end::Card2 body-->
       </div>
-
     </div>
   </div>
   <!--end::Card-->
+
+  <el-dialog v-model="notesVisible" title="Ghi Chú" width="90%"  top="5vh" id="modal-detail" :before-close="closeNotesVisible">
+    <div>
+      <QuillEditor class="h-600px" theme="snow" toolbar="full" v-model:content="contentNote" contentType="html"
+        placeholder="Thêm Ghi Chú...">
+        <template #toolbar>
+          <el-upload ref="upload" class="d-flex align-content-start flex-wrap align-items-end my-upload-dialog" list-type="text" action="#"
+            :limit="1" :on-exceed="handleExceed" :auto-upload="false" v-model:file-list="fileDocument">
+            <template #trigger>
+              <button type="button" class="btn btn-sm btn-light-primary h-35px me-2 mb-2" :disabled="disabled">
+                <i class="fa-solid fa-upload"></i>
+                Đính Kèm File
+              </button>
+            </template>
+            <template #file="{ file }">
+              <div v-if="fileDocument.length != 0" class="mb-2 ">
+                <span class="badge badge-light-success h-35px px-5 rounded-start" :class="(isHovering && isCheckDowload) ? 'cursor-pointer' : ''" @click="(isHovering && isCheckDowload) ? downloadFile(file) : ''"
+                @mouseover="isHovering = true" @mouseleave="isHovering = false" >
+                  <i v-if="isHovering && isCheckDowload"  class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
+                  <i v-else class="fa-regular fa-file-lines text-success me-2 fs-13px w-20px"></i>
+                  {{ (file.name.length > 30) ? file.name.substring(0, 30) + '...' : file.name }}
+                </span>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-danger h-15px w-15px cursor-pointer">
+                  <i class="fa-solid fa-xmark text-white p-0 m-0" @click="removeFile"></i>
+                </span>
+              </div>
+            </template>
+          </el-upload>
+          <!-- <span v-if="errorUploadFile[0].file.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0]?.file[0] }}</span> -->
+        </template>
+      </QuillEditor>
+      <!-- <span v-if="errorUploadFile[0].document.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0].document[0] }}</span> -->
+      <span v-if="errorUploadFileDetail != ''" class="text-danger fs-13px">{{ errorUploadFileDetail }}</span>
+    </div>
+    <template #footer center>
+      <span class="d-flex justify-content-center">
+        <el-button @click="notesVisible = false">Quay Lại</el-button>
+        <el-button type="primary" @click="putUplaodFile">
+          Đồng Ý
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -385,6 +458,12 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
+
+// ckediter
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { genFileId } from 'element-plus'
+import type { UploadInstance, UploadProps, UploadRawFile, UploadUserFile } from 'element-plus'
 
 interface APIData {
   title: string;
@@ -404,11 +483,13 @@ export default defineComponent({
     ElTable,
     ElTableColumn,
     ElPagination,
+    QuillEditor,
   },
   directives: {
     debounce: vue3Debounce({ lock: true })
   },
   setup() {
+    // ckediter
     const list = ref<object | any>([])
     const loading = ref<boolean>(false)
     const totalPage = ref<number>(0);
@@ -432,7 +513,8 @@ export default defineComponent({
     });
     const dataConfirm = reactive({
       severity: '',
-      status: ''
+      status: '',
+      flag: false,
     });
     const detailData = reactive({
       id: '',
@@ -448,7 +530,7 @@ export default defineComponent({
       last_seen: '',
       url: '',
       parameter: '',
-      tags: '',
+      tags: {},
       cvss_score: '',
       details: '',
       description: '',
@@ -457,45 +539,13 @@ export default defineComponent({
       recommendation: '',
       in_cpe: '',
       protocol: '',
-      references: '',
+      reference: {},
       type: '',
       classification: '',
       port: '',
       service: '',
+      flag: false,
     });
-    const headerConfig = ref([
-      {
-        columnName: "Sev",
-        columnLabel: "severity",
-        columnWidth: 90,
-        textAlign: "center",
-      },
-      {
-        columnName: "Tên",
-        columnLabel: "vt_name",
-      },
-      {
-        columnName: "Host name",
-        columnLabel: "hostname",
-      },
-      {
-        columnName: "IP",
-        columnLabel: "ip",
-      },
-      {
-        columnName: "Service",
-        columnLabel: "schema",
-      },
-      {
-        columnName: "Ngày Tạo",
-        columnLabel: "created_at",
-      },
-      {
-        columnName: "Trạng thái",
-        columnLabel: "status",
-        columnWidth: 90,
-      },
-    ]);
 
     const handleClick = (data: object | any, type: String) => {
       typeModal.value = type
@@ -506,10 +556,12 @@ export default defineComponent({
       loading.value = true;
       return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&search=${query.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}`)
         .then(({ data }) => {
+          // console.log(data)
           list.value = data.results
           totalPage.value = data.count
         })
         .catch(({ response }) => {
+
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
         })
         .finally(() => {
@@ -587,7 +639,7 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
-      console.log(detail)
+      // console.log(detail)
       checkitemsPerPage.value = true;
       if (detail) {
         closeOnRow.value = true;
@@ -603,37 +655,8 @@ export default defineComponent({
           }
         }
       }
-      // console.log(detailData)
       // return;
-      // detailData.id = detail.id ?? detail.port_scan.id
-      // detailData.vt_name = detail.vt_name ?? detail.port_scan.name
-      // detailData.status = detail.status
-      // detailData.severity = String(detail.severity)
-      // detailData.created_at = detail.created_at
-      // detailData.hostname = detail.hostname ?? detail.port_scan.hostname
-      // detailData.ip = detail.in_cpe ?? detail.port_scan.in_cpe
-      // detailData.schema = detail.schema ?? detail.port_scan.schema
-      // detailData.last_seen = detail.last_seen ?? detail.port_scan.last_seen
-      // detailData.url = detail.affects_url //
-      // detailData.parameter = detail.affects_detail ?? detail.port_scan.affects_detail
-      // detailData.tags = detail.tags ?? detail.port_scan.tags
-      // detailData.cvss_score = detail.cvss_score ?? detail.port_scan.cvss_score
-      // detailData.details = detail.details ?? detail.port_scan.details
-      // detailData.description = detail.description ?? detail.port_scan.description
-      // detailData.request = detail.request ?? detail.port_scan.request
-      // detailData.http_response = detail.http_response ?? detail.port_scan.http_response
-      // detailData.recommendation = detail.recommendation ?? detail.port_scan.recommendation
-      // post scan
-      // detailData.in_cpe = detail.port_scan.in_cpe
-      // detailData.protocol = detail.port_scan.protocol
-      // detailData.service = detail.port_scan.service
-      // detailData.port = detail.port_scan.port
-      // detailData.classification =  detail.classification
-      // detailData.type = detail.port_scan.type
-      // detailData.references = detail.port_scan.references
 
-      dataConfirm.severity = detailData.severity
-      dataConfirm.status = detailData.status
     };
 
     const handleCloseDetail = () => {
@@ -642,8 +665,9 @@ export default defineComponent({
       checkitemsPerPage.value = false;
     };
 
-    const handleChangeUpdate = () => {
-      updateData()
+    const ChangeFlag = (flag: boolean) => {
+      detailData.flag = !flag;
+      updateData();
     };
 
     const updateData = async () => {
@@ -653,12 +677,13 @@ export default defineComponent({
       }, 1000);
       let form_data = {
         severity: detailData.severity,
-        status: detailData.status
+        status: detailData.status,
+        flag: detailData.flag
       }
       return ApiService.put(`/vuls/${detailData.id}/update`, form_data)
         .then(({ data }) => {
           getData();
-          notification(data.detail, 'success', 'Chỉnh sửa thành công')
+          notification(data?.detail, 'success', 'Chỉnh sửa thành công')
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -698,16 +723,16 @@ export default defineComponent({
     };
 
     const getStatus = (status: string) => {
-      if (status === 'open') {
-        return { id: 3, title: 'Open', color: 'success' };
-      } else if (status === 're-open') {
-        return { id: 5, title: 'Reopen', color: 'primary' };
-      } else if (status === 'closed') {
-        return { id: 6, title: 'Close', color: 'danger' };
-      } else if (status === 'rick-accepted') {
-        return { id: 7, title: 'Accepted', color: 'info' };
+      if (status == 'open') {
+        return { id: 3, title: 'Open', color: 'info', class: 'stautsOpen' };
+      } else if (status == 're-open') {
+        return { id: 5, title: 'Reopen', color: 'primary', class: 'stautsReopen' };
+      } else if (status == 'closed') {
+        return { id: 6, title: 'Close', color: 'danger', class: 'stautsClose' };
+      } else if (status == 'rick-accepted') {
+        return { id: 7, title: 'Accepted', color: 'success', class: 'stautsAccepted' };
       }
-      return { id: 8, title: 'undefined', color: 'light' };
+      return { id: 8, title: 'undefined', color: 'light', class: 'stautsundefined' };
     };
 
     const handleFilter = (data: any) => {
@@ -757,17 +782,6 @@ export default defineComponent({
       startScrollLeft: 0,
     });
 
-    // const handleCustomSize = () => {
-    //   CustomWidth.value = !CustomWidth.value
-    //   if(CustomWidth.value){
-    //     leftWidth.value = 200;
-    //   }else{
-    //     contentWidth.value = container.value.scrollWidth;
-    //   }
-    //   console.log(CustomWidth.value)
-    //   console.log(contentWidth.value)
-    // };
-
     const handleMouseDown = (event: any) => {
       state.isDragging = true;
       state.startX = event.clientX;
@@ -780,7 +794,7 @@ export default defineComponent({
 
     const handleMouseMove = (event: any) => {
       if (!state.isDragging) return;
-      console.log(state, 'state')
+      // console.log(state, 'state')
 
       const deltaX = event.clientX - state.startX;
       container.value.scrollLeft = state.startScrollLeft - deltaX;
@@ -797,13 +811,144 @@ export default defineComponent({
     const headerHeight = ref<number>(0);
     const onheaderHeight = (height: number) => {
       headerHeight.value = height
-      
+
     }
+
+    // notesVisible
+    const notesVisible = ref<boolean>(false);
+    const fileDocument = ref<UploadUserFile[]>([]);
+    const fileDocumentData = ref<UploadUserFile[]>([
+      {
+        name: '',
+        url: '',
+        size: 0,
+      }
+    ]);
+
+    const errorUploadFile = ref<any>('');
+    const errorUploadFileDetail = ref<any>('');
+    const contentNote = ref<any>('')
+    const fileData = ref<any>('')
+    const has_delete_file = ref<any>(false)
+    const putUplaodFile = async () => {
+      disabled.value = true
+      setTimeout(() => {
+        disabled.value = false
+      }, 1000);
+      isCheckDowload.value = false
+      fileData.value = fileDocument.value?.[0]?.raw || fileDocument.value;
+      const formData = new FormData();
+      formData.append('files', fileData.value);
+      formData.append('document', contentNote.value);
+      formData.append('has_delete_file', has_delete_file.value);
+
+      // return;
+      return ApiService.put(`/vuls/${detailData.id}/update_document`, formData)
+        .then(({ data }) => {
+          notesVisible.value = false
+          notification(data?.detail, 'success', 'Chỉnh sửa thành công')
+        })
+        .catch(({ response }) => {
+          console.log(response)
+          errorUploadFileDetail.value = response.data?.detail
+          errorUploadFile.value = response.data.Errors ?? 'Đã có lỗi xảy ra'
+        });
+    }
+
+    const getUplaodFile = async () => {
+      notesVisible.value = true
+      return ApiService.get(`/vuls/${detailData.id}/get_document`)
+        .then(({ data }) => {
+          // console.log(data)
+          contentNote.value = (data.document == null) ? '<p><br></p>' : data.document;
+          if (data.files.length != 0) {
+            fileDocumentData.value[0].name = data.files[0]?.file_name
+            fileDocumentData.value[0].url = data.files[0]?.file
+            fileDocumentData.value[0].size = data.files[0]?.size
+            fileDocument.value[0] = fileDocumentData.value[0]
+            isCheckDowload.value = true
+          } else {
+            fileDocument.value = [];
+          }
+        })
+        .catch(({ response }) => {
+          notification(response.data?.detail, 'error', 'Có lỗi xảy ra')
+        });
+    }
+
+    const closeNotesVisible = () => {
+      notesVisible.value = false
+      contentNote.value = ''
+      errorUploadFile.value = ''
+      errorUploadFileDetail.value = ''
+      fileDocument.value = []
+      has_delete_file.value = false
+    }
+
+    const upload = ref<UploadInstance>()
+    const handleExceed: UploadProps['onExceed'] = (files) => {
+      isCheckDowload.value = false
+      upload.value!.clearFiles()
+      const file = files[0] as UploadRawFile
+      file.uid = genFileId()
+      upload.value!.handleStart(file)
+    }
+
+    const removeFile = () => {
+      upload.value!.clearFiles()
+      fileDocument.value = []
+      has_delete_file.value = true
+    }
+
+    // Tạo một biến tham chiếu để theo dõi tiến trình tải
+    const isDownloading = ref(false);
+
+    // Hàm để thực hiện việc tải tệp từ đường dẫn
+    const downloadFile = async (url: any) => {
+      try {
+        // Đánh dấu tiến trình tải bắt đầu
+        isDownloading.value = true;
+        const fileUrl = import.meta.env.VITE_APP_API_URL + url.url;
+        const fileName = url.name;
+        // Yêu cầu tải tệp từ đường dẫn
+        const response = await fetch(fileUrl);
+    
+        // Kiểm tra xem yêu cầu có thành công không (status 200-299 là thành công)
+        if (!response.ok) {
+          notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
+        }
+
+        // Chuyển đổi phản hồi sang một luồng dữ liệu tệp
+        const fileBlob = await response.blob();
+
+        // Tạo một đối tượng URL để tạo tệp đóng gói trong Blob
+        const fileObjectUrl = URL.createObjectURL(fileBlob);
+
+        // Tạo một thẻ 'a' ẩn và nhấp vào nó để tải xuống
+        const link = document.createElement('a');
+        link.href = fileObjectUrl;
+        link.download = fileName; // Thay thế 'tai_ve.pdf' bằng tên bạn muốn gán cho tệp khi tải về
+        document.body.appendChild(link);
+        link.click();
+
+        // Giải phóng URL và xóa thẻ 'a'
+        URL.revokeObjectURL(fileObjectUrl);
+        document.body.removeChild(link);
+
+        // Đánh dấu tiến trình tải hoàn thành
+        isDownloading.value = false;
+      } catch (error) {
+        notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
+        isDownloading.value = false;
+      }
+    };
+    const isHovering = ref(false);
+    const isCheckDowload = ref(false);
 
     // Tính toán chiều rộng nội dung
     const contentWidth = ref(0);
     onMounted(() => {
-      console.log(contentWidth.value, 'contentWidth')
+      // console.log(contentWidth.value, 'contentWidth')
       contentWidth.value = container.value.scrollWidth;
     });
 
@@ -816,7 +961,6 @@ export default defineComponent({
       onheaderHeight,
       getData,
       list,
-      headerConfig,
       onItemSelect,
       selectedIds,
       getAssetPath,
@@ -853,7 +997,6 @@ export default defineComponent({
       classDetail,
       detailData,
       handleCloseDetail,
-      handleChangeUpdate,
       updateData,
 
       // Dragging kéo lề
@@ -868,45 +1011,116 @@ export default defineComponent({
       container,
       disabled,
       multipleTableRef,
+
+
+      // thêm
+      notesVisible,
+      ChangeFlag,
+
+
+      // ckediter
+      contentNote,
+      putUplaodFile,
+      getUplaodFile,
+      fileDocument,
+      handleExceed,
+      upload,
+      closeNotesVisible,
+      errorUploadFile,
+      removeFile,
+      downloadFile,
+      errorUploadFileDetail,
+      isHovering,
+      isCheckDowload,
     };
   },
 });
 </script>
 
-<style scoped>
-.shadow-hvover {
-  box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
+<style>
+span.el-dialog__title {
+  color: #181C32 !important;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 27px;
 }
 
-/* 
-.severityInfo .el-input__wrapper {
-  background-color: #28a745 !important;
-  color: #fff;
+#modal-detail .el-dialog__body {
+  padding-top: 0px !important;
+}
 
+.stautsOpen .el-input .el-select__caret,
+.stautsOpen .el-input__inner {
+  color: #7239ea !important;
+}
+
+.stautsReopen .el-input .el-select__caret,
+.stautsReopen .el-input__inner {
+  color: #009ef7 !important;
+}
+
+.stautsClose .el-input .el-select__caret,
+.stautsClose .el-input__inner {
+  color: #f1416c !important;
+}
+
+.stautsAccepted .el-input .el-select__caret,
+.stautsAccepted .el-input__inner {
+  color: #50cd89 !important;
+}
+
+.stautsundefined .el-input .el-select__caret,
+.stautsundefined .el-input__inner {
+  color: #7e8299 !important;
+}
+
+.stautsOpen .el-input__wrapper {
+  box-shadow: 0 0 0 1px #7239ea !important;
+}
+
+.stautsReopen .el-input__wrapper {
+  box-shadow: 0 0 0 1px #009ef7 !important;
+}
+
+.stautsClose .el-input__wrapper {
+  box-shadow: 0 0 0 1px #f1416c !important;
+}
+
+.stautsAccepted .el-input__wrapper {
+  box-shadow: 0 0 0 1px #50cd89 !important;
+}
+
+.stautsundefined .el-input__wrapper {
+  box-shadow: 0 0 0 1px #7e8299 !important;
+}
+
+.severityInfo .el-input__wrapper {
+  background-color: #50cd89 !important;
+  box-shadow: unset !important;
 }
 
 .severityLow .el-input__wrapper {
-  background-color: #23b7e5 !important;
-  color: #fff;
-
+  background-color: #009ef7 !important;
+  box-shadow: unset !important;
 }
 
 .severityMedium .el-input__wrapper {
-  background-color: #fcba32!important;
-  color: #fff;
+  background-color: #ffc700 !important;
+  box-shadow: unset !important;
 }
 
 .severityHigh .el-input__wrapper {
-  background-color: #e11f26!important;
-  color: #fff;
+  background-color: #f1416c !important;
+  box-shadow: unset !important;
 }
 
 .severityundefined .el-input__wrapper {
-  background-color: #7e8299!important;
-  color: #fff;
+  background-color: #7e8299 !important;
+  box-shadow: unset !important;
+}
 
-} */
-/* 
+.stautsInfo .el-input__inner,
+.stautsInfo .el-input .el-select__caret,
 .severityInfo .el-input__inner,
 .severityInfo .el-input .el-select__caret,
 .severityMedium .el-input__inner,
@@ -918,32 +1132,9 @@ export default defineComponent({
 .severityLow .el-input .el-select__caret,
 .severityLow .el-input__inner {
   color: #fff !important;
-} */
-
-.el-select .el-input__wrapper {
-  height: 40px !important;
 }
 
-/* cursor: col-resize; */
-.drag-handle {
-  flex-basis: 5px;
-  background-color: unset;
-  cursor: col-resize;
-  position: relative;
-}
-
-.drag-handle:hover,
-.drag-handle:active {
-  background-color: rgba(211, 211, 211, 0.822);
-}
-
-.drag-handle::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 0px;
-  background-color: black;
+.my-upload-dialog .el-upload-list{
+  margin:  0  !important;
 }
 </style>

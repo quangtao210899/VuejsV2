@@ -1373,9 +1373,9 @@
                                         :style="classDetail ? { width: rightWidth + 'px' } : { width: '0px' }"
                                         :class="classDetail ? ' d-block' : 'd-none'">
                                         <div class="ms-3 pb-10 affix-container">
-                                            <div class="card-title pb-5 ">
-                                                <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailData.vt_name }}</h2>
-                                                <div  class="">
+                                            <div class="card-title pb-5">
+                                                <h2 class="fw-bold pe-15 mt-5 fs-13px text-uppercase">{{ detailData.vt_name }}</h2>
+                                                <div class="pt-2">
                                                     <span 
                                                         :class="`px-4 me-2 py-3 badge fs-13px badge-light-${getSeverity(detailData.severity).color}`">
                                                         {{  getSeverity(detailData.severity).title }}
@@ -1386,7 +1386,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="position-absolute translate-middle-y"
-                                                    :style="{ top: '-140px', right: '10px' }">
+                                                    :style="{ top: '-145px', right: '10px' }">
                                                     <el-affix target=".affix-container" :offset="170">
                                                         <button @click="handleCloseDetail" type="button"
                                                             class="btn zindex-fixed btn-icon " :disabled="disabled">
@@ -1502,11 +1502,11 @@
                                                 </div>
 
                                                 <div class="mb-5"
-                                                    v-if="detailData.references != null && detailData.references != ''">
+                                                    v-if="detailData.reference != null && detailData.reference != ''">
                                                     <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">References
                                                     </h4>
                                                     <div class="lh-base">
-                                                        <template v-for="(tag, index) in detailData.references"
+                                                        <template v-for="(tag, index) in detailData.reference"
                                                             :key="index">
                                                             <li class="d-flex align-items-center py-2 text-primary">
                                                                 <span class="bullet bullet-vertical bg-primary me-5"></span>
@@ -2110,7 +2110,7 @@ export default defineComponent({
             recommendation: '',
             in_cpe: '',
             protocol: '',
-            references: '',
+            reference: '',
             type: '',
             classification: '',
             port: '',
@@ -2620,30 +2620,6 @@ export default defineComponent({
     -webkit-box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
     border: 0;
 }
-
-/* cursor: col-resize; */
-.drag-handle {
-    flex-basis: 5px;
-    background-color: unset;
-    cursor: col-resize;
-    position: relative;
-}
-
-.drag-handle:hover,
-.drag-handle:active {
-    background-color: rgba(211, 211, 211, 0.822);
-}
-
-.drag-handle::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 0px;
-    background-color: black;
-}
-
 
 .custom_attack_details br{
     display: none !important;

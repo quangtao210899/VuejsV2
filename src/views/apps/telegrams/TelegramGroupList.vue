@@ -155,7 +155,7 @@
       <!--end::Input group-->
     </div>
     <template #footer center>
-      <span class="dialog-footer">
+      <span class="d-flex justify-content-center">
         <button type="button" class="btn btn-sm btn-light-primary" @click="updateSchedule">
          Đông Ý
         </button>
@@ -231,7 +231,7 @@
       <!--end::Card-->
     </div>
     <template #footer center>
-      <span class="dialog-footer">
+      <span class="d-flex justify-content-center">
         <button type="button" class="btn btn-sm btn-light-primary" @click="visibleDetail = false">
           Đóng
         </button>
@@ -638,9 +638,5 @@ span.el-dialog__title {
 
 #modal-detail .el-dialog__body {
   padding-top: 10px;
-}
-.dialog-footer {
-  display: flex;
-  justify-content: center; /* Căn giữa theo chiều dọc và ngang */
 }
 </style>

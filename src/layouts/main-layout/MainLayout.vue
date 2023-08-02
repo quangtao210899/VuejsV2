@@ -96,4 +96,27 @@ export default defineComponent({
 .hand-height{
   height: calc(100vh - 70px) !important;
 }
+
+/* cursor: col-resize; */
+.drag-handle {
+  flex-basis: 5px;
+  background-color: unset;
+  cursor: col-resize;
+  position: relative;
+}
+
+.drag-handle:hover,
+.drag-handle:active {
+  background-color: rgba(211, 211, 211, 0.822);
+}
+
+.drag-handle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 0px;
+  background-color: black;
+}
 </style>

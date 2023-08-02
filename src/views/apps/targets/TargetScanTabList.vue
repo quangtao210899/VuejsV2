@@ -291,8 +291,8 @@
                     :class="classDetail ? ' d-block' : 'd-none'">
                     <div class="ms-3 pb-10 affix-containe">
                         <div class="card-title py-3 position-relative">
-                            <h2 class="fw-bold pe-15 mt-5 fs-2">{{ detailVuln.vt_name }}</h2>
-                            <div  class="">
+                            <h2 class="fw-bold pe-15 mt-5 fs-13px text-uppercase">{{ detailVuln.vt_name }}</h2>
+                            <div  class="pt-1">
                                 <span 
                                     :class="`px-4 me-2 py-3 badge fs-13px badge-light-${getSeverity(detailVuln.severity).color}`">
                                     {{  getSeverity(detailVuln.severity).title }}
@@ -302,7 +302,7 @@
                                     {{ getStatus(detailVuln.status).title }}
                                 </span>
                             </div>
-                            <div class="position-absolute end-0 translate-middle-y" style="top:35px">
+                            <div class="position-absolute end-0 translate-middle-y" style="top:30px">
                                 <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
                                     <i class="fa-solid fa-xmark fs-1"></i>
                                 </button>
@@ -400,10 +400,10 @@
                                 </div>
                             </div>
 
-                            <div class="mb-5" v-if="detailVuln.references != null && detailVuln.references != ''">
+                            <div class="mb-5" v-if="detailVuln.reference != null && detailVuln.reference != ''">
                                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">References</h4>
                                 <div class="lh-base">
-                                    <template v-for="(tag, index) in detailVuln.references" :key="index">
+                                    <template v-for="(tag, index) in detailVuln.reference" :key="index">
                                         <li class="d-flex align-items-center py-2 text-primary">
                                             <span class="bullet bullet-vertical bg-primary me-5"></span> {{ tag }}
                                         </li>
@@ -773,7 +773,7 @@ export default defineComponent({
             recommendation: '',
             in_cpe: '',
             protocol: '',
-            references: '',
+            reference: '',
             type: '',
             classification: '',
             port: '',
@@ -1208,29 +1208,6 @@ export default defineComponent({
     box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05) !important;
     -webkit-box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
     border: 0;
-}
-
-/* cursor: col-resize; */
-.drag-handle {
-    flex-basis: 5px;
-    background-color: unset;
-    cursor: col-resize;
-    position: relative;
-}
-
-.drag-handle:hover,
-.drag-handle:active {
-    background-color: rgba(211, 211, 211, 0.822);
-}
-
-.drag-handle::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 0px;
-    background-color: black;
 }
 </style>
   
