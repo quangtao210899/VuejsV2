@@ -36,7 +36,7 @@
                         <li class="breadcrumb-item text-muted" v-else>
                             <!-- {{ (typeText) ? typeText : item  }} -->
                             {{ (item == 'addForm') ? typeText : ((item == 'detail') ? 'Chi Tiết' : item) }}
-                            
+
                         </li>
                     </template>
                 </ul>
@@ -47,7 +47,7 @@
         <!--end::Title-->
 
         <!--begin::Separator-->
-        <div  v-if="checkSearch" class="bg-gray-300 h-25px w-1px me-6 ms-3 d-block"></div>
+        <div v-if="checkSearch" class="bg-gray-300 h-25px w-1px me-6 ms-3 d-block"></div>
         <!--end::Separator-->
 
         <!--begin::Search Form-->
@@ -55,12 +55,21 @@
             <!-- <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
                 :disabled="disabled" /> -->
             <div v-if="checkSearch" class="input-group input-group-sm input-group-solid" style="max-width: 175px">
-                <input type="text" class="form-control" placeholder="Tìm kiếm..." v-model="search">
-                <div class="input-group-append">
-                    <span class="input-group-text">
+                <input type="text" class="form-control " placeholder="Tìm kiếm..." v-model="search">
+                <div class="input-group-append ">
+                    <span class="input-group-text ">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
                 </div>
+            </div>
+            <div v-if="checkStatus" class="input-group input-group-sm input-group-solid" style="max-width: 175px;">
+                <el-select v-model="status" class="mx-2 my-select-filter" placeholder="Select" >
+                    <el-option key="" label="Chọn Trạng Thái" value="" />
+                    <el-option key="open" label="Open" value="open" />
+                    <el-option key="re-open" label="Reopen" value="re-open" />
+                    <el-option key="closed" label="Closed" value="closed" />
+                    <el-option key="rick-accepted" label="Accepted" value="rick-accepted" />
+                </el-select>
             </div>
         </div>
         <!--end::Search Form-->
@@ -84,15 +93,17 @@ export default defineComponent({
     components: { Search },
     props: {
         disabled: { type: Boolean, required: false, default: false },
-        search: { type: String, required: false, default: '' },
-        checkSearch: { type: Boolean, required: false, default: true},
+        checkSearch: { type: Boolean, required: false, default: true },
         typeText: { type: String, required: false, default: '' },
+        checkStatus: { type: Boolean, required: false, default: false },
     },
-    emits: ['handle-search'],
-
+    emits: [
+        'handle-search',
+        "filert-status",
+    ],
     setup(props, { emit }) {
         const SearchIcon = ref(Search)
-        const search = ref(props.search);
+        const search = ref('');
 
         // Hàm xử lý tìm kiếm
         const handleSearch = (newSearch: string) => {
@@ -134,6 +145,11 @@ export default defineComponent({
             return route.meta.links as string[];
         });
 
+        const status = ref('')
+        watch(status, (newStatus) => {
+            emit("filert-status", newStatus);
+        })
+
 
         return {
             pageTitle,
@@ -145,7 +161,22 @@ export default defineComponent({
             pageTitleDirection,
             SearchIcon,
             search,
+            status,
         };
     },
 });
 </script>
+<style>
+.my-select-filter .el-input__wrapper {
+    background: #f9f9f9;
+    box-shadow: unset !important
+}
+
+.my-select-filter .el-select .el-input.is-focus .el-input__wrapper{
+    box-shadow: unset !important
+}
+
+.my-select-filter .el-input__wrapper.is-focus {
+    box-shadow: unset !important
+}
+</style>
