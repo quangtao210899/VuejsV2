@@ -415,11 +415,11 @@
             </template>
             <template #file="{ file }">
               <div v-if="fileDocument.length != 0" class="mb-2 ">
-                <span class="badge badge-light-success h-35px  px-5 rounded-start file-download"
+                <span class="badge badge-light-success h-35px px-5 rounded-start" :class="(isHovering && isCheckDowload) ? 'cursor-pointer' : ''" @click="(isHovering && isCheckDowload) ? downloadFile(file) : ''"
                 @mouseover="isHovering = true" @mouseleave="isHovering = false" >
-                  <i class="fa-regular fa-file-lines text-success me-2 fs-13px"></i>
+                  <i v-if="isHovering && isCheckDowload"  class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
+                  <i v-else class="fa-regular fa-file-lines text-success me-2 fs-13px w-20px"></i>
                   {{ (file.name.length > 30) ? file.name.substring(0, 30) + '...' : file.name }}
-                  <i v-if="isHovering && isCheckDowload" @click="downloadFile(file)" class="download-icon fa-solid fa-download fs-3 text-gray-700"></i>
                 </span>
                 <span
                   class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-danger h-15px w-15px cursor-pointer">
@@ -1134,24 +1134,6 @@ span.el-dialog__title {
   color: #fff !important;
 }
 
-/* dowload  */
-.file-download {
-  position: relative;
-}
-
-/* Hiệu ứng hover */
-.file-download:hover {
-  background-color: #dde3e3;
-}
-
-/* Căn giữa biểu tượng tải xuống */
-.download-icon {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 .my-upload-dialog .el-upload-list{
   margin:  0  !important;
 }
