@@ -1,32 +1,11 @@
 <template>
-    <KTToolbar @on-header-height="onheaderHeight"></KTToolbar>
-        <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
+        <!-- <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}"> -->
             <div class="bg-body rounded-3 pt-3" >
                 <!--begin::Navbar-->
                 <div class="pb-3 px-5 position-relative position-repository bg-white  border-bottom border-secondary">
                     <div class="row px-2 align-items-center ">
-                        <div class="col-sm-12 col-md-8 ">
-                            <div class="row">
-                                <div class="col-6">
-                            <div>
-                                <span class="w-70px">Mục Tiêu: </span>
-                                <span class="fw-bold" :class="(checkNameTarget(  targets.name, targets.domain) == '--') ? 'badge badge-light-danger' : ''">
-                                    {{ checkNameTarget(  targets.name, targets.domain) }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div>
-                                <span class="w-70px">Nhóm Mục Tiêu: </span>
-                                <span class="fw-bold" :class="(targets.group.title == '') ? 'badge badge-light-danger' : ''">
-                                    {{ (targets.group.title != '') ? targets.group.title : '--' }}
-                                </span>
-                            </div>
-                        </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 text-end ms-auto ">
-                            <div class="d-flex justify-content-sm-start justify-content-md-end">
+                        <div class="col-sm-12 col-md-4 text-start">
+                            <div class="d-flex justify-content-sm-start">
                                 <div class="input-group input-group-sm input-group-solid" style="max-width: 250px">
                                     <input type="text" class="form-control" placeholder="Tìm kiếm..."
                                         v-model="searchSubdomain">
@@ -273,7 +252,7 @@
                 <div class="d-flex justify-content-sm-start justify-content-md-end">
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
 
     <!--end::Navbar-->
 
@@ -431,7 +410,10 @@ export default defineComponent({
         reconActivity,
         KTToolbar,
     },
-    setup() {
+    props: {
+        id: { type: String, required: false, default: '' },
+    },
+    setup(props) {
         const route = useRoute();
         const scanID = ref<null | number | any>(route.params.id ?? '');
         const list = ref<any>()
@@ -456,7 +438,7 @@ export default defineComponent({
         const getData = async () => {
             loading.value = true;
 
-            return await ApiService.get(`recon/detail3/${scanID.value}`)
+            return await ApiService.get(`recon/detail3/${props.id}`)
                 .then(({ data }) => {
                     targets.value = data.target
                     // subdomain_result
@@ -464,7 +446,6 @@ export default defineComponent({
                     fetchDataSubdomain(currentPageSubdomain.value, pageSizeSubdomain.value)
                     reconStatus.value = data.status
                     humanDiffTime()
-                    // console.log(data)
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')

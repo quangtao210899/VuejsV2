@@ -852,14 +852,24 @@ export default defineComponent({
           notification(data?.detail, 'success', 'Chỉnh sửa thành công')
         })
         .catch(({ response }) => {
-          console.log(response)
-          errorUploadFileDetail.value = response.data?.detail
-          errorUploadFile.value = response.data.Errors ?? 'Đã có lỗi xảy ra'
+          // console.log(response)
+          // errorUploadFileDetail.value = response.data?.detail 
+          if (response.data?.Errors){
+            // let errors = response.data.Errors
+            errorUploadFileDetail.value =  response.data.Errors[0]?.file[0] ?? response.data.Errors?.document[0] ?? "Có lỗi xảy ra"
+          }
+          if (response.data?.detail){
+            errorUploadFileDetail.value = response.data?.detail
+          }
+          // errorUploadFile.value = response.data.Errors ?? 'Đã có lỗi xảy ra'
         });
     }
 
     const getUplaodFile = async () => {
       notesVisible.value = true
+      errorUploadFileDetail.value = null
+      has_delete_file.value = false
+      isCheckDowload.value = false
       return ApiService.get(`/vuls/${detailData.id}/get_document`)
         .then(({ data }) => {
           // console.log(data)
