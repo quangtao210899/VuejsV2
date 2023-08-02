@@ -400,34 +400,36 @@
   </div>
   <!--end::Card-->
 
-  <el-dialog v-model="notesVisible" title="Ghi Chú" width="90%" id="modal-detail" :before-close="closeNotesVisible">
+  <el-dialog v-model="notesVisible" title="Ghi Chú" width="90%"  top="5vh" id="modal-detail" :before-close="closeNotesVisible">
     <div>
-      <QuillEditor class="h-400px" theme="snow" toolbar="full" v-model:content="contentNote" contentType="html"
+      <QuillEditor class="h-600px" theme="snow" toolbar="full" v-model:content="contentNote" contentType="html"
         placeholder="Thêm Ghi Chú...">
         <template #toolbar>
           <el-upload ref="upload" class="d-flex align-content-start flex-wrap align-items-end" list-type="text" action="#"
-            :limit="1" :on-exceed="handleExceed" :on-remove="handleRemove" :auto-upload="false"
-            v-model:file-list="fileDocument">
+            :limit="1" :on-exceed="handleExceed" :auto-upload="false" v-model:file-list="fileDocument">
             <template #trigger>
-              <button type="button" class="btn btn-sm btn-light-primary h-40px me-2 mb-2" :disabled="disabled">
+              <button type="button" class="btn btn-sm btn-light-primary h-35px me-2 mb-2" :disabled="disabled">
                 <i class="fa-solid fa-upload"></i>
                 Đính Kèm File
               </button>
             </template>
             <template #file="{ file }">
-              <div class="mb-2">
-                <span class="badge badge-light-success h-40px  px-5 rounded-start">
+              <div v-if="fileDocument.length != 0" class="mb-2 cursor-pointer">
+                <span class="badge badge-light-success h-35px  px-5 rounded-start" @click="downloadFile(file)">
                   <i class="fa-regular fa-file-lines text-success me-2 fs-13px"></i>
-                  {{ file.name }}</span>
-                <span class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-secondary">
-                  <i class="fa-solid fa-xmark text-danger" @click="removeFile(file)" style="cursor: pointer;"></i>
+                  {{ (file.name.length > 30) ? file.name.substring(0, 30) + '...' : file.name }}</span>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-danger h-15px w-15px ">
+                  <i class="fa-solid fa-xmark text-light p-0 m-0" @click="removeFile"></i>
                 </span>
               </div>
             </template>
           </el-upload>
+          <!-- <span v-if="errorUploadFile[0].file.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0]?.file[0] }}</span> -->
         </template>
       </QuillEditor>
-      <span v-if="errorUploadFile != ''" class="text-danger fs-13px">Lỗi: {{ errorUploadFile }}</span>
+      <!-- <span v-if="errorUploadFile[0].document.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0].document[0] }}</span> -->
+      <span v-if="errorUploadFileDetail != ''" class="text-danger fs-13px">{{ errorUploadFileDetail }}</span>
     </div>
     <template #footer center>
       <span class="d-flex justify-content-center">
@@ -678,7 +680,8 @@ export default defineComponent({
       return ApiService.put(`/vuls/${detailData.id}/update`, form_data)
         .then(({ data }) => {
           getData();
-          notification(data?.detail, 'success', 'Chỉnh sửa thành công')
+          const title = (detailData.flag == true) ? 'Gắn cờ thành công' : 'Đã gỡ bỏ cờ'
+          notification(title, 'success', 'Chỉnh sửa thành công')
         })
         .catch(({ response }) => {
           notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -811,14 +814,17 @@ export default defineComponent({
 
     // notesVisible
     const notesVisible = ref<boolean>(false);
-    const fileDocument = ref<UploadUserFile[]>([
+    const fileDocument = ref<UploadUserFile[]>([]);
+    const fileDocumentData = ref<UploadUserFile[]>([
       {
         name: '',
         url: '',
+        size: 0,
       }
     ]);
 
-    const errorUploadFile = ref('');
+    const errorUploadFile = ref<any>('');
+    const errorUploadFileDetail = ref<any>('');
     const contentNote = ref<any>('')
     const fileData = ref<any>('')
     const has_delete_file = ref<any>(false)
@@ -827,13 +833,12 @@ export default defineComponent({
       setTimeout(() => {
         disabled.value = false
       }, 1000);
-      fileData.value = fileDocument.value[0].raw;
+      fileData.value = fileDocument.value?.[0]?.raw || fileDocument.value;
       const formData = new FormData();
-        formData.append('files', fileData.value);
-        formData.append('document', contentNote.value);
-        formData.append('has_delete_file', has_delete_file.value);
-        console.log(fileDocument.value, 'fileDocument')
-        console.log(formData)
+      formData.append('files', fileData.value);
+      formData.append('document', contentNote.value);
+      formData.append('has_delete_file', has_delete_file.value);
+
       // return;
       return ApiService.put(`/vuls/${detailData.id}/update_document`, formData)
         .then(({ data }) => {
@@ -842,8 +847,8 @@ export default defineComponent({
         })
         .catch(({ response }) => {
           console.log(response)
-          errorUploadFile.value = response.data.Errors.document[0] ?? response.data.Errors?.files[0]
-          // notification((response.data.Errors.document[0] ?? response.data.Errors?.files[0]), 'error', 'Có lỗi xảy ra')
+          errorUploadFileDetail.value = response.data?.detail
+          errorUploadFile.value = response.data.Errors
         });
     }
 
@@ -851,18 +856,19 @@ export default defineComponent({
       notesVisible.value = true
       return ApiService.get(`/vuls/${detailData.id}/get_document`)
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           contentNote.value = (data.document == null) ? '<p><br></p>' : data.document;
           if (data.files.length != 0) {
-            fileDocument.value[0].name = data.files[0].file_name
-            fileDocument.value[0].url = data.files[0].file
-            fileDocument.value[0].size = data.files[0].size
+            fileDocumentData.value[0].name = data.files[0]?.file_name
+            fileDocumentData.value[0].url = data.files[0]?.file
+            fileDocumentData.value[0].size = data.files[0]?.size
+            fileDocument.value[0] = fileDocumentData.value[0]
           } else {
             fileDocument.value = [];
           }
         })
         .catch(({ response }) => {
-          notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+          notification(response.data?.detail, 'error', 'Có lỗi xảy ra')
         });
     }
 
@@ -870,11 +876,9 @@ export default defineComponent({
       notesVisible.value = false
       contentNote.value = ''
       errorUploadFile.value = ''
+      errorUploadFileDetail.value = ''
       fileDocument.value = []
-    }
-
-    const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-      console.log(uploadFile, uploadFiles)
+      has_delete_file.value = false
     }
 
     const upload = ref<UploadInstance>()
@@ -885,10 +889,54 @@ export default defineComponent({
       upload.value!.handleStart(file)
     }
 
-    const removeFile = (files: any) => {
+    const removeFile = () => {
       upload.value!.clearFiles()
-      const file = files[0] as UploadRawFile
+      fileDocument.value = []
+      has_delete_file.value = true
     }
+
+    // Tạo một biến tham chiếu để theo dõi tiến trình tải
+    const isDownloading = ref(false);
+
+    // Hàm để thực hiện việc tải tệp từ đường dẫn
+    const downloadFile = async (url: any) => {
+      try {
+        // Đánh dấu tiến trình tải bắt đầu
+        isDownloading.value = true;
+        const fileUrl = import.meta.env.VITE_APP_API_URL + url.url;
+        const fileName = url.name;
+        // Yêu cầu tải tệp từ đường dẫn
+        const response = await fetch(fileUrl);
+    
+        // Kiểm tra xem yêu cầu có thành công không (status 200-299 là thành công)
+        if (!response.ok) {
+          notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
+        }
+
+        // Chuyển đổi phản hồi sang một luồng dữ liệu tệp
+        const fileBlob = await response.blob();
+
+        // Tạo một đối tượng URL để tạo tệp đóng gói trong Blob
+        const fileObjectUrl = URL.createObjectURL(fileBlob);
+
+        // Tạo một thẻ 'a' ẩn và nhấp vào nó để tải xuống
+        const link = document.createElement('a');
+        link.href = fileObjectUrl;
+        link.download = fileName; // Thay thế 'tai_ve.pdf' bằng tên bạn muốn gán cho tệp khi tải về
+        document.body.appendChild(link);
+        link.click();
+
+        // Giải phóng URL và xóa thẻ 'a'
+        URL.revokeObjectURL(fileObjectUrl);
+        document.body.removeChild(link);
+
+        // Đánh dấu tiến trình tải hoàn thành
+        isDownloading.value = false;
+      } catch (error) {
+        notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
+        isDownloading.value = false;
+      }
+    };
 
     // Tính toán chiều rộng nội dung
     const contentWidth = ref(0);
@@ -972,8 +1020,9 @@ export default defineComponent({
       upload,
       closeNotesVisible,
       errorUploadFile,
-      handleRemove,
       removeFile,
+      downloadFile,
+      errorUploadFileDetail,
     };
   },
 });
