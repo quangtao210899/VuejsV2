@@ -1,6 +1,7 @@
 <template>
-  <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds" :check-status="true" @filert-status="handleFilterStatus"
-    @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
+  <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds" :check-status="true"
+    @filert-status="handleFilterStatus" @handle-delete-selectd="deleteSubscription" :disabled="disabled"
+    @on-header-height="onheaderHeight"></KTToolbar>
 
   <!--begin::Card-->
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
@@ -400,13 +401,14 @@
   </div>
   <!--end::Card-->
 
-  <el-dialog v-model="notesVisible" title="Ghi Chú" width="90%"  top="5vh" id="modal-detail" :before-close="closeNotesVisible">
+  <el-dialog v-model="notesVisible" title="Ghi Chú" width="90%" top="5vh" id="modal-detail"
+    :before-close="closeNotesVisible">
     <div>
       <QuillEditor class="h-600px" theme="snow" toolbar="full" v-model:content="contentNote" contentType="html"
         placeholder="Thêm Ghi Chú...">
         <template #toolbar>
-          <el-upload ref="upload" class="d-flex align-content-start flex-wrap align-items-end my-upload-dialog" list-type="text" action="#"
-            :limit="1" :on-exceed="handleExceed" :auto-upload="false" v-model:file-list="fileDocument">
+          <el-upload ref="upload" class="d-flex my-upload-dialog" list-type="text" action="#" :limit="1"
+            :on-exceed="handleExceed" :auto-upload="false" v-model:file-list="fileDocument">
             <template #trigger>
               <button type="button" class="btn btn-sm btn-light-primary h-35px me-2 mb-2" :disabled="disabled">
                 <i class="fa-solid fa-upload"></i>
@@ -414,18 +416,24 @@
               </button>
             </template>
             <template #file="{ file }">
-              <div class="mb-2">
-                <span class="badge badge-light-success h-35px px-5 rounded-start" :class="(isHovering && isCheckDowload) ? 'cursor-pointer' : ''" @click="(isHovering && isCheckDowload) ? downloadFile(file) : ''"
-                @mouseover="isHovering = true" @mouseleave="isHovering = false" >
-                  <i v-if="isHovering && isCheckDowload"  class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
-                  <i v-else class="fa-regular fa-file-lines text-success me-2 fs-13px w-20px"></i>
-                  {{ (file.name.length > 30) ? file.name.substring(0, 30) + '...' : file.name }}
-                </span>
-                <span
-                  class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-danger h-15px w-15px cursor-pointer">
-                  <i class="fa-solid fa-xmark text-white p-0 m-0" @click="removeFile"></i>
-                </span>
-              </div>
+              <div class="d-flex ">
+                  <div class="d-block">
+                    <span class="badge badge-light-success h-35px px-5 rounded-start"
+                    :class="(isHovering && isCheckDowload) ? 'cursor-pointer' : ''"
+                    @click="(isHovering && isCheckDowload) ? downloadFile(file) : ''" @mouseover="isHovering = true"
+                    @mouseleave="isHovering = false">
+                      <i v-if="isHovering && isCheckDowload"
+                        class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
+                      <i v-else class="fa-regular fa-file-lines text-success me-2 fs-13px w-20px"></i>
+                      {{ (file.name.length > 30) ? file.name.substring(0, 30) + '...' : file.name }}
+                    </span>
+                  </div>
+                  <div class="position-relative w-5px">
+                    <span class="position-absolute top-0 translate-middle badge badge-circle badge-danger h-15px w-15px cursor-pointer">
+                      <i class="fa-solid fa-xmark text-white p-0 m-0" @click="removeFile"></i>
+                    </span>
+                  </div>
+                </div>
             </template>
           </el-upload>
           <!-- <span v-if="errorUploadFile[0].file.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0]?.file[0] }}</span> -->
@@ -437,7 +445,7 @@
     <template #footer center>
       <span class="d-flex justify-content-center">
         <el-button @click="notesVisible = false">Quay Lại</el-button>
-        <el-button type="primary" @click="putUplaodFile">
+        <el-button type="primary" :disabled="disabled" @click="putUplaodFile">
           Đồng Ý
         </el-button>
       </span>
@@ -854,11 +862,11 @@ export default defineComponent({
         .catch(({ response }) => {
           // console.log(response)
           // errorUploadFileDetail.value = response.data?.detail 
-          if (response.data?.Errors){
+          if (response.data?.Errors) {
             // let errors = response.data.Errors
-            errorUploadFileDetail.value =  response.data.Errors[0]?.file[0] ?? response.data.Errors?.document[0] ?? "Có lỗi xảy ra"
+            errorUploadFileDetail.value = response.data.Errors[0]?.file[0] ?? response.data.Errors?.document[0] ?? "Có lỗi xảy ra"
           }
-          if (response.data?.detail){
+          if (response.data?.detail) {
             errorUploadFileDetail.value = response.data?.detail
           }
           // errorUploadFile.value = response.data.Errors ?? 'Đã có lỗi xảy ra'
@@ -926,7 +934,7 @@ export default defineComponent({
         const fileName = url.name;
         // Yêu cầu tải tệp từ đường dẫn
         const response = await fetch(fileUrl);
-    
+
         // Kiểm tra xem yêu cầu có thành công không (status 200-299 là thành công)
         if (!response.ok) {
           notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
@@ -1047,7 +1055,7 @@ export default defineComponent({
       errorUploadFileDetail,
       isHovering,
       isCheckDowload,
-      
+
     };
   },
 });
@@ -1150,7 +1158,6 @@ span.el-dialog__title {
   color: #fff !important;
 }
 
-.my-upload-dialog .el-upload-list{
-  margin:  0  !important;
-}
-</style>
+.my-upload-dialog .el-upload-list {
+  margin: 0 !important;
+}</style>
