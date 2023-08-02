@@ -414,7 +414,7 @@
               </button>
             </template>
             <template #file="{ file }">
-              <div v-if="fileDocument.length != 0" class="mb-2 ">
+              <div class="mb-2">
                 <span class="badge badge-light-success h-35px px-5 rounded-start" :class="(isHovering && isCheckDowload) ? 'cursor-pointer' : ''" @click="(isHovering && isCheckDowload) ? downloadFile(file) : ''"
                 @mouseover="isHovering = true" @mouseleave="isHovering = false" >
                   <i v-if="isHovering && isCheckDowload"  class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
@@ -898,6 +898,7 @@ export default defineComponent({
       upload.value!.clearFiles()
       fileDocument.value = []
       has_delete_file.value = true
+      isCheckDowload.value = false
     }
 
     // Tạo một biến tham chiếu để theo dõi tiến trình tải
