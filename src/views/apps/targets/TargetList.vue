@@ -3,7 +3,7 @@
     @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
     <!--begin::Card-->
     <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}"> 
-        <div class="p-5 bg-body rounded-3">
+        <div class="p-5 bg-body rounded-3"> 
             <!--begin::Card body-->
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
                     class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed"
@@ -197,7 +197,7 @@ export default defineComponent({
             getData();
         };
 
-        // xóa 
+        // xóa  
         const multipleTableRef = ref<InstanceType<typeof ElTable>>()
         const router = useRouter();
 

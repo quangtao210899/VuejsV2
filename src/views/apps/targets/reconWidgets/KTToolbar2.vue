@@ -40,9 +40,19 @@
                             Đồng Bộ Tất Cả
                         </router-link>
                         <router-link v-if="addNew != ''" :to="addNew" :disabled="disabled"
-                            class="btn btn-light-primary font-weight-bold py-2 px-5 fs-13px">
+                            class="btn btn-light-primary font-weight-bold py-2 px-5  me-2 fs-13px">
                             <i class="fa-solid fa-circle-plus"></i>
                             Thêm
+                        </router-link>
+                        <router-link v-if="addTragetList != ''" :to="addTragetList" :disabled="disabled"
+                            class="btn btn-light-success font-weight-bold py-2 px-5  me-2 fs-13px">
+                            <KTIcon icon-name="document" icon-class="fs-2" />
+                            Danh sách mục tiêu
+                        </router-link>
+                        <router-link v-if="checkScan == true" to="#" :disabled="disabled"
+                            class="btn btn-light-primary font-weight-bold py-2 px-5 fs-13px">
+                            <i class="fa-solid fa-circle-plus"></i>
+                            Quét
                         </router-link>
                     </template>
                     <template v-else>
@@ -81,12 +91,14 @@ export default defineComponent({
     },
     props: {
         addNew: { type: String, required: false, default: '' },
+        addTragetList: { type: String, required: false, default: '' },
         disabled: { type: Boolean, required: false, default: false },
         idsDelete: { type: Array, required: false, default: [] },
         checkSearch: { type: Boolean, required: false, default: false },
         checkBack: { type: Boolean, required: false, default: false },
         checkStatus: { type: Boolean, required: false, default: false },
         checkSubmit: { type: Boolean, required: false, default: false },
+        checkScan: { type: Boolean, required: false, default: false },
         checkSetting: { type: Boolean, required: false, default: false },
         checkSyncAll: { type: Boolean, required: false, default: false },
         typeText: { type: String, required: false, default: '' },
@@ -101,6 +113,7 @@ export default defineComponent({
         "handle-sync-all",
         "handle-setting",
         "filert-status",
+        "handle-security-scan",
     ],
     setup(props, { emit }) {
 
