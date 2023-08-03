@@ -190,7 +190,7 @@ export default defineComponent({
 
         // handleCurrentChange
         const handleCurrentChange = (data: any) => {
-            console.log(data.id)
+            // console.log(data.id)
             if (data) {
                 // `cve/${scope.row.id}/scan`
                 return router.push({ name: 'scanCVEList', params: { id: data.id } });

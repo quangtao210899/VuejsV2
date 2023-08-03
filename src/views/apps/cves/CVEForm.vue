@@ -131,7 +131,7 @@ export default defineComponent({
                     confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             }).then(() => {
-                if (icon == 'success' || values == 'Mục tiêu không tồn tại' || values == 'Có lỗi xảy ra') {
+                if (icon == 'success' || values == 'CVE không tồn tại') {
                     router.push({ name: urlBack.value });
                 }
             });
@@ -510,6 +510,29 @@ export default defineComponent({
         const formBack = async (data: any) => {
             router.push({ name: urlBack.value });
         }
+        const getData = async () => {
+            if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
+                loading.value = true;
+                return ApiService.get(`cve/${ID.value}/detail/`)
+                    .then(({ data }) => {
+                        console.log(data)
+                        ruleForm.code = data.code;
+                        ruleForm.product_type = data.product_type;
+                        ruleForm.vul_type = data.vul_type;
+                        ruleForm.description = data.description;
+                        ruleForm.version = data.version;
+                        ruleForm.poc = data.poc;
+                        ruleForm.shodan_dock = data.shodan_dock;
+                    })
+                    .catch(({ response }) => {
+                        notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+                    })
+                    .finally(() => {
+                        loading.value = false
+                    })
+            }
+            return;
+        }
 
         const addFormSubmit = async (formData: RuleForm) => {
             return ApiService.post("cve/create/", formData)
@@ -533,7 +556,7 @@ export default defineComponent({
         }
 
         const editFormSubmit = async (formData: RuleForm) => {
-            return ApiService.put(`/targets/${ID.value}/`, formData)
+            return ApiService.put(`/cve/${ID.value}/update/`, formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Chỉnh sửa thành công')
                 })
@@ -576,6 +599,7 @@ export default defineComponent({
         }
 
         onMounted(() => {
+            getData();
             handleResize();
             window.addEventListener('resize', handleResize);
         });

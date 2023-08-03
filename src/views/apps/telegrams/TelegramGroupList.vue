@@ -97,7 +97,7 @@
       </el-table>
       <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
         <div v-if="totalPage > 0">
-          <span class="text-capitalize fs-13px">Tổng Số Mục Tiêu: {{ totalPage }}</span>
+          <span class="text-capitalize fs-13px">Tổng Số Nhóm Telegram: {{ totalPage }}</span>
         </div>
         <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
           v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
