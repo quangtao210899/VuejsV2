@@ -295,7 +295,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/cve/:idCVE/scan-detail/:id",
         name: "targetDetectionListCVE",
-        component: () => import("@/views/apps/cves/targetDetectionListCVE2.vue"),
+        component: () => import("@/views/apps/cves/targetDetectionListCVE2.vue"), 
         meta: {
           pageTitle: "Danh sách mục tiêu dính lỗ hổng",
           breadcrumbs: ["CVE","Scan","Chi Tiết"],

@@ -55,16 +55,6 @@
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column :min-width="170" label-class-name=" text-dark fs-13px fw-bold" prop="progress"
-                    label="TIẾN TRÌNH">
-                    <template #default="scope">
-                        <div class="w-150px m-0 p-0">
-                            <el-progress :percentage="+scope.row.progress ?? 0" :stroke-width="8"
-                                :status="(scope.row.status == 2) ? '' : getStatusProgress(scope.row.status).color"
-                                :striped-flow="(scope.row.status == 2) ? true : false" striped :duration="5" />
-                        </div>
-                    </template>
-                </el-table-column>
                 <el-table-column :min-width="130" label-class-name=" text-dark fs-13px fw-bold" prop="status"
                     label="TRẠNG THÁI">
                     <template #default="scope">
@@ -75,7 +65,7 @@
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column :width="120" label-class-name=" text-dark fw-bold fs-13px" label="HÀNH ĐỘNG" align="center">
+                <!-- <el-table-column :width="120" label-class-name=" text-dark fw-bold fs-13px" label="HÀNH ĐỘNG" align="center">
                     <template #default="scope">
                         <el-tooltip class="box-item" effect="dark" ::hide-after="0" content="Chi tiết" placement="top">
                             <router-link :to="`/cve/${getIdFromUrl()}/scan-detail/${scope.row.id}`"
@@ -84,7 +74,7 @@
                             </router-link>
                         </el-tooltip>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
             <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
                 <div v-if="totalPage > 0">
@@ -98,7 +88,7 @@
         </div>
     </div>
     <!-- modal detail  -->
-    <el-dialog v-model="DialogVisibleDetail" title="Chi tiết scan" width="700" id="modal-detail" align-center
+    <!-- <el-dialog v-model="DialogVisibleDetail" title="Chi tiết scan" width="700" id="modal-detail" align-center
         modal-class="" :show-close="false">
         <div class="modal-body p-0">
             <div class="">
@@ -178,7 +168,7 @@
                 </button>
             </div>
         </div>
-    </el-dialog>
+    </el-dialog> -->
 </template>
 
 <script lang="ts">
@@ -186,7 +176,7 @@ import { defineComponent, ref, onMounted, reactive, onBeforeUnmount, watch } fro
 import ApiService from "@/core/services/ApiService";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
@@ -211,6 +201,8 @@ export default defineComponent({
         debounce: vue3Debounce({ lock: true })
     },
     setup() {
+        const route = useRoute();
+        const IDScan = ref(route.params.id);
         const list = ref<object | any>([])
         const totalPage = ref<number>(0);
         const filterStatus = ref<String | null>('');
@@ -347,19 +339,24 @@ export default defineComponent({
         };
 
         const DialogVisibleDetail = ref<boolean>(false)
+        const router = useRouter();
+
         const customRowTable = (detail: any) => {
-            if (detail) {
-                DialogVisibleDetail.value = true
-                detailData.username = detail.username
-                detailData.status = detail.status
-                detailData.statusName = detail.status_name
-                detailData.created_at = detail.created_at
-                detailData.modified_at = detail.modified_at
-                detailData.description = detail.description
-                detailData.progress = detail.progress
-            } else {
-                notification('', 'error', 'Có lỗi xảy ra')
-            }
+            console.log(detail)
+            return router.push(`/cve/${IDScan.value}/scan-detail/${detail.id}`);
+
+            // if (detail) {
+            //     DialogVisibleDetail.value = true
+            //     detailData.username = detail.username
+            //     detailData.status = detail.status
+            //     detailData.statusName = detail.status_name
+            //     detailData.created_at = detail.created_at
+            //     detailData.modified_at = detail.modified_at
+            //     detailData.description = detail.description
+            //     detailData.progress = detail.progress
+            // } else {
+            //     notification('', 'error', 'Có lỗi xảy ra')
+            // }
         };
 
         const onItemSelect = (selectedItems: Array<number>) => {
