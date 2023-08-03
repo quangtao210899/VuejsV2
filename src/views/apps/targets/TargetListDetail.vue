@@ -561,7 +561,7 @@
                                                                     Object.keys(related_email).length : 0 }}
                                                             </span>
                                                             <span class="card-label fw-bold text-dark fs-5">Email Liên Quan</span>
-                                                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tải xuống file CSV" placement="top">
+                                                            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tải xuống file CSV" placement="top">
                                                                 <el-button :disabled="(related_email_status != 3 || !checkArray(related_email))" style="float: right;" @click="downloadCSV" :icon="DownloadIcon" size="small" circle />
                                                             </el-tooltip>
                                                         </div>
@@ -1150,7 +1150,7 @@
                                                                                         v-if="isRowExpandedPortservice(scope.$index)">Ẩn</template>
                                                                                     <template v-else>
                                                                                         <el-popover placement="right" width="200" trigger="hover"
-                                                                                            hide-after="100">
+                                                                                            :hide-after="100">
                                                                                             <template #reference>
                                                                                                 <span>Thêm</span>
                                                                                             </template>
@@ -1188,7 +1188,7 @@
                                                                                     <template v-if="isRowExpandedTechnology(scope.$index)">Ẩn</template>
                                                                                     <template v-else>
                                                                                         <el-popover placement="right" width="280" trigger="hover"
-                                                                                            hide-after="100">
+                                                                                            :hide-after="100">
                                                                                             <template #reference>
                                                                                                 <span>Thêm</span>
                                                                                             </template>

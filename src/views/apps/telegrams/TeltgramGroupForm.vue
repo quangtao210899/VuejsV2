@@ -161,7 +161,7 @@ export default defineComponent({
                     confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             }).then(() => {
-                if (icon == 'success' || values == 'Mục tiêu không tồn tại' || values == 'Có lỗi xảy ra') {
+                if (icon == 'success' || values == 'Nhóm không tồn tại') {
                     router.push({ name: urlBack.value });
                 }
             });

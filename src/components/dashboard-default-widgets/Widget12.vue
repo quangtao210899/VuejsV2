@@ -4,7 +4,7 @@
     <div class="card-header pt-7">
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
-        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Top 10 lỗ hổng bảo mật mới nhất" placement="top">
+        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Top 10 lỗ hổng bảo mật mới nhất" placement="top">
           <span class="fw-bold mb-2 text-dark">Lỗ Hổng Bảo Mật Mới Nhất</span>
         </el-tooltip>
       </h3>

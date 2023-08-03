@@ -5,7 +5,7 @@
     <div class="card-header pt-5">
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
-        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thống kê dựa trên kết quả Vulnerability Scan" placement="top">
+        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Thống kê dựa trên kết quả Vulnerability Scan" placement="top">
           <span class="card-label fw-bold">Thống Kê Theo Mức Độ Nghiêm Trọng</span>
         </el-tooltip>
       </h3>

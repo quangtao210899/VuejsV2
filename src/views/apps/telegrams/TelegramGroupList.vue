@@ -32,7 +32,7 @@
             <span v-else class="badge badge-light-danger">--</span>
           </template>
         </el-table-column>
-        <el-table-column min-width="50" label-class-name="fs-13px fw-bold text-dark" prop="total_message" label="TỔNG">
+        <el-table-column min-width="65" label-class-name="fs-13px fw-bold text-dark" prop="total_message" label="TỔNG">
           <template #default="scope">
             <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.total_message
             }}</span>
@@ -59,7 +59,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI"
+        <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI"
           align="center">
           <template #default="scope">
             <el-switch v-on:click.stop @click="updateStatus(scope.row)" v-model="scope.row.status"
@@ -71,21 +71,21 @@
         <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
           <template #default="scope">
 
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng Bộ" placement="top">
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Đồng Bộ" placement="top">
               <el-button class="me-1 btn-sm btn btn-icon btn-bg-light btn-active-color-success" type="primary"
                 :icon="RefreshIcon" @click="getSyncItem(scope.row.id)" v-on:click.stop
                 :disabled="(disabled || loadingSync) ? true : false"
                 :loading="(idSync == scope.row.id) ? loadingSync : loadingSync" :loading-icon="RefreshIcon"></el-button>
             </el-tooltip>
 
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi Tiết Tin Nhắn" placement="top">
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Chi Tiết Tin Nhắn" placement="top">
               <router-link :to="`/telegram-detail/${scope.row.id}`" v-on:click.stop
                 class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 my-1">
                 <KTIcon icon-name="search-list" icon-class="fs-3" />
               </router-link>
             </el-tooltip>
 
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh Sửa" placement="top">
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Chỉnh Sửa" placement="top">
               <router-link :to="`/telegram-group-form/${scope.row.id}`" v-on:click.stop
                 class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
                 <KTIcon icon-name="pencil" icon-class="fs-3" />
@@ -97,7 +97,7 @@
       </el-table>
       <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
         <div v-if="totalPage > 0">
-          <span class="text-capitalize fs-13px">Tổng Số Mục Tiêu: {{ totalPage }}</span>
+          <span class="text-capitalize fs-13px">Tổng Số Nhóm Telegram: {{ totalPage }}</span>
         </div>
         <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
           v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
@@ -254,6 +254,7 @@ import { Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
+import { markRaw } from 'vue';
 
 // import useCurrencyInput from "vue-currency-input";
 
@@ -282,7 +283,7 @@ export default defineComponent({
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
-    const RefreshIcon = ref(Refresh)
+    const RefreshIcon = markRaw(Refresh)
     const detailData = reactive({
       id: '',
       status: '',

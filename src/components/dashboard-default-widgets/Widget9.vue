@@ -4,7 +4,7 @@
     <!--begin::Header-->
     <div class="card-header align-items-center border-0 mt-4">
       <h3 class="card-title align-items-start flex-column">
-        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thống kê lỗ hổng bảo mật theo mục tiêu" placement="top">
+        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Thống kê lỗ hổng bảo mật theo mục tiêu" placement="top">
           <span class="fw-bold mb-2">Thống Kê Theo Mục Tiêu</span>
         </el-tooltip>
       </h3>
