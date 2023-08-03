@@ -1427,13 +1427,9 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogDirectoryVisible" title="Chi Tiết Thư Mục" width="1000" modal-class="custom-dialog">
+    <el-dialog v-model="dialogDirectoryVisible" :title="`${totalRecordsDirectory} thự mục được phát hiện với `" width="1000" modal-class="custom-dialog">
         <div>
             <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
-            <div class="my-3 text-primary">
-                <span class="text-gray-600">Tổng Thư Mục: </span>
-                <span class="fw-bold">{{ totalRecordsDirectory }}</span>
-            </div>
         </div>
         <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table">
             <template #empty>

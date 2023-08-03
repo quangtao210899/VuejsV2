@@ -382,19 +382,19 @@ export default defineComponent({
 
         const DialogVisibleDetail = ref<boolean>(false)
         const customRowTable = (detail: any) => {
-            // if (detail) {
-            //     DialogVisibleDetail.value = true
-            //     detailData.country = detail.country
-            //     detailData.cve_id = detail.cve_id
-            //     detailData.cve_scan_id = detail.cve_scan_id
-            //     detailData.id = detail.id
-            //     detailData.ip = detail.ip
-            //     detailData.org = detail.org
-            //     detailData.port = detail.port
-            //     detailData.hostnames = detail.hostnames
-            // } else {
-            //     notification('', 'error', 'Có lỗi xảy ra')
-            // }
+            if (detail) {
+                DialogVisibleDetail.value = true
+                detailData.country = detail.country
+                detailData.cve_id = detail.cve_id
+                detailData.cve_scan_id = detail.cve_scan_id
+                detailData.id = detail.id
+                detailData.ip = detail.ip
+                detailData.org = detail.org
+                detailData.port = detail.port
+                detailData.hostnames = detail.hostnames
+            } else {
+                notification('', 'error', 'Có lỗi xảy ra')
+            }
         };
 
         const onExportFile = async () => {
