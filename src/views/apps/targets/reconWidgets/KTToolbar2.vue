@@ -11,7 +11,8 @@
 
                 <!--begin::Details-->
                 <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch"
-                    :check-status="checkStatus" @filert-status="handleFilter" :typeText="typeText" :disabled="disabled"
+                    :check-status="checkStatus" @filert-status="handleFilter" @filert-authen="handleFilterAuthen" @filert-severity="handleFilterSeverity"
+                    :typeText="typeText" :disabled="disabled"
                     :check-search="checkSearch" />
                 <!--end::Details-->
 
@@ -216,6 +217,8 @@ export default defineComponent({
         "handle-export-file",
         "handle-pauser",
         "handle-restart",
+        "filert-authen",
+        "filert-severity",
     ],
     setup(props, { emit }) {
 
@@ -248,6 +251,12 @@ export default defineComponent({
         }
         const handleFilter = (data: any) => {
             emit("filert-status", data);
+        }
+        const handleFilterAuthen = (data: any) => {
+            emit("filert-authen", data);
+        }
+        const handleFilterSeverity = (data: any) => {
+            emit("filert-severity", data);
         }
         const handleSearch = (search: any) => {
             emit("handle-search", search);
@@ -360,6 +369,8 @@ export default defineComponent({
             getStatus,
             getStatusProgress,
             cancelEvent,
+            handleFilterAuthen,
+            handleFilterSeverity,
         };
     },
 });

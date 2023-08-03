@@ -1,5 +1,5 @@
 <template>
-  <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds" :check-status="true"
+  <KTToolbar :check-search="true" @handle-search="handleFilter" @filert-authen="handleFilterAuthen" @filert-severity="handleFilterSeverity" v-model:idsDelete="selectedIds" :check-status="true"
     @filert-status="handleFilterStatus" @handle-delete-selectd="deleteSubscription" :disabled="disabled"
     @on-header-height="onheaderHeight"></KTToolbar>
 
@@ -401,10 +401,10 @@
   </div>
   <!--end::Card-->
 
-  <el-dialog v-model="notesVisible" title="Ghi Chú" width="90%" top="5vh" id="modal-detail"
+  <el-dialog v-model="notesVisible" title="Ghi Chú" width="75%" top="7vh" id="modal-detail"
     :before-close="closeNotesVisible">
     <div>
-      <QuillEditor class="h-600px" theme="snow" toolbar="full" v-model:content="contentNote" contentType="html"
+      <QuillEditor class="h-550px" theme="snow" toolbar="full" v-model:content="contentNote" contentType="html"
         placeholder="Thêm Ghi Chú...">
         <template #toolbar>
           <el-upload ref="upload" class="d-flex my-upload-dialog" list-type="text" action="#" :limit="1"
@@ -444,9 +444,9 @@
     </div>
     <template #footer center>
       <span class="d-flex justify-content-center">
-        <el-button @click="notesVisible = false">Quay Lại</el-button>
-        <el-button type="primary" :disabled="disabled" @click="putUplaodFile" :loading=loading>
-          Đồng Ý
+        <el-button class="border-0" plain type="info"  @click="notesVisible = false">Quay lại</el-button>
+        <el-button class="border-0" plain type="primary" :disabled="disabled" @click="putUplaodFile" :loading=loading>
+          Đồng ý
         </el-button>
       </span>
     </template>
@@ -505,7 +505,8 @@ export default defineComponent({
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
     const status = ref<String | null>('');
-    const severity = ref<String | null>('');
+    const severity = ref<number | any>('');
+    const authen = ref<number | any>('');
     const ip = ref<String | null>('');
     const domain = ref<String | null>('');
     const typeIp = ref<String | null>('');
@@ -518,11 +519,6 @@ export default defineComponent({
     const apiData = ref<APIData>({
       title: '',
       description: '',
-    });
-    const dataConfirm = reactive({
-      severity: '',
-      status: '',
-      flag: false,
     });
     const detailData = reactive({
       id: '',
@@ -562,7 +558,7 @@ export default defineComponent({
 
     const getData = async () => {
       loading.value = true;
-      return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&search=${query.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}`)
+      return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&search=${query.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}&flag=${authen.value}`)
         .then(({ data }) => {
           // console.log(data)
           list.value = data.results
@@ -753,8 +749,19 @@ export default defineComponent({
     };
 
     const handleFilterStatus = (data: any) => {
-      console.log(data);
       status.value = data
+      currentPage.value = 1;
+      getData();
+    };
+
+    const handleFilterSeverity = (data: any) => {
+      severity.value = data
+      currentPage.value = 1;
+      getData();
+    };
+
+    const handleFilterAuthen = (data: any) => {
+      authen.value = data
       currentPage.value = 1;
       getData();
     };
@@ -984,6 +991,8 @@ export default defineComponent({
 
     return {
       handleFilterStatus,
+      handleFilterSeverity,
+      handleFilterAuthen,
       headerHeight,
       onheaderHeight,
       getData,
@@ -1153,4 +1162,5 @@ span.el-dialog__title {
 
 .my-upload-dialog .el-upload-list {
   margin: 0 !important;
-}</style>
+}
+</style>

@@ -54,8 +54,8 @@
         <div class="d-flex align-items-center">
             <!-- <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
                 :disabled="disabled" /> -->
-            <div v-if="checkSearch" class="input-group input-group-sm input-group-solid" style="max-width: 175px">
-                <input type="text" class="form-control " placeholder="Tìm kiếm..." v-model="search">
+            <div v-if="checkSearch" class="input-group input-group-sm input-group-solid " style="max-width: 175px">
+                <input type="text" class="form-control fs-13px" placeholder="Tìm kiếm..." v-model="search">
                 <div class="input-group-append ">
                     <span class="input-group-text ">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -63,12 +63,28 @@
                 </div>
             </div>
             <div v-if="checkStatus" class="input-group input-group-sm input-group-solid" style="max-width: 175px;">
-                <el-select v-model="status" class="mx-2 my-select-filter" placeholder="Select" >
+                <el-select v-model="status" class="ms-2 me-1 my-select-filter fs-13px" placeholder="Select" >
                     <el-option key="" label="Trạng Thái" value="" />
                     <el-option key="open" label="Open" value="open" />
                     <el-option key="re-open" label="Reopen" value="re-open" />
                     <el-option key="closed" label="Closed" value="closed" />
                     <el-option key="rick-accepted" label="Accepted" value="rick-accepted" />
+                </el-select>
+            </div>
+            <div v-if="checkStatus" class="input-group input-group-sm input-group-solid" style="max-width: 175px;">
+                <el-select v-model="severity" class="mx-1 my-select-filter fs-13px" placeholder="Select" >
+                    <el-option key="" label="Mức Độ" value="" />
+                    <el-option :key="0" label="Info" :value="0" />
+                    <el-option :key="1" label="Low" :value="1" />
+                    <el-option :key="2" label="Medium" :value="2" />
+                    <el-option :key="3" label="High" :value="3" />
+                </el-select>
+            </div>
+            <div v-if="checkStatus" class="input-group input-group-sm input-group-solid" style="max-width: 175px;">
+                <el-select v-model="authen" class="mx-1 my-select-filter fs-13px" placeholder="Select" >
+                    <el-option key="" label="Xác Thực" value="" />
+                    <el-option :key="0" label="Chưa Xác Thực" :value="0" />
+                    <el-option :key="1" label="Đã Xác Thực" :value="1" />
                 </el-select>
             </div>
         </div>
@@ -100,6 +116,8 @@ export default defineComponent({
     emits: [
         'handle-search',
         "filert-status",
+        "filert-authen",
+        "filert-severity"
     ],
     setup(props, { emit }) {
         const SearchIcon = ref(Search)
@@ -149,7 +167,14 @@ export default defineComponent({
         watch(status, (newStatus) => {
             emit("filert-status", newStatus);
         })
-
+        const severity = ref('')
+        watch(severity, (newSeverity) => {
+            emit("filert-severity", newSeverity);
+        })
+        const authen = ref('')
+        watch(authen, (newAuthen) => {
+            emit("filert-authen", newAuthen);
+        })
 
         return {
             pageTitle,
@@ -162,6 +187,8 @@ export default defineComponent({
             SearchIcon,
             search,
             status,
+            authen,
+            severity,
         };
     },
 });
@@ -179,5 +206,8 @@ export default defineComponent({
 
 .my-select-filter .el-input__wrapper.is-focus {
     box-shadow: unset !important
+}
+.el-input__inner{
+    font-size: 13px !important;
 }
 </style>
