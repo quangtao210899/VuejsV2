@@ -298,7 +298,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/cves/targetDetectionListCVE2.vue"),
         meta: {
           pageTitle: "Danh sách mục tiêu dính lỗ hổng",
-          breadcrumbs: ["CVE","Scan","Chi Tiết"],
+          breadcrumbs: ["CVE","Scan","Chi Tiết Scan"],
           links: ["/cve",''],
         },
       },
@@ -308,7 +308,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/cves/targetDetectionListCVEAll2.vue"),
         meta: {
           pageTitle: "Danh sách mục tiêu dính lỗ hổng",
-          breadcrumbs: ["CVE","Scan","Chi Tiết"],
+          breadcrumbs: ["CVE","Scan","Chi Tiết Kết Quả"],
           links: ["/cve",''],
         },
         beforeEnter: (to, from, next) => {

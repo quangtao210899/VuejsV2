@@ -1,8 +1,8 @@
 <template>
     <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds" :check-export-file="true"
-        @handle-export-file="onExportFile" @handle-delete-selectd="deleteSubscription" :disabled="disabled" 
-        :data-info-scans="info" :check-control="true" :status-CVE="statusCVE" @handle-pauser="handlePauser" @handle-restart="handleRestart"
-        @on-header-height="onheaderHeight"></KTToolbar>
+        @handle-export-file="onExportFile" @handle-delete-selectd="deleteSubscription" :disabled="disabled"
+        :data-info-scans="info" :check-control="true" :status-CVE="statusCVE" @handle-pauser="handlePauser"
+        @handle-restart="handleRestart" @on-header-height="onheaderHeight"></KTToolbar>
     <div class="app-container container-fluid " :style="{ marginTop: headerHeight + 'px' }">
         <div class="p-5 bg-body rounded-3">
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
@@ -18,7 +18,7 @@
                 <el-table-column label-class-name=" fs-13px fw-bold" type="selection" :width="35"
                     :reserve-selection="true" />
 
-                <el-table-column :width="55" label-class-name=" text-dark fs-13px fw-bold " prop="id" label="ID">
+                <el-table-column :width="70" label-class-name=" text-dark fs-13px fw-bold " prop="id" label="ID">
                     <template #default="scope">
                         <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">
                             {{ scope.row.id }}
@@ -48,7 +48,8 @@
                     <template #default="scope">
                         <template v-if="scope.row.hostnames != ''">
                             <span v-for="(value, index) in scope.row.hostnames" :key="index"
-                                class="fs-7 px-4 py-3 badge badge-light-primary text-start my-1 me-2" style="white-space: pre-line;">
+                                class="fs-7 px-4 py-3 badge badge-light-primary text-start my-1 me-2"
+                                style="white-space: pre-line;">
                                 {{ value }}
                             </span>
                         </template>
@@ -87,71 +88,61 @@
     </div>
 
     <!-- modal detail  -->
-    <el-dialog v-model="DialogVisibleDetail" title="Chi tiết Scan" width="700" id="modal-detail" align-center modal-class=""
-        :show-close="false">
+    <el-dialog v-model="DialogVisibleDetail" :title="detailData.ip" width="650" id="modal-detail" align-center
+        modal-class="" :show-close="false">
         <div class="modal-body p-0">
             <div class="card card-flush">
-                <!--begin::Card header-->
-                <div class="card-header">
-                    <!--begin::Card title-->
-                    <div class="card-title">
-                        <h1 class="fw-bold"><span class="text-gray-400">IP:</span> {{ detailData.ip }}</h1>
-                    </div>
-                </div>
                 <div class="card-body py-0">
                     <div class="mb-10 fs-13px">
-                        <h6 >Thông tin chi tiết:</h6>
-                        <div class="py-5">
-                            <!--begin::Row-->
-                            <div class="me-5">
-                                <!--begin::Details-->
-                                <div>
-                                    <div class="row fs-6 mb-3 fs-13px">
-                                        <div class="col-3 text-gray-400">Port:</div>
-                                        <div class="col-9 text-gray-800 fs-5 fw-bold">
-                                            <span v-if="detailData.port != ''"
-                                                class="fs-13px text-gray-700 text-hover-primary">
-                                                {{ detailData.port }}</span>
-                                            <span v-else class="badge badge-light-danger">--</span>
-                                        </div>
-                                    </div>
-                                    <div class="row fs-6 mb-3 fs-13px">
-                                        <div class="col-3 text-gray-400">Hostnames:</div>
-                                        <div class="col-9 text-gray-800">
-                                            <template v-if="detailData.hostnames.length != 0">
-                                                <span v-for="(value, index) in detailData.hostnames" :key="index"
-                                                        class="px-4 py-3 badge badge-light-primary my-1 me-2">
-                                                        {{ value }}
-                                                    </span>
-                                            </template>
-                                            <template v-else>
-                                                <span class="badge badge-light-danger">--</span>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="row fs-6 mb-3 fs-13px">
-                                        <div class="col-3 text-gray-400 fs-13px">Quốc gia:</div>
-                                        <div class="col-9 text-gray-800">
-                                            <span v-if="detailData.country != ''"
-                                                class="fs-13px text-gray-700 text-hover-primary">
-                                                {{ detailData.country }}</span>
-                                            <span v-else class="badge badge-light-danger">--</span>
-                                        </div>
-                                    </div>
-                                    <div class="row fs-6 mb-3 fs-13px">
-                                        <div class="col-3 text-gray-400">Tổ chức:</div>
-                                        <div class="col-9 text-gray-800">
-                                            <span v-if="detailData.org != ''"
-                                                class="fs-13px text-gray-700 text-hover-primary">
-                                                {{ detailData.org }}</span>
-                                            <span v-else class="badge badge-light-danger">--</span>
-                                        </div>
+                        <h5>Thông Tin Chi Tiết:</h5>
+
+                        <!--begin::Row-->
+                        <div class="me-5">
+                            <!--begin::Details-->
+                            <div>
+                                <div class="row fs-6 mb-3 fs-13px">
+                                    <div class="col-3 text-gray-900 text-capitalize">Port:</div>
+                                    <div class="col-9 text-gray-900">
+                                        <span v-if="detailData.port != ''" class="fs-13px text-gray-700 text-hover-primary">
+                                            {{ detailData.port }}</span>
+                                        <span v-else class="badge badge-light-danger">--</span>
                                     </div>
                                 </div>
-                                <!--end::Details-->
+                                <div class="row fs-6 mb-3 fs-13px">
+                                    <div class="col-3 text-gray-900 text-capitalize">Hostnames:</div>
+                                    <div class="col-9 text-gray-900">
+                                        <template v-if="detailData.hostnames.length != 0">
+                                            <span v-for="(value, index) in detailData.hostnames" :key="index"
+                                                class="px-4 py-3 badge badge-light-primary my-1 me-2">
+                                                {{ value }}
+                                            </span>
+                                        </template>
+                                        <template v-else>
+                                            <span class="badge badge-light-danger">--</span>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div class="row fs-6 mb-3 fs-13px">
+                                    <div class="col-3 text-gray-900 text-capitalize">Quốc gia:</div>
+                                    <div class="col-9 text-gray-900">
+                                        <span v-if="detailData.country != ''"
+                                            class="fs-13px text-gray-700 text-hover-primary">
+                                            {{ detailData.country }}</span>
+                                        <span v-else class="badge badge-light-danger">--</span>
+                                    </div>
+                                </div>
+                                <div class="row fs-6 mb-3 fs-13px">
+                                    <div class="col-3 text-gray-900 text-capitalize">Tổ chức:</div>
+                                    <div class="col-9 text-gray-900">
+                                        <span v-if="detailData.org != ''" class="fs-13px text-gray-700 text-hover-primary">
+                                            {{ detailData.org }}</span>
+                                        <span v-else class="badge badge-light-danger">--</span>
+                                    </div>
+                                </div>
                             </div>
-                            <!--end::Row-->
+                            <!--end::Details-->
                         </div>
+                        <!--end::Row-->
                     </div>
                 </div>
             </div>
@@ -163,7 +154,8 @@
         </div>
     </el-dialog>
 
-    <el-dialog v-model="fileDownVisible" :show-close="false" align-center id="modal-detail" title="Xác Nhận Xuất File" width="700">
+    <el-dialog v-model="fileDownVisible" :show-close="false" align-center id="modal-detail" title="Xác Nhận Xuất File"
+        width="700">
         <div class="h-100 border-primary border-dashed rounded-2 border border-2 bg-light my-hover-export-file">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center text-center flex-column p-8">
@@ -193,11 +185,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, onBeforeUnmount ,watch } from "vue";
+import { defineComponent, ref, onMounted, reactive, onBeforeUnmount, watch } from "vue";
 import ApiService from "@/core/services/ApiService";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 import { vue3Debounce } from 'vue-debounce';
-import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";import Swal from "sweetalert2/dist/sweetalert2.js";
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue"; import Swal from "sweetalert2/dist/sweetalert2.js";
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { ElNotification } from 'element-plus'
@@ -574,3 +566,19 @@ export default defineComponent({
     },
 });
 </script>
+<style lang="scss">
+#modal-detail .el-dialog__body {
+    padding-top: 0px;
+}
+
+span.el-dialog__title {
+    color: #181C32 !important;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 27px;
+}
+
+.my-hover-export-file:hover {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+</style>
