@@ -297,7 +297,6 @@ export default defineComponent({
     const disabled = ref<boolean>(false);
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
-        console.log(ids)
         disabled.value = true
         setTimeout(() => {
           disabled.value = false
@@ -405,7 +404,6 @@ export default defineComponent({
     // handleCurrentChange
     const DialogVisibleDetail = ref<boolean>(false)
     const handleCurrentChange = (val: any, index) => {
-      console.log(val)
       if (val) {
         DialogVisibleDetail.value = true
         detailData.id = val.id

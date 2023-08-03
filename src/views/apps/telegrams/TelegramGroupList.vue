@@ -32,7 +32,7 @@
             <span v-else class="badge badge-light-danger">--</span>
           </template>
         </el-table-column>
-        <el-table-column min-width="50" label-class-name="fs-13px fw-bold text-dark" prop="total_message" label="TỔNG">
+        <el-table-column min-width="65" label-class-name="fs-13px fw-bold text-dark" prop="total_message" label="TỔNG">
           <template #default="scope">
             <span class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.total_message
             }}</span>
@@ -59,7 +59,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI"
+        <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI"
           align="center">
           <template #default="scope">
             <el-switch v-on:click.stop @click="updateStatus(scope.row)" v-model="scope.row.status"
