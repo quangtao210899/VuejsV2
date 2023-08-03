@@ -44,12 +44,12 @@
                             <i class="fa-solid fa-circle-plus"></i>
                             Thêm
                         </router-link>
-                        <router-link v-if="addTragetList != ''" :to="addTragetList" :disabled="disabled" @click="handleSecurityScan"
+                        <router-link v-if="addTragetList != ''" :to="addTragetList" :disabled="disabled"
                             class="btn btn-light-success font-weight-bold py-2 px-5  me-2 fs-13px">
                             <KTIcon icon-name="document" icon-class="fs-2" />
                             Danh sách mục tiêu
                         </router-link>
-                        <router-link v-if="checkScan == true" to="#" :disabled="disabled"
+                        <router-link v-if="checkScan == true" to="#" :disabled="disabled"  @click="handleSecurityScan"
                             class="btn btn-light-primary font-weight-bold py-2 px-5 fs-13px">
                             <i class="fa-solid fa-circle-plus"></i>
                             Quét
@@ -81,13 +81,14 @@ import { defineComponent, markRaw, ref, onMounted, onUnmounted, watch } from "vu
 import { toolbarWidthFluid } from "@/core/helpers/config";
 import KTPageTitle from "@/views/apps/targets/reconWidgets/KTPageTitle2.vue";
 import { ElMessageBox } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
+import { Delete, QuestionFilled } from '@element-plus/icons-vue'
 
 export default defineComponent({
     name: "layout-toolbar",
     components: {
         KTPageTitle,
         Delete,
+        QuestionFilled,
     },
     props: {
         addNew: { type: String, required: false, default: '' },
@@ -119,13 +120,13 @@ export default defineComponent({
 
         const handleSecurityScan = () => {
             ElMessageBox.confirm(
-                'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-                'Xác Nhận Xóa',
+                'Bạn có chắc muốn scan CVE không?',
+                'Xác Nhận Quét',
                 {
                     confirmButtonText: 'Đồng Ý',
                     cancelButtonText: 'Hủy Bỏ',
                     type: 'warning',
-                    icon: markRaw(Delete)
+                    icon: markRaw(QuestionFilled)
                 }
             )
                 .then(() => {

@@ -6,7 +6,7 @@
         <div class="p-5 bg-body rounded-3">
             <!--begin::Card body-->
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-                    class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed"
+                    class-name="rounded-top cursor-pointer" table-layout="fixed"
                     v-loading="loading" @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
                     @row-click="handleCurrentChange" :default-sort="{ prop: 'id', order: 'descending' }"
                     @sort-change="handleSortChange">
