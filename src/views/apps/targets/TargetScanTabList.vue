@@ -1,194 +1,154 @@
 <template> 
     <KTToolbar :check-search="true" @handle-search="handleFilter" @on-header-height="onheaderHeight"></KTToolbar>
     <div class="app-container container-fluid h-100 " :style="{marginTop: headerHeight + 'px'}">
-        <div class="mb-3 position-relative position-repository bg-white rounded-3 border card card-custom px-2">
-            <!--begin::Card header-->
-            <!--end::Card header-->
-            <div class="d-md-none d-block py-3">
-                <div class="row">
-                    <div class="col-6">
-                        <div>
-                            <span class="w-70px">Mục Tiêu: </span>
-                            <span class="fw-bold"
-                                :class="(checkNameTarget(targetData.name, targetData.domain) == '--') ? 'badge badge-light-danger' : ''">
-                                {{ checkNameTarget(targetData.name, targetData.domain) }}
-                            </span>
+        <div class="card mb-3">
+            <div class="card-body pb-0 px-5 pt-5">
+                <div class="d-flex flex-wrap flex-sm-nowrap">
+                    <div class="m-0">
+                        <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+                            <apexchart v-if="process && chart" ref="chartRef" class="mixed-widget-4-chart" :options="chart" :series="[progress]"
+                                :height="chartHeight" type="radialBar">
+                            </apexchart>
                         </div>
+                        <p class="text-center fs-13px">
+                            <span class="badge badge-light-danger fs-8">Notes:</span>&nbsp;
+                            Tiến Trình Scan
+                        </p>
                     </div>
-                    <div class="col-6">
-                        <div>
-                            <span class="w-70px">IP Mục Tiêu: </span>
-                            <span class="fw-bold" :class="(targetData.ip == '') ? 'badge badge-light-danger' : ''">
-                                {{ (targetData.ip != '') ? targetData.ip : '--' }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-sm-start justify-content-between mt-2">
-                        <div class="">
-                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin tiến trình"
-                                placement="top">
-                                <button type="button"
-                                    class="btn btn-sm fw-bold bg-secondary btn-color-gray-700 w-70px px-1 btn-active-color-primary"
-                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
-                                    data-kt-menu-flip="top-start">
-                                    <KTIcon icon-name="information-3" icon-class="fs-2" />
-                                    Info
-                                </button>
-                                <!-- </div> -->
-                            </el-tooltip>
-                            <filtersTabScan @filterData="handleFilter" :targetData="targetData" :diffTime="diffTime"
-                                :countRequest="countRequest" :averageResponseTime="averageResponseTime"
-                                :locations="locations" :progress="progress" :scanStatus="scanStatus">
-                            </filtersTabScan>
-                        </div>
-                        <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không" icon="InfoFilled"
-                            icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?" @confirm="confirmEvent"
-                            @cancel="cancelEvent">
-                            <template #reference>
-                                <button type="button" :disabled="checkDisabled"
-                                    class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary w-70px px-1 ms-1 ms-sm-2 text-white">
-                                    <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy Bỏ
-                                </button>
-                            </template>
-                        </el-popconfirm>
-                        <button v-if="scanStatus == 5" type="button" @click="handlePauser"
-                            :disabled="(checkDisabled || checkStatus)"
-                            class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary w-70px px-1 ms-sm-2 ms-1">
-                            <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
-                            <span class="text-primary"> Tiếp</span>
-                        </button>
-                        <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
-                            class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger ms-sm-2 ms-1">
-                            <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
-                            <span class="text-danger">Dừng</span>
-                        </button>
-                        <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
-                            class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-sm-2 ms-1 text-white">
-                            <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
-                            Xuất Kết Quả
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="d-md-block d-none">
-                <div class="row align-items-center">
-                    <div class="col-sm-12 col-md-6 py-2 ">
-                        <div class="row ps-4">
-                            <div class="col-6">
-                                <div>
-                                    <span class="w-70px">Mục Tiêu: </span>
-                                    <span class="fw-bold"
-                                        :class="(checkNameTarget(targetData.name, targetData.domain) == '--') ? 'badge badge-light-danger' : ''">
-                                        {{ checkNameTarget(targetData.name, targetData.domain) }}
-                                    </span>
+                    <div class="flex-grow-1">
+                        <div
+                            class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex align-items-center mb-2">
+                                    <a
+                                        href="#"
+                                        class="text-gray-800 text-hover-primary fs-2 fw-bold me-1"
+                                    ><span :class="(!targetData.name) ? 'badge badge-light text-danger' : ''">{{ targetData.name ? targetData.name : '--' }}</span></a>
+                                </div>
+                                <div class="d-flex flex-wrap fw-semobold fs-6 mb-4 pe-2">
+                                    <a
+                                        href="#"
+                                        class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
+                                    >
+                                        <KTIcon icon-name="profile-circle" icon-class="fs-4 me-1" />
+                                        <span :class="(!targetData.domain) ? 'badge badge-light text-danger' : ''">{{ targetData.domain ? targetData.domain : '--' }}</span>
+                                    </a>
+                                    <a
+                                        href="#"
+                                        class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
+                                    >
+                                        <KTIcon icon-name="geolocation" icon-class="fs-4 me-1" />
+                                        <span :class="(!targetData.ip) ? 'badge badge-light text-danger' : ''">{{ targetData.ip ? targetData.ip : '--' }}</span>
+                                    </a>
+                                    <a
+                                        href="#"
+                                        class="d-flex align-items-center text-gray-400 text-hover-primary mb-2"
+                                    >
+                                        <KTIcon icon-name="sms" icon-class="fs-4 me-1" />
+                                        <span :class="(!targetData.group) ? 'badge badge-light text-danger' : ''">{{ targetData.group ? targetData.group : '--' }}</span>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div>
-                                    <span class="w-70px">IP Mục Tiêu: </span>
-                                    <span class="fw-bold" :class="(targetData.ip == '') ? 'badge badge-light-danger' : ''">
-                                        {{ (targetData.ip != '') ? targetData.ip : '--' }}
-                                    </span>
+                            <div class="d-flex">
+                                <div class="d-flex justify-content-sm-start justify-content-md-end">
+                                    <div class="card-toolbar">
+                                        <div class="d-flex justify-content-end">
+                                            <el-popconfirm confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
+                                                icon="InfoFilled" icon-color="#626AEF"
+                                                title="Bạn có chắc chắn muốn hủy lần Recon này không?" @confirm="handleCanceled"
+                                                @cancel="cancelEvent">
+                                                <template #reference>
+                                                    <button type="button" :disabled="[1,2,3,4,6].includes(scanStatus)"
+                                                        class="btn btn-sm btn-light-danger custom-button">
+                                                        <KTIcon icon-name="cross-square" icon-class="fs-2 " />Hủy Bỏ
+                                                    </button>
+                                                </template>
+                                            </el-popconfirm>
+                                            <el-popconfirm v-if="scanStatus == 5" confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
+                                                icon="InfoFilled" icon-color="#626AEF"
+                                                title="Bạn có muốn tiếp tục chạy Recon này không?" @confirm="handlePauser"
+                                                @cancel="cancelEvent">
+                                                <template #reference>
+                                                    <button type="button"
+                                                    :disabled="[6].includes(scanStatus)"
+                                                        class="btn btn-sm btn-light-success ms-2 custom-button">
+                                                        <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
+                                                        <span>Tiếp Tục</span>
+                                                    </button>
+                                                </template>
+                                            </el-popconfirm>
+
+                                            <el-popconfirm v-else confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
+                                                icon="InfoFilled" icon-color="#626AEF"
+                                                title="Bạn có muốn tạm dừng Recon này không?" @confirm="handlePauser"
+                                                @cancel="cancelEvent">
+                                                <template #reference>
+                                                    <button type="button"
+                                                        :disabled="[1,3,4].includes(scanStatus)"
+                                                        class="btn btn-sm btn-light-warning ms-2 custom-button">
+                                                        <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
+                                                        <span>Tạm Dừng</span>
+                                                    </button>
+                                                </template>
+                                            </el-popconfirm>
+                                            <button type="button" :disabled="[1,2].includes(scanStatus)"
+                                                @click="fileDownVisible = true"
+                                                class="btn btn-sm btn-light-primary ms-2 custom-button">
+                                                <KTIcon icon-name="file-down" icon-class="fs-2" />
+                                                Xuất Kết Quả
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 py-2 pe-6">
-                        <div class="d-flex justify-content-end">
-                            <el-popconfirm confirm-button-text="Đồng ý" width="250" cancel-button-text="Không"
-                                icon="InfoFilled" icon-color="#626AEF" title="Bạn có chắc muốn hủy chương trình quét này?"
-                                @confirm="confirmEvent" @cancel="cancelEvent">
-                                <template #reference>
-                                    <button type="button" :disabled="checkDisabled"
-                                        class="btn btn-sm fw-bold bg-danger btn-color-gray-700 btn-active-color-primary text-white">
-                                        <KTIcon icon-name="cross-square" icon-class="fs-2 text-white" />Hủy Bỏ
-                                    </button>
-                                </template>
-                            </el-popconfirm>
-                            <button v-if="scanStatus == 5" type="button" @click="handlePauser"
-                                :disabled="(checkDisabled || checkStatus)"
-                                class="btn btn-sm btn-outline btn-outline-dashed btn-outline-primary  fw-bold bg-body btn-color-gray-700 btn-active-color-primary  ms-2">
-                                <KTIcon icon-name="bi bi-play-fill text-primary" icon-class="fs-2 " />
-                                <span class="text-primary"> Tiếp Tục</span>
-                            </button>
-                            <button v-else type="button" @click="handlePauser" :disabled="(checkDisabled || checkStatus)"
-                                class="btn btn-sm btn-outline btn-outline-dashed  btn-outline-danger fw-bold bg-body btn-color-gray-700 btn-active-color-danger  ms-2">
-                                <KTIcon icon-name="bi bi-pause-fill text-danger" icon-class="fs-2 " />
-                                <span class="text-danger">Tạm Dừng</span>
-                            </button>
-                            <button type="button" :disabled="checkDisabled" @click="fileDownVisible = true"
-                                class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary ms-2 text-white">
-                                <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
-                                Xuất Kết Quả
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row col-12 ps-5 pe-1">
-                        <div class=" col-3 p-2">
-                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ms-2">
-                                <!--begin::Number-->
-                                <div class="d-flex align-items-center">
-                                    <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
-                                    <div class="fs-2 fw-bold">{{ diffTime }}</div>
+                        <div class="d-flex flex-wrap flex-stack">
+                            <div class="d-flex flex-column flex-grow-1 pe-8">
+                                <div class="d-flex flex-wrap row">
+                                    <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-6 p-2">
+                                        <div class="border border-gray-300 border-dashed rounded py-3 px-4">
+                                            <div class="d-flex align-items-center">
+                                                <KTIcon icon-name="timer" icon-class="fs-3 text-success me-2" />
+                                                <div class="fs-2 fw-bold">{{ diffTime }}</div>
+                                            </div>
+                                            <div class="fw-semobold text-gray-400 fs-13px">Thời Gian</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-6 p-2">
+                                        <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                            <div class="d-flex align-items-center">
+                                                <KTIcon icon-name="arrow-up-down" icon-class="fs-3 text-success me-2" />
+                                                <div class="fs-2 fw-bold">{{ countRequest }}</div>
+                                            </div>
+                                            <div class="fw-semobold text-gray-400 fs-13px">Yêu cầu</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-6 p-2">
+                                        <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                            <div class="d-flex align-items-center">
+                                                <KTIcon icon-name="watch" icon-class="fs-3 text-success me-2" />
+                                                <div class="fs-2 fw-bold">{{ averageResponseTime }}</div>
+                                            </div>
+                                            <div class="fw-semobold text-gray-400 fs-13px">Average Response Time</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-6 p-2">
+                                        <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
+                                            <div class="d-flex align-items-center">
+                                                <KTIcon icon-name="pointers" icon-class="fs-3 text-success me-2" />
+                                                <div class="fs-2 fw-bold">{{ locations }}</div>
+                                            </div>
+                                            <div class="fw-semobold text-gray-400 fs-13px">Đường dẫn</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--end::Number-->
-
-                                <!--begin::Label-->
-                                <div class="fw-semobold text-gray-400 fs-13px">Thời Gian</div>
-                                <!--end::Label-->
                             </div>
-                            <!--end::Stat-->
-                        </div>
-                        <div class="col-3 p-2">
-                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                <!--begin::Number-->
-                                <div class="d-flex align-items-center">
-                                    <KTIcon icon-name="arrow-up-down" icon-class="fs-3 text-success me-2" />
-                                    <div class="fs-2 fw-bold">{{ countRequest }}</div>
+                            <!-- <div class="d-flex align-items-center w-200px w-sm-300px flex-column mt-3">
+                                <div class="col-12 w-100">
+                                    <span class="fw-semobold text-muted fs-13px">Tiến trình</span>
+                                    <el-progress :percentage="progress" status="success" />
                                 </div>
-                                <!--end::Number-->
-
-                                <!--begin::Label-->
-                                <div class="fw-semobold text-gray-400 fs-13px">Yêu cầu</div>
-                                <!--end::Label-->
-                            </div>
-
-                        </div>
-                        <div class="col-3 p-2">
-                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                <!--begin::Number-->
-                                <div class="d-flex align-items-center">
-                                    <KTIcon icon-name="watch" icon-class="fs-3 text-success me-2" />
-                                    <div class="fs-2 fw-bold">{{ averageResponseTime }}</div>
-                                </div>
-                                <!--end::Number-->
-
-                                <!--begin::Label-->
-                                <div class="fw-semobold text-gray-400 fs-13px">Average Response Time</div>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Stat-->
-
-                        </div>
-                        <div class="col-3 p-2">
-                            <div class="border border-gray-300 border-dashed rounded py-3 px-4 ">
-                                <!--begin::Number-->
-                                <div class="d-flex align-items-center">
-                                    <KTIcon icon-name="pointers" icon-class="fs-3 text-success me-2" />
-                                    <div class="fs-2 fw-bold">{{ locations }}</div>
-                                </div>
-                                <!--end::Number-->
-
-                                <!--begin::Label-->
-                                <div class="fw-semobold text-gray-400 fs-13px">Đường dẫn</div>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Stat-->
-
-                        </div>
-                        <div class="col-12 my-3 w-100  ms-2">
-                            <span class="fw-semobold text-muted fs-13px">Tiến trình</span>
-                            <el-progress :percentage="progress" status="success" />
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -558,7 +518,7 @@
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, watch, nextTick, onUnmounted } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, nextTick, onUnmounted, computed, onBeforeMount } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -566,7 +526,10 @@ import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
-import { ElMessage } from 'element-plus'
+import type VueApexCharts from "vue3-apexcharts";
+import type { ApexOptions } from "apexcharts";
+import { useThemeStore } from "@/stores/theme";
+import { getCSSVariableValue } from "@/assets/ts/_utils";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 
 // import dayjs from 'dayjs';
@@ -603,7 +566,6 @@ interface targetData {
     name: string;
 }
 
-
 export default defineComponent({
     name: "kt-scanstabs-list",
 
@@ -615,6 +577,33 @@ export default defineComponent({
     },
     setup() {
         const route = useRoute();
+        const chartColor = ref<string>('');
+        const chartHeight = ref<string>('');
+        const chartRef = ref<typeof VueApexCharts | null>(null);
+        const process = ref<Array<any>>([0]);
+        let chart: ApexOptions = {};
+        const store = useThemeStore();
+        const series = ref([23]);
+        const themeMode = computed(() => {
+            return store.mode;
+        });
+        onBeforeMount(() => {
+            Object.assign(chart, chartOptions(chartColor, chartHeight));
+        });
+
+        const refreshChart = () => {
+            if (!chartRef.value) {
+                return;
+            }
+
+            Object.assign(chart, chartOptions(chartColor, chartHeight));
+
+            chartRef.value.refresh();
+        };
+
+        watch(themeMode, () => {
+            refreshChart();
+        });
         const scanID = ref<null | number | any>(route.params.id ?? '');
         const list = ref<getData | any>()
         const loading = ref<boolean>(false)
@@ -681,6 +670,7 @@ export default defineComponent({
                     targetData.value.domain = data.target.domain
                     targetData.value.ip = data.target.ip
                     targetData.value.name = data.target.name
+                    targetData.value.group = data.target.group.title
                     totalPage.value = Object.keys(list.value).length
 
                     // time'..
@@ -697,19 +687,17 @@ export default defineComponent({
 
                     // check
                     progress.value = data.progress
+                    console.log(progress.value);
+                    
                     timeStart.value = data.scan_started_at
                     timeEnd.value = data.scan_finished_at
                     checkStatus.value = (data.scan_status == 3 || data.scan_status == 0 || data.scan_status == 4 || data.scan_status == 1) ? true : false
                     // checkStatusDisabled.value = (data.scan_status == 3) ? true : false
-                    scanStatus.value = data.scan_status
+                    scanStatus.value = parseInt(data.scan_status)
                     fetchDataScans(currentPage.value, itemsPerPage.value)
 
                     humanDiffTime();
                     showLocaleTime();
-                    // console.log(countRequest.value)
-                    // console.log(averageResponseTime.value)
-                    // console.log(locations.value)
-                    // console.log(maxResponseTime.value)
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -793,8 +781,6 @@ export default defineComponent({
                             detailVuln[key] = '';
                         }
                     }
-                    // console.log(detailVuln)
-                    // console.log(data)
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -823,10 +809,6 @@ export default defineComponent({
                     }
                 }
             }
-
-            console.log(detail)
-            console.log(detailVuln)
-
         };
 
         const handleCloseDetail = () => {
@@ -947,15 +929,25 @@ export default defineComponent({
             if (scanStatus.value == 3) {
                 notification('Danh dách đã được quét thành công không thể tạm dừng', 'error', 'Có lỗi xảy ra')
             } else if (scanStatus.value == 5) {
-                // console.log('tiếp tục')
                 getResume()
             } else if (scanStatus.value == 2) {
-                // console.log('tạm dừng')
                 getPauser()
             } else {
                 notification('', 'error', 'Có lỗi xảy ra')
             }
 
+        };
+
+        const handleCanceled = async () => {
+            // if (scanStatus.value == 3) {
+            //     notification('Danh dách đã được quét thành công không thể tạm dừng', 'error', 'Có lỗi xảy ra')
+            // } else if (scanStatus.value == 5) {                
+            //     getCanceled()
+            // } else {
+            //     notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
+            // }
+            console.log('vao cancel');
+            
         };
 
         const getResume = async () => {
@@ -990,7 +982,21 @@ export default defineComponent({
                 });
         };
 
-
+        const getCanceled = async () => {
+            const formData = {
+                control_param: {
+                    "action": 'canceled'
+                }
+            }
+            return ApiService.post(`scans/${scanID.value}/abort`, formData)
+                .then(({ data }) => {
+                    notification(data.detail, 'success', 'Tạm dừng thành công')
+                    getData()
+                })
+                .catch(({ response }) => {
+                    notification(response.data.detail , 'error', 'Có lỗi xảy ra')
+                });
+        };
 
         // tải về files
         const fileDownVisible = ref(false)
@@ -1198,9 +1204,65 @@ export default defineComponent({
             // hủy 
             confirmEvent,
             cancelEvent,
+
+            handleCanceled,
+
+            series,
+            chartHeight,
+            chartColor,
+            chart,
+            process
         };
     },
 });
+
+const chartOptions = (
+  color: string = "primary",
+  height: string = "auto"
+): ApexOptions => {
+  const baseColor = getCSSVariableValue(`--bs-primary`);
+  const lightColor = getCSSVariableValue(`--bs-${color}-light`);
+
+  return {
+    chart: {
+      fontFamily: "inherit",
+      height: height,
+      type: "radialBar",
+    },
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          margin: 0,
+          size: "65%",
+        },
+        dataLabels: {
+          show: true,
+          name: {
+            show: false,
+          },
+          value: {
+            fontSize: "30px",
+            fontWeight: "700",
+            offsetY: 12,
+            show: true,
+            formatter: function (val) {
+              return val + "%";
+            },
+          },
+        },
+        track: {
+          background: lightColor,
+          strokeWidth: "100%",
+        },
+      },
+    },
+    colors: [baseColor],
+    stroke: {
+      lineCap: "round",
+    },
+    labels: ["Progress"],
+  };
+};
 </script>
   
 <style scoped>
@@ -1208,6 +1270,25 @@ export default defineComponent({
     box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05) !important;
     -webkit-box-shadow: 0px 0px 30px 0px rgba(82, 63, 105, 0.05);
     border: 0;
+}
+
+@media (min-width: 1399px) {
+    .custom-button {
+        width: 175px;
+    }
+}
+
+/* Media query cho màn hình >= 768px và < 992px (md) */
+@media (min-width: 992px) and (max-width: 1399px) {
+    .custom-button {
+        width: 145px;
+    }
+}
+
+@media (max-width: 992px) {
+    .custom-button {
+        width: 139px;
+    }
 }
 </style>
   
