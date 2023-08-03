@@ -2,10 +2,10 @@
     <KTToolbar :addTragetList="`/cve/${getIdFromUrl()}/scan/detail`" :check-scan="true" @handle-security-scan="handleSecurityScan"
         :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
         @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
-    <div class="app-container container-fluid px-5" :style="{ marginTop: headerHeight + 'px' }">
+    <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
         <div class="p-5 bg-body rounded-3">
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-                class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
+                class-name="rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
                 @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
                 @row-click="customRowTable">
                 <template #empty>
@@ -17,7 +17,7 @@
                 <el-table-column label-class-name=" fs-13px fw-bold" type="selection" :width="35"
                     :reserve-selection="true" />
 
-                <el-table-column width="45" label-class-name="fs-13px fw-bold " prop="id" label="ID">
+                <el-table-column :width="55" label-class-name=" text-dark fs-13px fw-bold " prop="id" label="ID">
                     <template #default="scope">
                         <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">
                             {{ scope.row.id}}
@@ -26,7 +26,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label-class-name="fs-13px fw-bold" :min-width="150" prop="username"
+                <el-table-column label-class-name=" text-dark fs-13px fw-bold" :min-width="150" prop="username"
                     label="NGƯỜI SCAN">
                     <template #default="scope">
                         <span v-if="scope.row.username != ''" class="fs-13px text-gray-700 text-hover-primary">
@@ -36,7 +36,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column :min-width="170" label-class-name="fs-13px fw-bold" prop="created_at"
+                <el-table-column :min-width="170" label-class-name=" text-dark fs-13px fw-bold" prop="created_at"
                     label="THỜI GIAN BẮT ĐẦU">
                     <template #default="scope">
                         <span v-if="scope.row.created_at != ''" class="fs-13px text-gray-700 text-hover-primary">
@@ -45,7 +45,7 @@
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column :min-width="170" label-class-name="fs-13px fw-bold" prop="modified_at"
+                <el-table-column :min-width="170" label-class-name=" text-dark fs-13px fw-bold" prop="modified_at"
                     label="THỜI GIAN BẮT ĐẦU">
                     <template #default="scope">
                         <span v-if="scope.row.modified_at != '' && (scope.row.stauts != '1' || scope.row.status != '2')"
@@ -55,7 +55,7 @@
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column :min-width="150" label-class-name="fs-13px fw-bold" prop="progress"
+                <el-table-column :min-width="170" label-class-name=" text-dark fs-13px fw-bold" prop="progress"
                     label="TIẾN TRÌNH">
                     <template #default="scope">
                         <div class="w-150px m-0 p-0">
@@ -65,7 +65,7 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column :min-width="130" label-class-name="fs-13px fw-bold" prop="status"
+                <el-table-column :min-width="130" label-class-name=" text-dark fs-13px fw-bold" prop="status"
                     label="TRẠNG THÁI">
                     <template #default="scope">
                         <span v-if="scope.row.status_name != ''" class="badge fs-13px"
@@ -75,11 +75,11 @@
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column :width="120" label-class-name="fw-bold fs-13px" label="HÀNH ĐỘNG" align="center">
+                <el-table-column :width="120" label-class-name=" text-dark fw-bold fs-13px" label="HÀNH ĐỘNG" align="center">
                     <template #default="scope">
                         <el-tooltip class="box-item" effect="dark" ::hide-after="0" content="Chi tiết" placement="top">
                             <router-link :to="`/cve/${getIdFromUrl()}/scan-detail/${scope.row.id}`"
-                                class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 my-1">
                                 <KTIcon icon-name="eye" icon-class="fs-3" />
                             </router-link>
                         </el-tooltip>
@@ -98,7 +98,7 @@
         </div>
     </div>
     <!-- modal detail  -->
-    <el-dialog v-model="DialogVisibleDetail" title="Chi tiết tin nhắn" width="700" id="modal-detail" align-center
+    <el-dialog v-model="DialogVisibleDetail" title="Chi tiết scan" width="700" id="modal-detail" align-center
         modal-class="" :show-close="false">
         <div class="modal-body p-0">
             <div class="">
@@ -183,13 +183,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, reactive, onBeforeUnmount, watch } from "vue";
-import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 import { useRouter } from 'vue-router';
-
-// validate
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
@@ -205,7 +202,6 @@ export default defineComponent({
     name: "kt-cve-scan-list",
 
     components: {
-        KTDatatable,
         KTToolbar,
         ElTable,
         ElTableColumn,
@@ -385,9 +381,6 @@ export default defineComponent({
         }
         const headerInputValue = ref("")
         const handleSecurityScan = async () => {
-            console.log("Security Scan")
-        };
-        const submit = async () => {
             return ApiService.post(`cve/${getIdFromUrl()}/create_scan`, {})
                 .then(({ data }) => {
                     getData();
@@ -397,7 +390,6 @@ export default defineComponent({
                     notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
                 });
         };
-
 
         const handleFilter = (data: any) => {
             query.value = data;
@@ -445,7 +437,6 @@ export default defineComponent({
             onItemSelect,
             selectedIds,
             apiData,
-            submit,
             getIdFromUrl,
             customRowTable,
             detailData,
@@ -499,5 +490,8 @@ span.el-dialog__title {
     font-size: 23px;
     font-weight: 600;
     line-height: 27px;
+}
+.el-progress__text{
+    font-size: 13px !important;
 }
 </style>
