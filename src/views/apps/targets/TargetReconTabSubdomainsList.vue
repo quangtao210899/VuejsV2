@@ -106,7 +106,7 @@
                                         class="badge badge-light ms-1 cursor-pointer">
                                         <template v-if="isRowExpandedPortservice(scope.$index)">Ẩn</template>
                                         <template v-else>
-                                            <el-popover placement="right" width="280" trigger="hover" hide-after="100">
+                                            <el-popover placement="right" width="280" trigger="hover" :hide-after="100">
                                                 <template #reference>
                                                     <span>Thêm</span>
                                                 </template>
@@ -141,7 +141,7 @@
                                         class="badge badge-light ms-1 cursor-pointer">
                                         <template v-if="isRowExpandedTechnology(scope.$index)">Ẩn</template>
                                         <template v-else>
-                                            <el-popover placement="right" width="280" trigger="hover" hide-after="100">
+                                            <el-popover placement="right" width="280" trigger="hover" :hide-after="100">
                                                 <template #reference>
                                                     <span>Thêm</span>
                                                 </template>

@@ -71,21 +71,21 @@
         <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
           <template #default="scope">
 
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Đồng Bộ" placement="top">
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Đồng Bộ" placement="top">
               <el-button class="me-1 btn-sm btn btn-icon btn-bg-light btn-active-color-success" type="primary"
                 :icon="RefreshIcon" @click="getSyncItem(scope.row.id)" v-on:click.stop
                 :disabled="(disabled || loadingSync) ? true : false"
                 :loading="(idSync == scope.row.id) ? loadingSync : loadingSync" :loading-icon="RefreshIcon"></el-button>
             </el-tooltip>
 
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chi Tiết Tin Nhắn" placement="top">
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Chi Tiết Tin Nhắn" placement="top">
               <router-link :to="`/telegram-detail/${scope.row.id}`" v-on:click.stop
                 class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 my-1">
                 <KTIcon icon-name="search-list" icon-class="fs-3" />
               </router-link>
             </el-tooltip>
 
-            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Chỉnh Sửa" placement="top">
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Chỉnh Sửa" placement="top">
               <router-link :to="`/telegram-group-form/${scope.row.id}`" v-on:click.stop
                 class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
                 <KTIcon icon-name="pencil" icon-class="fs-3" />
@@ -254,6 +254,7 @@ import { Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
+import { markRaw } from 'vue';
 
 // import useCurrencyInput from "vue-currency-input";
 
@@ -282,7 +283,7 @@ export default defineComponent({
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<String>('');
-    const RefreshIcon = ref(Refresh)
+    const RefreshIcon = markRaw(Refresh)
     const detailData = reactive({
       id: '',
       status: '',
