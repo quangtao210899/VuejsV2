@@ -17,7 +17,7 @@
                 <el-table-column label-class-name=" fs-13px fw-bold" type="selection" :width="35"
                     :reserve-selection="true" />
 
-                <el-table-column width="45" label-class-name=" text-dark fs-13px fw-bold " prop="id" label="ID">
+                <el-table-column :width="55" label-class-name=" text-dark fs-13px fw-bold " prop="id" label="ID">
                     <template #default="scope">
                         <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">
                             {{ scope.row.id}}
@@ -55,7 +55,7 @@
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column :min-width="150" label-class-name=" text-dark fs-13px fw-bold" prop="progress"
+                <el-table-column :min-width="170" label-class-name=" text-dark fs-13px fw-bold" prop="progress"
                     label="TIẾN TRÌNH">
                     <template #default="scope">
                         <div class="w-150px m-0 p-0">
@@ -98,7 +98,7 @@
         </div>
     </div>
     <!-- modal detail  -->
-    <el-dialog v-model="DialogVisibleDetail" title="Chi tiết tin nhắn" width="700" id="modal-detail" align-center
+    <el-dialog v-model="DialogVisibleDetail" title="Chi tiết scan" width="700" id="modal-detail" align-center
         modal-class="" :show-close="false">
         <div class="modal-body p-0">
             <div class="">
@@ -183,13 +183,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, reactive, onBeforeUnmount, watch } from "vue";
-import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 import { useRouter } from 'vue-router';
-
-// validate
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
@@ -205,7 +202,6 @@ export default defineComponent({
     name: "kt-cve-scan-list",
 
     components: {
-        KTDatatable,
         KTToolbar,
         ElTable,
         ElTableColumn,
@@ -494,5 +490,8 @@ span.el-dialog__title {
     font-size: 23px;
     font-weight: 600;
     line-height: 27px;
+}
+.el-progress__text{
+    font-size: 13px !important;
 }
 </style>

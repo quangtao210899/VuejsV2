@@ -295,20 +295,20 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/cve/:idCVE/scan-detail/:id",
         name: "targetDetectionListCVE",
-        component: () => import("@/views/apps/cves/targetDetectionListCVE.vue"),
+        component: () => import("@/views/apps/cves/targetDetectionListCVE2.vue"),
         meta: {
           pageTitle: "Danh sách mục tiêu dính lỗ hổng",
-          breadcrumbs: ["CVE","Scan","Detail"],
+          breadcrumbs: ["CVE","Scan","Chi Tiết"],
           links: ["/cve",''],
         },
       },
       {
         path: "/cve/:id/scan/detail",
         name: "targetDetectionListCVEAll",
-        component: () => import("@/views/apps/cves/targetDetectionListCVEAll.vue"),
+        component: () => import("@/views/apps/cves/targetDetectionListCVEAll2.vue"),
         meta: {
           pageTitle: "Danh sách mục tiêu dính lỗ hổng",
-          breadcrumbs: ["CVE","Scan","ListAll"],
+          breadcrumbs: ["CVE","Scan","Chi Tiết"],
           links: ["/cve",''],
         },
         beforeEnter: (to, from, next) => {
