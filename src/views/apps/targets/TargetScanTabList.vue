@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-12 d-flex justify-content-sm-start justify-content-between mt-2">
                         <div class="">
-                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Thông tin tiến trình"
+                            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Thông tin tiến trình"
                                 placement="top">
                                 <button type="button"
                                     class="btn btn-sm fw-bold bg-secondary btn-color-gray-700 w-70px px-1 btn-active-color-primary"

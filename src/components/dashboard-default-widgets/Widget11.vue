@@ -5,7 +5,7 @@
     <div class="card-header pt-5">
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
-        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Top 10 cổng dịch vụ phổ biến nhất" placement="top">
+        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Top 10 cổng dịch vụ phổ biến nhất" placement="top">
           <span class="fw-bold mb-2 text-dark">Cổng Dịch Vụ Phổ Biến</span>
         </el-tooltip>
       </h3>

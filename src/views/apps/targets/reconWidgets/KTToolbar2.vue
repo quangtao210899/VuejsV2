@@ -44,7 +44,7 @@
                             <i class="fa-solid fa-circle-plus"></i>
                             Thêm
                         </router-link>
-                        <router-link v-if="addTragetList != ''" :to="addTragetList" :disabled="disabled"
+                        <router-link v-if="addTragetList != ''" :to="addTragetList" :disabled="disabled" @click="handleSecurityScan"
                             class="btn btn-light-success font-weight-bold py-2 px-5  me-2 fs-13px">
                             <KTIcon icon-name="document" icon-class="fs-2" />
                             Danh sách mục tiêu
@@ -117,6 +117,24 @@ export default defineComponent({
     ],
     setup(props, { emit }) {
 
+        const handleSecurityScan = () => {
+            ElMessageBox.confirm(
+                'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
+                'Xác Nhận Xóa',
+                {
+                    confirmButtonText: 'Đồng Ý',
+                    cancelButtonText: 'Hủy Bỏ',
+                    type: 'warning',
+                    icon: markRaw(Delete)
+                }
+            )
+                .then(() => {
+                    emit("handle-security-scan");
+                })
+                .catch(() => {
+                    return;
+                })
+        }
         const handleFilter = (data: any) => {
             emit("filert-status", data);
         }
@@ -197,6 +215,7 @@ export default defineComponent({
             handleSyncAll,
             handleSetting,
             handleFilter,
+            handleSecurityScan,
         };
     },
 });

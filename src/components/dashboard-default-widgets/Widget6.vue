@@ -5,7 +5,7 @@
     <div class="card-header pt-5">
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
-        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Top 10 nhóm mục tiêu có số lượng mục tiêu lớn nhất" placement="top">
+        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Top 10 nhóm mục tiêu có số lượng mục tiêu lớn nhất" placement="top">
           <span class="card-label fw-bold">Nhóm Mục Tiêu</span>
         </el-tooltip>
       </h3>

@@ -71,7 +71,7 @@
                             <span class="text-danger">Tạm dừng</span>
                         </button>
 
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Tìm kiếm" placement="top">
+                        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tìm kiếm" placement="top">
                             <button type="button"
                                 class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary ms-2"
                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
@@ -81,7 +81,7 @@
                             </button>
                         </el-tooltip>
                         <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xuất kết quả" placement="top">
+                        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Xuất kết quả" placement="top">
                             <button type="button" @click="fileDownVisible = true"
                                 class="btn btn-sm fw-bold bg-primary btn-color-gray-700 btn-active-color-primary text-white ms-2">
                                 <KTIcon icon-name="file-down" icon-class="fs-2 text-white" />
@@ -101,7 +101,7 @@
                         <div class="fw-bold me-5">
                             <span class="me-2">{{ selectedIds.length }}</span>Selected
                         </div>
-                        <el-tooltip class="box-item" effect="dark" hide-after="0" content="Xóa" placement="top">
+                        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Xóa" placement="top">
                             <button type="button" @click="deleteSelectd()"
                                 class="btn btn-danger btn-sm " :disabled="disabled">
                                 Xóa mục đã chọn
