@@ -577,8 +577,8 @@ export default defineComponent({
     },
     setup() {
         const route = useRoute();
-        const chartColor = ref<string>('');
-        const chartHeight = ref<string>('');
+        const chartColor = ref<any>('');
+        const chartHeight = ref<any>('');
         const chartRef = ref<typeof VueApexCharts | null>(null);
         const process = ref<Array<any>>([0]);
         let chart: ApexOptions = {};
