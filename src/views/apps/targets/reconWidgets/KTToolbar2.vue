@@ -54,6 +54,13 @@
                             <KTIcon icon-name="document" icon-class="fs-2" />
                             Danh sách mục tiêu
                         </router-link>
+                        <!-- data-bs-target="#kt_modal_1" -->
+                        <el-tooltip v-if="modalImport" class="box-item" effect="dark" :hide-after="0" content="Tải lên Account Leaks" placement="top">
+                            <button type="button" class="btn btn-sm fw-bold btn-light-info me-2" data-bs-toggle="modal" :data-bs-target="modalImport">
+                                <KTIcon icon-name="bi bi-upload" icon-class="fs-2"/>
+                                Import
+                            </button>
+                        </el-tooltip>
                         <button v-if="checkScan == true" :disabled="disabled" @click="handleSecurityScan"
                             style="white-space: pre;"
                             class="btn btn-light-primary font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">
@@ -190,6 +197,7 @@ export default defineComponent({
         addNew: { type: String, required: false, default: '' },
         statusCVE: { type: Number || null, required: false, default: null },
         addTragetList: { type: String, required: false, default: '' },
+        modalImport: { type: String, required: false, default: '' },
         disabled: { type: Boolean, required: false, default: false },
         idsDelete: { type: Array, required: false, default: [] },
         dataInfoScans: { type: Object || null, required: false, default: null },

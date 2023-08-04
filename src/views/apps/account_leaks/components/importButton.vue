@@ -1,16 +1,16 @@
 <template>
-  <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Upload Account Leaks" placement="top">
+  <!-- <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Upload Account Leaks" placement="top">
     <button type="button" class="btn btn-sm fw-bold btn-info me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_1">
       <KTIcon icon-name="bi bi-upload" icon-class="fs-2" />
       Import
     </button>
-  </el-tooltip>
+  </el-tooltip> -->
 
   <div class="modal fade" tabindex="-1" id="kt_modal_1" ref="uploadModalRef">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Upload danh sách tài khoản</h5>
+          <h5 class="modal-title">Upload Danh Sách Tài Khoản</h5>
           <!--begin::Close-->
           <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
             <span class="svg-icon svg-icon-2x"></span>
@@ -131,7 +131,7 @@ onMounted(() => {
 
 const fileExample = 'example_account_leaks.xlsx'
 const url = import.meta.env.VITE_APP_API_URL + '/Storage/accountLeak/' + fileExample
-const exampleFileName = "Tải file mẫu"
+const exampleFileName = "Tải File Mẫu"
 import { hideModal } from "@/core/helpers/dom";
 const uploadModalRef = ref<null | HTMLElement>(null);
 const closeModal = () => {

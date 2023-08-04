@@ -179,26 +179,6 @@ export default defineComponent({
             }
         };
 
-        const isValidIPAddress = (rule: any, value: any, callback: any) => {
-            if (value == null || value == '') { return true; }
-            const specialCharacters = /^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})$/;
-            if (!specialCharacters.test(value)) {
-                callback(new Error('IP không đúng định dạng'));
-            } else {
-                callback();
-            }
-        };
-
-        const isValidDomain = (rule: any, value: any, callback: any) => {
-            if (value == null || value == '') { return true; }
-            const specialCharacters = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (!specialCharacters.test(value)) {
-                callback(new Error('Tên miền không đúng định dạng'));
-            } else {
-                callback();
-            }
-        };
-
         const rules = reactive<FormRules>({
             code: [
                 { required: true, message: 'Vui lòng nhập mã CVE', trigger: 'blur' },
