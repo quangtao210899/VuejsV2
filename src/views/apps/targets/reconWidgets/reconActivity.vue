@@ -70,8 +70,6 @@ export default defineComponent({
     let chart: ApexOptions = {};
     const store = useThemeStore();
 
-    const series = ref([23]);
-
     const themeMode = computed(() => {
       return store.mode;
     });
@@ -100,7 +98,6 @@ export default defineComponent({
 
     return {
       chart,
-      series,
       chartRef,
       getAssetPath,
     };

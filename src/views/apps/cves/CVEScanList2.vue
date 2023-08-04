@@ -94,7 +94,7 @@
     </div>
 </div>
     <!-- modal detail  -->
-    <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+    <!-- <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
         <div class="modal-dialog modal-dialog-centered mw-700px">
             <div class="modal-content">
                 <div class="">
@@ -173,7 +173,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered mw-650px">
@@ -338,7 +338,7 @@ export default defineComponent({
 
         const getStatus = (status: number | string) => {
             if (status == 1) {
-                return { color: 'default' };
+                return { color: 'light' };
             } else if (status == 2) {
                 return { color: 'primary' };
             } else if (status == 3) {
