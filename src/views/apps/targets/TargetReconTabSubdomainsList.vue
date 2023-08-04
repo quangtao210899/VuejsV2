@@ -34,7 +34,7 @@
                         min-width="100">
                         <template #default="scope">
                             <span class="fs-13px fst-normal badge cursor-pointer"
-                                @click="modelEndpoints(scope.row.enpoint_data)"
+                                @click="modelEndpoints(scope.row.enpoint_data, scope.row.name)"
                                 :class="`badge-light-${(scope.row.enpoint == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
                                 {{ scope.row.enpoint ?? '0' }}</span>
                         </template>
@@ -43,7 +43,7 @@
                         min-width="100">
                         <template #default="scope">
                             <span class="fs-13px fst-normal badge cursor-pointer"
-                                @click="modelDirectory(scope.row.directory_data)"
+                                @click="modelDirectory(scope.row.directory_data, scope.row.name)"
                                 :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
                                 {{ scope.row.directory ?? '0' }}</span>
                         </template>
@@ -235,13 +235,10 @@
             </div>
         </div>
     </div>
-    <el-dialog v-model="dialogDirectoryVisible" title="Chi Tiết Thư Mục" width="1000" modal-class="custom-dialog">
+    <el-dialog v-model="dialogDirectoryVisible"  :title="`${totalRecordsDirectory} Thự Mục Được Phát Hiện Với ${titleDirectory}`" width="1000" modal-class="custom-dialog">
         <div>
             <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
-            <div class="my-3 text-primary">
-                <span class="fs-13px text-gray-600">Tổng Thư Mục: </span>
-                <span class="fw-bold">{{ totalRecordsDirectory }}</span>
-            </div>
+            
         </div>
         <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table">
             <template #empty>
@@ -283,13 +280,9 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogEndpointsVisible" title="Chi Tiết Enpoint" width="1000" modal-class="custom-dialog">
+    <el-dialog v-model="dialogEndpointsVisible" :title="`${totalRecords} Endpoint Được Phát Hiện Với Subdomain ${titleEndpoints}`" width="1000" modal-class="custom-dialog">
         <div>
             <el-input v-model="searchEnpoint" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
-            <div class="my-3 text-primary">
-                <span class="fs-13px text-gray-600">Tổng Enpoint: </span>
-                <span class="fw-bold">{{ totalRecords }}</span>
-            </div>
         </div>
         <el-table :data="enpoint_data" style="width: 100%" height="443" class-name="my-custom-table" v-loading="loading">
             <template #empty>
@@ -585,9 +578,11 @@ export default defineComponent({
         const pageSizeDirectory = ref(10); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
         const searchEnpoint = ref('')
+        const titleEndpoints = ref('')
 
         // sử lý enpoint
-        const modelEndpoints = (data: any) => {
+        const modelEndpoints = (data: any, name) => {
+            titleEndpoints.value = name
             dialogEndpointsVisible.value = true
             enpoint_data_full.value = (data == undefined || data == '') ? [] : data
             fetchDataEndpoints(currentPageEndpoints.value, pageSizeEndpoints.value)
@@ -642,8 +637,10 @@ export default defineComponent({
         const currentPageDirectory = ref(1); // Trang hiện tại
         const totalRecordsDirectory = ref(0); // Tổng số bản ghi
         const searchDirectory = ref('')
+        const titleDirectory = ref('')
 
-        const modelDirectory = (data: any) => {
+        const modelDirectory = (data: any, name) => {
+            titleDirectory.value = name
             dialogDirectoryVisible.value = true
             directory_data_full.value = (data == undefined || data == '') ? [] : data
             fetchDataDirectory(currentPageDirectory.value, pageSizeDirectory.value)
@@ -804,6 +801,8 @@ export default defineComponent({
             loadingSubdomain,
             heightTable,
             checkPaginationTable,
+            titleDirectory,
+            titleEndpoints,
         };
     },
 });
