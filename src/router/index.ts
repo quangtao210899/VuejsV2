@@ -148,10 +148,20 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/account-leaks",
         name: "account-leaks",
-        component: () => import("@/views/apps/account_leaks/AccountList.vue"),
+        component: () => import("@/views/apps/account_leaks/AccountList_v2.vue"),
         meta: {
           pageTitle: "Tài khoản rò rỉ",
           breadcrumbs: ["Account Leaks"],
+        },
+      },
+      {
+        path: "/account-leaks-form/:id",
+        name: "account-leaks-form",
+        component: () => import("@/views/apps/account_leaks/AccountForm.vue"),
+        meta: {
+          pageTitle: "Account Leak",
+          breadcrumbs: ["Account Leak", "addForm"],
+          links: ["/account-leaks"],
         },
       },
     ],
