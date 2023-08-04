@@ -76,7 +76,7 @@
                                         <div class="text-center mt-5">
                                             <el-progress type="dashboard" striped-flow striped :stroke-width="13"
                                                 :width="170" :percentage="+dataInfoScans.progress"
-                                                :status="(dataInfoScans.status == '2') ? '' : getStatusProgress(dataInfoScans.status).color">
+                                                :status="(dataInfoScans.status == 2) ? '' : getStatusProgress(dataInfoScans.status).color">
                                                 <template #default="{ percentage }">
                                                     <span class="d-block fs-2">{{ percentage ?? 0 }}%</span><br>
                                                     <span class="d-block fs-13px">Progressing</span>
@@ -120,7 +120,7 @@
                         <template v-if="checkControl == true">
                             <el-popconfirm v-if="statusCVE == 5" confirm-button-text="Đồng Ý" width="250"
                                 cancel-button-text="Không" icon="InfoFilled" icon-color="#626AEF"
-                                title="Bạn có chắc chắn muốn tiếp tục này không?" @confirm="handlePauser"
+                                title="Bạn có chắc chắn muốn tiếp tục này không?" @confirm="handleRestart"
                                 @cancel="cancelEvent">
                                 <template #reference>
                                     <button :disabled="disabled" style="white-space: pre;"
@@ -132,7 +132,7 @@
                             </el-popconfirm>
                             <el-popconfirm v-else confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
                                 icon="InfoFilled" icon-color="#626AEF" title="Bạn có chắc chắn muốn tạm dừng không?"
-                                @confirm="handleRestart" @cancel="cancelEvent">
+                                @confirm="handlePauser" @cancel="cancelEvent">
                                 <template #reference>
                                     <button :disabled="(disabled || statusCVE != 2) ? true : false"
                                         style="white-space: pre;"
@@ -327,7 +327,7 @@ export default defineComponent({
         };
         const getStatus = (status: number | string) => {
             if (status == 1) {
-                return { title: 'Chưa thực hiện', color: 'default' };
+                return { title: 'Chưa thực hiện', color: 'dark' };
             } else if (status == 2) {
                 return { title: 'Đang thực hiện', color: 'primary' };
             } else if (status == 3) {
@@ -335,11 +335,11 @@ export default defineComponent({
             } else if (status == 4) {
                 return { title: 'Lỗi', color: 'danger' };
             }
-            return { color: 'warning' };
+            return { title: 'Lỗi', color: 'warning' };
         };
         const getStatusProgress = (status: number | string) => {
             if (status == 1) {
-                return { color: 'default' };
+                return { color: '' };
             } else if (status == 2) {
                 return { color: 'primary' };
             } else if (status == 3) {

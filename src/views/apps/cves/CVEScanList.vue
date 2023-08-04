@@ -252,7 +252,7 @@ export default defineComponent({
 
         const getStatus = (status: number | string) => {
             if (status == 1) {
-                return { color: 'default' };
+                return { color: 'dark' };
             } else if (status == 2) {
                 return { color: 'primary' };
             } else if (status == 3) {

@@ -192,7 +192,6 @@ import { vue3Debounce } from 'vue-debounce';
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue"; import Swal from "sweetalert2/dist/sweetalert2.js";
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
-import { ElNotification } from 'element-plus'
 import axios from 'axios'
 import { useRoute } from 'vue-router';
 
@@ -230,7 +229,6 @@ export default defineComponent({
         const itemsPerPage = ref<number>(20);
         const query = ref<String>('');
         const orderingID = ref<String>('');
-        const typeModal = ref<String>('');
         const nameType = ref<string>('');
         const apiData = ref<APIData>({
             status: '',
@@ -240,14 +238,14 @@ export default defineComponent({
         });
 
         const info = reactive({
-            status: "",
+            status: 0,
             created_at: "",
             modified_at: '',
             username: '',
             shodan_dock: '',
             description: '',
             cve_code: '',
-            progress: '',
+            progress: 0,
             previous: ''
         });
 
@@ -320,7 +318,8 @@ export default defineComponent({
                     info.shodan_dock = data.shodan_dock
                     info.description = data.description
                     info.cve_code = data.cve_code
-                    info.progress = data.progress
+                    info.progress = +data.progress
+                    console.log(info)
                     statusCVE.value = data.status
                     startTimer()
                 })
@@ -421,20 +420,12 @@ export default defineComponent({
         const handlePauser = async () => {
             return ApiService.post(`cve/${IDScan.value}/scan/stop`, {})
                 .then(({ data }) => {
-                    let detail = (data == 'Dừng CVEScan thành công') ? true : false
-                    ElNotification({
-                        title: 'Info',
-                        message: data.detail ?? 'Dừng CVEScan thành công',
-                        type: detail ? 'success' : 'info',
-                    })
+                    // let detail = (data == 'Dừng CVEScan thành công') ? true : false
+                    notification(data.detail, 'success', 'Dừng CVEScan thành công')
                     getData();
                 })
                 .catch((response) => {
-                    ElNotification({
-                        title: 'Error',
-                        message: response?.data?.detail ?? 'Tạm dừng thành công',
-                        type: 'error',
-                    })
+                    notification(response?.data?.detail, 'error', 'Tạm dừng thất bại')
                 });
         };
 
@@ -442,20 +433,12 @@ export default defineComponent({
         const handleRestart = async () => {
             return ApiService.post(`cve/${IDScan.value}/scan/restart`, {})
                 .then(({ data }) => {
-                    let detail = (data == 'Tiếp tục CVEScan thành công') ? true : false
-                    ElNotification({
-                        title: 'Info',
-                        message: data.detail ?? 'Tiếp tục CVEScan thành công',
-                        type: detail ? 'success' : 'info',
-                    })
+                    // let detail = (data == 'Tiếp tục CVEScan thành công') ? true : false
+                    notification(data?.detail, 'success', 'Tiếp tục CVEScan thành công')
                     getData();
                 })
                 .catch((response) => {
-                    ElNotification({
-                        title: 'Error',
-                        message: response?.data?.detail ?? 'Tạm dừng thành công',
-                        type: 'error',
-                    })
+                    notification(response?.data?.detail, 'error', 'Tiếp tục thất bại')
                 });
         };
 
