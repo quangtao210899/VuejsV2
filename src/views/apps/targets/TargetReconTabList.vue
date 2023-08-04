@@ -1202,7 +1202,7 @@
                                                     prop="enpoint" align="left" label="Endpoints" min-width="100">
                                                     <template #default="scope">
                                                         <span class="fs-7 fst-normal badge cursor-pointer"
-                                                            @click="modelEndpoints(scope.row.enpoint_data)"
+                                                            @click="modelEndpoints(scope.row.enpoint_data, scope.row.name)"
                                                             :class="`badge-light-${(scope.row.enpoint == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
                                                             {{ scope.row.enpoint ?? '0' }}</span>
                                                     </template>
@@ -1211,7 +1211,7 @@
                                                     prop="directory" label="Thư Mục" align="left" min-width="90">
                                                     <template #default="scope">
                                                         <span class="fs-7 fst-normal badge cursor-pointer"
-                                                            @click="modelDirectory(scope.row.directory_data)"
+                                                            @click="modelDirectory(scope.row.directory_data, scope.row.name)"
                                                             :class="`badge-light-${(scope.row.directory == 0 || scope.row.directory == undefined) ? 'danger' : 'primary'}`">
                                                             {{ scope.row.directory ?? '0' }}</span>
                                                     </template>
@@ -1427,8 +1427,8 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogDirectoryVisible" :title="`${totalRecordsDirectory} thự mục được phát hiện với `" width="1000" modal-class="custom-dialog">
-        <div>
+    <el-dialog v-model="dialogDirectoryVisible" :title="`${totalRecordsDirectory} Thự Mục Được Phát Hiện Với ${titleDirectory}`" width="1000" modal-class="custom-dialog">
+        <div class="mb-2">
             <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
         </div>
         <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table">
@@ -1472,13 +1472,9 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogEndpointsVisible" title="Chi Tiết Enpoint" width="1000" modal-class="custom-dialog">
-        <div>
+    <el-dialog v-model="dialogEndpointsVisible" :title="`${totalRecords} Endpoint Được Phát Hiện Với Subdomain ${titleEndpoints}`" width="1000" modal-class="custom-dialog">
+        <div class="mb-2">
             <el-input v-model="searchEnpoint" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
-            <div class="my-3 text-primary">
-                <span class="fs-13px text-gray-600">Tổng Enpoint: </span>
-                <span class="fw-bold">{{ totalRecords }}</span>
-            </div>
         </div>
         <el-table :data="enpoint_data" style="width: 100%" height="443" class-name="my-custom-table" v-loading="loading">
             <template #empty>
@@ -1547,7 +1543,7 @@
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, onBeforeUnmount, onUpdated, watch, reactive } from "vue";
+import { defineComponent, ref, onMounted, onBeforeUnmount, onUpdated, watch, reactive, markRaw } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import SubdomainList from "@/views/apps/targets/TargetReconTabSubdomainsList.vue";
 import ApiService from "@/core/services/ApiService";
@@ -1606,15 +1602,18 @@ export default defineComponent({
         CodeHighlighter,
         reconActivity,
         SubdomainList,
+        Refresh,
+        Search,
+        Download,
     },
     setup() {
         const route = useRoute();
         const scanID = ref<null | number | any>(route.params.id ?? '');
         const idRecon = ref<null | number | any>(route.params.idRecon ?? '');
         const list = ref<getData | any>()
-        const RefreshIcon = ref(Refresh)
-        const SearchIcon = ref(Search)
-        const DownloadIcon = ref(Download)
+        const RefreshIcon = markRaw(Refresh)
+        const SearchIcon = markRaw(Search)
+        const DownloadIcon = markRaw(Download)
         const loading = ref<boolean>(false)
         const apiData = ref<APIData>({
             title: '',
@@ -2121,9 +2120,11 @@ export default defineComponent({
         const pageSizeDirectory = ref(10); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
         const searchEnpoint = ref('')
+        const titleEndpoints = ref('')
 
         // sử lý enpoint
-        const modelEndpoints = (data: any) => {
+        const modelEndpoints = (data: any, name) => {
+            titleEndpoints.value = name
             dialogEndpointsVisible.value = true
             enpoint_data_full.value = (data == undefined || data == '') ? [] : data
             fetchDataEndpoints(currentPageEndpoints.value, pageSizeEndpoints.value)
@@ -2180,8 +2181,10 @@ export default defineComponent({
         const currentPageDirectory = ref(1); // Trang hiện tại
         const totalRecordsDirectory = ref(0); // Tổng số bản ghi
         const searchDirectory = ref('')
+        const titleDirectory = ref('')
 
-        const modelDirectory = (data: any) => {
+        const modelDirectory = (data: any, name) => {
+            titleDirectory.value = name
             dialogDirectoryVisible.value = true
             directory_data_full.value = (data == undefined || data == '') ? [] : data
             fetchDataDirectory(currentPageDirectory.value, pageSizeDirectory.value)
@@ -2414,6 +2417,9 @@ export default defineComponent({
             downloadCSV,
             forwardSubdomainTab,
             switchTab,
+
+            titleDirectory,
+            titleEndpoints,
         };
     },
 });
@@ -2542,5 +2548,12 @@ export default defineComponent({
     .custom-button {
         width: 139px;
     }
-}</style>
+}
+.custom-dialog span.el-dialog__title {
+    font-size: 16px;
+}
+.custom-dialog .el-input__wrapper{
+    border-radius: 20px;
+}
+</style>
   
