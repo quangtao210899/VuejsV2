@@ -66,7 +66,8 @@
                                 <template #reference>
                                     <button v-if="dataInfoScans != null" :disabled="disabled"
                                         style="white-space: pre;"
-                                        class="btn btn-light-success font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">
+                                        :class="`btn-light-${getStatus(dataInfoScans.status).color}`"
+                                        class="btn font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">
                                         <i class="fa-solid fa-circle-info"></i>
                                         Thông Tin
                                     </button>
