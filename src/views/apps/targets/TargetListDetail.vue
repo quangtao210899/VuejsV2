@@ -88,7 +88,7 @@
 
                                 <!--begin:::Tab item-->
                                 <li class="nav-item">
-                                    <a class="nav-link text-active-primary me-6" @click="switchTab('kt_subdomains_tab')" :class="{ active: activeTab === 'kt_scans_tab' }" aria-selected="false" data-bs-toggle="tab"
+                                    <a class="nav-link text-active-primary me-6" @click="switchTab('kt_scans_tab')" :class="{ active: activeTab === 'kt_scans_tab' }" aria-selected="false" data-bs-toggle="tab"
                                         href="#kt_scans_tab">Scans</a>
                                 </li>
                                 <!--end:::Tab item-->
@@ -501,7 +501,7 @@
                                                                                         <div class="card card-flush">
                                                                                             <div class="card-body py-0">
                                                                                                 <div class="pb-2 mt-2">
-                                                                                                    <h4 class="fs-4">Có 2 địa chỉ IP sử dụng {{ detailPortTitle }}
+                                                                                                    <h4 class="fs-4">Có {{ Object.keys(detailPort).length }} địa chỉ IP sử dụng {{ detailPortTitle }}
                                                                                                     </h4>
                                                                                                 </div>
                                                                                                 <div class="d-flex flex-column my-3 ms-2">
