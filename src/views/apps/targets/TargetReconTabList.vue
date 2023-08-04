@@ -1609,8 +1609,8 @@ export default defineComponent({
     },
     setup() {
         const route = useRoute();
-        const scanID = ref<null | number | any>(route.params.id ?? '');
-        const idRecon = ref<null | number | any>(route.params.idRecon ?? '');
+        const scanID = ref<number| any>(+route.params.id ?? 0);
+        const idRecon = ref<null | number | any>(route.params.idRecon ?? 0);
         const list = ref<getData | any>()
         const RefreshIcon = markRaw(Refresh)
         const SearchIcon = markRaw(Search)
@@ -1670,7 +1670,7 @@ export default defineComponent({
                 title: '',
             }
         });
-        const process = ref<any>(0);
+        const process = ref<any>([0]);
         const activities = ref<any>({});
         const domain_info = ref<any>({});
         const ip_info = ref<any>({});
