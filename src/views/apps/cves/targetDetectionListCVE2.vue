@@ -319,7 +319,6 @@ export default defineComponent({
                     info.description = data.description
                     info.cve_code = data.cve_code
                     info.progress = +data.progress
-                    console.log(info)
                     statusCVE.value = data.status
                     startTimer()
                 })
