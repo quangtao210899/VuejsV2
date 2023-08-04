@@ -67,4 +67,7 @@ export default defineComponent({
 .fs-13px {
   font-size: 13px !important;
 }
+.el-dialog{
+  border-radius: 0.475rem;
+}
 </style>

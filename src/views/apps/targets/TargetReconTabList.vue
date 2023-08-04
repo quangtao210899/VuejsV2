@@ -1427,7 +1427,8 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogDirectoryVisible" :title="`${totalRecordsDirectory} Thự Mục Được Phát Hiện Với ${titleDirectory}`" width="1000" modal-class="custom-dialog">
+    <el-dialog v-model="dialogDirectoryVisible" :title="`${totalRecordsDirectory} Thự Mục Được Phát Hiện Với ${titleDirectory}`" 
+    width="1000" modal-class="custom-dialog">
         <div class="mb-2">
             <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
         </div>
