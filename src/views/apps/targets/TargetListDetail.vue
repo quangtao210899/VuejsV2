@@ -1716,7 +1716,7 @@
         <div class="mb-2">
             <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
         </div>
-        <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table">
+        <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)">
             <template #empty>
                 <div class="flex items-center justify-center h-100%">
                     <el-empty description="Không có dữ liệu nào"/>
