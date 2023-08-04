@@ -29,7 +29,7 @@
         </p>
         <el-timeline class="ps-0">
           <el-timeline-item v-for="(activity, index) in activitieLine" :key="index" :icon="activity.icon"
-          :type="activity.color" :color="activity.color" :size="activity.size" :hollow="true"
+          :type="(activity.color == 'muted') ? 'info' : activity.color" :color="activity.color" :size="activity.size" :hollow="true"
             :timestamp="activity.time">
             <span class="text-dark fs-13px">{{ activity.name }}</span>
           </el-timeline-item>

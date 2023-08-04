@@ -284,7 +284,7 @@
         <div>
             <el-input v-model="searchEnpoint" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
         </div>
-        <el-table :data="enpoint_data" style="width: 100%" height="443" class-name="my-custom-table" v-loading="loading">
+        <el-table :data="enpoint_data" style="width: 100%" height="443" class-name="my-custom-table" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)">
             <template #empty>
                 <div class="flex items-center justify-center h-100%">
                     <el-empty description="Không có dữ liệu nào"/>
@@ -382,7 +382,7 @@ export default defineComponent({
         KTToolbar,
     },
     props: {
-        id: { type: String, required: false, default: '' },
+        id: { type: Number, required: false, default: 0 },
     },
     setup(props) {
         const route = useRoute();

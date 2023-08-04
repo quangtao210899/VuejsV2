@@ -12,7 +12,8 @@
           :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
           <div class="w-100">
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-              class-name=" my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
+              class-name=" my-custom-table rounded-top cursor-pointer" table-layout="fixed" 
+              v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
               @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
               @row-click="customRowTable">
               <template #empty>

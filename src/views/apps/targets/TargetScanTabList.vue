@@ -162,7 +162,7 @@
                     <div class="w-100  py-2">
                         <el-table :data="getScansData" style="width: 100%;z-index: 1;"
                             class-name=" my-custom-table rounded-top cursor-pointer mt-2" table-layout="fixed"
-                            v-loading="loading" highlight-current-row @row-click="customRowTable">
+                            v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)" highlight-current-row @row-click="customRowTable">
                             <template #empty>
                                 <div class="flex items-center justify-center h-100%">
                                     <el-empty description="Không có dữ liệu scans nào" />
