@@ -157,7 +157,7 @@
     <template #footer center>
       <span class="d-flex justify-content-center">
         <button type="button" class="btn btn-sm btn-light-primary" @click="updateSchedule">
-         Đông Ý
+         Đồng Ý
         </button>
       </span>
     </template>
