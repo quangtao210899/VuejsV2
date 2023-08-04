@@ -18,7 +18,7 @@
             <!--begin::Card-->
             <div class="px-5">
                 <el-table :data="subdomain_result" style="width: 100%;z-index: 1;" class-name="my-custom-table" table-layout="fixed"
-                    v-loading="loadingSubdomain">
+                    v-loading="loadingSubdomain" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)">
                     <template #empty>
                         <div class="flex items-center justify-center h-100%">
                             <el-empty description="Không có dữ liệu nào"/>
