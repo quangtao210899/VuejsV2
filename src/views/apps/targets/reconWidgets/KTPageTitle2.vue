@@ -51,18 +51,19 @@
         <!--end::Separator-->
 
         <!--begin::Search Form-->
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center row">
             <!-- <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
                 :disabled="disabled" /> -->
-            <div v-if="checkSearch" class="input-group input-group-sm input-group-solid " style="max-width: 175px;border-radius: 4px !important;">
-                <input type="text" class="form-control fs-13px" placeholder="Tìm kiếm..." v-model="search">
-                <div class="input-group-append ">
-                    <span class="input-group-text ">
+            <div v-if="checkSearch" class="input-group input-group-sm input-group-solid my-1 px-0 col" style="max-width: 175px;border-radius: 4px !important;">
+                <input type="text" class="form-control fs-13px h-35px" placeholder="Tìm kiếm..." v-model="search">
+                <div class="input-group-append rounded-0 m-0 p-0 h-35px">
+                    <span class="input-group-text rounded-end h-35px" 
+                    style="border-top-left-radius: 0 !important;border-bottom-left-radius: 0 !important;">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
                 </div>
             </div>
-            <div v-if="checkStatus" class="input-group input-group-sm input-group-solid" style="max-width: 175px;">
+            <div v-if="checkStatus" class="input-group input-group-sm input-group-solid my-1 px-0 col" style="max-width: 175px;">
                 <el-select v-model="status" class="ms-2 me-1 my-select-filter fs-13px" placeholder="Select" >
                     <el-option key="" label="Trạng Thái" value="" />
                     <el-option key="open" label="Open" value="open" />
@@ -71,7 +72,7 @@
                     <el-option key="rick-accepted" label="Accepted" value="rick-accepted" />
                 </el-select>
             </div>
-            <div v-if="checkStatus" class="input-group input-group-sm input-group-solid" style="max-width: 175px;">
+            <div v-if="checkStatus" class="input-group input-group-sm input-group-solid my-1 px-0 col" style="max-width: 175px;">
                 <el-select v-model="severity" class="mx-1 my-select-filter fs-13px" placeholder="Select" >
                     <el-option key="" label="Mức Độ" value="" />
                     <el-option :key="0" label="Info" :value="0" />
@@ -80,7 +81,7 @@
                     <el-option :key="3" label="High" :value="3" />
                 </el-select>
             </div>
-            <div v-if="checkStatus" class="input-group input-group-sm input-group-solid" style="max-width: 175px;">
+            <div v-if="checkStatus" class="input-group input-group-sm input-group-solid my-1 px-0 col" style="max-width: 175px;">
                 <el-select v-model="authen" class="mx-1 my-select-filter fs-13px" placeholder="Select" >
                     <el-option key="" label="Xác Thực" value="" />
                     <el-option :key="0" label="Chưa Xác Thực" :value="0" />

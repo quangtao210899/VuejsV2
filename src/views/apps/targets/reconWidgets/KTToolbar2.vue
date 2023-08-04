@@ -152,7 +152,7 @@
                         </button>
                     </template>
                     <template v-else>
-                        <div class="d-flex justify-content-end align-items-center">
+                        <div class="d-flex justify-content-end align-items-center" style="min-width: 200px !important;">
                             <div class="fw-bold me-5 fs-13px">
                                 Đã Chọn <span class="me-1">{{ idsDelete.length }}</span>
                             </div>
