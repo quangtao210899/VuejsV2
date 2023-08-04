@@ -209,5 +209,8 @@ export default defineComponent({
 }
 .el-input__inner{
     font-size: 13px !important;
+    font-weight: 500;
+    color: #5e6278;
+    line-height: 20px;
 }
 </style>
