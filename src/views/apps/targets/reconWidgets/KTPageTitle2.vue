@@ -54,7 +54,7 @@
         <div class="d-flex align-items-center">
             <!-- <el-input v-model="search" class="w-175px" placeholder="Tìm kiếm..." :suffix-icon="SearchIcon"
                 :disabled="disabled" /> -->
-            <div v-if="checkSearch" class="input-group input-group-sm input-group-solid " style="max-width: 175px">
+            <div v-if="checkSearch" class="input-group input-group-sm input-group-solid " style="max-width: 175px;border-radius: 4px !important;">
                 <input type="text" class="form-control fs-13px" placeholder="Tìm kiếm..." v-model="search">
                 <div class="input-group-append ">
                     <span class="input-group-text ">
