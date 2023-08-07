@@ -64,7 +64,7 @@
                                                     </button>
                                                 </template>
                                             </el-popconfirm>
-                                            <el-popconfirm v-if="scanStatus == 5" confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
+                                            <el-popconfirm v-if="scanStatus == 5 || scanStatus == 6" confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
                                                 icon="InfoFilled" icon-color="#626AEF"
                                                 title="Bạn có muốn tiếp tục chạy Recon này không?" @confirm="handlePauser"
                                                 @cancel="cancelEvent">
@@ -77,7 +77,6 @@
                                                     </button>
                                                 </template>
                                             </el-popconfirm>
-
                                             <el-popconfirm v-else confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
                                                 icon="InfoFilled" icon-color="#626AEF"
                                                 title="Bạn có muốn tạm dừng Recon này không?" @confirm="handlePauser"

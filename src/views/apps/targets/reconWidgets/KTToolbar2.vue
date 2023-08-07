@@ -43,6 +43,13 @@
                             <i class="fa-solid fa-rotate"></i>
                             Đồng Bộ Tất Cả
                         </button>
+                        <!-- data-bs-target="#kt_modal_1" -->
+                        <el-tooltip v-if="modalImport" class="box-item" effect="dark" :hide-after="0" content="Tải lên Account Leaks" placement="top">
+                            <button type="button" class="btn btn-light-info font-weight-bold py-2 px-5  me-2 fs-13px d-flex justify-content-center align-items-center" data-bs-toggle="modal" :data-bs-target="modalImport">
+                                <KTIcon icon-name="bi bi-upload" icon-class="fs-2"/>
+                                Import
+                            </button>
+                        </el-tooltip>
                         <router-link v-if="addNew != ''" :to="addNew" :disabled="disabled" style="white-space: pre;"
                             class="btn btn-light-primary font-weight-bold py-2 px-5  me-2 fs-13px d-flex justify-content-center align-items-center">
                             <i class="fa-solid fa-circle-plus"></i>
@@ -211,6 +218,7 @@ export default defineComponent({
         selectedName: { type: Array, required: false, default: [] },
         statusCVE: { type: Number || null, required: false, default: null },
         addTragetList: { type: String, required: false, default: '' },
+        modalImport: { type: String, required: false, default: '' },
         disabled: { type: Boolean, required: false, default: false },
         idsDelete: { type: Array, required: false, default: [] },
         dataInfoScans: { type: Object || null, required: false, default: null },
