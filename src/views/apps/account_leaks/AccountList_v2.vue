@@ -5,7 +5,7 @@
     <importAccountLeak ref="importComponentRef" 
         @notify="(info: string, noti_type: string, more_detail: string, hideImportModal) => notification(info, noti_type, more_detail, hideImportModal)" 
         @resetData="() => getData()"
-        @confirm="(info: string, noti_type: string) => comfirmDownload(info, noti_type)"
+        @confirm="(info: string, noti_type: string) => confirmDownload(info, noti_type)"
     />
     <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}"> 
         <div class="p-5 bg-body rounded-3">
@@ -33,14 +33,14 @@
 
                 <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="120" prop="username" label="USERNAME">
                     <template #default="scope">
-                        <span v-if="scope.row.username != null" class="fs-13px text-gray-700 text-hover-primary">{{
-                            scope.row.username }}</span>
+                        <span v-if="(typeof scope.row.username === 'string' && scope.row.username != '') || (typeof scope.row.username === 'object' && !Object.is(scope.row.username, null))" class="fs-13px text-gray-700 text-hover-primary">
+                            {{ scope.row.username }}</span>
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
                 <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark"  prop="email" label="EMAIL">
                     <template #default="scope">
-                        <span v-if="scope.row.email != ''" class="fs-13px text-gray-700 text-hover-primary">
+                        <span v-if="(typeof scope.row.email === 'string' && scope.row.email != '') || (typeof scope.row.email === 'object' && !Object.is(scope.row.email, null))" class="fs-13px text-gray-700 text-hover-primary">
                             {{ scope.row.email }}
                         </span>
                         <span v-else class="badge badge-light-danger">--</span>
@@ -48,7 +48,7 @@
                 </el-table-column>
                 <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="password_hash" label="PASSWORD HASH">
                     <template #default="scope">
-                        <span v-if="scope.row.password_hash != null" class="fs-13px text-gray-700 text-hover-primary">
+                        <span v-if="(typeof scope.row.password_hash === 'string' && scope.row.password_hash != '') || (typeof scope.row.password_hash === 'object' && !Object.is(scope.row.password_hash, null))" class="fs-13px text-gray-700 text-hover-primary">
                             {{ truncateText(scope.row.password_hash ?? "", 25) }}
                         </span>
                         <span v-else class="badge badge-light-danger">--</span>
@@ -56,19 +56,19 @@
                 </el-table-column>
                 <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="password_crack" label="PASSWORD CRACK">
                     <template #default="scope">
-                        <span v-if="scope.row.password_crack" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.password_crack ?? '', 50) }}</span>
+                        <span v-if="(typeof scope.row.password_crack === 'string' && scope.row.password_crack != '') || (typeof scope.row.password_crack === 'object' && !Object.is(scope.row.password_crack, null))" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.password_crack ?? '', 50) }}</span>
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
                 <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="source_data" label="NGUỒN DỮ LIỆU">
                     <template #default="scope">
-                        <span v-if="scope.row.source_data" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.source_data ?? '', 50) }}</span>
+                        <span v-if="(typeof scope.row.source_data === 'string' && scope.row.source_data != '') || (typeof scope.row.source_data === 'object' && !Object.is(scope.row.source_data, null))" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.source_data ?? '', 50) }}</span>
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
                 <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="country" label="QUỐC GIA">
                     <template #default="scope">
-                        <span v-if="scope.row.country" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.country ?? '', 50) }}</span>
+                        <span v-if="(typeof scope.row.country === 'string' && scope.row.country != '') || (typeof scope.row.country === 'object' && !Object.is(scope.row.country, null))" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.country ?? '', 50) }}</span>
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
@@ -94,7 +94,133 @@
             </div>
         </div>
     </div>
-    
+
+    <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="card card-flush">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h1 class="fw-bold">{{ detailData.email ? detailData.email : detailData.username }}</h1>
+                            </div>
+                        </div>
+                        <div class="card-body py-0">
+                            <div>
+                                <h5>Thông Tin Chi Tiết:</h5>
+                                    <div class="py-5">
+                                        <div class="me-5">
+                                            <div>
+                                                <div class="row fs-6 mb-3">
+                                                    <div class="col-6">Tình Trạng:</div>
+                                                    <div class="col-6 fs-5 fw-bold">
+                                                        <span class="badge"
+                                                            :class="{ 'badge-success': detailData.is_ok, 'badge-danger': !detailData.is_ok }">{{
+                                                        detailData.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra" }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row fs-6 mb-3">
+                                                    <div class="col-6">Tên Người Dùng:</div>
+                                                    <div class="col-6">
+                                                        <span v-if="(typeof detailData.username === 'string' && detailData.username != '') || (typeof detailData.username === 'object' && !Object.is(detailData.username, null))">
+                                                            {{ detailData.username }}
+                                                        </span>
+                                                        <span v-else class=" badge badge-light-danger">--</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row fs-6 mb-3">
+                                                    <div class="col-6">Email:</div>
+                                                    <div class="col-6">
+                                                        <span v-if="(typeof detailData.email === 'string' && detailData.email != '') || (typeof detailData.email === 'object' && !Object.is(detailData.email, null))">
+                                                            {{ detailData.email }}
+                                                        </span>
+                                                        <span v-else class=" badge badge-light-danger">--</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row fs-6 mb-3">
+                                                    <div class="col-6">Password Crack:</div>
+                                                    <div class="col-6">
+                                                        <span v-if="(typeof detailData.password_crack === 'string' && detailData.password_crack != '') || (typeof detailData.password_crack === 'object' && !Object.is(detailData.password_crack, null))">
+                                                            {{ detailData.password_crack }}
+                                                        </span>
+                                                        <span v-else class=" badge badge-light-danger">--</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row fs-6 mb-3">
+                                                    <div class="col-6">Password Hash:</div>
+                                                    <div class="col-6">
+                                                        <span v-if="(typeof detailData.password_hash === 'string' && detailData.password_hash != '') || (typeof detailData.password_hash === 'object' && !Object.is(detailData.password_hash, null))">
+                                                            {{ detailData.password_hash }}
+                                                        </span>
+                                                        <span v-else class=" badge badge-light-danger">--</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row fs-6 mb-3" v-if="detailData.hash_type && detailData.hash_type.length">
+                                                    <div class="col-3">
+                                                        Hash Type:
+                                                    </div>
+                                                    <div class="col-9">
+                                                        <template v-for="(value, key) in detailData.hash_type" :key="key">
+                                                            <div class="col-6 d-inline-block mb-2" style="float: left;">
+                                                                <li class="d-flex align-items-center" style="padding: 5px 0px 0px 0px;">
+                                                                    <span class="bullet bullet-dot bg-primary h-5px w-5px me-2"></span>
+                                                                    <span>{{ value }}</span>
+                                                                </li>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                                <div class="row fs-6 mb-3">
+                                                    <div class="col-6">Nguồn Dữ Liệu:</div>
+                                                    <div class="col-6">
+                                                        <span v-if="(typeof detailData.source_data === 'string' && detailData.source_data != '') || (typeof detailData.source_data === 'object' && !Object.is(detailData.source_data, null))">
+                                                            {{ detailData.source_data }}
+                                                        </span>
+                                                        <span v-else class=" badge badge-light-danger">--</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row fs-6 mb-3">
+                                                    <div class="col-6">Quốc Gia:</div>
+                                                    <div class="col-6">
+                                                        <span v-if="(typeof detailData.country === 'string' && detailData.country != '') || (typeof detailData.country === 'object' && !Object.is(detailData.country, null))">
+                                                            {{ detailData.country }}
+                                                        </span>
+                                                        <span v-else class=" badge badge-light-danger">--</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row fs-6 mb-3">
+                                                    <div class="col-6">Ngày Tạo:</div>
+                                                    <div class="col-6">
+                                                        <span v-if="(typeof detailData.created_at === 'string' && detailData.created_at != '') || (typeof detailData.created_at === 'object' && !Object.is(detailData.created_at, null))">
+                                                            {{ detailData.created_at }}
+                                                        </span>
+                                                        <span v-else class=" badge badge-light-danger">--</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row fs-6 mb-3">
+                                                    <div class="col-6">Ngày Cập Nhập:</div>
+                                                    <div class="col-6">
+                                                        <span v-if="(typeof detailData.modified_at === 'string' && detailData.modified_at != '') || (typeof detailData.modified_at === 'object' && !Object.is(detailData.modified_at, null))">
+                                                            {{ detailData.modified_at }}
+                                                        </span>
+                                                        <span v-else class=" badge badge-light-danger">--</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer pt-0" style="border-top: 0px; justify-content: center;">
+                    <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
+                    Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -109,6 +235,7 @@ import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 import importAccountLeak from "@/views/apps/account_leaks/components/importButton.vue";
 type ImportAccountLeakType = typeof importAccountLeak;
 import { useRouter } from 'vue-router';
+import { Modal } from "bootstrap";
 
 export default defineComponent({
     name: "kt-target-list",
@@ -180,7 +307,6 @@ export default defineComponent({
             Swal.fire({
                 text: values ?? more,
                 icon: icon,
-                showCancelButton: true,
                 buttonsStyling: false,
                 confirmButtonText: (icon == 'error') ? "Thử Lại" : "Đồng Ý",
                 heightAuto: false,
@@ -224,7 +350,7 @@ export default defineComponent({
             }
         }
 
-        const comfirmDownload = (values: string, icon: string) => {
+        const confirmDownload = (values: string, icon: string) => {
             Swal.fire({
                 text: values,
                 icon: icon,
@@ -237,10 +363,12 @@ export default defineComponent({
                     confirmButton: "btn btn-light-primary",
                     cancelButton: "btn btn-light-danger"
                 },
-            }).then(() => {
-                downloadFile()
-                if (importComponentRef.value) {
-                    importComponentRef.value.closeModal()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    downloadFile()
+                    if (importComponentRef.value) {
+                        importComponentRef.value.closeModal()
+                    }
                 }
             });
         };
@@ -255,12 +383,38 @@ export default defineComponent({
         const multipleTableRef = ref<InstanceType<typeof ElTable>>()
         const router = useRouter();
 
-        const handleCurrentChange = (data: any) => {
-            if (data) {
-                return router.push({ name: 'scanCVEList', params: { id: data.id } });
-            }
+        const detailData = reactive({
+            id: "",
+            email: "",
+            password_hash: "",
+            password_crack: "",
+            source_data: "",
+            country: "",
+            country_id: "",
+            hash_type: [],
+            username: "",
+            is_ok: false,
+            modified_at: "",
+            created_at: "",
+        });
 
-            return;
+        const handleCurrentChange = (data: any) => {
+            detailData.id = data.id
+            detailData.username = data.username
+            detailData.email = data.email
+            detailData.password_hash = data.password_hash
+            detailData.password_crack = data.password_crack
+            detailData.source_data = data.source_data
+            detailData.country = data.country
+            detailData.country_id = data.country_id
+            detailData.hash_type = data.hash_type
+            detailData.is_ok = data.is_ok
+            detailData.created_at = data.created_at
+            detailData.modified_at = data.modified_at
+            const modal = new Modal(
+                document.getElementById("kt_modal_detail") as Element
+            );
+            modal.show();
         }
 
         // table
@@ -345,7 +499,8 @@ export default defineComponent({
             deleteSubscription,
             truncateText,
             notification,
-            comfirmDownload,
+            confirmDownload,
+            detailData,
         };
     },
 });

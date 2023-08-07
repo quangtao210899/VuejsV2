@@ -43,6 +43,13 @@
                             <i class="fa-solid fa-rotate"></i>
                             Đồng Bộ Tất Cả
                         </button>
+                        <!-- data-bs-target="#kt_modal_1" -->
+                        <el-tooltip v-if="modalImport" class="box-item" effect="dark" :hide-after="0" content="Tải lên Account Leaks" placement="top">
+                            <button type="button" class="btn btn-light-info font-weight-bold py-2 px-5  me-2 fs-13px d-flex justify-content-center align-items-center" data-bs-toggle="modal" :data-bs-target="modalImport">
+                                <KTIcon icon-name="bi bi-upload" icon-class="fs-2"/>
+                                Import
+                            </button>
+                        </el-tooltip>
                         <router-link v-if="addNew != ''" :to="addNew" :disabled="disabled" style="white-space: pre;"
                             class="btn btn-light-primary font-weight-bold py-2 px-5  me-2 fs-13px d-flex justify-content-center align-items-center">
                             <i class="fa-solid fa-circle-plus"></i>
@@ -54,13 +61,6 @@
                             <KTIcon icon-name="document" icon-class="fs-2" />
                             Danh sách mục tiêu
                         </router-link>
-                        <!-- data-bs-target="#kt_modal_1" -->
-                        <el-tooltip v-if="modalImport" class="box-item" effect="dark" :hide-after="0" content="Tải lên Account Leaks" placement="top">
-                            <button type="button" class="btn btn-sm fw-bold btn-light-info me-2" data-bs-toggle="modal" :data-bs-target="modalImport">
-                                <KTIcon icon-name="bi bi-upload" icon-class="fs-2"/>
-                                Import
-                            </button>
-                        </el-tooltip>
                         <button v-if="checkScan == true" :disabled="disabled" @click="handleSecurityScan"
                             style="white-space: pre;"
                             class="btn btn-light-primary font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">

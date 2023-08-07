@@ -1,12 +1,18 @@
 <template>
     <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true"
         @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @on-header-height="onheaderHeight"></KTToolbar>
-    <!--begin::Card-->
     <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
         <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20  pt-10" style="">
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="33%" label-position="top"
                 class="demo-ruleForm px-0 px-lg-0 mx-5 mx-lg-10 mx-xxl-20 px-xxl-10 mt-10 text-capitalize" size="large"
                 status-icon require-asterisk-position="right">
+                <el-form-item v-if="!isNaN(parseInt(ID)) && ID != null && ID != ''" label="Tình Trạng" prop="is_ok" class="pb-3 text-capitalize fs-6">
+                    <el-switch v-model="ruleForm.is_ok" class="ml-2" name="is_ok"
+                        style="--el-switch-on-color: #13ce66; --el-switch-off-color: #f1416C" />
+                    <span class="form-check-label user-select-none ms-5">
+                        {{ ruleForm.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra" }}
+                    </span>
+                </el-form-item>
                 <el-form-item>
                     <el-col :span="11">
                         <el-form-item label="Tên Đăng Nhập" prop="username" class="pb-3 text-capitalize fs-13px"
@@ -45,13 +51,8 @@
                     />
                 </el-form-item>
                 <el-form-item label="Quốc Gia" prop="country_id" class="pb-3 text-capitalize fs-6" :error="(errors.country_id) ? errors.country_id[0] : ''">
-                    <!-- <el-select id="product_type" name="product_type" placeholder="Loại sản phẩm" class="w-100"
-                        @change="removeErrorMsgOption" v-model="ruleForm.product_type">
-                        <el-option v-for="item in dataProduct" :key="item.value" :label="item.label"
-                            :value="item.value" />
-                    </el-select> -->
-                    <el-select filterable="true" placeholder="Quốc gia" as="select" id="country_id"
-                        name="country_id" class="w-100" v-model="ruleForm.country_id">
+                    <el-select placeholder="Quốc gia" as="select" id="country_id"
+                        name="country_id" class="w-100" v-model="ruleForm.country_id" filterable>
                         <el-option label="Chọn quốc gia" value="" disabled>Chọn quốc gia</el-option>
                         <el-option label="Khác" value="0"></el-option>
                         <el-option v-for="item in countryList" :key="item.id" :label="item.name" :value="item.id" />
@@ -60,8 +61,6 @@
             </el-form>
         </div>
     </div>
-
-    <!--end::Card-->
 </template>
 
 <script lang="ts">
@@ -162,16 +161,16 @@ export default defineComponent({
             });
         }
 
-        // const resetForm = () => {
-        //     errors.username = ''
-        //     errors.email = ''
-        //     errors.vul_type = ''
-        //     errors.description = ''
-        //     errors.shodan_dock = ''
-        //     errors.version = ''
-        //     errors.poc = ''
-        //     errors.detail = ''
-        // }
+        const resetForm = () => {
+            // errors.username = ''
+            // errors.email = ''
+            // errors.vul_type = ''
+            // errors.description = ''
+            // errors.shodan_dock = ''
+            // errors.version = ''
+            // errors.poc = ''
+            // errors.detail = ''
+        }
 
         const removeErrorMsgText = () => {
             errors.username = "";
@@ -200,6 +199,21 @@ export default defineComponent({
             country_id: 0,
             country: "",
             detail: "",
+        });
+
+        const detailData = reactive({
+            id: "",
+            email: "",
+            password_hash: "",
+            password_crack: "",
+            source_data: "",
+            country: "",
+            country_id: "",
+            hash_type: [],
+            username: "",
+            is_ok: false,
+            modified_at: "",
+            created_at: "",
         });
 
         const requireEitherUsernameOrEmail = (rule: any, value: any, callback: any) => {
@@ -245,11 +259,13 @@ export default defineComponent({
 
         const formSubmit = async (formEl: FormInstance | undefined) => {
             if (!formEl) return
-            // resetForm();
+            resetForm();
             await formEl.validate((valid, fields) => {
                 if (valid) {
                     if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
                         editFormSubmit(ruleForm);
+                        console.log(ruleForm, 1);
+                        
                     } else {
                         addFormSubmit(ruleForm);
                     }
@@ -276,6 +292,7 @@ export default defineComponent({
                         ruleForm.password_crack = data.password_crack;
                         ruleForm.source_data = data.source_data;
                         ruleForm.country_id = data.country;
+                        ruleForm.is_ok = data.is_ok;
                     })
                     .catch(({ response }) => {
                         notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -374,6 +391,7 @@ export default defineComponent({
             labelPosition,
             countryList,
             removeErrorMsgText,
+            ID,
         };
     },
 });

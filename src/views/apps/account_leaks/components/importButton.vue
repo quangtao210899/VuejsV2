@@ -40,7 +40,7 @@
               Đóng
             </button>
             <button type="button" class="btn btn-sm btn-primary" @click="processUpload">
-              Tải lên
+              Tải Lên
             </button>
           </div>
         </div>
