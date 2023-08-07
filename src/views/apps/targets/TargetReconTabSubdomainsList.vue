@@ -235,12 +235,12 @@
             </div>
         </div>
     </div>
-    <el-dialog v-model="dialogDirectoryVisible"  :title="`${totalRecordsDirectory} Thự Mục Được Phát Hiện Với ${titleDirectory}`" width="1000" modal-class="custom-dialog">
+    <el-dialog v-model="dialogDirectoryVisible"  :title="`${totalRecordsDirectoryTitle} Thự Mục Được Phát Hiện Với ${titleDirectory}`" width="1000" modal-class="custom-dialog">
         <div>
             <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
             
         </div>
-        <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table">
+        <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)">
             <template #empty>
                 <div class="flex items-center justify-center h-100%">
                     <el-empty description="Không có dữ liệu nào"/>
@@ -280,7 +280,7 @@
     </el-dialog>
 
     <!-- modoal  -->
-    <el-dialog v-model="dialogEndpointsVisible" :title="`${totalRecords} Endpoint Được Phát Hiện Với Subdomain ${titleEndpoints}`" width="1000" modal-class="custom-dialog">
+    <el-dialog v-model="dialogEndpointsVisible" :title="`${totalRecordsTitle} Endpoint Được Phát Hiện Với Subdomain ${titleEndpoints}`" width="1000" modal-class="custom-dialog">
         <div>
             <el-input v-model="searchEnpoint" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
         </div>
@@ -577,6 +577,7 @@ export default defineComponent({
         const pageSizeEndpoints = ref(10); // Số lượng hàng mỗi trang
         const pageSizeDirectory = ref(10); // Số lượng hàng mỗi trang
         const totalRecords = ref(0); // Tổng số bản ghi
+        const totalRecordsTitle = ref(0); 
         const searchEnpoint = ref('')
         const titleEndpoints = ref('')
 
@@ -609,6 +610,7 @@ export default defineComponent({
         const fetchDataEndpoints = (currentPages: number, pageSizes: number) => {
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
+            totalRecordsTitle.value = enpoint_data_full.value.length
             const filterTableData = (searchEnpoint != null || searchEnpoint != '') ? enpoint_data_full.value.filter(
                 (data: any) =>
                     !searchEnpoint.value ||
@@ -636,6 +638,7 @@ export default defineComponent({
         const directory_data_full = ref<any>([])
         const currentPageDirectory = ref(1); // Trang hiện tại
         const totalRecordsDirectory = ref(0); // Tổng số bản ghi
+        const totalRecordsDirectoryTitle = ref(0); // Tổng số bản ghi
         const searchDirectory = ref('')
         const titleDirectory = ref('')
 
@@ -661,6 +664,8 @@ export default defineComponent({
         const fetchDataDirectory = (currentPages: number, pageSizes: number) => {
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
+            totalRecordsDirectoryTitle.value = directory_data_full.value.length
+
             const filterTableData = (searchDirectory != null || searchDirectory != '') ? Object.values(directory_data_full.value).filter(
                 (data: any) =>
                     !searchDirectory.value ||
@@ -803,6 +808,8 @@ export default defineComponent({
             checkPaginationTable,
             titleDirectory,
             titleEndpoints,
+            totalRecordsTitle,
+            totalRecordsDirectoryTitle
         };
     },
 });
