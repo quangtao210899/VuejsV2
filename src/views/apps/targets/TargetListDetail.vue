@@ -1,5 +1,6 @@
 <template>
-    <KTToolbar @on-header-height="onheaderHeight" @handle-delete-selectd="deleteSubscription" v-model:idsDelete="selectedIds" :disabled="disabled"></KTToolbar>
+    <KTToolbar @on-header-height="onheaderHeight" @handle-delete-selectd="deleteSubscription" 
+    v-model:idsDelete="selectedIds" :disabled="disabled" :selected-name="selectedName" title="Lỗ Hổng"></KTToolbar>
     <!--begin::Card--> 
         <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
             <div class="card h-100 d-block bg-transparent">
@@ -1716,7 +1717,7 @@
         <div class="mb-2">
             <el-input v-model="searchDirectory" size="large" placeholder="Tìm kiếm" :prefix-icon="SearchIcon" />
         </div>
-        <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table">
+        <el-table :data="directory_data" style="width: 100%" height="443" class-name="my-custom-table" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)">
             <template #empty>
                 <div class="flex items-center justify-center h-100%">
                     <el-empty description="Không có dữ liệu nào"/>
@@ -2698,11 +2699,13 @@ export default defineComponent({
         }
 
         // table
+        const selectedName = ref<Array<any>>([]);
         const handleSelectionChange = (val: any) => {
-        if (val) {
-            selectedIds.value = val.map((item: { id: number }) => item.id);
-        }
-        return;
+            if (val) {
+                selectedName.value = val.map((item: any) => item.name || item.title || item.vt_name);
+                selectedIds.value = val.map((item: { id: number }) => item.id);
+            }
+            return;
         }
 
         const getRowKey = (row: any) => {
@@ -2923,6 +2926,7 @@ export default defineComponent({
             ChangeFlag,
             updateData,
             handleSelectionChange,
+            selectedName,
             getRowKey,
             selectedIds,
             deleteSubscription,

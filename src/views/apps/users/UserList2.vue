@@ -1,7 +1,7 @@
 <template>
     <div ref="refGetTheHeight">
         <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-            @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
+            @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Người Dùng"></KTToolbar>
     </div>
     <!--begin::Card-->
     <el-scrollbar :height="heightTable">
@@ -271,8 +271,11 @@ export default defineComponent({
         }
 
         // table
+        const selectedName = ref<Array<any>>([]);
         const handleSelectionChange = (val: any) => {
+            console.log(val)
             if (val) {
+                selectedName.value = val.map((item: any) => item.name || item.title || item.first_name);
                 selectedIds.value = val.map((item: { id: number }) => item.id);
             }
             return;
@@ -379,6 +382,7 @@ export default defineComponent({
             deleteSubscription,
             detailData,
             DialogVisibleDetail,
+            selectedName
         };
     },
 });

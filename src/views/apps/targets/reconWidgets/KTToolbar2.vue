@@ -159,11 +159,11 @@
                         </button>
                     </template>
                     <template v-else>
-                        <div class="d-flex justify-content-end align-items-center">
+                        <div class="d-flex justify-content-end align-items-center" style="min-width: 200px !important;">
                             <div class="fw-bold me-5 fs-13px">
                                 Đã Chọn <span class="me-1">{{ idsDelete.length }}</span>
                             </div>
-                            <button type="button" @click="deleteSelectd()" :disabled="disabled" style="white-space: pre;"
+                            <button type="button" @click="selectedVisible = true" :disabled="disabled" style="white-space: pre;"
                                 class="btn btn-light-danger fs-13px btn-sm d-flex justify-content-center align-items-center">
                                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
                                 Xóa
@@ -177,6 +177,25 @@
             </div>
         </div>
     </div>
+
+    <el-dialog v-model="selectedVisible" width="450px" id="modal-detail" modal-class="my-message-delete" :align-center="true" center :append-to-body="true" :show-close="false">
+    <div class="text-center fs-13px">
+        <template v-if="selectedName.length == 1">
+            <span>Bạn có chắc chắn muốn xóa <span class="text-lowercase">{{title}}</span> <strong>{{ selectedName[0] }}</strong> không?</span>
+        </template>
+        <template v-else>
+            <span>Bạn có chắc chắn muốn xóa <strong>{{ selectedName.length }}</strong> <span class="text-lowercase">{{title}}</span> này không?</span>
+        </template>
+    </div>
+    <template #footer center>
+      <span class="d-flex justify-content-center">
+        <el-button class="border-0" plain type="primary" :disabled="disabled" @click="deleteSelectd()" :loading=disabled>
+          Đồng ý
+        </el-button>
+        <el-button class="border-0" plain type="info"  @click="selectedVisible = false">Hủy bỏ</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
   
 <script lang="ts">
@@ -195,6 +214,8 @@ export default defineComponent({
     },
     props: {
         addNew: { type: String, required: false, default: '' },
+        title: { type: String, required: false, default: 'mục' },
+        selectedName: { type: Array, required: false, default: [] },
         statusCVE: { type: Number || null, required: false, default: null },
         addTragetList: { type: String, required: false, default: '' },
         modalImport: { type: String, required: false, default: '' },
@@ -276,23 +297,10 @@ export default defineComponent({
         const formSubmit = (submit: any) => {
             emit("form-submit", submit);
         }
+        const selectedVisible = ref(false)
         const deleteSelectd = () => {
-            ElMessageBox.confirm(
-                'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-                'Xác Nhận Xóa',
-                {
-                    confirmButtonText: 'Đồng Ý',
-                    cancelButtonText: 'Hủy Bỏ',
-                    type: 'warning',
-                    icon: markRaw(Delete)
-                }
-            )
-                .then(() => {
-                    emit("handle-delete-selectd", props.idsDelete);
-                })
-                .catch(() => {
-                    return;
-                })
+            selectedVisible.value = false
+            emit("handle-delete-selectd", props.idsDelete);
         };
 
         // đô chiều cao của thẻ devi.container
@@ -380,10 +388,16 @@ export default defineComponent({
             cancelEvent,
             handleFilterAuthen,
             handleFilterSeverity,
+            selectedVisible,
         };
     },
 });
 </script>
+<style lang="scss">
+.my-message-delete .el-dialog__body{
+    padding: 10px !important;
+}
+</style>
 
 <style lang="scss" scoped>
 .custom-fixed-bar {
