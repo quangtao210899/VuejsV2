@@ -60,24 +60,23 @@ let headers = {
 };
 let dropzone: Dropzone | null;
 function processUpload() {
-  loading.value = true
-  disabled.value = true
-
-  setTimeout(() => {
-    disabled.value = false
-    if (dropzone == null || dropzone.getQueuedFiles().length === 0) {
-      emit(
-        "notify",
-        "Vui lòng chọn tệp để import vào hệ thống",
-        "error",
-        "Hãy lựa chọn một tệp",
-        false
-      );
-    } else {
-      let files = dropzone.getQueuedFiles();
-      dropzone.processQueue();
-    }
-  }, 600);
+  if (dropzone == null || dropzone.getQueuedFiles().length === 0) {
+    emit(
+      "notify",
+      "Vui lòng chọn tệp để import vào hệ thống",
+      "error",
+      "Hãy lựa chọn một tệp",
+      false
+    );
+  } else {
+    loading.value = true
+    disabled.value = true
+    let files = dropzone.getQueuedFiles();
+    dropzone.processQueue();
+    setTimeout(() => {
+      disabled.value = false
+    }, 600);
+  }
 }
 
 Dropzone.options.myForm = {
@@ -115,6 +114,7 @@ onMounted(() => {
     else {
       const message = `Upload thành công ${res.detail['total_success']} bản ghi.`
       emit("notify", message, "success","Thông tin thêm", true);
+      loading.value = false
     }
     emit("resetData");
   });
