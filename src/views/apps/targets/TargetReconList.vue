@@ -1,7 +1,7 @@
 <template>
     <div ref="refGetTheHeight">
         <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-        @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Recon"></KTToolbar>
+        @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="lần Recon"></KTToolbar>
     </div>
     <!--begin::Card-->
     <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
