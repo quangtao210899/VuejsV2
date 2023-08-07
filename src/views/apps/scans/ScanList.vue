@@ -1,7 +1,7 @@
 <template>
   <KTToolbar :check-search="true" @handle-search="handleFilter" @filert-authen="handleFilterAuthen" @filert-severity="handleFilterSeverity" v-model:idsDelete="selectedIds" :check-status="true"
     @filert-status="handleFilterStatus" @handle-delete-selectd="deleteSubscription" :disabled="disabled"
-    @on-header-height="onheaderHeight"></KTToolbar>
+    @on-header-height="onheaderHeight" :selected-name="selectedName" title="lỗ hổng"></KTToolbar>
 
   <!--begin::Card-->
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
@@ -607,11 +607,13 @@ export default defineComponent({
     });
 
     // table
+    const selectedName = ref<Array<any>>([]);
     const handleSelectionChange = (val: any) => {
-      if (val) {
-        selectedIds.value = val.map((item: { id: number }) => item.id);
-      }
-      return;
+        if (val) {
+            selectedName.value = val.map((item: any) => item.name || item.title || item.vt_name);
+            selectedIds.value = val.map((item: { id: number }) => item.id);
+        }
+        return;
     }
 
     const getRowKey = (row: any) => {
@@ -1014,6 +1016,7 @@ export default defineComponent({
       totalPage,
       currentPage,
       handleSelectionChange,
+      selectedName,
       getRowKey,
 
       // search query 

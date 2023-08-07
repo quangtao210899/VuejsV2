@@ -2,7 +2,7 @@
     <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds" :check-export-file="true"
         @handle-export-file="onExportFile" @handle-delete-selectd="deleteSubscription" :disabled="disabled"
         :data-info-scans="info" :check-control="true" :status-CVE="statusCVE" @handle-pauser="handlePauser"
-        @handle-restart="handleRestart" @on-header-height="onheaderHeight"></KTToolbar>
+        @handle-restart="handleRestart" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Kết Quả"></KTToolbar>
     <div class="app-container container-fluid " :style="{ marginTop: headerHeight + 'px' }">
         <div class="p-5 bg-body rounded-3">
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
@@ -464,8 +464,10 @@ export default defineComponent({
 
         // xóa 
         const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+        const selectedName = ref<Array<any>>([]);
         const handleSelectionChange = (val: any) => {
             if (val) {
+                selectedName.value = val.map((item: any) => item.name || item.title);
                 selectedIds.value = val.map((item: { id: number }) => item.id);
             }
             return;
@@ -505,6 +507,7 @@ export default defineComponent({
             getData,
             list,
             handleSelectionChange,
+            selectedName,
             getRowKey,
             onItemSelect,
             selectedIds,

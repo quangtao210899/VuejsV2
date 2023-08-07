@@ -1,7 +1,7 @@
 <template>
   <div ref="refGetTheHeight">
     <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-      @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
+      @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Nhóm Mục Tiêu"></KTToolbar>
   </div>
   <!--begin::Card-->
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
@@ -292,13 +292,15 @@ export default defineComponent({
       modal.show();
     }
 
-    // table
-    const handleSelectionChange = (val: any) => {
-      if (val) {
-        selectedIds.value = val.map((item: { id: number }) => item.id);
-      }
-      return;
-    }
+        // table
+        const selectedName = ref<Array<any>>([]);
+        const handleSelectionChange = (val: any) => {
+            if (val) {
+                selectedName.value = val.map((item: any) => item.name || item.title);
+                selectedIds.value = val.map((item: { id: number }) => item.id);
+            }
+            return;
+        }
 
     const getRowKey = (row: any) => {
       return row.id
@@ -358,6 +360,7 @@ export default defineComponent({
       loading,
       disabled,
       handleSelectionChange,
+      selectedName,
       getRowKey,
       handleCurrentChange,
       multipleTableRef,

@@ -2,7 +2,7 @@
   <KTToolbar addNew="/telegram-group-form/add" :check-setting="true" @handle-setting="handleSetting"
     :check-sync-all="true" @handle-sync-all="handleSyncAll" :check-search="true" @handle-search="handleFilter"
     v-model:idsDelete="selectedIds" @handle-delete-selectd="deleteSubscription" :disabled="disabled"
-    @on-header-height="onheaderHeight"></KTToolbar>
+    @on-header-height="onheaderHeight" :selected-name="selectedName" title="Nhóm tin nhắn"></KTToolbar>
   <!--begin::Card-->
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
     <div class="p-5 bg-body rounded-3">
@@ -568,13 +568,15 @@ export default defineComponent({
 
     }
 
-    // table
-    const handleSelectionChange = (val: any) => {
-      if (val) {
-        selectedIds.value = val.map((item: { id: number }) => item.id);
+      // table
+      const selectedName = ref<Array<any>>([]);
+      const handleSelectionChange = (val: any) => {
+          if (val) {
+              selectedName.value = val.map((item: any) => item.name || item.title);
+              selectedIds.value = val.map((item: { id: number }) => item.id);
+          }
+          return;
       }
-      return;
-    }
 
     const getRowKey = (row: any) => {
       return row.id
@@ -593,6 +595,7 @@ export default defineComponent({
       // table 
       getRowKey,
       handleSelectionChange,
+      selectedName,
       customRowTable,
       itemsPerPage,
       totalPage,
