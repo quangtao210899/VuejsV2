@@ -1,7 +1,6 @@
 <template>
   <div ref="refGetTheHeight">
-    <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-      @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Tin Nhắn"></KTToolbar>
+    <KTToolbar :check-search="true" @handle-search="handleFilter" :disabled="disabled" @on-header-height="onheaderHeight" title="Tin Nhắn"></KTToolbar>
   </div>
   <!--begin::Card-->
   <el-scrollbar :height="heightTable" >
@@ -9,16 +8,13 @@
       <div class="p-5 bg-body rounded-3">
         <!--begin::Card body-->
         <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-          class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
-          @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="handleCurrentChange"
-          :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
+          class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed"  @row-click="handleCurrentChange"
+           v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)">
           <template #empty>
             <div class="flex items-center justify-center h-100%">
               <el-empty description="Không có dữ liệu nào"/>
             </div>
           </template>
-
-          <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35" :reserve-selection="true" />
 
           <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
             <template #default="scope">
@@ -28,61 +24,34 @@
             </template>
           </el-table-column>
 
-          <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="100" prop="group_name"
-            label="TÊN NHÓM">
+          <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="msg" label="MESSAGE">
             <template #default="scope">
-              <span v-if="scope.row.group_name != ''" class="fs-13px text-gray-700 text-hover-primary">{{
-                scope.row.group_name }}</span>
+              <span v-if="scope.row.msg != ''" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.msg, 150) }}</span>
               <span v-else class="badge badge-light-danger">--</span>
+
             </template>
           </el-table-column>
-          <el-table-column min-width="120" label-class-name="fs-13px fw-bold text-dark" prop="target_count" label="TÊN">
+          
+          <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="trace" label="TRACEBACK">
             <template #default="scope">
-              <div class="d-flex align-items-center">
-                <!--begin::Symbol-->
-                <div class="symbol symbol-45px me-5">
-                  <span class="symbol-label">
-                    <KTIcon icon-name="user" icon-class="text-success fs-2x" />
-                  </span>
-                </div>
-                <!--end::Symbol-->
-                <!--begin::Text-->
-                <div class="d-flex flex-column" v-if="!scope.row.phone && scope.row.username == ' '">
-                  <span class="badge badge-light-danger">--</span>
-                </div>
-                <div class="d-flex flex-column" v-else>
-                  <div class="mx-0 my-0">
-                    <span class="fs-13px text-gray-700" v-if="scope.row.username != ' '">{{ scope.row.username }}</span>
-                    <span class="badge badge-light-danger" v-else>--</span>
-                  </div>
-                  <div class="mx-0 my-0">
-                    <span class="fs-13px text-gray-700" v-if="scope.row.phone">{{ scope.row.phone }}</span>
-                    <span class="badge badge-light-danger" v-else>--</span>
-                  </div>
-                </div>
-                <!--end::Text-->
-              </div>
+              <span v-if="scope.row.trace != ''" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.trace, 150) }}</span>
+              <span v-else class="badge badge-light-danger">--</span>
+
             </template>
           </el-table-column>
 
-          <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="text" label="NỘI DUNG">
+          <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="create_datetime" label="THỜI GIAN">
             <template #default="scope">
-              <span v-if="scope.row.text != ''" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.text, 200) }}</span>
-              <span v-else class="badge badge-light-danger">--</span>
-            </template>
-          </el-table-column>
-          <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="date" label="THỜI GIAN">
-            <template #default="scope">
-              <span v-if="scope.row.date != ''" class="fs-13px text-gray-700 text-hover-primary">
+              <span v-if="scope.row.create_datetime != ''" class="fs-13px text-gray-700 text-hover-primary">
                 <i class="fa-solid fa-calendar-days fs-7"></i>
-                {{ scope.row.date }}</span>
+                {{ scope.row.create_datetime }}</span>
               <span v-else class="badge badge-light-danger">--</span>
             </template>
           </el-table-column>
         </el-table>
         <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
           <div v-if="totalPage > 0">
-            <span class="text-capitalize fs-13px">Tổng Số Tin Nhắn: {{ totalPage }}</span>
+            <span class="text-capitalize fs-13px">Tổng Số Log: {{ totalPage }}</span>
           </div>
           <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
             v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
@@ -226,8 +195,9 @@ export default defineComponent({
     });
     const getData = async () => {
       loading.value = true;
-      return ApiService.get(`telegram/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
+      return ApiService.get(`other/logs?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}`)
         .then(({ data }) => {
+          console.log(data)
           list.value = data.results
           totalPage.value = data.count
         })

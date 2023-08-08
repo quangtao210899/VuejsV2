@@ -121,6 +121,18 @@ const MainMenuConfig: Array<MenuItem> = [
       },
     ],
   },
+  {
+    heading: "LOG",
+    route: "/log",
+    pages: [
+      {
+        heading: "Logging",
+        route: "/log-list",
+        keenthemesIcon: "information-5",
+        bootstrapIcon: "bi bi-exclamation-circle-fill",
+      },
+    ],
+  },
   // {
   //   heading: "craft",
   //   route: "/crafted",
