@@ -2350,8 +2350,6 @@ export default defineComponent({
 
         // search searchEnpoint
         watch(searchEnpoint, debounce(() => {
-            loading.value = true
-            setTimeout(() => loading.value = false, 500)
             fetchDataEndpoints(1, pageSizeEndpoints.value)
         }, 500));
 
@@ -2364,6 +2362,7 @@ export default defineComponent({
         });
 
         const fetchDataEndpoints = (currentPages: number, pageSizes: number) => {
+            loading.value = true
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             totalRecordsTitle.value = enpoint_data_full.value.length
@@ -2381,6 +2380,7 @@ export default defineComponent({
                 };
             });
             totalRecords.value = Object.keys(filterTableData).length;
+            loading.value = false
         };
 
         // Xử lý sự kiện thay đổi trang
@@ -2412,12 +2412,11 @@ export default defineComponent({
 
         // search searchEnpoint
         watch(searchDirectory, debounce(() => {
-            loading.value = true
-            setTimeout(() => loading.value = false, 500)
             fetchDataDirectory(1, pageSizeDirectory.value)
         }, 500));
 
         const fetchDataDirectory = (currentPages: number, pageSizes: number) => {
+            loading.value = true
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             totalRecordsDirectoryTitle.value = directory_data_full.value.length
@@ -2435,6 +2434,7 @@ export default defineComponent({
                 };
             });
             totalRecordsDirectory.value = Object.keys(filterTableData).length;
+            loading.value = false
         };
 
         // Xử lý sự kiện thay đổi trang

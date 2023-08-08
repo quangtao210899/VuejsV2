@@ -39,44 +39,22 @@
                                 <div class="d-flex justify-content-sm-start justify-content-md-end">
                                     <div class="card-toolbar">
                                         <div class="d-flex justify-content-end">
-                                            <el-popconfirm confirm-button-text="Đồng Ý" width="250"
-                                                cancel-button-text="Không" icon="InfoFilled" icon-color="#626AEF"
-                                                title="Bạn có chắc chắn muốn hủy lần Recon này không?"
-                                                @confirm="handleCanceled" @cancel="cancelEvent">
-                                                <template #reference>
-                                                    <button type="button" :disabled="[1, 2, 3, 4, 6].includes(reconStatus)"
-                                                        class="btn btn-sm btn-light-danger custom-button">
-                                                        <KTIcon icon-name="cross-square" icon-class="fs-2 " />Hủy Bỏ
-                                                    </button>
-                                                </template>
-                                            </el-popconfirm>
-                                            <el-popconfirm v-if="reconStatus == 5 || reconStatus == 6" confirm-button-text="Đồng Ý" width="250"
-                                                cancel-button-text="Không" icon="InfoFilled" icon-color="#626AEF"
-                                                title="Bạn có muốn tiếp tục chạy Recon này không?" @confirm="handlePauser"
-                                                @cancel="cancelEvent">
-                                                <template #reference>
-                                                    <button type="button" :disabled="[6].includes(reconStatus)"
-                                                        class="btn btn-sm btn-light-success ms-2 custom-button">
-                                                        <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
-                                                        <span>Tiếp Tục</span>
-                                                    </button>
-                                                </template>
-                                            </el-popconfirm>
-
-                                            <el-popconfirm v-else confirm-button-text="Đồng Ý" width="250"
-                                                cancel-button-text="Không" icon="InfoFilled" icon-color="#626AEF"
-                                                title="Bạn có muốn tạm dừng Recon này không?" @confirm="handlePauser"
-                                                @cancel="cancelEvent">
-                                                <template #reference>
-                                                    <button type="button" :disabled="[1, 3, 4].includes(reconStatus)"
-                                                        class="btn btn-sm btn-light-warning ms-2 custom-button">
-                                                        <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
-                                                        <span>Tạm Dừng</span>
-                                                    </button>
-                                                </template>
-                                            </el-popconfirm>
+                                            <button @click="confirmVisible = true" type="button" :disabled="[1, 2, 3, 4, 6].includes(reconStatus)"
+                                                class="btn btn-sm btn-light-danger custom-button">
+                                                <KTIcon icon-name="cross-square" icon-class="fs-2 " />Hủy Bỏ
+                                            </button>
+                                            <button @click="confirmVisiblePauser = true" v-if="reconStatus == 5 || reconStatus == 6" type="button" :disabled="[6].includes(reconStatus)"
+                                                class="btn btn-sm btn-light-success ms-2 custom-button">
+                                                <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
+                                                <span>Tiếp Tục</span>
+                                            </button>
+                                            <button v-else type="button" :disabled="[1, 3, 4].includes(reconStatus)"
+                                                class="btn btn-sm btn-light-warning ms-2 custom-button" @click="confirmVisiblePauser = true">
+                                                <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
+                                                <span>Tạm Dừng</span>
+                                            </button>
                                             <button type="button" :disabled="[1, 2].includes(reconStatus)"
-                                                @click="fileDownVisible = true"
+                                                @click="confirmVisibleDowload = true"
                                                 class="btn btn-sm btn-light-primary ms-2 custom-button">
                                                 <KTIcon icon-name="file-down" icon-class="fs-2" />
                                                 Xuất Kết Quả
@@ -1401,30 +1379,6 @@
             </div>
         </div>
     </div>
-    <!-- // modoal  -->
-    <el-dialog v-model="fileDownVisible" title="Xác Nhận Xuất File" width="500">
-        <div class="card h-100 bg-secondary">
-            <!--begin::Card body-->
-            <div class="card-body d-flex justify-content-center text-center flex-column p-8">
-                <!--begin::Name-->
-                <div class="symbol symbol-60px mb-5">
-                    <i class="fa-solid fa-file-zipper fs-4x text-primary"></i>
-                </div>
-                <!--end::Image-->
-
-                <!--begin::Title-->
-                <div class="fs-5 fw-bold mb-2 text-dark"> {{ `Recon_${scanID}_report.zip` }} </div>
-                <!--end::Name-->
-            </div>
-            <!--end::Card body-->
-        </div>
-        <template #footer>
-            <span class="dialog-footer">
-                <el-button @click="fileDownVisible = false" :disabled="disabled">Hủy Bỏ</el-button>
-                <el-button type="primary" :disabled="disabled" @click="downloadAcunetix">Tải Về</el-button>
-            </span>
-        </template>
-    </el-dialog>
 
     <!-- modoal  -->
     <el-dialog v-model="dialogDirectoryVisible" :title="`${totalRecordsDirectoryTitle} Thự Mục Được Phát Hiện Với ${titleDirectory}`" 
@@ -1540,6 +1494,53 @@
                 layout="prev, pager, next"></el-pagination>
         </div>
     </el-dialog>
+
+    <el-dialog v-model="confirmVisible" width="auto" id="modal-detail" modal-class="my-message-delete" :align-center="true"
+     center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span>Bạn có chắc chắn muốn <strong>hủy bỏ</strong> lần Recon này không?</span>
+        </div>
+        <template #footer center>
+        <span class="d-flex justify-content-center">
+            <el-button class="border-0" plain type="primary" :disabled="disabled" @click="handleCanceled()" :loading=disabled>
+            Đồng ý
+            </el-button>
+            <el-button class="border-0" plain type="info"  @click="confirmVisible = false">Hủy bỏ</el-button>
+        </span>
+        </template>
+    </el-dialog>
+
+    <el-dialog v-model="confirmVisibleDowload" width="auto" id="modal-detail" modal-class="my-message-delete" :align-center="true"
+     center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span>Bạn có muốn <strong>xuất kết quả </strong> Recon này không?</span> 
+        </div>
+        <template #footer center>
+        <span class="d-flex justify-content-center">
+            <el-button class="border-0" plain type="primary" :disabled="disabled" @click="downloadAcunetix()" :loading=disabled>
+            Đồng ý
+            </el-button>
+            <el-button class="border-0" plain type="info"  @click="confirmVisibleDowload = false">Hủy bỏ</el-button>
+        </span>
+        </template>
+    </el-dialog>
+
+    <el-dialog v-model="confirmVisiblePauser" width="auto" id="modal-detail" modal-class="my-message-delete" :align-center="true"
+     center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span v-if="reconStatus == 5 || reconStatus == 6">Bạn có muốn <strong>tiếp tục</strong> chạy Recon này không?</span>
+            <span v-else>Bạn có muốn <strong>tạm dừng</strong> Recon này không?</span>
+        </div>
+        <template #footer center>
+        <span class="d-flex justify-content-center">
+            <el-button class="border-0" plain type="primary" :disabled="disabled" @click="handlePauser()" :loading=disabled>
+            Đồng ý
+            </el-button>
+            <el-button class="border-0" plain type="info"  @click="confirmVisiblePauser = false">Hủy bỏ</el-button>
+        </span>
+        </template>
+    </el-dialog>
+
 </template>
   
 <script lang="ts">
@@ -1856,6 +1857,7 @@ export default defineComponent({
         const checkDisabled = ref<boolean>(false);
         const handlePauser = async () => {
             checkDisabled.value = true
+            confirmVisiblePauser.value = false
             setTimeout(() => {
                 checkDisabled.value = false;
             }, 500);
@@ -1872,6 +1874,7 @@ export default defineComponent({
         };
 
         const handleCanceled = async () => {
+            confirmVisible.value = false
             if (reconStatus.value == 3) {
                 notification('Danh dách đã được quét thành công không thể tạm dừng', 'error', 'Có lỗi xảy ra')
             } else if (reconStatus.value == 5) {
@@ -1887,6 +1890,10 @@ export default defineComponent({
                     "action": 'continue'
                 }
             }
+            disabled.value = true
+            setTimeout(() => {
+                disabled.value = false
+            }, 1000);
             return ApiService.post(`recon/${scanID.value}/restart2`, formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Tiếp tục thành công')
@@ -1903,6 +1910,10 @@ export default defineComponent({
                     "action": 'pause'
                 }
             }
+            disabled.value = true
+            setTimeout(() => {
+                disabled.value = false
+            }, 1000);
             return ApiService.post(`recon/${scanID.value}/stop2`, formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Tạm dừng thành công')
@@ -1919,6 +1930,10 @@ export default defineComponent({
                     "action": 'canceled'
                 }
             }
+            disabled.value = true
+            setTimeout(() => {
+                disabled.value = false
+            }, 1000);
             return ApiService.post(`recon/${scanID.value}/abort`, formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Tạm dừng thành công')
@@ -1930,11 +1945,12 @@ export default defineComponent({
         };
 
         // tải về files
-        const fileDownVisible = ref(false)
         const downloadAcunetix = async () => {
             checkDisabled.value = true
+            disabled.value = true
             setTimeout(() => {
                 checkDisabled.value = false
+                disabled.value = false
             }, 1000);
             axios({
                 url: `/recon/${scanID.value}/download`, //your url
@@ -1949,21 +1965,14 @@ export default defineComponent({
                 link.click();
                 document.body.removeChild(link);
                 URL.revokeObjectURL(href);
-                fileDownVisible.value = false;
+                confirmVisibleDowload.value = false;
             }).catch(async error => {
+                confirmVisibleDowload.value = false;
                 // xử lý hiển thị lỗi 
                 const reponse_message = JSON.parse(await error.response.data.text()).detail ?? "Có lỗi xảy ra"
                 notification(reponse_message, 'error', 'Có lỗi xảy ra')
-                fileDownVisible.value = false;
             })
         };
-        // hủy
-        const confirmEvent = () => {
-        }
-
-        const cancelEvent = () => {
-        }
-
         const activeTab = ref('kt_recon_tab');
 
         const forwardSubdomainTab = () => {
@@ -2139,8 +2148,6 @@ export default defineComponent({
 
         // search searchEnpoint
         watch(searchEnpoint, debounce(() => {
-            loading.value = true
-            setTimeout(() => loading.value = false, 500)
             fetchDataEndpoints(1, pageSizeEndpoints.value)
         }, 500));
 
@@ -2153,6 +2160,7 @@ export default defineComponent({
         });
 
         const fetchDataEndpoints = (currentPages: number, pageSizes: number) => {
+            loading.value = true
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             totalRecordsTitle.value = enpoint_data_full.value.length
@@ -2170,6 +2178,7 @@ export default defineComponent({
                 };
             });
             totalRecords.value = Object.keys(filterTableData).length;
+            loading.value = false
         };
 
         // Xử lý sự kiện thay đổi trang
@@ -2201,16 +2210,14 @@ export default defineComponent({
 
         // search searchEnpoint
         watch(searchDirectory, debounce(() => {
-            loading.value = true
-            setTimeout(() => loading.value = false, 500)
             fetchDataDirectory(1, pageSizeDirectory.value)
         }, 500));
 
         const fetchDataDirectory = (currentPages: number, pageSizes: number) => {
+            loading.value = true
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             totalRecordsDirectoryTitle.value = directory_data_full.value.length
-
             const filterTableData = (searchDirectory != null || searchDirectory != '') ? Object.values(directory_data_full.value).filter(
                 (data: any) =>
                     !searchDirectory.value ||
@@ -2225,6 +2232,7 @@ export default defineComponent({
                 };
             });
             totalRecordsDirectory.value = Object.keys(filterTableData).length;
+            loading.value = false
         };
 
         // Xử lý sự kiện thay đổi trang
@@ -2284,6 +2292,9 @@ export default defineComponent({
             }
             return '--'
         };
+        const confirmVisible = ref<boolean>(false);
+        const confirmVisiblePauser = ref<boolean>(false);
+        const confirmVisibleDowload = ref<boolean>(false);
 
         // thay đổi kích thước header
         const headerHeight = ref<number>(0);
@@ -2322,7 +2333,6 @@ export default defineComponent({
             clipboard,
 
             // tải về
-            fileDownVisible,
             downloadAcunetix,
 
             // crud
@@ -2350,10 +2360,6 @@ export default defineComponent({
             handleCanceled,
             checkDisabled,
             reconStatus,
-
-            // hủy 
-            confirmEvent,
-            cancelEvent,
 
             // 
             ip_info,
@@ -2428,6 +2434,9 @@ export default defineComponent({
             titleEndpoints,
             totalRecordsTitle,
             totalRecordsDirectoryTitle,
+            confirmVisible,
+            confirmVisibleDowload,
+            confirmVisiblePauser,
         };
     },
 });

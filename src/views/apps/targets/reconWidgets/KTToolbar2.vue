@@ -10,9 +10,9 @@
                 }">
 
                 <!--begin::Details-->
-                <KTPageTitle @form-submit="formSubmit" @form-back="formBack" @handle-search="handleSearch"
-                    :check-status="checkStatus" @filert-status="handleFilter" @filert-authen="handleFilterAuthen" @filert-severity="handleFilterSeverity"
-                    :typeText="typeText" :disabled="disabled"
+                <KTPageTitle @form-back="formBack" @handle-search="handleSearch" :check-status="checkStatus"
+                    @filert-status="handleFilter" @filert-authen="handleFilterAuthen"
+                    @filert-severity="handleFilterSeverity" :typeText="typeText" :disabled="disabled"
                     :check-search="checkSearch" />
                 <!--end::Details-->
 
@@ -37,7 +37,7 @@
                             <i class="fa-solid fa-gear"></i>
                             Cấu Hình
                         </button>
-                        <button v-if="checkSyncAll == true" to="#" :disabled="disabled" @click="handleSyncAll"
+                        <button v-if="checkSyncAll == true" to="#" :disabled="disabled" @click="syncAllVisible = true"
                             style="white-space: pre;"
                             class="btn btn-light-success font-weight-bold py-2 px-5 me-2 fs-13px d-flex justify-content-center align-items-center">
                             <i class="fa-solid fa-rotate"></i>
@@ -61,7 +61,7 @@
                             <KTIcon icon-name="document" icon-class="fs-2" />
                             Danh sách mục tiêu
                         </router-link>
-                        <button v-if="checkScan == true" :disabled="disabled" @click="handleSecurityScan"
+                        <button v-if="checkScan == true" :disabled="disabled" @click="scanCVEVisible = true"
                             style="white-space: pre;"
                             class="btn btn-light-primary font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">
                             <i class="fa-solid fa-circle-plus"></i>
@@ -71,8 +71,7 @@
                             <el-popover :width="400"
                                 popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;">
                                 <template #reference>
-                                    <button v-if="dataInfoScans != null" :disabled="disabled"
-                                        style="white-space: pre;"
+                                    <button v-if="dataInfoScans != null" :disabled="disabled" style="white-space: pre;"
                                         :class="`btn-light-${getStatus(dataInfoScans.status).color}`"
                                         class="btn font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">
                                         <i class="fa-solid fa-circle-info"></i>
@@ -126,30 +125,18 @@
                             </el-popover>
                         </template>
                         <template v-if="checkControl == true">
-                            <el-popconfirm v-if="statusCVE == 5" confirm-button-text="Đồng Ý" width="250"
-                                cancel-button-text="Không" icon="InfoFilled" icon-color="#626AEF"
-                                title="Bạn có chắc chắn muốn tiếp tục này không?" @confirm="handleRestart"
-                                @cancel="cancelEvent">
-                                <template #reference>
-                                    <button :disabled="disabled" style="white-space: pre;"
-                                        class="btn btn-light-success font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">
-                                        <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
-                                        Tiếp Tục
-                                    </button>
-                                </template>
-                            </el-popconfirm>
-                            <el-popconfirm v-else confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
-                                icon="InfoFilled" icon-color="#626AEF" title="Bạn có chắc chắn muốn tạm dừng không?"
-                                @confirm="handlePauser" @cancel="cancelEvent">
-                                <template #reference>
-                                    <button :disabled="(disabled || statusCVE != 2) ? true : false"
-                                        style="white-space: pre;"
-                                        class="btn btn-light-warning font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">
-                                        <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
-                                        Tạm Dừng
-                                    </button>
-                                </template>
-                            </el-popconfirm>
+                            <button v-if="statusCVE == 5" :disabled="disabled" style="white-space: pre;"
+                                @click="confirmVisibleRestart = true"
+                                class="btn btn-light-success font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">
+                                <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
+                                Tiếp Tục
+                            </button>
+                            <button v-else :disabled="(disabled || statusCVE != 2) ? true : false" style="white-space: pre;"
+                                @click="confirmVisiblePauser = true"
+                                class="btn btn-light-warning font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">
+                                <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
+                                Tạm Dừng
+                            </button>
                         </template>
                         <button v-if="checkExportFile == true" :disabled="disabled" @click="onExportFile"
                             style="white-space: pre;"
@@ -163,7 +150,8 @@
                             <div class="fw-bold me-5 fs-13px">
                                 Đã Chọn <span class="me-1">{{ idsDelete.length }}</span>
                             </div>
-                            <button type="button" @click="selectedVisible = true" :disabled="disabled" style="white-space: pre;"
+                            <button type="button" @click="selectedVisible = true" :disabled="disabled"
+                                style="white-space: pre;"
                                 class="btn btn-light-danger fs-13px btn-sm d-flex justify-content-center align-items-center">
                                 <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
                                 Xóa
@@ -178,31 +166,98 @@
         </div>
     </div>
 
-    <el-dialog v-model="selectedVisible" width="450px" id="modal-detail" modal-class="my-message-delete" :align-center="true" center :append-to-body="true" :show-close="false">
-    <div class="text-center fs-13px">
-        <template v-if="selectedName.length == 1">
-            <span>Bạn có chắc chắn muốn xóa <span class="text-lowercase">{{title}}</span> <strong>{{ selectedName[0] }}</strong> không?</span>
+    <el-dialog v-model="selectedVisible" width="450px" id="modal-detail" modal-class="my-message-delete"
+        :align-center="true" center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <template v-if="selectedName.length == 1">
+                <span>Bạn có chắc chắn muốn xóa <span class="text-lowercase">{{ title }}</span> <strong>{{ selectedName[0]
+                }}</strong> không?</span>
+            </template>
+            <template v-else>
+                <span>Bạn có chắc chắn muốn xóa <strong>{{ selectedName.length }}</strong> <span
+                        class="text-lowercase">{{ title }}</span> này không?</span>
+            </template>
+        </div>
+        <template #footer center>
+            <span class="d-flex justify-content-center">
+                <el-button class="border-0" plain type="primary" :disabled="disabled" @click="deleteSelectd()"
+                    :loading=disabled>
+                    Đồng ý
+                </el-button>
+                <el-button class="border-0" plain type="info" @click="selectedVisible = false">Hủy bỏ</el-button>
+            </span>
         </template>
-        <template v-else>
-            <span>Bạn có chắc chắn muốn xóa <strong>{{ selectedName.length }}</strong> <span class="text-lowercase">{{title}}</span> này không?</span>
+    </el-dialog>
+
+    <el-dialog v-model="syncAllVisible" width="450px" id="modal-detail" modal-class="my-message-delete" :align-center="true"
+        center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span>Bạn có chắc chắn muốn đồng bộ hóa tất cả <strong class="text-lowercase">{{ title }}</strong> không?</span>
+        </div>
+        <template #footer center>
+            <span class="d-flex justify-content-center">
+                <el-button class="border-0" plain type="primary" :disabled="disabled" @click="handleSyncAll()"
+                    :loading=disabled>
+                    Đồng ý
+                </el-button>
+                <el-button class="border-0" plain type="info" @click="syncAllVisible = false">Hủy bỏ</el-button>
+            </span>
         </template>
-    </div>
-    <template #footer center>
-      <span class="d-flex justify-content-center">
-        <el-button class="border-0" plain type="primary" :disabled="disabled" @click="deleteSelectd()" :loading=disabled>
-          Đồng ý
-        </el-button>
-        <el-button class="border-0" plain type="info"  @click="selectedVisible = false">Hủy bỏ</el-button>
-      </span>
-    </template>
-  </el-dialog>
+    </el-dialog>
+
+    <el-dialog v-model="scanCVEVisible" width="450px" id="modal-detail" modal-class="my-message-delete" :align-center="true"
+        center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span>Bạn có chắc muốn <strong class="text-lowercase">{{ title }}</strong> <strong>CVE</strong> không?</span>
+        </div>
+        <template #footer center>
+            <span class="d-flex justify-content-center">
+                <el-button class="border-0" plain type="primary" :disabled="disabled" @click="handleSecurityScan()"
+                    :loading=disabled>
+                    Đồng ý
+                </el-button>
+                <el-button class="border-0" plain type="info" @click="scanCVEVisible = false">Hủy bỏ</el-button>
+            </span>
+        </template>
+    </el-dialog>
+
+    <el-dialog v-model="confirmVisiblePauser" width="auto" id="modal-detail" modal-class="my-message-delete"
+        :align-center="true" center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span>Bạn có muốn  <strong>tạm dừng</strong> scan này không?</span>
+        </div>
+        <template #footer center>
+            <span class="d-flex justify-content-center">
+                <el-button class="border-0" plain type="primary" :disabled="disabled" @click="handlePauser()"
+                    :loading=disabled>
+                    Đồng ý
+                </el-button>
+                <el-button class="border-0" plain type="info" @click="confirmVisiblePauser = false">Hủy bỏ</el-button>
+            </span>
+        </template>
+    </el-dialog>
+
+    <el-dialog v-model="confirmVisibleRestart" width="auto" id="modal-detail" modal-class="my-message-delete"
+        :align-center="true" center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span>Bạn có muốn  <strong>tiếp tục</strong> scan này không?</span>
+        </div>
+        <template #footer center>
+            <span class="d-flex justify-content-center">
+                <el-button class="border-0" plain type="primary" :disabled="disabled" @click="handleRestart()"
+                    :loading=disabled>
+                    Đồng ý
+                </el-button>
+                <el-button class="border-0" plain type="info" @click="confirmVisibleRestart = false">Hủy bỏ</el-button>
+            </span>
+        </template>
+    </el-dialog>
 </template>
   
 <script lang="ts">
-import { defineComponent, markRaw, ref, onMounted, onUnmounted, watch } from "vue";
+import { defineComponent, ref, onMounted, onUnmounted, watch } from "vue";
 import { toolbarWidthFluid } from "@/core/helpers/config";
 import KTPageTitle from "@/views/apps/targets/reconWidgets/KTPageTitle2.vue";
-import { ElMessageBox } from 'element-plus'
 import { Delete, QuestionFilled } from '@element-plus/icons-vue'
 
 export default defineComponent({
@@ -252,31 +307,23 @@ export default defineComponent({
     ],
     setup(props, { emit }) {
 
+        const scanCVEVisible = ref<boolean>(false)
         const handleSecurityScan = () => {
-            ElMessageBox.confirm(
-                'Bạn có chắc muốn scan CVE không?',
-                'Xác Nhận Quét',
-                {
-                    confirmButtonText: 'Đồng Ý',
-                    cancelButtonText: 'Hủy Bỏ',
-                    type: 'warning',
-                    icon: markRaw(QuestionFilled)
-                }
-            )
-                .then(() => {
-                    emit("handle-security-scan");
-                })
-                .catch(() => {
-                    return;
-                })
+            scanCVEVisible.value = false
+            emit("handle-security-scan");
         }
         const onExportFile = () => {
             emit("handle-export-file");
         }
+        const confirmVisiblePauser = ref(false)
+        const confirmVisibleRestart = ref(false)
+
         const handlePauser = () => {
+            confirmVisiblePauser.value = false
             emit("handle-pauser");
         }
         const handleRestart = () => {
+            confirmVisibleRestart.value = false
             emit("handle-restart");
         }
         const handleFilter = (data: any) => {
@@ -335,8 +382,9 @@ export default defineComponent({
             // Remove the event listener when the component is unmounted
             window.removeEventListener('resize', onResize);
         });
-
+        const syncAllVisible = ref(false)
         const handleSyncAll = () => {
+            syncAllVisible.value = false
             emit("handle-sync-all");
         };
         const handleSetting = () => {
@@ -389,13 +437,17 @@ export default defineComponent({
             handleFilterAuthen,
             handleFilterSeverity,
             selectedVisible,
+            syncAllVisible,
+            scanCVEVisible,
+            confirmVisiblePauser,
+            confirmVisibleRestart,
         };
     },
 });
 </script>
 <style lang="scss">
-.my-message-delete .el-dialog__body{
-    padding: 10px !important;
+.my-message-delete .el-dialog__body {
+    padding: 0 30px 10px 30px !important;
 }
 </style>
 
@@ -441,6 +493,5 @@ export default defineComponent({
     .custom-top-fixed {
         top: 70px !important;
     }
-}
-</style>
+}</style>
   

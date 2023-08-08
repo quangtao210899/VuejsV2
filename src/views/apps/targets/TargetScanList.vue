@@ -1,7 +1,7 @@
 <template>
     <div ref="refGetTheHeight"> 
         <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-        @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Scan"></KTToolbar>
+        @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="lần Scan"></KTToolbar>
     </div> 
     <!--begin::Card-->
     <el-scrollbar :height="heightTable">
@@ -70,7 +70,7 @@
                     <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
                         v-model:page-size="itemsPerPage" :total="totalPage"
                         layout="prev, pager, next" :disabled="disabled" ></el-pagination>
-                        <div></div>
+                    <div></div>
                 </div>
             <!--end::Card body-->
         </div>

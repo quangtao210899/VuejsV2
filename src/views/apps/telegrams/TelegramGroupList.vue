@@ -1,6 +1,6 @@
 <template>
   <KTToolbar addNew="/telegram-group-form/add" :check-setting="true" @handle-setting="handleSetting"
-    :check-sync-all="true" @handle-sync-all="handleSyncAll" :check-search="true" @handle-search="handleFilter"
+    :check-sync-all="true" @handle-sync-all="getSyncAll" :check-search="true" @handle-search="handleFilter"
     v-model:idsDelete="selectedIds" @handle-delete-selectd="deleteSubscription" :disabled="disabled"
     @on-header-height="onheaderHeight" :selected-name="selectedName" title="Nhóm tin nhắn"></KTToolbar>
   <!--begin::Card-->
@@ -412,24 +412,6 @@ export default defineComponent({
     // sync
     const idSync = ref<number>(0);
     const loadingSync = ref<boolean>(false);
-    const handleSyncAll = () => {
-      ElMessageBox.confirm(
-        'Bạn có chắc muốn đồng bộ hóa tất cả nhóm Telegram không?',
-        'Đồng Bộ Toàn Bộ Tin Nhắn',
-        {
-          confirmButtonText: 'Xác Nhận',
-          cancelButtonText: 'Hủy Bỏ',
-          type: 'warning',
-          customClass: 'custom-Message-box-class-text-primary fs-13px',
-          draggable: true,
-        }
-      )
-        .then(() => {
-          getSyncAll();
-        })
-        .catch(() => {
-        })
-    };
 
     // thểm loading
     const getSyncItem = async (id: any) => {
@@ -612,7 +594,6 @@ export default defineComponent({
       visibleDetail,
 
       // sync
-      handleSyncAll,
       getSyncAll,
       getSyncItem,
       visibleSetting,

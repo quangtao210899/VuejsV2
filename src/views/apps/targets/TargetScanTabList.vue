@@ -53,43 +53,22 @@
                                 <div class="d-flex justify-content-sm-start justify-content-md-end">
                                     <div class="card-toolbar">
                                         <div class="d-flex justify-content-end">
-                                            <el-popconfirm confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
-                                                icon="InfoFilled" icon-color="#626AEF"
-                                                title="Bạn có chắc chắn muốn hủy lần Recon này không?" @confirm="handleCanceled"
-                                                @cancel="cancelEvent">
-                                                <template #reference>
-                                                    <button type="button" :disabled="[1,2,3,4,6].includes(scanStatus)"
-                                                        class="btn btn-sm btn-light-danger custom-button">
-                                                        <KTIcon icon-name="cross-square" icon-class="fs-2 " />Hủy Bỏ
-                                                    </button>
-                                                </template>
-                                            </el-popconfirm>
-                                            <el-popconfirm v-if="scanStatus == 5 || scanStatus == 6" confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
-                                                icon="InfoFilled" icon-color="#626AEF"
-                                                title="Bạn có muốn tiếp tục chạy Recon này không?" @confirm="handlePauser"
-                                                @cancel="cancelEvent">
-                                                <template #reference>
-                                                    <button type="button"
-                                                    :disabled="[6].includes(scanStatus)"
+                                            <button type="button" :disabled="[1,2,3,4,6].includes(scanStatus)"
+                                                class="btn btn-sm btn-light-danger custom-button" @click="confirmVisible = true">
+                                                <KTIcon icon-name="cross-square" icon-class="fs-2 " />Hủy Bỏ
+                                            </button>
+                                            <button v-if="scanStatus == 5 || scanStatus == 6" type="button"
+                                                    :disabled="[6].includes(scanStatus)" @click="confirmVisiblePauser = true"
                                                         class="btn btn-sm btn-light-success ms-2 custom-button">
                                                         <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
                                                         <span>Tiếp Tục</span>
                                                     </button>
-                                                </template>
-                                            </el-popconfirm>
-                                            <el-popconfirm v-else confirm-button-text="Đồng Ý" width="250" cancel-button-text="Không"
-                                                icon="InfoFilled" icon-color="#626AEF"
-                                                title="Bạn có muốn tạm dừng Recon này không?" @confirm="handlePauser"
-                                                @cancel="cancelEvent">
-                                                <template #reference>
-                                                    <button type="button"
-                                                        :disabled="[1,3,4].includes(scanStatus)"
-                                                        class="btn btn-sm btn-light-warning ms-2 custom-button">
-                                                        <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
-                                                        <span>Tạm Dừng</span>
-                                                    </button>
-                                                </template>
-                                            </el-popconfirm>
+                                            <button v-else type="button"
+                                                :disabled="[1,3,4].includes(scanStatus)"  @click="confirmVisiblePauser = true"
+                                                class="btn btn-sm btn-light-warning ms-2 custom-button">
+                                                <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
+                                                <span>Tạm Dừng</span>
+                                            </button>
                                             <button type="button" :disabled="[1,2].includes(scanStatus)"
                                                 @click="fileDownVisible = true"
                                                 class="btn btn-sm btn-light-primary ms-2 custom-button">
@@ -490,27 +469,49 @@
     </div>
 
     <!-- // modoal  -->
-    <el-dialog v-model="fileDownVisible" title="Xác nhận xuất file" width="500">
-        <div class="card h-100 bg-secondary">
-            <!--begin::Card body-->
-            <div class="card-body d-flex justify-content-center text-center flex-column p-8">
-                <!--begin::Name-->
-                <div class="symbol symbol-60px mb-5">
-                    <i class="fa-solid fa-file-excel fs-4x text-success"></i>
-                </div>
-                <!--end::Image-->
-
-                <!--begin::Title-->
-                <div class="fs-5 fw-bold mb-2 text-dark"> {{ `Scan_${scanID}_report.xlsx` }} </div>
-                <!--end::Name-->
-            </div>
-            <!--end::Card body-->
+    <el-dialog v-model="confirmVisible" width="auto" id="modal-detail" modal-class="my-message-delete" :align-center="true"
+     center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span>Bạn có chắc chắn muốn <strong>hủy bỏ</strong> lần scan này không?</span>
         </div>
-        <template #footer>
-            <span class="dialog-footer">
-                <el-button @click="fileDownVisible = false">Hủy bỏ</el-button>
-                <el-button type="primary" @click="downloadAcunetix">Tải về</el-button>
-            </span>
+        <template #footer center>
+        <span class="d-flex justify-content-center">
+            <el-button class="border-0" plain type="primary" :disabled="loading" @click="handleCanceled()" :loading=loading>
+            Đồng ý
+            </el-button>
+            <el-button class="border-0" plain type="info"  @click="confirmVisible = false">Hủy bỏ</el-button>
+        </span>
+        </template>
+    </el-dialog>
+
+    <el-dialog v-model="fileDownVisible" width="auto" id="modal-detail" modal-class="my-message-delete" :align-center="true"
+     center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span>Bạn có muốn <strong>xuất kết quả </strong> scan này không?</span> 
+        </div>
+        <template #footer center>
+        <span class="d-flex justify-content-center">
+            <el-button class="border-0" plain type="primary" :disabled="loading" @click="downloadAcunetix()" :loading=loading>
+            Đồng ý
+            </el-button>
+            <el-button class="border-0" plain type="info"  @click="fileDownVisible = false">Hủy bỏ</el-button>
+        </span>
+        </template>
+    </el-dialog>
+
+    <el-dialog v-model="confirmVisiblePauser" width="auto" id="modal-detail" modal-class="my-message-delete" :align-center="true"
+     center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span v-if="scanStatus == 5 || scanStatus == 6">Bạn có muốn <strong>tiếp tục</strong> chạy scan này không?</span>
+            <span v-else>Bạn có muốn <strong>tạm dừng</strong> scan này không?</span>
+        </div>
+        <template #footer center>
+        <span class="d-flex justify-content-center">
+            <el-button class="border-0" plain type="primary" :disabled="loading" @click="handlePauser()" :loading=loading>
+            Đồng ý
+            </el-button>
+            <el-button class="border-0" plain type="info"  @click="confirmVisiblePauser = false">Hủy bỏ</el-button>
+        </span>
         </template>
     </el-dialog>
 </template>
@@ -919,8 +920,11 @@ export default defineComponent({
         // false - tạm dừng
         // true - tiếp tục
 
+        const confirmVisiblePauser = ref<boolean>(false)
+        const confirmVisible = ref<boolean>(false)
         const checkDisabled = ref<boolean>(false);
         const handlePauser = async () => {
+            confirmVisiblePauser.value = false
             checkDisabled.value = true
             setTimeout(() => {
                 checkDisabled.value = false;
@@ -938,6 +942,7 @@ export default defineComponent({
         };
 
         const handleCanceled = async () => {
+            confirmVisible.value = false
             // if (scanStatus.value == 3) {
             //     notification('Danh dách đã được quét thành công không thể tạm dừng', 'error', 'Có lỗi xảy ra')
             // } else if (scanStatus.value == 5) {                
@@ -1210,7 +1215,9 @@ export default defineComponent({
             chartHeight,
             chartColor,
             chart,
-            process
+            process,
+            confirmVisiblePauser,
+            confirmVisible,
         };
     },
 });
