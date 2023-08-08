@@ -2,7 +2,7 @@
   <KTToolbar addNew="/telegram-group-form/add" :check-setting="true" @handle-setting="handleSetting"
     :check-sync-all="true" @handle-sync-all="getSyncAll" :check-search="true" @handle-search="handleFilter"
     v-model:idsDelete="selectedIds" @handle-delete-selectd="deleteSubscription" :disabled="disabled"
-    @on-header-height="onheaderHeight" :selected-name="selectedName" title="Nhóm tin nhắn"></KTToolbar>
+    @on-header-height="onheaderHeight" :selected-name="selectedName" title="Nhóm telegram"></KTToolbar>
   <!--begin::Card-->
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
     <div class="p-5 bg-body rounded-3">

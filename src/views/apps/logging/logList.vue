@@ -66,7 +66,7 @@
   <!--end::Card-->
 
   <!-- modal detail  -->
-  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Log" width="75%" align-center id="modal-detail" center :align-center="true"
+  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Log" width="75%" align-center id="modal-detail" 
     :show-close="false">
     <div class="modal-body" style="padding: 0px !important;">
       <!--begin::Card-->
@@ -79,28 +79,34 @@
             <div class="me-5">
               <div>
                 <div class="row fs-13px mb-3">
-                  <div class="col-3">Message:</div>
-                  <div class="col-9">
+                  <div class="col-1 w-150px">Message:</div>
+                  <div class="col">
                     <span
                       v-if="typeof detailData.msg === 'string' && detailData.msg != ''">
-                      {{ detailData.msg }}.
+                      <!-- {{ detailData.msg }}. -->
+                      <CodeHighlighter lang="json" :styleName="{whiteSpace: 'pre-line'}">
+                        {{ detailData.msg }}
+                      </CodeHighlighter>
+
                     </span>
                     <span v-else class=" badge badge-light-danger">--</span>
                   </div>
                 </div>
                 <div class="row fs-13px mb-3">
-                  <div class="col-3">Traceback:</div>
-                  <div class="col-9">
+                  <div class="col-1 w-150px">Traceback:</div>
+                  <div class="col">
                     <span
                       v-if="typeof detailData.trace === 'string' && detailData.trace != ''">
-                      {{ detailData.trace }}.
+                      <!-- <pre class="fs-13px" style="white-space: pre-line;">{{ detailData.trace }}</pre> -->
+                      <CodeHighlighter lang="json" :styleName="{whiteSpace: 'pre-line'}">{{ detailData.trace }}</CodeHighlighter>
+
                     </span>
-                    <span v-else class=" badge badge-light-danger">--</span>
+                    <span v-else class="badge badge-light-danger">--</span>
                   </div>
                 </div>
                 <div class="row fs-13px mb-3">
-                  <div class="col-3">Ngày Tạo:</div>
-                  <div class="col-9">
+                  <div class="col-1 w-150px">Ngày Tạo:</div>
+                  <div class="col">
                     <span
                       v-if="typeof detailData.create_datetime === 'string' && detailData.create_datetime != ''">
                       <i class="fa-solid fa-calendar-days fs-7"></i>
@@ -133,19 +139,21 @@
 import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import ApiService from "@/core/services/ApiService";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
+import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 
 // validate
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 export default defineComponent({
-  name: "kt-target-list",
+  name: "kt-log-list",
 
   components: {
     ElTable,
     ElTableColumn,
     KTToolbar,
     ElPagination,
+    CodeHighlighter,
   },
   directives: {
     debounce: vue3Debounce({ lock: true })
