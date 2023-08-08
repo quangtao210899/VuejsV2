@@ -67,7 +67,8 @@
 
           <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="text" label="NỘI DUNG">
             <template #default="scope">
-              <span class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.text, 200) }}</span>
+              <span v-if="scope.row.text != ''" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.text, 200) }}</span>
+              <span v-else class="badge badge-light-danger">--</span>
             </template>
           </el-table-column>
           <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="date" label="THỜI GIAN">

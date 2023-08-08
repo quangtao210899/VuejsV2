@@ -1,7 +1,6 @@
 <template>
     <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true"
-        @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @click="getCheckedKeys" @on-header-height="onheaderHeight"></KTToolbar>
-    <el-scrollbar :height="heightTable" >
+        @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @on-header-height="onheaderHeight"></KTToolbar>
         <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
             <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20 pt-10">
                 <el-form ref="ruleFormRef" :model="ruleForm" label-width="33%"
@@ -18,7 +17,6 @@
                 </el-form>
             </div>
         </div>
-    </el-scrollbar>
 </template>
 
 <script lang="ts">
@@ -678,25 +676,6 @@ export default defineComponent({
                 });
         }
 
-        const heightTable = ref(0)
-        const handleResize = () => {
-        const windowWidth = window.innerWidth;
-        if (windowWidth >= 1400) {
-            heightTable.value = window.innerHeight - 80;
-        } else if (windowWidth >= 1200) {
-            heightTable.value = window.innerHeight - 80;
-        } else if (windowWidth >= 992) {
-            heightTable.value = window.innerHeight - 80;
-        } else if (windowWidth >= 768) {
-            heightTable.value = window.innerHeight - 75;
-        } else if (windowWidth >= 576) {
-            heightTable.value = window.innerHeight - 75;
-        } else {
-            // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-            heightTable.value = window.innerHeight - 70;
-        }
-        };
-
         // tính labelPosition form
         // const labelPosition = ref('left')
         // const handleResize = () => {
@@ -719,18 +698,8 @@ export default defineComponent({
             
         }
 
-        onMounted(() => {
-            handleResize();
-            window.addEventListener('resize', handleResize);
-        });
-
-        onUnmounted(() => {
-            window.removeEventListener('resize', handleResize);
-        });
-
         return {
             headerHeight,
-            onheaderHeight,
             list,
             data_group,
             loading,
@@ -748,7 +717,7 @@ export default defineComponent({
             getCheckedKeys,
             resetData,
             validationSchema,
-            heightTable
+            onheaderHeight,
         };
     },
 });

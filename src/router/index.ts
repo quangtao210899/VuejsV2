@@ -266,6 +266,25 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: "/log",
+    redirect: "/log",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },    
+    children: [
+      {
+        path: "/log-list",
+        name: "log",
+        component: () => import("@/views/apps/logging/logList.vue"),
+        meta: {
+          pageTitle: "Log",
+          breadcrumbs: ["Log"],
+        },
+      },
+    ],
+  },
+  {
     path: "/cve",
     redirect: "/cve",
     component: () => import("@/layouts/main-layout/MainLayout.vue"),

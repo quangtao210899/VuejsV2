@@ -1,6 +1,6 @@
 <template>
     <KTToolbar :addNew="urlAddNew" :modal-import="modalImport" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-    @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"></KTToolbar>
+    @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Tin Nhắn"></KTToolbar>
     <!--begin::Card-->
     <importAccountLeak ref="importComponentRef" 
         @notify="(info: string, noti_type: string, more_detail: string, hideImportModal) => notification(info, noti_type, more_detail, hideImportModal)" 
@@ -85,7 +85,7 @@
             </el-table>
             <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
                 <div v-if="totalPage > 0" >
-                    <span class="text-capitalize fs-13px">Tổng Số Tài Khoản: {{ totalPage }}</span>
+                    <span class="text-capitalize fs-13px">Tổng Số Tài khoản rò rỉ: {{ totalPage }}</span>
                 </div>
                 <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
                     v-model:page-size="itemsPerPage" :total="totalPage"
@@ -417,8 +417,10 @@ export default defineComponent({
         }
 
         // table
+        const selectedName = ref<Array<any>>([]);
         const handleSelectionChange = (val: any) => {
             if (val) {
+                selectedName.value = val.map((item: any) => item.username || item.title || item.email);
                 selectedIds.value = val.map((item: { id: number }) => item.id);
             }
             return;
@@ -500,6 +502,7 @@ export default defineComponent({
             notification,
             confirmDownload,
             detailData,
+            selectedName,
         };
     },
 });

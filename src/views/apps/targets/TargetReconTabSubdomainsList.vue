@@ -552,7 +552,6 @@ export default defineComponent({
 
         const fetchDataSubdomain = (currentPages: number, pageSizes: number) => {
             loadingSubdomain.value = true
-            setTimeout(() => loadingSubdomain.value = false, 500)
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             const filterTableData = (searchSubdomain.value != null || searchSubdomain.value != '') ? subdomain_result_full.value.filter(
@@ -564,6 +563,7 @@ export default defineComponent({
             ) : subdomain_result_full.value
             subdomain_result.value = filterTableData.slice(start, end)
             totalSubdomain.value = Object.keys(filterTableData).length;
+            loadingSubdomain.value = false
         };
 
         // modoal subdomains
@@ -596,8 +596,6 @@ export default defineComponent({
 
         // search searchEnpoint
         watch(searchEnpoint, debounce(() => {
-            loading.value = true
-            setTimeout(() => loading.value = false, 500)
             fetchDataEndpoints(1, pageSizeEndpoints.value)
         }, 500));
         watch([dialogEndpointsVisible, dialogDirectoryVisible], () => {
@@ -608,6 +606,7 @@ export default defineComponent({
         });
 
         const fetchDataEndpoints = (currentPages: number, pageSizes: number) => {
+            loading.value = true
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             totalRecordsTitle.value = enpoint_data_full.value.length
@@ -625,6 +624,7 @@ export default defineComponent({
                 };
             });
             totalRecords.value = Object.keys(filterTableData).length;
+            loading.value = false
         };
 
         // Xử lý sự kiện thay đổi trang
@@ -656,16 +656,14 @@ export default defineComponent({
 
         // search searchEnpoint
         watch(searchDirectory, debounce(() => {
-            loading.value = true
-            setTimeout(() => loading.value = false, 500)
             fetchDataDirectory(1, pageSizeEndpoints.value)
         }, 500));
 
         const fetchDataDirectory = (currentPages: number, pageSizes: number) => {
+            loading.value = true
             const start = (currentPages - 1) * pageSizes;
             const end = start + pageSizes;
             totalRecordsDirectoryTitle.value = directory_data_full.value.length
-
             const filterTableData = (searchDirectory != null || searchDirectory != '') ? Object.values(directory_data_full.value).filter(
                 (data: any) =>
                     !searchDirectory.value ||
@@ -680,6 +678,7 @@ export default defineComponent({
                 };
             });
             totalRecordsDirectory.value = Object.keys(filterTableData).length;
+            loading.value = false
         };
 
         // Xử lý sự kiện thay đổi trang

@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <!-- modal detail  -->
+    <!-- modal detail  --> 
     <el-dialog v-model="DialogVisibleDetail" :title="detailData.ip" width="650" id="modal-detail" align-center
         modal-class="" :show-close="false">
         <div class="modal-body p-0">
@@ -154,32 +154,18 @@
         </div>
     </el-dialog>
 
-    <el-dialog v-model="fileDownVisible" :show-close="false" align-center id="modal-detail" title="Xác Nhận Xuất File"
-        width="700">
-        <div class="h-100 border-primary border-dashed rounded-2 border border-2 bg-light my-hover-export-file">
-            <!--begin::Card body-->
-            <div class="card-body d-flex justify-content-center text-center flex-column p-8">
-                <!--begin::Name-->
-                <div class="symbol symbol-60px mb-5">
-                    <i class="fa-solid fa-file-excel fs-4x text-primary"></i>
-                </div>
-                <!--end::Image-->
-
-                <!--begin::Title-->
-                <div class="fs-13px fw-bold mb-2 text-primary"> {{ `Scan_${IDScan}_report.xlsx` }} </div>
-                <!--end::Name-->
-            </div>
-            <!--end::Card body-->
+    <el-dialog v-model="fileDownVisible" width="auto" id="modal-detail" modal-class="my-message-delete" :align-center="true"
+     center :append-to-body="true" :show-close="false">
+        <div class="text-center fs-13px">
+            <span>Bạn có muốn <strong>xuất kết quả </strong> scan này không?</span> 
         </div>
-        <template #footer>
-            <span class="d-flex justify-content-center">
-                <button type="button" class="btn btn-sm btn-light-primary fs-13px" @click="fileDownVisible = false">
-                    Đóng
-                </button>
-                <button type="button" class="btn btn-sm btn-light-success fs-13px ms-2" @click="downloadAcunetix">
-                    Tải về
-                </button>
-            </span>
+        <template #footer center>
+        <span class="d-flex justify-content-center">
+            <el-button class="border-0" plain type="primary" :disabled="disabled" @click="downloadAcunetix()" :loading=disabled>
+            Đồng ý
+            </el-button>
+            <el-button class="border-0" plain type="info"  @click="fileDownVisible = false">Hủy bỏ</el-button>
+        </span>
         </template>
     </el-dialog>
 </template>
