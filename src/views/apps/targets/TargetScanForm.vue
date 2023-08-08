@@ -31,7 +31,7 @@
                     <label class="el-form-item__label d-inline-block" style="width: 34%;">Nâng Cao</label>
                 </div>
                 <div v-if="scanFormState.advancedCheck">
-                    <el-form-item style="" label="Tốc độ scan" prop="domain" class="pb-3 text-capitalize fs-6 custom-form">
+                    <el-form-item label="Tốc độ scan" prop="domain" class="pb-3 text-capitalize fs-6 custom-form">
                         <el-radio-group v-model="scanFormState.scanSpeedOption" size="large">
                             <el-radio :label="1">Tuần Tự</el-radio>
                             <el-radio :label="2">Chậm</el-radio>
@@ -41,7 +41,7 @@
                     </el-form-item>
                     <div class="custom-form" style="margin-bottom: 22px;">
                         <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback text-capitalize fs-6">
-                            <label class="el-form-item__label d-inline-block" style="width: 33%;">Proxy</label>
+                            <label class="el-form-item__label d-inline-block custom-button">Proxy</label>
                             <div class="el-form-item__content d-inline-block">
                                 <el-switch
                                     v-model="scanFormState.proxyCheck"
@@ -70,7 +70,7 @@
                                 :class="(errors.proxyPort) ? 'el-error-ruleForm' : ''" />
                         </el-form-item>
                         <div v-if="scanFormState.proxyCheck" class="el-form-item el-form-item--large asterisk-right el-form-item--feedback text-capitalize fs-6">
-                            <label class="el-form-item__label d-inline-block" style="width: 33%;">Proxy yêu cầu xác thực</label>
+                            <label class="el-form-item__label d-inline-block custom-button">Proxy yêu cầu xác thực</label>
                             <div class="el-form-item__content d-inline-block">
                                 <el-switch
                                     v-model="scanFormState.proxyAuthenticationCheck"
@@ -88,14 +88,29 @@
                                 autocomplete="new-password" />
                         </el-form-item>
                     </div>
-                    <el-form-item prop="headerOptionValue" label="Header Tùy Chỉnh" class="pb-3 text-capitalize fs-6 custom-form" :error="(errors.headerOptionValue) ? errors.headerOptionValue[0] : ''">
+                    <!-- <el-form-item prop="headerOptionValue" label="Header Tùy Chỉnh" class="pb-3 text-capitalize fs-6 custom-form" :error="(errors.headerOptionValue) ? errors.headerOptionValue[0] : ''">
                         <el-select v-model="scanFormState.headerOptionValue"  style="padding-bottom: 20px;" multiple filterable class="w-100"
                             allow-create default-first-option placeholder="Ví dụ: Cookie: e8452aaa">
                         </el-select>
-                    </el-form-item>
+                    </el-form-item> -->
+                    <div class="custom-form" style="margin-bottom: 22px;">
+                        <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback text-capitalize fs-6">
+                            <label class="el-form-item__label d-inline-block custom-button">Sử Dụng Header Tùy Chọn</label>
+                            <div class="el-form-item__content d-inline-block">
+                                <el-switch
+                                    v-model="scanFormState.headerOptionCheck"
+                                />
+                            </div>
+                        </div>
+                        <el-form-item v-if="scanFormState.headerOptionCheck" prop="headerOptionValue" label="Header" class="text-capitalize fs-6" :error="(errors.headerOptionValue) ? errors.headerOptionValue[0] : ''">
+                            <el-select v-model="scanFormState.headerOptionValue" multiple filterable class="w-100"
+                                allow-create default-first-option placeholder="Ví dụ: Cookie: e8452aaa">
+                            </el-select>
+                        </el-form-item>
+                    </div>
                     <div class="custom-form">
-                        <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback pb-3 text-capitalize fs-6">
-                            <label class="el-form-item__label d-inline-block" style="width: 33%;">Quét Lại</label>
+                        <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback text-capitalize fs-6">
+                            <label class="el-form-item__label d-inline-block custom-button">Quét Lại</label>
                             <div class="el-form-item__content d-inline-block">
                                 <el-switch
                                     v-model="scanFormState.rescanRecurTimeCheck"
@@ -192,25 +207,45 @@ export default defineComponent({
             errors.proxyPort = ''
             errors.proxyUsername = ''
             errors.proxyUserPassword = ''
-            errors.headerOptionValue = ''
-            // errors.rescanRecurTime = 0
+            // errors.headerOptionValue = ''
+            errors.rescanRecurTime = ''
             errors.detail = ''
             if (!scanFormState.advancedCheck) {
+                scanFormState.proxyCheck = false
+                scanFormState.headerOptionCheck = false
+                scanFormState.rescanRecurTimeCheck = false          
+                scanFormState.proxyAuthenticationCheck = false
                 scanFormState.scanSpeedOption = 0
-                scanFormState.proxyCheck = false                
-                if (!scanFormState.proxyCheck) {
-                    scanFormState.proxyScheme = ""
-                    scanFormState.proxyAdress = ""
-                    scanFormState.proxyPort = ""
-                    scanFormState.proxyUsername = ""
-                    scanFormState.proxyUserPassword = ""
-                    scanFormState.proxyAuthenticationCheck = false
-                }
-    
-                if (!scanFormState.proxyAuthenticationCheck) {
-                    scanFormState.proxyUsername = ""
-                    scanFormState.proxyUserPassword = ""
-                }
+                scanFormState.proxyScheme = ""
+                scanFormState.proxyAdress = ""
+                scanFormState.proxyPort = ""
+                scanFormState.proxyUsername = ""
+                scanFormState.proxyUserPassword = ""
+                scanFormState.proxyUsername = ""
+                scanFormState.proxyUserPassword = ""
+                scanFormState.headerOptionValue = []
+                scanFormState.rescanRecurTime = 0
+            }
+
+            if (!scanFormState.proxyCheck) {
+                scanFormState.proxyScheme = ""
+                scanFormState.proxyAdress = ""
+                scanFormState.proxyPort = ""
+                scanFormState.proxyUsername = ""
+                scanFormState.proxyUserPassword = ""
+            }
+
+            if (!scanFormState.proxyAuthenticationCheck) {
+                scanFormState.proxyUsername = ""
+                scanFormState.proxyUserPassword = ""
+            }
+            
+            if (!scanFormState.headerOptionCheck) {
+                scanFormState.headerOptionValue = []
+            }
+
+            if (!scanFormState.rescanRecurTimeCheck) {
+                scanFormState.rescanRecurTime = 0
             }
         }
 
@@ -257,8 +292,8 @@ export default defineComponent({
             rescanOptionCheck: false,
             rescanRecurTime: 0,
             rescanRecurTimeCheck: false,
-            // nmap_check: false,
-            // nuclei_check: false,
+            nmap_check: false,
+            nuclei_check: false,
         })
 
         const scanTool = ref([
@@ -390,6 +425,9 @@ export default defineComponent({
 
                 return
             }
+
+            scanFormState.nmap_check = selectedKey.includes('3') ? true : false
+            scanFormState.nuclei_check = selectedKey.includes('4') ? true : false
 
             selectedKey.forEach((element) => {
                 if (typeof element === 'string') {
@@ -540,6 +578,8 @@ export default defineComponent({
     border: #ced0d9 1px solid;
     padding: 20px;
     border-radius: 20px;
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 .el-checkbox__inner {
@@ -552,7 +592,31 @@ export default defineComponent({
 }
 
 .el-checkbox__inner::after {
-    width: 5px !important;
-    height: 5px !important;
+    width: 7px !important;
+    height: 9px !important;
+}
+
+/* Media query cho màn hình >= 992px (lg) */
+@media (min-width: 1466px) {
+    .custom-button {
+        width: 93%;
+    }
+}
+
+/* Media query cho màn hình >= 768px và < 992px (md) */
+@media (min-width: 673px) and (max-width: 1465px) {
+    .custom-button {
+        width: 90%;
+    }
+}
+
+@media (max-width: 672px) {
+    .custom-button {
+        width: 80%;
+    }
+}
+
+.el-button.is-text:not(.is-disabled):focus, .el-button.is-text:not(.is-disabled):hover {
+    background-color: #fff;
 }
 </style>
