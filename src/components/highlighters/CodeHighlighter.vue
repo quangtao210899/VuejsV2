@@ -13,7 +13,7 @@
         <pre
           :class="`language-${lang}`"
           :style="{ height: getHeightInPixesls }"
-        ><code :class="`language-${lang}`">
+        ><code :class="`language-${lang}`" :style="styleName">
           <slot></slot>
         </code></pre>
       </div>
@@ -31,6 +31,7 @@ export default defineComponent({
   props: {
     lang: String,
     fieldHeight: Number,
+    styleName: { type: Object, required: false, default: {} },
   },
   setup(props) {
     const height = ref(props.fieldHeight);
