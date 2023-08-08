@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <!-- modal detail  -->
+    <!-- modal detail  --> 
     <el-dialog v-model="DialogVisibleDetail" :title="detailData.ip" width="650" id="modal-detail" align-center
         modal-class="" :show-close="false">
         <div class="modal-body p-0">
