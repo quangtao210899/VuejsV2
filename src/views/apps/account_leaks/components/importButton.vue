@@ -36,12 +36,10 @@
             <!-- <a :href="url" download="example_account_leaks.xlsx">{{exampleFileName}}</a> -->
           </div>
           <div>
-            <button type="button" class="btn btn-sm btn-light me-2" data-bs-dismiss="modal">
-              Đóng
-            </button>
-            <button type="button" class="btn btn-sm btn-primary" @click="processUpload">
+            <el-button class="border-0" plain type="info" data-bs-dismiss="modal">Đóng</el-button>
+            <el-button class="border-0" plain type="primary" :disabled="disabled" @click="processUpload" :loading=loading>
               Tải Lên
-            </button>
+            </el-button>
           </div>
         </div>
       </div>
@@ -71,8 +69,13 @@ function processUpload() {
       false
     );
   } else {
+    loading.value = true
+    disabled.value = true
     let files = dropzone.getQueuedFiles();
     dropzone.processQueue();
+    setTimeout(() => {
+      disabled.value = false
+    }, 600);
   }
 }
 
@@ -106,10 +109,12 @@ onMounted(() => {
     if(res.detail['total_error']){
       const message = `Upload thành công ${res.detail['total_success']} bản ghi, thất bại ${res.detail['total_error']} bản ghi. Tải file để xem chi tiết lỗi`
       emit("confirm", message , "error");
+      loading.value = false
     }
     else {
       const message = `Upload thành công ${res.detail['total_success']} bản ghi.`
       emit("notify", message, "success","Thông tin thêm", true);
+      loading.value = false
     }
     emit("resetData");
   });
@@ -130,6 +135,8 @@ onMounted(() => {
 });
 
 const fileExample = 'example_account_leaks.xlsx'
+const loading = ref<boolean>(false)
+const disabled = ref<boolean>(false);
 const url = import.meta.env.VITE_APP_API_URL + '/Storage/accountLeak/' + fileExample
 const exampleFileName = "Tải File Mẫu"
 import { hideModal } from "@/core/helpers/dom";

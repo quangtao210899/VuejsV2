@@ -24,7 +24,7 @@
                 <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35"
                     :reserve-selection="true" />
 
-                <el-table-column width="60" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID" >
+                <el-table-column width="100" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID" >
                     <template #default="scope">
                         <span v-if="scope.row.id" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id }}</span>
                         <span v-else class="badge badge-light-danger">--</span>
@@ -38,7 +38,7 @@
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark"  prop="email" label="EMAIL">
+                <el-table-column min-width="180" label-class-name="fs-13px fw-bold text-dark"  prop="email" label="EMAIL">
                     <template #default="scope">
                         <span v-if="(typeof scope.row.email === 'string' && scope.row.email != '') || (typeof scope.row.email === 'object' && !Object.is(scope.row.email, null))" class="fs-13px text-gray-700 text-hover-primary">
                             {{ scope.row.email }}
@@ -46,7 +46,7 @@
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="password_hash" label="PASSWORD HASH">
+                <el-table-column min-width="180" label-class-name="fs-13px text-dark fw-bold" prop="password_hash" label="PASSWORD HASH">
                     <template #default="scope">
                         <span v-if="(typeof scope.row.password_hash === 'string' && scope.row.password_hash != '') || (typeof scope.row.password_hash === 'object' && !Object.is(scope.row.password_hash, null))" class="fs-13px text-gray-700 text-hover-primary">
                             {{ truncateText(scope.row.password_hash ?? "", 25) }}
@@ -54,25 +54,25 @@
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="password_crack" label="PASSWORD CRACK">
+                <el-table-column min-width="180" label-class-name="fs-13px text-dark fw-bold" prop="password_crack" label="PASSWORD CRACK">
                     <template #default="scope">
                         <span v-if="(typeof scope.row.password_crack === 'string' && scope.row.password_crack != '') || (typeof scope.row.password_crack === 'object' && !Object.is(scope.row.password_crack, null))" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.password_crack ?? '', 50) }}</span>
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="source_data" label="NGUỒN DỮ LIỆU">
+                <el-table-column min-width="130" label-class-name="fs-13px text-dark fw-bold" prop="source_data" label="NGUỒN DỮ LIỆU">
                     <template #default="scope">
                         <span v-if="(typeof scope.row.source_data === 'string' && scope.row.source_data != '') || (typeof scope.row.source_data === 'object' && !Object.is(scope.row.source_data, null))" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.source_data ?? '', 50) }}</span>
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column min-width="140" label-class-name="fs-13px text-dark fw-bold" prop="country" label="QUỐC GIA">
+                <el-table-column min-width="150" label-class-name="fs-13px text-dark fw-bold" prop="country" label="QUỐC GIA">
                     <template #default="scope">
                         <span v-if="(typeof scope.row.country === 'string' && scope.row.country != '') || (typeof scope.row.country === 'object' && !Object.is(scope.row.country, null))" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.country ?? '', 50) }}</span>
                         <span v-else class="badge badge-light-danger">--</span>
                     </template>
                 </el-table-column>
-                <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
+                <el-table-column width="110" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
                     <template #default="scope">
                         <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Chỉnh Sửa" placement="top">
                             <router-link :to="`/account-leaks-form/${scope.row.id}`" v-on:click.stop
@@ -102,113 +102,112 @@
                     <div class="card card-flush">
                         <div class="card-header">
                             <div class="card-title">
-                                <h1 class="fw-bold">{{ detailData.email ? detailData.email : detailData.username }}</h1>
+                                <h1 class="fw-bold">Thông Tin Chi Tiết:</h1>
                             </div>
                         </div>
                         <div class="card-body py-0">
                             <div>
-                                <h5>Thông Tin Chi Tiết:</h5>
-                                    <div class="py-5">
-                                        <div class="me-5">
-                                            <div>
-                                                <div class="row fs-6 mb-3">
-                                                    <div class="col-6">Tình Trạng:</div>
-                                                    <div class="col-6 fs-5 fw-bold">
-                                                        <span class="badge"
-                                                            :class="{ 'badge-success': detailData.is_ok, 'badge-danger': !detailData.is_ok }">{{
-                                                        detailData.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra" }}</span>
-                                                    </div>
+                                <div class="py-5">
+                                    <div class="me-5">
+                                        <div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3">Tình Trạng:</div>
+                                                <div class="col-9 fs-5 fw-bold">
+                                                    <span class="badge"
+                                                        :class="{ 'badge-success': detailData.is_ok, 'badge-danger': !detailData.is_ok }">{{
+                                                    detailData.is_ok ? "Đã kiểm tra" : "Chưa kiểm tra" }}</span>
                                                 </div>
-                                                <div class="row fs-6 mb-3">
-                                                    <div class="col-6">Tên Người Dùng:</div>
-                                                    <div class="col-6">
-                                                        <span v-if="(typeof detailData.username === 'string' && detailData.username != '') || (typeof detailData.username === 'object' && !Object.is(detailData.username, null))">
-                                                            {{ detailData.username }}
-                                                        </span>
-                                                        <span v-else class=" badge badge-light-danger">--</span>
-                                                    </div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3">Tên Người Dùng:</div>
+                                                <div class="col-9">
+                                                    <span v-if="(typeof detailData.username === 'string' && detailData.username != '') || (typeof detailData.username === 'object' && !Object.is(detailData.username, null))">
+                                                        {{ detailData.username }}
+                                                    </span>
+                                                    <span v-else class=" badge badge-light-danger">--</span>
                                                 </div>
-                                                <div class="row fs-6 mb-3">
-                                                    <div class="col-6">Email:</div>
-                                                    <div class="col-6">
-                                                        <span v-if="(typeof detailData.email === 'string' && detailData.email != '') || (typeof detailData.email === 'object' && !Object.is(detailData.email, null))">
-                                                            {{ detailData.email }}
-                                                        </span>
-                                                        <span v-else class=" badge badge-light-danger">--</span>
-                                                    </div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3">Email:</div>
+                                                <div class="col-9">
+                                                    <span v-if="(typeof detailData.email === 'string' && detailData.email != '') || (typeof detailData.email === 'object' && !Object.is(detailData.email, null))">
+                                                        {{ detailData.email }}
+                                                    </span>
+                                                    <span v-else class=" badge badge-light-danger">--</span>
                                                 </div>
-                                                <div class="row fs-6 mb-3">
-                                                    <div class="col-6">Password Crack:</div>
-                                                    <div class="col-6">
-                                                        <span v-if="(typeof detailData.password_crack === 'string' && detailData.password_crack != '') || (typeof detailData.password_crack === 'object' && !Object.is(detailData.password_crack, null))">
-                                                            {{ detailData.password_crack }}
-                                                        </span>
-                                                        <span v-else class=" badge badge-light-danger">--</span>
-                                                    </div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3">Password Crack:</div>
+                                                <div class="col-9">
+                                                    <span v-if="(typeof detailData.password_crack === 'string' && detailData.password_crack != '') || (typeof detailData.password_crack === 'object' && !Object.is(detailData.password_crack, null))">
+                                                        {{ detailData.password_crack }}
+                                                    </span>
+                                                    <span v-else class=" badge badge-light-danger">--</span>
                                                 </div>
-                                                <div class="row fs-6 mb-3">
-                                                    <div class="col-6">Password Hash:</div>
-                                                    <div class="col-6">
-                                                        <span v-if="(typeof detailData.password_hash === 'string' && detailData.password_hash != '') || (typeof detailData.password_hash === 'object' && !Object.is(detailData.password_hash, null))">
-                                                            {{ detailData.password_hash }}
-                                                        </span>
-                                                        <span v-else class=" badge badge-light-danger">--</span>
-                                                    </div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3">Password Hash:</div>
+                                                <div class="col-9">
+                                                    <span v-if="(typeof detailData.password_hash === 'string' && detailData.password_hash != '') || (typeof detailData.password_hash === 'object' && !Object.is(detailData.password_hash, null))">
+                                                        {{ detailData.password_hash }}
+                                                    </span>
+                                                    <span v-else class=" badge badge-light-danger">--</span>
                                                 </div>
-                                                <div class="row fs-6 mb-3" v-if="detailData.hash_type && detailData.hash_type.length">
-                                                    <div class="col-3">
-                                                        Hash Type:
-                                                    </div>
-                                                    <div class="col-9">
-                                                        <template v-for="(value, key) in detailData.hash_type" :key="key">
-                                                            <div class="col-6 d-inline-block mb-2" style="float: left;">
-                                                                <li class="d-flex align-items-center" style="padding: 5px 0px 0px 0px;">
-                                                                    <span class="bullet bullet-dot bg-primary h-5px w-5px me-2"></span>
-                                                                    <span>{{ value }}</span>
-                                                                </li>
-                                                            </div>
-                                                        </template>
-                                                    </div>
+                                            </div>
+                                            <div class="row fs-6 mb-3" v-if="detailData.hash_type && detailData.hash_type.length">
+                                                <div class="col-3">
+                                                    Hash Type:
                                                 </div>
-                                                <div class="row fs-6 mb-3">
-                                                    <div class="col-6">Nguồn Dữ Liệu:</div>
-                                                    <div class="col-6">
-                                                        <span v-if="(typeof detailData.source_data === 'string' && detailData.source_data != '') || (typeof detailData.source_data === 'object' && !Object.is(detailData.source_data, null))">
-                                                            {{ detailData.source_data }}
-                                                        </span>
-                                                        <span v-else class=" badge badge-light-danger">--</span>
-                                                    </div>
+                                                <div class="col-9">
+                                                    <template v-for="(value, key) in detailData.hash_type" :key="key">
+                                                        <div class="col-6 d-inline-block mb-2" style="float: left;">
+                                                            <li class="d-flex align-items-center" style="padding: 5px 0px 0px 0px;">
+                                                                <span class="bullet bullet-dot bg-primary h-5px w-5px me-2"></span>
+                                                                <span>{{ value }}</span>
+                                                            </li>
+                                                        </div>
+                                                    </template>
                                                 </div>
-                                                <div class="row fs-6 mb-3">
-                                                    <div class="col-6">Quốc Gia:</div>
-                                                    <div class="col-6">
-                                                        <span v-if="(typeof detailData.country === 'string' && detailData.country != '') || (typeof detailData.country === 'object' && !Object.is(detailData.country, null))">
-                                                            {{ detailData.country }}
-                                                        </span>
-                                                        <span v-else class=" badge badge-light-danger">--</span>
-                                                    </div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3">Nguồn Dữ Liệu:</div>
+                                                <div class="col-9">
+                                                    <span v-if="(typeof detailData.source_data === 'string' && detailData.source_data != '') || (typeof detailData.source_data === 'object' && !Object.is(detailData.source_data, null))">
+                                                        {{ detailData.source_data }}
+                                                    </span>
+                                                    <span v-else class=" badge badge-light-danger">--</span>
                                                 </div>
-                                                <div class="row fs-6 mb-3">
-                                                    <div class="col-6">Ngày Tạo:</div>
-                                                    <div class="col-6">
-                                                        <span v-if="(typeof detailData.created_at === 'string' && detailData.created_at != '') || (typeof detailData.created_at === 'object' && !Object.is(detailData.created_at, null))">
-                                                            {{ detailData.created_at }}
-                                                        </span>
-                                                        <span v-else class=" badge badge-light-danger">--</span>
-                                                    </div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3">Quốc Gia:</div>
+                                                <div class="col-9">
+                                                    <span v-if="(typeof detailData.country === 'string' && detailData.country != '') || (typeof detailData.country === 'object' && !Object.is(detailData.country, null))">
+                                                        {{ detailData.country }}
+                                                    </span>
+                                                    <span v-else class=" badge badge-light-danger">--</span>
                                                 </div>
-                                                <div class="row fs-6 mb-3">
-                                                    <div class="col-6">Ngày Cập Nhập:</div>
-                                                    <div class="col-6">
-                                                        <span v-if="(typeof detailData.modified_at === 'string' && detailData.modified_at != '') || (typeof detailData.modified_at === 'object' && !Object.is(detailData.modified_at, null))">
-                                                            {{ detailData.modified_at }}
-                                                        </span>
-                                                        <span v-else class=" badge badge-light-danger">--</span>
-                                                    </div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3">Ngày Tạo:</div>
+                                                <div class="col-9">
+                                                    <span v-if="(typeof detailData.created_at === 'string' && detailData.created_at != '') || (typeof detailData.created_at === 'object' && !Object.is(detailData.created_at, null))">
+                                                        {{ detailData.created_at }}
+                                                    </span>
+                                                    <span v-else class=" badge badge-light-danger">--</span>
+                                                </div>
+                                            </div>
+                                            <div class="row fs-6 mb-3">
+                                                <div class="col-3">Ngày Cập Nhập:</div>
+                                                <div class="col-9">
+                                                    <span v-if="(typeof detailData.modified_at === 'string' && detailData.modified_at != '') || (typeof detailData.modified_at === 'object' && !Object.is(detailData.modified_at, null))">
+                                                        {{ detailData.modified_at }}
+                                                    </span>
+                                                    <span v-else class=" badge badge-light-danger">--</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </div>

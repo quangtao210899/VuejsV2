@@ -44,12 +44,9 @@
                             Đồng Bộ Tất Cả
                         </button>
                         <!-- data-bs-target="#kt_modal_1" -->
-                        <el-tooltip v-if="modalImport" class="box-item" effect="dark" :hide-after="0"
-                            content="Tải lên Account Leaks" placement="top">
-                            <button type="button"
-                                class="btn btn-light-info font-weight-bold py-2 px-5  me-2 fs-13px d-flex justify-content-center align-items-center"
-                                data-bs-toggle="modal" :data-bs-target="modalImport">
-                                <KTIcon icon-name="bi bi-upload" icon-class="fs-2" />
+                        <el-tooltip v-if="modalImport" class="box-item" effect="dark" :hide-after="0" content="Tải Lên Tài Khoản Rò Rỉ" placement="top">
+                            <button type="button" class="btn btn-light-info font-weight-bold py-2 px-5  me-2 fs-13px d-flex justify-content-center align-items-center" data-bs-toggle="modal" :data-bs-target="modalImport">
+                                <KTIcon icon-name="bi bi-upload" icon-class="fs-2"/>
                                 Import
                             </button>
                         </el-tooltip>

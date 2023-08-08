@@ -1,142 +1,116 @@
 <template>
-  <div ref="refGetTheHeight">
-    <KTToolbar :check-search="true" @handle-search="handleFilter" :disabled="disabled" @on-header-height="onheaderHeight" title="Tin Nhắn"></KTToolbar>
-  </div>
-  <!--begin::Card-->
-  <el-scrollbar :height="heightTable" >
-    <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
-      <div class="p-5 bg-body rounded-3">
-        <!--begin::Card body-->
-        <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-          class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed"  @row-click="handleCurrentChange"
-           v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)">
-          <template #empty>
-            <div class="flex items-center justify-center h-100%">
-              <el-empty description="Không có dữ liệu nào"/>
-            </div>
-          </template>
+  <KTToolbar :check-search="true" @handle-search="handleFilter" :disabled="disabled" @on-header-height="onheaderHeight"
+    title="Tin Nhắn"></KTToolbar>
 
-          <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
-            <template #default="scope">
-              <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
-              }}</span>
-              <span v-else class="badge badge-light-danger">--</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="msg" label="MESSAGE">
-            <template #default="scope">
-              <span v-if="scope.row.msg != ''" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.msg, 150) }}</span>
-              <span v-else class="badge badge-light-danger">--</span>
-
-            </template>
-          </el-table-column>
-          
-          <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="trace" label="TRACEBACK">
-            <template #default="scope">
-              <span v-if="scope.row.trace != ''" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.trace, 150) }}</span>
-              <span v-else class="badge badge-light-danger">--</span>
-
-            </template>
-          </el-table-column>
-
-          <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="create_datetime" label="THỜI GIAN">
-            <template #default="scope">
-              <span v-if="scope.row.create_datetime != ''" class="fs-13px text-gray-700 text-hover-primary">
-                <i class="fa-solid fa-calendar-days fs-7"></i>
-                {{ scope.row.create_datetime }}</span>
-              <span v-else class="badge badge-light-danger">--</span>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-          <div v-if="totalPage > 0">
-            <span class="text-capitalize fs-13px">Tổng Số Log: {{ totalPage }}</span>
+  <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
+    <div class="p-5 bg-body rounded-3">
+      <!--begin::Card body-->
+      <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
+        class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" @row-click="handleCurrentChange"
+        v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)">
+        <template #empty>
+          <div class="flex items-center justify-center h-100%">
+            <el-empty description="Không có dữ liệu nào" />
           </div>
-          <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
-            v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
-            :disabled="disabled"></el-pagination>
-          <div></div>
+        </template>
+
+        <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
+          <template #default="scope">
+            <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
+            }}</span>
+            <span v-else class="badge badge-light-danger">--</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="msg" label="MESSAGE">
+          <template #default="scope">
+            <span v-if="scope.row.msg != ''" class="fs-13px text-gray-700 text-hover-primary">{{
+              truncateText(scope.row.msg, 150) }}</span>
+            <span v-else class="badge badge-light-danger">--</span>
+
+          </template>
+        </el-table-column>
+
+        <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="trace" label="TRACEBACK">
+          <template #default="scope">
+            <span v-if="scope.row.trace != ''" class="fs-13px text-gray-700 text-hover-primary">{{
+              truncateText(scope.row.trace, 150) }}</span>
+            <span v-else class="badge badge-light-danger">--</span>
+
+          </template>
+        </el-table-column>
+
+        <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="create_datetime"
+          label="THỜI GIAN">
+          <template #default="scope">
+            <span v-if="scope.row.create_datetime != ''" class="fs-13px text-gray-700 text-hover-primary">
+              <i class="fa-solid fa-calendar-days fs-7"></i>
+              {{ scope.row.create_datetime }}</span>
+            <span v-else class="badge badge-light-danger">--</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+        <div v-if="totalPage > 0">
+          <span class="text-capitalize fs-13px">Tổng Số Log: {{ totalPage }}</span>
         </div>
-        <!--end::Card body-->
+        <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
+          v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
+          :disabled="disabled"></el-pagination>
+        <div></div>
       </div>
+      <!--end::Card body-->
     </div>
-  </el-scrollbar>
+  </div>
 
   <!--end::Card-->
 
   <!-- modal detail  -->
-  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Tin Nhắn" width="650" align-center id="modal-detail" :show-close="false">
+  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Log" width="75%" align-center id="modal-detail" center :align-center="true"
+    :show-close="false">
     <div class="modal-body" style="padding: 0px !important;">
       <!--begin::Card-->
       <div class="card card-flush">
         <!--begin::Card header-->
-        <div class="card-header mb-5">
-          <!--begin::Card title-->
-          <div class="card-title">
-            <div class="d-flex align-items-center">
-              <!--begin::Symbol-->
-              <div class="symbol symbol-50px me-5">
-                <span class="symbol-label bg-light-success">
-                  <KTIcon icon-name="user" icon-class="text-success fs-2x" />
-                </span>
-              </div>
-              <!--end::Symbol-->
-              <div class="d-flex flex-column" v-if="!detailData.phone && detailData.username == ' '">
-                <span class="badge badge-light-danger">--</span>
-              </div>
-              <div class="d-flex flex-column" v-else>
-                <div class="mx-0 my-0">
-                  <span class="fs-13px text-gray-700" v-if="detailData.username != ' '">{{ detailData.username }}</span>
-                  <span class="badge badge-light-danger" v-else>--</span>
-                </div>
-                <div class="mx-0 my-0">
-                  <span class="fs-13px text-gray-700" v-if="detailData.phone">{{ detailData.phone }}</span>
-                  <span class="badge badge-light-danger" v-else>--</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--begin::Card toolbar-->
-
-          <!--end::Card toolbar-->
-        </div>
-        <!--end::Card header-->
-
-        <!--begin::Card body-->
         <div class="card-body py-0" style="padding-top:0px !important;">
           <!--begin::Section-->
-          <div>
-            <!--begin::Title-->
-            <h5>Thông Tin Chi Tiết:</h5>
-            <!--end::Title-->
-
-            <!--begin::Details-->
-            <div>
-              <!--begin::Row-->
-              <div class="me-5">
-                <!--begin::Details-->
-                <div>
-                  <div class="row fs-6 mb-3">
-                    <div class="col-3 text-gray-900">Tên Nhóm:</div>
-                    <div class="col-9 text-gray-900"><span>{{ detailData.group_name ?? '--' }}</span>
-                    </div>
-                  </div>
-                  <div class="row fs-6 mb-3">
-                    <div class="col-3 text-gray-900">Nội Dung:</div>
-                    <div class="col-9 text-gray-900"><span>{{ detailData.text ?? '--' }}</span></div>
-                  </div>
-                  <div class="row fs-6">
-                    <div class="col-3 text-gray-900">Thời Gian:</div>
-                    <div class="col-9 text-gray-900"><span>{{ detailData.date }}</span></div>
+          <h5>Thông Tin Chi Tiết:</h5>
+          <div class="py-5">
+            <div class="me-5">
+              <div>
+                <div class="row fs-13px mb-3">
+                  <div class="col-3">Message:</div>
+                  <div class="col-9">
+                    <span
+                      v-if="typeof detailData.msg === 'string' && detailData.msg != ''">
+                      {{ detailData.msg }}.
+                    </span>
+                    <span v-else class=" badge badge-light-danger">--</span>
                   </div>
                 </div>
-                <!--end::Details-->
+                <div class="row fs-13px mb-3">
+                  <div class="col-3">Traceback:</div>
+                  <div class="col-9">
+                    <span
+                      v-if="typeof detailData.trace === 'string' && detailData.trace != ''">
+                      {{ detailData.trace }}.
+                    </span>
+                    <span v-else class=" badge badge-light-danger">--</span>
+                  </div>
+                </div>
+                <div class="row fs-13px mb-3">
+                  <div class="col-3">Ngày Tạo:</div>
+                  <div class="col-9">
+                    <span
+                      v-if="typeof detailData.create_datetime === 'string' && detailData.create_datetime != ''">
+                      <i class="fa-solid fa-calendar-days fs-7"></i>
+                      {{ detailData.create_datetime }}
+                    </span>
+                    <span v-else class=" badge badge-light-danger">--</span>
+                  </div>
+                </div>
               </div>
-              <!--end::Row-->
-
             </div>
-            <!--end::Row-->
           </div>
           <!--end::Section-->
         </div>
@@ -178,26 +152,24 @@ export default defineComponent({
   },
   setup() {
     const list = ref<object | any>([])
-    const data_group = ref<object | any>([])
     const totalPage = ref<number>(0);
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<string>('');
-    const orderingID = ref<string>('-id');
     const loading = ref<boolean>(false)
     const DialogVisibleDetail = ref<boolean>(false)
     const detailData = reactive({
-      username: ' ',
-      phone: '',
-      group_name: '',
-      text: '',
-      date: '',
+      id: ' ',
+      level: '',
+      logger_name: '',
+      msg: '',
+      trace: '',
+      create_datetime: '',
     });
     const getData = async () => {
       loading.value = true;
       return ApiService.get(`other/logs?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}`)
         .then(({ data }) => {
-          console.log(data)
           list.value = data.results
           totalPage.value = data.count
         })
@@ -209,28 +181,7 @@ export default defineComponent({
         })
     }
 
-
-    const selectedIds = ref<Array<number>>([]);
     const disabled = ref<boolean>(false);
-    const deleteSubscription = (ids: Array<number>) => {
-      if (ids) {
-        disabled.value = true
-        setTimeout(() => {
-          disabled.value = false
-        }, 1000);
-        return ApiService.delete(`telegram/message/multi-delete?id=${ids}`)
-          .then(({ data }) => {
-            getData()
-            notification(data.detail, 'success', 'Xóa thành công')
-            currentPage.value = 1;
-            selectedIds.value = [];
-            multipleTableRef.value!.clearSelection()
-          })
-          .catch(({ response }) => {
-            notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-          });
-      }
-    };
 
     const notification = (values: string, icon: string, more: string) => {
       Swal.fire({
@@ -257,26 +208,14 @@ export default defineComponent({
     // handleCurrentChange
     const handleCurrentChange = (data: any) => {
       DialogVisibleDetail.value = true
-      detailData.username = data.username
-      detailData.phone = data.phone
-      detailData.group_name = data.group_name
-      detailData.text = data.text
-      detailData.date = data.date
-    }
-
-    // table
-    const selectedName = ref<Array<any>>([]);
-    const handleSelectionChange = (val: any) => {
-      console.log(val)
-        if (val) {
-            selectedName.value = val.map((item: any) => item.name || item.title || item.group_name);
-            selectedIds.value = val.map((item: { id: number }) => item.id);
+      for (const i in detailData) {
+        if (data.hasOwnProperty(i)) {
+          detailData[i] = data[i];
+        } else {
+          detailData[i] = ''
         }
-        return;
-    }
-
-    const getRowKey = (row: any) => {
-      return row.id
+      }
+      console.log(detailData)
     }
 
     // Lắng nghe sự thay đổi của currentPage và pageSize
@@ -290,27 +229,7 @@ export default defineComponent({
       getData();
     });
 
-    // tính toán chiều cao table
-    const heightTable = ref(0)
-    const handleResize = () => {
-      const windowWidth = window.innerWidth;
-      if (windowWidth >= 1400) {
-        heightTable.value = window.innerHeight - 80;
-      } else if (windowWidth >= 1200) {
-        heightTable.value = window.innerHeight - 80;
-      } else if (windowWidth >= 992) {
-        heightTable.value = window.innerHeight - 80;
-      } else if (windowWidth >= 768) {
-        heightTable.value = window.innerHeight - 75;
-      } else if (windowWidth >= 576) {
-        heightTable.value = window.innerHeight - 75;
-      } else {
-        // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-        heightTable.value = window.innerHeight - 70;
-      }
-    };
     // thêm mới
-    const urlAddNew = ref('')
     const truncateText = (text: string, maxLength: number) => {
       if (text.length > maxLength) {
         return text.substring(0, maxLength) + '...';
@@ -318,64 +237,34 @@ export default defineComponent({
       return text;
     };
 
-    const handleSortChange = (column: any) => {
-      orderingID.value = (column.order == 'ascending' && column.prop == 'id') ? '-id' : 'id'
-      getData()
-    }
-
     // thay đổi kích thước header
     const headerHeight = ref<number>(0);
-        const onheaderHeight = (height: number) => {
-            headerHeight.value = height
-        }
+    const onheaderHeight = (height: number) => {
+      headerHeight.value = height
+    }
 
     onMounted(() => {
       getData();
-      handleResize();
-      window.addEventListener('resize', handleResize);
     });
 
-    onUnmounted(() => {
-      window.removeEventListener('resize', handleResize);
-    });
 
     return {
       headerHeight,
-            onheaderHeight,
+      onheaderHeight,
       getData,
       list,
-      selectedIds,
-
-      // validate
-      data_group,
-
-      // page 
       itemsPerPage,
       totalPage,
       currentPage,
-
-      // search query 
       query,
       handleFilter,
-
-      // edit 
       loading,
       disabled,
-
-      //
-      handleResize,
       truncateText,
-      heightTable,
-      handleSelectionChange,
-      selectedName,
-      getRowKey,
-      handleCurrentChange,
       multipleTableRef,
-      urlAddNew,
-      handleSortChange,
-      deleteSubscription,
       detailData,
       DialogVisibleDetail,
+      handleCurrentChange
     };
   },
 });
@@ -393,8 +282,9 @@ span.el-dialog__title {
 #modal-detail .el-dialog__body {
   padding-top: 10px;
 }
+
 .dialog-footer {
   display: flex;
-  justify-content: center; /* Căn giữa theo chiều dọc và ngang */
-}
-</style>
+  justify-content: center;
+  /* Căn giữa theo chiều dọc và ngang */
+}</style>

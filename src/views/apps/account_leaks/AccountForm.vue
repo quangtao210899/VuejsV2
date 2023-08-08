@@ -155,7 +155,7 @@ export default defineComponent({
                     confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             }).then(() => {
-                if (icon == 'success' || values == 'CVE không tồn tại') {
+                if (icon == 'success' || values == 'Account leak không tồn tại') {
                     router.push({ name: urlBack.value });
                 }
             });
@@ -190,6 +190,7 @@ export default defineComponent({
             country_id: "",
             is_ok: false,
         })
+
         const errors = reactive<RuleForm2>({
             username: "",
             email: "",
@@ -199,21 +200,6 @@ export default defineComponent({
             country_id: 0,
             country: "",
             detail: "",
-        });
-
-        const detailData = reactive({
-            id: "",
-            email: "",
-            password_hash: "",
-            password_crack: "",
-            source_data: "",
-            country: "",
-            country_id: "",
-            hash_type: [],
-            username: "",
-            is_ok: false,
-            modified_at: "",
-            created_at: "",
         });
 
         const requireEitherUsernameOrEmail = (rule: any, value: any, callback: any) => {
@@ -264,7 +250,6 @@ export default defineComponent({
                 if (valid) {
                     if (!isNaN(parseInt(ID.value)) && ID.value != null && ID.value != '') {
                         editFormSubmit(ruleForm);
-                        console.log(ruleForm, 1);
                         
                     } else {
                         addFormSubmit(ruleForm);
