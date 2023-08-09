@@ -1,20 +1,20 @@
 <template>
-  <div class="py-5">
+  <div class="py-2">
     <div class="highlight">
       <button
         class="highlight-copy btn"
         data-bs-toggle="tooltip"
-        title=""
-        data-bs-original-title="Copy code"
+        title="Sao chép"
+        data-bs-original-title="Sao chép"
       >
-        copy
+      Sao chép
       </button>
-      <div class="highlight-code">
-        <pre
+      <div class="highlight-code" >
+        <pre class="w-100"
           :class="`language-${lang}`"
-          :style="{ height: getHeightInPixesls }"
-        ><code :class="`language-${lang}`" :style="styleName">
-          <slot></slot>
+          :style="{ height: getHeightInPixesls }" 
+        ><code :class="`language-${lang}`" :style="styleName" class="w-100" style="white-space: pre-line;">
+          {{ data }}
         </code></pre>
       </div>
     </div>
@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, ref, onUpdated } from "vue";
 import { useCopyClipboard } from "@/core/helpers/documentation";
 import Prism from "prismjs";
 
@@ -32,6 +32,7 @@ export default defineComponent({
     lang: String,
     fieldHeight: Number,
     styleName: { type: Object, required: false, default: {} },
+    data: { required: false }
   },
   setup(props) {
     const height = ref(props.fieldHeight);
@@ -42,6 +43,10 @@ export default defineComponent({
       return height.value + "px";
     });
 
+    onUpdated(() => {
+      Prism.highlightAll();
+    });
+
     onMounted(() => {
       Prism.highlightAll();
       init();
@@ -49,6 +54,7 @@ export default defineComponent({
 
     return {
       getHeightInPixesls,
+      // data
     };
   },
   components: {},
