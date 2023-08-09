@@ -14,7 +14,7 @@
           :class="`language-${lang}`"
           :style="{ height: getHeightInPixesls }"
         ><code :class="`language-${lang}`" :style="styleName">
-          <slot></slot>
+          {{ data }}
         </code></pre>
       </div>
     </div>
@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, ref, onUpdated } from "vue";
 import { useCopyClipboard } from "@/core/helpers/documentation";
 import Prism from "prismjs";
 
@@ -32,6 +32,7 @@ export default defineComponent({
     lang: String,
     fieldHeight: Number,
     styleName: { type: Object, required: false, default: {} },
+    data: { required: false }
   },
   setup(props) {
     const height = ref(props.fieldHeight);
@@ -41,6 +42,9 @@ export default defineComponent({
     const getHeightInPixesls = computed(() => {
       return height.value + "px";
     });
+    onUpdated(() => {
+      Prism.highlightAll();
+    });
 
     onMounted(() => {
       Prism.highlightAll();
@@ -49,6 +53,7 @@ export default defineComponent({
 
     return {
       getHeightInPixesls,
+      // data
     };
   },
   components: {},
