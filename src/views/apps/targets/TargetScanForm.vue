@@ -8,7 +8,7 @@
                 size="large" status-icon require-asterisk-position="right">
                 <el-form-item label="" prop="scanTool" class="pb-3 text-capitalize fs-6">
                     <el-tree ref="treeRef" :data="scanTool" show-checkbox node-key="id"
-                        :default-expanded-keys="['0']" :props="defaultProps" class="custom-tree" style="color: #252f4a !important"/>
+                        :default-expanded-keys="['0']" :props="defaultProps" class="custom-tree fs-13px" style="color: #252f4a; font-weight: 500;"/>
                 </el-form-item>
                 <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback text-capitalize fs-6">
                     <div class="el-form-item__content d-inline-block">
@@ -31,7 +31,7 @@
                     <label class="el-form-item__label d-inline-block" style="width: 34%;">Nâng Cao</label>
                 </div>
                 <div v-if="scanFormState.advancedCheck">
-                    <el-form-item label="Tốc độ scan" prop="domain" class="pb-3 text-capitalize fs-6 custom-form">
+                    <el-form-item label="Tốc độ scan" prop="domain" class="text-capitalize fs-6 custom-form">
                         <el-radio-group v-model="scanFormState.scanSpeedOption" size="large">
                             <el-radio :label="1">Tuần Tự</el-radio>
                             <el-radio :label="2">Chậm</el-radio>
@@ -54,12 +54,6 @@
                                 <el-option label="HTTP" value="HTTP">HTTP</el-option>
                                 <el-option label="SOCKS5" value="SOCKS5">SOCKS5</el-option>
                             </el-select>
-                            <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                    <ErrorMessage name="proxyScheme" />
-                                    <span class="" v-if="errors.proxyScheme">{{ errors.proxyScheme[0] }}</span>
-                                </div>
-                            </div>
                         </el-form-item>
                         <el-form-item v-if="scanFormState.proxyCheck" label="Tên Miền" prop="proxyAdress" class="pb-3 text-capitalize fs-6" :error="(errors.proxyAdress) ? errors.proxyAdress[0] : ''">
                             <el-input v-model="scanFormState.proxyAdress" size="large" placeholder="Tên miền"
@@ -435,8 +429,6 @@ export default defineComponent({
                 }
             });
             
-            console.log(scanFormState);
-            
             return ApiService.post("scan/create/", scanFormState)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
@@ -471,7 +463,6 @@ export default defineComponent({
         };
 
         const switchButton = () => {
-            console.log(scanFormState.advancedCheck);
             let buttonPlus = document.getElementById("circle-plus-filled");
             let buttonRemove = document.getElementById("remove-filled");
             
@@ -618,5 +609,10 @@ export default defineComponent({
 
 .el-button.is-text:not(.is-disabled):focus, .el-button.is-text:not(.is-disabled):hover {
     background-color: #fff;
+}
+
+.el-radio.el-radio--large .el-radio__label {
+    font-size: 13px;
+    color: #252f4a;
 }
 </style>

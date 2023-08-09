@@ -337,7 +337,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/apps/cves/targetDetectionListCVEAll2.vue"),
         meta: {
           pageTitle: "Danh sách mục tiêu dính lỗ hổng",
-          breadcrumbs: ["CVE","Scan","Chi Tiết Kết Quả"],
+          breadcrumbs: ["CVE","Chi Tiết Kết Quả"],
           links: ["/cve",''],
         },
         beforeEnter: (to, from, next) => {

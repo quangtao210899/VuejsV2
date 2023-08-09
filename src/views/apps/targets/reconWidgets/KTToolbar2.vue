@@ -55,12 +55,12 @@
                             <i class="fa-solid fa-circle-plus"></i>
                             Thêm
                         </router-link>
-                        <router-link v-if="addTragetList != ''" :to="addTragetList" :disabled="disabled"
+                        <!-- <router-link v-if="addTragetList != ''" :to="addTragetList" :disabled="disabled"
                             style="white-space: pre;"
                             class="btn btn-light-success font-weight-bold py-2 px-5  me-2 fs-13px d-flex justify-content-center align-items-center">
                             <KTIcon icon-name="document" icon-class="fs-2" />
                             Danh sách mục tiêu
-                        </router-link>
+                        </router-link> -->
                         <button v-if="checkScan == true" :disabled="disabled" @click="scanCVEVisible = true"
                             style="white-space: pre;"
                             class="btn btn-light-primary font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">

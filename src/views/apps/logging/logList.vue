@@ -83,7 +83,7 @@
                   <div class="col">
                     <span
                       v-if="typeof detailData.msg === 'string' && detailData.msg != ''">
-                      <CodeHighlighter lang="json" :code="detailData.msg"/>
+                      <CodeHighlighter lang="json" :data="detailData.msg"/>
                     </span>
                     <span v-else class=" badge badge-light-danger">--</span>
                   </div>
@@ -94,7 +94,7 @@
                     <span
                       v-if="typeof detailData.trace === 'string' && detailData.trace != ''">
                       <!-- <pre class="fs-13px" style="white-space: pre-line;">{{ detailData.trace }}</pre> -->
-                      <CodeHighlighter lang="json" :code="trace"></CodeHighlighter>
+                      <CodeHighlighter lang="json" :data="detailData.trace"></CodeHighlighter>
 
                     </span>
                     <span v-else class="badge badge-light-danger">--</span>
@@ -132,7 +132,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
