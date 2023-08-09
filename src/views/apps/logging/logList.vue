@@ -94,7 +94,7 @@
                     <span
                       v-if="typeof detailData.trace === 'string' && detailData.trace != ''">
                       <!-- <pre class="fs-13px" style="white-space: pre-line;">{{ detailData.trace }}</pre> -->
-                      <CodeHighlighter lang="json" :data="detailData.trace"></CodeHighlighter>
+                      <CodeHighlighter lang="json" :data="detailData.trace"/>
 
                     </span>
                     <span v-else class="badge badge-light-danger">--</span>

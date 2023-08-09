@@ -1620,8 +1620,7 @@
                                                         <div id="kt_detail_collapsible_scan_1" class="fs-13px px-2 collapse"
                                                             style="">
                                                             <div>
-                                                                <CodeHighlighter lang="json">{{ detailData.request }}
-                                                                </CodeHighlighter>
+                                                                <CodeHighlighter lang="json" :data="detailData.request"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1653,8 +1652,7 @@
 
                                                         <div id="kt_detail_collapsible_scan_2" class="collapse fs-13px px-2">
                                                             <div>
-                                                                <CodeHighlighter lang="html">{{ detailData.http_response }}
-                                                                </CodeHighlighter>
+                                                                <CodeHighlighter lang="html" :data="detailData.http_response"/>
                                                             </div>
                                                         </div>
                                                     </div>
