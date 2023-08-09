@@ -351,15 +351,10 @@
 import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, ref, onMounted, onBeforeUnmount, watch , onUnmounted } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
-import ApiService from "@/core/services/ApiService";
 import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
-import { ElMessage } from 'element-plus'
-import reconActivity from "@/views/apps/targets/reconWidgets/reconActivity.vue";
-import Swal from "sweetalert2/dist/sweetalert2.js";
-// import data from "@/views/apps/targets/reconData.json";
 import { Refresh, Search } from '@element-plus/icons-vue'
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 
@@ -378,11 +373,12 @@ export default defineComponent({
         KTDatatable,
         filtersTabScan,
         CodeHighlighter,
-        reconActivity,
         KTToolbar,
     },
     props: {
         id: { type: Number, required: false, default: 0 },
+        status: { type: Number, required: false, default: 0 },
+        sudomains: { type: Object, required: false, default: {} },
     },
     setup(props) {
         const route = useRoute();
@@ -393,108 +389,19 @@ export default defineComponent({
         const loading = ref<boolean>(false)
         const loadingSubdomain = ref<boolean>(false)
         const reconStatus = ref<number>(0)
-        const timeEnd = ref<number | any>(null)
-        const timeStart = ref<number | any>(null)
-        const targets = ref<Targets>({
-            name: '',
-            domain: '',
-            group: {
-                title: '',
-            }
-        });
         const subdomain_result_full = ref<any>([])
         const subdomain_result = ref<any>([]);
         const disabled = ref<boolean>(false);
-
-        const getData = async () => {
-            loading.value = true;
-
-            return await ApiService.get(`recon/detail3/${props.id}`)
-                .then(({ data }) => {
-                    targets.value = data.target
-                    // subdomain_result
-                    subdomain_result_full.value = data.recon[0].subdomain_result
-                    fetchDataSubdomain(currentPageSubdomain.value, pageSizeSubdomain.value)
-                    reconStatus.value = data.status
-                    humanDiffTime()
-                })
-                .catch(({ response }) => {
-                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                })
-                .finally(() => {
-                    loading.value = false
-                });
+       
+        const getData = () => {
+            subdomain_result_full.value = Object.values(props.sudomains)
+            reconStatus.value = props.status
+            fetchDataSubdomain(currentPageSubdomain.value, pageSizeSubdomain.value)
         };
-
-        const notification = (values: string, icon: string, more: string) => {
-            Swal.fire({
-                text: values ?? more,
-                icon: icon,
-                buttonsStyling: false,
-                confirmButtonText: (icon == 'error') ? "Thử Lại" : "Đồng Ý",
-                heightAuto: false,
-                customClass: {
-                    confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
-                },
-            }).then(() => {
-                // 
-                // hideModal( ModalConfirm.value);
-            });
-        };
-
-        // reloadData
-        const reloadgetData = () => {
-            loading.value = true;
-            disabled.value = true;
-            setTimeout(() => {
-                disabled.value = false;
-                loading.value = false;
-            }, 500);
-            getData();
-            ElMessage({
-                message: 'Tải lại thành công',
-                type: 'success',
-                center: false,
-            })
-        };
-        const reloadData = debounce(reloadgetData, 500);
-
 
         // tính thời gian
-        const diffTime = ref<string | any>(0);
-        const time = ref<any>(null);
         let intervalId : any;
-        const eventTime = ref<number | any>('30000');
         const checkDisabled = ref<boolean>(false);
-
-        const humanDiff = async () => {
-            let date1: any = (reconStatus.value == 2) ? new Date() : new Date(timeEnd.value);
-            let date2: any = new Date(timeStart.value);
-            let diff = Math.max(date2, date1) - Math.min(date2, date1);
-            let SEC = 1000, MIN = 60 * SEC, HRS = 60 * MIN;
-            let hrs = Math.floor(diff / HRS);
-            let min = Math.floor((diff % HRS) / MIN).toLocaleString('en-US', { minimumIntegerDigits: 1 });
-            let sec = Math.floor(((diff % MIN) / SEC)).toLocaleString('en-US', { minimumIntegerDigits: 2 });
-            if (hrs == 0) {
-                return diffTime.value = min + 'm ' + sec + 's';
-            }
-            return diffTime.value = hrs + 'h ' + min + 'm ' + sec + 's';
-        };
-
-        watch((eventTime), () => {
-            humanDiffTime();
-        })
-
-        const humanDiffTime = () => {
-            clearInterval(intervalId);
-            if (reconStatus.value == 2 || reconStatus.value == 1) {
-                intervalId = setInterval(() => {
-                    getData();
-                }, eventTime.value);
-            } else {
-                return;
-            }
-        };
 
         const stopTimer = () => {
             clearInterval(intervalId);
@@ -733,11 +640,12 @@ export default defineComponent({
         const headerHeight = ref<number>(0);
         const onheaderHeight = (height: number) => {
             headerHeight.value = height
-            
         }
 
         onMounted(() => {
-            getData();
+            setTimeout(() => {
+                getData()
+            }, 1000);
             handleResize();
             window.addEventListener('resize', handleResize);
         });
@@ -751,13 +659,9 @@ export default defineComponent({
             onheaderHeight,
             checkNameTarget,
             scanID,
-            getData,
             list,
             getAssetPath,
             loading,
-            reloadData,
-            diffTime,
-            eventTime,
 
             // tạm dừng
             checkDisabled,
@@ -766,7 +670,6 @@ export default defineComponent({
             disabled,
             RefreshIcon,
             SearchIcon,
-            targets,
             handleTechnologyMore,
             isRowExpandedTechnology,
             expandedRowsTeachnology,
