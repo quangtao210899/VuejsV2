@@ -66,7 +66,7 @@
   <!--end::Card-->
 
   <!-- modal detail  -->
-  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Log" width="75%" align-center id="modal-detail" 
+  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Log" width="75%" top="7vh" id="modal-detail"  
     :show-close="false">
     <div class="modal-body" style="padding: 0px !important;">
       <!--begin::Card-->
@@ -83,11 +83,7 @@
                   <div class="col">
                     <span
                       v-if="typeof detailData.msg === 'string' && detailData.msg != ''">
-                      <!-- {{ detailData.msg }}. -->
-                      <CodeHighlighter lang="json" :styleName="{whiteSpace: 'pre-line'}">
-                        {{ detailData.msg }}
-                      </CodeHighlighter>
-
+                      <CodeHighlighter lang="json" :data="detailData.msg"/>
                     </span>
                     <span v-else class=" badge badge-light-danger">--</span>
                   </div>
@@ -98,7 +94,7 @@
                     <span
                       v-if="typeof detailData.trace === 'string' && detailData.trace != ''">
                       <!-- <pre class="fs-13px" style="white-space: pre-line;">{{ detailData.trace }}</pre> -->
-                      <CodeHighlighter lang="json" :styleName="{whiteSpace: 'pre-line'}">{{ detailData.trace }}</CodeHighlighter>
+                      <CodeHighlighter lang="json" :data="detailData.trace"></CodeHighlighter>
 
                     </span>
                     <span v-else class="badge badge-light-danger">--</span>
@@ -126,7 +122,7 @@
     </div>
 
     <template #footer center>
-      <div class="dialog-footer">
+      <div class="text-center">
         <button type="button" class="btn btn-sm btn-light-primary" @click="DialogVisibleDetail = false">
           Đóng
         </button>
@@ -136,7 +132,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
@@ -145,6 +141,7 @@ import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
+
 export default defineComponent({
   name: "kt-log-list",
 
@@ -164,6 +161,7 @@ export default defineComponent({
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
     const query = ref<string>('');
+    const trace = ref<string>('');
     const loading = ref<boolean>(false)
     const DialogVisibleDetail = ref<boolean>(false)
     const detailData = reactive({
@@ -213,17 +211,12 @@ export default defineComponent({
     // xóa 
     const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 
-    // handleCurrentChange
     const handleCurrentChange = (data: any) => {
       DialogVisibleDetail.value = true
-      for (const i in detailData) {
-        if (data.hasOwnProperty(i)) {
-          detailData[i] = data[i];
-        } else {
-          detailData[i] = ''
-        }
-      }
-      console.log(detailData)
+      detailData.create_datetime = data.create_datetime
+      detailData.trace = data.trace
+      trace.value = data.trace
+      detailData.msg = data.msg
     }
 
     // Lắng nghe sự thay đổi của currentPage và pageSize
@@ -254,7 +247,26 @@ export default defineComponent({
     onMounted(() => {
       getData();
     });
+    // tính thời gian
+    const eventTime = ref<number | any>('30000');
+    let intervalId: any;
+    const startTimer = () => {
+      intervalId = setInterval(() => {
+        getData();
+      }, eventTime.value);
+    };
 
+    const stopTimer = () => {
+      clearInterval(intervalId);
+    };
+
+    onMounted(() => {
+      startTimer();
+    });
+
+    onBeforeUnmount(() => {
+      stopTimer();
+    });
 
     return {
       headerHeight,
@@ -272,27 +284,9 @@ export default defineComponent({
       multipleTableRef,
       detailData,
       DialogVisibleDetail,
-      handleCurrentChange
+      handleCurrentChange,
+      trace,
     };
   },
 });
 </script>
-
-
-<style >
-span.el-dialog__title {
-  color: #181C32 !important;
-  font-size: 23px;
-  font-weight: 600;
-  line-height: 27px;
-}
-
-#modal-detail .el-dialog__body {
-  padding-top: 10px;
-}
-
-.dialog-footer {
-  display: flex;
-  justify-content: center;
-  /* Căn giữa theo chiều dọc và ngang */
-}</style>

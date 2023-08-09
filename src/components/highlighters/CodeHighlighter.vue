@@ -9,7 +9,7 @@
       >
         copy
       </button>
-      <div class="highlight-code">
+      <div class="highlight-code" >
         <pre
           :class="`language-${lang}`"
           :style="{ height: getHeightInPixesls }"
@@ -42,6 +42,7 @@ export default defineComponent({
     const getHeightInPixesls = computed(() => {
       return height.value + "px";
     });
+    
     onUpdated(() => {
       Prism.highlightAll();
     });
