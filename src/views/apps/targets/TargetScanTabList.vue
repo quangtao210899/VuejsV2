@@ -943,13 +943,13 @@ export default defineComponent({
 
         const handleCanceled = async () => {
             confirmVisible.value = false
-            // if (scanStatus.value == 3) {
-            //     notification('Danh dách đã được quét thành công không thể tạm dừng', 'error', 'Có lỗi xảy ra')
-            // } else if (scanStatus.value == 5) {                
-            //     getCanceled()
-            // } else {
-            //     notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
-            // }
+            if (scanStatus.value == 3) {
+                notification('Danh dách đã được quét thành công không thể tạm dừng', 'error', 'Có lỗi xảy ra')
+            } else if (scanStatus.value == 5) {                
+                getCanceled()
+            } else {
+                notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
+            }
             console.log('vao cancel');
             
         };
@@ -989,10 +989,10 @@ export default defineComponent({
         const getCanceled = async () => {
             const formData = {
                 control_param: {
-                    "action": 'canceled'
+                    "action": 'abort'
                 }
             }
-            return ApiService.post(`scans/${scanID.value}/abort`, formData)
+            return ApiService.post(`scan/${scanID.value}/control`, formData)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Tạm dừng thành công')
                     getData()
