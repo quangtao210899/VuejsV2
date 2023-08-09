@@ -9,12 +9,12 @@
       >
         copy
       </button>
-      <div class="highlight-code">
-        <pre
+      <div class="highlight-code" >
+        <pre  id="codeBlock"  ref="codeBlock"
           :class="`language-${lang}`"
           :style="{ height: getHeightInPixesls }"
-        ><code :class="`language-${lang}`" :style="styleName">
-          <slot></slot>
+        ><code :class="`language-${lang}`">
+          {{ data }}
         </code></pre>
       </div>
     </div>
@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useCopyClipboard } from "@/core/helpers/documentation";
 import Prism from "prismjs";
 
@@ -31,24 +31,35 @@ export default defineComponent({
   props: {
     lang: String,
     fieldHeight: Number,
-    styleName: { type: Object, required: false, default: {} },
+    code: String
   },
   setup(props) {
     const height = ref(props.fieldHeight);
+    const data = ref<any>(props.code)
 
     const { init } = useCopyClipboard();
+    const codeBlock = ref<any>(null);
 
     const getHeightInPixesls = computed(() => {
       return height.value + "px";
     });
 
+    watch(() => props.code, () => {
+      data.value = null
+      data.value = props.code
+      window.Prism.manual = true;
+      Prism.highlightElement( codeBlock.value, true, undefined );
+    })
+
     onMounted(() => {
-      Prism.highlightAll();
+      Prism.highlightAll(codeBlock.value);
       init();
     });
 
     return {
       getHeightInPixesls,
+      data,
+      codeBlock,
     };
   },
   components: {},

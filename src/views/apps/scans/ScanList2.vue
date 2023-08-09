@@ -309,6 +309,8 @@
 
                 <div id="kt_detail_collapsible_scan_1" class="fs-6 px-2 collapse" style="">
                   <div>
+                    {{ detailData.request }}
+
                     <CodeHighlighter lang="json">{{ detailData.request }}</CodeHighlighter>
                   </div>
                 </div>
