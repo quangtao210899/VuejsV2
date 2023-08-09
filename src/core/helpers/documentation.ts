@@ -63,7 +63,7 @@ export const useCopyClipboard = () => {
           clipboard.on("success", (e) => {
             const caption = e.trigger.innerHTML;
 
-            e.trigger.innerHTML = "copied";
+            e.trigger.innerHTML = "Đã sao chép";
             e.clearSelection();
 
             setTimeout(function () {

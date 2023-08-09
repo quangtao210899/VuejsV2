@@ -78,9 +78,9 @@
           <div class="py-5">
             <div class="me-5">
               <div>
-                <div class="row fs-13px mb-3">
-                  <div class="col-1 w-150px">Message:</div>
-                  <div class="col">
+                <div class="row mb-3">
+                  <div class="col-1 text-gray-900 w-150px fs-6 ">Message:</div>
+                  <div class="col fs-13px ">
                     <span
                       v-if="typeof detailData.msg === 'string' && detailData.msg != ''">
                       <CodeHighlighter lang="json" :data="detailData.msg"/>
@@ -88,9 +88,9 @@
                     <span v-else class=" badge badge-light-danger">--</span>
                   </div>
                 </div>
-                <div class="row fs-13px mb-3">
-                  <div class="col-1 w-150px">Traceback:</div>
-                  <div class="col">
+                <div class="row  mb-3 ">
+                  <div class="col-1 text-gray-900 w-150px fs-6">Traceback:</div>
+                  <div class="col fs-13px">
                     <span
                       v-if="typeof detailData.trace === 'string' && detailData.trace != ''">
                       <!-- <pre class="fs-13px" style="white-space: pre-line;">{{ detailData.trace }}</pre> -->
@@ -100,8 +100,8 @@
                     <span v-else class="badge badge-light-danger">--</span>
                   </div>
                 </div>
-                <div class="row fs-13px mb-3">
-                  <div class="col-1 w-150px">Ngày Tạo:</div>
+                <div class="row fs-6 mb-3">
+                  <div class="col-1 text-gray-900 w-150px">Ngày Tạo:</div>
                   <div class="col">
                     <span
                       v-if="typeof detailData.create_datetime === 'string' && detailData.create_datetime != ''">
@@ -290,3 +290,15 @@ export default defineComponent({
   },
 });
 </script>
+<style >
+span.el-dialog__title {
+  color: #181C32 !important;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 27px;
+}
+
+#modal-detail .el-dialog__body {
+  padding-top: 10px;
+}
+</style>
