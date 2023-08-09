@@ -960,7 +960,7 @@
         update default values inside file
         <code>src/core/config/DefaultLayoutConfig.ts</code>
       </div>
-      <CodeHighlighter lang="json">{{ config }}</CodeHighlighter>
+      <CodeHighlighter lang="json" :data="config"></CodeHighlighter>
     </div>
   </div>
 </div>

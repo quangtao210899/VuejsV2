@@ -400,7 +400,7 @@
 
                                     <div id="kt_detail_collapsible_scan_1" class="fs-13px px-2 collapse" style="">
                                         <div>
-                                            <CodeHighlighter lang="json">{{ detailVuln.request }}</CodeHighlighter>
+                                            <CodeHighlighter lang="json" :data="detailVuln.request"/>
                                         </div>
                                     </div>
                                 </div>
@@ -427,7 +427,8 @@
 
                                     <div id="kt_detail_collapsible_scan_2" class="collapse fs-13px px-2">
                                         <div>
-                                            <CodeHighlighter lang="html">{{ detailVuln.http_response }}</CodeHighlighter>
+                                            <CodeHighlighter lang="json" :data="detailVuln.http_response"/>
+
                                         </div>
                                     </div>
                                 </div>

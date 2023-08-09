@@ -1,19 +1,19 @@
 <template>
-  <div class="py-5">
+  <div class="py-2">
     <div class="highlight">
       <button
         class="highlight-copy btn"
         data-bs-toggle="tooltip"
-        title=""
-        data-bs-original-title="Copy code"
+        title="Sao chép"
+        data-bs-original-title="Sao chép"
       >
-        copy
+      Sao chép
       </button>
-      <div class="highlight-code">
-        <pre
+      <div class="highlight-code" >
+        <pre class="w-100"
           :class="`language-${lang}`"
-          :style="{ height: getHeightInPixesls }"
-        ><code :class="`language-${lang}`" :style="styleName">
+          :style="{ height: getHeightInPixesls }" 
+        ><code :class="`language-${lang}`" :style="styleName" class="w-100" style="white-space: pre-line;">
           {{ data }}
         </code></pre>
       </div>
@@ -42,6 +42,7 @@ export default defineComponent({
     const getHeightInPixesls = computed(() => {
       return height.value + "px";
     });
+
     onUpdated(() => {
       Prism.highlightAll();
     });
