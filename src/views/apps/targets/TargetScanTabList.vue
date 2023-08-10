@@ -176,7 +176,7 @@
                                     <span v-if="scope.row.affects_url || scope.row.port_scan.host"
                                         class="fs-13px text-gray-700 text-hover-primary">
                                         <i class="fa-solid fa-link fs-8"></i>
-                                        {{ scope.row.port_scan?.host ?? scope.row.affects_url }}
+                                        {{ scope.row.affects_url ?? scope.row.port_scan?.host }}
                                     </span>
                                     <span v-else class="badge badge-light-danger">--</span>
                                 </template>
@@ -665,7 +665,12 @@ export default defineComponent({
                     // }
 
                     list.value = data.vulnerabilities;
-
+                    list.value.forEach(element => {
+                        if(element.nmap_scan_id){
+                            element.affects_url = data.target.domain + ':' + element.port_scan.port
+                        }
+                    });
+                    // console.log(list.value)
 
                     targetData.value.id = data.target.id
                     targetData.value.domain = data.target.domain
@@ -687,8 +692,7 @@ export default defineComponent({
                     severityMedium.value = data.severity_counts.medium
 
                     // check
-                    progress.value = data.progress
-                    console.log(progress.value);
+                    progress.value = parseFloat(data.progress.toFixed(1))
                     
                     timeStart.value = data.scan_started_at
                     timeEnd.value = data.scan_finished_at
