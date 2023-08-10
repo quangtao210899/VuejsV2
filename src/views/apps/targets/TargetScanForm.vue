@@ -55,8 +55,8 @@
                                 <el-option label="SOCKS5" value="SOCKS5">SOCKS5</el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item v-if="scanFormState.proxyCheck" label="Tên Miền" prop="proxyAdress" class="pb-3 text-capitalize fs-6" :error="(errors.proxyAdress) ? errors.proxyAdress[0] : ''">
-                            <el-input v-model="scanFormState.proxyAdress" size="large" placeholder="Tên miền"
+                        <el-form-item v-if="scanFormState.proxyCheck" label="Địa chỉ" prop="proxyAdress" class="pb-3 text-capitalize fs-6" :error="(errors.proxyAdress) ? errors.proxyAdress[0] : ''">
+                            <el-input v-model="scanFormState.proxyAdress" size="large" placeholder="Địa chỉ"
                                 :class="(errors.proxyAdress) ? 'el-error-ruleForm' : ''" />
                         </el-form-item>
                         <el-form-item v-if="scanFormState.proxyCheck" label="Cổng Dịch Vụ" prop="proxyPort" class="pb-3 text-capitalize fs-6" :error="(errors.proxyPort) ? errors.proxyPort[0] : ''">
@@ -82,11 +82,6 @@
                                 autocomplete="new-password" />
                         </el-form-item>
                     </div>
-                    <!-- <el-form-item prop="headerOptionValue" label="Header Tùy Chỉnh" class="pb-3 text-capitalize fs-6 custom-form" :error="(errors.headerOptionValue) ? errors.headerOptionValue[0] : ''">
-                        <el-select v-model="scanFormState.headerOptionValue"  style="padding-bottom: 20px;" multiple filterable class="w-100"
-                            allow-create default-first-option placeholder="Ví dụ: Cookie: e8452aaa">
-                        </el-select>
-                    </el-form-item> -->
                     <div class="custom-form" style="margin-bottom: 22px;">
                         <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback text-capitalize fs-6">
                             <label class="el-form-item__label d-inline-block custom-button">Sử Dụng Header Tùy Chọn</label>
@@ -96,10 +91,22 @@
                                 />
                             </div>
                         </div>
-                        <el-form-item v-if="scanFormState.headerOptionCheck" prop="headerOptionValue" label="Header" class="text-capitalize fs-6" :error="(errors.headerOptionValue) ? errors.headerOptionValue[0] : ''">
-                            <el-select v-model="scanFormState.headerOptionValue" multiple filterable class="w-100"
-                                allow-create default-first-option placeholder="Ví dụ: Cookie: e8452aaa">
-                            </el-select>
+                        <el-form-item v-if="scanFormState.headerOptionCheck" prop="headerOptionValue" label="Header" class="text-capitalize fs-6">
+                            <!-- <el-select v-model="scanFormState.headerOptionValue" multiple filterable class="w-100"
+                                allow-create default-first-option placeholder="Ví dụ: Cookie: 67b976c29f">
+                            </el-select> -->
+                            <div v-for="(item, index) in scanFormState.headerOptionValue" :key="index" class="w-100 row">
+                                <el-input class="col-10 mb-5" v-model="scanFormState.headerOptionValue[index]" size="large" placeholder="Ví dụ: Cookie: 67b976c29f"
+                                    :class="(errors.proxyUsername) ? 'el-error-ruleForm' : ''" :autofocus="true"/>
+                                <div class="col-2">
+                                    <el-icon class="me-3" @click="removeRow(index)" style="vertical-align: middle; width: 25px; height: 25px; cursor: pointer;">
+                                        <RemoveFilled id="remove-filled" style="width: 25px; height: 25px;"/>
+                                    </el-icon>
+                                    <el-icon @click="addRow" style="vertical-align: middle; width: 25px; height: 25px; cursor: pointer;">
+                                        <CirclePlusFilled id="circle-plus-filled" style="width: 25px; height: 25px;" />
+                                    </el-icon>
+                                </div>
+                            </div>
                         </el-form-item>
                     </div>
                     <div class="custom-form">
@@ -116,22 +123,6 @@
                                 :class="(errors.rescanRecurTime) ? 'el-error-ruleForm' : ''" />
                         </el-form-item>
                     </div>
-                    <!-- <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback pb-3 text-capitalize fs-6">
-                        <label class="el-form-item__label" style="width: 33%;">Quét bằng Nmap</label>
-                        <div class="el-form-item__content">
-                            <el-switch
-                                v-model="scanFormState.nmap_check"
-                            />
-                        </div>
-                    </div>
-                    <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback pb-3 text-capitalize fs-6">
-                        <label class="el-form-item__label" style="width: 33%;">Quét bằng Nuclei</label>
-                        <div class="el-form-item__content">
-                            <el-switch
-                                v-model="scanFormState.nuclei_check"
-                            />
-                        </div>
-                    </div> -->
                 </div>
             </el-form>
         </div>
@@ -217,7 +208,7 @@ export default defineComponent({
                 scanFormState.proxyUserPassword = ""
                 scanFormState.proxyUsername = ""
                 scanFormState.proxyUserPassword = ""
-                scanFormState.headerOptionValue = []
+                scanFormState.headerOptionValue = ['']
                 scanFormState.rescanRecurTime = 0
             }
 
@@ -235,7 +226,7 @@ export default defineComponent({
             }
             
             if (!scanFormState.headerOptionCheck) {
-                scanFormState.headerOptionValue = []
+                scanFormState.headerOptionValue = ['']
             }
 
             if (!scanFormState.rescanRecurTimeCheck) {
@@ -269,6 +260,14 @@ export default defineComponent({
             }
         };
 
+        const removeRow = (index: any) =>{
+            if (scanFormState.headerOptionValue.length > 1) scanFormState.headerOptionValue.splice(index, 1)
+        }
+
+        const addRow = () => {
+            scanFormState.headerOptionValue.push('')
+        }
+
         const scanFormState = reactive({
             targetID: getIdFromUrl(),
             scanToolSelect: [] as string[],
@@ -282,12 +281,13 @@ export default defineComponent({
             proxyUsername: '',
             proxyUserPassword: '',
             headerOptionCheck: false,
-            headerOptionValue: [],
+            headerOptionValue: [''] as string[],
             rescanOptionCheck: false,
             rescanRecurTime: 0,
             rescanRecurTimeCheck: false,
             nmap_check: false,
             nuclei_check: false,
+            acunetix_check: false,
         })
 
         const scanTool = ref([
@@ -334,7 +334,7 @@ export default defineComponent({
         }
 
         const clearHeaderOptions = () => {
-            scanFormState.headerOptionValue = []
+            scanFormState.headerOptionValue = ['']
         }
 
         const isValidDomain = (rule: any, value: any, callback: any) => {
@@ -413,7 +413,7 @@ export default defineComponent({
 
         const addFormSubmit = async () => {
             let selectedKey = getCheckedKeys()
-            
+
             if (selectedKey.length == 0) {
                 notification('Vui lòng chọn một công cụ để scan', 'error', 'Có lỗi xảy ra')
 
@@ -422,12 +422,16 @@ export default defineComponent({
 
             scanFormState.nmap_check = selectedKey.includes('3') ? true : false
             scanFormState.nuclei_check = selectedKey.includes('4') ? true : false
+            scanFormState.acunetix_check = selectedKey.includes('1') ? true : false
 
+            if (scanFormState.scanToolSelect.length > 0) scanFormState.scanToolSelect = []
             selectedKey.forEach((element) => {
                 if (typeof element === 'string') {
                     scanFormState.scanToolSelect.push(element);
                 }
             });
+
+            console.log(scanFormState, 111);            
             
             return ApiService.post("scan/create/", scanFormState)
                 .then(({ data }) => {
@@ -511,6 +515,8 @@ export default defineComponent({
             scanTool,
             treeRef,
             switchButton,
+            removeRow,
+            addRow,
         };
     },
 });

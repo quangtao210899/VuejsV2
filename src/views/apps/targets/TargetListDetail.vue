@@ -1702,7 +1702,12 @@
                     <!--end:::Tab pane-->
                     <div class="tab-pane fade" id="kt_subdomains_tab" role="tabpanel">
                         <div class="card rounded-0 rounded-bottom ">
-                            <SubdomainList v-if="dataLoaded" :id="reconId"></SubdomainList>
+                            <SubdomainList 
+                                v-if="dataLoaded"
+                                :id="reconId"
+                                :status="reconStatus"
+                                :sudomains="subdomain_full_result"
+                            ></SubdomainList>
                         </div>
                     </div>
                 </div>
@@ -1983,6 +1988,7 @@ export default defineComponent({
 
         const technology = ref<any>({});
         const subdomain_result = ref<any>({});
+        const subdomain_full_result = ref<any>({});
         const technology_status = ref<number | any>(null);
         const metadata = ref<any>({});
         const metadata_status = ref<number | any>(null);
@@ -2057,6 +2063,7 @@ export default defineComponent({
 
                         // subdomain_result
                         subdomain_result.value =  data.recon.recon.recon[0].subdomain_result.slice(0,10)
+                        subdomain_full_result.value =  data.recon.recon.recon[0].subdomain_result
 
                         // Web Data
                         webdata_result.value = ( data.recon.recon.recon[0].webdata !== undefined) ?  data.recon.recon.recon[0].webdata.message : {};
@@ -2862,7 +2869,8 @@ export default defineComponent({
             related_domain, 
             related_domain_status, 
             technology, 
-            subdomain_result, 
+            subdomain_result,
+            subdomain_full_result,
             technology_status, 
             metadata, 
             metadata_status, 
