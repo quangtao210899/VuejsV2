@@ -1,6 +1,6 @@
 <template>
     <KTToolbar :addTragetList="`/cve/${getIdFromUrl()}/scan/detail`" :check-scan="true" @handle-security-scan="handleSecurityScan"
-        :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds" :check-sitebar-title="true"
+        :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
         @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Scan"></KTToolbar>
     <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
         <div class="p-5 bg-body rounded-3">
