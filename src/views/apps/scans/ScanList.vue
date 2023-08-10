@@ -524,6 +524,9 @@
               <option value="right"></option>
               <option value="justify"></option>
             </select>
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Gắn Video" placement="top-start">
+              <button class="ql-video"></button>
+            </el-tooltip>
             <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Gắn Link" placement="top-start">
               <button class="ql-link"></button>
             </el-tooltip>
