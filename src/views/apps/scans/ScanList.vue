@@ -410,161 +410,170 @@
         placeholder="Thêm Ghi Chú...">
         <template #toolbar>
           <div id="my-toolbar">
-        <!-- Add buttons as you would before -->
-        <button type="button" class="ql-bold"></button>
-        <button type="button" class="ql-italic"></button>
-        <button type="button" class="ql-underline"></button>
-        <button type="button" class="ql-strike"></button>
-        <button type="button" class="ql-blockquote"></button>
-        <button type="button" class="ql-code-block"></button>
-        <button type="button" class="ql-header" value="1"></button>
-        <button type="button" class="ql-header" value="2"></button>
-        <button type="button" class="ql-list" value="ordered"></button>
-        <button type="button" class="ql-list" value="bullet"></button>
-        <button type="button" class="ql-script" value="sub"></button>
-        <button type="button" class="ql-script" value="super"></button>
-        <button type="button" class="ql-indent" value="-1"></button>
-        <button type="button" class="ql-indent" value="+1"></button>
-        <button type="button" class="ql-direction"></button>
-        <select class="ql-size ql-picker" style="width: 120px;" name="size">
-          <option value="small">Nhỏ</option>
-          <option value="" selected>Bình Thường</option>
-          <option value="large">Lớn</option>
-          <option value="huge">Rất Lớn</option>
-        </select>
-        <select class="ql-header ql-picker" style="width: 120px;" name="header">
-          <option value="1">Tiêu Đề 1</option>
-          <option value="2">Tiêu Đề 2</option>
-          <option value="3">Tiêu Đề 3</option>
-          <option value="4">Tiêu Đề 4</option>
-          <option value="5">Tiêu Đề 5</option>
-          <option value="6">Tiêu Đề 6</option>
-          <option value="" selected>Bình Thường</option>
-        </select>
-        <select class="ql-color ql-picker ql-color-picker ql-expanded" name="color">
-          <option value="#000000"></option>
-          <option value="#e60000"></option>
-          <option value="#ff9900"></option>
-          <option value="#ffff00"></option>
-          <option value="#008a00"></option>
-          <option value="#0066cc"></option>
-          <option value="#9933ff"></option>
-          <option value=""></option>
-          <option value="#facccc"></option>
-          <option value="#ffebcc6"></option>
-          <option value="#cce8cc"></option>
-          <option value="#cce0f5"></option>
-          <option value="#ebd6ff"></option>
-          <option value="#bbbbbb"></option>
-          <option value="#f06666"></option>
-          <option value="#ffc266"></option>
-          <option value="#ffff66"></option>
-          <option value="#66b966"></option>
-          <option value="#66a3e0"></option>
-          <option value="#c285ff"></option>
-          <option value="#888888"></option>
-          <option value="#a10000"></option>
-          <option value="#b26b00"></option>
-          <option value="#b2b200"></option>
-          <option value="#006100"></option>
-          <option value="#0047b2"></option>
-          <option value="#6b24b2"></option>
-          <option value="#444444"></option>
-          <option value="#5c0000"></option>
-          <option value="#663d00"></option>
-          <option value="#666600"></option>
-          <option value="#003700"></option>
-          <option value="#002966"></option>
-          <option value="#3d1466"></option>
-        </select>
-        <select class="ql-background ql-picker ql-color-picker" name="background">
-          <option value="#000000"></option>
-          <option value="#e60000"></option>
-          <option value="#ff9900"></option>
-          <option value="#ffff00"></option>
-          <option value="#008a00"></option>
-          <option value="#0066cc"></option>
-          <option value="#9933ff"></option>
-          <option value=""></option>
-          <option value="#facccc"></option>
-          <option value="#ffebcc6"></option>
-          <option value="#cce8cc"></option>
-          <option value="#cce0f5"></option>
-          <option value="#ebd6ff"></option>
-          <option value="#bbbbbb"></option>
-          <option value="#f06666"></option>
-          <option value="#ffc266"></option>
-          <option value="#ffff66"></option>
-          <option value="#66b966"></option>
-          <option value="#66a3e0"></option>
-          <option value="#c285ff"></option>
-          <option value="#888888"></option>
-          <option value="#a10000"></option>
-          <option value="#b26b00"></option>
-          <option value="#b2b200"></option>
-          <option value="#006100"></option>
-          <option value="#0047b2"></option>
-          <option value="#6b24b2"></option>
-          <option value="#444444"></option>
-          <option value="#5c0000"></option>
-          <option value="#663d00"></option>
-          <option value="#666600"></option>
-          <option value="#003700"></option>
-          <option value="#002966"></option>
-          <option value="#3d1466"></option>
-        </select>
-        <select class="ql-font ql-picker" style="width: 110px;" name="size">
-          <option value="" selected>Sans Serif</option>
-          <option value="serif">Serif</option>
-          <option value="monospace">Monospace</option>
-        </select>
-        <button class="ql-align"></button>
-        <button class="ql-clean"></button>
-        <button class="ql-link"></button>
-        <button class="ql-image"></button>
+            <!-- Add buttons as you would before -->
+            <button type="button" class="ql-bold"></button>
+            <button type="button" class="ql-italic"></button>
+            <button type="button" class="ql-underline"></button>
+            <button type="button" class="ql-strike"></button>
+            <button type="button" class="ql-blockquote"></button>
+            <button type="button" class="ql-code-block"></button>
+            <button type="button" class="ql-header" value="1"></button>
+            <button type="button" class="ql-header" value="2"></button>
+            <button type="button" class="ql-list" value="ordered"></button>
+            <button type="button" class="ql-list" value="bullet"></button>
+            <button type="button" class="ql-script" value="sub"></button>
+            <button type="button" class="ql-script" value="super"></button>
+            <button type="button" class="ql-indent" value="-1"></button>
+            <button type="button" class="ql-indent" value="+1"></button>
+            <button type="button" class="ql-direction" value="rtl"></button>
+            <select class="ql-size ql-picker" style="width: 120px;" name="size">
+              <option value="small">Small</option>
+              <option value="" selected>Normal</option>
+              <option value="large">Large</option>
+              <option value="huge">Huge</option>
+            </select>
+            <select class="ql-header ql-picker" style="width: 120px;" name="header">
+              <option value="1">Heading 1</option>
+              <option value="2">Heading 2</option>
+              <option value="3">Heading 3</option>
+              <option value="4">Heading 4</option>
+              <option value="5">Heading 5</option>
+              <option value="6">Heading 6</option>
+              <option value="" selected>Normal</option>
+            </select>
+            <select class="ql-color ql-picker ql-color-picker ql-expanded" name="color">
+              <option value="#000000"></option>
+              <option value="#e60000"></option>
+              <option value="#ff9900"></option>
+              <option value="#ffff00"></option>
+              <option value="#008a00"></option>
+              <option value="#0066cc"></option>
+              <option value="#9933ff"></option>
+              <option value=""></option>
+              <option value="#facccc"></option>
+              <option value="#ffebcc6"></option>
+              <option value="#cce8cc"></option>
+              <option value="#cce0f5"></option>
+              <option value="#ebd6ff"></option>
+              <option value="#bbbbbb"></option>
+              <option value="#f06666"></option>
+              <option value="#ffc266"></option>
+              <option value="#ffff66"></option>
+              <option value="#66b966"></option>
+              <option value="#66a3e0"></option>
+              <option value="#c285ff"></option>
+              <option value="#888888"></option>
+              <option value="#a10000"></option>
+              <option value="#b26b00"></option>
+              <option value="#b2b200"></option>
+              <option value="#006100"></option>
+              <option value="#0047b2"></option>
+              <option value="#6b24b2"></option>
+              <option value="#444444"></option>
+              <option value="#5c0000"></option>
+              <option value="#663d00"></option>
+              <option value="#666600"></option>
+              <option value="#003700"></option>
+              <option value="#002966"></option>
+              <option value="#3d1466"></option>
+            </select>
+            <select class="ql-background ql-picker ql-color-picker" name="background">
+              <option value="#000000"></option>
+              <option value="#e60000"></option>
+              <option value="#ff9900"></option>
+              <option value="#ffff00"></option>
+              <option value="#008a00"></option>
+              <option value="#0066cc"></option>
+              <option value="#9933ff"></option>
+              <option value=""></option>
+              <option value="#facccc"></option>
+              <option value="#ffebcc6"></option>
+              <option value="#cce8cc"></option>
+              <option value="#cce0f5"></option>
+              <option value="#ebd6ff"></option>
+              <option value="#bbbbbb"></option>
+              <option value="#f06666"></option>
+              <option value="#ffc266"></option>
+              <option value="#ffff66"></option>
+              <option value="#66b966"></option>
+              <option value="#66a3e0"></option>
+              <option value="#c285ff"></option>
+              <option value="#888888"></option>
+              <option value="#a10000"></option>
+              <option value="#b26b00"></option>
+              <option value="#b2b200"></option>
+              <option value="#006100"></option>
+              <option value="#0047b2"></option>
+              <option value="#6b24b2"></option>
+              <option value="#444444"></option>
+              <option value="#5c0000"></option>
+              <option value="#663d00"></option>
+              <option value="#666600"></option>
+              <option value="#003700"></option>
+              <option value="#002966"></option>
+              <option value="#3d1466"></option>
+            </select>
+            <select class="ql-font ql-picker" style="width: 110px;" name="size">
+              <option value="" selected>Sans Serif</option>
+              <option value="serif">Serif</option>
+              <option value="monospace">Monospace</option>
+            </select>
+            <select class="ql-align ql-picker ql-icon-picker ql-expanded">
+              <option value="" selected></option>
+              <option value="center"></option>
+              <option value="right"></option>
+              <option value="justify"></option>
+            </select>
+            <button class="ql-link"></button>
+            <button class="ql-image"></button>
 
-        <!-- But you can also add your own -->
-        <button class="ql-upload-file">
-          <el-upload ref="upload" class="d-flex my-upload-dialog" list-type="text" action="#" :limit="1"
-            :on-exceed="handleExceed" :auto-upload="false" v-model:file-list="fileDocument">
-            <template #trigger>
-              <i class="fa-solid fa-upload"></i>
-            </template>
-            <template #file="{ file }">
-              <div class="d-flex position-absolute" style="top: -6px;left: 5px;">
-                <div class="d-block">
-                  <span class="badge badge-light-success h-25px px-2 rounded-start"
-                    :class="(isHovering && isCheckDowload) ? 'cursor-pointer' : ''"
-                    @click="(isHovering && isCheckDowload) ? downloadFile(file) : ''" @mouseover="isHovering = true"
-                    @mouseleave="isHovering = false">
-                    <i v-if="isHovering && isCheckDowload"
-                      class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
-                    <i v-else class="fa-regular fa-file-lines text-success me-2 fs-13px w-20px"></i>
-                    {{ (file.name.length > 30) ? file.name.substring(0, 20) + '...' : file.name }}
-                  </span>
-                </div>
-                <div class="position-relative w-5px">
-                  <span
-                    class="position-absolute top-0 translate-middle badge badge-circle badge-danger h-15px w-15px cursor-pointer">
-                    <i class="fa-solid fa-xmark text-white p-0 m-0" @click="removeFile"></i>
-                  </span>
-                </div>
-              </div>
-            </template>
-          </el-upload>
-        </button>
-      </div>
+            <!-- But you can also add your own -->
+            <button class="ql-upload-file">
+              <el-upload ref="upload" class="d-flex my-upload-dialog" list-type="text" action="#" :limit="1"
+                :on-exceed="handleExceed" :auto-upload="false" v-model:file-list="fileDocument">
+                <template #trigger>
+                  <i class="fa-solid fa-upload"></i>
+                </template>
+                <template #file="{ file }">
+                  <div class="d-none">
+                    {{ file }}
+                  </div>
+                </template>
+              </el-upload>
+            </button>
+          </div>
 
           <!-- <span v-if="errorUploadFile[0].file.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0]?.file[0] }}</span> -->
         </template>
       </QuillEditor>
+      <div class="mb-2 mt-4" v-if="fileDocument.length > 0">
+        <div class="d-flex">
+          <span class="badge badge-light-success h-30px px-10 rounded-start fs-13px"
+            :class="(isHovering) ? 'cursor-pointer' : ''" @click="(isHovering) ? downloadFile(fileDocument[0]) : ''"
+            @mouseover="isHovering = true" @mouseleave="isHovering = false">
+            <i v-if="isHovering" class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
+            <i v-else class="fa-regular fa-file-lines text-success me-2 fs-13px w-20px"></i>
+            {{ (fileDocument[0].name.length > 30)
+              ? fileDocument[0].name.substring(0, 23) + " .... "
+              + fileDocument[0].name.substring(fileDocument[0].name.length - 7)
+              + "( " + formatBytes(fileDocument[0].size) + " )"
+              : fileDocument[0].name }}
+          </span>
+          <div class="position-relative w-5px">
+            <span
+              class="position-absolute top-0 translate-middle badge badge-circle badge-danger h-15px w-15px cursor-pointer">
+              <i class="fa-solid fa-xmark text-white p-0 m-0" @click="removeFile"></i>
+            </span>
+          </div>
+        </div>
+      </div>
       <!-- <span v-if="errorUploadFile[0].document.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0].document[0] }}</span> -->
       <span v-if="errorUploadFileDetail != ''" class="text-danger fs-13px">{{ errorUploadFileDetail }}</span>
     </div>
     <template #footer center>
       <span class="d-flex justify-content-center">
         <el-button class="border-0" plain type="info" @click="notesVisible = false">Quay lại</el-button>
-        <el-button class="border-0" plain type="primary" :disabled="disabled" @click="putUplaodFile" :loading=loading>
+        <el-button class="border-0" plain type="primary" :disabled="disabled" @click="putUplaodFile" :loading=loadingFile>
           Đồng ý
         </el-button>
       </span>
@@ -988,8 +997,9 @@ export default defineComponent({
     const contentNote = ref<any>('')
     const fileData = ref<any>('')
     const has_delete_file = ref<any>(false)
+    const loadingFile = ref<boolean>(false)
     const putUplaodFile = async () => {
-      loading.value = true
+      loadingFile.value = true
       disabled.value = true
       setTimeout(() => {
         disabled.value = false
@@ -1020,7 +1030,7 @@ export default defineComponent({
           // errorUploadFile.value = response.data.Errors ?? 'Đã có lỗi xảy ra'
         })
         .finally(() => {
-          loading.value = false
+          loadingFile.value = false
         });
     }
 
@@ -1118,6 +1128,20 @@ export default defineComponent({
     const isHovering = ref(false);
     const isCheckDowload = ref(false);
 
+    const formatBytes = (input: any) => {
+      if (typeof input === 'number') {
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (input === 0) return '0 Byte';
+        const i = Math.floor(Math.log(input) / Math.log(1024));
+        const roundedValue = (input / Math.pow(1024, i)).toFixed(2);
+        return `${roundedValue} ${sizes[i]}`;
+      } else if (typeof input === 'string') {
+        return input; // Trả về luôn nếu input là chuỗi
+      } else {
+        return 'Invalid input'; // Trả về thông báo nếu input không phải là số hoặc chuỗi
+      }
+    };
+
     // Tính toán chiều rộng nội dung
     const contentWidth = ref(0);
     onMounted(() => {
@@ -1210,7 +1234,8 @@ export default defineComponent({
       isHovering,
       isCheckDowload,
       toolbarOptions,
-
+      loadingFile,
+      formatBytes,
     };
   },
 });
@@ -1310,7 +1335,6 @@ span.el-dialog__title {
   content: attr(data-label);
 }
 
-.ql-select .el-input{
+.ql-select .el-input {
   height: 25px !important;
-}
-</style>
+}</style>
