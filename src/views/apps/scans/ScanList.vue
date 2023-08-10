@@ -530,7 +530,7 @@
             <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tải Ảnh" placement="top-start">
               <button class="ql-image"></button>
             </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tải file Lên" placement="top-start">
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tải File Lên" placement="top-start">
               <button class="ql-upload-file m-0 p-0 ">
                 <el-upload ref="upload" class="ql-upload-file d-flex my-upload-dialog h-100 w-100 d-flex justify-content-center align-items-center" 
                   list-type="text" :limit="1" :on-exceed="handleExceed" :show-file-list="false" :auto-upload="false" 
