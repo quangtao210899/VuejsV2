@@ -386,7 +386,7 @@ export default defineComponent({
         };
 
         const isValidCookieString = (value: string) => {
-            const specialCharacters = /^Cookie:/;
+            const specialCharacters = /^Cookie:\s*[^\s].*$/;
 
             if (!specialCharacters.test(value)) {
                 errors.headerData = 'Header không đúng định dạng'
@@ -430,7 +430,7 @@ export default defineComponent({
                 { validator: isValidrescanRecurTime, trigger: 'blur' },
             ],
             proxyAdress: [
-                { required: true, message: 'Vui lòng nhập tên miền', trigger: 'blur' },
+                { required: true, message: 'Vui lòng nhập địa chỉ', trigger: 'blur' },
                 { validator: isValidDomain, trigger: 'blur' },
             ],
             proxyPort: [
