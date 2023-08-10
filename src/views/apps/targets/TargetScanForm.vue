@@ -299,6 +299,12 @@ export default defineComponent({
             }
 
             if (!isValidCookieString(value)) {
+                if (scanFormState.headerOptionValue.includes(value)) {
+                    errors.headerData = 'Header đã bị trùng lăp'
+
+                    return
+                }
+
                 scanFormState.headerOptionValue.push(value)
                 scanFormState.headerData = ''
                 errors.headerData = ''
