@@ -524,34 +524,34 @@
               <option value="right"></option>
               <option value="justify"></option>
             </select>
-            <button class="ql-link"></button>
-            <button class="ql-image"></button>
-
-            <!-- But you can also add your own -->
-            <button class="ql-upload-file">
-              <el-upload ref="upload" class="d-flex my-upload-dialog" list-type="text" action="#" :limit="1"
-                :on-exceed="handleExceed" :auto-upload="false" v-model:file-list="fileDocument">
-                <template #trigger>
-                  <i class="fa-solid fa-upload"></i>
-                </template>
-                <template #file="{ file }">
-                  <div class="d-none">
-                    {{ file }}
-                  </div>
-                </template>
-              </el-upload>
-            </button>
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Gắn Link" placement="top-start">
+              <button class="ql-link"></button>
+            </el-tooltip>
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tải Ảnh" placement="top-start">
+              <button class="ql-image"></button>
+            </el-tooltip>
+            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tải file Lên" placement="top-start">
+              <button class="ql-upload-file m-0 p-0 ">
+                <el-upload ref="upload" class="ql-upload-file d-flex my-upload-dialog h-100 w-100 d-flex justify-content-center align-items-center" 
+                  list-type="text" :limit="1" :on-exceed="handleExceed" :show-file-list="false" :auto-upload="false" 
+                  v-model:file-list="fileDocument" :on-change="onPreviewFile">
+                  <template #trigger>
+                    <i class="fa-solid fa-upload p-2"></i>
+                  </template>
+                </el-upload>
+              </button>
+            </el-tooltip>
           </div>
 
           <!-- <span v-if="errorUploadFile[0].file.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0]?.file[0] }}</span> -->
         </template>
       </QuillEditor>
-      <div class="mb-2 mt-4" v-if="fileDocument.length > 0">
-        <div class="d-flex">
+      <div class="mb-2 mt-4 h-30px" >
+        <div class="d-flex" v-if="fileDocument.length > 0">
           <span class="badge badge-light-success h-30px px-10 rounded-start fs-13px"
-            :class="(isHovering) ? 'cursor-pointer' : ''" @click="(isHovering) ? downloadFile(fileDocument[0]) : ''"
+            :class="(isHovering && !isCheckDowload) ? 'cursor-pointer' : ''" @click="(isHovering && !isCheckDowload) ? downloadFile(fileDocument[0]) : ''"
             @mouseover="isHovering = true" @mouseleave="isHovering = false">
-            <i v-if="isHovering" class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
+            <i v-if="isHovering && !isCheckDowload" class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
             <i v-else class="fa-regular fa-file-lines text-success me-2 fs-13px w-20px"></i>
             {{ (fileDocument[0].name.length > 30)
               ? fileDocument[0].name.substring(0, 23) + " .... "
@@ -626,25 +626,6 @@ export default defineComponent({
   },
   setup() {
     // ckediter
-    const toolbarOptions = ref([
-      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-      ['blockquote', 'code-block'],
-      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-      [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-      [{ 'direction': 'rtl' }],                         // text direction
-      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-      [{ 'font': [] }],
-      [{ 'align': [] }],
-      [{ '1234': [] }],
-      ['link', 'image'],
-      [{ 'custom': ['[GuestName]', '[HotelName]'] }], // my custom dropdown
-      [{ 'dropdown': ['Option 1', false, 'Option 3', 'Option 4', 'Option 5'] }],
-      ['clean']                                         // remove formatting button
-    ])
     const list = ref<object | any>([])
     const loading = ref<boolean>(false)
     const totalPage = ref<number>(0);
@@ -1004,7 +985,6 @@ export default defineComponent({
       setTimeout(() => {
         disabled.value = false
       }, 1000);
-      isCheckDowload.value = false
       fileData.value = fileDocument.value?.[0]?.raw || fileDocument.value;
       const formData = new FormData();
       formData.append('files', fileData.value);
@@ -1034,21 +1014,21 @@ export default defineComponent({
         });
     }
 
+    const checkUpdateFile = ref<boolean>(false)
     const getUplaodFile = async () => {
       notesVisible.value = true
       errorUploadFileDetail.value = null
       has_delete_file.value = false
-      isCheckDowload.value = false
       return ApiService.get(`/vuls/${detailData.id}/get_document`)
         .then(({ data }) => {
           // console.log(data)
           contentNote.value = (data.document == null) ? '<p><br></p>' : data.document;
           if (data.files.length != 0) {
+            isCheckDowload.value = false
             fileDocumentData.value[0].name = data.files[0]?.file_name
             fileDocumentData.value[0].url = data.files[0]?.file
             fileDocumentData.value[0].size = data.files[0]?.size
             fileDocument.value[0] = fileDocumentData.value[0]
-            isCheckDowload.value = true
           } else {
             fileDocument.value = [];
           }
@@ -1069,7 +1049,7 @@ export default defineComponent({
 
     const upload = ref<UploadInstance>()
     const handleExceed: UploadProps['onExceed'] = (files) => {
-      isCheckDowload.value = false
+      console.log(files)
       upload.value!.clearFiles()
       const file = files[0] as UploadRawFile
       file.uid = genFileId()
@@ -1080,7 +1060,6 @@ export default defineComponent({
       upload.value!.clearFiles()
       fileDocument.value = []
       has_delete_file.value = true
-      isCheckDowload.value = false
     }
 
     // Tạo một biến tham chiếu để theo dõi tiến trình tải
@@ -1127,6 +1106,13 @@ export default defineComponent({
     };
     const isHovering = ref(false);
     const isCheckDowload = ref(false);
+
+    const onPreviewFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
+      isCheckDowload.value = true
+      console.log(uploadFile)
+      console.log(uploadFiles)
+      console.log(123)
+    }
 
     const formatBytes = (input: any) => {
       if (typeof input === 'number') {
@@ -1233,9 +1219,10 @@ export default defineComponent({
       errorUploadFileDetail,
       isHovering,
       isCheckDowload,
-      toolbarOptions,
       loadingFile,
       formatBytes,
+      checkUpdateFile,
+      onPreviewFile,
     };
   },
 });
@@ -1251,6 +1238,7 @@ span.el-dialog__title {
 
 #modal-detail .el-dialog__body {
   padding-top: 0px !important;
+  padding-bottom: 0px !important;
 }
 
 .stautsOpen .el-input .el-select__caret,
