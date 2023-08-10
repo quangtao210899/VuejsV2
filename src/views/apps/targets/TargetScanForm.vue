@@ -91,20 +91,41 @@
                                 />
                             </div>
                         </div>
-                        <el-form-item v-if="scanFormState.headerOptionCheck" prop="headerOptionValue" label="Header" class="text-capitalize fs-6">
+                        <el-form-item v-if="scanFormState.headerOptionCheck" prop="headerData" label="Header" class="text-capitalize fs-6">
                             <!-- <el-select v-model="scanFormState.headerOptionValue" multiple filterable class="w-100"
                                 allow-create default-first-option placeholder="Ví dụ: Cookie: 67b976c29f">
                             </el-select> -->
+                            
+                            <div class="row w-100">
+                                <el-input class="col-10" @keydown.enter.prevent @keyup.enter="addRow(scanFormState.headerData)" v-model="scanFormState.headerData" size="large" placeholder="Ví dụ: Cookie: 67b976c29f"
+                                    :class="(errors.headerData && scanFormState.headerData.length == 0) ? 'el-error-ruleForm' : ''"/>
+                                <div class="col-2">
+                                    <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Thêm" placement="top">
+                                        <el-icon @click="addRow(scanFormState.headerData)" style="vertical-align: middle; width: 25px; height: 25px; cursor: pointer;">
+                                            <CirclePlusFilled id="circle-plus-filled" style="width: 25px; height: 25px;" />
+                                        </el-icon>
+                                    </el-tooltip>
+                                </div>
+                                <div style="text-transform: initial !important;
+                                    line-height: 18px !important;
+                                    color: #f1416c !important;
+                                    font-size: 12px;
+                                    padding-top: 4px;
+                                    padding-bottom: 15px;">
+                                    <span class="" v-if="errors.headerData">
+                                        {{ Array.isArray(errors.headerData) ? errors.headerData[0] : errors.headerData }}
+                                    </span>
+                                </div>
+                            </div>
                             <div v-for="(item, index) in scanFormState.headerOptionValue" :key="index" class="w-100 row">
-                                <el-input class="col-10 mb-5" v-model="scanFormState.headerOptionValue[index]" size="large" placeholder="Ví dụ: Cookie: 67b976c29f"
+                                <el-input class="col-10 mb-5" disabled v-model="scanFormState.headerOptionValue[index]" size="large" placeholder="Ví dụ: Cookie: 67b976c29f"
                                     :class="(errors.proxyUsername) ? 'el-error-ruleForm' : ''" :autofocus="true"/>
                                 <div class="col-2">
-                                    <el-icon class="me-3" @click="removeRow(index)" style="vertical-align: middle; width: 25px; height: 25px; cursor: pointer;">
-                                        <RemoveFilled id="remove-filled" style="width: 25px; height: 25px;"/>
-                                    </el-icon>
-                                    <el-icon @click="addRow" style="vertical-align: middle; width: 25px; height: 25px; cursor: pointer;">
-                                        <CirclePlusFilled id="circle-plus-filled" style="width: 25px; height: 25px;" />
-                                    </el-icon>
+                                    <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Xóa" placement="top">
+                                        <el-icon @click="removeRow(index)" style="vertical-align: middle; width: 25px; height: 25px; cursor: pointer;">
+                                            <DeleteFilled id="remove-filled" style="width: 25px; height: 25px;"/>
+                                        </el-icon>
+                                    </el-tooltip>
                                 </div>
                             </div>
                         </el-form-item>
@@ -118,7 +139,7 @@
                                 />
                             </div>
                         </div>
-                        <el-form-item v-if="scanFormState.rescanRecurTimeCheck" label="Thời Gian(Giờ)" prop="rescanRecurTime" class=" text-capitalize fs-6" :error="(errors.rescanRecurTime) ? errors.rescanRecurTime[0] : ''">
+                        <el-form-item v-if="scanFormState.rescanRecurTimeCheck" label="Thời Gian (Giờ)" prop="rescanRecurTime" class=" text-capitalize fs-6" :error="(errors.rescanRecurTime) ? errors.rescanRecurTime[0] : ''">
                             <el-input v-model="scanFormState.rescanRecurTime" size="large"
                                 :class="(errors.rescanRecurTime) ? 'el-error-ruleForm' : ''" />
                         </el-form-item>
@@ -141,7 +162,7 @@ import { ElTable, ElTableColumn } from 'element-plus';
 import { useRouter, useRoute } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElTree } from 'element-plus'
-import { RemoveFilled, CirclePlusFilled } from '@element-plus/icons-vue'
+import { RemoveFilled, CirclePlusFilled, DeleteFilled } from '@element-plus/icons-vue'
 
 export default defineComponent({
     name: "kt-target-list",
@@ -152,6 +173,7 @@ export default defineComponent({
         KTToolbar,
         CirclePlusFilled,
         RemoveFilled,
+        DeleteFilled,
     },
     directives: {
         debounce: vue3Debounce({ lock: true })
@@ -164,6 +186,7 @@ export default defineComponent({
         const loading = ref<boolean>(false)
         const router = useRouter();
         const treeRef = ref<InstanceType<typeof ElTree>>()
+        // const headerData = ref<string>('')
 
         const notification = (values: string, icon: string, more: string) => {
             Swal.fire({
@@ -192,6 +215,7 @@ export default defineComponent({
             errors.proxyPort = ''
             errors.proxyUsername = ''
             errors.proxyUserPassword = ''
+            errors.headerData = ''
             // errors.headerOptionValue = ''
             errors.rescanRecurTime = ''
             errors.detail = ''
@@ -208,7 +232,7 @@ export default defineComponent({
                 scanFormState.proxyUserPassword = ""
                 scanFormState.proxyUsername = ""
                 scanFormState.proxyUserPassword = ""
-                scanFormState.headerOptionValue = ['']
+                scanFormState.headerOptionValue = []
                 scanFormState.rescanRecurTime = 0
             }
 
@@ -226,7 +250,7 @@ export default defineComponent({
             }
             
             if (!scanFormState.headerOptionCheck) {
-                scanFormState.headerOptionValue = ['']
+                scanFormState.headerOptionValue = []
             }
 
             if (!scanFormState.rescanRecurTimeCheck) {
@@ -250,6 +274,7 @@ export default defineComponent({
             proxyUserPassword: '',
             headerOptionValue: '',
             rescanRecurTime: '',
+            headerData: ''
         });
 
         const getIdFromUrl = () => {
@@ -261,11 +286,23 @@ export default defineComponent({
         };
 
         const removeRow = (index: any) =>{
-            if (scanFormState.headerOptionValue.length > 1) scanFormState.headerOptionValue.splice(index, 1)
+            if (scanFormState.headerOptionValue.length > 0) scanFormState.headerOptionValue.splice(index, 1)
+            errors.headerData = ''
         }
 
-        const addRow = () => {
-            scanFormState.headerOptionValue.push('')
+        const addRow = (value: string) => {
+            
+            if (!value) {
+                errors.headerData = 'Vui lòng nhập Header'
+
+                return
+            }
+
+            if (!isValidCookieString(value)) {
+                scanFormState.headerOptionValue.push(value)
+                scanFormState.headerData = ''
+                errors.headerData = ''
+            }
         }
 
         const scanFormState = reactive({
@@ -281,13 +318,14 @@ export default defineComponent({
             proxyUsername: '',
             proxyUserPassword: '',
             headerOptionCheck: false,
-            headerOptionValue: [''] as string[],
+            headerOptionValue: [] as string[],
             rescanOptionCheck: false,
-            rescanRecurTime: 0,
+            rescanRecurTime: 1,
             rescanRecurTimeCheck: false,
             nmap_check: false,
             nuclei_check: false,
             acunetix_check: false,
+            headerData: '',
         })
 
         const scanTool = ref([
@@ -334,17 +372,29 @@ export default defineComponent({
         }
 
         const clearHeaderOptions = () => {
-            scanFormState.headerOptionValue = ['']
+            scanFormState.headerOptionValue = []
         }
 
         const isValidDomain = (rule: any, value: any, callback: any) => {
             if (value == null || value == '') { return true; }
             const specialCharacters = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!specialCharacters.test(value)) {
-                callback(new Error('Tên miền không đúng định dạng'));
+                callback(new Error('Địa chỉ không đúng định dạng'));
             } else {
                 callback();
             }
+        };
+
+        const isValidCookieString = (value: string) => {
+            const specialCharacters = /^Cookie:/;
+
+            if (!specialCharacters.test(value)) {
+                errors.headerData = 'Header không đúng định dạng'
+
+                return true
+            } 
+            
+            return false
         };
 
         const isValidPort = (rule: any, value: any, callback: any) => {
@@ -380,7 +430,7 @@ export default defineComponent({
                 { validator: isValidrescanRecurTime, trigger: 'blur' },
             ],
             proxyAdress: [
-                { required: true, message: 'Vui lòng nhập địa chỉ', trigger: 'blur' },
+                { required: true, message: 'Vui lòng nhập tên miền', trigger: 'blur' },
                 { validator: isValidDomain, trigger: 'blur' },
             ],
             proxyPort: [
@@ -517,6 +567,7 @@ export default defineComponent({
             switchButton,
             removeRow,
             addRow,
+            // headerData,
         };
     },
 });
