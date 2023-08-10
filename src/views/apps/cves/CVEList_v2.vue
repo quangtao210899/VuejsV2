@@ -59,7 +59,7 @@
                     </el-table-column>
                     <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG" align="center">
                         <template #default="scope">
-                            <el-tooltip class="box-item" effect="dark" hide-after="0" content="Scan" placement="top">
+                            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Scan" placement="top">
                                 <router-link :to="`cve/${scope.row.id}/scan`" v-on:click.stop
                                     class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1 my-1">
                                     <KTIcon icon-name="search-list" icon-class="fs-3" />
