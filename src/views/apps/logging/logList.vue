@@ -1,11 +1,12 @@
 <template>
   <KTToolbar :check-search="true" @handle-search="handleFilter" :disabled="disabled" @on-header-height="onheaderHeight"
-    title="Tin Nhắn"></KTToolbar>
+    title="Tin Nhắn" @handle-delete-selectd="deleteSubscription" v-model:idsDelete="selectedIds"></KTToolbar>
 
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
     <div class="p-5 bg-body rounded-3">
       <!--begin::Card body-->
       <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
+        @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
         class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" @row-click="handleCurrentChange"
         v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)">
         <template #empty>
@@ -13,6 +14,10 @@
             <el-empty description="Không có dữ liệu nào" />
           </div>
         </template>
+
+        <el-table-column label-class-name=" fs-13px fw-bold" type="selection" :width="35"
+                    :reserve-selection="true" />
+
 
         <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
           <template #default="scope">
@@ -66,7 +71,7 @@
   <!--end::Card-->
 
   <!-- modal detail  -->
-  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Log" width="75%" top="7vh" id="modal-detail"  
+  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Log" width="75%" top="7vh" id="modal-detail"
     :show-close="false">
     <div class="modal-body" style="padding: 0px !important;">
       <!--begin::Card-->
@@ -81,9 +86,8 @@
                 <div class="row mb-3">
                   <div class="col-1 text-gray-900 w-150px fs-6 ">Message:</div>
                   <div class="col fs-13px ">
-                    <span
-                      v-if="typeof detailData.msg === 'string' && detailData.msg != ''">
-                      <CodeHighlighter lang="json" :data="detailData.msg"/>
+                    <span v-if="typeof detailData.msg === 'string' && detailData.msg != ''">
+                      <CodeHighlighter lang="json" :data="detailData.msg" />
                     </span>
                     <span v-else class=" badge badge-light-danger">--</span>
                   </div>
@@ -91,10 +95,9 @@
                 <div class="row  mb-3 ">
                   <div class="col-1 text-gray-900 w-150px fs-6">Traceback:</div>
                   <div class="col fs-13px">
-                    <span
-                      v-if="typeof detailData.trace === 'string' && detailData.trace != ''">
+                    <span v-if="typeof detailData.trace === 'string' && detailData.trace != ''">
                       <!-- <pre class="fs-13px" style="white-space: pre-line;">{{ detailData.trace }}</pre> -->
-                      <CodeHighlighter lang="json" :data="detailData.trace"/>
+                      <CodeHighlighter lang="json" :data="detailData.trace" />
 
                     </span>
                     <span v-else class="badge badge-light-danger">--</span>
@@ -103,8 +106,7 @@
                 <div class="row fs-6 mb-3">
                   <div class="col-1 text-gray-900 w-150px">Ngày Tạo:</div>
                   <div class="col">
-                    <span
-                      v-if="typeof detailData.create_datetime === 'string' && detailData.create_datetime != ''">
+                    <span v-if="typeof detailData.create_datetime === 'string' && detailData.create_datetime != ''">
                       <i class="fa-solid fa-calendar-days fs-7"></i>
                       {{ detailData.create_datetime }}
                     </span>
@@ -202,6 +204,44 @@ export default defineComponent({
       });
     }
 
+    // xóa 
+    const selectedIds = ref<Array<number>>([]);
+    const selectedName = ref<Array<any>>([]);
+    const handleSelectionChange = (val: any) => {
+      if (val) {
+        selectedName.value = val.map((item: any) => item.name || item.title);
+        selectedIds.value = val.map((item: { id: number }) => item.id);
+      }
+      return;
+    }
+
+    const getRowKey = (row: any) => {
+      return row.id
+    }
+
+    const deleteSubscription = (ids: Array<number>) => {
+            let formData = {
+                'id': ids
+            }
+            if (ids) {
+                disabled.value = true
+                setTimeout(() => {
+                    disabled.value = false
+                }, 1000);
+                return ApiService.post(`/other/logs/multi-delete`, formData)
+                    .then(({ data }) => {
+                        notification(data.detail, 'success', 'Xóa thành công')
+                        currentPage.value = 1;
+                        selectedIds.value = [];
+                        multipleTableRef.value!.clearSelection()
+                        getData();
+                    })
+                    .catch(({ response }) => {
+                        notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+                    });
+            }
+        };
+
     const handleFilter = (data: any) => {
       query.value = data;
       currentPage.value = 1;
@@ -286,6 +326,10 @@ export default defineComponent({
       DialogVisibleDetail,
       handleCurrentChange,
       trace,
+      getRowKey,
+      handleSelectionChange,
+      selectedIds,
+      deleteSubscription,
     };
   },
 });

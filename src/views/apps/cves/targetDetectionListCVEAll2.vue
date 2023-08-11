@@ -246,7 +246,7 @@ export default defineComponent({
                 const reponse_message = JSON.parse(await error.response.data.text()).detail ?? "Có lỗi xảy ra"
                 notification(reponse_message, 'error', 'Có lỗi xảy ra')
             })
-        };
+        }; 
         const getData = async () => {
             loading.value = true;
             return ApiService.get(`/cve/${getIdFromUrl()}/scan/detail?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
