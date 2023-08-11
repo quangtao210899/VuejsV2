@@ -219,7 +219,7 @@
                 </div>
               </div>
 
-              <div class="mb-5" v-if="detailData.cvss_score != null && detailData.cvss_score != ''">
+              <div class="mb-5" v-if="detailData.cvss_score != null">
                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">CVSS Score</h4>
                 <div>
                   <li class="d-flex align-items-center py-2">
