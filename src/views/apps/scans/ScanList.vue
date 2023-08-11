@@ -1112,9 +1112,6 @@ export default defineComponent({
 
     const onPreviewFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
       isCheckDowload.value = true
-      console.log(uploadFile)
-      console.log(uploadFiles)
-      console.log(123)
     }
 
     const formatBytes = (input: any) => {
