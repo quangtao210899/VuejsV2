@@ -1703,7 +1703,6 @@
                     <div class="tab-pane fade" id="kt_subdomains_tab" role="tabpanel">
                         <div class="card rounded-0 rounded-bottom ">
                             <SubdomainList 
-                                v-if="dataLoaded"
                                 :id="reconId"
                                 :status="reconStatus"
                                 :sudomains="subdomain_full_result"
@@ -1926,7 +1925,6 @@ export default defineComponent({
     },
     setup() {
         const route = useRoute();
-        const dataLoaded = ref<boolean>(false);
         const ID = ref<any>(route.params.id ?? '');
         const list = ref<object | any>([])
         const totalPage = ref<number>(0);
@@ -2016,7 +2014,6 @@ export default defineComponent({
                     }else{
                         checkRecon.value = false
                         reconId.value = data.recon.recon.id
-                        dataLoaded.value = true;                     
 
                         // recon
                         account.value = data.recon.recon.recon[0].account
@@ -2928,7 +2925,6 @@ export default defineComponent({
             currentPageEndpoints,
             DownloadIcon,
             downloadCSV,
-            dataLoaded,
             forwardSubdomainTab,
             switchTab,
             titleDirectory,
