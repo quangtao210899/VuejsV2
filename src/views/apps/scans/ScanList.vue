@@ -406,7 +406,7 @@
   <el-dialog v-model="notesVisible" title="Ghi Chú" width="75%" top="7vh" id="modal-detail"
     :before-close="closeNotesVisible">
     <div>
-      <QuillEditor class="h-550px" theme="snow" toolbar="#my-toolbar" v-model:content="contentNote" contentType="html"
+      <QuillEditor ref="targetNode" class="h-550px" theme="snow" toolbar="#my-toolbar" v-model:content="contentNote" contentType="html"
         placeholder="Thêm Ghi Chú...">
         <template #toolbar>
           <div id="my-toolbar">
@@ -560,7 +560,7 @@
               ? fileDocument[0].name.substring(0, 23) + " .... "
               + fileDocument[0].name.substring(fileDocument[0].name.length - 7)
               + "( " + formatBytes(fileDocument[0].size) + " )"
-              : fileDocument[0].name }}
+              : fileDocument[0].name + "( " + formatBytes(fileDocument[0].size) + " )" }}
           </span>
           <div class="position-relative w-5px">
             <span
@@ -776,7 +776,7 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
-      // console.log(detail)
+      console.log(detail)
       checkitemsPerPage.value = true;
       if (detail) {
         closeOnRow.value = true;
@@ -1131,7 +1131,6 @@ export default defineComponent({
     // Tính toán chiều rộng nội dung
     const contentWidth = ref(0);
     onMounted(() => {
-      // console.log(contentWidth.value, 'contentWidth')
       contentWidth.value = container.value.scrollWidth;
     });
 

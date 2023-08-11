@@ -793,6 +793,7 @@ export default defineComponent({
         };
 
         const customRowTable = (detail: any) => {
+            console.log(detail)
 
             classDetail.value = true;
             closeOnRow.value = true;
