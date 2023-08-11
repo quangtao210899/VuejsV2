@@ -34,10 +34,7 @@
                             </template>
                         </li>
                         <li class="breadcrumb-item text-muted" v-else>
-                            <!-- {{ (typeText) ? typeText : item  }} -->
-                            {{ (item == 'addForm') ? typeText : ((item == 'detail') ? 'Chi Tiết' : item) }}
-                            {{ checkSitebarTitle }}
-                            <span v-></span>
+                            {{ cveCode ? "Mục Tiêu Ảnh Hưởng Bởi " + cveCode: ((item == 'addForm') ? typeText : ((item == 'detail') ? 'Chi Tiết' : item)) }}
                         </li>
                     </template>
                 </ul>
@@ -110,7 +107,7 @@ export default defineComponent({
     name: "layout-page-title",
     components: { Search },
     props: {
-        checkSitebarTitle: { type: String, required: false, default: '' },
+        cveCode: { type: String, required: false, default: '' },
         disabled: { type: Boolean, required: false, default: false },
         checkSearch: { type: Boolean, required: false, default: true },
         typeText: { type: String, required: false, default: '' },

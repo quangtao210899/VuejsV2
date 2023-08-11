@@ -332,7 +332,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/cve/:id/scan/detail/:title",
+        path: "/cve/:id/scan/detail",
         name: "targetDetectionListCVEAll",
         component: () => import("@/views/apps/cves/targetDetectionListCVEAll2.vue"),
         meta: {
