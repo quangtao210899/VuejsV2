@@ -705,6 +705,7 @@ export default defineComponent({
                     showLocaleTime();
                 })
                 .catch(( response ) => {
+                    console.log(response.code)
                     if(response?.code == "ERR_NETWORK"){ //status timeout
                         // cộng thêm 30s với mỗi lần timeout
                         eventTime.value = (parseInt(eventTime.value) + 30000).toString()
