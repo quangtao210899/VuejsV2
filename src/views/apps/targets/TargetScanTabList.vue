@@ -519,7 +519,7 @@
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, watch, nextTick, onUnmounted, computed, onBeforeMount } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, onUnmounted, computed, onBeforeMount } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import Swal from "sweetalert2/dist/sweetalert2.js";
@@ -704,8 +704,17 @@ export default defineComponent({
                     humanDiffTime();
                     showLocaleTime();
                 })
-                .catch(({ response }) => {
-                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+                .catch(( response ) => {
+                    if(response?.code == "ERR_NETWORK"){ //status timeout
+                        // cộng thêm 30s với mỗi lần timeout
+                        eventTime.value = (parseInt(eventTime.value) + 30000).toString()
+                        if (!scanStatus.value){
+                            // get lại dữ liệu khi lỗi
+                            getData() 
+                        }
+                        return 
+                    }
+                    notification(response.data?.detail, 'error', 'Có lỗi xảy ra')
                 })
                 .finally(() => {
                     loading.value = false
