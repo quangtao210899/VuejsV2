@@ -706,7 +706,7 @@ export default defineComponent({
                 })
                 .catch(( response ) => {
                     console.log(response.code)
-                    if(response?.code == "ERR_NETWORK"){ //status timeout
+                    if(response?.code == "ERR_NETWORK" || response?.code == "ERR_BAD_RESPONSE"){ //status timeout
                         // cộng thêm 30s với mỗi lần timeout
                         eventTime.value = (parseInt(eventTime.value) + 30000).toString()
                         if (!scanStatus.value){
