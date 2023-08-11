@@ -1,13 +1,13 @@
-<template> 
+<template>
     <KTToolbar :check-search="true" @handle-search="handleFilter" @on-header-height="onheaderHeight"></KTToolbar>
-    <div class="app-container container-fluid h-100 " :style="{marginTop: headerHeight + 'px'}">
+    <div class="app-container container-fluid h-100 " :style="{ marginTop: headerHeight + 'px' }">
         <div class="card mb-3">
             <div class="card-body pb-0 px-5 pt-5">
                 <div class="d-flex flex-wrap flex-sm-nowrap">
                     <div class="m-0">
                         <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                            <apexchart v-if="process && chart" ref="chartRef" class="mixed-widget-4-chart" :options="chart" :series="[progress]"
-                                :height="chartHeight" type="radialBar">
+                            <apexchart v-if="process && chart" ref="chartRef" class="mixed-widget-4-chart" :options="chart"
+                                :series="[progress]" :height="chartHeight" type="radialBar">
                             </apexchart>
                         </div>
                         <p class="text-center fs-13px">
@@ -16,36 +16,30 @@
                         </p>
                     </div>
                     <div class="flex-grow-1">
-                        <div
-                            class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
                             <div class="d-flex flex-column">
                                 <div class="d-flex align-items-center mb-2">
-                                    <a
-                                        href="#"
-                                        class="text-gray-800 text-hover-primary fs-2 fw-bold me-1"
-                                    ><span :class="(!targetData.name) ? 'badge badge-light text-danger' : ''">{{ targetData.name ? targetData.name : '--' }}</span></a>
+                                    <a href="#" class="text-gray-800 text-hover-primary fs-2 fw-bold me-1"><span
+                                            :class="(!targetData.name) ? 'badge badge-light text-danger' : ''">{{
+                                                targetData.name ? targetData.name : '--' }}</span></a>
                                 </div>
                                 <div class="d-flex flex-wrap fw-semobold fs-6 mb-4 pe-2">
-                                    <a
-                                        href="#"
-                                        class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
-                                    >
+                                    <a href="#"
+                                        class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
                                         <KTIcon icon-name="profile-circle" icon-class="fs-4 me-1" />
-                                        <span :class="(!targetData.domain) ? 'badge badge-light text-danger' : ''">{{ targetData.domain ? targetData.domain : '--' }}</span>
+                                        <span :class="(!targetData.domain) ? 'badge badge-light text-danger' : ''">{{
+                                            targetData.domain ? targetData.domain : '--' }}</span>
                                     </a>
-                                    <a
-                                        href="#"
-                                        class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
-                                    >
+                                    <a href="#"
+                                        class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
                                         <KTIcon icon-name="geolocation" icon-class="fs-4 me-1" />
-                                        <span :class="(!targetData.ip) ? 'badge badge-light text-danger' : ''">{{ targetData.ip ? targetData.ip : '--' }}</span>
+                                        <span :class="(!targetData.ip) ? 'badge badge-light text-danger' : ''">{{
+                                            targetData.ip ? targetData.ip : '--' }}</span>
                                     </a>
-                                    <a
-                                        href="#"
-                                        class="d-flex align-items-center text-gray-400 text-hover-primary mb-2"
-                                    >
+                                    <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
                                         <KTIcon icon-name="sms" icon-class="fs-4 me-1" />
-                                        <span :class="(!targetData.group) ? 'badge badge-light text-danger' : ''">{{ targetData.group ? targetData.group : '--' }}</span>
+                                        <span :class="(!targetData.group) ? 'badge badge-light text-danger' : ''">{{
+                                            targetData.group ? targetData.group : '--' }}</span>
                                     </a>
                                 </div>
                             </div>
@@ -53,23 +47,24 @@
                                 <div class="d-flex justify-content-sm-start justify-content-md-end">
                                     <div class="card-toolbar">
                                         <div class="d-flex justify-content-end">
-                                            <button type="button" :disabled="[1,2,3,4,6].includes(scanStatus)"
-                                                class="btn btn-sm btn-light-danger custom-button" @click="confirmVisible = true">
+                                            <button type="button" :disabled="[1, 2, 3, 4, 6].includes(scanStatus)"
+                                                class="btn btn-sm btn-light-danger custom-button"
+                                                @click="confirmVisible = true">
                                                 <KTIcon icon-name="cross-square" icon-class="fs-2 " />Hủy Bỏ
                                             </button>
                                             <button v-if="scanStatus == 5 || scanStatus == 6" type="button"
-                                                    :disabled="[6].includes(scanStatus)" @click="confirmVisiblePauser = true"
-                                                        class="btn btn-sm btn-light-success ms-2 custom-button">
-                                                        <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
-                                                        <span>Tiếp Tục</span>
-                                                    </button>
-                                            <button v-else type="button"
-                                                :disabled="[1,3,4].includes(scanStatus)"  @click="confirmVisiblePauser = true"
+                                                :disabled="[6].includes(scanStatus)" @click="confirmVisiblePauser = true"
+                                                class="btn btn-sm btn-light-success ms-2 custom-button">
+                                                <KTIcon icon-name="bi bi-play-fill" icon-class="fs-2 " />
+                                                <span>Tiếp Tục</span>
+                                            </button>
+                                            <button v-else type="button" :disabled="[1, 3, 4].includes(scanStatus)"
+                                                @click="confirmVisiblePauser = true"
                                                 class="btn btn-sm btn-light-warning ms-2 custom-button">
                                                 <KTIcon icon-name="bi bi-pause-fill" icon-class="fs-2 " />
                                                 <span>Tạm Dừng</span>
                                             </button>
-                                            <button type="button" :disabled="[1,2].includes(scanStatus)"
+                                            <button type="button" :disabled="[1, 2].includes(scanStatus)"
                                                 @click="fileDownVisible = true"
                                                 class="btn btn-sm btn-light-primary ms-2 custom-button">
                                                 <KTIcon icon-name="file-down" icon-class="fs-2" />
@@ -135,12 +130,14 @@
         <div class="h-100 d-block card card-custom ">
             <div class="d-flex px-5">
                 <!--begin::Card body-->
-                <div class="overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container"
-                    @mousedown="handleMouseDown" :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
+                <div class="overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
+                    :style="classDetail ? { width: leftWidth + 'px' } : { width: '100%' }">
                     <div class="w-100  py-2">
                         <el-table :data="getScansData" style="width: 100%;z-index: 1;"
                             class-name=" my-custom-table rounded-top cursor-pointer mt-2" table-layout="fixed"
-                            v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)" highlight-current-row @row-click="customRowTable">
+                            v-loading="loading" element-loading-text="Đang Tải..."
+                            element-loading-background="rgb(255 255 255 / 25%)" highlight-current-row
+                            @row-click="customRowTable">
                             <template #empty>
                                 <div class="flex items-center justify-center h-100%">
                                     <el-empty description="Không có dữ liệu scans nào" />
@@ -194,8 +191,8 @@
                                 </template>
                             </el-table-column>
 
-                            <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold"
-                                prop="status" label="TRẠNG THÁI">
+                            <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="status"
+                                label="TRẠNG THÁI">
                                 <template #default="scope">
                                     <span v-if="scope.row.status != ''" class="badge fs-13px"
                                         :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
@@ -219,8 +216,7 @@
                     </div>
                 </div>
                 <!--end::Card body-->
-                <div v-if="classDetail" @mousedown="startDragging"
-                    class="drag-handle position-relative border-start">
+                <div v-if="classDetail" @mousedown="startDragging" class="drag-handle position-relative border-start">
                     <div class="position-absolute top-0 start-50 translate-middle-x mt-1">
                     </div>
                 </div>
@@ -230,13 +226,12 @@
                     <div class="ms-3 pb-10 affix-containe">
                         <div class="card-title py-3 position-relative">
                             <h2 class="fw-bold pe-15 mt-5 fs-13px text-uppercase">{{ detailVuln.vt_name }}</h2>
-                            <div  class="pt-1">
-                                <span 
+                            <div class="pt-1">
+                                <span
                                     :class="`px-4 me-2 py-3 badge fs-13px badge-light-${getSeverity(detailVuln.severity).color}`">
-                                    {{  getSeverity(detailVuln.severity).title }}
+                                    {{ getSeverity(detailVuln.severity).title }}
                                 </span>
-                                <span 
-                                    :class="`px-4 py-3 badge fs-13px badge-light-${getStatus(detailVuln.status).color}`">
+                                <span :class="`px-4 py-3 badge fs-13px badge-light-${getStatus(detailVuln.status).color}`">
                                     {{ getStatus(detailVuln.status).title }}
                                 </span>
                             </div>
@@ -244,10 +239,10 @@
                                 <button @click="handleCloseDetail" type="button" class="btn btn-icon btn-bg-body ">
                                     <i class="fa-solid fa-xmark fs-1"></i>
                                 </button>
-                                
+
                             </div>
                         </div>
-                        
+
                         <div class="lh-lg">
                             <div class="mb-5"
                                 v-if="(detailVuln.affects_url != null && detailVuln.affects_url != '') || (detailVuln.affects_detail != null && detailVuln.affects_detail != '')">
@@ -279,7 +274,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-5" v-if="detailVuln.cvss_score != null && detailVuln.cvss_score != ''">
+                            <div class="mb-5" v-if="detailVuln.cvss_score != null">
                                 <h4 class="text-gray-800 fs-13px fw-bold cursor-pointer mb-0">CVSS Score</h4>
                                 <div>
                                     <li class="d-flex align-items-center py-2">
@@ -400,7 +395,7 @@
 
                                     <div id="kt_detail_collapsible_scan_1" class="fs-13px px-2 collapse" style="">
                                         <div>
-                                            <CodeHighlighter lang="json" :data="detailVuln.request"/>
+                                            <CodeHighlighter lang="json" :data="detailVuln.request" />
                                         </div>
                                     </div>
                                 </div>
@@ -427,7 +422,7 @@
 
                                     <div id="kt_detail_collapsible_scan_2" class="collapse fs-13px px-2">
                                         <div>
-                                            <CodeHighlighter lang="json" :data="detailVuln.http_response"/>
+                                            <CodeHighlighter lang="html" :data="detailVuln.http_response" />
 
                                         </div>
                                     </div>
@@ -471,48 +466,52 @@
 
     <!-- // modoal  -->
     <el-dialog v-model="confirmVisible" width="auto" id="modal-detail" modal-class="my-message-delete" :align-center="true"
-     center :append-to-body="true" :show-close="false">
+        center :append-to-body="true" :show-close="false">
         <div class="text-center fs-13px">
             <span>Bạn có chắc chắn muốn <strong>hủy bỏ</strong> lần scan này không?</span>
         </div>
         <template #footer center>
-        <span class="d-flex justify-content-center">
-            <el-button class="border-0" plain type="primary" :disabled="loading" @click="handleCanceled()" :loading=loading>
-            Đồng ý
-            </el-button>
-            <el-button class="border-0" plain type="info"  @click="confirmVisible = false">Hủy bỏ</el-button>
-        </span>
+            <span class="d-flex justify-content-center">
+                <el-button class="border-0" plain type="primary" :disabled="loading" @click="handleCanceled()"
+                    :loading=loading>
+                    Đồng ý
+                </el-button>
+                <el-button class="border-0" plain type="info" @click="confirmVisible = false">Hủy bỏ</el-button>
+            </span>
         </template>
     </el-dialog>
 
     <el-dialog v-model="fileDownVisible" width="auto" id="modal-detail" modal-class="my-message-delete" :align-center="true"
-     center :append-to-body="true" :show-close="false">
+        center :append-to-body="true" :show-close="false">
         <div class="text-center fs-13px">
-            <span>Bạn có muốn <strong>xuất kết quả </strong> scan này không?</span> 
+            <span>Bạn có muốn <strong>xuất kết quả </strong> scan này không?</span>
         </div>
         <template #footer center>
-        <span class="d-flex justify-content-center">
-            <el-button class="border-0" plain type="primary" :disabled="loading" @click="downloadAcunetix()" :loading=loading>
-            Đồng ý
-            </el-button>
-            <el-button class="border-0" plain type="info"  @click="fileDownVisible = false">Hủy bỏ</el-button>
-        </span>
+            <span class="d-flex justify-content-center">
+                <el-button class="border-0" plain type="primary" :disabled="loading" @click="downloadAcunetix()"
+                    :loading=loading>
+                    Đồng ý
+                </el-button>
+                <el-button class="border-0" plain type="info" @click="fileDownVisible = false">Hủy bỏ</el-button>
+            </span>
         </template>
     </el-dialog>
 
-    <el-dialog v-model="confirmVisiblePauser" width="auto" id="modal-detail" modal-class="my-message-delete" :align-center="true"
-     center :append-to-body="true" :show-close="false">
+    <el-dialog v-model="confirmVisiblePauser" width="auto" id="modal-detail" modal-class="my-message-delete"
+        :align-center="true" center :append-to-body="true" :show-close="false">
         <div class="text-center fs-13px">
-            <span v-if="scanStatus == 5 || scanStatus == 6">Bạn có muốn <strong>tiếp tục</strong> chạy scan này không?</span>
+            <span v-if="scanStatus == 5 || scanStatus == 6">Bạn có muốn <strong>tiếp tục</strong> chạy scan này
+                không?</span>
             <span v-else>Bạn có muốn <strong>tạm dừng</strong> scan này không?</span>
         </div>
         <template #footer center>
-        <span class="d-flex justify-content-center">
-            <el-button class="border-0" plain type="primary" :disabled="loading" @click="handlePauser()" :loading=loading>
-            Đồng ý
-            </el-button>
-            <el-button class="border-0" plain type="info"  @click="confirmVisiblePauser = false">Hủy bỏ</el-button>
-        </span>
+            <span class="d-flex justify-content-center">
+                <el-button class="border-0" plain type="primary" :disabled="loading" @click="handlePauser()"
+                    :loading=loading>
+                    Đồng ý
+                </el-button>
+                <el-button class="border-0" plain type="info" @click="confirmVisiblePauser = false">Hủy bỏ</el-button>
+            </span>
         </template>
     </el-dialog>
 </template>
@@ -666,7 +665,7 @@ export default defineComponent({
 
                     list.value = data.vulnerabilities;
                     list.value.forEach(element => {
-                        if(element.nmap_scan_id){
+                        if (element.nmap_scan_id) {
                             element.affects_url = data.target.domain + ':' + element.port_scan.port
                         }
                     });
@@ -693,7 +692,7 @@ export default defineComponent({
 
                     // check
                     progress.value = parseFloat(data.progress.toFixed(1))
-                    
+
                     timeStart.value = data.scan_started_at
                     timeEnd.value = data.scan_finished_at
                     checkStatus.value = (data.scan_status == 3 || data.scan_status == 0 || data.scan_status == 4 || data.scan_status == 1) ? true : false
@@ -704,16 +703,16 @@ export default defineComponent({
                     humanDiffTime();
                     showLocaleTime();
                 })
-                .catch(( response ) => {
+                .catch((response) => {
                     console.log(response.code)
-                    if(response?.code == "ERR_NETWORK" || response?.code == "ERR_BAD_RESPONSE"){ //status timeout
+                    if (response?.code == "ERR_NETWORK" || response?.code == "ERR_BAD_RESPONSE") { //status timeout
                         // cộng thêm 30s với mỗi lần timeout
                         eventTime.value = (parseInt(eventTime.value) + 30000).toString()
-                        if (!scanStatus.value){
+                        if (!scanStatus.value) {
                             // get lại dữ liệu khi lỗi
-                            getData() 
+                            getData()
                         }
-                        return 
+                        return
                     }
                     notification(response.data?.detail, 'error', 'Có lỗi xảy ra')
                 })
@@ -783,45 +782,22 @@ export default defineComponent({
             service: '',
         });
         const checkDetailVuln = ref<boolean>(false)
-        const getDetailVuln = async (vuln_id: number) => {
-            return ApiService.get(`/scan/vulnerabilities/${scanID.value}?vul_id=${vuln_id}`)
-                .then(({ data }) => {
-                    for (const key in detailVuln) {
-                        // Kiểm tra xem dữ liệu truyền vào có tồn tại và tương ứng với thuộc tính trong detailData hay không
-                        if (data.hasOwnProperty(key) || data.port_scan) {
-                            // Nếu có, gán giá trị vào obj detailData
-                            detailVuln[key] = data[key] ?? data.port_scan[key];
-                        } else {
-                            // Nếu không, gán giá trị rỗng vào obj detailData
-                            detailVuln[key] = '';
-                        }
-                    }
-                })
-                .catch(({ response }) => {
-                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                });
-        };
-
         const customRowTable = (detail: any) => {
+            console.log(detail)
 
             classDetail.value = true;
             closeOnRow.value = true;
             checkitemsPerPage.value = true;
-            if (detail.vuln_id) {
-                checkDetailVuln.value = true;
-                getDetailVuln(detail.vuln_id)
-            } else {
-                closeOnRow.value = true;
-                classDetail.value = true;
-                for (const key in detailVuln) {
-                    // Kiểm tra xem dữ liệu truyền vào có tồn tại và tương ứng với thuộc tính trong detailData hay không
-                    if (detail.hasOwnProperty(key) || detail.port_scan) {
-                        // Nếu có, gán giá trị vào obj detailData
-                        detailVuln[key] = detail[key] ?? detail.port_scan[key];
-                    } else {
-                        // Nếu không, gán giá trị rỗng vào obj detailData
-                        detailVuln[key] = '';
-                    }
+            checkDetailVuln.value = true;
+
+            for (const key in detailVuln) {
+                // Kiểm tra xem dữ liệu truyền vào có tồn tại và tương ứng với thuộc tính trong detailData hay không
+                if (detail.hasOwnProperty(key) || detail.port_scan) {
+                    // Nếu có, gán giá trị vào obj detailData
+                    detailVuln[key] = detail[key] ?? detail.port_scan[key];
+                } else {
+                    // Nếu không, gán giá trị rỗng vào obj detailData
+                    detailVuln[key] = '';
                 }
             }
         };
@@ -960,13 +936,13 @@ export default defineComponent({
             confirmVisible.value = false
             if (scanStatus.value == 3) {
                 notification('Danh dách đã được quét thành công không thể tạm dừng', 'error', 'Có lỗi xảy ra')
-            } else if (scanStatus.value == 5) {                
+            } else if (scanStatus.value == 5) {
                 getCanceled()
             } else {
                 notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
             }
             console.log('vao cancel');
-            
+
         };
 
         const getResume = async () => {
@@ -1013,7 +989,7 @@ export default defineComponent({
                     getData()
                 })
                 .catch(({ response }) => {
-                    notification(response.data.detail , 'error', 'Có lỗi xảy ra')
+                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                 });
         };
 
@@ -1137,7 +1113,7 @@ export default defineComponent({
         const headerHeight = ref<number>(0);
         const onheaderHeight = (height: number) => {
             headerHeight.value = height
-            
+
         }
 
         return {
@@ -1173,7 +1149,6 @@ export default defineComponent({
 
             // detials
             customRowTable,
-            getDetailVuln,
             checkDetailVuln,
 
             // page 
@@ -1238,51 +1213,51 @@ export default defineComponent({
 });
 
 const chartOptions = (
-  color: string = "primary",
-  height: string = "auto"
+    color: string = "primary",
+    height: string = "auto"
 ): ApexOptions => {
-  const baseColor = getCSSVariableValue(`--bs-primary`);
-  const lightColor = getCSSVariableValue(`--bs-${color}-light`);
+    const baseColor = getCSSVariableValue(`--bs-primary`);
+    const lightColor = getCSSVariableValue(`--bs-${color}-light`);
 
-  return {
-    chart: {
-      fontFamily: "inherit",
-      height: height,
-      type: "radialBar",
-    },
-    plotOptions: {
-      radialBar: {
-        hollow: {
-          margin: 0,
-          size: "65%",
+    return {
+        chart: {
+            fontFamily: "inherit",
+            height: height,
+            type: "radialBar",
         },
-        dataLabels: {
-          show: true,
-          name: {
-            show: false,
-          },
-          value: {
-            fontSize: "30px",
-            fontWeight: "700",
-            offsetY: 12,
-            show: true,
-            formatter: function (val) {
-              return val + "%";
+        plotOptions: {
+            radialBar: {
+                hollow: {
+                    margin: 0,
+                    size: "65%",
+                },
+                dataLabels: {
+                    show: true,
+                    name: {
+                        show: false,
+                    },
+                    value: {
+                        fontSize: "30px",
+                        fontWeight: "700",
+                        offsetY: 12,
+                        show: true,
+                        formatter: function (val) {
+                            return val + "%";
+                        },
+                    },
+                },
+                track: {
+                    background: lightColor,
+                    strokeWidth: "100%",
+                },
             },
-          },
         },
-        track: {
-          background: lightColor,
-          strokeWidth: "100%",
+        colors: [baseColor],
+        stroke: {
+            lineCap: "round",
         },
-      },
-    },
-    colors: [baseColor],
-    stroke: {
-      lineCap: "round",
-    },
-    labels: ["Progress"],
-  };
+        labels: ["Progress"],
+    };
 };
 </script>
   
