@@ -13,7 +13,7 @@
                 <KTPageTitle @form-back="formBack" @handle-search="handleSearch" :check-status="checkStatus"
                     @filert-status="handleFilter" @filert-authen="handleFilterAuthen"
                     @filert-severity="handleFilterSeverity" :typeText="typeText" :disabled="disabled"
-                    :check-search="checkSearch" />
+                    :check-search="checkSearch" :cve-code = "cveCode" />
                 <!--end::Details-->
 
                 <!--begin::Toolbar-->
@@ -288,6 +288,7 @@ export default defineComponent({
         checkSyncAll: { type: Boolean, required: false, default: false },
         typeText: { type: String, required: false, default: '' },
         headerHeight: { type: Number, required: false, default: 0 },
+        cveCode: {type: String, required: false, default: ''}
     },
     emits: [
         "handle-delete-selectd",

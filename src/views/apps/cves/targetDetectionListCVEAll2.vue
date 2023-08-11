@@ -1,7 +1,7 @@
 <template>
     <KTToolbar :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds" :check-export-file="true"
         @handle-export-file="onExportFile" @handle-delete-selectd="deleteSubscription" :disabled="disabled"
-        @on-header-height="onheaderHeight" :selected-name="selectedName" title="Kết Quả"></KTToolbar>
+        @on-header-height="onheaderHeight" :selected-name="selectedName" title="Kết Quả" :cve-code="cve_code"></KTToolbar>
     <div class="app-container container-fluid " :style="{ marginTop: headerHeight + 'px' }">
         <div class="p-5 bg-body rounded-3">
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
@@ -204,6 +204,7 @@ export default defineComponent({
         const itemsPerPage = ref<number>(20);
         const query = ref<String>('');
         const orderingID = ref<String>('');
+        const cve_code = ref('')
         const detailData = reactive({
             id: '',
             cve_id: "",
@@ -251,9 +252,9 @@ export default defineComponent({
             loading.value = true;
             return ApiService.get(`/cve/${getIdFromUrl()}/scan/detail?search=${query.value}&status=${filterStatus.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
                 .then(({ data }) => {
-                    console.log(data)
                     list.value = data.results
                     totalPage.value = data.count
+                    cve_code.value = data.cve_code
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -420,7 +421,8 @@ export default defineComponent({
             selectedName,
             DialogVisibleDetail,
             onExportFile,
-            multipleTableRef,
+            multipleTableRef, 
+            cve_code,
         };
     },
 });
