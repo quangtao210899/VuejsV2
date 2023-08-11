@@ -1,5 +1,5 @@
 <template>
-  <div ref="refGetTheHeight">
+  <div ref="refGetTheHeight"> 
     <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
       @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Tin Nhắn"></KTToolbar>
   </div>

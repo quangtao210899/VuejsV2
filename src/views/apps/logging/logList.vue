@@ -1,6 +1,6 @@
 <template>
   <KTToolbar :check-search="true" @handle-search="handleFilter" :disabled="disabled" @on-header-height="onheaderHeight"
-    title="Tin Nhắn" @handle-delete-selectd="deleteSubscription" v-model:idsDelete="selectedIds"></KTToolbar>
+    title="log" @handle-delete-selectd="deleteSubscription" v-model:idsDelete="selectedIds"></KTToolbar>
 
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
     <div class="p-5 bg-body rounded-3">
