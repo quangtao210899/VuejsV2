@@ -782,22 +782,43 @@ export default defineComponent({
             service: '',
         });
         const checkDetailVuln = ref<boolean>(false)
+        const getDetailVuln = async (vuln_id: number) => {
+            return ApiService.get(`/scan/vulnerabilities/${scanID.value}?vul_id=${vuln_id}`)
+                .then(({ data }) => {
+                    for (const key in detailVuln) {
+                        // Kiểm tra xem dữ liệu truyền vào có tồn tại và tương ứng với thuộc tính trong detailData hay không
+                        if (data.hasOwnProperty(key) || data.port_scan) {
+                            // Nếu có, gán giá trị vào obj detailData
+                            detailVuln[key] = data[key] ?? data.port_scan[key];
+                        } else {
+                            // Nếu không, gán giá trị rỗng vào obj detailData
+                            detailVuln[key] = '';
+                        }
+                    }
+                })
+                .catch(({ response }) => {
+                    notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+                });
+        };
         const customRowTable = (detail: any) => {
-            console.log(detail)
-
             classDetail.value = true;
             closeOnRow.value = true;
             checkitemsPerPage.value = true;
-            checkDetailVuln.value = true;
-
-            for (const key in detailVuln) {
-                // Kiểm tra xem dữ liệu truyền vào có tồn tại và tương ứng với thuộc tính trong detailData hay không
-                if (detail.hasOwnProperty(key) || detail.port_scan) {
-                    // Nếu có, gán giá trị vào obj detailData
-                    detailVuln[key] = detail[key] ?? detail.port_scan[key];
-                } else {
-                    // Nếu không, gán giá trị rỗng vào obj detailData
-                    detailVuln[key] = '';
+            if (detail.vuln_id && !(detail.request || detail.http_response)) {
+                checkDetailVuln.value = true;
+                getDetailVuln(detail.vuln_id)
+            } else {
+                closeOnRow.value = true;
+                classDetail.value = true;
+                for (const key in detailVuln) {
+                    // Kiểm tra xem dữ liệu truyền vào có tồn tại và tương ứng với thuộc tính trong detailData hay không
+                    if (detail.hasOwnProperty(key) || detail.port_scan) {
+                        // Nếu có, gán giá trị vào obj detailData
+                        detailVuln[key] = detail[key] ?? detail.port_scan[key];
+                    } else {
+                        // Nếu không, gán giá trị rỗng vào obj detailData
+                        detailVuln[key] = '';
+                    }
                 }
             }
         };
