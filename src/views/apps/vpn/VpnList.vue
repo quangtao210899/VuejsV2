@@ -398,7 +398,7 @@ export default defineComponent({
 });
 </script>
 
-<style  scoped>
+<style >
 /* Zoom In #1 */
 .hoverIcon,
 .hoverIcon2 {

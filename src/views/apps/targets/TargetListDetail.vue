@@ -3,7 +3,7 @@
     v-model:idsDelete="selectedIds" :disabled="disabled" :selected-name="selectedName" title="Lỗ Hổng"></KTToolbar>
     <!--begin::Card--> 
         <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
-            <div class="card h-100 d-block bg-transparent">
+            <div class="card h-100 d-block bg-transparent"> 
                 <div class="card mb-3 ">
                     <div class="card-body pb-0 px-5 pt-5">
                         <div class="d-flex flex-wrap flex-sm-nowrap">
@@ -1827,45 +1827,174 @@
     <!--end::Card-->
     <el-dialog v-model="notesVisible" title="Ghi Chú" width="75%" top="7vh" id="modal-detail"
     :before-close="closeNotesVisible">
-    <div>
-      <QuillEditor class="h-550px" theme="snow" toolbar="full" v-model:content="contentNote" contentType="html"
-        placeholder="Thêm Ghi Chú...">
-        <template #toolbar>
-          <el-upload ref="upload" class="d-flex my-upload-dialog" list-type="text" action="#" :limit="1"
-            :on-exceed="handleExceed" :auto-upload="false" v-model:file-list="fileDocument">
-            <template #trigger>
-              <button type="button" class="btn btn-sm btn-light-primary h-35px me-2 mb-2" :disabled="disabled">
-                <i class="fa-solid fa-upload"></i>
-                Đính Kèm File
-              </button>
+        <div>
+        <QuillEditor class="h-550px" theme="snow" toolbar="#my-toolbar" v-model:content="contentNote" contentType="html"
+            placeholder="Thêm Ghi Chú...">
+            <template #toolbar>
+            <div id="my-toolbar">
+                <!-- Add buttons as you would before -->
+                <button type="button" class="ql-bold"></button>
+                <button type="button" class="ql-italic"></button>
+                <button type="button" class="ql-underline"></button>
+                <button type="button" class="ql-strike"></button>
+                <button type="button" class="ql-blockquote"></button>
+                <button type="button" class="ql-code-block"></button>
+                <button type="button" class="ql-header" value="1"></button>
+                <button type="button" class="ql-header" value="2"></button>
+                <button type="button" class="ql-list" value="ordered"></button>
+                <button type="button" class="ql-list" value="bullet"></button>
+                <button type="button" class="ql-script" value="sub"></button>
+                <button type="button" class="ql-script" value="super"></button>
+                <button type="button" class="ql-indent" value="-1"></button>
+                <button type="button" class="ql-indent" value="+1"></button>
+                <button type="button" class="ql-direction" value="rtl"></button>
+                <select class="ql-size ql-picker" style="width: 120px;" name="size">
+                <option value="small">Small</option>
+                <option value="" selected>Normal</option>
+                <option value="large">Large</option>
+                <option value="huge">Huge</option>
+                </select>
+                <select class="ql-header ql-picker" style="width: 120px;" name="header">
+                <option value="1">Heading 1</option>
+                <option value="2">Heading 2</option>
+                <option value="3">Heading 3</option>
+                <option value="4">Heading 4</option>
+                <option value="5">Heading 5</option>
+                <option value="6">Heading 6</option>
+                <option value="" selected>Normal</option>
+                </select>
+                <select class="ql-color ql-picker ql-color-picker ql-expanded" name="color">
+                <option value="#000000"></option>
+                <option value="#e60000"></option>
+                <option value="#ff9900"></option>
+                <option value="#ffff00"></option>
+                <option value="#008a00"></option>
+                <option value="#0066cc"></option>
+                <option value="#9933ff"></option>
+                <option value=""></option>
+                <option value="#facccc"></option>
+                <option value="#ffebcc6"></option>
+                <option value="#cce8cc"></option>
+                <option value="#cce0f5"></option>
+                <option value="#ebd6ff"></option>
+                <option value="#bbbbbb"></option>
+                <option value="#f06666"></option>
+                <option value="#ffc266"></option>
+                <option value="#ffff66"></option>
+                <option value="#66b966"></option>
+                <option value="#66a3e0"></option>
+                <option value="#c285ff"></option>
+                <option value="#888888"></option>
+                <option value="#a10000"></option>
+                <option value="#b26b00"></option>
+                <option value="#b2b200"></option>
+                <option value="#006100"></option>
+                <option value="#0047b2"></option>
+                <option value="#6b24b2"></option>
+                <option value="#444444"></option>
+                <option value="#5c0000"></option>
+                <option value="#663d00"></option>
+                <option value="#666600"></option>
+                <option value="#003700"></option>
+                <option value="#002966"></option>
+                <option value="#3d1466"></option>
+                </select>
+                <select class="ql-background ql-picker ql-color-picker" name="background">
+                <option value="#000000"></option>
+                <option value="#e60000"></option>
+                <option value="#ff9900"></option>
+                <option value="#ffff00"></option>
+                <option value="#008a00"></option>
+                <option value="#0066cc"></option>
+                <option value="#9933ff"></option>
+                <option value=""></option>
+                <option value="#facccc"></option>
+                <option value="#ffebcc6"></option>
+                <option value="#cce8cc"></option>
+                <option value="#cce0f5"></option>
+                <option value="#ebd6ff"></option>
+                <option value="#bbbbbb"></option>
+                <option value="#f06666"></option>
+                <option value="#ffc266"></option>
+                <option value="#ffff66"></option>
+                <option value="#66b966"></option>
+                <option value="#66a3e0"></option>
+                <option value="#c285ff"></option>
+                <option value="#888888"></option>
+                <option value="#a10000"></option>
+                <option value="#b26b00"></option>
+                <option value="#b2b200"></option>
+                <option value="#006100"></option>
+                <option value="#0047b2"></option>
+                <option value="#6b24b2"></option>
+                <option value="#444444"></option>
+                <option value="#5c0000"></option>
+                <option value="#663d00"></option>
+                <option value="#666600"></option>
+                <option value="#003700"></option>
+                <option value="#002966"></option>
+                <option value="#3d1466"></option>
+                </select>
+                <select class="ql-font ql-picker" style="width: 110px;" name="size">
+                <option value="" selected>Sans Serif</option>
+                <option value="serif">Serif</option>
+                <option value="monospace">Monospace</option>
+                </select>
+                <select class="ql-align ql-picker ql-icon-picker ql-expanded">
+                <option value="" selected></option>
+                <option value="center"></option>
+                <option value="right"></option>
+                <option value="justify"></option>
+                </select>
+                <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Gắn Video" placement="top-start">
+                <button class="ql-video"></button>
+                </el-tooltip>
+                <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Gắn Link" placement="top-start">
+                <button class="ql-link"></button>
+                </el-tooltip>
+                <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tải Ảnh" placement="top-start">
+                <button class="ql-image"></button>
+                </el-tooltip>
+                <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tải File Lên" placement="top-start">
+                <button class="ql-upload-file m-0 p-0 ">
+                    <el-upload ref="upload" class="ql-upload-file d-flex my-upload-dialog h-100 w-100 d-flex justify-content-center align-items-center" 
+                    list-type="text" :limit="1" :on-exceed="handleExceed" :show-file-list="false" :auto-upload="false" 
+                    v-model:file-list="fileDocument" :on-change="onPreviewFile">
+                    <template #trigger>
+                        <i class="fa-solid fa-upload p-2"></i>
+                    </template>
+                    </el-upload>
+                </button>
+                </el-tooltip>
+            </div>
+
+            <!-- <span v-if="errorUploadFile[0].file.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0]?.file[0] }}</span> -->
             </template>
-            <template #file="{ file }">
-              <div class="d-flex ">
-                  <div class="d-block">
-                    <span class="badge badge-light-success h-35px px-5 rounded-start"
-                    :class="(isHovering && isCheckDowload) ? 'cursor-pointer' : ''"
-                    @click="(isHovering && isCheckDowload) ? downloadFile(file) : ''" @mouseover="isHovering = true"
-                    @mouseleave="isHovering = false">
-                      <i v-if="isHovering && isCheckDowload"
-                        class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
-                      <i v-else class="fa-regular fa-file-lines text-success me-2 fs-13px w-20px"></i>
-                      {{ (file.name.length > 30) ? file.name.substring(0, 30) + '...' : file.name }}
-                    </span>
-                  </div>
-                  <div class="position-relative w-5px">
-                    <span class="position-absolute top-0 translate-middle badge badge-circle badge-danger h-15px w-15px cursor-pointer">
-                      <i class="fa-solid fa-xmark text-white p-0 m-0" @click="removeFile"></i>
-                    </span>
-                  </div>
-                </div>
-            </template>
-          </el-upload>
-          <!-- <span v-if="errorUploadFile[0].file.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0]?.file[0] }}</span> -->
-        </template>
-      </QuillEditor>
-      <!-- <span v-if="errorUploadFile[0].document.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0].document[0] }}</span> -->
-      <span v-if="errorUploadFileDetail != ''" class="text-danger fs-13px">{{ errorUploadFileDetail }}</span>
-    </div>
+        </QuillEditor>
+        <div class="mb-2 mt-4 h-30px" >
+            <div class="d-flex" v-if="fileDocument.length > 0">
+            <span class="badge badge-light-success h-30px px-10 rounded-start fs-13px"
+                :class="(isHovering && !isCheckDowload) ? 'cursor-pointer' : ''" @click="(isHovering && !isCheckDowload) ? downloadFile(fileDocument[0]) : ''"
+                @mouseover="isHovering = true" @mouseleave="isHovering = false">
+                <i v-if="isHovering && !isCheckDowload" class="fa-solid fa-download fs-13px text-success me-2 w-20px"></i>
+                <i v-else class="fa-regular fa-file-lines text-success me-2 fs-13px w-20px"></i>
+                {{ (fileDocument[0].name.length > 30)
+                ? fileDocument[0].name.substring(0, 23) + " .... "
+                + fileDocument[0].name.substring(fileDocument[0].name.length - 7)
+                + "( " + formatBytes(fileDocument[0].size) + " )"
+                : fileDocument[0].name }}
+            </span>
+            <div class="position-relative w-5px">
+                <span
+                class="position-absolute top-0 translate-middle badge badge-circle badge-danger h-15px w-15px cursor-pointer">
+                <i class="fa-solid fa-xmark text-white p-0 m-0" @click="removeFile"></i>
+                </span>
+            </div>
+            </div>
+        </div>
+        <!-- <span v-if="errorUploadFile[0].document.length != 0" class="text-danger fs-13px">{{ errorUploadFile[0].document[0] }}</span> -->
+        <span v-if="errorUploadFileDetail != ''" class="text-danger fs-13px">{{ errorUploadFileDetail }}</span>
+        </div>
     <template #footer center>
       <span class="d-flex justify-content-center">
         <el-button class="border-0" plain type="info"  @click="notesVisible = false">Quay lại</el-button>
@@ -2809,158 +2938,189 @@ export default defineComponent({
     };
     const isHovering = ref(false);
 
-        return {
-            activeTab,
-            headerHeight,
-            onheaderHeight,
-            getData,
-            list,
+    const formatBytes = (input: any) => {
+      if (typeof input === 'number') {
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (input === 0) return '0 Byte';
+        const i = Math.floor(Math.log(input) / Math.log(1024));
+        const roundedValue = (input / Math.pow(1024, i)).toFixed(2);
+        return `${roundedValue} ${sizes[i]}`;
+      } else if (typeof input === 'string') {
+        return input; // Trả về luôn nếu input là chuỗi
+      } else {
+        return 'Invalid input'; // Trả về thông báo nếu input không phải là số hoặc chuỗi
+      }
+    };
 
-            // page 
-            itemsPerPage,
-            totalPage,
-            currentPage,
-            loading,
-            disabled,
-            handleCurrentChange,
+    const onPreviewFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
+      isCheckDowload.value = true
+    }
+    return {
+        onPreviewFile,
+        formatBytes,
+        activeTab,
+        headerHeight,
+        onheaderHeight,
+        getData,
+        list,
 
-            //
-            targetData,
-            reconId,
-            ID,
-            getScansData,
-            search,
+        // page 
+        itemsPerPage,
+        totalPage,
+        currentPage,
+        loading,
+        disabled,
+        handleCurrentChange,
 
-            // check
-            getStatus,
-            getSeverity,
+        //
+        targetData,
+        reconId,
+        ID,
+        getScansData,
+        search,
 
-            // Dragging kéo lề
-            startDragging,
-            leftWidth,
-            rightWidth,
-            CustomWidth,
+        // check
+        getStatus,
+        getSeverity,
 
-            // mouse down di chuột xuống
-            handleMouseDown,
-            contentWidth,
-            containerscans,
+        // Dragging kéo lề
+        startDragging,
+        leftWidth,
+        rightWidth,
+        CustomWidth,
 
-            // detail
-            handleCloseDetail,
-            detailData,
-            classDetail,
+        // mouse down di chuột xuống
+        handleMouseDown,
+        contentWidth,
+        containerscans,
 
-            // recon data
-            checkReconMessage,
-            process,
-            activities, 
-            domain_info, 
-            ip_info, 
-            domain_info_status, 
-            ip_info_status, 
-            port_service, 
-            port_service_status, 
-            related_email, 
-            related_email_status, 
-            related_domain, 
-            related_domain_status, 
-            technology, 
-            subdomain_result,
-            subdomain_full_result,
-            technology_status, 
-            metadata, 
-            metadata_status, 
-            webdata_result, 
-            webdata_status, 
-            linkCheck, 
-            linkCheckIP,
-            subdomain,
-            drawerPort,
-            drawerTechnology,
-            activity,
-            services,
-            endpoint,
-            account,
-            reconStatus,
-            expandedPortservice,
-            checkRecon,
-            expandedRowsTeachnology,
-            detailTechnologyTitle,
-            detailTechnology,
-            detailPortTitle,
-            detailPort,
-            portCount,
-            searchDirectory,
-            searchEnpoint,
-            totalRecordsDirectory,
-            currentPageDirectory,
-            pageSizeDirectory,
-            SearchIcon,
-            checkLink,
-            convertToString,
-            checkString,
-            checkArray,
-            drawerPorts,
-            drawerTechnologys,
-            handleTechnologyMore,
-            handlePortserviceMore,
-            isRowExpandedTechnology,
-            isRowExpandedPortservice,
-            truncateText,
-            copyContent,
-            clipboard,
+        // detail
+        handleCloseDetail,
+        detailData,
+        classDetail,
 
-            // modoal
-            dialogDirectoryVisible,
-            dialogEndpointsVisible,
-            modelDirectory,
-            modelEndpoints,
-            directory_data,
-            enpoint_data,
-            handleCurrentChangeEndpoint,
-            handleCurrentChangeDirectory,
-            pageSizeEndpoints,
-            totalRecords,
-            currentPageEndpoints,
-            DownloadIcon,
-            downloadCSV,
-            forwardSubdomainTab,
-            switchTab,
-            titleDirectory,
-            titleEndpoints,
+        // recon data
+        checkReconMessage,
+        process,
+        activities, 
+        domain_info, 
+        ip_info, 
+        domain_info_status, 
+        ip_info_status, 
+        port_service, 
+        port_service_status, 
+        related_email, 
+        related_email_status, 
+        related_domain, 
+        related_domain_status, 
+        technology, 
+        subdomain_result,
+        subdomain_full_result,
+        technology_status, 
+        metadata, 
+        metadata_status, 
+        webdata_result, 
+        webdata_status, 
+        linkCheck, 
+        linkCheckIP,
+        subdomain,
+        drawerPort,
+        drawerTechnology,
+        activity,
+        services,
+        endpoint,
+        account,
+        reconStatus,
+        expandedPortservice,
+        checkRecon,
+        expandedRowsTeachnology,
+        detailTechnologyTitle,
+        detailTechnology,
+        detailPortTitle,
+        detailPort,
+        portCount,
+        searchDirectory,
+        searchEnpoint,
+        totalRecordsDirectory,
+        currentPageDirectory,
+        pageSizeDirectory,
+        SearchIcon,
+        checkLink,
+        convertToString,
+        checkString,
+        checkArray,
+        drawerPorts,
+        drawerTechnologys,
+        handleTechnologyMore,
+        handlePortserviceMore,
+        isRowExpandedTechnology,
+        isRowExpandedPortservice,
+        truncateText,
+        copyContent,
+        clipboard,
 
-            ChangeFlag,
-            updateData,
-            handleSelectionChange,
-            selectedName,
-            getRowKey,
-            selectedIds,
-            deleteSubscription,
-            multipleTableRef,
+        // modoal
+        dialogDirectoryVisible,
+        dialogEndpointsVisible,
+        modelDirectory,
+        modelEndpoints,
+        directory_data,
+        enpoint_data,
+        handleCurrentChangeEndpoint,
+        handleCurrentChangeDirectory,
+        pageSizeEndpoints,
+        totalRecords,
+        currentPageEndpoints,
+        DownloadIcon,
+        downloadCSV,
+        forwardSubdomainTab,
+        switchTab,
+        titleDirectory,
+        titleEndpoints,
 
-                // ckediter
-            contentNote,
-            putUplaodFile,
-            getUplaodFile,
-            fileDocument,
-            handleExceed,
-            upload,
-            closeNotesVisible,
-            errorUploadFile,
-            removeFile,
-            downloadFile,
-            errorUploadFileDetail,
-            isHovering,
-            isCheckDowload,
-            notesVisible,
-            totalRecordsTitle,
-            totalRecordsDirectoryTitle,
-        };
+        ChangeFlag,
+        updateData,
+        handleSelectionChange,
+        selectedName,
+        getRowKey,
+        selectedIds,
+        deleteSubscription,
+        multipleTableRef,
+
+            // ckediter
+        contentNote,
+        putUplaodFile,
+        getUplaodFile,
+        fileDocument,
+        handleExceed,
+        upload,
+        closeNotesVisible,
+        errorUploadFile,
+        removeFile,
+        downloadFile,
+        errorUploadFileDetail,
+        isHovering,
+        isCheckDowload,
+        notesVisible,
+        totalRecordsTitle,
+        totalRecordsDirectoryTitle,
+    };
     },
 });
 </script>
 <style >
+span.el-dialog__title {
+  color: #181C32 !important;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 27px;
+}
+
+#modal-detail .el-dialog__body {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
 .el-tabs--left .el-tabs__nav-wrap.is-left {
     border-right: #e4e7ed 1px solid;
 }

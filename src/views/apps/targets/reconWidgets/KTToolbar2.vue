@@ -174,7 +174,7 @@
                 }}</strong> không?</span>
             </template>
             <template v-else>
-                <span>Bạn có chắc chắn muốn xóa <strong>{{ selectedName.length }}</strong> <span
+                <span>Bạn có chắc chắn muốn xóa <strong>{{ idsDelete.length }}</strong> <span
                         class="text-lowercase">{{ title }}</span> này không?</span>
             </template>
         </div>
