@@ -812,7 +812,7 @@ export default defineComponent({
                 classDetail.value = true;
                 for (const key in detailVuln) {
                     // Kiểm tra xem dữ liệu truyền vào có tồn tại và tương ứng với thuộc tính trong detailData hay không
-                    if (detail.hasOwnProperty(key) || detail.port_scan) {
+                    if (detail.hasOwnProperty(key) || detail.port_scan.hasOwnProperty(key)) {
                         // Nếu có, gán giá trị vào obj detailData
                         detailVuln[key] = detail[key] ?? detail.port_scan[key];
                     } else {

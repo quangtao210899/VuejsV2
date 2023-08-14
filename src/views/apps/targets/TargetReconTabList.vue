@@ -94,7 +94,7 @@
                             <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8" class="mb-3 mx-0">
                                 <el-card shadow="hover" class="box-card rounded-3 h-100" :body-style="{ padding: '5px' }">
                                     <reconActivity :activitieLine="activities" :activity="activity" chartHeight="300"
-                                        :process="process"></reconActivity>
+                                        :process="process" :confirm-visible-activity="confirmVisibleActivity"></reconActivity>
                                 </el-card>
                             </el-col>
                             <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16" class="d-grid">
@@ -1621,6 +1621,7 @@ export default defineComponent({
         const SearchIcon = markRaw(Search)
         const DownloadIcon = markRaw(Download)
         const loading = ref<boolean>(false)
+        const confirmVisibleActivity = ref<boolean>(false)
         const apiData = ref<APIData>({
             title: '',
             description: '',
@@ -2444,6 +2445,7 @@ export default defineComponent({
             confirmVisible,
             confirmVisibleDowload,
             confirmVisiblePauser,
+            confirmVisibleActivity,
         };
     },
 });
