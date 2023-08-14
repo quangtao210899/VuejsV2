@@ -36,10 +36,10 @@
             :hollow="true" :timestamp="activity.time">
             <span v-if="activity.name != 'Hoàn Thành' && (activity.status == 3 || activity.status == 4)" 
             class="text-dark fs-13px text-hover-primary  cursor-pointer" @click="changeEverActivity(activity)">
-              {{ activity.name}} {{ activity.status }}
+              {{ activity.name}}
             </span>
             <span v-else class="text-dark fs-13px">
-              {{ activity.name}} {{ activity.status }}
+              {{ activity.name}}
             </span>
             <!-- {{ activity }} -->
           </el-timeline-item>
@@ -54,31 +54,9 @@
   <el-dialog v-model="confirmVisibleActivity" :title="`Thông Tin ${detailActivity.name}`" width="600" id="modal-detail"
     :align-center="true" :append-to-body="true" :show-close="false">
     <div class="card-body py-0" style="padding-top:0px !important;">
-      <!--begin::Section-->
       <div>
-
-        <!--begin::Details-->
-        <div>
-          <!--begin::Row-->
-          <div class="me-5">
-            <!--begin::Details-->
-            <div>
-
-              <div class="row fs-13px mb-3">
-                <div class="col-3 text-gray-900">Lệnh Chạy:</div>
-                <div class="col-9 text-gray-900">
-                  <CodeHighlighter lang="json" :data="detailActivity.commandShell"></CodeHighlighter>
-                </div>
-              </div>
-            </div>
-            <!--end::Details-->
-          </div>
-          <!--end::Row-->
-
-        </div>
-        <!--end::Row-->
+          <CodeHighlighter lang="bash" :data="detailActivity.commandShell" ></CodeHighlighter>
       </div>
-      <!--end::Section-->
     </div>
     <template #footer center>
       <span class="d-flex justify-content-center">
