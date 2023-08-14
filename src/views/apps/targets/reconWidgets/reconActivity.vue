@@ -34,10 +34,14 @@
           <el-timeline-item v-for="(activity, index) in activitieLine" :key="index" :icon="activity.icon"
             :type="(activity.color == 'muted') ? 'info' : activity.color" :color="activity.color" :size="activity.size"
             :hollow="true" :timestamp="activity.time">
-            <span v-if="activity.name == 'Hoàn Thành'" class="text-dark fs-13px">{{ activity.name}}</span>
-            <span v-else class="text-dark fs-13px cursor-pointer text-hover-primary" @click="changeEverActivity(activity)">
-              {{ activity.name}}
+            <span v-if="activity.name != 'Hoàn Thành' && (activity.status == 3 || activity.status == 4)" 
+            class="text-dark fs-13px text-hover-primary  cursor-pointer" @click="changeEverActivity(activity)">
+              {{ activity.name}} {{ activity.status }}
             </span>
+            <span v-else class="text-dark fs-13px">
+              {{ activity.name}} {{ activity.status }}
+            </span>
+            <!-- {{ activity }} -->
           </el-timeline-item>
         </el-timeline>
       </div>
@@ -59,30 +63,11 @@
           <div class="me-5">
             <!--begin::Details-->
             <div>
-              <div class="row fs-13px mb-3">
-                <div class="col-3 text-gray-900">Tên Recon:</div>
-                <div class="col-9 text-gray-900">
-                  <span v-if="detailActivity.name != ''">{{ detailActivity.name }}</span>
-                  <span v-else class="badge badge-light-danger">{{ '--' }}</span>
-                </div>
-              </div>
+
               <div class="row fs-13px mb-3">
                 <div class="col-3 text-gray-900">Lệnh Chạy:</div>
                 <div class="col-9 text-gray-900">
                   <CodeHighlighter lang="json" :data="detailActivity.commandShell"></CodeHighlighter>
-                </div>
-              </div>
-              <div class="row fs-13px mb-3">
-                <div class="col-3 text-gray-900">Trạng Thái:</div>
-                <div class="col-9 text-gray-900">
-                  <span :class="`badge badge-light-${getStatus(detailActivity.status).color} px-4 py-3 badge`">{{ getStatus(detailActivity.status).title }}</span>
-                </div>
-              </div>
-              <div class="row fs-13px">
-                <div class="col-3 text-gray-900">Thời Gian Chạy:</div>
-                <div class="col-9 text-gray-900">
-                  <span v-if="detailActivity.time != '' && detailActivity.time ">{{ detailActivity.time }}</span>
-                  <span v-else class="badge badge-light-danger">{{ '--' }}</span>
                 </div>
               </div>
             </div>
@@ -97,7 +82,7 @@
     </div>
     <template #footer center>
       <span class="d-flex justify-content-center">
-        <el-button class="border-0" plain type="info" @click="confirmVisibleActivity = false">Hủy bỏ</el-button>
+        <el-button class="border-0" plain type="primary" @click="confirmVisibleActivity = false">Đóng</el-button>
       </span>
     </template>
   </el-dialog>
