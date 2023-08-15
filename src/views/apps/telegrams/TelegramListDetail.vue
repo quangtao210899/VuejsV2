@@ -1,240 +1,208 @@
 <template>
+  <div ref="refGetTheHeight">
+    <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
+      @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Tin Nhắn"></KTToolbar>
+  </div>
   <!--begin::Card-->
-  <div class="app-container container-fluid p-5 mt-10">
-  
-  <div class="card h-100 d-block">
-    <!--begin::Card header-->
-    <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -70px;">
-      <!--begin::Card title-->
-      <!-- <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold fs-3 mb-1">Danh sách quản lý lỗ hổng</span>
-
-        <span class="text-muted fw-semobold fs-7">Tổng có {{ totalPage }} lỗ hổng</span>
-      </h3> -->
-      <!--begin::Card title-->
-
-      <!--begin::Card toolbar-->
-      <div class="card-toolbar">
-        <!--begin::Toolbar-->
-        <div v-show="selectedIds.length === 0">
-          <div class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
-            <!--begin::Export-->
-            <!-- <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="modal"
-              data-bs-target="#kt_subscriptions_export_modal">
-              <KTIcon icon-name="exit-up" icon-class="fs-2" />
-              Export
-            </button> -->
-            <!--end::Export-->
-            <!-- <div class="position-absolute end-0" style="top: -60px;">  -->
-            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tìm kiếm" placement="top">
-              <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                <KTIcon icon-name="filter" icon-class="fs-2" />
-                Filter
-              </button>
-
-            </el-tooltip>
-            <Fillter @filterData="handleFilter"></Fillter> 
-            <!--begin::Add subscription-->
-            <!--end::Add subscription-->
-            <!-- 
-            <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-              data-bs-target="#kt_modal_new_target_group" >
-              Nhóm Telegram
-            </button> -->
-
-          </div>
-        </div>
-        <!--end::Toolbar-->
-
-        <!--begin::Group actions-->
-        <div v-show="selectedIds.length !== 0">
-          <div class="d-flex justify-content-end align-items-center">
-            <div class="fw-bold me-5">
-              <span class="me-2">{{ selectedIds.length }}</span>Selected
-            </div>
-            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Xóa" placement="top">
-              <button type="button" @click="deleteSelectd()"
-                class="btn btn-danger  btn-sm" :disabled="disabled">
-                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
-                Xóa mục đã chọn
-              </button>
-            </el-tooltip>
-            <!-- <button type="button" class="btn btn-light-danger ms-2">
-              Hủy
-            </button> -->
-          </div>
-        </div>
-        <!--end::Group actions-->
-      </div>
-      <!--end::Card toolbar-->
-    </div>
-    <!--end::Card header-->
-
-    <div class="">
-      <!--begin::Card body-->
-      <div class="card-body overflow-y-auto overflow-x-auto h-100 p-0 m-0">
-        <KTDatatable @on-items-select="onItemSelect" :data="list" :header="headerConfig" :loading="loading"
-          :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage" :currentPage="currentPage"
-          @page-change="handlePage" @on-items-per-page-change="handlePerPage" @customRow="customRowTable">
-          <template v-slot:id="{ row: customer }">{{ customer.id ?? '--' }}</template>
-          <template v-slot:group_name="{ row: customer }">
-            <span class="text-dark text-hover-primary fs-6 fw-bold">{{ customer.group_name ?? '--' }}</span>
-          </template>
-
-          <template v-slot:username="{ row: customer }">
-            <div class="d-flex align-items-center">
-              <!--begin::Symbol-->
-              <div class="symbol symbol-45px me-5">
-                <span class="symbol-label">
-                  <KTIcon icon-name="user" icon-class="text-success  fs-2x" />
-                </span>
-              </div>
-              <!--end::Symbol-->
-              <!--begin::Text-->
-              <div class="d-flex flex-column">
-                <span class="text-dark text-hover-primary fs-6 fw-bold">{{ customer.username ?? '--' }}</span>
-                <span class="text-muted fw-semobold">{{ customer.phone ?? '--' }}</span>
-              </div>
-              <!--end::Text-->
+  <el-scrollbar :height="heightTable">
+    <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
+      <div class="p-5 bg-body rounded-3">
+        <!--begin::Card body-->
+        <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
+          class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
+          @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="handleCurrentChange"
+          :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
+          <template #empty>
+            <div class="flex items-center justify-center h-100%">
+              <el-empty description="Không có dữ liệu nào"/>
             </div>
           </template>
-          <template v-slot:text="{ row: customer }">
-            <div><span>{{ truncateText(customer.text, 25) }}</span></div>
-          </template>
-          <template v-slot:date="{ row: customer }">            
-            <span class="text-gray-600 w-bold d-flex justify-content-start align-items-center fs-7">
-              <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
-              {{ customer.date }}
-            </span>
-          </template>
-        </KTDatatable>
-      </div>
-      <!--end::Card body-->
-    </div>
 
-  </div></div>
+          <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35" :reserve-selection="true" />
+
+          <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
+            <template #default="scope">
+              <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
+              }}</span>
+              <span v-else class="badge badge-light-danger">--</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="100" prop="group_name"
+            label="TÊN NHÓM">
+            <template #default="scope">
+              <span v-if="scope.row.group_name != ''" class="fs-13px text-gray-700 text-hover-primary">{{
+                scope.row.group_name }}</span>
+              <span v-else class="badge badge-light-danger">--</span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="120" label-class-name="fs-13px fw-bold text-dark" prop="target_count" label="TÊN">
+            <template #default="scope">
+              <div class="d-flex align-items-center">
+                <!--begin::Symbol-->
+                <div class="symbol symbol-45px me-5">
+                  <span class="symbol-label">
+                    <KTIcon icon-name="user" icon-class="text-success fs-2x" />
+                  </span>
+                </div>
+                <!--end::Symbol-->
+                <!--begin::Text-->
+                <div class="d-flex flex-column" v-if="!scope.row.phone && scope.row.username == ' '">
+                  <span class="badge badge-light-danger">--</span>
+                </div>
+                <div class="d-flex flex-column" v-else>
+                  <div class="mx-0 my-0">
+                    <span class="fs-13px text-gray-700" v-if="scope.row.username != ' '">{{ scope.row.username }}</span>
+                    <span class="badge badge-light-danger" v-else>--</span>
+                  </div>
+                  <div class="mx-0 my-0">
+                    <span class="fs-13px text-gray-700" v-if="scope.row.phone">{{ scope.row.phone }}</span>
+                    <span class="badge badge-light-danger" v-else>--</span>
+                  </div>
+                </div>
+                <!--end::Text-->
+              </div>
+            </template>
+          </el-table-column>
+
+          <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="text" label="NỘI DUNG">
+            <template #default="scope">
+              <span class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.text, 200) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="date" label="THỜI GIAN">
+            <template #default="scope">
+              <span v-if="scope.row.date != ''" class="fs-13px text-gray-700 text-hover-primary">
+                <i class="fa-solid fa-calendar-days fs-7"></i>
+                {{ scope.row.date }}</span>
+              <span v-else class="badge badge-light-danger">--</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+          <div v-if="totalPage > 0">
+            <span class="text-capitalize fs-13px">Tổng Số Tin Nhắn: {{ totalPage }}</span>
+          </div>
+          <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
+            v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
+            :disabled="disabled"></el-pagination>
+          <div></div>
+        </div>
+        <!--end::Card body-->
+      </div>
+    </div>
+  </el-scrollbar>
+
   <!--end::Card-->
 
   <!-- modal detail  -->
-  <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered mw-600px">
-      <!--begin::Modal content-->
-      <div class="modal-content">
-        <!--begin::Form-->
-        <div class="modal-body">
-          <!--begin::Card-->
-          <div class="card card-flush pt-3 mb-5 mb-xl-10">
-            <!--begin::Card header-->
-            <div class="card-header mb-5">
-              <!--begin::Card title-->
-              <div class="card-title">
-                <div class="d-flex align-items-center">
-                  <!--begin::Symbol-->
-                  <div class="symbol symbol-50px me-5">
-                    <span class="symbol-label bg-light-success">
-                      <KTIcon icon-name="user" icon-class="text-success fs-2x" />
-                    </span>
-                  </div>
-                  <!--end::Symbol-->
-                  <!--begin::Text-->
-                  <div class="d-flex flex-column">
-                    <span class="text-dark text-hover-primary fs-4 fw-bold">{{ detailData.username ?? '--' }}</span>
-                    <span class="text-muted fw-semobold">{{ detailData.phone ?? '--' }}</span>
-                  </div>
-                  <!--end::Text-->
+  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Tin Nhắn" width="650" align-center id="modal-detail"
+    :show-close="false">
+    <div class="modal-body" style="padding: 0px !important;">
+      <!--begin::Card-->
+      <div class="card card-flush">
+        <!--begin::Card header-->
+        <div class="card-header mb-5">
+          <!--begin::Card title-->
+          <div class="card-title">
+            <div class="d-flex align-items-center">
+              <!--begin::Symbol-->
+              <div class="symbol symbol-50px me-5">
+                <span class="symbol-label bg-light-success">
+                  <KTIcon icon-name="user" icon-class="text-success fs-2x" />
+                </span>
+              </div>
+              <!--end::Symbol-->
+              <div class="d-flex flex-column" v-if="!detailData.phone && detailData.username == ' '">
+                <span class="badge badge-light-danger">--</span>
+              </div>
+              <div class="d-flex flex-column" v-else>
+                <div class="mx-0 my-0">
+                  <span class="fs-13px text-gray-700" v-if="detailData.username != ' '">{{ detailData.username }}</span>
+                  <span class="badge badge-light-danger" v-else>--</span>
+                </div>
+                <div class="mx-0 my-0">
+                  <span class="fs-13px text-gray-700" v-if="detailData.phone">{{ detailData.phone }}</span>
+                  <span class="badge badge-light-danger" v-else>--</span>
                 </div>
               </div>
-              <!--begin::Card toolbar-->
-
-              <!--end::Card toolbar-->
             </div>
-            <!--end::Card header-->
-
-            <!--begin::Card body-->
-            <div class="card-body py-0">
-              <!--begin::Section-->
-              <div class="mb-10">
-                <!--begin::Title-->
-                <h6>Thông tin chi tiết:</h6>
-                <!--end::Title-->
-
-                <!--begin::Details-->
-                <div class="d-flex flex-wrap py-5">
-                  <!--begin::Row-->
-                  <div class="me-5">
-                    <!--begin::Details-->
-                    <div>
-                      <div class="row fs-6 mb-3">
-                        <div class="col-3 text-gray-400">Tên nhóm:</div>
-                        <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.group_name ?? '--' }}</span>
-                        </div>
-                      </div>
-                      <div class="row fs-6 mb-3">
-                        <div class="col-3 text-gray-400">Nội dung:</div>
-                        <div class="col-9 text-gray-800"><span>{{ detailData.text ?? '--' }}</span></div>
-                      </div>
-                      <div class="row fs-6">
-                        <div class="col-3 text-gray-400">Thời gian:</div>
-                        <div class="col-9 text-gray-800"><span>{{ detailData.date }}</span></div>
-                      </div>
-                    </div>
-                    <!--end::Details-->
-                  </div>
-                  <!--end::Row-->
-
-                </div>
-                <!--end::Row-->
-              </div>
-              <!--end::Section-->
-            </div>
-            <!--end::Card body-->
           </div>
-          <!--end::Card-->
+          <!--begin::Card toolbar-->
+
+          <!--end::Card toolbar-->
         </div>
-        <!--end::Form-->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm  btn-primary" data-bs-dismiss="modal">
-            Quay lại
-          </button>
+        <!--end::Card header-->
+
+        <!--begin::Card body-->
+        <div class="card-body py-0" style="padding-top:0px !important;">
+          <!--begin::Section-->
+          <div>
+            <!--begin::Title-->
+            <h5>Thông Tin Chi Tiết:</h5>
+            <!--end::Title-->
+
+            <!--begin::Details-->
+            <div>
+              <!--begin::Row-->
+              <div class="me-5">
+                <!--begin::Details-->
+                <div>
+                  <div class="row fs-6 mb-3">
+                    <div class="col-3 text-gray-900">Tên Nhóm:</div>
+                    <div class="col-9 text-gray-900"><span>{{ detailData.group_name ?? '--' }}</span>
+                    </div>
+                  </div>
+                  <div class="row fs-6 mb-3">
+                    <div class="col-3 text-gray-900">Nội Dung:</div>
+                    <div class="col-9 text-gray-900"><span>{{ detailData.text ?? '--' }}</span></div>
+                  </div>
+                  <div class="row fs-6">
+                    <div class="col-3 text-gray-900">Thời Gian:</div>
+                    <div class="col-9 text-gray-900"><span>{{ detailData.date }}</span></div>
+                  </div>
+                </div>
+                <!--end::Details-->
+              </div>
+              <!--end::Row-->
+
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Section-->
         </div>
+        <!--end::Card body-->
       </div>
-      <!--end::Modal content-->
+      <!--end::Card-->
     </div>
-    <!--end::Modal dialog-->
-  </div>
+
+    <template #footer center>
+      <div class="dialog-footer">
+        <button type="button" class="btn btn-sm btn-light-primary" @click="DialogVisibleDetail = false">
+          Đóng
+        </button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive, onBeforeUnmount } from "vue";
-import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
+import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import ApiService from "@/core/services/ApiService";
-
-// validate
-import { hideModal } from "@/core/helpers/dom";
-import { ErrorMessage, Field, Form as VForm } from "vee-validate";
-import { vue3Debounce } from 'vue-debounce';
-
-import Swal from "sweetalert2/dist/sweetalert2.js";
-import Fillter from "@/views/apps/telegrams/filterDetail.vue";
-import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
-import { Modal } from "bootstrap";
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { useRoute } from 'vue-router';
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
-import { markRaw } from 'vue'
+// validate
+import { vue3Debounce } from 'vue-debounce';
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 export default defineComponent({
-  name: "kt-scans-list",
+  name: "kt-target-list",
 
   components: {
-    KTDatatable,
-    ErrorMessage,
-    Field,
-    VForm,
-    Fillter,
-    CodeHighlighter,
+    ElTable,
+    ElTableColumn,
+    KTToolbar,
+    ElPagination,
   },
   directives: {
     debounce: vue3Debounce({ lock: true })
@@ -243,59 +211,24 @@ export default defineComponent({
     const route = useRoute();
     const ID = route.params.id ?? '';
     const list = ref<object | any>([])
-    const loading = ref<boolean>(false)
+    const data_group = ref<object | any>([])
     const totalPage = ref<number>(0);
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
-    const query = ref<String>('');
+    const query = ref<string>('');
+    const orderingID = ref<string>('-id');
+    const loading = ref<boolean>(false)
+    const DialogVisibleDetail = ref<boolean>(false)
     const detailData = reactive({
-      id: '',
-      group_name: '',
-      username: '',
+      username: ' ',
       phone: '',
+      group_name: '',
       text: '',
       date: '',
     });
-    const headerConfig = ref([
-      {
-        columnName: "ID",
-        columnLabel: "id",
-      },
-      {
-        columnName: "Group",
-        columnLabel: "group_name",
-        columnWidth: 150,
-      },
-      {
-        columnName: "Tên",
-        columnLabel: "username",
-        columnWidth: 200,
-      },
-      {
-        columnName: "Nội dung",
-        columnLabel: "text",
-        columnWidth: 200,
-      },
-      {
-        columnName: "Thời gian",
-        columnLabel: "date",
-      }
-    ]);
-
-
-    const handlePage = (page: number) => {
-      currentPage.value = page ?? 1;
-      getData();
-    };
-
-    const handlePerPage = (itemsPage: number) => {
-      itemsPerPage.value = itemsPage ?? 20;
-      getData();
-    };
-
     const getData = async () => {
       loading.value = true;
-      return ApiService.get(`/telegram/index?group=${ID}&page=${currentPage.value}&page_size=${itemsPerPage.value}&search=${query.value}`)
+      return ApiService.get(`telegram/index?group=${ID}&search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -305,52 +238,12 @@ export default defineComponent({
         })
         .finally(() => {
           loading.value = false
-      });
+        })
     }
 
-            // tính thời gian
-            const eventTime = ref<number | any>('30000');
-        let intervalId : any;
-        const startTimer = () => {
-            intervalId = setInterval(() => {
-                getData();
-            }, eventTime.value);
-        };
-
-        const stopTimer = () => {
-            clearInterval(intervalId);
-        };
-
-        onMounted(() => {
-            startTimer();
-        });
-
-        onBeforeUnmount(() => {
-            stopTimer();
-        });
 
     const selectedIds = ref<Array<number>>([]);
-      const deleteSelectd = () => {
-      ElMessageBox.confirm(
-        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-        'Xác Nhận Xóa',
-        {
-          confirmButtonText: 'Đồng Ý',
-          cancelButtonText: 'Hủy Bỏ',
-          type: 'warning',
-          icon: markRaw(Delete)
-        }
-      )
-        .then(() => {
-          deleteSubscription(selectedIds.value);
-        })
-        .catch(() => {
-
-        })
-    };
     const disabled = ref<boolean>(false);
-
-    
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
         disabled.value = true
@@ -359,36 +252,16 @@ export default defineComponent({
         }, 1000);
         return ApiService.delete(`telegram/message/multi-delete?id=${ids}`)
           .then(({ data }) => {
+            getData()
             notification(data.detail, 'success', 'Xóa thành công')
-            selectedIds.value.length = 0;
-            getData();
+            currentPage.value = 1;
+            selectedIds.value = [];
+            multipleTableRef.value!.clearSelection()
           })
           .catch(({ response }) => {
             notification(response.data.detail, 'error', 'Có lỗi xảy ra')
           });
       }
-    };
-
-    const customRowTable = (detail: any) => {
-      if (detail) {
-        detailData.id = detail.id
-        detailData.username = detail.username
-        detailData.date = detail.date
-        detailData.text = detail.text
-        detailData.phone = detail.phone
-        detailData.group_name = detail.group_name
-        const modal = new Modal(
-          document.getElementById("kt_modal_detail") as Element
-        );
-        modal.show();
-      } else {
-        notification('', 'error', 'Có lỗi xảy ra')
-      }
-    };
-
-    const onItemSelect = (selectedItems: Array<number>) => {
-      selectedIds.value = selectedItems;
-
     };
 
     const notification = (values: string, icon: string, more: string) => {
@@ -401,74 +274,162 @@ export default defineComponent({
         customClass: {
           confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
         },
-      }).then(() => {
-        
-        // hideModal( ModalConfirm.value);
       });
-    };
-
+    }
 
     const handleFilter = (data: any) => {
-      if (data) {
-        query.value = data.query;
-        currentPage.value = 1;
-        getData();
-      } else {
-        notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
-      }
-
+      query.value = data;
+      currentPage.value = 1;
+      getData();
     };
 
-    // upadte status 
+    // xóa 
+    const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+
+    // handleCurrentChange
+    const handleCurrentChange = (data: any) => {
+      DialogVisibleDetail.value = true
+      detailData.username = data.username
+      detailData.phone = data.phone
+      detailData.group_name = data.group_name
+      detailData.text = data.text
+      detailData.date = data.date
+    }
+
+
+
+    // table
+    const selectedName = ref<Array<any>>([]);
+    const handleSelectionChange = (val: any) => {
+        if (val) {
+            selectedName.value = val.map((item: any) => item.name || item.title || item.group_name);
+            selectedIds.value = val.map((item: { id: number }) => item.id);
+        }
+        return;
+    }
+
+    const getRowKey = (row: any) => {
+      return row.id
+    }
+
+    // Lắng nghe sự thay đổi của currentPage và pageSize
+    watch(currentPage, (newCurrentPage) => {
+      currentPage.value = newCurrentPage ?? 1;
+      getData();
+    });
+
+    watch(itemsPerPage, (newPageSize) => {
+      itemsPerPage.value = newPageSize ?? 20;
+      getData();
+    });
+
+    // tính toán chiều cao table
+    const heightTable = ref(0)
+    const handleResize = () => {
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 1400) {
+        heightTable.value = window.innerHeight - 80;
+      } else if (windowWidth >= 1200) {
+        heightTable.value = window.innerHeight - 80;
+      } else if (windowWidth >= 992) {
+        heightTable.value = window.innerHeight - 80;
+      } else if (windowWidth >= 768) {
+        heightTable.value = window.innerHeight - 75;
+      } else if (windowWidth >= 576) {
+        heightTable.value = window.innerHeight - 75;
+      } else {
+        // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
+        heightTable.value = window.innerHeight - 70;
+      }
+    };
+    // thêm mới
+    const urlAddNew = ref('')
     const truncateText = (text: string, maxLength: number) => {
-      if (text.length > maxLength) {
+      if (text && text.length > maxLength) {
         return text.substring(0, maxLength) + '...';
       }
       return text;
     };
 
+    const handleSortChange = (column: any) => {
+      orderingID.value = (column.order == 'ascending' && column.prop == 'id') ? '-id' : 'id'
+      getData()
+    }
+    // thay đổi kích thước header
+    const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            
+        }
 
     onMounted(() => {
       getData();
+      handleResize();
+      window.addEventListener('resize', handleResize);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
     });
 
     return {
+      headerHeight,
+            onheaderHeight,
       getData,
       list,
-      headerConfig,
-      onItemSelect,
       selectedIds,
-      deleteSelectd,
-      
-      getAssetPath,
-      truncateText,
 
-      // crud
-      
-
-      // detials
-      customRowTable,
+      // validate
+      data_group,
 
       // page 
       itemsPerPage,
       totalPage,
       currentPage,
-      handlePage,
-      handlePerPage,
 
       // search query 
       query,
-
-      // sử lý dữ liệu
-
-      // filter
       handleFilter,
-      loading,
 
-      // detail
-      detailData,
+      // edit 
+      loading,
       disabled,
+
+      //
+      handleResize,
+      truncateText,
+      heightTable,
+      handleSelectionChange,
+      selectedName,
+      getRowKey,
+      handleCurrentChange,
+      multipleTableRef,
+      urlAddNew,
+      handleSortChange,
+      deleteSubscription,
+      detailData,
+      DialogVisibleDetail,
     };
   },
 });
 </script>
+
+
+<style >
+span.el-dialog__title {
+  color: #181C32 !important;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 27px;
+}
+
+#modal-detail .el-dialog__body {
+  padding-top: 10px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: center;
+  /* Căn giữa theo chiều dọc và ngang */
+}
+</style>

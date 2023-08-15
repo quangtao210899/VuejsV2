@@ -2,28 +2,22 @@
   <!--begin::Menu-->
   <div
     class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semobold py-4 fs-6 w-275px"
-    data-kt-menu="true"
-  >
+    data-kt-menu="true">
     <!--begin::Menu item-->
     <div class="menu-item px-3">
       <div class="menu-content d-flex align-items-center px-3">
         <!--begin::Avatar-->
         <div class="symbol symbol-50px me-5">
-          <img alt="Logo" :src="getAssetPath('media/avatars/300-1.jpg')" />
+          <img alt="Logo" class="object-fit-cover" src="https://i.mydramalist.com/66L5p_5f.jpg" />
         </div>
         <!--end::Avatar-->
 
         <!--begin::Username-->
         <div class="d-flex flex-column">
           <div class="fw-bold d-flex align-items-center fs-5">
-            Max Smith
-            <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2"
-              >Pro</span
-            >
+            {{ first_name }}
           </div>
-          <a href="#" class="fw-semobold text-muted text-hover-primary fs-7"
-            >max@kt.com</a
-          >
+          <a href="#" class="fw-semobold text-muted text-hover-primary fs-7">{{ username }}</a>
         </div>
         <!--end::Username-->
       </div>
@@ -56,12 +50,8 @@
     <!--end::Menu item-->
 
     <!--begin::Menu item-->
-    <div
-      class="menu-item px-5"
-      data-kt-menu-trigger="hover"
-      data-kt-menu-placement="left-start"
-      data-kt-menu-flip="center, top"
-    >
+    <div class="menu-item px-5" data-kt-menu-trigger="hover" data-kt-menu-placement="left-start"
+      data-kt-menu-flip="center, top">
       <!-- <router-link to="/pages/profile/overview" class="menu-link px-5">
         <span class="menu-title">My Subscription</span>
         <span class="menu-arrow"></span>
@@ -86,24 +76,14 @@
     <!--end::Menu separator-->
 
     <!--begin::Menu item-->
-    <div
-      class="menu-item px-5"
-      data-kt-menu-trigger="hover"
-      data-kt-menu-placement="left-start"
-      data-kt-menu-flip="center, top"
-    >
+    <div class="menu-item px-5" data-kt-menu-trigger="hover" data-kt-menu-placement="left-start"
+      data-kt-menu-flip="center, top">
       <router-link to="#" class="menu-link px-5">
         <span class="menu-title position-relative">
           Ngôn Ngữ
-          <span
-            class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0"
-          >
+          <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
             {{ currentLangugeLocale.name }}
-            <img
-              class="w-15px h-15px rounded-1 ms-2"
-              :src="currentLangugeLocale.flag"
-              alt="metronic"
-            />
+            <img class="w-15px h-15px rounded-1 ms-2" :src="currentLangugeLocale.flag" alt="metronic" />
           </span>
         </span>
       </router-link>
@@ -112,18 +92,10 @@
       <div class="menu-sub menu-sub-dropdown w-175px py-4">
         <!--begin::Menu item-->
         <div class="menu-item px-3">
-          <a
-            @click.passive="setLang('en')"
-            href="#"
-            class="menu-link d-flex px-5"
-            :class="{ active: currentLanguage === 'en' }"
-          >
+          <a @click.passive="setLang('en')" href="#" class="menu-link d-flex px-5"
+            :class="{ active: currentLanguage === 'en' }">
             <span class="symbol symbol-20px me-4">
-              <img
-                class="rounded-1"
-                :src="getAssetPath('media/flags/united-states.svg')"
-                alt="metronic"
-              />
+              <img class="rounded-1" :src="getAssetPath('media/flags/united-states.svg')" alt="metronic" />
             </span>
             English
           </a>
@@ -132,18 +104,10 @@
 
         <!--begin::Menu item-->
         <div class="menu-item px-3">
-          <a
-            @click.passive="setLang('es')"
-            href="#"
-            class="menu-link d-flex px-5"
-            :class="{ active: currentLanguage === 'es' }"
-          >
+          <a @click.passive="setLang('es')" href="#" class="menu-link d-flex px-5"
+            :class="{ active: currentLanguage === 'es' }">
             <span class="symbol symbol-20px me-4">
-              <img
-                class="rounded-1"
-                :src="getAssetPath('media/flags/spain.svg')"
-                alt="metronic"
-              />
+              <img class="rounded-1" :src="getAssetPath('media/flags/spain.svg')" alt="metronic" />
             </span>
             Spanish
           </a>
@@ -152,18 +116,10 @@
 
         <!--begin::Menu item-->
         <div class="menu-item px-3">
-          <a
-            @click.passive="setLang('de')"
-            href="#"
-            class="menu-link d-flex px-5"
-            :class="{ active: currentLanguage === 'de' }"
-          >
+          <a @click.passive="setLang('de')" href="#" class="menu-link d-flex px-5"
+            :class="{ active: currentLanguage === 'de' }">
             <span class="symbol symbol-20px me-4">
-              <img
-                class="rounded-1"
-                :src="getAssetPath('media/flags/germany.svg')"
-                alt="metronic"
-              />
+              <img class="rounded-1" :src="getAssetPath('media/flags/germany.svg')" alt="metronic" />
             </span>
             German
           </a>
@@ -172,18 +128,10 @@
 
         <!--begin::Menu item-->
         <div class="menu-item px-3">
-          <a
-            @click.passive="setLang('ja')"
-            href="#"
-            class="menu-link d-flex px-5"
-            :class="{ active: currentLanguage === 'ja' }"
-          >
+          <a @click.passive="setLang('ja')" href="#" class="menu-link d-flex px-5"
+            :class="{ active: currentLanguage === 'ja' }">
             <span class="symbol symbol-20px me-4">
-              <img
-                class="rounded-1"
-                :src="getAssetPath('media/flags/japan.svg')"
-                alt="metronic"
-              />
+              <img class="rounded-1" :src="getAssetPath('media/flags/japan.svg')" alt="metronic" />
             </span>
             Japanese
           </a>
@@ -192,18 +140,10 @@
 
         <!--begin::Menu item-->
         <div class="menu-item px-3">
-          <a
-            @click.passive="setLang('fr')"
-            href="#"
-            class="menu-link d-flex px-5"
-            :class="{ active: currentLanguage === 'fr' }"
-          >
+          <a @click.passive="setLang('fr')" href="#" class="menu-link d-flex px-5"
+            :class="{ active: currentLanguage === 'fr' }">
             <span class="symbol symbol-20px me-4">
-              <img
-                class="rounded-1"
-                :src="getAssetPath('media/flags/france.svg')"
-                alt="metronic"
-              />
+              <img class="rounded-1" :src="getAssetPath('media/flags/france.svg')" alt="metronic" />
             </span>
             French
           </a>
@@ -233,7 +173,7 @@
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, onMounted, ref, watchEffect, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
@@ -290,6 +230,23 @@ export default defineComponent({
     const currentLangugeLocale = computed(() => {
       return countries[i18n.locale.value as keyof typeof countries];
     });
+    const username = ref<any>('');
+    const first_name = ref<any>('');
+
+    // Hàm để đọc thông tin từ Local Storage và gán cho các biến ref
+    const loadUserInfoFromLocalStorage = () => {
+      const savedUsername = localStorage.getItem('username');
+      const savedFirstName = localStorage.getItem('first_name');
+
+      username.value = (store.username = '') ? store.username : savedUsername
+      first_name.value = (store.first_name = '') ? store.first_name : savedFirstName
+    };
+    watch(store, () => {
+      loadUserInfoFromLocalStorage();
+    })
+
+    onMounted(loadUserInfoFromLocalStorage);
+
 
     return {
       signOut,
@@ -298,6 +255,8 @@ export default defineComponent({
       currentLangugeLocale,
       countries,
       getAssetPath,
+      first_name,
+      username
     };
   },
 });

@@ -197,7 +197,7 @@
                                                 </div>
                                             </div>
                                             <div class="row fs-6 mb-3">
-                                                <div class="col-3">Ngày Cập Nhập:</div>
+                                                <div class="col-3">Ngày Cập Nhật:</div>
                                                 <div class="col-9">
                                                     <span v-if="(typeof detailData.modified_at === 'string' && detailData.modified_at != '') || (typeof detailData.modified_at === 'object' && !Object.is(detailData.modified_at, null))">
                                                         {{ detailData.modified_at }}
@@ -448,7 +448,7 @@ export default defineComponent({
             
         }
         const truncateText = (text: string, maxLength: number) => {
-            if (text.length > maxLength) {
+            if (text && text.length > maxLength) {
                 return text.substring(0, maxLength) + '...';
             }
             return text;

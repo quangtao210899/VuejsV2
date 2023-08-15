@@ -347,7 +347,7 @@
                         </div>
                       </div>
                       <div class="row fs-6">
-                        <div class="col-3 text-gray-400">Ngày cập nhập:</div>
+                        <div class="col-3 text-gray-400">Ngày cập nhật:</div>
                         <div class="col-9 text-gray-800">
                           <span>{{ formatDate(detailData.modified_at) }}</span>
                         </div>
@@ -568,7 +568,7 @@ const handlePage = (page: number) => {
 };
 
 const truncateText = (text: string, maxLength: number) => {
-  if (text.length > maxLength) {
+  if (text && text.length > maxLength) {
     return text.substring(0, maxLength) + "...";
   }
   return text;

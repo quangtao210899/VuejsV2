@@ -351,7 +351,6 @@
 import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, ref, onMounted, onBeforeUnmount, watch , onUnmounted } from "vue";
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
-import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
@@ -371,7 +370,6 @@ export default defineComponent({
 
     components: {
         KTDatatable,
-        filtersTabScan,
         CodeHighlighter,
         KTToolbar,
     },

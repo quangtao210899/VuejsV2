@@ -298,9 +298,9 @@ import ApiService from "@/core/services/ApiService";
 // validate
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import Fillter from "@/views/apps/telegrams/filterGroup.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import * as Yup from "yup";
+import { useAuthStore } from "@/stores/auth";
 
 interface APIData {
   username: string;
@@ -321,7 +321,6 @@ export default defineComponent({
     ErrorMessage,
     Field,
     VForm,
-    Fillter,
     CodeHighlighter,
   },
   setup() {
@@ -345,6 +344,7 @@ export default defineComponent({
       currentpassword: '',
       newpassword: '',
     });
+    const store = useAuthStore();
 
     // getdata
     const getData = () => {
@@ -453,6 +453,7 @@ export default defineComponent({
       }, 1000);
       return ApiService.post("/account/update", { first_name: editData.value.first_name })
         .then(({ data }) => {
+          store.getCurrentUser();
           notification(data.detail, 'success', 'Cập nhật thành công')
           getData();
         })

@@ -97,6 +97,7 @@ import { useAuthStore, type User } from "@/stores/auth";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import * as Yup from "yup";
+import ApiService from "@/core/services/ApiService";
 
 export default defineComponent({
   name: "sign-in",
@@ -121,6 +122,19 @@ export default defineComponent({
                 .required('Vui lòng nhập mật khẩu').label("Password"),
     });
 
+    const notification = (values: string, icon: string, more: string) => {
+      Swal.fire({
+        text: values ?? more,
+        icon: icon,
+        buttonsStyling: false,
+        confirmButtonText: (icon == 'error') ? "Thử Lại" : "Đồng Ý",
+        heightAuto: false,
+        customClass: {
+          confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
+        },
+      });
+    };
+
     //Form submit function
     const onSubmitLogin = async (values: any) => {
       
@@ -136,13 +150,15 @@ export default defineComponent({
       }
 
       // Send login request
-      console.log(values,12311233323);
+      // // console.log(values,12311233323);
 
       await store.login(values);
       const error = Object.values(store.errors);
 
       if (error.length === 0) {
-          router.push({ name: "dashboard" });
+        // get current user
+        router.push({ name: "dashboard" });
+
       } else {
         Swal.fire({
           text: error[0] as string,

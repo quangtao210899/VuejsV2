@@ -14,10 +14,13 @@
         <!--end::Chart-->
         <div class="d-flex justify-content-evenly flex-wrap">
           <li class="d-flex align-items-center py-2 text-dark">
-            <span class="bullet bullet-vertical  me-3 h-10px w-20px" :class="(process[0] == 100 ? 'bg-success' : 'bg-primary' )"></span> <strong class="me-1">{{activity.total_finish}} </strong> Hoàn Thành
+            <span class="bullet bullet-vertical  me-3 h-10px w-20px"
+              :class="(process[0] == 100 ? 'bg-success' : 'bg-primary')"></span> <strong class="me-1">{{
+                activity.total_finish }} </strong> Hoàn Thành
           </li>
           <li class="d-flex align-items-center py-2 text-dark">
-            <span class="bullet bullet-vertical me-3 h-10px w-20px"></span><strong class="me-1">{{activity.total_not_done}} </strong> Chưa Chạy
+            <span class="bullet bullet-vertical me-3 h-10px w-20px"></span><strong class="me-1">{{ activity.total_not_done
+            }} </strong> Chưa Chạy
           </li>
         </div>
       </div>
@@ -29,32 +32,56 @@
         </p>
         <el-timeline class="ps-0">
           <el-timeline-item v-for="(activity, index) in activitieLine" :key="index" :icon="activity.icon"
-          :type="(activity.color == 'muted') ? 'info' : activity.color" :color="activity.color" :size="activity.size" :hollow="true"
-            :timestamp="activity.time">
-            <span class="text-dark fs-13px">{{ activity.name }}</span>
+            :type="(activity.color == 'muted') ? 'info' : activity.color" :color="activity.color" :size="activity.size"
+            :hollow="true" :timestamp="activity.time">
+            <span v-if="activity.name != 'Hoàn Thành' && (activity.status == 3 || activity.status == 4)" 
+            class="text-dark fs-13px text-hover-primary  cursor-pointer" @click="changeEverActivity(activity)">
+              {{ activity.name}}
+            </span>
+            <span v-else class="text-dark fs-13px">
+              {{ activity.name}}
+            </span>
+            <!-- {{ activity }} -->
           </el-timeline-item>
         </el-timeline>
       </div>
     </div>
     <!--end::Body-->
   </div>
+
+
+
+  <el-dialog v-model="confirmVisibleActivity" :title="`Thông Tin ${detailActivity.name}`" width="600" id="modal-detail"
+    :align-center="true" :append-to-body="true" :show-close="false">
+    <div class="card-body py-0" style="padding-top:0px !important;">
+      <div>
+          <CodeHighlighter lang="bash" :data="detailActivity.commandShell" ></CodeHighlighter>
+      </div>
+    </div>
+    <template #footer center>
+      <span class="d-flex justify-content-center">
+        <el-button class="border-0" plain type="primary" @click="confirmVisibleActivity = false">Đóng</el-button>
+      </span>
+    </template>
+  </el-dialog>
   <!--end::Mixed Widget 4-->
 </template>
   
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { computed, defineComponent, onBeforeMount, ref, watch } from "vue";
+import { computed, defineComponent, onBeforeMount, ref, watch, reactive } from "vue";
 import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
 import { getCSSVariableValue } from "@/assets/ts/_utils";
 import type VueApexCharts from "vue3-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import { useThemeStore } from "@/stores/theme";
-
+import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 
 export default defineComponent({
   name: "widget-1",
   components: {
     Dropdown1,
+    CodeHighlighter,
   },
   props: {
     chartColor: String,
@@ -65,10 +92,18 @@ export default defineComponent({
     activity: { type: Object as () => Record<string, any>, required: true },
   },
   setup(props) {
-    // console.log(props)
+    // // console.log(props)
     const chartRef = ref<typeof VueApexCharts | null>(null);
     let chart: ApexOptions = {};
     const store = useThemeStore();
+    const confirmVisibleActivity = ref<boolean>(false)
+    const detailActivity = reactive({
+      color: '',
+      commandShell: '',
+      name: '',
+      status: 0,
+      time: ''
+    })
 
     const themeMode = computed(() => {
       return store.mode;
@@ -78,14 +113,36 @@ export default defineComponent({
       Object.assign(chart, chartOptions(props.chartColor, props.chartHeight));
     });
 
+    const changeEverActivity = (data: any) => {
+      confirmVisibleActivity.value = true
+      detailActivity.name = data.name
+      detailActivity.commandShell = (data.commandShell && data.commandShell != '') ? data.commandShell : 'Chưa có lệnh nào được chạy'
+      detailActivity.color = data.color
+      detailActivity.status = data.status
+      detailActivity.time = data.time
+    }
+
     const refreshChart = () => {
       if (!chartRef.value) {
         return;
       }
 
-      Object.assign(chart, chartOptions( props.chartColor, props.chartHeight));
+      Object.assign(chart, chartOptions(props.chartColor, props.chartHeight));
 
       chartRef.value.refresh();
+    };
+
+    const getStatus = (status: number | string) => {
+      if (status == 1) {
+        return { title: 'Chưa thực hiện', color: 'dark' };
+      } else if (status == 2) {
+        return { title: 'Đang thực hiện', color: 'primary' };
+      } else if (status == 3) {
+        return { title: 'Đã thực hiện', color: 'success' };
+      } else if (status == 4) {
+        return { title: 'Lỗi', color: 'danger' };
+      }
+      return {title: 'Tạm dừng', color: 'warning' };
     };
 
     // watch(props, () => {
@@ -100,6 +157,10 @@ export default defineComponent({
       chart,
       chartRef,
       getAssetPath,
+      confirmVisibleActivity,
+      changeEverActivity,
+      detailActivity,
+      getStatus,
     };
   },
 });
@@ -155,21 +216,33 @@ const chartOptions = (
 </script>
 
 <style>
+span.el-dialog__title {
+  color: #181C32 !important;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 27px;
+}
+
+#modal-detail .el-dialog__body {
+  padding-top: 10px;
+}
+
 .el-timeline-item__wrapper {
   display: flex;
   align-content: center;
   flex-direction: row;
   justify-content: space-between;
 }
-.el-timeline-item__content{
+
+.el-timeline-item__content {
   margin-right: 10px;
 }
 
 .el-timeline-item__timestamp {
-    /* color: var(--el-text-color-secondary); */
-    color: #A1A5B7;
-    line-height: 1;
-    font-size: var(--el-font-size-small);
+  /* color: var(--el-text-color-secondary); */
+  color: #A1A5B7;
+  line-height: 1;
+  font-size: var(--el-font-size-small);
 }
 
 /* .el-table .cell {

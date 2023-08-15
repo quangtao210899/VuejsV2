@@ -136,7 +136,7 @@ export default defineComponent({
                 .then(({ data }) => {
                     list.value = data.results
                     totalPage.value = data.count
-                    // console.log(data.results)
+                    // // console.log(data.results)
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -203,7 +203,7 @@ export default defineComponent({
 
         // handleCurrentChange
         const handleCurrentChange = (data: any) => {
-            console.log(data.id)
+            // console.log(data.id)
             if (data) {
                 return router.push({ name: 'target-detail', params: { id: data.id } });
             }

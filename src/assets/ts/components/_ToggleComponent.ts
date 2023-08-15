@@ -82,7 +82,7 @@ class ToggleComponent {
 
     // Trigger "before.toggle" event
     EventHandlerUtil.trigger(this.element, "kt.toggle.changed");
-    console.log("toggle after", EventHandlerUtil.store);
+    // console.log("toggle after", EventHandlerUtil.store);
     return this;
   };
 
@@ -163,7 +163,7 @@ class ToggleComponent {
 
   // Event API
   public on = (name: string, handler: Function) => {
-    // console.log("on", this.element, name, handler);
+    // // console.log("on", this.element, name, handler);
     return EventHandlerUtil.on(this.element, name, handler);
   };
 
@@ -172,12 +172,12 @@ class ToggleComponent {
   };
 
   public off = (name: string, handlerId: string) => {
-    console.log("off", this.element, name, handlerId);
+    // console.log("off", this.element, name, handlerId);
     return EventHandlerUtil.off(this.element, name, handlerId);
   };
 
   public trigger = (name: string, event?: Event) => {
-    console.log("trigger", this.element, name, event);
+    // console.log("trigger", this.element, name, event);
     return EventHandlerUtil.trigger(this.element, name, event);
   };
 
