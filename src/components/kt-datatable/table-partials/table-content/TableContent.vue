@@ -103,7 +103,7 @@ export default defineComponent({
     const selectAll = (checked: any) => {
 
       check.value = checked;
-      console.log(check.value);
+      // console.log(check.value);
       
       if (checked) {
         selectedItems.value = [
@@ -118,13 +118,13 @@ export default defineComponent({
     const itemsSelect = (value: any) => {
       selectedItems.value = [];
       let currentPage = 0;
-      console.log(currentPage);
+      // console.log(currentPage);
       
       if (currentPage != props.currentPage) {
         currentPage = props.currentPage
       }
       let lastPage = 1;
-      console.log(currentPage);
+      // console.log(currentPage);
 
       
       value.forEach((item: any) => {
@@ -141,9 +141,9 @@ export default defineComponent({
         lastPage = currentPage;
       });
 
-      console.log("Last page:", lastPage);
-      console.log("Current page:", currentPage);
-      console.log(selectPerPage);
+      // console.log("Last page:", lastPage);
+      // console.log("Current page:", currentPage);
+      // console.log(selectPerPage);
       
 
       if (selectedItems.value.length < allSelectedItems.value.length) {

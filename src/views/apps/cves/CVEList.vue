@@ -129,7 +129,7 @@ export default defineComponent({
                 .then(({ data }) => {
                     list.value = data.results
                     totalPage.value = data.count
-                    // console.log(data.results)
+                    // // console.log(data.results)
                 })
                 .catch(({ response }) => {
                     notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -190,7 +190,7 @@ export default defineComponent({
 
         // handleCurrentChange
         const handleCurrentChange = (data: any) => {
-            // console.log(data.id)
+            // // console.log(data.id)
             if (data) {
                 // `cve/${scope.row.id}/scan`
                 return router.push({ name: 'targetDetectionListCVEAll', params: { id: data.id } });
@@ -201,7 +201,7 @@ export default defineComponent({
         // table
         const selectedName = ref<Array<any>>([]);
         const handleSelectionChange = (val: any) => {
-            console.log(val)
+            // console.log(val)
             if (val) {
                 selectedName.value = val.map((item: any) => item.name || item.title || item.code);
                 selectedIds.value = val.map((item: { id: number }) => item.id);

@@ -1553,7 +1553,6 @@ import { defineComponent, ref, onMounted, onBeforeUnmount, onUpdated, watch, rea
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import SubdomainList from "@/views/apps/targets/TargetReconTabSubdomainsList.vue";
 import ApiService from "@/core/services/ApiService";
-import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
@@ -1604,7 +1603,6 @@ export default defineComponent({
     components: {
         KTDatatable,
         KTToolbar,
-        filtersTabScan,
         CodeHighlighter,
         reconActivity,
         SubdomainList,

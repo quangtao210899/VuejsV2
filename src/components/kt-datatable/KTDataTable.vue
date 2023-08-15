@@ -90,8 +90,8 @@ export default defineComponent({
       }
     );
     // watch(props, (value) => {
-    //   console.log(value,'value')
-    //   console.log(currentPage.value,'currentPage')
+    //   // console.log(value,'value')
+    //   // console.log(currentPage.value,'currentPage')
     // });
 
     watch(
@@ -114,8 +114,8 @@ export default defineComponent({
         } else {
 
           let sliceFrom = (currentPage.value - 1) * itemsInTable.value;
-          // console.log(currentPage.value, 'currentPage')
-          // console.log(sliceFrom, 'sliceFrom')
+          // // console.log(currentPage.value, 'currentPage')
+          // // console.log(sliceFrom, 'sliceFrom')
 
           return props.data.slice(sliceFrom, sliceFrom + itemsInTable.value);
         }
@@ -147,7 +147,7 @@ export default defineComponent({
     const customRowTable = (data: any) => {
       selectRow.value = data
       emit("custom-row", selectRow.value);
-      // console.log(data, 'data')
+      // // console.log(data, 'data')
     };
 
     return {
