@@ -453,6 +453,7 @@ export default defineComponent({
       }, 1000);
       return ApiService.post("/account/update", { first_name: editData.value.first_name })
         .then(({ data }) => {
+          localStorage.setItem('first_name', editData.value.first_name);
           notification(data.detail, 'success', 'Cập nhật thành công')
           getData();
         })
