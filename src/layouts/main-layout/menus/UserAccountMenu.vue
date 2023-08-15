@@ -232,7 +232,6 @@ export default defineComponent({
     });
     const username = ref<any>('');
     const first_name = ref<any>('');
-    console.log(store.username)
 
     // Hàm để đọc thông tin từ Local Storage và gán cho các biến ref
     const loadUserInfoFromLocalStorage = () => {
@@ -245,10 +244,6 @@ export default defineComponent({
     watch(store, () => {
       loadUserInfoFromLocalStorage();
     })
-
-    watchEffect(() => {
-      loadUserInfoFromLocalStorage();
-    });
 
     onMounted(loadUserInfoFromLocalStorage);
 

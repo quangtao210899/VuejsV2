@@ -1,312 +1,134 @@
 <template>
-    <!--begin::Card-->
-    <div class="app-container container-fluid p-5  mt-10">
-    <div class="card h-100 d-block">
-        <!--begin::Card header-->
-        <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -70px;">
-            <!--begin::Card toolbar-->
-            <div class="card-toolbar">
-                <!--begin::Toolbar-->
-                <div v-show="selectedIds.length === 0">
-                    <div class="d-flex justify-content-end" data-kt-subscription-table-toolbar="base">
-                        <!--begin::Export-->
-                        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tìm kiếm" placement="top">
-                            <button type="button"
-                                class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
-                                data-kt-menu-flip="top-end">
-                                <KTIcon icon-name="filter" icon-class="fs-2" />
-                                Filter
-                            </button>
-                        </el-tooltip>
-                        <Fillter @filterData="handleFilter" :data-group="data_group"></Fillter>
-                        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Thêm mới" placement="top">
-                            <button type="button" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#kt_modal_new_target_group" @click.passive="handleClick({}, 'add')">
-                                <KTIcon icon-name="plus" icon-class="fs-2" />
-                                Thêm
-                            </button>
-                        </el-tooltip>
-                        <!--end::Add subscription-->
-                    </div>
-                </div>
-                <!--end::Toolbar-->
-
-                <!--begin::Group actions-->
-                <div v-show="selectedIds.length !== 0">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="fw-bold me-5">
-                            <span class="me-2">{{ selectedIds.length }}</span>Selected
-                        </div>
-                        <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Xóa" placement="top">
-                            <button type="button" @click="deleteSelectd()"
-                                class="btn btn-danger btn-sm " :disabled="disabled">
-                                Xóa mục đã chọn
-                            </button>
-                        </el-tooltip>
-                    </div>
-                </div>
-                <!--end::Group actions-->
-            </div>
-            <!--end::Card toolbar-->
-        </div>
-        <!--end::Card header-->
-
-        <!--begin::Card body-->
-        <div class="card-body overflow-y-auto overflow-x-auto h-100 p-0 m-0 ">
-            <KTDatatable @on-sort="sort" @on-items-select="onItemSelect" :data="list" :header="headerConfig"
-                :loading="loading" :checkbox-enabled="true" :itemsPerPage="itemsPerPage" :total="totalPage"
-                :currentPage="currentPage" @page-change="handlePage" @on-items-per-page-change="handlePerPage"
-                @customRow="customRowTable">
-
-                <template v-slot:id="{ row: customer }">{{ customer.id }}</template>
-                <template v-slot:first_name="{ row: customer }"><span class="fs-6 fw-bold text-dark text-hover-primary">{{
-                    customer.first_name }}</span></template>
-                <template v-slot:username="{ row: customer }">
-                    {{ customer.username }}
-                </template>
-                <template v-slot:actions="{ row: customer }">
-                    <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Chỉnh sửa" placement="top">
-                        <button type="button" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1"
-                            data-bs-toggle="modal" data-bs-target="#kt_modal_new_target_group"
-                            @click="handleClick(customer, 'edit')" title="Sửa">
-                            <KTIcon icon-name="pencil" icon-class="fs-3" />
-                        </button>
-                    </el-tooltip>
-                </template>
-
-            </KTDatatable>
-        </div>
-        <!--end::Card body-->
-    </div></div>
-    <!--end::Card-->
-
-
-    <!-- modal  -->
-    <div class="modal fade" tabindex="-1" id="kt_modal_new_target_group" ref="newTargetGroupModalRef" aria-hidden="true">
-        <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered mw-650px">
-            <!--begin::Modal content-->
-            <div class="modal-content">
-                <!--begin::Modal header-->
-                <div class="modal-header" id="kt_modal_new_target_group_header">
-                    <!--begin::Modal title-->
-                    <h2>{{ nameType }}</h2>
-                    <!--end::Modal title-->
-
-                    <!--begin::Close-->
-                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                        <KTIcon icon-name="cross" icon-class="fs-1" />
-                    </div>
-                    <!--end::Close-->
-                </div>
-                <!--end::Modal header-->
-
-                <!--begin::Form-->
-                <VForm id="kt_modal_new_target_group_form" class="form" @submit="submit"
-                    :validation-schema="nameType == 'Chỉnh Sửa Thông Tin Người Dùng' ? validationSchemaUpdate : validationSchema">
-                    <!--begin::Modal body-->
-                    <div class="modal-body py-10 px-lg-17">
-                        <!--begin::Scroll-->
-                        <div class="scroll-y me-n7 pe-7" id="kt_modal_new_target_group_scroll" data-kt-scroll="true"
-                            data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-                            data-kt-scroll-dependencies="#kt_modal_new_target_group_header"
-                            data-kt-scroll-wrappers="#kt_modal_new_target_group_scroll" data-kt-scroll-offset="300px">
-                            <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="username">
-                                    <span
-                                        v-bind:class="{ 'required': nameType != 'Chỉnh Sửa Thông Tin Người Dùng' }">Tên Đăng Nhập</span>
-                                </label>
-                                <Field type="text" class="form-control form-control-solid"
-                                    :disabled="nameType == 'Chỉnh Sửa Thông Tin Người Dùng'"
-                                    :style="{ cursor: nameType == 'Chỉnh Sửa Thông Tin Người Dùng' ? 'not-allowed' : '', 'background-color': nameType == 'Chỉnh Sửa Thông Tin Người Dùng' ? '#eee' : '' }"
-                                    placeholder="Nhập tên đăng nhập" autocomplete="username" id="username" name="username" v-model="apiData.username" />
-                                <div v-if="nameType != 'Chỉnh Sửa Thông Tin Người Dùng'"
-                                    class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="username" />
-                                        <span class="" v-if="errors.username">{{ errors.username[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="first_name">
-                                    <span class="required">Họ Tên</span>
-                                </label>
-                                <Field type="text" class="form-control form-control-solid" placeholder="Nhập họ tên"
-                                    id="first_name" autocomplete="first_name" name="first_name" v-model="apiData.first_name" />
-                                <div class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="first_name" />
-                                        <span class="" v-if="errors.first_name">{{ errors.first_name[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-if="nameType != 'Chỉnh Sửa Thông Tin Người Dùng'" class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="password">
-                                    <span class="required">Mật Khẩu Mới</span>
-                                </label>
-                                <!--end::Label-->
-
-                                <!--begin::Input wrapper-->
-                                <div class="position-relative mb-3">
-                                    <Field :type="!eyeButtonRef ? 'password' : 'text'"
-                                        class="form-control form-control-solid h-35px" name="password" id="password"
-                                        v-model="apiData.password" />
-
-                                    <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
-                                        <KTIcon :icon-name="!eyeButtonRef ? 'eye-slash' : 'eye'" icon-class="fs-2"
-                                            @click="eyePassword" />
-                                    </span>
-                                </div>
-                                <div class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="password" />
-                                        <span v-if="Object.keys(errors.password).length !== 0">
-                                            <template v-for="(el, key) in errors.password" :key="key">{{ el
-                                            }}<br></template>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div v-if="nameType != 'Chỉnh Sửa Thông Tin Người Dùng'" class="mb-5 fv-row">
-                                <label class="d-flex align-items-center fs-6 fw-semobold mb-2" for="password_confirm">
-                                    <span class="required">Nhập Lại Mật Khẩu</span>
-                                </label>
-                                <div class="position-relative mb-3">
-                                    <Field :type="!eyeButtonRef2 ? 'password' : 'text'"
-                                        class="form-control form-control-solid h-35px" name="password_confirm"
-                                        id="password_confirm" v-model="apiData.password_confirm" />
-
-                                    <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2">
-                                        <KTIcon :icon-name="!eyeButtonRef2 ? 'eye-slash' : 'eye'" icon-class="fs-2"
-                                            @click="eyePassword2" />
-                                    </span>
-                                </div>
-
-                                <div class="fv-plugins-message-container">
-                                    <div class="fv-help-block">
-                                        <ErrorMessage name="password_confirm" />
-                                        <span v-if="Object.keys(errors.password_confirm).length !== 0">
-                                            <template v-for="(el, key) in errors.password_confirm" :key="key">{{ el
-                                            }}<br></template>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mt-5 fv-row">
-                                <div class="form-check form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="1" id="is_staff" name="is_staff"
-                                        v-model="apiData.is_staff" :checked="apiData.is_staff">
-                                        
-                                    <label style="padding-left: 10px;" class="fs-6 fw-semobold" for="is_staff">Quản Trị Viên</label>
-                                </div>
-                            </div>
-
-                            <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                    <span class="" v-if="errors.detail">{{ Array.isArray(errors.detail) ? errors.detail[0] :
-                                        errors.detail }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Scroll-->
-                    </div>
-                    <!--end::Modal body-->
-
-                    <!--begin::Modal footer-->
-                    <div class="modal-footer flex-center">
-                        <!--begin::Button-->
-                        <button ref="discardButtonRef" @click="removeTextModal" type="reset"
-                            id="kt_modal_new_target_group_cancel" class="btn btn-sm  btn-light me-3">
-                            Loại Bỏ
-                        </button>
-                        <!--end::Button-->
-
-                        <!--begin::Button-->
-                        <button ref="submitButtonRef" type="submit" id="kt_modal_new_target_group_submit"
-                            class="btn btn-sm  btn-light-primary">
-                            <span class="indicator-label"> Gửi </span>
-                            <span class="indicator-progress">
-                                Đang Gửi...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
-                        </button>
-                        <!--end::Button-->
-                    </div>
-                    <!--end::Modal footer-->
-                </VForm>
-                <!--end::Form-->
-            </div>
-            <!--end::Modal content-->
-        </div>
-        <!--end::Modal dialog-->
+    <div ref="refGetTheHeight">
+        <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
+            @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Người Dùng"></KTToolbar>
     </div>
+    <!--begin::Card-->
+    <el-scrollbar :height="heightTable">
+        <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
+            <div class="p-5 bg-body rounded-3">
+                <!--begin::Card body-->
+                <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
+                    class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
+                    @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="handleCurrentChange"
+                    :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
+                    <template #empty>
+                        <div class="flex items-center justify-center h-100%">
+                            <el-empty description="Không có dữ liệu nào"/>
+                        </div>
+                    </template>
+
+                    <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35"
+                        :reserve-selection="true" />
+
+                    <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
+                        <template #default="scope">
+                            <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
+                            }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="120" prop="first_name"
+                        label="HỌ TÊN">
+                        <template #default="scope">
+                            <span v-if="scope.row.first_name != ''" class="fs-13px text-gray-700 text-hover-primary">{{
+                                scope.row.first_name }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="150" label-class-name="fs-13px fw-bold text-dark" prop="username"
+                        label="TÊN NGƯỜI DÙNG">
+                        <template #default="scope">
+                            <span v-if="scope.row.username != ''" class="fs-13px text-gray-700 text-hover-primary">{{
+                                scope.row.username }}</span>
+                            <span v-else class="badge badge-light-danger">--</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column width="150" label-class-name="text-dark fw-bold fs-13px " label="HÀNH ĐỘNG"
+                        align="center">
+                        <template #default="scope">
+                            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Chỉnh Sửa" placement="top">
+                                <router-link :to="`/user-form/${scope.row.id}`" v-on:click.stop
+                                    class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1 my-1">
+                                    <KTIcon icon-name="pencil" icon-class="fs-3" />
+                                </router-link>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+                    <div>
+                        <span v-if="totalPage > 0" class="text-capitalize fs-13px">Tổng Số Người Dùng: {{ totalPage }}</span>
+                    </div>
+                    <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
+                        v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
+                        :disabled="disabled"></el-pagination>
+                    <div></div>
+                </div>
+                <!--end::Card body-->
+            </div>
+        </div>
+    </el-scrollbar>
+
+    <!--end::Card-->
 
     <!-- modal detail  -->
     <div class="modal fade" tabindex="-1" ref="ModalDetail" aria-hidden="true" id="kt_modal_detail">
         <!--begin::Modal dialog-->
-        <div class="modal-dialog modal-dialog-centered mw-650px">
+        <div class="modal-dialog modal-dialog-centered mw-600px">
             <!--begin::Modal content-->
             <div class="modal-content">
                 <!--begin::Form-->
                 <div class="modal-body">
                     <!--begin::Card-->
-                    <div class="card card-flush pt-3 mb-5 mb-xl-10">
+                    <div class="card card-flush">
                         <!--begin::Card header-->
                         <div class="card-header">
                             <!--begin::Card title-->
                             <div class="card-title">
                                 <h1 class="fw-bold">{{ detailData.username }}</h1>
                             </div>
-                            <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
-                                <button type="button" class="btn btn-light-warning btn-sm me-1" data-bs-toggle="modal"
-                                    data-bs-target="#kt_modal_new_target_group" @click="handleClick(detailData, 'edit')">
-                                    <KTIcon icon-name="pencil" icon-class="fs-3" /> Cập Nhật
-                                </button>
-                            </div>
-                            <!--end::Card toolbar-->
                         </div>
                         <!--end::Card header-->
 
                         <!--begin::Card body-->
                         <div class="card-body py-0">
                             <!--begin::Section-->
-                            <div class="mb-10">
+                            <div>
                                 <!--begin::Title-->
                                 <h5>Thông Tin Chi Tiết:</h5>
                                 <!--end::Title-->
                                 <!--begin::Details-->
-                                <div class="d-flex flex-wrap py-5">
+                                <div class="d-flex flex-wrap">
                                     <!--begin::Row-->
                                     <div class="flex-equal me-5">
                                         <!--begin::Details-->
                                         <table class="table fs-6 fw-semobold gs-0 gy-2 gx-2 m-0">
                                             <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-500">Họ Tên:</td>
-                                                <td class="text-dark badge badge-light pe-2">{{ detailData.first_name }}
-                                                </td>
+                                                <td>Họ Tên:</td>
+                                                <td>{{ detailData.first_name }} </td>
                                             </tr>
+                                            <!--end::Row-->
+
+                                            <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-500">Phân Quyền:</td>
-                                                <td class="text-dark badge badge-light pe-2">{{ detailData.is_staff ?
-                                                    'Quản trị viên' : 'Người dùng' }}</td>
+                                                <td>Phân Quyền:</td>
+                                                <td>{{ detailData.is_staff ? 'Quản trị viên' : 'Người dùng' }}</td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-500">Ngày Tạo:</td>
-                                                <td class="text-dark">{{ formatDate(detailData.date_joined) }}</td>
+                                                <td>Ngày Tạo:</td>
+                                                <td>{{ detailData.date_joined }}</td>
                                             </tr>
                                             <!--end::Row-->
                                             <!--begin::Row-->
                                             <tr>
-                                                <td class="text-gray-500">Ngày Cập Nhật Cuối:</td>
-                                                <td class="text-dark">{{ formatDate(detailData.last_login) }}</td>
+                                                <td>Lần Đăng Nhập Cuối:</td>
+                                                <td v-if="detailData.last_login">{{ detailData.last_login }}</td>
+                                                <td v-else><span class="badge badge-light-danger">--</span></td>
                                             </tr>
                                             <!--end::Row-->
                                         </table>
@@ -324,8 +146,8 @@
                     <!--end::Card-->
                 </div>
                 <!--end::Form-->
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-sm  btn-light-primary" data-bs-dismiss="modal">
+                <div class="modal-footer" style="border-top: 0px; justify-content: center;">
+                    <button type="button" class="btn btn-sm btn-light-primary" data-bs-dismiss="modal">
                         Đóng
                     </button>
                 </div>
@@ -337,42 +159,22 @@
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, ref, onMounted, reactive } from "vue";
-import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
-import type { Sort } from "@/components/kt-datatable/table-partials/models";
+import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import ApiService from "@/core/services/ApiService";
-
-// validate
-import { hideModal } from "@/core/helpers/dom";
-import { ErrorMessage, Field, Form as VForm } from "vee-validate";
-import { vue3Debounce } from 'vue-debounce';
-import Fillter from "@/views/apps/users/filterUser.vue";
-
-import * as Yup from "yup";
-import Swal from "sweetalert2/dist/sweetalert2.js";
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
-import { markRaw } from 'vue'
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import { Modal } from "bootstrap";
-
-interface APIData {
-    first_name: string;
-    username: string;
-    password: string;
-    password_confirm: string;
-    is_staff: boolean;
-}
-
+// validate
+import { vue3Debounce } from 'vue-debounce';
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 export default defineComponent({
     name: "kt-target-list",
 
     components: {
-        KTDatatable,
-        ErrorMessage,
-        Field,
-        VForm,
-        Fillter,
+        ElTable,
+        ElTableColumn,
+        KTToolbar,
+        ElPagination,
     },
     directives: {
         debounce: vue3Debounce({ lock: true })
@@ -381,117 +183,21 @@ export default defineComponent({
         const list = ref<object | any>([])
         const data_group = ref<object | any>([])
         const totalPage = ref<number>(0);
-        // const testPage = ref<number>(0);
         const currentPage = ref<number>(1);
         const itemsPerPage = ref<number>(20);
-        const query = ref<String>('');
-        const search_group = ref<String>('');
-        const orderingID = ref<String>('');
-        const typeModal = ref<String>('');
-        const id = ref<number>(0);
-        const nameType = ref<string>('');
-        const apiData = ref<APIData>({
-            first_name: "",
-            username: "",
-            is_staff: false,
-            password: '',
-            password_confirm: '',
-        });
-        const errors = reactive({
-            first_name: '',
-            username: '',
-            password: '',
-            password_confirm: '',
-            detail: '',
-            is_staff: false,
-        });
-        const detailData = reactive({
-            id: '',
-            first_name: '',
-            username: '',
-            is_staff: '',
-            last_login: '',
-            date_joined: '',
-        });
-        const discardButtonRef = ref<HTMLElement | null>(null);
-        const ModalDetail = ref<null | HTMLElement>(null);
+        const query = ref<string>('');
+        const orderingID = ref<string>('-id');
         const loading = ref<boolean>(false)
-        const editEmail = ref<string>('');
-        const headerConfig = ref([
-            {
-                columnName: "ID",
-                columnLabel: "id",
-                sortEnabled: true,
-            },
-            {
-                columnName: "Họ Tên",
-                columnLabel: "first_name",
-            },
-            {
-                columnName: "Tên người dùng",
-                columnLabel: "username",
-            },
-            {
-                columnName: "Hành động",
-                columnLabel: "actions",
-                columnWidth: 50,
-            },
-        ]);
-
-        // eyePassword
-        const eyeButtonRef = ref<boolean>(false);
-        const eyePassword = () => {
-            eyeButtonRef.value = (eyeButtonRef.value) ? false : true;
-        };
-
-        const eyeButtonRef2 = ref<boolean>(false);
-        const eyePassword2 = () => {
-            eyeButtonRef2.value = (eyeButtonRef2.value) ? false : true;
-        };
-
-        const handleClick = (data: object | any, type: String) => {
-            typeModal.value = type
-            errors.first_name = ''
-            errors.username = ''
-            errors.is_staff = false
-            errors.detail = ''
-            if (Object.keys(data).length != 0 && type === 'edit') {
-                nameType.value = "Chỉnh Sửa Thông Tin Người Dùng"
-                apiData.value.first_name = data.first_name;
-                apiData.value.username = data.username;
-                apiData.value.is_staff = data.is_staff;
-                editEmail.value = data.username ? data.username : 'Nhập tên người dùng';
-                id.value = data.id;
-            } else {
-                nameType.value = "Thêm Mới Người Dùng"
-                if (discardButtonRef.value !== null) {
-                    apiData.value.is_staff = false;
-                    discardButtonRef.value.click();
-                }
-                // resetData();
-            }
-        };
-
-        // const resetData = () => {
-        //   apiData.value.title = '';
-        //   apiData.value.description = '';
-        //   id.value = 0;
-        // }
-
-        const handlePage = (page: number) => {
-            currentPage.value = page ?? 1;
-            getData();
-        };
-
-        const handlePerPage = (itemsPage: number) => {
-            currentPage.value = 1
-            itemsPerPage.value = itemsPage ?? 20;
-            getData();
-        };
-
-        const getData = () => {
+        const DialogVisibleDetail = ref<boolean>(false)
+        const detailData = reactive({
+            username: ' ',
+            first_name: '',
+            date_joined: '',
+            last_login: '',
+            is_staff: false,
+        });
+        const getData = async () => {
             loading.value = true;
-
             return ApiService.get(`user?query=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&orderingID=${orderingID.value}`)
                 .then(({ data }) => {
                     list.value = data.results
@@ -502,31 +208,12 @@ export default defineComponent({
                 })
                 .finally(() => {
                     loading.value = false
-                });
+                })
         }
+
 
         const selectedIds = ref<Array<number>>([]);
-            const deleteSelectd = () => {
-      ElMessageBox.confirm(
-        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-        'Xác Nhận Xóa',
-        {
-          confirmButtonText: 'Đồng Ý',
-          cancelButtonText: 'Hủy Bỏ',
-          type: 'warning',
-          icon: markRaw(Delete)
-        }
-      )
-        .then(() => {
-          deleteSubscription(selectedIds.value);
-        })
-        .catch(() => {
-
-        })
-    };
         const disabled = ref<boolean>(false);
-
-        
         const deleteSubscription = (ids: Array<number>) => {
             if (ids) {
                 disabled.value = true
@@ -535,75 +222,17 @@ export default defineComponent({
                 }, 1000);
                 return ApiService.delete(`user/multi-delete?id=${ids}`)
                     .then(({ data }) => {
-                        getData();
                         notification(data.detail, 'success', 'Xóa thành công')
                         currentPage.value = 1;
-                        selectedIds.value.length = 0;
+                        selectedIds.value = [];
+                        multipleTableRef.value!.clearSelection()
+                        getData()
                     })
                     .catch(({ response }) => {
                         notification(response.data.detail, 'error', 'Có lỗi xảy ra')
                     });
             }
         };
-
-        const sort = (sort: Sort) => {
-            if (sort.label) {
-                orderingID.value = (sort.order === "asc") ? `${sort.label}` : `-${sort.label}`;
-            }
-            getData();
-        };
-        const customRowTable = (detail: any) => {
-            if (detail) {
-                detailData.id = detail.id
-                detailData.first_name = detail.first_name
-                detailData.username = detail.username
-                detailData.is_staff = detail.is_staff
-                detailData.date_joined = detail.date_joined
-                detailData.last_login = detail.last_login
-                const modal = new Modal(
-                    document.getElementById("kt_modal_detail") as Element
-                );
-                modal.show();
-            } else {
-                notification('', 'error', 'Có lỗi xảy ra')
-            }
-        };
-
-        const onItemSelect = (selectedItems: Array<number>) => {
-            selectedIds.value = selectedItems
-        };
-
-        // validate start
-        const submitButtonRef = ref<null | HTMLButtonElement>(null);
-        const modalRef = ref<null | HTMLElement>(null);
-        const newTargetGroupModalRef = ref<null | HTMLElement>(null);
-
-        const validationSchema = Yup.object().shape({
-            first_name: Yup.string()
-                .required('Vui lòng nhập họ tên')
-                .matches(/^[a-zA-Z\sÀ-ỹ]+$/, 'Chỉ ký tự chữ được cho phép')
-                .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự'),
-            username: Yup.string()
-                .required('Vui lòng nhập tên đăng nhập'),
-            password: Yup.string()
-                .required('Vui lòng nhập mật khẩu')
-                .min(8, 'Mật khẩu nhập không được ít hơn 8 ký tự')
-                .max(150, 'Mật khẩu không được nhiều hơn 150 ký tự')
-                .matches(
-                    /^^(?=.*[ a-z])(?=.*[ A-Z])(?=.*\d)(?=.*[ @$!%*?&])[ A-Za-z\d@$!%*?&]{0,}$/,
-                    'Mật khẩu phải chứa ít nhất 1 chữ cái, chữ hoa, ký tự đặc biệt'
-                ),
-            password_confirm: Yup.string()
-                .required('Vui lòng nhập mật khẩu xác nhận')
-                .oneOf([Yup.ref('password'), null], 'Mật khẩu xác nhận không khớp')
-        });
-
-        const validationSchemaUpdate = Yup.object().shape({
-            first_name: Yup.string()
-                .required('Vui lòng nhập họ tên')
-                .matches(/^[a-zA-Z\sÀ-ỹ]+$/, 'Chỉ ký tự chữ được cho phép')
-                .max(50, 'Tên đăng nhập không được nhiều hơn 50 ký tự')
-        });
 
         const notification = (values: string, icon: string, more: string) => {
             Swal.fire({
@@ -615,182 +244,166 @@ export default defineComponent({
                 customClass: {
                     confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
-            }).then(() => {
-                hideModal(newTargetGroupModalRef.value);
-                
-                hideModal(ModalDetail.value);
             });
         }
 
-        const submit = async () => {
-            if (!submitButtonRef.value) {
-                return;
-            }
-            let formData = {
-                'first_name': apiData.value.first_name,
-                'username': apiData.value.username ?? "",
-                'password': apiData.value.password ?? "",
-                'is_staff': apiData.value.is_staff,
-            }
-
-            if (typeModal.value == 'add') {
-                return ApiService.post("/auth/register/", formData)
-                    .then(({ data }) => {
-                        if (submitButtonRef.value) {
-                            getData();
-                            notification(data.detail, 'success', 'Thêm mới thành công')
-                            //Disable button
-                            submitButtonRef.value.disabled = true;
-                            // Activate indicator
-                            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-                            setTimeout(() => {
-                                if (submitButtonRef.value) {
-                                    submitButtonRef.value.disabled = false;
-                                    submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                                }
-
-
-                            }, 1000);
-                        }
-                    })
-                    .catch(({ response }) => {
-                        if (response?.data) {
-                            errors.username = response.data.Errors.username ?? '';
-                            errors.first_name = response.data.Errors.first_name ?? '';
-                            errors.password = response.data.Errors.password ?? '';
-                            errors.detail = response.data.detail ?? '';
-                        } else {
-                            notification(response?.data?.detail, 'error', 'Có lỗi xảy ra')
-                        }
-                    });
-            } else {
-                let formDataUpdate = {
-                    'first_name': apiData.value.first_name,
-                    'is_staff': apiData.value.is_staff,
-                }
-
-                return ApiService.put(`/user/${id.value}/update`, formData)
-                    .then(({ data }) => {
-                        getData();
-                        notification(data.detail, 'success', 'Sửa mới thành công')
-                        if (submitButtonRef.value) {
-                            //Disable button
-                            submitButtonRef.value.disabled = true;
-                            // Activate indicator
-                            submitButtonRef.value.setAttribute("data-kt-indicator", "on");
-                            setTimeout(() => {
-                                if (submitButtonRef.value) {
-                                    submitButtonRef.value.disabled = false;
-                                    submitButtonRef.value?.removeAttribute("data-kt-indicator");
-                                }
-
-                            }, 1000);
-                        }
-
-                    })
-                    .catch(({ response }) => {
-                        if (response.data) {
-                            errors.username = response.data.Errors.username ?? '';
-                            errors.first_name = response.data.Errors.first_name ?? '';
-                            errors.password = response.data.Errors.password ?? '';
-                            errors.detail = response.data.detail ?? '';
-                        } else {
-                            notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                        }
-                    });
-            }
-
-        };
-
-        const formatDate = (date: string) => {
-            return date ? date : "--:--";
-        }
-
-        const removeTextModal = () => {
-            // typeModal.value == 'edit' && 
-
-
-            apiData.value.is_staff = false
-        }
-
-        // end validate
-
-
         const handleFilter = (data: any) => {
-            if (data) {
-                query.value = data.query;
-                search_group.value = data.type;
-                currentPage.value = 1;
-                getData();
-            } else {
-                notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
-            }
-
+            query.value = data;
+            currentPage.value = 1;
+            getData();
         };
 
-        onMounted(() => {
+        // xóa 
+        const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+
+        // handleCurrentChange
+        const handleCurrentChange = (data: any) => {
+            DialogVisibleDetail.value = true
+            detailData.username = data.username
+            detailData.first_name = data.first_name
+            detailData.date_joined = data.date_joined
+            detailData.last_login = data.last_login
+            detailData.is_staff = data.is_staff
+            const modal = new Modal(
+                document.getElementById("kt_modal_detail") as Element
+            );
+            modal.show();
+        }
+
+        // table
+        const selectedName = ref<Array<any>>([]);
+        const handleSelectionChange = (val: any) => {
+            console.log(val)
+            if (val) {
+                selectedName.value = val.map((item: any) => item.name || item.title || item.first_name);
+                selectedIds.value = val.map((item: { id: number }) => item.id);
+            }
+            return;
+        }
+
+        const getRowKey = (row: any) => {
+            return row.id
+        }
+
+        // Lắng nghe sự thay đổi của currentPage và pageSize
+        watch(currentPage, (newCurrentPage) => {
+            currentPage.value = newCurrentPage ?? 1;
             getData();
         });
 
+        watch(itemsPerPage, (newPageSize) => {
+            itemsPerPage.value = newPageSize ?? 20;
+            getData();
+        });
+
+        // tính toán chiều cao table
+        const heightTable = ref(0)
+        const handleResize = () => {
+            const windowWidth = window.innerWidth;
+            if (windowWidth >= 1400) {
+                heightTable.value = window.innerHeight - 80;
+            } else if (windowWidth >= 1200) {
+                heightTable.value = window.innerHeight - 80;
+            } else if (windowWidth >= 992) {
+                heightTable.value = window.innerHeight - 80;
+            } else if (windowWidth >= 768) {
+                heightTable.value = window.innerHeight - 75;
+            } else if (windowWidth >= 576) {
+                heightTable.value = window.innerHeight - 75;
+            } else {
+                // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
+                heightTable.value = window.innerHeight - 70;
+            }
+        };
+        // thêm mới
+        const urlAddNew = ref('user-form/add')
+        const truncateText = (text: string, maxLength: number) => {
+            if (text.length > maxLength) {
+                return text.substring(0, maxLength) + '...';
+            }
+            return text;
+        };
+
+        const handleSortChange = (column: any) => {
+            orderingID.value = (column.order == 'ascending' && column.prop == 'id') ? '-id' : 'id'
+            getData()
+        }
+        
+        // thay đổi kích thước header
+        const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+            
+        }
+
+        onMounted(() => {
+            getData();
+            handleResize();
+            window.addEventListener('resize', handleResize);
+        });
+
+        onUnmounted(() => {
+            window.removeEventListener('resize', handleResize);
+        });
+
         return {
+            headerHeight,
+            onheaderHeight,
             getData,
             list,
-            headerConfig,
-            sort,
-            onItemSelect,
             selectedIds,
-            deleteSelectd,
-            
-            getAssetPath,
 
             // validate
-            // crud
-            apiData,
             data_group,
-            validationSchema,
-            validationSchemaUpdate,
-            submit,
-            submitButtonRef,
-            modalRef,
-            newTargetGroupModalRef,
-            handleClick,
-            errors,
-            
-            discardButtonRef,
-
-            // detials
-            ModalDetail,
-            customRowTable,
-            detailData,
 
             // page 
             itemsPerPage,
             totalPage,
             currentPage,
-            handlePage,
-            handlePerPage,
 
             // search query 
             query,
-            search_group,
             handleFilter,
 
             // edit 
-            nameType,
-            formatDate,
             loading,
-
-            // eye
-            eyePassword,
-            eyeButtonRef,
-            // dataPasswordChange,
-            eyeButtonRef2,
-            eyePassword2,
-
-            removeTextModal,
-            editEmail,
             disabled,
+
+            //
+            handleResize,
+            truncateText,
+            heightTable,
+            handleSelectionChange,
+            getRowKey,
+            handleCurrentChange,
+            multipleTableRef,
+            urlAddNew,
+            handleSortChange,
+            deleteSubscription,
+            detailData,
+            DialogVisibleDetail,
+            selectedName
         };
     },
 });
 </script>
+
+
+<style >
+span.el-dialog__title {
+    color: #181C32 !important;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 27px;
+}
+
+#modal-detail .el-dialog__body {
+    padding-top: 10px;
+}
+
+.dialog-footer {
+    display: flex;
+    justify-content: center;
+    /* Căn giữa theo chiều dọc và ngang */
+}
+</style>
