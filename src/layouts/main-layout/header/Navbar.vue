@@ -97,7 +97,7 @@
         data-kt-menu-attach="parent"
         data-kt-menu-placement="bottom-end"
       >
-        <img :src="getAssetPath('media/avatars/300-1.jpg')" alt="user" />
+        <img alt="user" class="object-fit-cover" src="https://i.mydramalist.com/66L5p_5f.jpg" />
       </div>
       <KTUserMenu />
       <!--end::Menu wrapper-->

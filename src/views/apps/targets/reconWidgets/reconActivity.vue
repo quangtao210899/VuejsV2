@@ -90,14 +90,13 @@ export default defineComponent({
     activitieLine: Object,
     process: { type: Array, required: true, default: [0] },
     activity: { type: Object as () => Record<string, any>, required: true },
-    confirmVisibleActivity: { type: Boolean, required: true, default: false },
   },
   setup(props) {
     // console.log(props)
     const chartRef = ref<typeof VueApexCharts | null>(null);
     let chart: ApexOptions = {};
     const store = useThemeStore();
-    const confirmVisibleActivity = ref<boolean>(props.confirmVisibleActivity)
+    const confirmVisibleActivity = ref<boolean>(false)
     const detailActivity = reactive({
       color: '',
       commandShell: '',

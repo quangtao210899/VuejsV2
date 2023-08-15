@@ -20,11 +20,35 @@ export const useAuthStore = defineStore("auth", () => {
   const host = import.meta.env.VITE_APP_API_HOST
   const user = ref<User>({} as User);
   const isAuthenticated = ref(!!JwtService.getToken());
+  const username = ref('');
+  const first_name = ref('');
+
   function setAuth(authUser: User) {
     isAuthenticated.value = true;
     user.value = authUser;
     errors.value = {};
     JwtService.saveToken(user.value.access);
+  }
+
+  function getUserName() {
+    return 'anh depj tria'
+  }
+
+  function getCurrentUser() {
+    return ApiService.get('/user/retrieve')
+      .then(({ data }) => {
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('first_name', data.first_name);
+        if (data.username) {
+          username.value = data.username;
+        }
+        if (data.first_name) {
+          first_name.value = data.first_name;
+        }
+      })
+      .catch(({ response }) => {
+        notification(response.data.detail ?? 'Có lỗi xảy ra', 'error')
+      })
   }
 
   function setError(error: any) {
@@ -52,6 +76,7 @@ export const useAuthStore = defineStore("auth", () => {
         setAuth(data);
         ApiService.setHeader();
         ApiService.post("manage",{}).then()
+        getCurrentUser()
       })
       .catch(({ response }) => {
         setError(response.data);
@@ -186,5 +211,9 @@ export const useAuthStore = defineStore("auth", () => {
     register,
     forgotPassword,
     verifyAuth,
+    getUserName,
+    getCurrentUser,
+    first_name,
+    username,
   };
 });
