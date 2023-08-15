@@ -318,7 +318,7 @@ export default defineComponent({
         // thêm mới
         const urlAddNew = ref('user-form/add')
         const truncateText = (text: string, maxLength: number) => {
-            if (text.length > maxLength) {
+            if (text && text.length > maxLength) {
                 return text.substring(0, maxLength) + '...';
             }
             return text;

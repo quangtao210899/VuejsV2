@@ -2606,7 +2606,7 @@ export default defineComponent({
 
         //  Cắt chuỗi 
         const truncateText = (text: string, maxLength: number) => {
-            if (text.length > maxLength) {
+            if (text && text.length > maxLength) {
                 return text.substring(0, maxLength) + ' ...';
             }
             return text;
