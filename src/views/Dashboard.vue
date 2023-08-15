@@ -186,7 +186,7 @@ export default defineComponent({
         .then(({ data }) => {
           // target
           target.value = data.count_target;
-          // console.log(data)
+          // // console.log(data)
 
           // subdomains
           subdomain.value = data.subdomains;
@@ -229,9 +229,9 @@ export default defineComponent({
           // Latest Most common Ports
           LatestVulnerabilities.value.push(...data.last_vuls)
 
-          // console.log(targetGroupLabels.value)
-          // console.log(MostcommonPortColor.value)
-          // console.log(MostcommonPortLabels.value)
+          // // console.log(targetGroupLabels.value)
+          // // console.log(MostcommonPortColor.value)
+          // // console.log(MostcommonPortLabels.value)
 
         })
         .catch(({ response }) => {

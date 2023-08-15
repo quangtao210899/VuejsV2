@@ -691,7 +691,7 @@ export default defineComponent({
       loading.value = true;
       return ApiService.get(`vuls/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&search=${query.value}&status=${status.value}&severity=${severity.value}&ip=${ip.value}&search_ip_type=${typeIp.value}&domain=${domain.value}&search_domain_type=${typeDomain.value}&flag=${authen.value}`)
         .then(({ data }) => {
-          // console.log(data)
+          // // console.log(data)
           list.value = data.results
           totalPage.value = data.count
         })
@@ -776,7 +776,7 @@ export default defineComponent({
     };
 
     const customRowTable = (detail: any) => {
-      console.log(detail)
+      // console.log(detail)
       checkitemsPerPage.value = true;
       if (detail) {
         closeOnRow.value = true;
@@ -873,7 +873,7 @@ export default defineComponent({
     };
 
     const handleFilter = (data: any) => {
-      console.log(data);
+      // console.log(data);
 
       query.value = data
       currentPage.value = 1;
@@ -945,7 +945,7 @@ export default defineComponent({
 
     const handleMouseMove = (event: any) => {
       if (!state.isDragging) return;
-      // console.log(state, 'state')
+      // // console.log(state, 'state')
 
       const deltaX = event.clientX - state.startX;
       container.value.scrollLeft = state.startScrollLeft - deltaX;
@@ -1001,7 +1001,7 @@ export default defineComponent({
           notification(data?.detail, 'success', 'Chỉnh sửa thành công')
         })
         .catch(({ response }) => {
-          // console.log(response)
+          // // console.log(response)
           // errorUploadFileDetail.value = response.data?.detail 
           if (response.data?.Errors) {
             // let errors = response.data.Errors
@@ -1024,7 +1024,7 @@ export default defineComponent({
       has_delete_file.value = false
       return ApiService.get(`/vuls/${detailData.id}/get_document`)
         .then(({ data }) => {
-          // console.log(data)
+          // // console.log(data)
           contentNote.value = (data.document == null) ? '<p><br></p>' : data.document;
           if (data.files.length != 0) {
             isCheckDowload.value = false
@@ -1052,7 +1052,7 @@ export default defineComponent({
 
     const upload = ref<UploadInstance>()
     const handleExceed: UploadProps['onExceed'] = (files) => {
-      console.log(files)
+      // console.log(files)
       upload.value!.clearFiles()
       const file = files[0] as UploadRawFile
       file.uid = genFileId()

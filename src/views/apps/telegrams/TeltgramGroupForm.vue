@@ -200,7 +200,7 @@ export default defineComponent({
         })
 
         const formSubmit = async (formEl: FormInstance | undefined) => {
-            // console.log(rules)
+            // // console.log(rules)
             if (!formEl) return
             resetForm();
             await formEl.validate((valid, fields) => {
@@ -211,7 +211,7 @@ export default defineComponent({
                         addFormSubmit(ruleForm);
                     }
                 } else {
-                    console.log('error submit!', fields)
+                    // console.log('error submit!', fields)
                 }
             })
         }
@@ -232,7 +232,7 @@ export default defineComponent({
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Thêm mới thành công')
                     // getData();
-                    console.log(data);
+                    // console.log(data);
                 })
                 .catch(({ response }) => {
                     if (response?.data) {

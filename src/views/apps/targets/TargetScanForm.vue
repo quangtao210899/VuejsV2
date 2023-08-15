@@ -458,7 +458,7 @@ export default defineComponent({
                 if (valid) {
                     addFormSubmit();
                 } else {
-                    console.log('error submit!', fields)
+                    // console.log('error submit!', fields)
                 }
             })
         }
@@ -487,7 +487,7 @@ export default defineComponent({
                 }
             });
 
-            console.log(scanFormState, 111);            
+            // console.log(scanFormState, 111);            
             
             return ApiService.post("scan/create/", scanFormState)
                 .then(({ data }) => {

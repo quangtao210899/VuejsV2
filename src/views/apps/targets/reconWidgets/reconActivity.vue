@@ -92,7 +92,7 @@ export default defineComponent({
     activity: { type: Object as () => Record<string, any>, required: true },
   },
   setup(props) {
-    // console.log(props)
+    // // console.log(props)
     const chartRef = ref<typeof VueApexCharts | null>(null);
     let chart: ApexOptions = {};
     const store = useThemeStore();

@@ -342,7 +342,7 @@ export default defineComponent({
         const router = useRouter();
 
         const customRowTable = (detail: any) => {
-            console.log(detail)
+            // console.log(detail)
             return router.push(`/cve/${IDScan.value}/scan-detail/${detail.id}`);
 
             // if (detail) {

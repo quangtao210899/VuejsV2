@@ -628,7 +628,7 @@ export default defineComponent({
                 if (valid) {
                     addFormSubmit(ruleForm);
                 } else {
-                    console.log('error submit!', fields)
+                    // console.log('error submit!', fields)
                 }
             })
         }

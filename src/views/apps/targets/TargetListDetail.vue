@@ -2155,7 +2155,7 @@ export default defineComponent({
                         const totalCount = (activity.value.total_finish / (activity.value.total_finish + activity.value.total_not_done)) * 100;
                         process.value = [parseFloat(totalCount.toFixed(1))]
                         activities.value = (data.recon.recon.recon[0].activity !== undefined) ? data.recon.recon.recon[0].activity.task_done : {}
-                        console.log(process.value)
+                        // console.log(process.value)
 
                         // domain
                         domain_info.value = ( data.recon.recon.recon[0].domain_info !== undefined) ?  data.recon.recon.recon[0].domain_info.message : {};
@@ -2795,7 +2795,7 @@ export default defineComponent({
                 notification(data?.detail, 'success', 'Chỉnh sửa thành công')
                 })
                 .catch(({ response }) => {
-                // console.log(response)
+                // // console.log(response)
                 // errorUploadFileDetail.value = response.data?.detail 
                 if (response.data?.Errors) {
                     // let errors = response.data.Errors
@@ -2817,7 +2817,7 @@ export default defineComponent({
             isCheckDowload.value = false
             return ApiService.get(`/vuls/${detailData.id}/get_document`)
                 .then(({ data }) => {
-                // console.log(data)
+                // // console.log(data)
                 contentNote.value = (data.document == null) ? '<p><br></p>' : data.document;
                 if (data.files.length != 0) {
                     fileDocumentData.value[0].name = data.files[0]?.file_name

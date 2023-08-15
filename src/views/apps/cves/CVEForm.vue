@@ -469,7 +469,7 @@ export default defineComponent({
         ]
 
         const formSubmit = async (formEl: FormInstance | undefined) => {
-            // console.log(rules)
+            // // console.log(rules)
             if (!formEl) return
             resetForm();
             await formEl.validate((valid, fields) => {
@@ -495,7 +495,7 @@ export default defineComponent({
                 loading.value = true;
                 return ApiService.get(`cve/${ID.value}/detail/`)
                     .then(({ data }) => {
-                        console.log(data)
+                        // console.log(data)
                         ruleForm.code = data.code;
                         ruleForm.product_type = data.product_type;
                         ruleForm.vul_type = data.vul_type;

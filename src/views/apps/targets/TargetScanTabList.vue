@@ -522,7 +522,6 @@ import { defineComponent, ref, onMounted, reactive, watch, onUnmounted, computed
 import KTDatatable from "@/components/kt-datatable/KTDataTable.vue";
 import ApiService from "@/core/services/ApiService";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import filtersTabScan from "@/views/apps/targets/filtersTabScan.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import { useRoute } from 'vue-router';
 import { debounce } from 'vue-debounce'
@@ -571,7 +570,6 @@ export default defineComponent({
 
     components: {
         KTDatatable,
-        filtersTabScan,
         CodeHighlighter,
         KTToolbar,
     },
@@ -669,7 +667,7 @@ export default defineComponent({
                             element.affects_url = data.target.domain + ':' + element.port_scan.port
                         }
                     });
-                    // console.log(list.value)
+                    // // console.log(list.value)
 
                     targetData.value.id = data.target.id
                     targetData.value.domain = data.target.domain
@@ -704,7 +702,7 @@ export default defineComponent({
                     showLocaleTime();
                 })
                 .catch((response) => {
-                    console.log(response.code)
+                    // console.log(response.code)
                     if (response?.code == "ERR_NETWORK" || response?.code == "ERR_BAD_RESPONSE") { //status timeout
                         // cộng thêm 30s với mỗi lần timeout
                         eventTime.value = (parseInt(eventTime.value) + 30000).toString()
@@ -962,7 +960,7 @@ export default defineComponent({
             } else {
                 notification('Có lỗi xảy ra', 'error', 'Có lỗi xảy ra')
             }
-            console.log('vao cancel');
+            // console.log('vao cancel');
 
         };
 

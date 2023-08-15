@@ -53,7 +53,7 @@ export default defineComponent({
 
     onBeforeMount(() => {
       Object.assign(chart, chartOptions(props));
-      // console.log(chart)
+      // // console.log(chart)
     });
 
     const refreshChart = () => {
