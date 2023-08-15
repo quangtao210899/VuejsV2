@@ -218,7 +218,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/telegram-list",
         name: "telegram",
         // component: () => import("@/views/apps/telegrams/TelegramList.vue"),
-        component: () => import("@/views/apps/telegrams/TelegramList2.vue"),
+        component: () => import("@/views/apps/telegrams/TelegramList.vue"),
         meta: {
           pageTitle: "Telegarm",
           breadcrumbs: ["Telegram"],
@@ -228,7 +228,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/telegram-detail/:id",
         name: "telegram-detail",
         // component: () => import("@/views/apps/telegrams/TelegramListDetail.vue"),
-        component: () => import("@/views/apps/telegrams/TelegramListDetail2.vue"),
+        component: () => import("@/views/apps/telegrams/TelegramListDetail.vue"),
         meta: {
           pageTitle: "Chi tiết nhóm Telegarm",
           breadcrumbs: ["Nhóm Telegram", "Chi Tiết",],
@@ -295,7 +295,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/cve",
         name: "scanCVE",
-        component: () => import("@/views/apps/cves/CVEList_v2.vue"),
+        component: () => import("@/views/apps/cves/CVEList.vue"),
         meta: {
           pageTitle: "CVE",
           breadcrumbs: ["CVE"],
@@ -324,7 +324,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/cve/:idCVE/scan-detail/:id",
         name: "targetDetectionListCVE",
-        component: () => import("@/views/apps/cves/targetDetectionListCVE2.vue"), 
+        component: () => import("@/views/apps/cves/targetDetectionListCVE.vue"), 
         meta: {
           pageTitle: "Danh sách mục tiêu dính lỗ hổng",
           breadcrumbs: ["CVE","Scan","Chi Tiết Scan"],
@@ -334,7 +334,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/cve/:id/scan/detail",
         name: "targetDetectionListCVEAll",
-        component: () => import("@/views/apps/cves/targetDetectionListCVEAll2.vue"),
+        component: () => import("@/views/apps/cves/targetDetectionListCVEAll.vue"),
         meta: {
           pageTitle: "Danh sách mục tiêu dính lỗ hổng",
           breadcrumbs: ["CVE","Chi Tiết Kết Quả"],
@@ -360,7 +360,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/user-list",
         name: "user",
         // component: () => import("@/views/apps/users/UserList.vue"),
-        component: () => import("@/views/apps/users/UserList2.vue"),
+        component: () => import("@/views/apps/users/UserList.vue"),
         meta: {
           pageTitle: "Người Dùng",
           breadcrumbs: ["Người Dùng"],

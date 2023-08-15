@@ -1,128 +1,104 @@
 <template>
+  <div ref="refGetTheHeight"> 
+    <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
+      @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Tin Nhắn"></KTToolbar>
+  </div>
   <!--begin::Card-->
-  <div class="app-container container-fluid p-5 mt-10">
-  <div class="card h-100 d-block">
-    <!--begin::Card header-->
-    <div class="card-header border-0 pt-10 pt-sm-10 pt-lg-6 position-absolute end-0 pe-1  " style="top: -70px;">
-      <!--begin::Card title-->
-      <!-- <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold fs-3 mb-1">Danh sách quản lý lỗ hổng</span>
-
-        <span class="text-muted fw-semobold fs-7">Tổng có {{ totalPage }} lỗ hổng</span>
-      </h3> -->
-      <!--begin::Card title-->
-
-      <!--begin::Card toolbar-->
-      <div class="card-toolbar">
-        <!--begin::Toolbar-->
-        <div v-show="selectedIds.length === 0">
-          <div class="d-flex justify-content-end " data-kt-subscription-table-toolbar="base">
-            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Tìm kiếm" placement="top">
-              <button type="button" class="btn btn-sm fw-bold bg-body btn-color-gray-700 btn-active-color-primary me-2"
-                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-                <KTIcon icon-name="filter" icon-class="fs-2" />
-                Filter
-              </button>
-            </el-tooltip>
-            <Fillter @filterData="handleFilter" :type="group_type"></Fillter>
-          </div>
-        </div>
-
-        <!--begin::Group actions-->
-        <div v-show="selectedIds.length !== 0">
-          <div class="d-flex justify-content-end align-items-center">
-            <div class="fw-bold me-5">
-              <span class="me-2">{{ selectedIds.length }}</span>Selected
-            </div>
-            <el-tooltip class="box-item" effect="dark" :hide-after="0" content="Xóa" placement="top">
-              <button type="button" @click="deleteSelectd()" :disabled="disabled" class="btn btn-danger  btn-sm">
-                <KTIcon icon-name="detele" icon-class="bi bi-trash" :style="{ fontSize: '16px' }" />
-                Xóa mục đã chọn
-              </button>
-            </el-tooltip>
-            <!-- <button type="button" class="btn btn-light-danger ms-2">
-              Hủy
-            </button> -->
-          </div>
-        </div>
-        <!--end::Group actions-->
-      </div>
-      <!--end::Card toolbar-->
-    </div>
-    <!--end::Card header-->
-
-    <!--begin::Card body-->
-    <div class="h-100 w-100 p-0 m-0">
-      <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;" class-name="my-custom-table rounded-top"
-        :height="heightTable" table-layout="fixed" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)" @selection-change="handleSelectionChange"
-        highlight-current-row :row-key="getRowKey" @current-change="handleCurrentChange">
-        <template #empty>
-          <div class="flex items-center justify-center h-100%">
-            <el-empty description="Không có dữ liệu nào"/>
-          </div>
-        </template>
-        <el-table-column label-class-name="border border-0 fs-7" type="selection" width="35" :reserve-selection="true" />
-
-        <el-table-column min-width="35" label-class-name="border border-0" prop="id" label="ID">
-          <template #default="scope">
-            <span class="fs-6 text-gray-600 fw-bold">{{ scope.row.id ?? '--' }}</span>
-          </template>
-        </el-table-column>
-
-        <el-table-column label-class-name="border border-0 fs-7" prop="group_name" label="GROUP">
-          <template #default="scope">
-            <span class="text-dark text-hover-primary fs-6 fw-bold">{{ scope.row.group_name ?? '--' }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column min-width="100" label-class-name="border border-0 fs-7" prop="username" label="TÊN">
-          <template #default="scope">
-            <div class="d-flex align-items-center">
-              <!--begin::Symbol-->
-              <div class="symbol symbol-45px me-5">
-                <span class="symbol-label">
-                  <KTIcon icon-name="user" icon-class="text-success  fs-2x" />
-                </span>
-              </div>
-              <!--end::Symbol-->
-              <!--begin::Text-->
-              <div class="d-flex flex-column">
-                <span class="text-dark text-hover-primary fs-6 fw-bold">{{ scope.row.username ?? '--' }}</span>
-                <span class="text-muted fw-semobold">{{ scope.row.phone ?? '--' }}</span>
-              </div>
-              <!--end::Text-->
+  <el-scrollbar :height="heightTable" >
+    <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
+      <div class="p-5 bg-body rounded-3">
+        <!--begin::Card body-->
+        <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
+          class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
+          @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="handleCurrentChange"
+          :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
+          <template #empty>
+            <div class="flex items-center justify-center h-100%">
+              <el-empty description="Không có dữ liệu nào"/>
             </div>
           </template>
-        </el-table-column>
 
-        <el-table-column min-width="150" label-class-name="border border-0" prop="text" label="NỘI DUNG">
-          <template #default="scope">
-            <span class="fs-6 text-gray-600 fw-bold">{{ truncateText(scope.row.text, 25) ?? '--'
-            }}</span>
-          </template>
-        </el-table-column>
+          <el-table-column label-class-name=" fs-13px fw-bold " type="selection" width="35" :reserve-selection="true" />
 
-        <el-table-column min-width="90" label-class-name="border border-0 fs-7" prop="date" label="THỜI GIAN">
-          <template #default="scope">
-            <span class="text-gray-600 d-flex justify-content-start align-items-center fs-7 fw-bold">
-              <KTIcon class="me-1" icon-name="calendar" icon-class="fs-3" />
-              {{ scope.row.date }}
-            </span>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="d-flex justify-content-center mx-auto w-100 py-5 bg-white rounded-bottom ">
-        <el-pagination background v-model:current-page="currentPage" v-model:page-size="itemsPerPage" :total="totalPage"
-          :layout="(checkPaginationTable) ? 'prev, pager, next' : 'total, sizes, prev, pager, next, jumper'"
-          :pager-count="(checkPaginationTable) ? 5 : 6" :disabled="disabled"
-          :page-sizes="(checkPaginationTable) ? [] : [10, 20, 30, 40, 50]"></el-pagination>
+          <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
+            <template #default="scope">
+              <span v-if="scope.row.id != ''" class="fs-13px text-gray-700 text-hover-primary">{{ scope.row.id
+              }}</span>
+              <span v-else class="badge badge-light-danger">--</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column label-class-name="fs-13px fw-bold text-dark" min-width="100" prop="group_name"
+            label="TÊN NHÓM">
+            <template #default="scope">
+              <span v-if="scope.row.group_name != ''" class="fs-13px text-gray-700 text-hover-primary">{{
+                scope.row.group_name }}</span>
+              <span v-else class="badge badge-light-danger">--</span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="120" label-class-name="fs-13px fw-bold text-dark" prop="target_count" label="TÊN">
+            <template #default="scope">
+              <div class="d-flex align-items-center">
+                <!--begin::Symbol-->
+                <div class="symbol symbol-45px me-5">
+                  <span class="symbol-label">
+                    <KTIcon icon-name="user" icon-class="text-success fs-2x" />
+                  </span>
+                </div>
+                <!--end::Symbol-->
+                <!--begin::Text-->
+                <div class="d-flex flex-column" v-if="!scope.row.phone && scope.row.username == ' '">
+                  <span class="badge badge-light-danger">--</span>
+                </div>
+                <div class="d-flex flex-column" v-else>
+                  <div class="mx-0 my-0">
+                    <span class="fs-13px text-gray-700" v-if="scope.row.username != ' '">{{ scope.row.username }}</span>
+                    <span class="badge badge-light-danger" v-else>--</span>
+                  </div>
+                  <div class="mx-0 my-0">
+                    <span class="fs-13px text-gray-700" v-if="scope.row.phone">{{ scope.row.phone }}</span>
+                    <span class="badge badge-light-danger" v-else>--</span>
+                  </div>
+                </div>
+                <!--end::Text-->
+              </div>
+            </template>
+          </el-table-column>
+
+          <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="text" label="NỘI DUNG">
+            <template #default="scope">
+              <span v-if="scope.row.text != ''" class="fs-13px text-gray-700 text-hover-primary">{{ truncateText(scope.row.text, 200) }}</span>
+              <span v-else class="badge badge-light-danger">--</span>
+            </template>
+          </el-table-column>
+          <el-table-column min-width="100" label-class-name="fs-13px text-dark fw-bold" prop="date" label="THỜI GIAN">
+            <template #default="scope">
+              <span v-if="scope.row.date != ''" class="fs-13px text-gray-700 text-hover-primary">
+                <i class="fa-solid fa-calendar-days fs-7"></i>
+                {{ scope.row.date }}</span>
+              <span v-else class="badge badge-light-danger">--</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+          <div v-if="totalPage > 0">
+            <span class="text-capitalize fs-13px">Tổng Số Tin Nhắn: {{ totalPage }}</span>
+          </div>
+          <el-pagination background v-model:current-page="currentPage" :hide-on-single-page="true"
+            v-model:page-size="itemsPerPage" :total="totalPage" layout="prev, pager, next"
+            :disabled="disabled"></el-pagination>
+          <div></div>
+        </div>
+        <!--end::Card body-->
       </div>
     </div>
-    <!--end::Card body-->
-  </div></div>
+  </el-scrollbar>
+
   <!--end::Card-->
 
-  <el-dialog v-model="DialogVisibleDetail" title="Chi tiết tin nhắn" width="600" align-center modal-class="12345">
-    <div class="modal-body">
+  <!-- modal detail  -->
+  <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Tin Nhắn" width="650" align-center id="modal-detail" :show-close="false">
+    <div class="modal-body" style="padding: 0px !important;">
       <!--begin::Card-->
       <div class="card card-flush">
         <!--begin::Card header-->
@@ -137,12 +113,19 @@
                 </span>
               </div>
               <!--end::Symbol-->
-              <!--begin::Text-->
-              <div class="d-flex flex-column">
-                <span class="text-dark text-hover-primary fs-4 fw-bold">{{ detailData.username ?? '--' }}</span>
-                <span class="text-muted fw-semobold">{{ detailData.phone ?? '--' }}</span>
+              <div class="d-flex flex-column" v-if="!detailData.phone && detailData.username == ' '">
+                <span class="badge badge-light-danger">--</span>
               </div>
-              <!--end::Text-->
+              <div class="d-flex flex-column" v-else>
+                <div class="mx-0 my-0">
+                  <span class="fs-13px text-gray-700" v-if="detailData.username != ' '">{{ detailData.username }}</span>
+                  <span class="badge badge-light-danger" v-else>--</span>
+                </div>
+                <div class="mx-0 my-0">
+                  <span class="fs-13px text-gray-700" v-if="detailData.phone">{{ detailData.phone }}</span>
+                  <span class="badge badge-light-danger" v-else>--</span>
+                </div>
+              </div>
             </div>
           </div>
           <!--begin::Card toolbar-->
@@ -152,31 +135,31 @@
         <!--end::Card header-->
 
         <!--begin::Card body-->
-        <div class="card-body py-0">
+        <div class="card-body py-0" style="padding-top:0px !important;">
           <!--begin::Section-->
-          <div class="mb-10">
+          <div>
             <!--begin::Title-->
-            <h6>Thông tin chi tiết:</h6>
+            <h5>Thông Tin Chi Tiết:</h5>
             <!--end::Title-->
 
             <!--begin::Details-->
-            <div class="py-5">
+            <div>
               <!--begin::Row-->
               <div class="me-5">
                 <!--begin::Details-->
                 <div>
                   <div class="row fs-6 mb-3">
-                    <div class="col-3 text-gray-400">Tên nhóm:</div>
-                    <div class="col-9 text-gray-800 fs-5 fw-bold"><span>{{ detailData.group_name ?? '--' }}</span>
+                    <div class="col-3 text-gray-900">Tên Nhóm:</div>
+                    <div class="col-9 text-gray-900"><span>{{ detailData.group_name ?? '--' }}</span>
                     </div>
                   </div>
                   <div class="row fs-6 mb-3">
-                    <div class="col-3 text-gray-400">Nội dung:</div>
-                    <div class="col-9 text-gray-800"><span>{{ detailData.text ?? '--' }}</span></div>
+                    <div class="col-3 text-gray-900">Nội Dung:</div>
+                    <div class="col-9 text-gray-900"><span>{{ detailData.text ?? '--' }}</span></div>
                   </div>
                   <div class="row fs-6">
-                    <div class="col-3 text-gray-400">Thời gian:</div>
-                    <div class="col-9 text-gray-800"><span>{{ detailData.date }}</span></div>
+                    <div class="col-3 text-gray-900">Thời Gian:</div>
+                    <div class="col-9 text-gray-900"><span>{{ detailData.date }}</span></div>
                   </div>
                 </div>
                 <!--end::Details-->
@@ -192,57 +175,58 @@
       </div>
       <!--end::Card-->
     </div>
+
+    <template #footer center>
+      <div class="dialog-footer">
+        <button type="button" class="btn btn-sm btn-light-primary" @click="DialogVisibleDetail = false">
+          Đóng
+        </button>
+      </div>
+    </template>
   </el-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, onUnmounted, watch } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, onUnmounted } from "vue";
 import ApiService from "@/core/services/ApiService";
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 
 // validate
 import { vue3Debounce } from 'vue-debounce';
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import Fillter from "@/views/apps/telegrams/filters.vue";
-import { Modal } from "bootstrap";
-import { useRoute } from 'vue-router';
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
-import { markRaw } from 'vue'
-import { ElTable, ElTableColumn } from 'element-plus';
-
+import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 export default defineComponent({
-  name: "kt-scans-list",
+  name: "kt-target-list",
 
   components: {
-    Fillter,
     ElTable,
-    ElTableColumn
+    ElTableColumn,
+    KTToolbar,
+    ElPagination,
   },
   directives: {
     debounce: vue3Debounce({ lock: true })
   },
   setup() {
-    const route = useRoute();
-    const list = ref<any>([])
-    const loading = ref<boolean>(false)
+    const list = ref<object | any>([])
+    const data_group = ref<object | any>([])
     const totalPage = ref<number>(0);
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
-    const query = ref<String>('');
-    const group_type = ref<null | string | any>(route.params.id ?? '');
+    const query = ref<string>('');
+    const orderingID = ref<string>('-id');
+    const loading = ref<boolean>(false)
+    const DialogVisibleDetail = ref<boolean>(false)
     const detailData = reactive({
-      id: '',
-      group_name: '',
-      username: '',
+      username: ' ',
       phone: '',
+      group_name: '',
       text: '',
       date: '',
     });
-    const multipleTableRef = ref<InstanceType<typeof ElTable>>()
-
     const getData = async () => {
       loading.value = true;
-      await ApiService.get(`/telegram/index?page=${currentPage.value}&page_size=${itemsPerPage.value}&group_type=${group_type.value}&search=${query.value}`)
+      return ApiService.get(`telegram/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -252,48 +236,11 @@ export default defineComponent({
         })
         .finally(() => {
           loading.value = false
-        });
+        })
     }
 
-    // tính thời gian
-    // const eventTime = ref<number | any>('30000');
-    // let intervalId: any;
-    // const startTimer = () => {
-    //   intervalId = setInterval(() => {
-    //     getData();
-    //   }, eventTime.value);
-    // };
 
-    // const stopTimer = () => {
-    //   clearInterval(intervalId);
-    // };
-
-    // onMounted(() => {
-    //   startTimer();
-    // });
-
-    // onBeforeUnmount(() => {
-    //   stopTimer();
-    // });
-
-    const selectedIds = ref<any>([]);
-    const deleteSelectd = () => {
-      ElMessageBox.confirm(
-        'Tập tin sẽ được xóa vĩnh viễn. Tiếp tục?',
-        'Xác Nhận Xóa',
-        {
-          confirmButtonText: 'Đồng Ý',
-          cancelButtonText: 'Hủy Bỏ',
-          type: 'warning',
-          icon: markRaw(Delete)
-        }
-      )
-        .then(() => {
-          deleteSubscription(selectedIds.value);
-        })
-        .catch(() => {
-        })
-    };
+    const selectedIds = ref<Array<number>>([]);
     const disabled = ref<boolean>(false);
     const deleteSubscription = (ids: Array<number>) => {
       if (ids) {
@@ -303,10 +250,11 @@ export default defineComponent({
         }, 1000);
         return ApiService.delete(`telegram/message/multi-delete?id=${ids}`)
           .then(({ data }) => {
+            getData()
             notification(data.detail, 'success', 'Xóa thành công')
+            currentPage.value = 1;
             selectedIds.value = [];
             multipleTableRef.value!.clearSelection()
-            getData();
           })
           .catch(({ response }) => {
             notification(response.data.detail, 'error', 'Có lỗi xảy ra')
@@ -324,41 +272,38 @@ export default defineComponent({
         customClass: {
           confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
         },
-      }).then(() => {
-
-        // hideModal( ModalConfirm.value);
       });
-    };
+    }
 
     const handleFilter = (data: any) => {
-      if (data) {
-        query.value = data.query;
-        group_type.value = data.type;
-        currentPage.value = 1;
-        getData();
-      } else {
-        notification('Có lỗi với filter', 'error', 'Có lỗi xảy ra')
-      }
-
+      query.value = data;
+      currentPage.value = 1;
+      getData();
     };
 
-    // truncateText
-    const truncateText = (text: string, maxLength: number) => {
-      if (text.length > maxLength) {
-        return text.substring(0, maxLength) + '...';
-      }
-      return text;
-    };
+    // xóa 
+    const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 
-        // table
-        const selectedName = ref<Array<any>>([]);
-        const handleSelectionChange = (val: any) => {
-            if (val) {
-                selectedName.value = val.map((item: any) => item.name || item.title);
-                selectedIds.value = val.map((item: { id: number }) => item.id);
-            }
-            return;
+    // handleCurrentChange
+    const handleCurrentChange = (data: any) => {
+      DialogVisibleDetail.value = true
+      detailData.username = data.username
+      detailData.phone = data.phone
+      detailData.group_name = data.group_name
+      detailData.text = data.text
+      detailData.date = data.date
+    }
+
+    // table
+    const selectedName = ref<Array<any>>([]);
+    const handleSelectionChange = (val: any) => {
+      console.log(val)
+        if (val) {
+            selectedName.value = val.map((item: any) => item.name || item.title || item.group_name);
+            selectedIds.value = val.map((item: { id: number }) => item.id);
         }
+        return;
+    }
 
     const getRowKey = (row: any) => {
       return row.id
@@ -377,46 +322,42 @@ export default defineComponent({
 
     // tính toán chiều cao table
     const heightTable = ref(0)
-    const checkPaginationTable = ref(false)
     const handleResize = () => {
       const windowWidth = window.innerWidth;
-
       if (windowWidth >= 1400) {
-        heightTable.value = window.innerHeight - 220;
-        checkPaginationTable.value = false
+        heightTable.value = window.innerHeight - 80;
       } else if (windowWidth >= 1200) {
-        heightTable.value = window.innerHeight - 220;
-        checkPaginationTable.value = false
+        heightTable.value = window.innerHeight - 80;
       } else if (windowWidth >= 992) {
-        heightTable.value = window.innerHeight - 220;
-        checkPaginationTable.value = false
+        heightTable.value = window.innerHeight - 80;
       } else if (windowWidth >= 768) {
-        heightTable.value = window.innerHeight - 200;
-        checkPaginationTable.value = false
+        heightTable.value = window.innerHeight - 75;
       } else if (windowWidth >= 576) {
-        heightTable.value = window.innerHeight - 200;
-        checkPaginationTable.value = true
+        heightTable.value = window.innerHeight - 75;
       } else {
         // Kích thước cửa sổ nhỏ hơn 576px, đặt giá trị mặc định
-        heightTable.value = window.innerHeight - 200;
-        checkPaginationTable.value = true
+        heightTable.value = window.innerHeight - 70;
       }
     };
-
-    // handleCurrentChange
-    const DialogVisibleDetail = ref<boolean>(false)
-    const handleCurrentChange = (val: any, index) => {
-      if (val) {
-        DialogVisibleDetail.value = true
-        detailData.id = val.id
-        detailData.username = val.username
-        detailData.date = val.date
-        detailData.text = val.text
-        detailData.phone = val.phone
-        detailData.group_name = val.group_name
+    // thêm mới
+    const urlAddNew = ref('')
+    const truncateText = (text: string, maxLength: number) => {
+      if (text.length > maxLength) {
+        return text.substring(0, maxLength) + '...';
       }
-      return
+      return text;
+    };
+
+    const handleSortChange = (column: any) => {
+      orderingID.value = (column.order == 'ascending' && column.prop == 'id') ? '-id' : 'id'
+      getData()
     }
+
+    // thay đổi kích thước header
+    const headerHeight = ref<number>(0);
+        const onheaderHeight = (height: number) => {
+            headerHeight.value = height
+        }
 
     onMounted(() => {
       getData();
@@ -429,10 +370,14 @@ export default defineComponent({
     });
 
     return {
+      headerHeight,
+            onheaderHeight,
       getData,
       list,
       selectedIds,
-      deleteSelectd,
+
+      // validate
+      data_group,
 
       // page 
       itemsPerPage,
@@ -441,35 +386,45 @@ export default defineComponent({
 
       // search query 
       query,
-
-      // filter
       handleFilter,
-      loading,
-      group_type,
 
-      // detail
-      detailData,
-      truncateText,
+      // edit 
+      loading,
       disabled,
 
-
-      // table
+      //
+      handleResize,
+      truncateText,
+      heightTable,
       handleSelectionChange,
       selectedName,
-      checkPaginationTable,
-      multipleTableRef,
       getRowKey,
-      heightTable,
       handleCurrentChange,
+      multipleTableRef,
+      urlAddNew,
+      handleSortChange,
+      deleteSubscription,
+      detailData,
       DialogVisibleDetail,
-
     };
   },
 });
 </script>
 
+
 <style >
-.my-custom-table td.el-table__cell {
-  border-bottom-style: dashed !important;
+span.el-dialog__title {
+  color: #181C32 !important;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 27px;
+}
+
+#modal-detail .el-dialog__body {
+  padding-top: 10px;
+}
+.dialog-footer {
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều dọc và ngang */
 }
 </style>

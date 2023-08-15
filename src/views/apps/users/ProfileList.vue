@@ -298,7 +298,6 @@ import ApiService from "@/core/services/ApiService";
 // validate
 import { ErrorMessage, Field, Form as VForm } from "vee-validate";
 import Swal from "sweetalert2/dist/sweetalert2.js";
-import Fillter from "@/views/apps/telegrams/filterGroup.vue";
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
 import * as Yup from "yup";
 import { useAuthStore } from "@/stores/auth";
@@ -322,7 +321,6 @@ export default defineComponent({
     ErrorMessage,
     Field,
     VForm,
-    Fillter,
     CodeHighlighter,
   },
   setup() {
