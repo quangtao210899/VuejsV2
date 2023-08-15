@@ -29,8 +29,10 @@
 
         <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="msg" label="MESSAGE">
           <template #default="scope">
-            <span v-if="scope.row.msg != ''" class="fs-13px text-gray-700 text-hover-primary">{{
-              truncateText(scope.row.msg, 150) }}</span>
+            <span v-if="scope.row.msg != ''" class="fs-13px text-gray-700 text-hover-primary">
+              <!-- {{ scope.row.msg }} -->
+            {{ truncateText(scope.row.msg, 150) }}
+              </span>
             <span v-else class="badge badge-light-danger">--</span>
 
           </template>
@@ -38,8 +40,10 @@
 
         <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="trace" label="TRACEBACK">
           <template #default="scope">
-            <span v-if="scope.row.trace != ''" class="fs-13px text-gray-700 text-hover-primary">{{
-              truncateText(scope.row.trace, 150) }}</span>
+            <span v-if="scope.row.trace" class="fs-13px text-gray-700 text-hover-primary">
+              <!-- {{ scope.row.trace }} -->
+            {{ truncateText(scope.row.trace, 150) }}
+          </span>
             <span v-else class="badge badge-light-danger">--</span>
 
           </template>
@@ -272,7 +276,7 @@ export default defineComponent({
 
     // thêm mới
     const truncateText = (text: string, maxLength: number) => {
-      if (text.length > maxLength) {
+      if (text && text.length > maxLength ) {
         return text.substring(0, maxLength) + '...';
       }
       return text;
