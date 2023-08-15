@@ -1,5 +1,5 @@
 <template>
-    <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true"
+    <KTToolbar :check-search="false" :check-submit="true" :type-text="type" :check-back="true" :check-proxy="checkButtonProxy"
         @form-submit="formSubmit(ruleFormRef)" @form-back="formBack" @on-header-height="onheaderHeight"></KTToolbar>
     <div class="app-container container-fluid " :style="{marginTop: headerHeight + 'px'}">
         <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20 pt-10"> 
@@ -12,21 +12,12 @@
                 </el-form-item>
                 <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback text-capitalize fs-6">
                     <div class="el-form-item__content d-inline-block">
-                        <!-- <el-button @click="switchButton">
-                            <el-icon style="vertical-align: middle; width: 25px; height: 25px;">
-                                <CirclePlusFilled id="circle-plus-filled" style="width: 25px; height: 25px;" />
-                                <RemoveFilled id="remove-filled" style="width: 25px; height: 25px;" class="d-none"/>
-                            </el-icon>
-                        </el-button> -->
                         <el-button type="" text @click="switchButton">
                             <el-icon style="vertical-align: middle; width: 25px; height: 25px;">
                                 <CirclePlusFilled id="circle-plus-filled" style="width: 25px; height: 25px;" />
                                 <RemoveFilled id="remove-filled" style="width: 25px; height: 25px;" class="d-none"/>
                             </el-icon>
                         </el-button>
-                        <!-- <el-switch
-                            v-model="scanFormState.advancedCheck"
-                        /> -->
                     </div>
                     <label class="el-form-item__label d-inline-block" style="width: 34%;">Nâng Cao</label>
                 </div>
@@ -43,7 +34,7 @@
                         <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback text-capitalize fs-6">
                             <label class="el-form-item__label d-inline-block custom-button">Proxy</label>
                             <div class="el-form-item__content d-inline-block">
-                                <el-switch
+                                <el-switch :disabled="checkButtonProxy"
                                     v-model="scanFormState.proxyCheck"
                                 />
                             </div>
@@ -75,11 +66,15 @@
                             <el-input v-model="scanFormState.proxyUsername" size="large" placeholder="Tên đăng nhập"
                                 :class="(errors.proxyUsername) ? 'el-error-ruleForm' : ''" />
                         </el-form-item>
-                        <el-form-item v-if="scanFormState.proxyCheck && scanFormState.proxyAuthenticationCheck" label="Mật khẩu mới" prop="proxyUserPassword" class="text-capitalize fs-6" tabindex="0"
+                        <el-form-item v-if="scanFormState.proxyCheck && scanFormState.proxyAuthenticationCheck" label="Mật khẩu" prop="proxyUserPassword" class="text-capitalize fs-6" tabindex="0"
                             :error="(errors.proxyUserPassword) ? errors.proxyUserPassword[0] : ''" >
                             <el-input v-model="scanFormState.proxyUserPassword" size="large" placeholder="Mật khẩu mới"
                                 type="password" :show-password="true" :class="(errors.proxyUserPassword) ? 'el-error-ruleForm' : ''"
                                 autocomplete="new-password" />
+                        </el-form-item>
+                        <el-form-item v-if="scanFormState.proxyCheck" label="Kiểm tra trạng thái proxy" prop="checkStatusProxy" class="text-capitalize fs-6" tabindex="0"
+                            :error="(errors.proxyUserPassword) ? errors.proxyUserPassword[0] : ''" >
+                            <el-button  type="primary" size="default" :disabled="disabled" @click="checkProxyStatus" :loading=loading>Kiểm tra</el-button>
                         </el-form-item>
                     </div>
                     <div class="custom-form" style="margin-bottom: 22px;">
@@ -95,7 +90,6 @@
                             <!-- <el-select v-model="scanFormState.headerOptionValue" multiple filterable class="w-100"
                                 allow-create default-first-option placeholder="Ví dụ: Cookie: 67b976c29f">
                             </el-select> -->
-                            
                             <div class="row w-100">
                                 <el-input class="col-10" @keydown.enter.prevent @keyup.enter="addRow(scanFormState.headerData)" v-model="scanFormState.headerData" size="large" placeholder="Ví dụ: Cookie: 67b976c29f"
                                     :class="(errors.headerData && scanFormState.headerData.length == 0) ? 'el-error-ruleForm' : ''"/>
@@ -184,11 +178,13 @@ export default defineComponent({
         const type = ref<string>((ID.value == null ? 'Thêm Mới' : 'Chỉnh Sửa'))
         const list = ref<object | any>([])
         const loading = ref<boolean>(false)
+        const disabled = ref<boolean>(false);
+        const checkButtonProxy = ref<boolean>(false);
         const router = useRouter();
         const treeRef = ref<InstanceType<typeof ElTree>>()
         // const headerData = ref<string>('')
 
-        const notification = (values: string, icon: string, more: string) => {
+        const notification = (values: string, icon: string, more: string, proxyCheck=false) => {
             Swal.fire({
                 text: values ?? more,
                 icon: icon,
@@ -199,8 +195,10 @@ export default defineComponent({
                     confirmButton: (icon == 'error') ? "btn btn-light-danger" : "btn btn-light-primary",
                 },
             }).then(() => {
-                if (icon == 'success' || values == 'Mục tiêu không tồn tại' || values == 'Có lỗi xảy ra') {
-                    router.push({ name: 'target-scan' });
+                if (!proxyCheck) {
+                    if (icon == 'success' || values == 'Mục tiêu không tồn tại' || values == 'Có lỗi xảy ra') {
+                        router.push({ name: 'target-scan' });
+                    }
                 }
             });
         }
@@ -381,16 +379,6 @@ export default defineComponent({
             scanFormState.headerOptionValue = []
         }
 
-        const isValidDomain = (rule: any, value: any, callback: any) => {
-            if (value == null || value == '') { return true; }
-            const specialCharacters = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (!specialCharacters.test(value)) {
-                callback(new Error('Địa chỉ không đúng định dạng'));
-            } else {
-                callback();
-            }
-        };
-
         const isValidCookieString = (value: string) => {
             const specialCharacters = /^Cookie:\s*[^\s].*$/;
 
@@ -399,14 +387,14 @@ export default defineComponent({
 
                 return true
             } 
-            
+
             return false
         };
 
         const isValidPort = (rule: any, value: any, callback: any) => {
             if (value == null || value == '') { return true; }
             value = Number(value)
-            
+
             if (!Number.isInteger(value)) {
                 callback(new Error('Cổng dịch vụ phải là số'))
             } else if (value < 0) {
@@ -421,7 +409,7 @@ export default defineComponent({
         const isValidrescanRecurTime = (rule: any, value: any, callback: any) => {
             if (value == null || value == '') { return true; }
             value = Number(value)
-            
+
             if (!Number.isInteger(value)) {
                 callback(new Error('Thời gian quét phải là số'))
             } else if (value < 0) {
@@ -431,13 +419,23 @@ export default defineComponent({
             }
         }
 
+        const isValidIPAddress = (rule: any, value: any, callback: any) => {
+            if (value == null || value == '') { return true; }
+            const specialCharacters = /^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})$/;
+            if (!specialCharacters.test(value)) {
+                callback(new Error('IP không đúng định dạng'));
+            } else {
+                callback();
+            }
+        };
+
         const rules = reactive<FormRules>({
             rescanRecurTime: [
                 { validator: isValidrescanRecurTime, trigger: 'blur' },
             ],
             proxyAdress: [
                 { required: true, message: 'Vui lòng nhập địa chỉ', trigger: 'blur' },
-                { validator: isValidDomain, trigger: 'blur' },
+                { validator: isValidIPAddress, trigger: 'blur' },
             ],
             proxyPort: [
                 { required: true, message: 'Vui lòng nhập cổng dịch vụ', trigger: 'blur' },
@@ -467,6 +465,55 @@ export default defineComponent({
             router.push({ name: 'target-scan' });
         }
 
+        const checkProxyStatus = async () => {     
+            
+            // if (scanFormState.proxyCheck) {
+            //     if (scanFormState.proxyScheme == '' || scanFormState.proxyPort == '') notification('Vui lòng nhập thông tin proxy', 'error', 'Proxy không tồn tại')
+                
+            //     return
+            // }
+            
+            // if (scanFormState.proxyAuthenticationCheck) {
+            //     if (scanFormState.proxyUsername == '' || scanFormState.proxyUserPassword == '') notification('Vui lòng nhập thông tin proxy', 'error', 'Proxy không tồn tại')
+                
+            //     return
+            // }
+            
+            loading.value = true
+            disabled.value = true
+            checkButtonProxy.value = true
+            let formData = {
+                'target_id': ID.value,
+                'proxy_scheme': scanFormState.proxyScheme ? scanFormState.proxyScheme.toLowerCase().trim() : '',
+                'proxy_adress': scanFormState.proxyAdress ? scanFormState.proxyAdress.trim() : '',
+                'proxy_port': scanFormState.proxyPort ? scanFormState.proxyPort.trim() : '',
+                'proxy_username': scanFormState.proxyUsername ? scanFormState.proxyUsername.trim() : '',
+                'proxy_user_password': scanFormState.proxyUserPassword ? scanFormState.proxyUserPassword.trim() : '',
+            }
+
+            return ApiService.post("scan/check-proxy-status/", formData)
+                .then(({ data }) => {
+                    notification(data.detail, 'success', 'Proxy đang hoạt động', checkButtonProxy.value)
+                    loading.value = false
+                    disabled.value = false
+                    checkButtonProxy.value = false
+                })
+                .catch(({ response }) => {
+                    let r = response
+                    
+                    if (r?.data) {
+                        errors.detail = r.data.detail;
+
+                        notification(r?.data?.detail, 'error', 'Proxy không tồn tại')
+                    } else {
+                        notification(r?.data?.detail, 'error', 'Proxy không tồn tại')
+                    }
+                    loading.value = false
+                    disabled.value = false
+                    checkButtonProxy.value = false
+                });
+        }
+
         const addFormSubmit = async () => {
             let selectedKey = getCheckedKeys()
 
@@ -492,7 +539,6 @@ export default defineComponent({
             return ApiService.post("scan/create/", scanFormState)
                 .then(({ data }) => {
                     notification(data.detail, 'success', 'Cấu hình quét lỗ hổng thành công')
-                    // getData();
                 })
                 .catch(({ response }) => {
                     let r = response
@@ -573,7 +619,9 @@ export default defineComponent({
             switchButton,
             removeRow,
             addRow,
-            // headerData,
+            checkProxyStatus,
+            disabled,
+            checkButtonProxy,
         };
     },
 });

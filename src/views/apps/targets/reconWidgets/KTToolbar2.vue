@@ -18,17 +18,16 @@
 
                 <!--begin::Toolbar-->
                 <div class="d-flex align-items-center me-2 h-50px">
-                    <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formBack"
+                    <button v-if="checkSubmit" :to="addNew" :disabled="disabled || checkProxy" @click="formBack"
                         style="white-space: pre;"
                         class="btn btn-light font-weight-bold py-2 px-5 fs-13px me-2 d-flex justify-content-center align-items-center">
                         Quay Lại
-                    </router-link>
-
-                    <router-link v-if="checkSubmit" :to="addNew" :disabled="disabled" @click="formSubmit"
+                    </button>
+                    <button v-if="checkSubmit" :to="addNew" :disabled="disabled || checkProxy" @click="formSubmit"
                         style="white-space: pre;"
                         class="btn btn-primary font-weight-bold py-2 px-5 fs-13px d-flex justify-content-center align-items-center">
                         Đồng Ý
-                    </router-link>
+                    </button>
 
                     <!--begin::Button-->
                     <template v-if="idsDelete.length == 0">
@@ -280,6 +279,7 @@ export default defineComponent({
         checkControl: { type: Boolean, required: false, default: false },
         checkSearch: { type: Boolean, required: false, default: false },
         checkBack: { type: Boolean, required: false, default: false },
+        checkProxy: { type: Boolean, required: false, default: false },
         checkStatus: { type: Boolean, required: false, default: false },
         checkSubmit: { type: Boolean, required: false, default: false },
         checkExportFile: { type: Boolean, required: false, default: false },
