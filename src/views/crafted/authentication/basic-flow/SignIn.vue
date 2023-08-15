@@ -136,7 +136,7 @@ export default defineComponent({
       }
 
       // Send login request
-      console.log(values,12311233323);
+      // console.log(values,12311233323);
 
       await store.login(values);
       const error = Object.values(store.errors);
