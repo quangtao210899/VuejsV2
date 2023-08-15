@@ -230,8 +230,8 @@ export default defineComponent({
     const currentLangugeLocale = computed(() => {
       return countries[i18n.locale.value as keyof typeof countries];
     });
-    const username = ref('');
-    const first_name = ref('');
+    const username = ref<any>('');
+    const first_name = ref<any>('');
     console.log(store.username)
 
     // Hàm để đọc thông tin từ Local Storage và gán cho các biến ref
@@ -239,13 +239,12 @@ export default defineComponent({
       const savedUsername = localStorage.getItem('username');
       const savedFirstName = localStorage.getItem('first_name');
 
-      if (savedUsername) {
-        username.value = savedUsername;
-      }
-      if (savedFirstName) {
-        first_name.value = savedFirstName;
-      }
+      username.value = (store.username = '') ? store.username : savedUsername
+      first_name.value = (store.first_name = '') ? store.first_name : savedFirstName
     };
+    watch(store, () => {
+      loadUserInfoFromLocalStorage();
+    })
 
     watchEffect(() => {
       loadUserInfoFromLocalStorage();
