@@ -114,16 +114,27 @@
                   <span v-else class="badge badge-light-danger">--</span>
                 </div>
               </div>
-              <div class="row fs-6 mb-3" >
+              <div class="row fs-6 mb-3">
                 <div class="col-1 text-gray-900 w-150px fs-6">Trạng Thái:</div>
                 <div class="col">
-                  <el-select style="width:200px;" class="" name="status" as="select" v-model="detailData.status" @change="updateData(detailData.id, detailData.status)">
-                    <el-option label="New" :value="1" :key="1">New</el-option>
-                    <el-option label="Confirm" :value="2" :key="2">Confirm</el-option>
-                    <el-option label="Fixed" :value="3" :key="3">Fixed</el-option>
-                    <el-option label="Rejected" :value="4" :key="4">Rejected</el-option>
-                    <el-option label="Closed" :value="5" :key="5">Closed</el-option>
-                  </el-select>
+                  <div class="d-flex flex-row ">
+                    <el-select style="width:200px;" class="" name="status" as="select" v-model="detailData.status">
+                      <el-option label="New" :value="1" :key="1">New</el-option>
+                      <el-option label="Confirm" :value="2" :key="2">Confirm</el-option>
+                      <el-option label="Fixed" :value="3" :key="3">Fixed</el-option>
+                      <el-option label="Rejected" :value="4" :key="4">Rejected</el-option>
+                      <el-option label="Closed" :value="5" :key="5">Closed</el-option>
+                    </el-select>
+                    <li class="d-flex align-items-center ms-5">
+                      <span class="bullet bullet-dot me-5 h-7px w-7px" :class="`bg-${getStatus(detailData.status).color}`"></span>
+                      <span v-if="detailData.status" class="badge fs-13px"
+                        :class="`px-4 py-3 badge-light-${getStatus(detailData.status).color}`">
+                        {{ getStatus(detailData.status).title }}
+                      </span>
+                      <span v-else class="badge badge-light-danger">--</span>
+                    </li>
+                    
+                  </div>
                 </div>
               </div>
               <div class="row fs-6">
@@ -145,11 +156,13 @@
     </div>
 
     <template #footer center>
-      <div class="text-center">
-        <button type="button" class="btn btn-sm btn-light-primary" @click="DialogVisibleDetail = false">
-          Đóng
-        </button>
-      </div>
+      <span class="d-flex justify-content-center">
+        <el-button class="border-0" plain type="primary" :disabled="disabled"
+          @click="updateData(detailData.id, detailData.status)" :loading=disabled>
+          Đồng ý
+        </el-button>
+        <el-button class="border-0" plain type="info" @click="DialogVisibleDetail = false">Hủy bỏ</el-button>
+      </span>
     </template>
   </el-dialog>
 </template>
@@ -188,13 +201,13 @@ export default defineComponent({
     const loading = ref<boolean>(false)
     const DialogVisibleDetail = ref<boolean>(false)
     const detailData = reactive({
-      id: ' ',
+      id: 0,
       level: '',
       logger_name: '',
       msg: '',
       trace: '',
       create_datetime: '',
-      status: '',
+      status: 0,
     });
     const getData = async () => {
       loading.value = true;
@@ -328,13 +341,13 @@ export default defineComponent({
         return { id: 3, title: 'Fixed', color: 'success' };
       } else if (status == 4) {
         return { id: 4, title: 'Rejected', color: 'warning' };
-      }else if (status == 5) {
+      } else if (status == 5) {
         return { id: 5, title: 'Closed', color: 'danger' };
       }
       return { id: 6, title: 'Undefined', color: 'dark' };
     };
 
-    const updateData = async (id: number ,status: number) => {
+    const updateData = async (id: number, status: number) => {
       disabled.value = true
       setTimeout(() => {
         disabled.value = false
@@ -345,6 +358,7 @@ export default defineComponent({
       loading.value = true
       return ApiService.post(`/other/logs/${id}/update`, form_data)
         .then(({ data }) => {
+          DialogVisibleDetail.value = false
           getData();
           notification(data?.detail, 'success', 'Chỉnh sửa thành công')
         })
