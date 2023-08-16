@@ -257,10 +257,10 @@
                                                                                         <!--begin::Table container-->
                                                                                         <div class="table-responsive w-100 h-500px">
                                                                                             <!--begin::Table-->
-                                                                                            <table class="table table-bordered table-row-gray-300 ">
+                                                                                            <table class="table table-bordered table-row-gray-300 " style="min-width: 400px;">
                                                                                                 <!--begin::Table head-->
                                                                                                 <!--begin::Table body-->
-                                                                                                <tbody class="overflow-y-auto w-100">
+                                                                                                <tbody class="overflow-auto w-100">
                                                                                                     <tr v-for="(item, key) in items" :key="key">
                                                                                                         <td class="text-start" style="width: 150px;"><span>{{ key }}</span>
                                                                                                         </td>
@@ -357,9 +357,9 @@
                                                                                         <!--begin::Table container-->
                                                                                         <div class="table-responsive w-100 h-500px">
                                                                                             <!--begin::Table-->
-                                                                                            <table class="table table-bordered table-row-gray-300 ">
+                                                                                            <table class="table table-bordered table-row-gray-300 " style="min-width: 400px;">
                                                                                                 <!--begin::Table body-->
-                                                                                                <tbody class="overflow-y-auto w-100">
+                                                                                                <tbody class="w-100">
                                                                                                     <tr v-for="(item, key) in items" :key="key">
                                                                                                         <td class="text-start"><span>{{ checkString(key)
                                                                                                         }}</span>
@@ -377,20 +377,20 @@
                                                                                                                             <template v-if="checkArray(e) == true">
                                                                                                                                 <div class="row" v-for="q in e"
                                                                                                                                             :key="q">
-                                                                                                                                    <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                                    <div class="col-6 pt-2 pb-2" style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                                         <span class="border">{{ j }}</span> 
                                                                                                                                     </div>
-                                                                                                                                    <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                                    <div class="col-6 pt-2 pb-2" style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                                         <span :class="(q == '' || q == null) ? 'badge badge-light text-danger' : 'badge badge-light-primary'">{{ (q == '' || q == null) ? '--' : q }}</span>
                                                                                                                                     </div>
                                                                                                                                 </div>
                                                                                                                             </template>
                                                                                                                             <template v-else>
                                                                                                                                 <div class="row">
-                                                                                                                                    <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                                    <div class="col-6 pt-2 pb-2" style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                                         <span class="border">{{ j }}</span> 
                                                                                                                                     </div>
-                                                                                                                                    <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                                    <div class="col-6 pt-2 pb-2" style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                                         <span :class="(e == '' || e == null) ? 'badge badge-light text-danger' : ''">{{ (e == '' || e == null) ? '--' : e }}</span>
                                                                                                                                     </div>
                                                                                                                                 </div>
@@ -399,10 +399,10 @@
                                                                                                                     </template>
                                                                                                                     <template v-else>
                                                                                                                         <div class="row">
-                                                                                                                            <div class="col-6 py-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                            <div class="col-6 py-2" style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                                 <span class="border">{{ i }}</span> 
                                                                                                                             </div>
-                                                                                                                            <div class="col-6 pt-2 pb-2" style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                            <div class="col-6 pt-2 pb-2" style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                                 <span :class="(el == '' || el == null) ? 'badge badge-light text-danger' : ''">{{ (el == '' || el == null) ? '--' : el }}</span>
                                                                                                                             </div>
                                                                                                                         </div>
@@ -601,7 +601,7 @@
                                                                         <!--end::Table head-->
 
                                                                         <!--begin::Table body-->
-                                                                        <tbody class="overflow-y-auto w-100 ">
+                                                                        <tbody class="overflow-auto w-100 ">
                                                                             <tr v-for="(item, key) in related_email" :key="key">
                                                                                 <td class="text-start"><span>
                                                                                         <span>{{ (item.email == '') ? '--' : item.email }}</span>
@@ -703,7 +703,7 @@
                                                                 <!--begin::Table container-->
                                                                 <div class="table-responsive w-100 h-100">
                                                                     <!--begin::Table-->
-                                                                    <table class="table table-bordered table-row-gray-300">
+                                                                    <table class="table table-bordered table-row-gray-300" >
                                                                         <!--begin::Table head-->
                                                                         <thead>
                                                                             <tr class="fw-bold text-gray-600 align-middle py-2 px-0">
@@ -715,7 +715,7 @@
                                                                         <!--end::Table head-->
 
                                                                         <!--begin::Table body-->
-                                                                        <tbody class="overflow-y-auto w-100 ">
+                                                                        <tbody class="overflow-auto w-100 ">
                                                                             <tr v-for="(item, key) in related_domain" :key="key">
                                                                                 <td class="text-start"><span>{{ key }}</span></td>
                                                                                 <td class="text-start">
@@ -894,7 +894,7 @@
                                                                                     <!--begin::Table-->
                                                                                     <table class="table table-bordered table-row-gray-300 ">
                                                                                         <!--begin::Table body-->
-                                                                                        <tbody class="overflow-y-auto w-100">
+                                                                                        <tbody class="overflow-auto w-100">
                                                                                             <tr v-for="(item, key) in items" :key="key">
                                                                                                 <td class="text-start">
                                                                                                     <span>{{ item }}</span>
@@ -982,7 +982,7 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <!--begin::Table body-->
-                                                                                            <tbody class="overflow-y-auto">
+                                                                                            <tbody class="overflow-auto">
                                                                                                 <tr v-for="(item, key) in items.message" :key="key">
                                                                                                     <td class="text-start">
                                                                                                         <span>{{ item[0] }}</span>
@@ -1006,7 +1006,7 @@
                                                                                         </template>
                                                                                         <template v-else>
                                                                                             <!--begin::Table body-->
-                                                                                            <tbody class="overflow-y-auto">
+                                                                                            <tbody class="overflow-auto">
                                                                                                 <tr v-for="(item, key) in items.message" :key="key">
                                                                                                     <template v-if="checkArray(item)">
                                                                                                         <td v-for="el in item" class="text-start">{{
@@ -3116,7 +3116,7 @@ export default defineComponent({
 }
 
 .el-tabs--left .el-tabs__nav-wrap.is-left {
-    border-right: #e4e7ed 1px solid;
+    border-right: var(--el-card-border-color) 1px solid;
 }
 
 .el-tabs--left.el-tabs--border-card .el-tabs__header.is-left {
@@ -3174,7 +3174,7 @@ export default defineComponent({
 .stautsClose .el-input__wrapper,
 .stautsReopen .el-input__wrapper,
 .stautsOpen .el-input__wrapper {
-  background-color: #f4f4f4 !important;
+  background-color: var(--el-card-border-color) !important;
   box-shadow: unset !important;
 }
 

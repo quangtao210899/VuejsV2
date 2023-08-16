@@ -368,14 +368,14 @@
                                                                                                                     v-for="q in e"
                                                                                                                     :key="q">
                                                                                                                     <div class="col-6 pt-2 pb-2"
-                                                                                                                        style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                        style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                         <span
                                                                                                                             class="border">{{
                                                                                                                                 j
                                                                                                                             }}</span>
                                                                                                                     </div>
                                                                                                                     <div class="col-6 pt-2 pb-2"
-                                                                                                                        style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                        style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                         <span
                                                                                                                             :class="(q == '' || q == null) ? 'badge badge-light text-danger' : 'badge badge-light-primary'">{{
                                                                                                                                 (q
@@ -398,14 +398,14 @@
                                                                                                                 <div
                                                                                                                     class="row">
                                                                                                                     <div class="col-6 pt-2 pb-2"
-                                                                                                                        style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                        style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                         <span
                                                                                                                             class="border">{{
                                                                                                                                 j
                                                                                                                             }}</span>
                                                                                                                     </div>
                                                                                                                     <div class="col-6 pt-2 pb-2"
-                                                                                                                        style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                        style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                         <span
                                                                                                                             :class="(e == '' || e == null) ? 'badge badge-light text-danger' : ''">{{
                                                                                                                                 (e
@@ -428,14 +428,14 @@
                                                                                                     <template v-else>
                                                                                                         <div class="row">
                                                                                                             <div class="col-6 pt-2 pb-2"
-                                                                                                                style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                 <span
                                                                                                                     class="border">{{
                                                                                                                         i
                                                                                                                     }}</span>
                                                                                                             </div>
                                                                                                             <div class="col-6 pt-2 pb-2"
-                                                                                                                style="border-right: #f4f4f4 1px solid; border-bottom: #f4f4f4 1px solid;">
+                                                                                                                style="border-right: var(--el-card-border-color) 1px solid; border-bottom: var(--el-card-border-color) 1px solid;">
                                                                                                                 <span
                                                                                                                     :class="(el == '' || el == null) ? 'badge badge-light text-danger' : ''">{{
                                                                                                                         (el ==
@@ -2449,11 +2449,15 @@ export default defineComponent({
   
 <style >
 .el-tabs--left .el-tabs__nav-wrap.is-left {
-    border-right: #e4e7ed 1px solid;
+    border-right: var(--el-card-border-color)  1px solid;
 }
 
 .el-tabs--left.el-tabs--border-card .el-tabs__header.is-left {
     margin-right: 0px;
+}
+
+.el-tabs--left.el-tabs--border-card .el-tabs__item.is-left.is-active {
+    border-bottom-color: transparent !important;
 }
 
 .custom-dialog .el-dialog__body {
@@ -2474,12 +2478,16 @@ export default defineComponent({
 
 .padding-tabs .el-tabs__item {
     padding: 0 10px !important;
-    border-top: 1px solid #ccc !important;
+    border-top: 1px solid var(--el-card-border-color) !important
 }
 
-.padding-tabs .el-tabs__item.is-active {
-    border-bottom-color: #f5f7fa !important;
+.el-tabs--left.el-tabs--border-card .el-tabs__item.is-left.is-active .text-muted {
+    color: #1a80f7 !important;
 }
+
+/* .padding-tabs .el-tabs__item.is-active {
+    border-bottom-color: #f5f7fa !important;
+} */
 
 .demo-tabs3 .el-tabs__item {
     min-height: 50.20% !important;
