@@ -160,7 +160,7 @@
                                                 </div>
                                                 <div class="col-9">
                                                     <template v-for="(value, key) in detailData.hash_type" :key="key">
-                                                        <div class="col-6 d-inline-block mb-2" style="float: left;">
+                                                        <div class="col-6 d-inline-block mb-2 w-100" style="float: left;">
                                                             <li class="d-flex align-items-center" style="padding: 5px 0px 0px 0px;">
                                                                 <span class="bullet bullet-dot bg-primary h-5px w-5px me-2"></span>
                                                                 <span>{{ value }}</span>
