@@ -72,10 +72,10 @@
                                 type="password" :show-password="true" :class="(errors.proxyUserPassword) ? 'el-error-ruleForm' : ''"
                                 autocomplete="new-password" />
                         </el-form-item>
-                        <el-form-item v-if="scanFormState.proxyCheck" label="Kiểm tra trạng thái proxy" prop="checkStatusProxy" class="text-capitalize fs-6" tabindex="0"
-                            :error="(errors.proxyUserPassword) ? errors.proxyUserPassword[0] : ''" >
-                            <el-button  type="primary" size="default" :disabled="disabled" @click="checkProxyStatus" :loading=loading>Kiểm tra</el-button>
-                        </el-form-item>
+                        <!-- <el-form-item v-if="scanFormState.proxyCheck" label="Kiểm tra trạng thái proxy" prop="checkStatusProxy" class="text-capitalize fs-6" tabindex="0"
+                            :error="(errors.proxyUserPassword) ? errors.proxyUserPassword[0] : ''" > -->
+                            <el-button v-if="scanFormState.proxyCheck" type="primary" size="default" :disabled="disabled" @click="checkProxyStatus" :loading=loading>Kiểm tra</el-button>
+                        <!-- </el-form-item> -->
                     </div>
                     <div class="custom-form" style="margin-bottom: 22px;">
                         <div class="el-form-item el-form-item--large asterisk-right el-form-item--feedback text-capitalize fs-6">
