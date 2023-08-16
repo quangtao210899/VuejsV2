@@ -15,8 +15,7 @@
           </div>
         </template>
 
-        <el-table-column label-class-name=" fs-13px fw-bold" type="selection" :width="35"
-                    :reserve-selection="true" />
+        <el-table-column label-class-name=" fs-13px fw-bold" type="selection" :width="35" :reserve-selection="true" />
 
 
         <el-table-column width="80" label-class-name="fs-13px fw-bold text-dark" prop="id" label="ID">
@@ -31,8 +30,8 @@
           <template #default="scope">
             <span v-if="scope.row.msg != ''" class="fs-13px text-gray-700 text-hover-primary">
               <!-- {{ scope.row.msg }} -->
-            {{ truncateText(scope.row.msg, 150) }}
-              </span>
+              {{ truncateText(scope.row.msg, 150) }}
+            </span>
             <span v-else class="badge badge-light-danger">--</span>
 
           </template>
@@ -42,8 +41,8 @@
           <template #default="scope">
             <span v-if="scope.row.trace" class="fs-13px text-gray-700 text-hover-primary">
               <!-- {{ scope.row.trace }} -->
-            {{ truncateText(scope.row.trace, 150) }}
-          </span>
+              {{ truncateText(scope.row.trace, 150) }}
+            </span>
             <span v-else class="badge badge-light-danger">--</span>
 
           </template>
@@ -55,6 +54,16 @@
             <span v-if="scope.row.create_datetime != ''" class="fs-13px text-gray-700 text-hover-primary">
               <i class="fa-solid fa-calendar-days fs-7"></i>
               {{ scope.row.create_datetime }}</span>
+            <span v-else class="badge badge-light-danger">--</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column min-width="120" label-class-name="fs-13px text-dark fw-bold" prop="status" label="TRẠNG THÁI">
+          <template #default="scope">
+            <span v-if="scope.row.status != ''" class="badge fs-13px"
+              :class="`px-4 py-3 badge-light-${getStatus(scope.row.status).color}`">
+              {{ getStatus(scope.row.status).title }}
+            </span>
             <span v-else class="badge badge-light-danger">--</span>
           </template>
         </el-table-column>
@@ -80,46 +89,58 @@
     <div class="modal-body" style="padding: 0px !important;">
       <!--begin::Card-->
       <div class="card-body py-0" style="padding-top:0px !important;">
-          <!--begin::Section-->
-          <h5>Thông Tin Chi Tiết:</h5>
-          <div class="py-5">
-            <div class="me-5">
-              <div>
-                <div class="row mb-3">
-                  <div class="col-1 text-gray-900 w-150px fs-6 ">Message:</div>
-                  <div class="col fs-13px ">
-                    <span v-if="typeof detailData.msg === 'string' && detailData.msg != ''">
-                      <CodeHighlighter lang="json" :data="detailData.msg" />
-                    </span>
-                    <span v-else class=" badge badge-light-danger">--</span>
-                  </div>
+        <!--begin::Section-->
+        <h5>Thông Tin Chi Tiết:</h5>
+        <div class="py-5">
+          <div class="me-5">
+            <div>
+              <div class="row mb-3">
+                <div class="col-1 text-gray-900 w-150px fs-6 ">Message:</div>
+                <div class="col fs-13px ">
+                  <span v-if="typeof detailData.msg === 'string' && detailData.msg != ''">
+                    <CodeHighlighter lang="json" :data="detailData.msg" />
+                  </span>
+                  <span v-else class=" badge badge-light-danger">--</span>
                 </div>
-                <div class="row  mb-3 ">
-                  <div class="col-1 text-gray-900 w-150px fs-6">Traceback:</div>
-                  <div class="col fs-13px">
-                    <span v-if="typeof detailData.trace === 'string' && detailData.trace != ''">
-                      <!-- <pre class="fs-13px" style="white-space: pre-line;">{{ detailData.trace }}</pre> -->
-                      <CodeHighlighter lang="json" :data="detailData.trace" />
+              </div>
+              <div class="row  mb-3 ">
+                <div class="col-1 text-gray-900 w-150px fs-6">Traceback:</div>
+                <div class="col fs-13px">
+                  <span v-if="typeof detailData.trace === 'string' && detailData.trace != ''">
+                    <!-- <pre class="fs-13px" style="white-space: pre-line;">{{ detailData.trace }}</pre> -->
+                    <CodeHighlighter lang="json" :data="detailData.trace" />
 
-                    </span>
-                    <span v-else class="badge badge-light-danger">--</span>
-                  </div>
+                  </span>
+                  <span v-else class="badge badge-light-danger">--</span>
                 </div>
-                <div class="row fs-6 mb-3">
-                  <div class="col-1 text-gray-900 w-150px">Ngày Tạo:</div>
-                  <div class="col">
-                    <span v-if="typeof detailData.create_datetime === 'string' && detailData.create_datetime != ''">
-                      <i class="fa-solid fa-calendar-days fs-7"></i>
-                      {{ detailData.create_datetime }}
-                    </span>
-                    <span v-else class=" badge badge-light-danger">--</span>
-                  </div>
+              </div>
+              <div class="row fs-6 mb-3" >
+                <div class="col-1 text-gray-900 w-150px fs-6">Trạng Thái:</div>
+                <div class="col">
+                  <el-select style="width:200px;" class="" name="status" as="select" v-model="detailData.status" @change="updateData(detailData.id, detailData.status)">
+                    <el-option label="New" :value="1" :key="1">New</el-option>
+                    <el-option label="Confirm" :value="2" :key="2">Confirm</el-option>
+                    <el-option label="Fixed" :value="3" :key="3">Fixed</el-option>
+                    <el-option label="Rejected" :value="4" :key="4">Rejected</el-option>
+                    <el-option label="Closed" :value="5" :key="5">Closed</el-option>
+                  </el-select>
+                </div>
+              </div>
+              <div class="row fs-6">
+                <div class="col-1 text-gray-900 w-150px">Ngày Tạo:</div>
+                <div class="col">
+                  <span v-if="typeof detailData.create_datetime === 'string' && detailData.create_datetime != ''">
+                    <i class="fa-solid fa-calendar-days fs-7"></i>
+                    {{ detailData.create_datetime }}
+                  </span>
+                  <span v-else class=" badge badge-light-danger">--</span>
                 </div>
               </div>
             </div>
           </div>
-          <!--end::Section-->
         </div>
+        <!--end::Section-->
+      </div>
       <!--end::Card-->
     </div>
 
@@ -173,6 +194,7 @@ export default defineComponent({
       msg: '',
       trace: '',
       create_datetime: '',
+      status: '',
     });
     const getData = async () => {
       loading.value = true;
@@ -220,27 +242,27 @@ export default defineComponent({
     }
 
     const deleteSubscription = (ids: Array<number>) => {
-            let formData = {
-                'id': ids
-            }
-            if (ids) {
-                disabled.value = true
-                setTimeout(() => {
-                    disabled.value = false
-                }, 1000);
-                return ApiService.post(`/other/logs/multi-delete`, formData)
-                    .then(({ data }) => {
-                        notification(data.detail, 'success', 'Xóa thành công')
-                        currentPage.value = 1;
-                        selectedIds.value = [];
-                        multipleTableRef.value!.clearSelection()
-                        getData();
-                    })
-                    .catch(({ response }) => {
-                        notification(response.data.detail, 'error', 'Có lỗi xảy ra')
-                    });
-            }
-        };
+      let formData = {
+        'id': ids
+      }
+      if (ids) {
+        disabled.value = true
+        setTimeout(() => {
+          disabled.value = false
+        }, 1000);
+        return ApiService.post(`/other/logs/multi-delete`, formData)
+          .then(({ data }) => {
+            notification(data.detail, 'success', 'Xóa thành công')
+            currentPage.value = 1;
+            selectedIds.value = [];
+            multipleTableRef.value!.clearSelection()
+            getData();
+          })
+          .catch(({ response }) => {
+            notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+          });
+      }
+    };
 
     const handleFilter = (data: any) => {
       query.value = data;
@@ -255,8 +277,9 @@ export default defineComponent({
       DialogVisibleDetail.value = true
       detailData.create_datetime = data.create_datetime
       detailData.trace = data.trace
-      trace.value = data.trace
       detailData.msg = data.msg
+      detailData.status = data.status
+      detailData.id = data.id
     }
 
     // Lắng nghe sự thay đổi của currentPage và pageSize
@@ -272,7 +295,7 @@ export default defineComponent({
 
     // thêm mới
     const truncateText = (text: string, maxLength: number) => {
-      if (text && text.length > maxLength ) {
+      if (text && text.length > maxLength) {
         return text.substring(0, maxLength) + '...';
       }
       return text;
@@ -296,6 +319,43 @@ export default defineComponent({
       }, eventTime.value);
     };
 
+    const getStatus = (status: number) => {
+      if (status == 1) {
+        return { id: 1, title: 'New', color: 'info' };
+      } else if (status == 2) {
+        return { id: 2, title: 'Confirm', color: 'primary' };
+      } else if (status == 3) {
+        return { id: 3, title: 'Fixed', color: 'success' };
+      } else if (status == 4) {
+        return { id: 4, title: 'Rejected', color: 'warning' };
+      }else if (status == 5) {
+        return { id: 5, title: 'Closed', color: 'danger' };
+      }
+      return { id: 6, title: 'Undefined', color: 'dark' };
+    };
+
+    const updateData = async (id: number ,status: number) => {
+      disabled.value = true
+      setTimeout(() => {
+        disabled.value = false
+      }, 1000);
+      let form_data = {
+        status: status,
+      }
+      loading.value = true
+      return ApiService.post(`/other/logs/${id}/update`, form_data)
+        .then(({ data }) => {
+          getData();
+          notification(data?.detail, 'success', 'Chỉnh sửa thành công')
+        })
+        .catch(({ response }) => {
+          notification(response.data.detail, 'error', 'Có lỗi xảy ra')
+        })
+        .finally(() => {
+          loading.value = false
+        })
+    };
+
     const stopTimer = () => {
       clearInterval(intervalId);
     };
@@ -309,6 +369,8 @@ export default defineComponent({
     });
 
     return {
+      updateData,
+      getStatus,
       headerHeight,
       onheaderHeight,
       getData,
@@ -335,7 +397,6 @@ export default defineComponent({
 });
 </script>
 <style >
-
 #modal-detail .el-dialog__body {
   padding-top: 10px;
 }
