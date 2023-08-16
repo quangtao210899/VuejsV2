@@ -422,7 +422,7 @@ export default defineComponent({
                     notification(data?.detail, 'success', 'Tiếp tục CVEScan thành công')
                     getData();
                 })
-                .catch((response) => {
+                .catch(({response}) => {
                     notification(response?.data?.detail, 'error', 'Tiếp tục thất bại')
                 });
         };
