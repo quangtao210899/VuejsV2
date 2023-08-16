@@ -5,7 +5,7 @@
     <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
         <div class="p-5 bg-body rounded-3">
             <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-                class-name="rounded-top cursor-pointer" table-layout="fixed" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
+                class-name="cursor-pointer" table-layout="fixed" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
                 @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
                 @row-click="customRowTable">
                 <template #empty>
@@ -76,7 +76,7 @@
                     </template>
                 </el-table-column> -->
             </el-table>
-            <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+            <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-body rounded-bottom ">
                 <div v-if="totalPage > 0">
                     <span class="text-capitalize fs-13px">Tổng Số Lần Scan: {{ totalPage }}</span>
                 </div>
