@@ -7,7 +7,7 @@
       <!--begin::Card body-->
       <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
         @selection-change="handleSelectionChange" highlight-current-row :row-key="getRowKey"
-        class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" @row-click="handleCurrentChange"
+        class-name="my-custom-table cursor-pointer" table-layout="fixed" @row-click="handleCurrentChange"
         v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)">
         <template #empty>
           <div class="flex items-center justify-center h-100%">
@@ -79,9 +79,7 @@
     :show-close="false">
     <div class="modal-body" style="padding: 0px !important;">
       <!--begin::Card-->
-      <div class="card card-flush">
-        <!--begin::Card header-->
-        <div class="card-body py-0" style="padding-top:0px !important;">
+      <div class="card-body py-0" style="padding-top:0px !important;">
           <!--begin::Section-->
           <h5>Thông Tin Chi Tiết:</h5>
           <div class="py-5">
@@ -122,8 +120,6 @@
           </div>
           <!--end::Section-->
         </div>
-        <!--end::Card body-->
-      </div>
       <!--end::Card-->
     </div>
 

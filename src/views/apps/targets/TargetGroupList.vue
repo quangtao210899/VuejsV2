@@ -8,7 +8,7 @@
     <div class="p-5 bg-body rounded-3">
       <!--begin::Card body-->
       <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-        class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
+        class-name="my-custom-table cursor-pointer" table-layout="fixed" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
         @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="handleCurrentChange"
         :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
         <template #empty>
