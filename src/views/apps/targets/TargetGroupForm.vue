@@ -262,19 +262,20 @@ export default defineComponent({
 .el-form-item__label {
     font-size: 13px !important;
     font-weight: 500;
-    color: #252f4a !important;
+    /* color: #252f4a !important; */
 }
 
 
 .demo-ruleForm .el-input__wrapper.is-focus,
 .el-textarea__inner:focus {
-    background-color: #f1f1f2 !important;
-    /* color: #4b5675 !important; */
+    background-color: var(--bs-gray-200);
+    color: var(--bs-gray-700);
 }
 
 .demo-ruleForm .el-input__wrapper,
 .el-textarea__inner {
-    background: #f9f9f9;
+    /* background: #f9f9f9; */
+    background: var(--bs-gray-100);
     border-radius: 10px !important;
     box-shadow: none !important;
 }
@@ -283,7 +284,8 @@ export default defineComponent({
 .demo-ruleForm .el-input__wrapper input,
 .el-textarea textarea {
     font-weight: 500 !important;
-    color: #252f4a !important;
+    /* color: #252f4a !important; */
+    color: var(--bs-gray-700);
     font-size: 13px !important;
     line-height: 21px !important;
 }

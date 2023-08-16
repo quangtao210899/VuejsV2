@@ -117,7 +117,7 @@
                       <span class="ms-4">{{ editData.username }}</span>
                     </td>
                     <td class="text-end">
-                      <KTIcon class="fs-3 me-2" icon-name="cross-square" icon-class="fs-2" />
+                      <KTIcon icon-name="cross-square" icon-class="fs-3 text-danger me-2" />
                     </td>
                   </tr>
                   <tr>

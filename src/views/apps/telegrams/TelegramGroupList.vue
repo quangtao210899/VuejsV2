@@ -7,8 +7,8 @@
   <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
     <div class="p-5 bg-body rounded-3">
       <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-        class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" 
-        v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
+        class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
+        element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
         @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="customRowTable">
         <template #empty>
           <div class="flex items-center justify-center h-100%">
@@ -96,7 +96,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+      <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-body rounded-bottom ">
         <div v-if="totalPage > 0">
           <span class="text-capitalize fs-13px">Tổng Số Nhóm Telegram: {{ totalPage }}</span>
         </div>
@@ -158,7 +158,7 @@
     <template #footer center>
       <span class="d-flex justify-content-center">
         <button type="button" class="btn btn-sm btn-light-primary" @click="updateSchedule">
-         Đồng Ý
+          Đồng Ý
         </button>
       </span>
     </template>
@@ -166,70 +166,62 @@
 
 
   <!-- modal detail  -->
-  <el-dialog v-model="visibleDetail" :title="detailData.name" width="650" align-center :show-close="false" id="modal-detail"> 
+  <el-dialog v-model="visibleDetail" :title="detailData.name" width="650" align-center :show-close="false"
+    id="modal-detail">
     <div class="modal-body" style="padding: 0px !important;">
-      <!--begin::Card-->
-      <div class="card card-flush">
-        <!--begin::Card header-->
+      <div class="card-body py-0" style="padding-top:0px !important;">
+        <!--begin::Section-->
+        <div>
+          <!--begin::Title-->
+          <h5>Thông Tin Chi Tiết:</h5>
+          <!--end::Title-->
 
-        <!--end::Card header-->
-
-        <!--begin::Card body-->
-        <div class="card-body py-0" style="padding-top:0px !important;">
-          <!--begin::Section-->
+          <!--begin::Details-->
           <div>
-            <!--begin::Title-->
-            <h5>Thông Tin Chi Tiết:</h5>
-            <!--end::Title-->
-
-            <!--begin::Details-->
-            <div>
-              <!--begin::Row-->
-              <div class="me-5">
-                <!--begin::Details-->
-                <div>
-                  <div class="row fs-6 mb-3">
-                    <div class="col-5 text-gray-900 text-capitalize">Trạng Thái:</div>
-                    <div class="col-7 text-gray-900">
-                      <div class="d-flex align-items-center p-0 m-0">
-                        <el-switch v-model="detailData.status" disabled
-                          style="--el-switch-on-color: #50cd89; --el-switch-off-color: #f1416c" :active-value="0"
-                          :inactive-value="1" />
-                        <span class="ms-3 text-capitalize text-gray-800 fs-13px">
-                          {{ (detailData.status == '0') ? ' Đang Hoạt động' : ' Không hoạt động' }}
-                        </span>
-                      </div>
+            <!--begin::Row-->
+            <div class="me-5">
+              <!--begin::Details-->
+              <div>
+                <div class="row fs-6 mb-3">
+                  <div class="col-5 text-gray-900 text-capitalize">Trạng Thái:</div>
+                  <div class="col-7 text-gray-900">
+                    <div class="d-flex align-items-center p-0 m-0">
+                      <el-switch v-model="detailData.status" disabled
+                        style="--el-switch-on-color: #50cd89; --el-switch-off-color: #f1416c" :active-value="0"
+                        :inactive-value="1" />
+                      <span class="ms-3 text-capitalize text-gray-800 fs-13px">
+                        {{ (detailData.status == '0') ? ' Đang Hoạt động' : ' Không hoạt động' }}
+                      </span>
                     </div>
                   </div>
-                  <div class="row fs-6 mb-3">
-                    <div class="col-5 text-gray-900 text-capitalize">kiểu:</div>
-                    <div class="col-7 text-gray-900"><span>{{ (detailData.type == '1' ? 'DB Leak' : 'Hacker News') }}</span></div>
-                  </div>
-                  <div class="row fs-6 mb-3">
-                    <div class="col-5 text-gray-900 text-capitalize">Tổng số lượng tin nhắn:</div>
-                    <div class="col-7 text-gray-900"><span>{{ detailData.total_message }}</span></div>
-                  </div>
-                  <div class="row fs-6 mb-3">
-                    <div class="col-5 text-gray-900 text-capitalize">Thời gian thêm mới:</div>
-                    <div class="col-7 text-gray-900"><span>{{ detailData.created_at }}</span></div>
-                  </div>
-                  <div class="row fs-6">
-                    <div class="col-5 text-gray-900 text-capitalize">Thời gian cập nhật cuối:</div>
-                    <div class="col-7 text-gray-900"><span>{{ detailData.date_update }}</span></div>
+                </div>
+                <div class="row fs-6 mb-3">
+                  <div class="col-5 text-gray-900 text-capitalize">kiểu:</div>
+                  <div class="col-7 text-gray-900"><span>{{ (detailData.type == '1' ? 'DB Leak' : 'Hacker News') }}</span>
                   </div>
                 </div>
-                <!--end::Details-->
+                <div class="row fs-6 mb-3">
+                  <div class="col-5 text-gray-900 text-capitalize">Tổng số lượng tin nhắn:</div>
+                  <div class="col-7 text-gray-900"><span>{{ detailData.total_message }}</span></div>
+                </div>
+                <div class="row fs-6 mb-3">
+                  <div class="col-5 text-gray-900 text-capitalize">Thời gian thêm mới:</div>
+                  <div class="col-7 text-gray-900"><span>{{ detailData.created_at }}</span></div>
+                </div>
+                <div class="row fs-6">
+                  <div class="col-5 text-gray-900 text-capitalize">Thời gian cập nhật cuối:</div>
+                  <div class="col-7 text-gray-900"><span>{{ detailData.date_update }}</span></div>
+                </div>
               </div>
-              <!--end::Row-->
-
+              <!--end::Details-->
             </div>
             <!--end::Row-->
+
           </div>
-          <!--end::Section-->
+          <!--end::Row-->
         </div>
-        <!--end::Card body-->
+        <!--end::Section-->
       </div>
-      <!--end::Card-->
     </div>
     <template #footer center>
       <span class="d-flex justify-content-center">
@@ -550,15 +542,15 @@ export default defineComponent({
 
     }
 
-      // table
-      const selectedName = ref<Array<any>>([]);
-      const handleSelectionChange = (val: any) => {
-          if (val) {
-              selectedName.value = val.map((item: any) => item.name || item.title);
-              selectedIds.value = val.map((item: { id: number }) => item.id);
-          }
-          return;
+    // table
+    const selectedName = ref<Array<any>>([]);
+    const handleSelectionChange = (val: any) => {
+      if (val) {
+        selectedName.value = val.map((item: any) => item.name || item.title);
+        selectedIds.value = val.map((item: { id: number }) => item.id);
       }
+      return;
+    }
 
     const getRowKey = (row: any) => {
       return row.id
@@ -615,13 +607,6 @@ export default defineComponent({
 });
 </script>
 <style >
-span.el-dialog__title {
-  color: #181C32 !important;
-  font-size: 23px;
-  font-weight: 600;
-  line-height: 27px;
-}
-
 #modal-detail .el-dialog__body {
   padding-top: 10px;
 }

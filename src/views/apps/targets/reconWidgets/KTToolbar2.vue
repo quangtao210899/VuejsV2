@@ -450,9 +450,14 @@ export default defineComponent({
 .my-message-delete .el-dialog__body {
     padding: 0 30px 10px 30px !important;
 }
+.my-select-filter .el-input__wrapper {
+    color: var(--bs-gray-700) !important;
+    background: var(--bs-gray-100);
+}
 </style>
 
 <style lang="scss" scoped>
+
 .custom-fixed-bar {
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }

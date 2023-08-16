@@ -1,6 +1,6 @@
 <template>
     <KTToolbar :check-search="true" @handle-search="handleFilter" @on-header-height="onheaderHeight"></KTToolbar>
-    <div class="app-container container-fluid h-100 " :style="{ marginTop: headerHeight + 'px' }">
+    <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
         <div class="card mb-3">
             <div class="card-body pb-0 px-5 pt-5">
                 <div class="d-flex flex-wrap flex-sm-nowrap">
@@ -127,7 +127,7 @@
                 </div>
             </div>
         </div>
-        <div class="h-100 d-block card card-custom ">
+        <div class="card h-10 d-block">
             <div class="d-flex px-5">
                 <!--begin::Card body-->
                 <div class="overflow-y-auto overflow-x-auto h-100 m-0 p-0" ref="container" @mousedown="handleMouseDown"
@@ -204,7 +204,7 @@
 
                         </el-table>
                         <div
-                            class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom">
+                            class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-body rounded-bottom">
                             <div v-if="totalPage > 0">
                                 <span class="text-capitalize fs-13px ">Tổng Số Lỗ Hổng: {{ totalPage }}</span>
                             </div>

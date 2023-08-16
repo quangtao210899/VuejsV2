@@ -1,20 +1,22 @@
 <template>
   <div ref="refGetTheHeight">
     <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
-      @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight" :selected-name="selectedName" title="Tin Nhắn"></KTToolbar>
+      @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"
+      :selected-name="selectedName" title="Tin Nhắn"></KTToolbar>
   </div>
   <!--begin::Card-->
   <el-scrollbar :height="heightTable">
-    <div class="app-container container-fluid" :style="{marginTop: headerHeight + 'px'}">
+    <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
       <div class="p-5 bg-body rounded-3">
         <!--begin::Card body-->
         <el-table ref="multipleTableRef" :data="list" style="width: 100%;z-index: 1;"
-          class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading" element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
+          class-name="my-custom-table rounded-top cursor-pointer" table-layout="fixed" v-loading="loading"
+          element-loading-text="Đang Tải..." element-loading-background="rgb(255 255 255 / 25%)"
           @selection-change="handleSelectionChange" :row-key="getRowKey" @row-click="handleCurrentChange"
           :default-sort="{ prop: 'id', order: 'descending' }" @sort-change="handleSortChange">
           <template #empty>
             <div class="flex items-center justify-center h-100%">
-              <el-empty description="Không có dữ liệu nào"/>
+              <el-empty description="Không có dữ liệu nào" />
             </div>
           </template>
 
@@ -79,7 +81,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+        <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-body rounded-bottom ">
           <div v-if="totalPage > 0">
             <span class="text-capitalize fs-13px">Tổng Số Tin Nhắn: {{ totalPage }}</span>
           </div>
@@ -99,81 +101,75 @@
   <el-dialog v-model="DialogVisibleDetail" title="Chi Tiết Tin Nhắn" width="650" align-center id="modal-detail"
     :show-close="false">
     <div class="modal-body" style="padding: 0px !important;">
-      <!--begin::Card-->
-      <div class="card card-flush">
-        <!--begin::Card header-->
-        <div class="card-header mb-5">
-          <!--begin::Card title-->
-          <div class="card-title">
-            <div class="d-flex align-items-center">
-              <!--begin::Symbol-->
-              <div class="symbol symbol-50px me-5">
-                <span class="symbol-label bg-light-success">
-                  <KTIcon icon-name="user" icon-class="text-success fs-2x" />
-                </span>
+      <div class="card-body mb-5">
+        <!--begin::Card title-->
+        <div class="card-title">
+          <div class="d-flex align-items-center">
+            <!--begin::Symbol-->
+            <div class="symbol symbol-50px me-5">
+              <span class="symbol-label bg-light-success">
+                <KTIcon icon-name="user" icon-class="text-success fs-2x" />
+              </span>
+            </div>
+            <!--end::Symbol-->
+            <div class="d-flex flex-column" v-if="!detailData.phone && detailData.username == ' '">
+              <span class="badge badge-light-danger">--</span>
+            </div>
+            <div class="d-flex flex-column" v-else>
+              <div class="mx-0 my-0">
+                <span class="fs-13px text-gray-700" v-if="detailData.username != ' '">{{ detailData.username }}</span>
+                <span class="badge badge-light-danger" v-else>--</span>
               </div>
-              <!--end::Symbol-->
-              <div class="d-flex flex-column" v-if="!detailData.phone && detailData.username == ' '">
-                <span class="badge badge-light-danger">--</span>
-              </div>
-              <div class="d-flex flex-column" v-else>
-                <div class="mx-0 my-0">
-                  <span class="fs-13px text-gray-700" v-if="detailData.username != ' '">{{ detailData.username }}</span>
-                  <span class="badge badge-light-danger" v-else>--</span>
-                </div>
-                <div class="mx-0 my-0">
-                  <span class="fs-13px text-gray-700" v-if="detailData.phone">{{ detailData.phone }}</span>
-                  <span class="badge badge-light-danger" v-else>--</span>
-                </div>
+              <div class="mx-0 my-0">
+                <span class="fs-13px text-gray-700" v-if="detailData.phone">{{ detailData.phone }}</span>
+                <span class="badge badge-light-danger" v-else>--</span>
               </div>
             </div>
           </div>
-          <!--begin::Card toolbar-->
-
-          <!--end::Card toolbar-->
         </div>
-        <!--end::Card header-->
+        <!--begin::Card toolbar-->
 
-        <!--begin::Card body-->
-        <div class="card-body py-0" style="padding-top:0px !important;">
-          <!--begin::Section-->
+        <!--end::Card toolbar-->
+      </div>
+      <!--end::Card header-->
+
+      <!--begin::Card body-->
+      <div class="card-body py-0" style="padding-top:0px !important;">
+        <!--begin::Section-->
+        <div>
+          <!--begin::Title-->
+          <h5>Thông Tin Chi Tiết:</h5>
+          <!--end::Title-->
+
+          <!--begin::Details-->
           <div>
-            <!--begin::Title-->
-            <h5>Thông Tin Chi Tiết:</h5>
-            <!--end::Title-->
-
-            <!--begin::Details-->
-            <div>
-              <!--begin::Row-->
-              <div class="me-5">
-                <!--begin::Details-->
-                <div>
-                  <div class="row fs-6 mb-3">
-                    <div class="col-3 text-gray-900">Tên Nhóm:</div>
-                    <div class="col-9 text-gray-900"><span>{{ detailData.group_name ?? '--' }}</span>
-                    </div>
-                  </div>
-                  <div class="row fs-6 mb-3">
-                    <div class="col-3 text-gray-900">Nội Dung:</div>
-                    <div class="col-9 text-gray-900"><span>{{ detailData.text ?? '--' }}</span></div>
-                  </div>
-                  <div class="row fs-6">
-                    <div class="col-3 text-gray-900">Thời Gian:</div>
-                    <div class="col-9 text-gray-900"><span>{{ detailData.date }}</span></div>
+            <!--begin::Row-->
+            <div class="me-5">
+              <!--begin::Details-->
+              <div>
+                <div class="row fs-6 mb-3">
+                  <div class="col-3 text-gray-900">Tên Nhóm:</div>
+                  <div class="col-9 text-gray-900"><span>{{ detailData.group_name ?? '--' }}</span>
                   </div>
                 </div>
-                <!--end::Details-->
+                <div class="row fs-6 mb-3">
+                  <div class="col-3 text-gray-900">Nội Dung:</div>
+                  <div class="col-9 text-gray-900"><span>{{ detailData.text ?? '--' }}</span></div>
+                </div>
+                <div class="row fs-6">
+                  <div class="col-3 text-gray-900">Thời Gian:</div>
+                  <div class="col-9 text-gray-900"><span>{{ detailData.date }}</span></div>
+                </div>
               </div>
-              <!--end::Row-->
-
+              <!--end::Details-->
             </div>
             <!--end::Row-->
+
           </div>
-          <!--end::Section-->
+          <!--end::Row-->
         </div>
-        <!--end::Card body-->
+        <!--end::Section-->
       </div>
-      <!--end::Card-->
     </div>
 
     <template #footer center>
@@ -301,11 +297,11 @@ export default defineComponent({
     // table
     const selectedName = ref<Array<any>>([]);
     const handleSelectionChange = (val: any) => {
-        if (val) {
-            selectedName.value = val.map((item: any) => item.name || item.title || item.group_name);
-            selectedIds.value = val.map((item: { id: number }) => item.id);
-        }
-        return;
+      if (val) {
+        selectedName.value = val.map((item: any) => item.name || item.title || item.group_name);
+        selectedIds.value = val.map((item: { id: number }) => item.id);
+      }
+      return;
     }
 
     const getRowKey = (row: any) => {
@@ -357,10 +353,10 @@ export default defineComponent({
     }
     // thay đổi kích thước header
     const headerHeight = ref<number>(0);
-        const onheaderHeight = (height: number) => {
-            headerHeight.value = height
-            
-        }
+    const onheaderHeight = (height: number) => {
+      headerHeight.value = height
+
+    }
 
     onMounted(() => {
       getData();
@@ -374,7 +370,7 @@ export default defineComponent({
 
     return {
       headerHeight,
-            onheaderHeight,
+      onheaderHeight,
       getData,
       list,
       selectedIds,
@@ -416,13 +412,6 @@ export default defineComponent({
 
 
 <style >
-span.el-dialog__title {
-  color: #181C32 !important;
-  font-size: 23px;
-  font-weight: 600;
-  line-height: 27px;
-}
-
 #modal-detail .el-dialog__body {
   padding-top: 10px;
 }

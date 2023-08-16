@@ -485,12 +485,6 @@ export default defineComponent({
     padding-top: 0px;
 }
 
-span.el-dialog__title {
-    color: #181C32 !important;
-    font-size: 23px;
-    font-weight: 600;
-    line-height: 27px;
-}
 .el-progress__text{
     font-size: 13px !important;
 }
