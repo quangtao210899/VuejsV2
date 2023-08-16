@@ -126,7 +126,6 @@
                       <el-option label="Closed" :value="5" :key="5">Closed</el-option>
                     </el-select>
                     <li class="d-flex align-items-center ms-5">
-                      <span class="bullet bullet-dot me-5 h-7px w-7px" :class="`bg-${getStatus(detailData.status).color}`"></span>
                       <span v-if="detailData.status" class="badge fs-13px"
                         :class="`px-4 py-3 badge-light-${getStatus(detailData.status).color}`">
                         {{ getStatus(detailData.status).title }}
