@@ -75,4 +75,7 @@ span.el-dialog__title {
     font-weight: 600;
     line-height: 27px;
 }
+.el-table th.el-table__cell {
+    background-color: unset !important;
+}
 </style>
