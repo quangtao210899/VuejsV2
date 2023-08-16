@@ -12,8 +12,8 @@
               <span class="fw-bold text-uppercase">{{ (connecting == true) ? 'Đang kết nối...' : ((infoStatus == 1) ?
                 'Đã kết nối' : 'Không kết nối') }} </span>
             </div>
-            <div class="d-flex justify-content-between align-items-center mb-5">
-              <h3>{{ (infoStatus == 1) ? infoCountry : 'Kết Nối Đến VPN' }}</h3>
+            <div class="d-flex justify-content-between align-items-center mb-5" style="color: #000;" >
+              <h3 style="color: #000;">{{ (infoStatus == 1) ? infoCountry : 'Kết Nối Đến VPN' }}</h3>
               <el-tooltip :disabled="(infoStatus == 1 || loading == false || connecting == false) ? false : true"
                 class="box-item" effect="dark" placement="top" :auto-close="0">
                 <template #content>
@@ -35,7 +35,7 @@
               </el-button>
             </div>
           </div>
-          <div class="pb-5 border-top pt-5">
+          <div class="pb-5 border-top pt-5" style="border-color: #F4F4F4 !important;">
             <div class="mx-5">
               <el-select v-model="infoCountry" @change="changeCountry" :loading="loading" value-key="id" filterable
                 placeholder="Select" class="w-100" :disabled="(loading || connecting) ? true : false">
@@ -422,7 +422,6 @@ export default defineComponent({
 .shadow-map {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-
 </style>
 <style>
 .el-scrollbar__view{

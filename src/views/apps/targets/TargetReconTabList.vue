@@ -2571,9 +2571,6 @@ export default defineComponent({
         width: 139px;
     }
 }
-.custom-dialog span.el-dialog__title {
-    font-size: 16px;
-}
 .custom-dialog .el-input__wrapper{
     border-radius: 20px;
 }

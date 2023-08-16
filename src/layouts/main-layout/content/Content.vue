@@ -70,4 +70,9 @@ export default defineComponent({
 .el-dialog{
   border-radius: 0.475rem;
 }
+span.el-dialog__title {
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 27px;
+}
 </style>

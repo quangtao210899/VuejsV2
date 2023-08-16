@@ -59,7 +59,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+      <div class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-body rounded-bottom ">
         <div v-if="totalPage > 0">
           <span class="text-capitalize fs-13px">Tổng Số Log: {{ totalPage }}</span>
         </div>
@@ -339,12 +339,6 @@ export default defineComponent({
 });
 </script>
 <style >
-span.el-dialog__title {
-  color: #181C32 !important;
-  font-size: 23px;
-  font-weight: 600;
-  line-height: 27px;
-}
 
 #modal-detail .el-dialog__body {
   padding-top: 10px;

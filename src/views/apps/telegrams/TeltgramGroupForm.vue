@@ -4,6 +4,7 @@
     <!--begin::Card-->
     <div class="app-container container-fluid" :style="{ marginTop: headerHeight + 'px' }">
         <div class="bg-body rounded-3 d-block px-0 mx-0 px-lg-0 mx-lg-0 mx-xxl-20 pb-20  pt-10" style="">
+
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="33%" :label-position="labelPosition"
                 class="demo-ruleForm px-0 px-lg-0 mx-5 mx-lg-10 mx-xxl-20 px-xxl-10 mt-10 text-capitalize" size="large"
                 status-icon require-asterisk-position="right">
@@ -16,7 +17,7 @@
                 <div class="d-flex flex-stack mb-8">
                     <!--begin::Label-->
                     <div class="me-5">
-                        <label class="fs-6 fw-semobold" for="status">Trạng thái</label>
+                        <label class="fs-13px fw-semobold" for="status">Trạng thái</label>
 
                         <div class="fs-7 fw-semobold text-gray-400">
                             Bật trạng thái để có thể đồng bộ hóa Telegram
@@ -39,9 +40,9 @@
                     <div class="d-flex flex-stack">
                         <!--begin::Label-->
                         <div class="fw-semobold me-5">
-                            <label class="fs-6" for="type">Kiểu nhóm</label>
+                            <label class="fs-13px" for="type">Kiểu nhóm</label>
 
-                            <div class="fs-7 text-gray-400">
+                            <div class="fs-7 fw-semobold text-gray-400">
                                 Chọn kiểu cho nhóm Telegram
                             </div>
                         </div>
@@ -324,40 +325,30 @@ export default defineComponent({
     color: #f1416c !important;
 }
 
-/* .demo-ruleForm .el-error-ruleForm .el-input__wrapper {
-    box-shadow: 0 0 0 1px var(--el-color-danger) inset !important;
-} */
-
 .el-form-item__label {
     font-size: 13px !important;
     font-weight: 500;
-    color: #252f4a !important;
-}
-
-.demo-ruleForm .el-input__wrapper {
-    box-shadow: none !important;
-
 }
 
 .demo-ruleForm .el-input__wrapper.is-focus {
-    background-color: #f1f1f2 !important;
-    color: #4b5675 !important;
+    background-color: var(--bs-gray-200);
+    color: var(--bs-gray-700);
 }
 
 .demo-ruleForm .el-form-item--default .el-form-item__error {
     padding-top: 4px;
 }
 
-
 .demo-ruleForm .el-input__wrapper {
-    background: #f9f9f9;
+    color: var(--bs-gray-700) !important;
+    background: var(--bs-gray-100);
     border-radius: 10px !important;
-
+    box-shadow: none !important;
 }
 
 .demo-ruleForm .el-input__wrapper input {
     font-weight: 500 !important;
-    color: #252f4a !important;
+    color: var(--bs-gray-700) !important;
     font-size: 13px !important;
     line-height: 21px !important;
 }

@@ -216,13 +216,6 @@ const chartOptions = (
 </script>
 
 <style>
-span.el-dialog__title {
-  color: #181C32 !important;
-  font-size: 23px;
-  font-weight: 600;
-  line-height: 27px;
-}
-
 #modal-detail .el-dialog__body {
   padding-top: 10px;
 }

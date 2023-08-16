@@ -220,7 +220,7 @@
                     </el-table-column>
                 </el-table>
                 <div
-                    class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-white rounded-bottom ">
+                    class="d-flex justify-content-between align-items-center mx-auto w-100 py-5 bg-body rounded-bottom ">
                     <div v-if="totalSubdomain > 0">
                         <span class="text-capitalize fs-13px">Tổng Số Subdomains: {{ totalSubdomain }}</span>
                     </div>

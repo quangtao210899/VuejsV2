@@ -395,33 +395,30 @@ export default defineComponent({
 .el-form-item__label {
     font-size: 13px !important;
     font-weight: 500;
-    color: #252f4a !important;
-}
-
-.demo-ruleForm .el-input__wrapper {
-    box-shadow: none !important;
-
+    /* color: var(--bs-modal-color); */
+    /* color: #252f4a !important; */
 }
 
 .demo-ruleForm .el-input__wrapper.is-focus {
-    background-color: #f1f1f2 !important;
-    color: #4b5675 !important;
+    background-color: var(--bs-gray-200);
+    color: var(--bs-gray-700);
 }
 
 .demo-ruleForm .el-form-item--default .el-form-item__error {
     padding-top: 4px;
 }
 
-
 .demo-ruleForm .el-input__wrapper {
-    background: #f9f9f9;
+    /* background: #f9f9f9; */
+    background-color: var(--bs-gray-200);
     border-radius: 10px !important;
-
+    box-shadow: none !important;
 }
 
 .demo-ruleForm .el-input__wrapper input {
     font-weight: 500 !important;
-    color: #252f4a !important;
+    /* color: #252f4a !important; */
+    color: var(--bs-gray-700) !important;
     font-size: 13px !important;
     line-height: 21px !important;
 }
@@ -432,13 +429,15 @@ export default defineComponent({
 }
 
 .el-textarea__inner:focus {
-    background-color: #f1f1f2 !important;
+    /* background-color: #f1f1f2 !important; */
     /* color: #4b5675 !important; */
+    background-color: var(--bs-gray-200);
+
 }
 
 .demo-ruleForm .el-input__wrapper,
 .el-textarea__inner {
-    background: #f9f9f9;
+    background: var(--bs-gray-100);
     border-radius: 10px !important;
     box-shadow: none !important;
 }
