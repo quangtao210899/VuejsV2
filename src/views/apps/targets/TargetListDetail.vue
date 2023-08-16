@@ -2014,7 +2014,6 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import { useRoute } from 'vue-router';
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import SubdomainList from "@/views/apps/targets/TargetReconTabSubdomainsList.vue";
-import TargetReconTabList from "@/views/apps/targets/TargetReconTabList.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 import { debounce } from 'vue-debounce'
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
@@ -2042,7 +2041,6 @@ export default defineComponent({
         ElTable,
         ElTableColumn,
         KTToolbar,
-        TargetReconTabList,
         ElPagination,
         CodeHighlighter,
         reconActivity,
