@@ -2,7 +2,7 @@
   <div ref="refGetTheHeight">
     <KTToolbar :addNew="urlAddNew" :check-search="true" @handle-search="handleFilter" v-model:idsDelete="selectedIds"
       @handle-delete-selectd="deleteSubscription" :disabled="disabled" @on-header-height="onheaderHeight"
-      :selected-name="selectedName" title="Tin Nhắn"></KTToolbar>
+      :selected-name="selectedName" title="Tin Nhắn" :check-type-telegram="true" @handle-telegram="handleFilterTelegram"></KTToolbar>
   </div>
   <!--begin::Card-->
   <el-scrollbar :height="heightTable">
@@ -66,6 +66,15 @@
               </div>
             </template>
           </el-table-column>
+
+          <el-table-column min-width="110" label-class-name="fs-13px text-dark fw-bold" prop="group_type" label="KIỂU">
+          <template #default="scope">
+            <span v-if="scope.row.group_type != ''" class="fs-13px text-gray-700 text-hover-primary">
+              {{ (scope.row.group_type == 1 ? 'DB Leak' : 'Hacker News') }}
+            </span>
+            <span v-else class="badge badge-light-danger">--</span>
+          </template>
+        </el-table-column>
 
           <el-table-column min-width="300" label-class-name="fs-13px text-dark fw-bold" prop="text" label="NỘI DUNG">
             <template #default="scope">
@@ -205,6 +214,7 @@ export default defineComponent({
   setup() {
     const list = ref<object | any>([])
     const data_group = ref<object | any>([])
+    const typeTelegarm = ref<any>('');
     const totalPage = ref<number>(0);
     const currentPage = ref<number>(1);
     const itemsPerPage = ref<number>(20);
@@ -221,7 +231,7 @@ export default defineComponent({
     });
     const getData = async () => {
       loading.value = true;
-      return ApiService.get(`telegram/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}`)
+      return ApiService.get(`telegram/index?search=${query.value}&page=${currentPage.value}&page_size=${itemsPerPage.value}&ordering=${orderingID.value}&group_type=${typeTelegarm.value}`)
         .then(({ data }) => {
           list.value = data.results
           totalPage.value = data.count
@@ -273,6 +283,11 @@ export default defineComponent({
     const handleFilter = (data: any) => {
       query.value = data;
       currentPage.value = 1;
+      getData();
+    };
+
+    const handleFilterTelegram = (data: any) => {
+      typeTelegarm.value = data
       getData();
     };
 
@@ -382,6 +397,7 @@ export default defineComponent({
       // search query 
       query,
       handleFilter,
+      handleFilterTelegram,
 
       // edit 
       loading,
