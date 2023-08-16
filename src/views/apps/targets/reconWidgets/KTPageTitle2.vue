@@ -86,6 +86,13 @@
                     <el-option :key="1" label="Đã Xác Thực" :value="1" />
                 </el-select>
             </div>
+            <div v-if="checkTypeTelegram" class="input-group input-group-sm input-group-solid my-1 px-0 col" style="max-width: 175px;">
+                <el-select v-model="typeTelegarm" class="ms-2 me-1 my-select-filter fs-13px" placeholder="Select" >
+                    <el-option key="" label="Kiểu Nhóm" value="" />
+                    <el-option :key="1" label="DB Leak" :value="1" />
+                    <el-option :key="2" label="Hacker News" :value="2" />
+                </el-select>
+            </div>
         </div>
         <!--end::Search Form-->
     </div>
@@ -112,12 +119,14 @@ export default defineComponent({
         checkSearch: { type: Boolean, required: false, default: true },
         typeText: { type: String, required: false, default: '' },
         checkStatus: { type: Boolean, required: false, default: false },
+        checkTypeTelegram: { type: Boolean, required: false, default: false },
     },
     emits: [
         'handle-search',
         "filert-status",
         "filert-authen",
-        "filert-severity"
+        "filert-severity",
+        "handle-telegram",
     ],
     setup(props, { emit }) {
         const SearchIcon = ref(Search)
@@ -175,6 +184,10 @@ export default defineComponent({
         watch(authen, (newAuthen) => {
             emit("filert-authen", newAuthen);
         })
+        const typeTelegarm = ref('');
+        watch(typeTelegarm, (newtypeTelegarm) => {
+            emit("handle-telegram", newtypeTelegarm);
+        })
 
         return {
             pageTitle,
@@ -189,6 +202,7 @@ export default defineComponent({
             status,
             authen,
             severity,
+            typeTelegarm,
         };
     },
 });

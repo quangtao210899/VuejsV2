@@ -175,7 +175,8 @@ import { defineComponent, ref, onMounted, reactive, onBeforeUnmount, watch } fro
 import ApiService from "@/core/services/ApiService";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 import { vue3Debounce } from 'vue-debounce';
-import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue"; import Swal from "sweetalert2/dist/sweetalert2.js";
+import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue"; 
+import Swal from "sweetalert2/dist/sweetalert2.js";
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import axios from 'axios'

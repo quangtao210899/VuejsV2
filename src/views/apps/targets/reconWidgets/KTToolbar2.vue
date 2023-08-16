@@ -13,7 +13,7 @@
                 <KTPageTitle @form-back="formBack" @handle-search="handleSearch" :check-status="checkStatus"
                     @filert-status="handleFilter" @filert-authen="handleFilterAuthen"
                     @filert-severity="handleFilterSeverity" :typeText="typeText" :disabled="disabled"
-                    :check-search="checkSearch" :cve-code = "cveCode" />
+                    :check-search="checkSearch" :cve-code = "cveCode" :check-type-telegram="checkTypeTelegram" @handle-telegram="handleFilterTelegram"/>
                 <!--end::Details-->
 
                 <!--begin::Toolbar-->
@@ -117,6 +117,14 @@
                                                 <span
                                                     :class="`badge p-3 badge-light-${getStatus(dataInfoScans.status).color}`">{{
                                                         getStatus(dataInfoScans.status).title }}</span>
+                                            </span>
+                                        </div>
+                                        <div class="row my-4 fs-13px" v-if="dataInfoScans.status == 4">
+                                            <span class="fw-bold col-5  d-inline-block">Chi tiết lỗi: </span>
+                                            <span class="col-7">
+                                                <template v-for="(value , key) in dataInfoScans.description.split('/n')" :key="key">
+                                                    <span>{{ value }}</span>.
+                                                </template>
                                             </span>
                                         </div>
                                     </div>
@@ -278,6 +286,7 @@ export default defineComponent({
         dataInfoScans: { type: Object || null, required: false, default: null },
         checkControl: { type: Boolean, required: false, default: false },
         checkSearch: { type: Boolean, required: false, default: false },
+        checkTypeTelegram: { type: Boolean, required: false, default: false },
         checkBack: { type: Boolean, required: false, default: false },
         checkProxy: { type: Boolean, required: false, default: false },
         checkStatus: { type: Boolean, required: false, default: false },
@@ -305,6 +314,7 @@ export default defineComponent({
         "handle-restart",
         "filert-authen",
         "filert-severity",
+        "handle-telegram",
     ],
     setup(props, { emit }) {
 
@@ -339,6 +349,9 @@ export default defineComponent({
         const handleSearch = (search: any) => {
             emit("handle-search", search);
         }
+        const handleFilterTelegram = (type: any) => {
+            emit("handle-telegram", type);
+        }
         const formBack = (back: any) => {
             emit("form-back", back);
         }
@@ -359,7 +372,7 @@ export default defineComponent({
             if (divToMeasure.value !== null) {
                 height.value = divToMeasure.value.clientHeight - 28;
             }
-        };
+        }; 
 
         watch(height, (newHeight) => {
             if (newHeight !== null) {
@@ -422,6 +435,7 @@ export default defineComponent({
             toolbarWidthFluid,
             deleteSelectd,
             handleSearch,
+            handleFilterTelegram,
             formBack,
             formSubmit,
             divToMeasure,
