@@ -2014,7 +2014,6 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import { useRoute } from 'vue-router';
 import KTToolbar from "@/views/apps/targets/reconWidgets/KTToolbar2.vue";
 import SubdomainList from "@/views/apps/targets/TargetReconTabSubdomainsList.vue";
-import TargetReconTabList from "@/views/apps/targets/TargetReconTabList.vue";
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus';
 import { debounce } from 'vue-debounce'
 import CodeHighlighter from "@/components/highlighters/CodeHighlighter.vue";
@@ -2042,7 +2041,6 @@ export default defineComponent({
         ElTable,
         ElTableColumn,
         KTToolbar,
-        TargetReconTabList,
         ElPagination,
         CodeHighlighter,
         reconActivity,
@@ -3220,5 +3218,142 @@ export default defineComponent({
 
 .my-upload-dialog .el-upload-list {
   margin: 0 !important;
+}
+</style>
+
+<style >
+.el-tabs--left .el-tabs__nav-wrap.is-left {
+    border-right: var(--el-card-border-color)  1px solid;
+}
+
+.el-tabs--left.el-tabs--border-card .el-tabs__header.is-left {
+    margin-right: 0px;
+}
+
+.el-tabs--left.el-tabs--border-card .el-tabs__item.is-left.is-active {
+    border-bottom-color: transparent !important;
+}
+
+.custom-dialog .el-dialog__body {
+    padding: 10px 20px;
+}
+
+.shadow-hvover {
+    box-shadow: 5px 6px 10px -9px rgba(0, 0, 0, .3);
+}
+
+.demo-tabs .el-tabs__item {
+    min-height: 33.60% !important;
+}
+
+.demo-tabs2 .el-tabs__item {
+    min-height: 25.25% !important;
+}
+
+.padding-tabs .el-tabs__item {
+    padding: 0 10px !important;
+    border-top: 1px solid var(--el-card-border-color) !important
+}
+
+.el-tabs--left.el-tabs--border-card .el-tabs__item.is-left.is-active .text-muted {
+    color: #1a80f7 !important;
+}
+
+/* .padding-tabs .el-tabs__item.is-active {
+    border-bottom-color: #f5f7fa !important;
+} */
+
+.demo-tabs3 .el-tabs__item {
+    min-height: 50.20% !important;
+}
+
+.demo-tabs3 .el-tabs__content,
+.demo-tabs2 .el-tabs__content,
+.demo-tabs .el-tabs__content {
+    padding: 0px !important;
+    height: 100%;
+}
+
+.demo-tabs2 .el-tabs__nav,
+.demo-tabs3 .el-tabs__nav,
+.demo-tabs .el-tabs__nav {
+    height: 100%;
+}
+
+.my-custom-table td.el-table__cell {
+    border-bottom-style: dashed !important;
+}
+
+/* // Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+    .position-sm-top {
+        position: unset !important;
+        margin-bottom: 5px;
+    }
+
+    .position-repository {
+        background-color: white;
+        padding: 10px 5px;
+        display: block;
+    }
+
+    .height-repository {
+        height: 645px;
+    }
+}
+
+/* // Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    .position-sm-top {
+        top: -40px;
+    }
+
+    .height-repository {
+        height: 780px;
+    }
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .position-sm-top {
+        top: -40px;
+    }
+
+    .height-repository {
+        height: 780px;
+    }
+}
+
+@media (min-width: 992px) {
+    .position-sm-top {
+        top: -60px;
+    }
+
+    .height-repository {
+        height: 780px;
+    }
+}
+
+/* Media query cho màn hình >= 992px (lg) */
+@media (min-width: 1399px) {
+    .custom-button {
+        width: 175px;
+    }
+}
+
+/* Media query cho màn hình >= 768px và < 992px (md) */
+@media (min-width: 992px) and (max-width: 1399px) {
+    .custom-button {
+        width: 145px;
+    }
+}
+
+@media (max-width: 992px) {
+    .custom-button {
+        width: 139px;
+    }
+}
+.custom-dialog .el-input__wrapper{
+    border-radius: 20px;
 }
 </style>
