@@ -257,6 +257,16 @@ export default defineComponent({
                 ],
             },
             {
+                key: "0-0-1-4",
+                title: "Bruteforce",
+                children: [
+                    {
+                        key: "0-0-1-3",
+                        title: "NOERROR subdomain discovery",
+                    },
+                ],
+            },
+            {
                 key: "0-0-1-5",
                 title: "DNS Records",
                 children: [
