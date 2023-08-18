@@ -79,6 +79,15 @@
                   <span v-else class="badge badge-light-danger">--</span>
                 </template>
               </el-table-column>
+              <el-table-column min-width="130" label-class-name="fs-13px text-dark fw-bold" prop="vuln_id" label="NGUỒN DỮ LIỆU">
+                <template #default="scope">
+                  <span v-if="scope.row.vuln_id != '' || scope.row.nmap_scan != '' || scope.row.nuclei_scan != ''"
+                   :class="`fs-13px px-4 py-3 badge badge-light-${checkDataSources(scope.row.vuln_id, scope.row.nmap_scan).color}`">
+                    {{ checkDataSources(scope.row.vuln_id, scope.row.nmap_scan).title }}                  
+                  </span>
+                  <span v-else class="badge badge-light-danger">--</span>
+                </template>
+              </el-table-column>
               <el-table-column min-width="180" label-class-name="fs-13px text-dark fw-bold" prop="last_seen"
                 label="NGÀY TẠO">
                 <template #default="scope">
@@ -846,6 +855,16 @@ export default defineComponent({
       });
     };
 
+    const checkDataSources = (Acunetix: any, Nmap: any) => {
+      if (Acunetix != '' && Acunetix) {
+        return { id: 0, title: 'Acunetix', color: 'danger' };
+      } else if (Nmap != '' && Nmap) {
+        return { id: 1, title: 'Nmap', color: 'primary' };
+      } else {
+        return { id: 2, title: 'Nuclei', color: 'info' };
+      }
+    };
+
     const getSeverity = (severity: number | string) => {
       if (severity == 0) {
         return { id: 0, title: 'Info', color: 'success', class: 'severityInfo' };
@@ -1222,6 +1241,7 @@ export default defineComponent({
       formatBytes,
       checkUpdateFile,
       onPreviewFile,
+      checkDataSources,
     };
   },
 });
