@@ -22,6 +22,7 @@ export const useAuthStore = defineStore("auth", () => {
   const isAuthenticated = ref(!!JwtService.getToken());
   const username = ref('');
   const first_name = ref('');
+  const is_staff = ref(false);
 
   function setAuth(authUser: User) {
     isAuthenticated.value = true;
@@ -30,20 +31,21 @@ export const useAuthStore = defineStore("auth", () => {
     JwtService.saveToken(user.value.access);
   }
 
-  function getUserName() {
-    return 'anh depj tria'
-  }
-
   function getCurrentUser() {
     return ApiService.get('/user/retrieve')
       .then(({ data }) => {
+        console.log(data);
         localStorage.setItem('username', data.username);
         localStorage.setItem('first_name', data.first_name);
+        localStorage.setItem('is_staff', data.is_staff);
         if (data.username) {
           username.value = data.username;
         }
         if (data.first_name) {
           first_name.value = data.first_name;
+        }
+        if (data.is_staff) {
+          is_staff.value = data.is_staff;
         }
       })
       .catch(({ response }) => {
@@ -211,9 +213,9 @@ export const useAuthStore = defineStore("auth", () => {
     register,
     forgotPassword,
     verifyAuth,
-    getUserName,
     getCurrentUser,
     first_name,
     username,
+    is_staff,
   };
 });
