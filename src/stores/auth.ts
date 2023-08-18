@@ -53,6 +53,12 @@ export const useAuthStore = defineStore("auth", () => {
       })
   }
 
+  function removeStorage() {
+    localStorage.removeItem('username');
+    localStorage.removeItem('first_name');
+    localStorage.removeItem('is_staff');
+  }
+
   function setError(error: any) {
     errors.value = { ...error };
   }
@@ -163,6 +169,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
   }
   function logout() {
+    removeStorage();
     purgeAuth();
   }
 
