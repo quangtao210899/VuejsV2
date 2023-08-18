@@ -97,7 +97,8 @@
         data-kt-menu-attach="parent"
         data-kt-menu-placement="bottom-end"
       >
-        <img alt="user" class="object-fit-cover" src="https://i.mydramalist.com/66L5p_5f.jpg" />
+        <!-- <img alt="user" class="object-fit-cover" src="https://i.mydramalist.com/66L5p_5f.jpg" /> -->
+        <img class="object-fit-cover" src="/media/avatars/avatar1.jpg" alt="avatar">
       </div>
       <KTUserMenu />
       <!--end::Menu wrapper-->
