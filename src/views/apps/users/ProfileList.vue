@@ -7,7 +7,8 @@
         <!--begin: Pic-->
         <div class="me-7 mb-4">
           <div class="symbol symbol-80px symbol-lg-100px symbol-fixed position-relative">
-            <img class="object-fit-cover" src="https://i.mydramalist.com/66L5p_5f.jpg" alt="image" />
+            <!-- <img class="object-fit-cover" src="https://i.mydramalist.com/66L5p_5f.jpg" alt="image" /> -->
+            <img class="object-fit-cover" src="/media/avatars/avatar1.jpg" alt="avatar">
             <div
               class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px">
             </div>

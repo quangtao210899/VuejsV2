@@ -8,7 +8,9 @@
       <div class="menu-content d-flex align-items-center px-3">
         <!--begin::Avatar-->
         <div class="symbol symbol-50px me-5">
-          <img alt="Logo" class="object-fit-cover" src="https://i.mydramalist.com/66L5p_5f.jpg" />
+          <!-- <img alt="Logo" class="object-fit-cover" src="https://i.mydramalist.com/66L5p_5f.jpg" /> -->
+          <img class="object-fit-cover" src="/media/avatars/avatar1.jpg" alt="avatar">
+
         </div>
         <!--end::Avatar-->
 

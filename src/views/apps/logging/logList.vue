@@ -132,7 +132,6 @@
                       </span>
                       <span v-else class="badge badge-light-danger">--</span>
                     </li>
-                    
                   </div>
                 </div>
               </div>
