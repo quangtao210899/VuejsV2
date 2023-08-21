@@ -13,7 +13,7 @@
                 'Đã kết nối' : 'Không kết nối') }} </span>
             </div>
             <div class="d-flex justify-content-between align-items-center mb-5" style="color: #000;" >
-              <h3 style="color: #000;">{{ (infoStatus == 1) ? infoCountry : 'Kết Nối Đến VPN' }}</h3>
+              <h3 style="color: #000;">{{ (infoStatus == 1) ? infoCountry : 'Kết Nối Đến VPN Recon' }}</h3>
               <el-tooltip :disabled="(infoStatus == 1 || loading == false || connecting == false) ? false : true"
                 class="box-item" effect="dark" placement="top" :auto-close="0">
                 <template #content>
