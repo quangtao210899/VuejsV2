@@ -206,7 +206,7 @@ const routes: Array<RouteRecordRaw> = [
             name: "vpn-scan",
             component: () => import("@/views/apps/vpn/VpnListScan.vue"),
             meta: {
-              pageTitle: "vpnScan",
+              pageTitle: "Vpn Scan",
             },
           },
           {
@@ -214,7 +214,7 @@ const routes: Array<RouteRecordRaw> = [
             name: "vpn-recon",
             component: () => import("@/views/apps/vpn/VpnListRecon.vue"),
             meta: {
-              pageTitle: "vpnRecon",
+              pageTitle: "Vpn Recon",
             },
           },
         ],
