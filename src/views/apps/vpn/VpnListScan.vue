@@ -12,7 +12,7 @@
               <span class="fw-bold text-uppercase">{{ (connecting == true) ? 'Đang kết nối...' : ((infoStatus == 1) ?
                 'Đã kết nối' : 'Không kết nối') }} </span>
             </div>
-            <div class="d-flex justify-content-between align-items-center mb-5" style="color: #000;" >
+            <div class="d-flex justify-content-between align-items-center mb-5" style="color: #000;">
               <h3 style="color: #000;">{{ (infoStatus == 1) ? infoCountry : 'Kết Nối Đến VPN Scan' }}</h3>
               <el-tooltip :disabled="(infoStatus == 1 || loading == false || connecting == false) ? false : true"
                 class="box-item" effect="dark" placement="top" :auto-close="0">
@@ -60,7 +60,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import ApiService from "@/core/services/ApiService";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 export default defineComponent({
-  name: 'VpnComponent',
+  name: 'VpnComponentScan',
   components: {
   },
   setup() {
@@ -91,8 +91,23 @@ export default defineComponent({
         maxZoom: 8,
         minZoom: 2
       }).addTo(map.value);
+      // Khởi tạo cluster group
+      const markerCluster = L.layerGroup();
 
-      createMarkers();
+      const markersData = [
+        { lat: 21.028511, lng: 105.804817 },
+        { lat: 20.028511, lng: 105.804817 },
+        { lat: 22.028511, lng: 105.804817 }
+      ];
+
+      markersData.forEach(markerData => {
+        const marker = L.marker([markerData.lat, markerData.lng], { icon: customIcon });
+        markerCluster.addLayer(marker);
+      });
+
+      // Thêm cluster group vào bản đồ
+      map.value.addLayer(markerCluster);
+      // createMarkers();
     };
 
     // Hàm tạo các đánh dấu ban đầu trên bản đồ
@@ -114,6 +129,7 @@ export default defineComponent({
             offset: [0, -16] as [number, number],
           });
         markers.value[i] = marker;
+        // console.log(markers.value)
         marker.on('click', () => handleClickMap(el));
       });
     };
@@ -227,7 +243,7 @@ export default defineComponent({
     const infoConnectTime = ref<string>('')
     const getInfo = async () => {
       loading.value = true;
-      return await ApiService.get(`nordvpn/info`)
+      return await ApiService.get(`scan_server/nordvpn/info`)
         .then(({ data }) => {
           //// console.log(data)
           infoCountry.value = (data.info == null) ? 'Vietnam' : data.info.country
@@ -257,7 +273,7 @@ export default defineComponent({
     const getStatus = async (has_notify = true) => {
       loading.value = true;
       let form = {}
-      return await ApiService.post(`nordvpn/status`, form)
+      return await ApiService.post(`scan_server/nordvpn/status`, form)
         .then(({ data }) => {
           if (has_notify) {
             notification(data.detail, 'success', '')
@@ -280,7 +296,7 @@ export default defineComponent({
       connecting.value = true;
       countryLoading.value = country
       let form = { country: country }
-      return await ApiService.post(`nordvpn/connect`, form)
+      return await ApiService.post(`scan_server/nordvpn/connect`, form)
         .then(({ data }) => {
           notification(data.detail, 'success', '')
           getInfo()
@@ -324,7 +340,7 @@ export default defineComponent({
       loading.value = true;
       connecting.value = true;
       let form = { country: infoCountry.value }
-      return await ApiService.post(`nordvpn/disconnect`, form)
+      return await ApiService.post(`scan_server/nordvpn/disconnect`, form)
         .then(({ data }) => {
           //// console.log(data);
           notification(data.detail, 'success', '')
@@ -424,7 +440,7 @@ export default defineComponent({
 }
 </style>
 <style>
-.el-scrollbar__view{
+.el-scrollbar__view {
   height: 100% !important;
   width: 100% !important;
 }
