@@ -197,30 +197,28 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/vpn-list",
         name: "vpn-list",
-        component: () => import("@/views/apps/vpn/VpnList.vue"),
         meta: {
-          pageTitle: "VPN",
           breadcrumbs: ["vpn"],
         },
-      },
-      {
-        path: "/vpn-scan",
-        name: "vpn-scan",
-        component: () => import("@/views/apps/vpn/VpnListScan.vue"),
-        meta: {
-          pageTitle: "VPN Scan",
-          breadcrumbs: ["vpnScan"],
-        },
-      },
-      {
-        path: "/vpn-recon",
-        name: "vpn-recon",
-        component: () => import("@/views/apps/vpn/VpnListRecon.vue"),
-        meta: {
-          pageTitle: "VPN Recon",
-          breadcrumbs: ["vpnRecon"],
-        },
-      },
+        children: [
+          {
+            path: "vpn-scan",
+            name: "vpn-scan",
+            component: () => import("@/views/apps/vpn/VpnListScan.vue"),
+            meta: {
+              pageTitle: "vpnScan",
+            },
+          },
+          {
+            path: "vpn-recon",
+            name: "vpn-recon",
+            component: () => import("@/views/apps/vpn/VpnListRecon.vue"),
+            meta: {
+              pageTitle: "vpnRecon",
+            },
+          },
+        ],
+      }
     ],
   },
   {

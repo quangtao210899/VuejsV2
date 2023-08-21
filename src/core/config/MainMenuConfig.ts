@@ -91,11 +91,11 @@ const MainMenuConfig: Array<MenuItem> = [
         sub: [
           {
             heading: "Kết Nối VPN Recon",
-            route: "/vpn-recon",
+            route: "/vpn-list/vpn-recon",
           },
           {
             heading: "Kết Nối VPN Scan",
-            route: "/vpn-scan",
+            route: "/vpn-list/vpn-scan",
           },
         ]
       },
