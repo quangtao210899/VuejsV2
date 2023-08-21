@@ -84,10 +84,20 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/vpn",
     pages: [
       {
-        heading: "Kết Nối VPN",
-        route: "/vpn",
+        route: "/vpn-list",
         keenthemesIcon: "bi bi-shield-check",
         bootstrapIcon: "bi bi-shield-check",
+        sectionTitle: "Kết Nối VPN",
+        sub: [
+          {
+            heading: "Kết Nối VPN Recon",
+            route: "/vpn-recon",
+          },
+          {
+            heading: "Kết Nối VPN Scan",
+            route: "/vpn-scan",
+          },
+        ]
       },
     ],
   },

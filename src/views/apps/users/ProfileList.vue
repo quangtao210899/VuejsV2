@@ -129,7 +129,7 @@
                         class="form-control form-control-flush" @active="123" placeholder="Nhập họ tên" />
                     </td>
                     <td class="text-end">
-                      <i class="ki-duotone ki-pencil fs-3 me-2"><span class="path1"></span><span class="path2"></span></i>
+                      <i class="ki-duotone ki-pencil fs-3 me-2 text-warning"><span class="path1"></span><span class="path2"></span></i>
                     </td>
                   </tr>
                 </tbody>
