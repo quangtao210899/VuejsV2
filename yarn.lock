@@ -115,9 +115,9 @@
   "version" "0.1.1"
 
 "@fortawesome/fontawesome-free@^6.1.2":
-  "integrity" "sha512-0NyytTlPJwB/BF5LtRV8rrABDbe3TdTXqNB3PdZ+UUUZAEIrdOJdmABqKjt4AXwIoJNaRVVZEXxpNrqvE1GAYQ=="
-  "resolved" "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-6.4.0.tgz"
-  "version" "6.4.0"
+  "integrity" "sha512-m5cPn3e2+FDCOgi1mz0RexTUvvQibBebOUlUlW0+YrMjDTPkiJ6VTKukA1GRsvRw+12KyJndNjj0O4AgTxm2Pg=="
+  "resolved" "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-6.4.2.tgz"
+  "version" "6.4.2"
 
 "@fullcalendar/common@~5.11.5":
   "integrity" "sha512-3iAYiUbHXhjSVXnYWz27Od2cslztUPsOwiwKlfGvQxBixv2Kl6a8IPwaijKFYJHXdwYmfPoEgK7rvqAGVoIYwA=="
@@ -342,9 +342,9 @@
     "@types/estree" "*"
 
 "@types/eslint@*":
-  "integrity" "sha512-XpNDc4Z5Tb4x+SW1MriMVeIsMoONHCkWFMkR/aPJbzEsxqHy+4Glu/BqTdPrApfDeMaXbtNh6bseNgl5KaWrSg=="
-  "resolved" "https://registry.npmjs.org/@types/eslint/-/eslint-8.44.1.tgz"
-  "version" "8.44.1"
+  "integrity" "sha512-sdPRb9K6iL5XZOmBubg8yiFp5yS/JdUDQsq5e6h95km91MCYMuvp7mh1fjPEYUhvHepKpZOjnEaMBR4PxjWDzg=="
+  "resolved" "https://registry.npmjs.org/@types/eslint/-/eslint-8.44.2.tgz"
+  "version" "8.44.2"
   dependencies:
     "@types/estree" "*"
     "@types/json-schema" "*"
@@ -1065,9 +1065,9 @@
   "version" "3.1.0"
 
 "caniuse-lite@^1.0.30001517":
-  "integrity" "sha512-rup09/e3I0BKjncL+FesTayKtPrdwKhUufQFd3riFw1hHg8JmIFoInYfB102cFcY/pPgGmdyl/iy+jgiDi2vdA=="
-  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001518.tgz"
-  "version" "1.0.30001518"
+  "integrity" "sha512-0QHgqR+Jv4bxHMp8kZ1Kn8CH55OikjKJ6JmKkZYP1F3D7w+lnFXF70nG5eNfsZS89jadi5Ywy5UCSKLAglIRkg=="
+  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001519.tgz"
+  "version" "1.0.30001519"
 
 "chalk@^2.4.1":
   "integrity" "sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ=="
@@ -1290,14 +1290,14 @@
   "version" "5.9.3"
 
 "electron-to-chromium@^1.4.477":
-  "integrity" "sha512-qjTA8djMXd+ruoODDFGnRCRBpID+AAfYWCyGtYTNhsuwxI19s8q19gbjKTwRS5z/LyVf5wICaIiPQGLekmbJbA=="
-  "resolved" "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.478.tgz"
-  "version" "1.4.478"
+  "integrity" "sha512-1ndQ5IBNEnFirPwvyud69GHL+31FkE09gH/CJ6m3KCbkx3i0EVOrjwz4UNxRmN9H8OVHbC6vMRZGN1yCvjSs9w=="
+  "resolved" "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.485.tgz"
+  "version" "1.4.485"
 
 "element-plus@^2.2.4":
-  "integrity" "sha512-yHQR0/tG2LvPkpGUt7Te/hPmP2XW/BytBNUbx+EFO54VnGCOE3upmQcVffNp1PLgwg9sthYDXontUWpnpmLPJw=="
-  "resolved" "https://registry.npmjs.org/element-plus/-/element-plus-2.3.8.tgz"
-  "version" "2.3.8"
+  "integrity" "sha512-TIOLnPl4cnoCPXqK3QYh+jpkthUBQnAM21O7o3Lhbse8v9pfrRXRTaBJtoEKnYNa8GZ4lZptUfH0PeZgDCNLUg=="
+  "resolved" "https://registry.npmjs.org/element-plus/-/element-plus-2.3.9.tgz"
+  "version" "2.3.9"
   dependencies:
     "@ctrl/tinycolor" "^3.4.1"
     "@element-plus/icons-vue" "^2.0.6"
@@ -1452,9 +1452,9 @@
   "version" "4.0.0"
 
 "eslint-config-prettier@^8.3.0":
-  "integrity" "sha512-+sbni7NfVXnOpnRadUA8S28AUlsZt9GjgFvABIRL9Hkn8KqNzOp+7Lw4QWtrwn20KzU3wqu1QoOj2m+7rKRqkA=="
-  "resolved" "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.9.0.tgz"
-  "version" "8.9.0"
+  "integrity" "sha512-SM8AMJdeQqRYT9O9zguiruQZaN7+z+E4eAP9oiLNGKMtomwaB1E9dcgUD6ZAn/eQAb52USbvezbiljfZUhbJcg=="
+  "resolved" "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.10.0.tgz"
+  "version" "8.10.0"
 
 "eslint-plugin-prettier@^4.0.0":
   "integrity" "sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ=="
@@ -1925,9 +1925,9 @@
   "version" "5.2.4"
 
 "immutable@^4.0.0":
-  "integrity" "sha512-lj9cnmB/kVS0QHsJnYKD1uo3o39nrbKxszjnqS9Fr6NB7bZzW45U6WSGBPKXDL/CvDKqDNPA4r3DoDQ8GTxo2A=="
-  "resolved" "https://registry.npmjs.org/immutable/-/immutable-4.3.1.tgz"
-  "version" "4.3.1"
+  "integrity" "sha512-oGXzbEDem9OOpDWZu88jGiYCvIsLHMvGw+8OXlpsvTFvIQplQbjg1B1cvKg8f7Hoch6+NGjpPsH1Fr+Mc2D1aA=="
+  "resolved" "https://registry.npmjs.org/immutable/-/immutable-4.3.2.tgz"
+  "version" "4.3.2"
 
 "import-fresh@^3.2.1":
   "integrity" "sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw=="
@@ -2013,10 +2013,10 @@
   "resolved" "https://registry.npmjs.org/is-callable/-/is-callable-1.2.7.tgz"
   "version" "1.2.7"
 
-"is-core-module@^2.11.0":
-  "integrity" "sha512-Q4ZuBAe2FUsKtyQJoQHlvP8OvBERxO3jEmy1I7hcRXcJBGGHFh/aJBswbXuS9sgrDH2QUO8ilkwNPHvHMd8clg=="
-  "resolved" "https://registry.npmjs.org/is-core-module/-/is-core-module-2.12.1.tgz"
-  "version" "2.12.1"
+"is-core-module@^2.13.0":
+  "integrity" "sha512-Z7dk6Qo8pOCp3l4tsX2C5ZVas4V+UxwQodwZhLopL91TX8UyyHEXafPcyoeeWuLrwzHcr3igO78wNLwHJHsMCQ=="
+  "resolved" "https://registry.npmjs.org/is-core-module/-/is-core-module-2.13.0.tgz"
+  "version" "2.13.0"
   dependencies:
     "has" "^1.0.3"
 
@@ -2189,7 +2189,12 @@
   "resolved" "https://registry.npmjs.org/klona/-/klona-2.0.6.tgz"
   "version" "2.0.6"
 
-"leaflet@^1.6.0", "leaflet@^1.9.4":
+"leaflet.markercluster@^1.5.3":
+  "integrity" "sha512-vPTw/Bndq7eQHjLBVlWpnGeLa3t+3zGiuM7fJwCkiMFq+nmRuG3RI3f7f4N4TDX7T4NpbAXpR2+NTRSEGfCSeA=="
+  "resolved" "https://registry.npmjs.org/leaflet.markercluster/-/leaflet.markercluster-1.5.3.tgz"
+  "version" "1.5.3"
+
+"leaflet@^1.3.1", "leaflet@^1.6.0", "leaflet@^1.9.4":
   "integrity" "sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA=="
   "resolved" "https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz"
   "version" "1.9.4"
@@ -2740,11 +2745,11 @@
   "version" "4.0.0"
 
 "resolve@^1.10.0", "resolve@^1.22.1":
-  "integrity" "sha512-Sb+mjNHOULsBv818T40qSPeRiuWLyaGMa5ewydRLFimneixmVy2zdivRl+AF6jaYPC8ERxGDmFSiqui6SfPd+g=="
-  "resolved" "https://registry.npmjs.org/resolve/-/resolve-1.22.2.tgz"
-  "version" "1.22.2"
+  "integrity" "sha512-PXNdCiPqDqeUou+w1C2eTQbNfxKSuMxqTCuvlmmMsk1NWHL5fRrhY6Pl0qEYYc6+QqGClco1Qj8XnjPego4wfg=="
+  "resolved" "https://registry.npmjs.org/resolve/-/resolve-1.22.4.tgz"
+  "version" "1.22.4"
   dependencies:
-    "is-core-module" "^2.11.0"
+    "is-core-module" "^2.13.0"
     "path-parse" "^1.0.7"
     "supports-preserve-symlinks-flag" "^1.0.0"
 
@@ -3280,9 +3285,9 @@
     "spdx-expression-parse" "^3.0.0"
 
 "vee-validate@^4.5.11":
-  "integrity" "sha512-+0sA76+qJtDZLlnV6PT4JLiMt2o/9XKoi79m4NzfPNruF96BHiz9/cIqjQis87M55mmPQKm4E94dR9oRbOEBYA=="
-  "resolved" "https://registry.npmjs.org/vee-validate/-/vee-validate-4.11.0.tgz"
-  "version" "4.11.0"
+  "integrity" "sha512-NGL2qrhoXAng+pZvu9dgQRhCuNBKeXcusdUloN3jnXUxbmLUCJV2kgleS5Jr7yF2iTWvDlDQd5m+Qp6cP1wSgw=="
+  "resolved" "https://registry.npmjs.org/vee-validate/-/vee-validate-4.11.1.tgz"
+  "version" "4.11.1"
   dependencies:
     "@vue/devtools-api" "^6.5.0"
     "type-fest" "^4.0.0"
